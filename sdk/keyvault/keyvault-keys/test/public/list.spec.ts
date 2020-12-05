@@ -11,9 +11,10 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { supports, versionsToTest, SupportedVersions } from "@azure/test-utils-multi-version";
 
-versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
+const serviceApiVersions = ["7.0", "7.1"] as const;
+versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
   const versions = function(versions: SupportedVersions) {
-    return supports(serviceVersion, versions);
+    return supports(serviceVersion, versions, serviceApiVersions);
   };
 
   versions(["7.0", "7.1"]).describe.only(
@@ -141,7 +142,7 @@ versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
         }
       );
 
-      versions({ minVer: "7.3", maxVer: "7.5" }).it(
+      versions({ minVer: "7.0", maxVer: "7.1" }).it(
         "can get several inserted keys",
         async function() {
           const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);

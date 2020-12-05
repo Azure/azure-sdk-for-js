@@ -3,9 +3,15 @@
 
 /* eslint-disable no-use-before-define */
 import { assert } from "chai";
-import { isVersionInSupportedRange, lessThanOrEqual } from "../src/multiVersion";
+import {
+  isVersionInSupportedRange,
+  SupportedVersions,
+  supports,
+  versionsToTest
+} from "../src/multiVersion";
 
-describe("Multi-service-version test support", () => {
+describe.skip("Multi-service-version test support", () => {
+  const allVersions = ["1.0", "1.1", "1.2"];
   describe("isVersionInSupportedRange() on version list", () => {
     [
       { currentVersion: "1.0", supported: ["1.0", "1.1"], expected: true },
@@ -26,39 +32,69 @@ describe("Multi-service-version test support", () => {
           "<unspecified>"}]`;
       }
       it(`returns ${expected} for ${currentVersion} and supported versions ${versions}`, function() {
-        const result = isVersionInSupportedRange(currentVersion, supported);
+        const result = isVersionInSupportedRange(currentVersion, supported, allVersions);
         assert.equal(result.isSupported, expected);
       });
     });
   });
+});
 
-  describe("lessThanOrEqual()", () => {
-    const func1 = function(a: string, b: string): number {
-      if (a === b) {
-        return 0;
+const serviceVersions = ["7.0", "7.1"] as const;
+versionsToTest(serviceVersions).forEach((serviceVersion) => {
+  const onVersions = function(supported: SupportedVersions) {
+    return supports(serviceVersion, supported, serviceVersions);
+  };
+
+  describe("test suite 1", function() {
+    beforeEach(async function() {
+      console.log(`creating test client for service version ${serviceVersion}`);
+    });
+
+    afterEach(async function() {});
+
+    it("test case 2", function() {
+      if (serviceVersion === "7.0") {
+        console.log(`verifying behavior specific to ${serviceVersion}`);
       }
-      if (a.startsWith(b)) {
-        return -1;
-      } else if (b.startsWith(a)) {
-        return 1;
-      }
+    });
 
-      return a < b ? -1 : 1;
-    };
+    describe("nested test suite 3a", function() {
+      it("nested test 4a", function() {});
+    });
 
-    [
-      { a: "1.0", b: "1.1", compareFunc: undefined, expected: true },
-      { a: "1.1", b: "1.0", compareFunc: undefined, expected: false },
-      { a: "1.0", b: "1.0-beta.1", compareFunc: undefined, expected: true },
-      { a: "1.0", b: "1.0-beta.1", compareFunc: func1, expected: false }
-    ].forEach((arg) => {
-      const { a, b, compareFunc, expected } = arg;
-      it(`returns ${expected} for comparing '${a}' and '${b}'${
-        compareFunc ? " custom func" : ""
-      }`, () => {
-        const result = lessThanOrEqual(a, b, compareFunc);
-        assert.equal(result, expected);
+    onVersions(["7.0"]).describe("nested test suite 3b", function() {
+      it("nested test 4b", function() {
+        if (serviceVersion === "7.1") {
+          throw new Error("Test should have been skipped.");
+        }
       });
+    });
+
+    onVersions(["7.0"]).it("test case 5 only runs on 7.0", function() {
+      if (serviceVersion === "7.1") {
+        throw new Error("Test should have been skipped.");
+      }
+    });
+
+    onVersions({ minVer: "7.1" }).it("test case 6 only runs on 7.1", async function() {
+      if (serviceVersion === "7.0") {
+        throw new Error("Test should have been skipped.");
+      }
+    });
+
+    onVersions({ minVer: "7.1" }).it.skip("test case 7 should be skipped", async function() {
+      if (serviceVersion === "7.0") {
+        throw new Error("Test should have been skipped.");
+      }
+    });
+  });
+
+  onVersions(["7.0"]).describe("test suite 2", function() {
+    console.log(`onVersions() can be added to top-level describe as well to have nicer test title`);
+    it("test case 8", function() {
+      if (serviceVersion === "7.1") {
+        throw new Error("Test should have been skipped.");
+      }
     });
   });
 });

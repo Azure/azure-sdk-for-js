@@ -12,7 +12,7 @@ The idea employed in this library is inspired by [mocha-tags](https://www.npmjs.
 
 ## Key concepts
 
-- Our guideline recommends service client supporting multiple service API version takes an API
+- Our guideline recommends that service client supporting multiple service API version takes an API
   version via the `serviceVersion` property of its constructor options bag `*ClientOptions`.
 - Service API versions supported by the SDK library under test is specified for a top-level Mocha
   `describe()` test suite. We loop through them and run the test suite on each version.
@@ -102,6 +102,7 @@ import { supports, versionsToTest, SupportedVersions } from "@azure/test-utils-m
 Wrap a top level `describe()` of a test file to enable testing for multiple versions for that test suite:
 
 ```javascript
+const serviceApiVersions = ["7.0", "7.1"] as const;
 versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
   describe("Keys client - list keys in various ways", async function() {
    // ...
@@ -128,41 +129,34 @@ If all your tests can run across all supported service API versions then this is
 ### Override supported versions for tests
 
 By default, a test suite or test case is executed against each `serviceVersion`. Optionally one can
-also specify a list (`string[]`) or a range (`{minVer?: string, maxVer?: string }`) of supported
-versions for test suites or test cases:
+also specify a list (`ReadOnlyArray<string>`) or a range (`{minVer?: string, maxVer?: string }`) of supported
+versions for test suites or test cases, in addition, a sorted list of all supported service API
+versions from oldest to latest is needed to compare versions:
 
 ```javascript
-  supports(serviceVersion, ["7.0", "7.1"]).describe(
+// Test author must ensure the list of versions are ordered from oldest to latest.
+const serviceApiVersions = ["7.0", "7.1"] as const;
+// ...
+  supports(serviceVersion, ["7.0", "7.1"], serviceApiVersions).describe(
     "Keys client - list keys in various ways",
     async function() {
-      supports(serviceVersion, ["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
+      it("runs for 7.0 and 7.1", async function() {
         // ...
       });
-
-      supports(serviceVersion, { minVer: "7.1" }).it(
-        "runs on version 7.1 or later",
-        async function() {
-          // ...
-        }
-      );
-
-      supports(serviceVersion, { maxVer: "7.1" }).it(
-        "runs on version 7.1 or older",
-        async function() {
-          // ...
-        }
-      );
     }
   );
 ```
 
-Having to pass `serviceVersion` is a bit excessive and affects readability. We could improve this by
-introduce a function object `versions` which "encapsulates" the `serviceVersion`:
+Having to pass `serviceVersion` and `servicesApiVersions` is a bit excessive and affects
+readability. We could improve this by introduce a function object `onVersions` which "encapsulates"
+the `serviceVersion` and `serviceApiVersions`:
 
 ```javascript
+// Test author must ensure the list of versions are ordered from oldest to latest.
+const serviceApiVersions = ["7.0", "7.1"] as const;
 versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
-  const versions = function(versions: SupportedVersions) {
-    return supports(serviceVersion, versions);
+  const onVersions = function(versions: SupportedVersions) {
+    return supports(serviceVersion, versions, serviceApiVersions);
   };
 
  // ...
@@ -172,65 +166,65 @@ versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
 Then the code becomes
 
 ```javascript
-  versions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", async function() {
-    versions(["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
-      // ...
-    });
-
-    versions({ minVer: "7.1" }).it("runs on version 7.1 or later", async function() {
-      // ...
-    });
-
-    versions({ maxVer: "7.1" }).it("runs on version 7.1 or older", async function() {
-      // ...
-    });
+onVersions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", async function() {
+  onVersions(["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
+    // ...
   });
+
+  onVersions({ minVer: "7.1" }).it("runs on version 7.1 or later", async function() {
+    // ...
+  });
+
+  onVersions({ maxVer: "7.1" }).it("runs on version 7.1 or older", async function() {
+    // ...
+  });
+});
 ```
 
 When running in the `live` test mode,
 
-- with `versions(...).` prepended to `describe()` or `it()`, the multi-version test framework would
+- with `onVersions(...).` prepended to `describe()` or `it()`, the multi-version test framework would
   check the current `serviceVersion` against the supported versions of the test suite/test case. If
   a test case is skipped, the skip reason is also appended to the title of that test suite or test
   case.tests will be executed or skipped accordingly.
-- without `versions(...).`, original Mocha `describe()` and `it()` methods are used.
+- without `onVersions(...).`, original Mocha `describe()` and `it()` methods are used.
 
-Here's some sample output:
+Here's some sample output (for demo purpose, not from real keyvault test runs):
 
 ```bash
   Keys client - list keys in various ways (service version 7.0)
     - can purge all keys
-    √ can get the versions of a key (8950ms)
+    √ can get the versions of a key (4095ms)
 name: AbortError, message: The operation was aborted.
     √ can get the versions of a key with requestOptions timeout
-    √ can get the versions of a key (paged) (6337ms)
-    - list 0 versions of a non-existing key (Skipping for version 7.0 as it's not in the range: [min 7.1, max <unspecified>])
-    √ list 0 versions of a non-existing key (paged) (680ms)
-    - can get several inserted keys (Skipping for version 7.0 as it's not in the range: [min 7.3, max 7.5])
+    √ can get the versions of a key (paged) (5905ms)
+    - list 0 versions of a non-existing key (Skipping for version 7.0 as it is not in the range: [min 7.1, max <unspecified>])
+    √ list 0 versions of a non-existing key (paged) (469ms)
+    √ can get several inserted keys (12636ms)
 name: AbortError, message: The operation was aborted.
     √ can get several inserted keys with requestOptions timeout
-    √ can get several inserted keys (paged) (12275ms)
-    √ list deleted keys (12088ms)
+    √ can get several inserted keys (paged) (14693ms)
+    √ list deleted keys (11593ms)
 name: AbortError, message: The operation was aborted.
     √ list deleted keys with requestOptions timeout
-    √ list deleted keys (paged) (12775ms)
+    √ list deleted keys (paged) (13791ms)
 
   Keys client - list keys in various ways (service version 7.1)
     - can purge all keys
-    √ can get the versions of a key (6126ms)
+    √ can get the versions of a key (6101ms)
 name: AbortError, message: The operation was aborted.
     √ can get the versions of a key with requestOptions timeout
-    - can get the versions of a key (paged) (Skipping for version 7.1 as it's not in the list [7.0])
-    √ list 0 versions of a non-existing key (707ms)
-    √ list 0 versions of a non-existing key (paged) (700ms)
-    - can get several inserted keys (Skipping for version 7.1 as it's not in the range: [min 7.3, max 7.5])
+    - can get the versions of a key (paged) (Skipping for version 7.1 as it is not in the list [7.0])
+    √ list 0 versions of a non-existing key (562ms)
+    √ list 0 versions of a non-existing key (paged) (525ms)
+    √ can get several inserted keys (11732ms)
 name: AbortError, message: The operation was aborted.
     √ can get several inserted keys with requestOptions timeout
-    √ can get several inserted keys (paged) (11646ms)
-    √ list deleted keys (12396ms)
+    √ can get several inserted keys (paged) (11952ms)
+    √ list deleted keys (14316ms)
 name: AbortError, message: The operation was aborted.
     √ list deleted keys with requestOptions timeout
-    √ list deleted keys (paged) (13891ms)
+    √ list deleted keys (paged) (13217ms)
 ```
 
 ### Specify service version to use in recording/playback
@@ -246,20 +240,6 @@ versionsToTest(["7.0", "7.1", "7.2-preview"], { versionForRecording: "7.1" }).fo
     // ...
   }
 );
-```
-
-### Provide a custom version string comparison method
-
-By default, the version strings are sorted using built-in string comparison. This sorting order may
-not work for some services. It is supported to override the string comparison via
-`MultiVersionTestOptions` property `compareFunc`, for example:
-
-```javascript
-const semverCompare = require('semver/functions/compare')
-
-versionsToTest(["7.0", "7.1", "7.1-preview"], { compareFunc: semverCompare }).forEach((serviceVersion) => {
-  // ...
-});
 ```
 
 ## Contributing

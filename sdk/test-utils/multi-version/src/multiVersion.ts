@@ -9,26 +9,16 @@ export interface TestFunctionWrapper {
     | Mocha.TestFunction
     | (Mocha.PendingTestFunction & {
         only: Mocha.ExclusiveTestFunction;
+        skip: Mocha.PendingTestFunction;
       });
   xit: Mocha.PendingTestFunction;
   describe:
     | Mocha.SuiteFunction
     | (Mocha.PendingSuiteFunction & {
         only: Mocha.ExclusiveSuiteFunction;
+        skip: Mocha.PendingSuiteFunction;
       });
   xdescribe: Mocha.PendingSuiteFunction;
-  global: NodeJS.Global;
-}
-
-export function lessThanOrEqual(
-  a: string,
-  b: string,
-  compareFunc?: (a: string, b: string) => number
-): boolean {
-  if (compareFunc) {
-    return compareFunc(a, b) <= 0;
-  }
-  return a <= b;
 }
 
 /**
@@ -44,48 +34,65 @@ export type SupportedVersions =
 
 function skipReason(currentVersion: string, supported: SupportedVersions): string {
   if (supported instanceof Array) {
-    return `Skipping for version ${currentVersion} as it's not in the list [${supported.join()}]`;
+    return `skipping for version ${currentVersion} as it is not in the list [${supported.join()}]`;
   } else {
-    return `Skipping for version ${currentVersion} as it's not in the range: [min ${supported.minVer ??
+    return `skipping for version ${currentVersion} as it is not in the range: [min ${supported.minVer ??
       "<unspecified>"}, max ${supported.maxVer ?? "<unspecified>"}]`;
   }
 }
 
+/**
+ *
+ * @param currentVersion current service version to run test with
+ * @param supported service versions supported by a test suite or test case
+ * @param allVersions all service versions supported by the SDK library being tested.
+ *                    NOTE: The versions must be in order from oldest to latest.
+ */
 export function isVersionInSupportedRange(
   currentVersion: string,
   supported: SupportedVersions,
-  compareFunc?: (a: string, b: string) => number
+  allVersions: ReadonlyArray<string>
 ): { isSupported: boolean; skipReason?: string } {
+  const lessThanOrEqual = function(a: string, b: string) {
+    const idxA = allVersions.indexOf(a);
+    const idxB = allVersions.indexOf(b);
+    if (idxA === -1) {
+      throw new Error(`version '${a}' is not in versions supported by the SDK`);
+    }
+    if (idxB === -1) {
+      throw new Error(`version '${b}' is not in versions supported by the SDK`);
+    }
+    return idxA <= idxB;
+  };
   let run: boolean;
   if (supported instanceof Array) {
-    console.log(`Test ${currentVersion} for supported versions ${supported.join()}?`);
-    supported.sort(compareFunc);
+    // console.log(`Test ${currentVersion} for supported versions [${supported.join()}]?`);
 
     run = supported.includes(currentVersion);
 
     if (run) {
-      console.log(`  Running test on ${currentVersion}`);
+      // console.log(`  Running test on ${currentVersion}`);
       return { isSupported: true };
     } else {
-      console.log(`  Skipping test on ${currentVersion}`);
+      // console.log(`  Skipping test on ${currentVersion}`);
       return {
         isSupported: false,
         skipReason: skipReason(currentVersion, supported)
       };
     }
   } else {
-    console.log(
-      `Test ${currentVersion} for supported version range: min ${supported.minVer} max ${supported.maxVer}`
-    );
+    // console.log(
+    //   `Test ${currentVersion} for supported version range: [min ${supported.minVer} max ${supported.maxVer}]?`
+    // );
     if (supported.minVer && supported.maxVer) {
       if (
         lessThanOrEqual(supported.minVer, currentVersion) &&
         lessThanOrEqual(currentVersion, supported.maxVer)
       ) {
-        console.log(`  Test ${currentVersion} because it's within range`);
+        // console.log(`  Test ${currentVersion} because it is within range`);
         return { isSupported: true };
       } else {
-        console.log(`  Skipping ${currentVersion} because it's out of range`);
+        // console.log(`  Skipping ${currentVersion} because it is out of range`);
         return {
           isSupported: false,
           skipReason: skipReason(currentVersion, supported)
@@ -93,10 +100,10 @@ export function isVersionInSupportedRange(
       }
     } else if (supported.minVer) {
       if (lessThanOrEqual(supported.minVer, currentVersion)) {
-        console.log(`  Test ${currentVersion} because it's above minVer`);
+        // console.log(`  Test ${currentVersion} because it's above minVer`);
         return { isSupported: true };
       } else {
-        console.log(`  Skip ${currentVersion} because it's below minVer`);
+        // console.log(`  Skip ${currentVersion} because it's below minVer`);
         return {
           isSupported: false,
           skipReason: skipReason(currentVersion, supported)
@@ -104,10 +111,10 @@ export function isVersionInSupportedRange(
       }
     } else if (supported.maxVer) {
       if (lessThanOrEqual(currentVersion, supported.maxVer)) {
-        console.log(`  Test ${currentVersion} because it's below maxVer`);
+        // console.log(`  Test ${currentVersion} because it's below maxVer`);
         return { isSupported: true };
       } else {
-        console.log(`  Skip ${currentVersion} because it's above maxVer`);
+        // console.log(`  Skip ${currentVersion} because it's above maxVer`);
         return {
           isSupported: false,
           skipReason: skipReason(currentVersion, supported)
@@ -126,14 +133,15 @@ export function isVersionInSupportedRange(
  * of versions or a range of versions supported by the test/test suite.
  * @param currentVersion version to check wether to run or skip
  * @param supported supported versions for a test/test suite
- * @param compareFunc custom string comparison function to determine the order of versions
+ * @param allVersions all service versions supported by the SDK library being tested.
+ *                    NOTE: The versions must be in order from oldest to latest.
  */
 export function supports(
   currentVersion: string,
   supported: SupportedVersions,
-  compareFunc?: (a: string, b: string) => number
+  allVersions: ReadonlyArray<string>
 ): TestFunctionWrapper {
-  const run = isVersionInSupportedRange(currentVersion, supported, compareFunc);
+  const run = isVersionInSupportedRange(currentVersion, supported, allVersions);
   const either = function(match: any, skip: any) {
     return run.isSupported
       ? match
@@ -150,6 +158,9 @@ export function supports(
   const it = either(supports.global.it, supports.global.xit);
   Object.defineProperty(it, "only", {
     value: either(supports.global.it.only, supports.global.xit)
+  });
+  Object.defineProperty(it, "skip", {
+    value: supports.global.it.skip
   });
 
   // add current service version to suite titles in Live TEST_MODE
@@ -170,9 +181,11 @@ export function supports(
   Object.defineProperty(describe, "only", {
     value: either(wrappedDescribeOnly, supports.global.xdescribe)
   });
+  Object.defineProperty(describe, "skip", {
+    value: supports.global.describe.skip
+  });
 
   const chain: TestFunctionWrapper = {
-    global: getGlobalObject(),
     it,
     xit: supports.global.xit,
     describe,
@@ -192,10 +205,6 @@ export interface MultiVersionTestOptions {
    * version to used for record/playback
    */
   versionForRecording?: string;
-  /**
-   * Compare function to determine the ascending order of a list of service versions.
-   */
-  compareFunc?: (a: string, b: string) => number;
 }
 
 /**
@@ -207,13 +216,12 @@ export interface MultiVersionTestOptions {
  *                custom string comparison function to determines order of version strings.
  */
 export function versionsToTest(
-  versions: string[],
+  versions: ReadonlyArray<string>,
   options: MultiVersionTestOptions = {}
-): string[] {
+): ReadonlyArray<string> {
   if (versions.length <= 0) {
     throw new Error("invalid list of service versions to run the tests.");
   }
-  versions.sort(options.compareFunc);
 
   // all versions are used in live TEST_MODE
   if (isLiveMode()) {
