@@ -43,12 +43,17 @@ export class SparkClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://microsoft.com"];
+    }
+
     super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 
     this.baseUri =
-      options.endpoint || "{endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}";
+      options.endpoint ||
+      "{endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}";
 
     // Parameter assignments
     this.endpoint = endpoint;

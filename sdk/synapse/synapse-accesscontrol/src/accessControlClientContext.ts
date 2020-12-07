@@ -37,6 +37,10 @@ export class AccessControlClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://microsoft.com"];
+    }
+
     super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";

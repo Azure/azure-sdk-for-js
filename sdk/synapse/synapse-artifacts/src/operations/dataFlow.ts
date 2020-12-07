@@ -57,7 +57,10 @@ export class DataFlow {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDataFlowsByWorkspaceNext(continuationToken, options);
+      result = await this._getDataFlowsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -87,7 +90,10 @@ export class DataFlow {
       dataFlow,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         DataFlowCreateOrUpdateDataFlowResponse
       >;
@@ -137,8 +143,13 @@ export class DataFlow {
       dataFlowName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -169,8 +180,13 @@ export class DataFlow {
       request,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -260,7 +276,11 @@ const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

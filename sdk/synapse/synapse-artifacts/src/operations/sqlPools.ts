@@ -26,9 +26,10 @@ export class SqlPools {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
-      SqlPoolsListResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listOperationSpec
+    ) as Promise<SqlPoolsListResponse>;
   }
 
   /**
@@ -36,14 +37,18 @@ export class SqlPools {
    * @param sqlPoolName The Sql Pool name
    * @param options The options parameters.
    */
-  get(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse> {
+  get(
+    sqlPoolName: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<SqlPoolsGetResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       sqlPoolName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
-      SqlPoolsGetResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getOperationSpec
+    ) as Promise<SqlPoolsGetResponse>;
   }
 }
 // Operation Specifications

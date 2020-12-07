@@ -57,7 +57,10 @@ export class Dataset {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDatasetsByWorkspaceNext(continuationToken, options);
+      result = await this._getDatasetsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -103,7 +106,10 @@ export class Dataset {
       dataset,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         DatasetCreateOrUpdateDatasetResponse
       >;
@@ -134,9 +140,10 @@ export class Dataset {
       datasetName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, getDatasetOperationSpec) as Promise<
-      DatasetGetDatasetResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getDatasetOperationSpec
+    ) as Promise<DatasetGetDatasetResponse>;
   }
 
   /**
@@ -152,8 +159,13 @@ export class Dataset {
       datasetName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -184,8 +196,13 @@ export class Dataset {
       request,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -274,7 +291,11 @@ const createOrUpdateDatasetOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

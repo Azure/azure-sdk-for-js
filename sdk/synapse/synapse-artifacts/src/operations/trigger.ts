@@ -59,7 +59,10 @@ export class Trigger {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getTriggersByWorkspaceNext(continuationToken, options);
+      result = await this._getTriggersByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -105,7 +108,10 @@ export class Trigger {
       trigger,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         TriggerCreateOrUpdateTriggerResponse
       >;
@@ -136,9 +142,10 @@ export class Trigger {
       triggerName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, getTriggerOperationSpec) as Promise<
-      TriggerGetTriggerResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getTriggerOperationSpec
+    ) as Promise<TriggerGetTriggerResponse>;
   }
 
   /**
@@ -154,8 +161,13 @@ export class Trigger {
       triggerName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -183,7 +195,10 @@ export class Trigger {
       triggerName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         TriggerSubscribeTriggerToEventsResponse
       >;
@@ -233,7 +248,10 @@ export class Trigger {
       triggerName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         TriggerUnsubscribeTriggerFromEventsResponse
       >;
@@ -264,8 +282,13 @@ export class Trigger {
       triggerName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -293,8 +316,13 @@ export class Trigger {
       triggerName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -383,7 +411,11 @@ const createOrUpdateTriggerOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.trigger,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

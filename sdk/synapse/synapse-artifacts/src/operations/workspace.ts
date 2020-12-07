@@ -26,9 +26,10 @@ export class Workspace {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
-      WorkspaceGetResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getOperationSpec
+    ) as Promise<WorkspaceGetResponse>;
   }
 }
 // Operation Specifications

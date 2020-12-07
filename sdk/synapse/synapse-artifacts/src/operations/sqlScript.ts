@@ -57,7 +57,10 @@ export class SqlScript {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(continuationToken, options);
+      result = await this._getSqlScriptsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -163,8 +166,13 @@ export class SqlScript {
       request,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<
+        coreHttp.RestResponse
+      >;
     };
 
     const initialOperationResult = await sendOperation(
@@ -245,7 +253,11 @@ const createOrUpdateSqlScriptOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sqlScript,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };
