@@ -2,7 +2,7 @@
 
 The Azure SDK for JavaScript is composed of a multitude of repositories that attempt to deliver a
 common, homogenous SDK to make use of all of the services that Azure can provide. One of the
-promises the Azure SDK libraries is to support the last N service API versions.
+promises of the modern Azure SDK libraries is to support the last N service API versions.
 
 This non-shipping library `@azure/test-utils-multi-version` attempts to add testing support for
 libraries that supports multiple service API versions. It is supposed to be added only as a
@@ -21,7 +21,7 @@ The idea employed in this library is inspired by [mocha-tags](https://www.npmjs.
     chosen version specified via options in case the latest version is not the latest stable version.
 - Optionally a list or range of versions can be specified for a nested `describe()` test suite or
   `it()` test case. If the version being tested is not in the range of versions supported by this
-  test suite/case then the test suite/case is skipped.
+  test suite/case, then the test suite/case is skipped.
 
 ## Get started
 
@@ -86,7 +86,7 @@ to include the following line in the `devDependencies` section:
 After that, we recommend you to update rush and install the dependencies again, as follows:
 
 ```bash
-rush update && rush install
+rush update
 ```
 
 And you're ready to test your library for multiple service API versions!
@@ -96,7 +96,7 @@ And you're ready to test your library for multiple service API versions!
 ### Import functions
 
 ```javascript
-import { supports, versionsToTest, SupportedVersions } from "@azure/test-utils-multi-version";
+import { versionsToTest } from "@azure/test-utils-multi-version";
 ```
 
 ### Wrap top-level test suite
@@ -105,7 +105,7 @@ Wrap a top level `describe()` of a test file to enable testing for multiple vers
 
 ```javascript
 const serviceApiVersions = ["7.0", "7.1"] as const;
-versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
+versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
   describe("Keys client - list keys in various ways", async function() {
    // ...
   }
@@ -113,17 +113,17 @@ versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
 ```
 
 `versionsToTest()` takes in a list of versions that are supported by the library. it checks the
-current `TEST_MODE` then either runs tests for all supported versions in `live` mode, or runs tests
-for just one version (default version if specified in options, or latest version in the list). The
-test suite, and its nested test suites/test cases all have access to the current version being
-tested - `serviceVersion` - so they can verify different behavior/expectation if any for different
-service API versions.
+current `TEST_MODE` then either runs tests for all supported versions in `live` test mode, or runs
+tests for just one version (default version if specified in options, or latest version in the list)
+in other test modes. The top-level test suites, as well as nested test suites/test cases have access
+to the current version being tested - `serviceVersion` - so they can verify different
+behavior/expectation if any for different service API versions.
 
-The code to construct clients for testing also needs update to pass the `serviceVersion` to client
-constructors.
+The code to construct clients for testing also needs an update to pass the `serviceVersion` to
+client constructors.
 
 ```javascript
-const authentication = await authenticate(this, serviceVersion);
+const testClient = await new TestClient(this, serviceVersion);
 ```
 
 If all your tests can run across all supported service API versions then this is all you need to do.
@@ -131,15 +131,15 @@ If all your tests can run across all supported service API versions then this is
 ### Override supported versions for tests
 
 By default, a test suite or test case is executed against each `serviceVersion`. Optionally one can
-also specify a list (`ReadOnlyArray<string>`) or a range (`{minVer?: string, maxVer?: string }`) of supported
-versions for test suites or test cases, in addition, a sorted list of all supported service API
-versions from oldest to latest is needed to compare versions:
+also use `onVersions()` to specify a list (`ReadOnlyArray<string>`) or a range (`{minVer?: string,
+maxVer?: string }`) of supported versions for selected test suites or test cases:
 
 ```javascript
 // Test author must ensure the list of versions are ordered from oldest to latest.
 const serviceApiVersions = ["7.0", "7.1"] as const;
+versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
 // ...
-  supports(serviceVersion, ["7.0", "7.1"], serviceApiVersions).describe(
+  onVersions(["7.1"]).describe(
     "Keys client - list keys in various ways",
     async function() {
       it("runs for 7.0 and 7.1", async function() {
@@ -147,40 +147,8 @@ const serviceApiVersions = ["7.0", "7.1"] as const;
       });
     }
   );
-```
-
-Having to pass `serviceVersion` and `servicesApiVersions` is a bit excessive and affects
-readability. We could improve this by introduce a function object `onVersions` which "encapsulates"
-the `serviceVersion` and `serviceApiVersions`:
-
-```javascript
-// Test author must ensure the list of versions are ordered from oldest to latest.
-const serviceApiVersions = ["7.0", "7.1"] as const;
-versionsToTest(["7.0", "7.1"]).forEach((serviceVersion) => {
-  const onVersions = function(versions: SupportedVersions) {
-    return supports(serviceVersion, versions, serviceApiVersions);
-  };
-
- // ...
-}
-```
-
-Then the code becomes
-
-```javascript
-onVersions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", async function() {
-  onVersions(["7.0", "7.1"]).it("runs for 7.0 and 7.1", async function() {
-    // ...
-  });
-
-  onVersions({ minVer: "7.1" }).it("runs on version 7.1 or later", async function() {
-    // ...
-  });
-
-  onVersions({ maxVer: "7.1" }).it("runs on version 7.1 or older", async function() {
-    // ...
-  });
-});
+  // ...
+})
 ```
 
 When running in the `live` test mode,
@@ -237,12 +205,14 @@ stable version). We can specify a version via `MultiVersionTestOptions` passed t
 `versionsToTest()` method:
 
 ```javascript
-versionsToTest(["7.0", "7.1", "7.2-preview"], { versionForRecording: "7.1" }).forEach(
-  (serviceVersion) => {
+versionsToTest(
+  ["7.0", "7.1", "7.2-preview"],
+  { versionForRecording: "7.1" },
+  (serviceVersion, onVersions) => {
     // ...
-  }
-);
+  });
 ```
+
 ## Troubleshooting
 
 Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow

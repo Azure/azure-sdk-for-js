@@ -214,21 +214,33 @@ export interface MultiVersionTestOptions {
  * @param versions list of service versions to run the tests
  * @param options Optional settings such as version to use for record/playback, and
  *                custom string comparison function to determines order of version strings.
+ * @param handler the function to run with each service version
  */
 export function versionsToTest(
   versions: ReadonlyArray<string>,
-  options: MultiVersionTestOptions = {}
-): ReadonlyArray<string> {
+  options: MultiVersionTestOptions = {},
+  handler: (
+    serviceVersion: string,
+    onVersions: (supported: SupportedVersions) => TestFunctionWrapper
+  ) => void
+): void {
   if (versions.length <= 0) {
     throw new Error("invalid list of service versions to run the tests.");
   }
-
+  let toTest: ReadonlyArray<string>;
   // all versions are used in live TEST_MODE
   if (isLiveMode()) {
-    return versions;
+    toTest = versions;
+  } else {
+    toTest = options.versionForRecording
+      ? [options.versionForRecording]
+      : versions.slice(versions.length - 1);
   }
 
-  return options.versionForRecording
-    ? [options.versionForRecording]
-    : versions.slice(versions.length - 1);
+  toTest.forEach((serviceVersion) => {
+    const onVersions = function(supported: SupportedVersions) {
+      return supports(serviceVersion, supported, versions);
+    };
+    handler(serviceVersion, onVersions);
+  });
 }

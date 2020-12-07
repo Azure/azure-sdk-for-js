@@ -9,15 +9,11 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { supports, versionsToTest, SupportedVersions } from "@azure/test-utils-multi-version";
+import { versionsToTest } from "@azure/test-utils-multi-version";
 
 const serviceApiVersions = ["7.0", "7.1"] as const;
-versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
-  const versions = function(versions: SupportedVersions) {
-    return supports(serviceVersion, versions, serviceApiVersions);
-  };
-
-  versions(["7.0", "7.1"]).describe.only(
+versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
+  onVersions(["7.0", "7.1"]).describe.only(
     "Keys client - list keys in various ways",
     async function() {
       const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;
@@ -64,7 +60,7 @@ versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
         }
       });
 
-      versions(["7.0", "7.1"]).it("can get the versions of a key", async function() {
+      onVersions(["7.0", "7.1"]).it("can get the versions of a key", async function() {
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         await client.createKey(keyName, "RSA");
         let totalVersions = 0;
@@ -91,7 +87,7 @@ versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
         });
       });
 
-      versions(["7.0"]).it("can get the versions of a key (paged)", async function() {
+      onVersions(["7.0"]).it("can get the versions of a key (paged)", async function() {
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         await client.createKey(keyName, "RSA");
         let totalVersions = 0;
@@ -109,7 +105,7 @@ versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
         await testClient.flushKey(keyName);
       });
 
-      versions({ minVer: "7.1" }).it("list 0 versions of a non-existing key", async function() {
+      onVersions({ minVer: "7.1" }).it("list 0 versions of a non-existing key", async function() {
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         let totalVersions = 0;
         for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
@@ -123,7 +119,7 @@ versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
         assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
       });
 
-      versions({ maxVer: "7.1" }).it(
+      onVersions({ maxVer: "7.1" }).it(
         "list 0 versions of a non-existing key (paged)",
         async function() {
           const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
@@ -142,7 +138,7 @@ versionsToTest(serviceApiVersions).forEach((serviceVersion) => {
         }
       );
 
-      versions({ minVer: "7.0", maxVer: "7.1" }).it(
+      onVersions({ minVer: "7.0", maxVer: "7.1" }).it(
         "can get several inserted keys",
         async function() {
           const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);

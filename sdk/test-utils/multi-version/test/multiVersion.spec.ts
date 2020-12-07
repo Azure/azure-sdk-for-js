@@ -3,12 +3,7 @@
 
 /* eslint-disable no-use-before-define */
 import { assert } from "chai";
-import {
-  isVersionInSupportedRange,
-  SupportedVersions,
-  supports,
-  versionsToTest
-} from "../src/multiVersion";
+import { isVersionInSupportedRange, versionsToTest } from "../src/multiVersion";
 
 describe.skip("Multi-service-version test support", () => {
   const allVersions = ["1.0", "1.1", "1.2"];
@@ -40,11 +35,7 @@ describe.skip("Multi-service-version test support", () => {
 });
 
 const serviceVersions = ["7.0", "7.1"] as const;
-versionsToTest(serviceVersions).forEach((serviceVersion) => {
-  const onVersions = function(supported: SupportedVersions) {
-    return supports(serviceVersion, supported, serviceVersions);
-  };
-
+versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   describe("test suite 1", function() {
     beforeEach(async function() {
       console.log(`creating test client for service version ${serviceVersion}`);
@@ -89,7 +80,7 @@ versionsToTest(serviceVersions).forEach((serviceVersion) => {
     });
   });
 
-  onVersions(["7.0"]).describe("test suite 2", function() {
+  onVersions(["7.0"]).describe("test suite 2", async function() {
     console.log(`onVersions() can be added to top-level describe as well to have nicer test title`);
     it("test case 8", function() {
       if (serviceVersion === "7.1") {
