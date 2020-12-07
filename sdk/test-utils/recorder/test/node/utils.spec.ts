@@ -8,7 +8,7 @@ import {
 
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 
-import { expect } from "chai";
+import chai, { expect } from "chai";
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
