@@ -37,7 +37,8 @@ steps:
 
   - task: Npm@1
     inputs:
-      command: 'build'
+      command: 'custom'
+      customCommand: 'run build'
     displayName: "Build libraries"
 
   - task: Npm@1
