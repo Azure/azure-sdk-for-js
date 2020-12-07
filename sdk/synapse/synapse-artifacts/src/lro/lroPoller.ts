@@ -1,17 +1,6 @@
 import { Poller } from "@azure/core-lro";
-import {
-  OperationSpec,
-  OperationArguments,
-  delay,
-  RestError
-} from "@azure/core-http";
-import {
-  BaseResult,
-  LROOperationState,
-  LROOperationStep,
-  FinalStateVia,
-  LROSYM
-} from "./models";
+import { OperationSpec, OperationArguments, delay, RestError } from "@azure/core-http";
+import { BaseResult, LROOperationState, LROOperationStep, FinalStateVia, LROSYM } from "./models";
 import { makeOperation } from "./operation";
 import { createBodyPollingStrategy } from "./bodyPollingStrategy";
 import { createAzureAsyncOperationStrategy } from "./azureAsyncOperationStrategy";
@@ -70,11 +59,7 @@ export class LROPoller<TResult extends BaseResult> extends Poller<
       result: initialOperationResult
     };
 
-    const pollingStrategy = getPollingStrategy(
-      initialOperation,
-      sendOperation,
-      finalStateVia
-    );
+    const pollingStrategy = getPollingStrategy(initialOperation, sendOperation, finalStateVia);
 
     const state: LROOperationState<TResult> = {
       // Initial operation will become the last operation
@@ -127,11 +112,7 @@ function getPollingStrategy<TResult extends BaseResult>(
   }
 
   if (lroData.azureAsyncOperation || lroData.operationLocation) {
-    return createAzureAsyncOperationStrategy(
-      initialOperation,
-      sendOperationFn,
-      finalStateVia
-    );
+    return createAzureAsyncOperationStrategy(initialOperation, sendOperationFn, finalStateVia);
   }
 
   if (lroData.location) {

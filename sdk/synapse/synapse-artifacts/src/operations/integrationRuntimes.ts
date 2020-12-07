@@ -2,10 +2,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import {
-  IntegrationRuntimesListResponse,
-  IntegrationRuntimesGetResponse
-} from "../models";
+import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
 
 /**
  * Class representing a IntegrationRuntimes.
@@ -25,16 +22,13 @@ export class IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  list(
-    options?: coreHttp.OperationOptions
-  ): Promise<IntegrationRuntimesListResponse> {
+  list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<IntegrationRuntimesListResponse>;
+    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
+      IntegrationRuntimesListResponse
+    >;
   }
 
   /**
@@ -50,10 +44,9 @@ export class IntegrationRuntimes {
       integrationRuntimeName,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<IntegrationRuntimesGetResponse>;
+    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
+      IntegrationRuntimesGetResponse
+    >;
   }
 }
 // Operation Specifications

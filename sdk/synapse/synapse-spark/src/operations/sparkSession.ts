@@ -221,11 +221,7 @@ const getSparkSessionsOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.fromParam, Parameters.size, Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -239,11 +235,7 @@ const createSparkSessionOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.sparkSessionOptions,
   queryParameters: [Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

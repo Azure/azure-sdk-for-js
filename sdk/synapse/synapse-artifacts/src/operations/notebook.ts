@@ -59,10 +59,7 @@ export class Notebook {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebooksByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -104,10 +101,7 @@ export class Notebook {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -116,9 +110,7 @@ export class Notebook {
   private async *getNotebookSummaryByWorkSpacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(
-      options
-    )) {
+    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
       yield* page;
     }
   }
@@ -171,10 +163,7 @@ export class Notebook {
       notebook,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         NotebookCreateOrUpdateNotebookResponse
       >;
@@ -224,13 +213,8 @@ export class Notebook {
       notebookName,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
     };
 
     const initialOperationResult = await sendOperation(
@@ -261,13 +245,8 @@ export class Notebook {
       request,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+      return this.client.sendOperationRequest(args, spec) as Promise<coreHttp.RestResponse>;
     };
 
     const initialOperationResult = await sendOperation(
@@ -393,11 +372,7 @@ const createOrUpdateNotebookOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.notebook,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };
