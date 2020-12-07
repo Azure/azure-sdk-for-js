@@ -39,11 +39,12 @@ steps:
     inputs:
       command: 'custom'
       customCommand: 'run build'
-    displayName: "Build libraries"
+    displayName: "Build project"
 
   - task: Npm@1
     inputs:
-      command: 'pack'
+      command: 'custom'
+      customCommand: 'pack'
     displayName: "Pack project"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
