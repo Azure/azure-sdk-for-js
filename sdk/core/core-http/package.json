@@ -55,7 +55,8 @@
     "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
     "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
     "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
-    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js"
+    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js",
+    "./es/src/util/url.js": "./es/src/util/url.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-http/README.md",

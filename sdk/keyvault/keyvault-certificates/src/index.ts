@@ -16,7 +16,8 @@ import {
   signingPolicy,
   RequestOptionsBase,
   PipelineOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  InternalPipelineOptions
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -283,26 +284,21 @@ export class CertificateClient {
       ? challengeBasedAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
 
@@ -313,6 +309,7 @@ export class CertificateClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
+        includePending: options.includePending,
         ...options
       };
       const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
@@ -1506,6 +1503,7 @@ export class CertificateClient {
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
+        includePending: options.includePending,
         ...options
       };
       const currentSetResponse = await this.client.getDeletedCertificates(

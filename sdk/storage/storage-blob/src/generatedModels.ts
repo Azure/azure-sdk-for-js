@@ -143,10 +143,12 @@ export {
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
-  ServiceFilterBlobsResponse as ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem,
+  ServiceFilterBlobsResponse,
+  FilterBlobItem as FilterBlobItemModel,
   BlobQueryHeaders,
   BlobQueryResponse as BlobQueryResponseModel,
   ContainerRestoreResponse as ContainerUndeleteResponse,
-  ContainerRestoreHeaders as ContainerUndeleteHeaders
+  ContainerRestoreHeaders as ContainerUndeleteHeaders,
+  BlockBlobPutBlobFromUrlResponse,
+  BlockBlobPutBlobFromUrlHeaders
 } from "./generated/src/models";

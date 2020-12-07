@@ -131,6 +131,21 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface CommonOptions {
     tracingOptions?: OperationTracingOptions;
 }
@@ -165,6 +180,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
+    generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
 }
@@ -179,6 +195,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
+    generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
@@ -201,6 +218,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
     deleteIfExists(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteIfExistsResponse>;
     exists(options?: FileSystemExistsOptions): Promise<boolean>;
+    generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getDirectoryClient(directoryName: string): DataLakeDirectoryClient;
@@ -293,7 +311,7 @@ export interface DataLakeSASSignatureValues {
     ipRange?: SasIPRange;
     isDirectory?: boolean;
     pathName?: string;
-    permissions?: DataLakeSASPermissions;
+    permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
@@ -305,6 +323,7 @@ export interface DataLakeSASSignatureValues {
 export class DataLakeServiceClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
@@ -326,6 +345,27 @@ export interface DirectoryCreateOptions extends PathCreateOptions {
 
 // @public (undocumented)
 export interface DirectoryCreateResponse extends PathCreateResponse {
+}
+
+// @public
+export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: DirectorySASPermissions;
+}
+
+// @public
+export class DirectorySASPermissions {
+    add: boolean;
+    create: boolean;
+    delete: boolean;
+    execute: boolean;
+    list: boolean;
+    manageAccessControl: boolean;
+    manageOwnership: boolean;
+    move: boolean;
+    static parse(permissions: string): DirectorySASPermissions;
+    read: boolean;
+    toString(): string;
+    write: boolean;
 }
 
 // @public (undocumented)
@@ -378,6 +418,11 @@ export interface FileFlushOptions extends CommonOptions {
     pathHttpHeaders?: PathHttpHeaders;
     // (undocumented)
     retainUncommittedData?: boolean;
+}
+
+// @public
+export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: DataLakeSASPermissions;
 }
 
 // @public
@@ -628,6 +673,11 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
 // @public
 export interface FileSystemExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface FileSystemGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: FileSystemSASPermissions;
 }
 
 // @public (undocumented)
@@ -1648,6 +1698,14 @@ export interface SASQueryParametersOptions {
     services?: string;
     startsOn?: Date;
     userDelegationKey?: UserDelegationKey;
+}
+
+// @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
 }
 
 // @public (undocumented)

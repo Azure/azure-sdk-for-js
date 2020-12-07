@@ -205,7 +205,6 @@ export class KeyClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -218,24 +217,19 @@ export class KeyClient {
 
     const internalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
 
@@ -1071,9 +1065,20 @@ export class KeyClient {
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyItem,
-      ...keyItem.attributes,
-      ...parsedId,
+
+      kid: keyItem.kid,
+      tags: keyItem.tags,
+      managed: keyItem.managed,
+
+      recoverableDays: keyItem.attributes,
+      recoveryLevel: keyItem.attributes,
+      exportable: keyItem.attributes,
+
+      sourceId: parsedId.sourceId,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name,
+
       id: keyItem.kid
     };
 
@@ -1112,9 +1117,19 @@ export class KeyClient {
     const resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyItem,
-      ...parsedId,
-      ...keyItem.attributes
+
+      kid: keyItem.kid,
+      tags: keyItem.tags,
+      managed: keyItem.managed,
+
+      recoverableDays: keyItem.attributes,
+      recoveryLevel: keyItem.attributes,
+      exportable: keyItem.attributes,
+
+      sourceId: parsedId.sourceId,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name
     };
 
     delete resultObject.attributes;

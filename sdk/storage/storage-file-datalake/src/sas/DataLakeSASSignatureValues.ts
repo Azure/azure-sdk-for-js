@@ -55,13 +55,13 @@ export interface DataLakeSASSignatureValues {
 
   /**
    * Optional only when identifier is provided.
-   * Please refer to either {@link ContainerSASPermissions} or {@link BlobSASPermissions} depending on the resource
+   * Please refer to {@link FileSystemSASPermissions}, {@link DirectorySASPermissions} or {@link DataLakeSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {DataLakeSASPermissions}
+   * @type {DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions}
    * @memberof DataLakeSASSignatureValues
    */
-  permissions?: DataLakeSASPermissions;
+  permissions?: DataLakeSASPermissions | DirectorySASPermissions | FileSystemSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
