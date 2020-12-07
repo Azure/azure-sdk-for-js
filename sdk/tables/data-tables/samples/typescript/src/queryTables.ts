@@ -37,7 +37,7 @@ async function queryTables() {
   await serviceClient.deleteTable(tableName);
 }
 
-async function main() {
+export async function main() {
   await queryTables();
 }
 

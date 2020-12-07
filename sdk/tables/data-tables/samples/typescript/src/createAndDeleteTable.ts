@@ -44,7 +44,7 @@ async function createAndDeleteTableWithTableClient() {
   await client.delete();
 }
 
-async function main() {
+export async function main() {
   await createAndDeleteTable();
   await createAndDeleteTableWithTableClient();
 }

@@ -74,7 +74,7 @@ async function countTablesWithClient(client: TableServiceClient) {
   console.log(`Listed ${count} tables`);
 }
 
-async function main() {
+export async function main() {
   console.log("== Client Authentication Methods Sample ==");
 
   await tableServiceClientWithSasConnectionString();

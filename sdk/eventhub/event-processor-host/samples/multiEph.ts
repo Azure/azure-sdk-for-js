@@ -32,7 +32,7 @@ const ephName2 = "eph-2";
 // Use `createHostName` to create a unique name based on given prefix to use different storage containers on each run if needed.
 const storageContainerName = EventProcessorHost.createHostName("test-container");
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // Start eph-1.
   const eph1 = await startEph(ephName1);
   await delay(20000);
