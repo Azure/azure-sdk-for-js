@@ -100,7 +100,8 @@
     "dep:ms-rest-azure-js": "npx ts-node .scripts/testDependentProjects.ts ms-rest-azure-js",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
-    "latest": "ts-node ./.scripts/latest.ts"
+    "latest": "ts-node ./.scripts/latest.ts",
+    "build:samples": "echo Skipped."
   },
   "sideEffects": false,
   "nyc": {

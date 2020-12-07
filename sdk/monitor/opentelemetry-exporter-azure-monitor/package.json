@@ -30,7 +30,8 @@
     "report": "nyc report --reporter=json",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "prepare": "npm run build",
-    "pack": "npm pack 2>&1"
+    "pack": "npm pack 2>&1",
+    "build:samples": "echo Skipped."
   },
   "engines": {
     "node": ">=8.3.0"

@@ -50,7 +50,8 @@
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "build:samples": "echo Skipped."
   },
   "engines": {
     "node": ">=8.0.0"
