@@ -33,7 +33,7 @@ const urlParts = url.parse("http://localhost:3128");
 urlParts.auth = "username:password"; // Skip this if proxy server does not need authentication.
 const proxyAgent = new httpsProxyAgent(urlParts);
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   const eph = EventProcessorHost.createFromConnectionString(
     EventProcessorHost.createHostName(ephName),
     storageConnectionString,

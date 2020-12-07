@@ -33,6 +33,7 @@ import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
+import { URL } from "./url";
 
 /**
  * Options to be provided while creating the client.
@@ -43,6 +44,10 @@ export interface ServiceClientOptions {
    * If it is not specified, then all OperationSpecs must contain a baseUrl property.
    */
   baseUri?: string;
+  /**
+   * If specified, will be used to build the BearerTokenAuthenticationPolicy.
+   */
+  credentialScopes?: string | string[];
   /**
    * The default request content type for the service.
    * Used if no requestContentType is present on an OperationSpec.
@@ -111,10 +116,11 @@ export class ServiceClient {
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
     this._stringifyXML = options.stringifyXML;
+    const credentialScopes = getCredentialScopes(options);
     this._pipeline =
       options.pipeline ||
       createDefaultPipeline({
-        baseUri: this._baseUri,
+        credentialScopes,
         credential: options.credential,
         parseXML: options.parseXML
       });
@@ -389,13 +395,18 @@ function getXmlValueWithNamespace(
 
 function createDefaultPipeline(
   options: {
-    baseUri?: string;
+    credentialScopes?: string | string[];
     credential?: TokenCredential;
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
   } = {}
 ): Pipeline {
+  const credentialOptions =
+    options.credential && options.credentialScopes
+      ? { credentialScopes: options.credentialScopes, credential: options.credential }
+      : undefined;
+
   return createClientPipeline({
-    credentialOptions: options,
+    credentialOptions,
     deserializationOptions: {
       parseXML: options.parseXML
     }
@@ -411,7 +422,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize bearerTokenAuthenticationPolicy.
    */
-  credentialOptions?: { baseUri?: string; credential?: TokenCredential };
+  credentialOptions?: { credentialScopes: string | string[]; credential: TokenCredential };
   /**
    * Options to customize deserializationPolicy.
    */
@@ -426,13 +437,11 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
  */
 export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options ?? {});
-
-  const credential = options.credentialOptions?.credential;
-  if (credential) {
+  if (options.credentialOptions) {
     pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
-        credential,
-        scopes: `${options.credentialOptions?.baseUri || ""}/.default`
+        credential: options.credentialOptions.credential,
+        scopes: options.credentialOptions.credentialScopes
       })
     );
   }
@@ -534,4 +543,25 @@ function flattenResponse(
     ...parsedHeaders,
     ...fullResponse.parsedBody
   });
+}
+
+function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {
+  if (options.credentialScopes) {
+    const scopes = options.credentialScopes;
+    return Array.isArray(scopes)
+      ? scopes.map((scope) => new URL(scope).toString())
+      : new URL(scopes).toString();
+  }
+
+  if (options.baseUri) {
+    return `${options.baseUri}/.default`;
+  }
+
+  if (options.credential && !options.credentialScopes) {
+    throw new Error(
+      `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+    );
+  }
+
+  return undefined;
 }

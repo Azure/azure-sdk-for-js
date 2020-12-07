@@ -17,7 +17,6 @@
     "build": "npm run build:es6 && npm run build:nodebrowser && npm run extract-api",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "echo Skipped.",
     "build:test": "rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
@@ -35,9 +34,10 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts"
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "build:samples": "echo Skipped."
   },
   "types": "./types/logger.d.ts",
   "engine": {

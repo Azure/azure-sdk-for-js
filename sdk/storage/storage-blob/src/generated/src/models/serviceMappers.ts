@@ -9,6 +9,8 @@
 export {
   BlobServiceProperties,
   BlobServiceStatistics,
+  BlobTag,
+  BlobTags,
   ContainerItem,
   ContainerProperties,
   CorsRule,

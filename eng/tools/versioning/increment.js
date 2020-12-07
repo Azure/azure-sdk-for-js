@@ -51,7 +51,7 @@ async function main(argv) {
 
   const oldVersion = packageJsonContents.version;
   const newVersion = incrementVersion(packageJsonContents.version);
-  console.log(`${packageName}: ${oldVersion} -> ${newVersion}`);
+  console.log(`${packageJsonContents.name}: ${oldVersion} -> ${newVersion}`);
 
   if (dryRun) {
     console.log("Dry run only, no changes");
