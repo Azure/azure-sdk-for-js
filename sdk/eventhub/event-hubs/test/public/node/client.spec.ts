@@ -9,7 +9,7 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
-import { EventHubProducerClient, EventHubConsumerClient } from "../../src";
+import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
 import { getTracer, setTracer, TestTracer } from "@azure/core-tracing";
 const env = getEnvVars();
 

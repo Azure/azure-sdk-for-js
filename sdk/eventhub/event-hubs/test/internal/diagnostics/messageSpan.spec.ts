@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { createMessageSpan } from "../../src/diagnostics/messageSpan";
+import { createMessageSpan } from "../../../src/diagnostics/messageSpan";
 import { TraceFlags, SpanContext } from "@opentelemetry/api";
 import { TestTracer, setTracer, getTracer } from "@azure/core-tracing";
-import { EventHubConnectionConfig } from "../../src/eventhubConnectionConfig";
+import { EventHubConnectionConfig } from "../../../src/eventhubConnectionConfig";
 
 const should = chai.should();
 const assert = chai.assert;

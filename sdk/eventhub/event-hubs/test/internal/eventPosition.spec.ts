@@ -4,8 +4,8 @@
 import chai from "chai";
 chai.should();
 
-import { earliestEventPosition, latestEventPosition } from "../src";
-import { getEventPositionFilter, validateEventPositions } from "../src/eventPosition";
+import { earliestEventPosition, latestEventPosition } from "../../src";
+import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition";
 
 describe("EventPosition", function(): void {
   describe("happy", function(): void {

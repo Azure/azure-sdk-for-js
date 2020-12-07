@@ -6,7 +6,7 @@ import * as chai from "chai";
 const should = chai.should();
 import * as assert from "assert";
 import isBuffer from "is-buffer";
-import { defaultDataTransformer } from "../src/dataTransformer";
+import { defaultDataTransformer } from "../../src/dataTransformer";
 
 describe("DataTransformer", function() {
   const objectBody: any = {

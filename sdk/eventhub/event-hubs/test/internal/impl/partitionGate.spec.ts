@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionGate } from "../../src/impl/partitionGate";
+import { PartitionGate } from "../../../src/impl/partitionGate";
 import chai from "chai";
 const should = chai.should();
 
