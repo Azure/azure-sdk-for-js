@@ -315,4 +315,84 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     //const cResult = await queuesClientwithSAS.clear(); //This request is not authorized to perform this operation. As testing, this is service's current behavior.
   });
+
+  it("QueueServiceClient.generateAccountSasUrl should work", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = queueServiceClient["credential"];
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("q").toString(),
+        startsOn: now,
+        version: "2016-05-31"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+    const sasURL1 = `${queueServiceClient.url}?${sas}`;
+
+    const sasURL = queueServiceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("rwdlacup"),
+      undefined,
+      {
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2016-05-31"
+      }
+    );
+    assert.deepStrictEqual(sasURL, sasURL1);
+
+    const queueServiceClientwithSAS = new QueueServiceClient(sasURL);
+    await queueServiceClientwithSAS.getProperties();
+  });
+
+  it("QueueClient.generateSasUrl should work", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = queueServiceClient["credential"];
+
+    const queueName = recorder.getUniqueName("queue");
+    const queueClient = queueServiceClient.getQueueClient(queueName);
+    await queueClient.create();
+
+    const queueSAS = generateQueueSASQueryParameters(
+      {
+        queueName: queueClient.name,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: QueueSASPermissions.parse("raup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2016-05-31"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+    const sasURL1 = `${queueClient.url}?${queueSAS}`;
+
+    const sasURL = queueClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: QueueSASPermissions.parse("raup"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      version: "2016-05-31"
+    });
+    assert.deepStrictEqual(sasURL, sasURL1);
+
+    const queueClientwithSAS = new QueueClient(sasURL, newPipeline(new AnonymousCredential()));
+    await queueClientwithSAS.getProperties();
+    await queueClient.delete();
+  });
 });

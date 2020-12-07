@@ -57,10 +57,10 @@ export interface FileSASSignatureValues {
    * Please refer to either {@link ShareSASPermissions} or {@link FileSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {FileSASPermissions}
+   * @type {FileSASPermissions | ShareSASPermissions}
    * @memberof FileSASSignatureValues
    */
-  permissions?: FileSASPermissions;
+  permissions?: FileSASPermissions | ShareSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
