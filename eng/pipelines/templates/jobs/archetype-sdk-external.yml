@@ -57,10 +57,10 @@ jobs:
     steps:
       - template: ../steps/common.yml
 
-      - template: ../steps/analyze.yml
-        parameters:
-          Artifacts: ${{ parameters.Artifacts }}
-          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      # - template: ../steps/analyze.yml
+      #   parameters:
+      #     Artifacts: ${{ parameters.Artifacts }}
+      #     ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   # Only run tests if the matrix has entries
   # - ${{ if ne(parameters.RunUnitTests, false) }}:
