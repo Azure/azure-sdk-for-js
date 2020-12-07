@@ -131,8 +131,7 @@ If all your tests can run across all supported service API versions then this is
 ### Override supported versions for tests
 
 By default, a test suite or test case is executed against each `serviceVersion`. Optionally one can
-also use `onVersions()` to specify a list (`ReadOnlyArray<string>`) or a range (`{minVer?: string,
-maxVer?: string }`) of supported versions for selected test suites or test cases:
+also use `onVersions()` to specify a list (`ReadOnlyArray<string>`) or a range (`{minVer?: string, maxVer?: string }`) of supported versions for selected test suites or test cases:
 
 ```javascript
 // Test author must ensure the list of versions are ordered from oldest to latest.
@@ -210,7 +209,8 @@ versionsToTest(
   { versionForRecording: "7.1" },
   (serviceVersion, onVersions) => {
     // ...
-  });
+  }
+);
 ```
 
 ## Troubleshooting
