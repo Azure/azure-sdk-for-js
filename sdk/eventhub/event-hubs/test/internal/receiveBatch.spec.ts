@@ -53,7 +53,6 @@ describe("EventHubConsumerClient", function(): void {
     await consumerClient.close();
   });
 
-
   describe("EventHubConsumer receiveBatch", function(): void {
     it("should support being cancelled", async function(): Promise<void> {
       const partitionId = partitionIds[0];
@@ -256,5 +255,4 @@ describe("EventHubConsumerClient", function(): void {
       events[0].body.should.equal(message.body, "Unexpected message received.");
     });
   });
-
 }).timeout(90000);
