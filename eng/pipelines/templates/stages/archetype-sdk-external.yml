@@ -18,7 +18,7 @@ parameters:
 stages:
 - stage: Build
   jobs:
-  - template: ../jobs/archetype-sdk-client.yml
+  - template: ../jobs/archetype-sdk-external.yml
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
       Artifacts: ${{ parameters.Artifacts }}
