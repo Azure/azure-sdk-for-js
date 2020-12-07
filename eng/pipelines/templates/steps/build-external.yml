@@ -32,7 +32,7 @@ steps:
   - task: Npm@1
     inputs:
       command: 'install'
-    displayName: "Install dependencies"
+    displayName: "Install dependencies [external]"
 
   - task: Npm@1
     inputs:
