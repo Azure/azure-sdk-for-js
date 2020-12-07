@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
+import { HttpRequestBody, isNode, TokenCredential, URLQuery } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/api";
 import { Readable } from "stream";
@@ -931,9 +931,9 @@ export class DataLakePathClient extends StorageClient {
 
     // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
     // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
-    const sourceSas = getURLQueryString(this.dfsEndpointUrl);
-    const renameSource = !!sourceSas
-      ? `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceSas}`
+    const sourceQueryString = getURLQueryString(this.dfsEndpointUrl);
+    const renameSource = !!sourceQueryString
+      ? `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceQueryString}`
       : `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
 
     const split: string[] = destinationPath.split("?");
@@ -946,8 +946,11 @@ export class DataLakePathClient extends StorageClient {
       const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
       destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
       // If the source is authenticating using SAS while the destination doesn't have a SAS, fallback to use the source's SAS on the destination
-      if (!!sourceSas) {
-        destinationUrl = setURLQueries(destinationUrl, sourceSas);
+      if (!!sourceQueryString) {
+        let sourceQuery = URLQuery.parse(sourceQueryString);
+        sourceQuery.set("snapshot", undefined);
+        sourceQuery.set("versionid", undefined);
+        destinationUrl = setURLQueries(destinationUrl, sourceQuery.toString());
       }
     }
 
@@ -1722,7 +1725,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
