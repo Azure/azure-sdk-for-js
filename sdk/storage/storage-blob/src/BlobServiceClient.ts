@@ -27,7 +27,12 @@ import {
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
-import { appendToURLPath, extractConnectionStringParts, toTags } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  extractConnectionStringParts,
+  toTags
+} from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
@@ -38,6 +43,11 @@ import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Tags } from "./models";
 import { ServiceFilterBlobsResponse } from "./generated/src/models";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { SasIPRange } from "./sas/SasIPRange";
+import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
+import { AccountSASServices } from "./sas/AccountSASServices";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -390,6 +400,46 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
    * @memberof ServiceUndeleteContainerOptions
    */
   destinationContainerName?: string;
+}
+
+/**
+ * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
+ *
+ * @export
+ * @interface ServiceGenerateAccountSasUrlOptions
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   *
+   * @type {SASProtocol}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   *
+   * @type {SasIPRange}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  ipRange?: SasIPRange;
 }
 
 /**
@@ -1324,5 +1374,51 @@ export class BlobServiceClient extends StorageClient {
    */
   public getBlobBatchClient(): BlobBatchClient {
     return new BlobBatchClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Only available for BlobServiceClient constructed with a shared key credential.
+   *
+   * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
+   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
+   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof BlobServiceClient
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("b").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }

@@ -28,6 +28,12 @@ import { isNode } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
+import { AccountSASPermissions } from "./AccountSASPermissions";
+import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
+import { AccountSASServices } from "./AccountSASServices";
+import { SASProtocol } from "./SASQueryParameters";
+import { SasIPRange } from "./SasIPRange";
+import { appendToURLQuery } from "./utils/utils.common";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -209,6 +215,46 @@ export type ServiceListSharesSegmentResponse = Omit<
   ServiceListSharesSegmentResponseModel,
   "shareItems"
 > & { shareItems?: ShareItem[] };
+
+/**
+ * Options to configure {@link ShareServiceClient.generateAccountSasUrl} operation.
+ *
+ * @export
+ * @interface ServiceGenerateAccountSasUrlOptions
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   *
+   * @type {SASProtocol}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   *
+   * @type {SasIPRange}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+}
 
 /**
  * A ShareServiceClient represents a URL to the Azure Storage File service allowing you
@@ -734,5 +780,51 @@ export class ShareServiceClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for ShareServiceClient constructed with a shared key credential.
+   *
+   * Generates an account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
+   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
+   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ShareServiceClient
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("f").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }
