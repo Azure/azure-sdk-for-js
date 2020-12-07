@@ -36,7 +36,7 @@ async function main(argv) {
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
 
   const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName.replace("@", "").replace("/", "-") == packageName
+    packageSpec => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
@@ -47,7 +47,7 @@ async function main(argv) {
   );
 
   const oldVersion = packageJsonContents.version;
-  console.log(`${packageName}: ${oldVersion} -> ${newVersion}`);
+  console.log(`${packageJsonContents.name}: ${oldVersion} -> ${newVersion}`);
 
   if (dryRun) {
     console.log("Dry run only, no changes");

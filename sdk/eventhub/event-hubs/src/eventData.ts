@@ -229,6 +229,9 @@ export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessa
 export interface EventData {
   /**
    * @property The message body that needs to be sent.
+   * If the application reading the events is not using this SDK,
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**
