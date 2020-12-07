@@ -68,11 +68,8 @@ function makeBrowserTestConfig() {
       file: `dist-test/index.browser.js`,
       format: "umd",
       sourcemap: true
-      // globals: {"fs-extra": "undefined"}
     },
     preserveSymlinks: false,
-    // fs-extra must be marked as external in order to avoid an initialization error
-    // external: ["fs-extra"],
     plugins: [
       multiEntry({ exports: false }),
       nodeResolve({
@@ -99,8 +96,6 @@ function makeBrowserTestConfig() {
     // code, which causes all tests to be removed by tree-shaking.
     treeshake: false
   };
-
-  // (config.external as string[]).push(...Object.keys(pkg.devDependencies));
 
   return config;
 }
