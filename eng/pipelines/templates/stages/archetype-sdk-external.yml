@@ -1,0 +1,26 @@
+parameters:
+- name: Artifacts
+  type: object
+  default: []
+- name: TestPipeline
+  type: boolean
+  default: false
+- name: ServiceDirectory
+  type: string
+  default: not-specified
+- name: IncludeRelease
+  type: boolean
+  default: true
+- name: RunUnitTests
+  type: boolean
+  default: true
+
+stages:
+- stage: Build
+  jobs:
+  - template: ../jobs/archetype-sdk-client.yml
+    parameters:
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      Artifacts: ${{ parameters.Artifacts }}
+      TestPipeline: ${{ parameters.TestPipeline }}
+      RunUnitTests: ${{ parameters.RunUnitTests }}
