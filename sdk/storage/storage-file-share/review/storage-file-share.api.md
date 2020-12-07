@@ -1166,7 +1166,7 @@ export interface ListSharesResponse {
     // (undocumented)
     serviceEndpoint: string;
     // (undocumented)
-    shareItems?: ShareItem[];
+    shareItems?: ShareItemInternal[];
 }
 
 // @public
@@ -1311,7 +1311,12 @@ export interface ServiceListSharesSegmentHeaders {
 }
 
 // @public
-export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
+export type ServiceListSharesSegmentResponse = Omit<ServiceListSharesSegmentResponseModel, "shareItems"> & {
+    shareItems?: ShareItem[];
+};
+
+// @public
+export type ServiceListSharesSegmentResponseModel = ListSharesResponse & ServiceListSharesSegmentHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ServiceListSharesSegmentHeaders;
         bodyAsText: string;
@@ -1414,7 +1419,9 @@ export interface ShareCreateOptions extends CommonOptions {
     metadata?: {
         [propertyName: string]: string;
     };
+    protocols?: ShareProtocols;
     quota?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public
@@ -1654,6 +1661,7 @@ export interface ShareGetPropertiesHeaders {
     accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
     date?: Date;
+    enabledProtocols?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1671,6 +1679,7 @@ export interface ShareGetPropertiesHeaders {
     provisionedIops?: number;
     quota?: number;
     requestId?: string;
+    rootSquash?: ShareRootSquash;
     version?: string;
 }
 
@@ -1681,7 +1690,12 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
+export type ShareGetPropertiesResponse = Omit<ShareGetPropertiesResponseModel, "enabledProtocols"> & {
+    protocols?: ShareProtocols;
+};
+
+// @public
+export type ShareGetPropertiesResponseModel = ShareGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPropertiesHeaders;
     };
@@ -1719,7 +1733,12 @@ export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHea
 };
 
 // @public
-export interface ShareItem {
+export type ShareItem = Omit<ShareItemInternal, "properties"> & {
+    properties: ShareProperties;
+};
+
+// @public
+export interface ShareItemInternal {
     // (undocumented)
     deleted?: boolean;
     // (undocumented)
@@ -1729,7 +1748,7 @@ export interface ShareItem {
     // (undocumented)
     name: string;
     // (undocumented)
-    properties: ShareProperties;
+    properties: SharePropertiesInternal;
     // (undocumented)
     snapshot?: string;
     // (undocumented)
@@ -1754,7 +1773,12 @@ export interface SharePermission {
 }
 
 // @public
-export interface ShareProperties {
+export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+    protocols?: ShareProtocols;
+};
+
+// @public
+export interface SharePropertiesInternal {
     // (undocumented)
     accessTier?: string;
     // (undocumented)
@@ -1763,6 +1787,8 @@ export interface ShareProperties {
     accessTierTransitionState?: string;
     // (undocumented)
     deletedTime?: Date;
+    // (undocumented)
+    enabledProtocols?: string;
     // (undocumented)
     etag: string;
     // (undocumented)
@@ -1782,12 +1808,22 @@ export interface ShareProperties {
     quota: number;
     // (undocumented)
     remainingRetentionDays?: number;
+    rootSquash?: ShareRootSquash;
+}
+
+// @public
+export interface ShareProtocols {
+    nfsEnabled?: boolean;
+    smbEnabled?: boolean;
 }
 
 // @public
 export interface ShareProtocolSettings {
     smb?: ShareSmbSettings;
 }
+
+// @public
+export type ShareRootSquash = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
 
 // @public
 export class ShareSASPermissions {
@@ -1883,6 +1919,7 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
     accessTier?: ShareAccessTier;
     leaseAccessConditions?: LeaseAccessConditions;
     quotaInGB?: number;
+    rootSquash?: ShareRootSquash;
 }
 
 // @public

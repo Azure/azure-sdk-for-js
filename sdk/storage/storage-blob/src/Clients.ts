@@ -84,7 +84,8 @@ import {
   PublicAccessType,
   RehydratePriority,
   SequenceNumberActionType,
-  SignedIdentifierModel
+  SignedIdentifierModel,
+  BlockBlobPutBlobFromUrlResponse
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -500,10 +501,10 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobSetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
@@ -524,14 +525,14 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobGetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
- * Contains response data for the {@link ContainerClient.getTags} operation.
+ * Contains response data for the {@link BlobClient.getTags} operation.
  */
 export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
     /**
@@ -1865,6 +1866,7 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -1895,6 +1897,7 @@ export class BlobClient extends StorageClient {
     try {
       const response = await this.blobContext.getTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -3361,6 +3364,109 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link BlockBlobClient.syncUploadFromURL} operation.
+ *
+ * @export
+ * @interface BlockBlobSyncUploadFromURLOptions
+ */
+export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
+  /**
+   * Server timeout in seconds.
+   * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
+   * @type {number}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  timeoutInSeconds?: number;
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
+   * pairs are specified, the operation will copy the metadata from the source blob or file to the
+   * destination blob. If one or more name-value pairs are specified, the destination blob is
+   * created with the specified metadata, and metadata is not copied from the source blob or file.
+   * Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules
+   * for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more
+   * information.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  encryptionScope?: string;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  tier?: BlockBlobTier | string;
+  /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   * @type {Uint8Array}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
+  /**
+   * Blob tags.
+   *
+   * @type {Tags}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  tags?: Tags;
+  /**
+   * Optional, default is true.  Indicates if properties from the source blob should be copied.
+   *
+   * @type {boolean}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  copySourceBlobProperties?: boolean;
+  /**
+   * HTTP headers to set when uploading to a block blob.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * Conditions to meet for the destination Azure Blob.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Conditions to meet for the source Azure Blob.
+   *
+   * @type {ModifiedAccessConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceConditions?: ModifiedAccessConditions;
+}
+
+/**
  * Blob query error type.
  *
  * @export
@@ -3507,7 +3613,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3531,7 +3637,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Callback to receive events on the progress of query operation.
    *
    * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
@@ -3544,14 +3650,14 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Conditions to meet when uploading to the block blob.
    *
    * @type {BlobRequestConditions}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -4310,6 +4416,68 @@ export class BlockBlobClient extends BlobClient {
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        tier: toAccessTier(options.tier),
+        blobTagsString: toBlobTagsString(options.tags),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new Block Blob where the contents of the blob are read from a given URL.
+   * This API is supported beginning with the 2020-04-08 version. Partial updates
+   * are not supported with Put Blob from URL; the content of an existing blob is overwritten with
+   * the content of the new blob.  To perform partial updates to a block blob’s contents using a
+   * source URL, use {@link stageBlockFromURL} and {@link commitBlockList}.
+   *
+   * @param {string} sourceURL Specifies the URL of the blob. The value
+   *                           may be a URL of up to 2 KB in length that specifies a blob.
+   *                           The value should be URL-encoded as it would appear
+   *                           in a request URI. The source blob must either be public
+   *                           or must be authenticated via a shared access signature.
+   *                           If the source blob is public, no authentication is required
+   *                           to perform the operation. Here are some examples of source object URLs:
+   *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
+   *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
+   * @param {BlockBlobSyncUploadFromURLOptions} [options={}] Optional parameters.
+   * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
+   * @memberof BlockBlobClient
+   */
+
+  public async syncUploadFromURL(
+    sourceURL: string,
+    options: BlockBlobSyncUploadFromURLOptions = {}
+  ): Promise<BlockBlobPutBlobFromUrlResponse> {
+    options.conditions = options.conditions || {};
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-syncUploadFromURL",
+      options.tracingOptions
+    );
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
+        ...options,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions.tagConditions
+        },
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceConditions?.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+          sourceIfTags: options.sourceConditions?.tagConditions
+        },
+        cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         spanOptions

@@ -9,8 +9,9 @@ import {
   ShareDeleteResponse,
   ServiceGetPropertiesResponse,
   ServiceSetPropertiesResponse,
-  ServiceListSharesSegmentResponse,
-  ShareItem
+  ServiceListSharesSegmentResponseModel,
+  ShareItemInternal,
+  SharePropertiesInternal
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -26,6 +27,7 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
+import { ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
@@ -179,6 +181,40 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
 }
+
+/**
+ * Properties of a share.
+ *
+ * @export
+ * @interface ShareProperties
+ */
+export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+  /**
+   * The protocols that have been enabled on the share.
+   * @type {ShareProtocols}
+   * @memberof ShareProperties
+   */
+  protocols?: ShareProtocols;
+};
+
+/**
+ * A listed Azure Storage share item.
+ *
+ * @export
+ * @interface ShareItem
+ */
+export type ShareItem = Omit<ShareItemInternal, "properties"> & { properties: ShareProperties };
+
+/**
+ * Contains response data for the {@link ShareServiceClient.listShares} operation.
+ *
+ * @export
+ * @interface ServiceListSharesSegmentResponse
+ */
+export type ServiceListSharesSegmentResponse = Omit<
+  ServiceListSharesSegmentResponseModel,
+  "shareItems"
+> & { shareItems?: ShareItem[] };
 
 /**
  * Options to configure {@link ShareServiceClient.generateAccountSasUrl} operation.
@@ -679,11 +715,22 @@ export class ShareServiceClient extends StorageClient {
     }
 
     try {
-      return await this.serviceContext.listSharesSegment({
+      const res = await this.serviceContext.listSharesSegment({
         marker,
         ...options,
         spanOptions
       });
+
+      // parse protocols
+      if (res.shareItems) {
+        for (let i = 0; i < res.shareItems.length; i++) {
+          const protocolsStr = res.shareItems[i].properties.enabledProtocols;
+          delete res.shareItems[i].properties.enabledProtocols;
+          (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
+        }
+      }
+
+      return res;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

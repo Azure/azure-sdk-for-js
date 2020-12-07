@@ -41,7 +41,7 @@ import {
   ShareDeleteResponse,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
-  ShareGetPropertiesResponse,
+  ShareGetPropertiesResponseModel,
   ShareGetStatisticsResponseModel,
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
@@ -49,7 +49,8 @@ import {
   SignedIdentifierModel,
   SourceModifiedAccessConditions,
   ShareAccessTier,
-  ShareSetPropertiesResponse
+  ShareSetPropertiesResponse,
+  ShareRootSquash
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -88,7 +89,10 @@ import {
   fileLastWriteTimeToString,
   Metadata,
   validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
-  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  ShareProtocols,
+  toShareProtocolsString,
+  toShareProtocols
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -147,6 +151,20 @@ export interface ShareCreateOptions extends CommonOptions {
    * @memberof ShareCreateOptions
    */
   accessTier?: ShareAccessTier;
+
+  /**
+   * Supported in version 2020-02-10 and above. Specifies the enabled protocols on the share. If not specified, the default is SMB.
+   * @type {ShareProtocols}
+   * @memberof ShareCreateOptions
+   */
+  protocols?: ShareProtocols;
+  /**
+   * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'.
+   * @type {ShareRootSquash}
+   * @memberof ShareCreateOptions
+   */
+  rootSquash?: ShareRootSquash;
 }
 
 /**
@@ -357,6 +375,14 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * @memberof ShareSetPropertiesOptions
    */
   quotaInGB?: number;
+
+  /**
+   * Root squash to set on the share.  Only valid for NFS shares. Possible values include:
+   * 'NoRootSquash', 'RootSquash', 'AllSquash'.
+   * @type {ShareRootSquash}
+   * @memberof ShareSetPropertiesOptions
+   */
+  rootSquash?: ShareRootSquash;
   /**
    * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
    *
@@ -550,6 +576,24 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
    */
   succeeded: boolean;
 }
+
+/**
+ * Contains response data for the {@link ShareClient.getProperties} operation.
+ *
+ * @export
+ * @interface ShareGetPropertiesResponse
+ */
+export type ShareGetPropertiesResponse = Omit<
+  ShareGetPropertiesResponseModel,
+  "enabledProtocols"
+> & {
+  /**
+   * The protocols that have been enabled on the share.
+   * @type {ShareProtocols}
+   * @memberof ShareGetPropertiesResponse
+   */
+  protocols?: ShareProtocols;
+};
 
 /**
  * Common options of the {@link ShareGenerateSasUrlOptions} and {@link FileGenerateSasUrlOptions}.
@@ -821,6 +865,7 @@ export class ShareClient extends StorageClient {
     try {
       return await this.context.create({
         ...options,
+        enabledProtocols: toShareProtocolsString(options.protocols),
         spanOptions
       });
     } catch (e) {
@@ -1115,10 +1160,16 @@ export class ShareClient extends StorageClient {
   ): Promise<ShareGetPropertiesResponse> {
     const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
-      return await this.context.getProperties({
+      const res = await this.context.getProperties({
         ...options,
         spanOptions
       });
+
+      // parse protocols
+      const protocols = toShareProtocols(res.enabledProtocols);
+      delete res.enabledProtocols;
+      (res as any).protocols = protocols;
+      return res;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

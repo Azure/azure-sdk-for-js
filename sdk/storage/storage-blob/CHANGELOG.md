@@ -2,6 +2,9 @@
 
 ## 12.3.1 (Unreleased)
 
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added a new interface `BlockBlobClient.syncUploadFromURL()` to support creating a new Block Blob where the contents of the blob are read from a given URL.
+- Blob Tags updates: `BlobClient.setTags()` and `BlobClient.getTags()` now support the `LeaseAccessConditions` and `BlobServiceClient.findBlobsByTags()` will return all matching tags for each blob.
 - Added `generateSasUrl` to `BlobClient` and `ContainerClient` to generate a service-level SAS URI for the client.
 - Added `generateAccountSasUrl` to `BlobServiceClient` to generate an account-level SAS URI for the client.
 - Fixed a bug where the `credential` property of the `StorageClient` is not set correctly when using a Token credential. Fixed bug [12219](https://github.com/Azure/azure-sdk-for-js/issues/12219).

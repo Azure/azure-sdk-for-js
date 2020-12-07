@@ -2,6 +2,7 @@
 
 ## 12.2.1 (Unreleased)
 
+- Updated Azure Storage Service API version to 2020-04-08.
 - Added `generateSasUrl` to `QueueClient` to generate a service-level SAS URI for the client.
 - Added `generateAccountSasUrl` to `QueueServiceClient` to generate an account-level SAS URI for the client.
 - Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
