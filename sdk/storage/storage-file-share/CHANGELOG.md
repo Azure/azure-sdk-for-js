@@ -4,6 +4,7 @@
 
 - Updated Azure Storage Service API version to 2020-04-08.
 - Share now supports for NFS. User can specify the `protocols` when creating a Share via `ShareClient.create()`. Also added an `rootSquash` option for NFS shares.
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
 
 ## 12.3.0 (2020-11-10)
 

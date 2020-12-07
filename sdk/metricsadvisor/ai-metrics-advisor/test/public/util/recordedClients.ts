@@ -10,7 +10,7 @@ import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
-} from "../../src/index";
+} from "../../../src";
 
 dotenv.config();
 

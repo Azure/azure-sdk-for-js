@@ -2764,6 +2764,7 @@ export interface ServiceGetAccountInfoHeaders {
     date?: Date;
     // (undocumented)
     errorCode?: string;
+    isHierarchicalNamespaceEnabled?: boolean;
     requestId?: string;
     skuName?: SkuName;
     version?: string;

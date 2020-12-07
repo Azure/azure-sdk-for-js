@@ -405,6 +405,7 @@ describe("BlobServiceClient", () => {
     const accountInfo = await blobServiceClient.getAccountInfo();
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
   it("createContainer and deleteContainer", async () => {
