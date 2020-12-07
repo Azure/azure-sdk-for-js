@@ -143,7 +143,11 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/public/*.spec.js", "dist-esm/test/internal/*.spec.js", "dist-esm/test/internal/impl/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/impl/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 
