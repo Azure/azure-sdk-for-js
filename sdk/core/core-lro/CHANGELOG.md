@@ -1,9 +1,11 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 1.0.3 (2020-12-09)
 
+- Updates the `tslib` dependency to version 2.x.
 
 ## 1.0.2 (2020-04-28)
+
 - Moved `@opentelemetry/types` to the `devDependencies`.
 
 ## 1.0.1 (2020-02-28)
