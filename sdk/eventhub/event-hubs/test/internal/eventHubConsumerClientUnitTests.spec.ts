@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-CheckpointStore,
-SubscriptionEventHandlers
-} from "../../src";
+import { CheckpointStore, SubscriptionEventHandlers } from "../../src";
 import { EventHubConsumerClient, isCheckpointStore } from "../../src/eventHubConsumerClient";
 import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
@@ -12,20 +9,41 @@ import { ConnectionContext } from "../../src/connectionContext";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import chai from "chai";
-
+import { EnvVarKeys } from "../public/utils/testUtils";
+import { env } from "process";
 
 const should = chai.should();
+describe("EventHubConsumerClient", () => {
+  const service = {
+    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+    path: env[EnvVarKeys.EVENTHUB_NAME]
+  };
 
-describe("unit tests", () => {
+  before(() => {
+    should.exist(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+    );
+    should.exist(
+      env[EnvVarKeys.EVENTHUB_NAME],
+      "define EVENTHUB_NAME in your environment before running integration tests."
+    );
+  });
+
+  describe("unit tests", () => {
     it("isCheckpointStore", () => {
       isCheckpointStore({
-        processEvents: async () => {},
-        processClose: async () => {}
-      }).should.not.ok;
+        processEvents: async () => {
+          /* no-op */
+        },
+        processClose: async () => {
+          /* no-op */
+        }
+      }).should.not.equal(true);
 
-      isCheckpointStore("hello").should.not.ok;
+      isCheckpointStore("hello").should.not.equal(true);
 
-      isCheckpointStore(new InMemoryCheckpointStore()).should.ok;
+      isCheckpointStore(new InMemoryCheckpointStore()).should.equal(true);
     });
 
     describe("subscribe() overloads route properly", () => {
@@ -33,22 +51,21 @@ describe("unit tests", () => {
       let clientWithCheckpointStore: EventHubConsumerClient;
       let subscriptionHandlers: SubscriptionEventHandlers;
       let fakeEventProcessor: SinonStubbedInstance<EventProcessor>;
+      let validateOptions: (options: FullEventProcessorOptions) => void;
       const fakeEventProcessorConstructor = (
         connectionContext: ConnectionContext,
         subscriptionEventHandlers: SubscriptionEventHandlers,
         checkpointStore: CheckpointStore,
         options: FullEventProcessorOptions
-      ) => {
+      ): SinonStubbedInstance<EventProcessor> => {
         subscriptionEventHandlers.should.equal(subscriptionHandlers);
         should.exist(connectionContext.managementSession);
-        isCheckpointStore(checkpointStore).should.be.ok;
+        isCheckpointStore(checkpointStore).should.equal(true);
 
         validateOptions(options);
 
         return fakeEventProcessor;
       };
-
-      let validateOptions: (options: FullEventProcessorOptions) => void;
 
       beforeEach(() => {
         fakeEventProcessor = createStubInstance(EventProcessor);
@@ -68,8 +85,12 @@ describe("unit tests", () => {
         );
 
         subscriptionHandlers = {
-          processEvents: async () => {},
-          processError: async () => {}
+          processEvents: async () => {
+            /* no-op */
+          },
+          processError: async () => {
+            /* no-op */
+          }
         };
 
         (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
@@ -77,7 +98,9 @@ describe("unit tests", () => {
       });
 
       it("conflicting subscribes", () => {
-        validateOptions = () => {};
+        validateOptions = () => {
+          /* no-op */
+        };
 
         client.subscribe(subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
@@ -444,3 +467,4 @@ describe("unit tests", () => {
       });
     });
   });
+});
