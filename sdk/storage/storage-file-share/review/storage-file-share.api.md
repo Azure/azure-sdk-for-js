@@ -107,6 +107,21 @@ export interface CloseHandlesInfo {
 }
 
 // @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface CommonOptions {
     // (undocumented)
     tracingOptions?: OperationTracingOptions;
@@ -638,6 +653,11 @@ export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesH
 };
 
 // @public
+export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: FileSASPermissions;
+}
+
+// @public
 export interface FileGetPropertiesHeaders {
     cacheControl?: string;
     contentDisposition?: string;
@@ -840,7 +860,7 @@ export interface FileSASSignatureValues {
     filePath?: string;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: FileSASPermissions;
+    permissions?: FileSASPermissions | ShareSASPermissions;
     protocol?: SASProtocol;
     shareName: string;
     startsOn?: Date;
@@ -1244,6 +1264,14 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesHeaders {
     // (undocumented)
     errorCode?: string;
@@ -1347,6 +1375,7 @@ export class ShareClient extends StorageClient {
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: ShareDeleteMethodOptions): Promise<ShareDeleteIfExistsResponse>;
     exists(options?: ShareExistsOptions): Promise<boolean>;
+    generateSasUrl(options: ShareGenerateSasUrlOptions): string;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
@@ -1531,6 +1560,7 @@ export class ShareFileClient extends StorageClient {
     exists(options?: FileExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
+    generateSasUrl(options: FileGenerateSasUrlOptions): string;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
@@ -1560,6 +1590,11 @@ export interface ShareFileRangeList {
     clearRanges?: ClearRange[];
     // (undocumented)
     ranges?: RangeModel[];
+}
+
+// @public
+export interface ShareGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: ShareSASPermissions;
 }
 
 // @public
@@ -1775,6 +1810,7 @@ export class ShareServiceClient extends StorageClient {
     }>;
     deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
