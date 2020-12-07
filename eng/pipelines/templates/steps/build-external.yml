@@ -55,30 +55,17 @@ steps:
 
   # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
   # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  # - task: CopyFiles@2
-  #   inputs:
-  #     sourceFolder: sdk
-  #     contents: |
-  #       **/$(coalesceResultFilter)/*.tgz
-  #       **/$(coalesceResultFilter)/browser/*.zip
-  #     targetFolder: $(Build.ArtifactStagingDirectory)
-  #     flattenFolders: true
-  #   displayName: "Copy packages"
+  - task: CopyFiles@2
+    inputs:
+      contents: |
+        *.tgz
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
+    displayName: "Copy packages"
 
-  # - task: PublishPipelineArtifact@1
-  #   condition: succeededOrFailed()
-  #   displayName: "Publish artifacts"
-  #   inputs:
-  #     artifactName: packages
-  #     path: $(Build.ArtifactStagingDirectory)
-
-  # - template: ../steps/generate-doc.yml
-  #   parameters:
-  #     ServiceDirectory: ${{parameters.ServiceDirectory}}
-
-  # - task: PublishPipelineArtifact@1
-  #   condition: succeededOrFailed()
-  #   displayName: "Publish artifacts"
-  #   inputs:
-  #     artifactName: documentation
-  #     path: $(Build.ArtifactStagingDirectory)/Documentation
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    displayName: "Publish artifacts"
+    inputs:
+      artifactName: packages
+      path: $(Build.ArtifactStagingDirectory)
