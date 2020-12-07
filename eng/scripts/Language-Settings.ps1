@@ -253,19 +253,7 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
   }
   catch
   {
-    LogError "Failed to retieve package versions. `n$_"
+    LogError "Failed to retrieve package versions. `n$_"
     return $null
   }
-}
-
-function SetPackageVersion ($PackageName, $Version, $ServiceName = $null, $ReleaseDate, $BuildType = $null, $GroupName = $null)
-{
-  if ($null -eq $ReleaseDate)
-  {
-    $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
-  }
-  Push-Location "$EngDir/tools/versioning"
-  npm install
-  node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
-  Pop-Location
 }
