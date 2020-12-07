@@ -9,11 +9,11 @@ import {
   EventHubProducerClient,
   EventPosition,
   ReceivedEventData
-} from "../../src";
+} from "../../../src";
 import {
   PartitionContext,
   SubscriptionEventHandlers
-} from "../../src/eventHubConsumerClientModels";
+} from "../../../src/";
 import { loggerForTest } from "./logHelpers";
 import { loopUntil } from "./testUtils";
 const should = chai.should();

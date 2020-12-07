@@ -18,26 +18,26 @@ import {
   latestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient
-} from "../src";
-import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
+} from "../../src";
+import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { Dictionary, generate_uuid } from "rhea-promise";
-import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
-import { Checkpoint } from "../src/partitionProcessor";
+import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
+import { Checkpoint } from "../../src/partitionProcessor";
 import { delay } from "@azure/core-amqp";
-import { PartitionContext } from "../src/eventHubConsumerClientModels";
-import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { loggerForTest } from "./utils/logHelpers";
+import { PartitionContext } from "../../src/eventHubConsumerClientModels";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
+import { loggerForTest } from "../public/utils/logHelpers";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
-} from "./utils/subscriptionHandlerForTests";
+} from "../public/utils/subscriptionHandlerForTests";
 import { AbortError, AbortSignal } from "@azure/abort-controller";
-import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
-import { isLatestPosition } from "../src/eventPosition";
+import { FakeSubscriptionEventHandlers } from "../public/utils/fakeSubscriptionEventHandlers";
+import { isLatestPosition } from "../../src/eventPosition";
 import { AbortController } from "@azure/abort-controller";
-import { UnbalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/unbalancedStrategy";
-import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
-import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
+import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
+import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {

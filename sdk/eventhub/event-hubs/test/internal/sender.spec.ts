@@ -14,17 +14,17 @@ import {
   EventPosition,
   ReceivedEventData,
   SendBatchOptions
-} from "../src";
+} from "../../src";
 import {
   EnvVarKeys,
   getEnvVars,
   getStartingPositionsForTests,
   setTracerForTest
-} from "./utils/testUtils";
+} from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
-import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentEventData";
-import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
+import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
+import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
 describe("EventHub Sender", function(): void {

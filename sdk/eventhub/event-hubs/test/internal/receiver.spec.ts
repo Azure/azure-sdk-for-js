@@ -17,10 +17,10 @@ import {
   EventHubProducerClient,
   Subscription,
   EventPosition
-} from "../src";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+} from "../../src";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { EventHubReceiver } from "../src/eventHubReceiver";
+import { EventHubReceiver } from "../../src/eventHubReceiver";
 import { translate } from "@azure/core-amqp";
 const env = getEnvVars();
 

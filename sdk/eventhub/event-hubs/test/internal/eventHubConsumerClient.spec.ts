@@ -2,25 +2,34 @@
 // Licensed under the MIT license.
 
 import {
-  CheckpointStore,
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
   latestEventPosition,
   logger,
   CloseReason
-} from "../src";
-import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
-import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from "./utils/testUtils";
+} from "../../src";
+import { EventHubConsumerClient } from "../../src";
+import {
+  EnvVarKeys,
+  getEnvVars,
+  loopUntil,
+  getStartingPositionsForTests
+} from "../public/utils/testUtils";
 import chai from "chai";
-import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
-import { LogTester } from "./utils/logHelpers";
-import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
-import { SinonStubbedInstance, createStubInstance } from "sinon";
-import { ConnectionContext } from "../src/connectionContext";
-import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
-import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
+import { ReceivedMessagesTester } from "../public/utils/receivedMessagesTester";
+import { LogTester } from "../public/utils/logHelpers";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
+import { isCheckpointStore } from "../../src/eventHubConsumerClient";
+import {
+  CheckpointStore,
+  EventProcessor,
+  FullEventProcessorOptions
+} from "../../src/eventProcessor";
+import { createStubInstance, SinonStubbedInstance } from "sinon";
+import { ConnectionContext } from "../../src/connectionContext";
+import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -958,16 +967,13 @@ describe("EventHubConsumerClient", () => {
         ]
       );
 
-      const checkpointStore = new InMemoryCheckpointStore();
-
       clients.push(
         new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
-          service.path,
+          service.path
           // specifying your own checkpoint store activates the "production ready" code path that
           // also uses the BalancedLoadBalancingStrategy
-          checkpointStore
         )
       );
 
@@ -982,10 +988,9 @@ describe("EventHubConsumerClient", () => {
         new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
-          service.path,
+          service.path
           // specifying your own checkpoint store activates the "production ready" code path that
           // also uses the BalancedLoadBalancingStrategy
-          checkpointStore
         )
       );
 
@@ -1029,7 +1034,6 @@ describe("EventHubConsumerClient", () => {
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
-          checkpointStore,
           {
             loadBalancingOptions: {
               strategy: "greedy"

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { PartitionOwnership } from "../src/eventProcessor";
-import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
-import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
-import { UnbalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/unbalancedStrategy";
+import { PartitionOwnership } from "../../src";
+import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
+import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
 const should = chai.should();
 
 describe("LoadBalancingStrategy", () => {
