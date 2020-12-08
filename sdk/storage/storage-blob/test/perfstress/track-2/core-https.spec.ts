@@ -6,10 +6,18 @@ import { DefaultHttpsClient, createPipelineRequest } from "@azure/core-https";
 import { streamToBuffer3 } from "../../../src/utils/utils.node";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
+  client: DefaultHttpsClient;
+  constructor() {
+    super();
+    this.client = new DefaultHttpsClient();
+  }
   async runAsync(): Promise<void> {
-    const client = new DefaultHttpsClient();
-    const request = createPipelineRequest({ url: this.sasUrl, streamResponseBody: true });
-    const response = await client.sendRequest(request);
+    const request = createPipelineRequest({
+      url: this.sasUrl,
+      streamResponseBody: true,
+      keepAlive: true
+    });
+    const response = await this.client.sendRequest(request);
     await streamToBuffer3(response.readableStreamBody!);
   }
 }

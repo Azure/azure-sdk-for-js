@@ -35,6 +35,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
 
   static blobName = `newblob${new Date().getTime()}`;
   blockBlobClient: BlockBlobClient;
+  blobClientFromSAS: BlobClient;
   sasUrl: string;
 
   constructor() {
@@ -59,6 +60,8 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${
       StorageBlobDownloadWithSASTest.blobName
     }?${sasParams}`;
+
+    this.blobClientFromSAS = new BlobClient(this.sasUrl);
   }
 
   public async globalSetup() {
@@ -72,8 +75,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
   }
 
   async runAsync(): Promise<void> {
-    const blobClient = new BlobClient(this.sasUrl);
-    const downloadResponse = await blobClient.download();
+    const downloadResponse = await this.blobClientFromSAS.download();
     await streamToBuffer3(downloadResponse.readableStreamBody!);
   }
 }
