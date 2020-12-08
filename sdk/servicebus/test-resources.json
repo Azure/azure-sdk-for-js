@@ -64,7 +64,7 @@
     },
     "SERVICE_BUS_ENDPOINT": {
       "type": "string",
-      "value": "[reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint]"
+      "value": "[replace(reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint, ':443/', '')]"
     }
   }
 }
