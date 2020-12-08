@@ -8,9 +8,7 @@ interface StorageDFSReadTestOptions {
   size: number;
 }
 
-export class StorageDFSReadTest extends StorageDFSTest<
-  StorageDFSReadTestOptions
-> {
+export class StorageDFSReadTest extends StorageDFSTest<StorageDFSReadTestOptions> {
   public options: PerfStressOptionDictionary<StorageDFSReadTestOptions> = {
     size: {
       required: true,
