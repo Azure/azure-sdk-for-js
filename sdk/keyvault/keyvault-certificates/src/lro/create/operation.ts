@@ -13,10 +13,10 @@ import {
 } from "../../certificatesModels";
 import {
   CertificateOperation,
-  CreateCertificateResponse,
-  GetCertificateOperationResponse,
-  GetCertificateResponse,
-  UpdateCertificateOperationResponse
+  KeyVaultClientCreateCertificateResponse,
+  KeyVaultClientGetCertificateOperationResponse,
+  KeyVaultClientGetCertificateResponse,
+  KeyVaultClientUpdateCertificateOperationResponse
 } from "../../generated/models";
 import {
   KeyVaultCertificatePollOperation,
@@ -95,7 +95,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       certificateAttributes
     };
 
-    let result: CreateCertificateResponse;
+    let result: KeyVaultClientCreateCertificateResponse;
 
     try {
       result = await this.client.createCertificate(this.vaultUrl, certificateName, updatedOptions);
@@ -116,7 +116,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getCertificate", requestOptions);
 
-    let result: GetCertificateResponse;
+    let result: KeyVaultClientGetCertificateResponse;
 
     try {
       result = await this.client.getCertificate(
@@ -141,7 +141,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
   ): Promise<CertificateOperation> {
     const span = createSpan("generatedClient.getPlainCertificateOperation", options);
 
-    let result: GetCertificateOperationResponse;
+    let result: KeyVaultClientGetCertificateOperationResponse;
 
     try {
       result = await this.client.getCertificateOperation(
@@ -170,7 +170,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.cancelCertificateOperation", requestOptions);
 
-    let result: UpdateCertificateOperationResponse;
+    let result: KeyVaultClientUpdateCertificateOperationResponse;
     try {
       result = await this.client.updateCertificateOperation(
         this.vaultUrl,

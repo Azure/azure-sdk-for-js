@@ -22,9 +22,9 @@ import {
 } from "../../transformations";
 import { setParentSpan, createSpan } from "../../../../keyvault-common";
 import {
-  GetCertificateOperationResponse,
-  GetCertificateResponse,
-  UpdateCertificateOperationResponse
+  KeyVaultClientGetCertificateOperationResponse,
+  KeyVaultClientGetCertificateResponse,
+  KeyVaultClientUpdateCertificateOperationResponse
 } from "../../generated/models";
 
 /**
@@ -65,7 +65,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.cancelCertificateOperation", requestOptions);
 
-    let result: UpdateCertificateOperationResponse;
+    let result: KeyVaultClientUpdateCertificateOperationResponse;
     try {
       result = await this.client.updateCertificateOperation(
         this.vaultUrl,
@@ -94,7 +94,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getCertificate", requestOptions);
 
-    let result: GetCertificateResponse;
+    let result: KeyVaultClientGetCertificateResponse;
 
     try {
       result = await this.client.getCertificate(
@@ -119,7 +119,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   ): Promise<CertificateOperation> {
     const span = createSpan("generatedClient.getPlainCertificateOperation", options);
 
-    let result: GetCertificateOperationResponse;
+    let result: KeyVaultClientGetCertificateOperationResponse;
 
     try {
       result = await this.client.getCertificateOperation(
