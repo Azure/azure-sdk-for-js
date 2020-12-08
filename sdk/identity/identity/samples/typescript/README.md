@@ -17,8 +17,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [defaultAzureCredential.ts][defaultAzureCredential]    | Tries several authentications. The simplest way to use @azure/identity |
 | [clientSecretCredential.ts][clientSecretCredential]    | Authenticates with a client and a client's secret. |
 | [environmentCredential.ts][environmentCredential]      | Authenticates with a client and a client's secret sent through environment variables. |
-| [deviceCodeCredential.ts][deviceCodeCredential]        | Authenticates by entering a code in a website as specified in the printed instructions. |
-| [interactiveBrowserCredential.ts][interactiveBrowserCredential] | Opens a website page where users can authenticate using their Microsoft accounts. |
 
 ## Prerequisites
 
@@ -71,8 +69,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [defaultAzureCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts
 [clientSecretCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts
 [environmentCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/environmentCredential.ts
-[deviceCodeCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/deviceCodeCredential.ts
-[interactiveBrowserCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/interactiveBrowserCredential.ts
 [apiref]: https://docs.microsoft.com/Typescript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [freesub]: https://azure.microsoft.com/free/

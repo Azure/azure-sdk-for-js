@@ -17,8 +17,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [defaultAzureCredential.js][defaultAzureCredential]    | Tries several authentications. The simplest way to use @azure/identity |
 | [clientSecretCredential.js][clientSecretCredential]    | Authenticates with a client and a client's secret. |
 | [environmentCredential.js][environmentCredential]      | Authenticates with a client and a client's secret sent through environment variables. |
-| [deviceCodeCredential.js][deviceCodeCredential]        | Authenticates by entering a code in a website as specified in the printed instructions. |
-| [interactiveBrowserCredential.js][interactiveBrowserCredential] | Opens a website page where users can authenticate using their Microsoft accounts. |
 
 ## Prerequisites
 
@@ -59,8 +57,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [defaultAzureCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/javascript/defaultAzureCredential.js
 [clientSecretCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/javascript/clientSecretCredential.js
 [environmentCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/javascript/environmentCredential.js
-[deviceCodeCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/javascript/deviceCodeCredential.js
-[interactiveBrowserCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/javascript/interactiveBrowserCredential.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/identity
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [freesub]: https://azure.microsoft.com/free/
