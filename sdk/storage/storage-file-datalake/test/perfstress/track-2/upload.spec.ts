@@ -2,15 +2,13 @@
 // Licensed under the MIT license.
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-import {  StorageDFSTest } from "./storageTest.spec";
+import { StorageDFSTest } from "./storageTest.spec";
 
 interface StorageFileShareUploadTestOptions {
   size: number;
 }
 
-export class StorageDFSUploadTest extends StorageDFSTest<
-  StorageFileShareUploadTestOptions
-> {
+export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadTestOptions> {
   public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
     size: {
       required: true,
