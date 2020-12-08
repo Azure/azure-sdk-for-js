@@ -61,6 +61,10 @@
     "SERVICEBUS_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+    },
+    "SERVICE_BUS_ENDPOINT": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))).serviceBusEndpoint]"
     }
   }
 }
