@@ -117,7 +117,8 @@ import {
   KeyVaultClientGetDeletedCertificateResponse,
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   ActionType,
-  DeletionRecoveryLevel
+  DeletionRecoveryLevel,
+  KnownJsonWebKeyCurveName
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -231,7 +232,8 @@ export {
   X509CertificateProperties,
   logger,
   CancelCertificateOperationOptions,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
+  KnownJsonWebKeyCurveName
 };
 
 /**
@@ -312,14 +314,14 @@ export class CertificateClient {
         includePending: options.includePending,
         ...options
       };
-      const currentSetResponse = await this.client.listCertificates(this.vaultUrl, optionsComplete);
+      const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(getPropertiesFromCertificateBundle, this);
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listCertificates(
+      const currentSetResponse = await this.client.getCertificates(
         continuationState.continuationToken,
         options
       );
@@ -400,7 +402,7 @@ export class CertificateClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.listCertificateVersions(
+      const currentSetResponse = await this.client.getCertificateVersions(
         this.vaultUrl,
         certificateName,
         optionsComplete
@@ -411,7 +413,7 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listCertificateVersions(
+      const currentSetResponse = await this.client.getCertificateVersions(
         continuationState.continuationToken,
         certificateName,
         options
@@ -656,7 +658,7 @@ export class CertificateClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.listCertificateIssuers(
+      const currentSetResponse = await this.client.getCertificateIssuers(
         this.vaultUrl,
         requestOptionsComplete
       );
@@ -666,7 +668,7 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listCertificateIssuers(
+      const currentSetResponse = await this.client.getCertificateIssuers(
         continuationState.continuationToken,
         options
       );
@@ -1512,7 +1514,7 @@ export class CertificateClient {
         includePending: options.includePending,
         ...options
       };
-      const currentSetResponse = await this.client.listDeletedCertificates(
+      const currentSetResponse = await this.client.getDeletedCertificates(
         this.vaultUrl,
         requestOptionsComplete
       );
@@ -1522,7 +1524,7 @@ export class CertificateClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listDeletedCertificates(
+      const currentSetResponse = await this.client.getDeletedCertificates(
         continuationState.continuationToken,
         options
       );

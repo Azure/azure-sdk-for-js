@@ -5,6 +5,7 @@
 ```yaml
 typescript:
   package-name: "@azure/keyvault-certificates"
+disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 use-extension:

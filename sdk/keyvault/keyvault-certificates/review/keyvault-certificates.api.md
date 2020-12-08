@@ -12,7 +12,7 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export type ActionType = 'EmailContacts' | 'AutoRenew';
+export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
 export interface AdministratorContact {
@@ -111,7 +111,7 @@ export interface CertificateIssuer extends IssuerProperties {
 }
 
 // @public
-export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type CertificateKeyCurveName = KnownJsonWebKeyCurveName | string;
 
 // @public
 export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
@@ -248,7 +248,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel = string;
 
 // @public
 export interface ErrorModel {
@@ -317,7 +317,7 @@ export interface IssuerProperties {
 }
 
 // @public
-export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
+export type KeyUsageType = string;
 
 // @public
 export interface KeyVaultCertificate {
@@ -345,6 +345,18 @@ export interface KeyVaultCertificatePollOperationState<TResult> extends PollOper
 // @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
+}
+
+// @public
+export const enum KnownJsonWebKeyCurveName {
+    // (undocumented)
+    P256 = "P-256",
+    // (undocumented)
+    P256K = "P-256K",
+    // (undocumented)
+    P384 = "P-384",
+    // (undocumented)
+    P521 = "P-521"
 }
 
 // @public

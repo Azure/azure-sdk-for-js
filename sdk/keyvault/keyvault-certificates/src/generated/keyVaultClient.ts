@@ -7,30 +7,20 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
   ApiVersion72Preview,
-  CertificateItem,
-  KeyVaultClientGetCertificatesNextOptionalParams,
   KeyVaultClientGetCertificatesOptionalParams,
-  CertificateIssuerItem,
-  KeyVaultClientGetCertificateIssuersNextOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetCertificateVersionsNextOptionalParams,
-  KeyVaultClientGetCertificateVersionsOptionalParams,
-  DeletedCertificateItem,
-  KeyVaultClientGetDeletedCertificatesNextOptionalParams,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
   KeyVaultClientGetCertificatesResponse,
   KeyVaultClientDeleteCertificateResponse,
   Contacts,
   KeyVaultClientSetCertificateContactsResponse,
   KeyVaultClientGetCertificateContactsResponse,
   KeyVaultClientDeleteCertificateContactsResponse,
+  KeyVaultClientGetCertificateIssuersOptionalParams,
   KeyVaultClientGetCertificateIssuersResponse,
   KeyVaultClientSetCertificateIssuerOptionalParams,
   KeyVaultClientSetCertificateIssuerResponse,
@@ -42,6 +32,7 @@ import {
   KeyVaultClientCreateCertificateResponse,
   KeyVaultClientImportCertificateOptionalParams,
   KeyVaultClientImportCertificateResponse,
+  KeyVaultClientGetCertificateVersionsOptionalParams,
   KeyVaultClientGetCertificateVersionsResponse,
   KeyVaultClientGetCertificatePolicyResponse,
   CertificatePolicy,
@@ -56,12 +47,17 @@ import {
   KeyVaultClientMergeCertificateResponse,
   KeyVaultClientBackupCertificateResponse,
   KeyVaultClientRestoreCertificateResponse,
+  KeyVaultClientGetDeletedCertificatesOptionalParams,
   KeyVaultClientGetDeletedCertificatesResponse,
   KeyVaultClientGetDeletedCertificateResponse,
   KeyVaultClientRecoverDeletedCertificateResponse,
+  KeyVaultClientGetCertificatesNextOptionalParams,
   KeyVaultClientGetCertificatesNextResponse,
+  KeyVaultClientGetCertificateIssuersNextOptionalParams,
   KeyVaultClientGetCertificateIssuersNextResponse,
+  KeyVaultClientGetCertificateVersionsNextOptionalParams,
   KeyVaultClientGetCertificateVersionsNextResponse,
+  KeyVaultClientGetDeletedCertificatesNextOptionalParams,
   KeyVaultClientGetDeletedCertificatesNextResponse
 } from "./models";
 
@@ -84,243 +80,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  public listCertificates(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificatesOptionalParams
-  ): PagedAsyncIterableIterator<CertificateItem> {
-    const iter = this.getCertificatesPagingAll(vaultBaseUrl, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getCertificatesPagingPage(vaultBaseUrl, options);
-      }
-    };
-  }
-
-  private async *getCertificatesPagingPage(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificatesOptionalParams
-  ): AsyncIterableIterator<CertificateItem[]> {
-    let result = await this._getCertificates(vaultBaseUrl, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getCertificatesNext(
-        vaultBaseUrl,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getCertificatesPagingAll(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificatesOptionalParams
-  ): AsyncIterableIterator<CertificateItem> {
-    for await (const page of this.getCertificatesPagingPage(
-      vaultBaseUrl,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The GetCertificateIssuers operation returns the set of certificate issuer resources in the specified
-   * key vault. This operation requires the certificates/manageissuers/getissuers permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param options The options parameters.
-   */
-  public listCertificateIssuers(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificateIssuersOptionalParams
-  ): PagedAsyncIterableIterator<CertificateIssuerItem> {
-    const iter = this.getCertificateIssuersPagingAll(vaultBaseUrl, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getCertificateIssuersPagingPage(vaultBaseUrl, options);
-      }
-    };
-  }
-
-  private async *getCertificateIssuersPagingPage(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificateIssuersOptionalParams
-  ): AsyncIterableIterator<CertificateIssuerItem[]> {
-    let result = await this._getCertificateIssuers(vaultBaseUrl, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getCertificateIssuersNext(
-        vaultBaseUrl,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getCertificateIssuersPagingAll(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetCertificateIssuersOptionalParams
-  ): AsyncIterableIterator<CertificateIssuerItem> {
-    for await (const page of this.getCertificateIssuersPagingPage(
-      vaultBaseUrl,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The GetCertificateVersions operation returns the versions of a certificate in the specified key
-   * vault. This operation requires the certificates/list permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param certificateName The name of the certificate.
-   * @param options The options parameters.
-   */
-  public listCertificateVersions(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: KeyVaultClientGetCertificateVersionsOptionalParams
-  ): PagedAsyncIterableIterator<CertificateItem> {
-    const iter = this.getCertificateVersionsPagingAll(
-      vaultBaseUrl,
-      certificateName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getCertificateVersionsPagingPage(
-          vaultBaseUrl,
-          certificateName,
-          options
-        );
-      }
-    };
-  }
-
-  private async *getCertificateVersionsPagingPage(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: KeyVaultClientGetCertificateVersionsOptionalParams
-  ): AsyncIterableIterator<CertificateItem[]> {
-    let result = await this._getCertificateVersions(
-      vaultBaseUrl,
-      certificateName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getCertificateVersionsNext(
-        vaultBaseUrl,
-        certificateName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getCertificateVersionsPagingAll(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: KeyVaultClientGetCertificateVersionsOptionalParams
-  ): AsyncIterableIterator<CertificateItem> {
-    for await (const page of this.getCertificateVersionsPagingPage(
-      vaultBaseUrl,
-      certificateName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The GetDeletedCertificates operation retrieves the certificates in the current vault which are in a
-   * deleted state and ready for recovery or purging. This operation includes deletion-specific
-   * information. This operation requires the certificates/get/list permission. This operation can only
-   * be enabled on soft-delete enabled vaults.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param options The options parameters.
-   */
-  public listDeletedCertificates(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
-  ): PagedAsyncIterableIterator<DeletedCertificateItem> {
-    const iter = this.getDeletedCertificatesPagingAll(vaultBaseUrl, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getDeletedCertificatesPagingPage(vaultBaseUrl, options);
-      }
-    };
-  }
-
-  private async *getDeletedCertificatesPagingPage(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
-  ): AsyncIterableIterator<DeletedCertificateItem[]> {
-    let result = await this._getDeletedCertificates(vaultBaseUrl, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getDeletedCertificatesNext(
-        vaultBaseUrl,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getDeletedCertificatesPagingAll(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedCertificatesOptionalParams
-  ): AsyncIterableIterator<DeletedCertificateItem> {
-    for await (const page of this.getDeletedCertificatesPagingPage(
-      vaultBaseUrl,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The GetCertificates operation returns the set of certificates resources in the specified key vault.
-   * This operation requires the certificates/list permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param options The options parameters.
-   */
-  private _getCertificates(
+  getCertificates(
     vaultBaseUrl: string,
     options?: KeyVaultClientGetCertificatesOptionalParams
   ): Promise<KeyVaultClientGetCertificatesResponse> {
@@ -427,7 +187,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  private _getCertificateIssuers(
+  getCertificateIssuers(
     vaultBaseUrl: string,
     options?: KeyVaultClientGetCertificateIssuersOptionalParams
   ): Promise<KeyVaultClientGetCertificateIssuersResponse> {
@@ -595,7 +355,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param certificateName The name of the certificate.
    * @param options The options parameters.
    */
-  private _getCertificateVersions(
+  getCertificateVersions(
     vaultBaseUrl: string,
     certificateName: string,
     options?: KeyVaultClientGetCertificateVersionsOptionalParams
@@ -866,7 +626,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  private _getDeletedCertificates(
+  getDeletedCertificates(
     vaultBaseUrl: string,
     options?: KeyVaultClientGetDeletedCertificatesOptionalParams
   ): Promise<KeyVaultClientGetDeletedCertificatesResponse> {
@@ -959,7 +719,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetCertificates method.
    * @param options The options parameters.
    */
-  private _getCertificatesNext(
+  getCertificatesNext(
     vaultBaseUrl: string,
     nextLink: string,
     options?: KeyVaultClientGetCertificatesNextOptionalParams
@@ -981,7 +741,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetCertificateIssuers method.
    * @param options The options parameters.
    */
-  private _getCertificateIssuersNext(
+  getCertificateIssuersNext(
     vaultBaseUrl: string,
     nextLink: string,
     options?: KeyVaultClientGetCertificateIssuersNextOptionalParams
@@ -1004,7 +764,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetCertificateVersions method.
    * @param options The options parameters.
    */
-  private _getCertificateVersionsNext(
+  getCertificateVersionsNext(
     vaultBaseUrl: string,
     certificateName: string,
     nextLink: string,
@@ -1028,7 +788,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetDeletedCertificates method.
    * @param options The options parameters.
    */
-  private _getDeletedCertificatesNext(
+  getDeletedCertificatesNext(
     vaultBaseUrl: string,
     nextLink: string,
     options?: KeyVaultClientGetDeletedCertificatesNextOptionalParams
