@@ -1,7 +1,9 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.2.1 (2020-12-08)
 
+- Support custom auth scopes [PR 12752](https://github.com/Azure/azure-sdk-for-js/pull/12752)
+- Add helper function `createSpan` to help in the creation of tracing spans in Track2 libraries [PR 12525](https://github.com/Azure/azure-sdk-for-js/pull/12525)
 
 ## 1.2.0 (2020-11-05)
 
