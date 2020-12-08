@@ -23,7 +23,7 @@ import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 export const serializationPolicyName = "serializationPolicy";
 
 /**
- * Options to configure API response deserialization.
+ * Options to configure API request serialization.
  */
 export interface serializationPolicyOptions {
   /**
@@ -38,7 +38,8 @@ export interface serializationPolicyOptions {
 }
 
 /**
- * This policy handles parsing out responses according to OperationSpecs on the request.
+ * This policy handles assembling the request body and headers using
+ * an OperationSpec and OperationArguments on the request.
  */
 export function serializationPolicy(options: serializationPolicyOptions = {}): PipelinePolicy {
   const stringifyXML = options.stringifyXML;
