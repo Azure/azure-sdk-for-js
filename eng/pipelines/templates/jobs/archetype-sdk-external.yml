@@ -78,7 +78,7 @@ jobs:
       steps:
         - template: ../steps/common.yml
 
-        - template: ../steps/test.yml
+        - template: ../steps/test-external.yml
           parameters:
             Artifacts: ${{parameters.Artifacts}}
             ServiceDirectory: ${{parameters.ServiceDirectory}}
