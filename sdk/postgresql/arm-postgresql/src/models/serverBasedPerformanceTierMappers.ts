@@ -9,6 +9,8 @@
 export {
   discriminators,
   CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   PerformanceTierListResult,
   PerformanceTierProperties,
   PerformanceTierServiceLevelObjectives
