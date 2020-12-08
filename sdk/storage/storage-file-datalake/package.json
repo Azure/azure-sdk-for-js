@@ -111,6 +111,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
+    "@azure/test-utils-perfstress": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@opentelemetry/api": "^0.10.2",
     "@rollup/plugin-commonjs": "11.0.2",
