@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/replicasMappers";
+import * as Mappers from "../models/serverBasedPerformanceTierMappers";
 import * as Parameters from "../models/parameters";
 import { MariaDBManagementClientContext } from "../mariaDBManagementClientContext";
 
-/** Class representing a Replicas. */
-export class Replicas {
+/** Class representing a ServerBasedPerformanceTier. */
+export class ServerBasedPerformanceTier {
   private readonly client: MariaDBManagementClientContext;
 
   /**
-   * Create a Replicas.
+   * Create a ServerBasedPerformanceTier.
    * @param {MariaDBManagementClientContext} client Reference to the service client.
    */
   constructor(client: MariaDBManagementClientContext) {
@@ -26,43 +26,43 @@ export class Replicas {
   }
 
   /**
-   * List all the replicas for a given server.
+   * List all the performance tiers for a MariaDB server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ReplicasListByServerResponse>
+   * @returns Promise<Models.ServerBasedPerformanceTierListResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicasListByServerResponse>;
+  list(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerBasedPerformanceTierListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
+  list(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.PerformanceTierListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ReplicasListByServerResponse> {
+  list(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PerformanceTierListResult>): void;
+  list(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PerformanceTierListResult>, callback?: msRest.ServiceCallback<Models.PerformanceTierListResult>): Promise<Models.ServerBasedPerformanceTierListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serverName,
         options
       },
-      listByServerOperationSpec,
-      callback) as Promise<Models.ReplicasListByServerResponse>;
+      listOperationSpec,
+      callback) as Promise<Models.ServerBasedPerformanceTierListResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByServerOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}/replicas",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}/performanceTiers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -76,7 +76,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ServerListResult
+      bodyMapper: Mappers.PerformanceTierListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

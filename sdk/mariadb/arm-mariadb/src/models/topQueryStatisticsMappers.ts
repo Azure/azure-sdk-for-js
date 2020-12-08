@@ -34,6 +34,8 @@ export {
   ServerSecurityAlertPolicy,
   Sku,
   StorageProfile,
+  TopQueryStatisticsInput,
+  TopQueryStatisticsResultList,
   TrackedResource,
   VirtualNetworkRule,
   WaitStatistic

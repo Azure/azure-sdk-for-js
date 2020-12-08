@@ -9,6 +9,7 @@
 export {
   discriminators,
   Advisor,
+  AdvisorsResultList,
   AzureEntityResource,
   BaseResource,
   CloudError,
