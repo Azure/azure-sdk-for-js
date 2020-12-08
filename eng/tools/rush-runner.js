@@ -105,7 +105,7 @@ const getLeafPackages = (packageGraph, packageNames) => {
 };
 
 const getPackagesToBuild = (packageNames, packageGraph) => {
-  // Find all packages that takes current pacakge as dependency recursively and add leaf packages into list to build
+  // Find all packages that takes current package as dependency recursively and add leaf packages into list to build
   // This will ensure all transitive dependencies are built
   // A -> D, C -> D. When A is built, it will build D and C also just by adding --to D
   for (const dependentPackage of getLeafPackages(packageGraph, packageNames)) {
@@ -182,7 +182,7 @@ if (serviceDirs.length === 0) {
     case "test":
     case "unit-test":
     case "integration-test":
-      rushRunAll("--from", pacakgeNames);
+      rushRunAll("--from", packageNames);
       break;
 
     case "lint":
