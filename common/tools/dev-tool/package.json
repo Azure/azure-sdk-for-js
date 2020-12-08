@@ -20,7 +20,8 @@
     "lint": "eslint src test --ext .ts -f html -o template-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "unit-test": "mocha --require ts-node/register test/**/*.spec.ts"
+    "unit-test": "mocha --require ts-node/register test/**/*.spec.ts",
+    "build:samples": "echo Skipped."
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "author": "Microsoft Corporation",
