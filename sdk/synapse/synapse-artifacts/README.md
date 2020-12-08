@@ -30,9 +30,10 @@ export async function main(): Promise<void> {
   let list = await client.pipeline.listPipelinesByWorkspace();
   for await (let item of list) {
     console.log("item:", item);
-  } 
+  }
 }
 ```
+
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

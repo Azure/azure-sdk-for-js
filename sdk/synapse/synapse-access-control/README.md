@@ -26,11 +26,14 @@ import { DefaultAzureCredential } from "@azure/identity";
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
-  let client = new AccessControlClient(credential, "https://joturnersynapsetest.dev.azuresynapse.net");
+  let client = new AccessControlClient(
+    credential,
+    "https://joturnersynapsetest.dev.azuresynapse.net"
+  );
   let list = await client.listRoleDefinitions();
   for await (let item of list) {
     console.log("item:", item);
-  } 
+  }
 }
 ```
 

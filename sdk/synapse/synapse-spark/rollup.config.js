@@ -26,7 +26,9 @@ const config = {
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */ `
   },
-  plugins: [nodeResolve({ module: true }), sourcemaps(),
+  plugins: [
+    nodeResolve({ module: true }),
+    sourcemaps(),
     cjs({
       namedExports: {
         assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],

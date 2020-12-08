@@ -31,6 +31,7 @@ export async function main(): Promise<void> {
   console.log("output:", output);
 }
 ```
+
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

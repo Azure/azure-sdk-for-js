@@ -24,9 +24,7 @@ export class BigDataPools {
    * List Big Data Pools
    * @param options The options parameters.
    */
-  async list(
-    options?: coreHttp.OperationOptions
-  ): Promise<BigDataPoolsListResponse> {
+  async list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-list",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -35,10 +33,7 @@ export class BigDataPools {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as BigDataPoolsListResponse;
     } catch (error) {
       span.setStatus({
@@ -69,10 +64,7 @@ export class BigDataPools {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as BigDataPoolsGetResponse;
     } catch (error) {
       span.setStatus({

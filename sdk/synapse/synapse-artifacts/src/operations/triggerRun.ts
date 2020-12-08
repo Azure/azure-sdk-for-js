@@ -4,10 +4,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import {
-  RunFilterParameters,
-  TriggerRunQueryTriggerRunsByWorkspaceResponse
-} from "../models";
+import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
 
 /**
  * Class representing a TriggerRun.
@@ -145,11 +142,7 @@ const rerunTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId,
-    Parameters.triggerName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -163,11 +156,7 @@ const cancelTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId,
-    Parameters.triggerName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
 };
