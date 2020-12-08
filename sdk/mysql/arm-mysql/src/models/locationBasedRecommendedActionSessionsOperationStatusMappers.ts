@@ -9,7 +9,5 @@
 export {
   discriminators,
   CloudError,
-  PerformanceTierListResult,
-  PerformanceTierProperties,
-  PerformanceTierServiceLevelObjectives
+  RecommendedActionSessionsOperationStatus
 } from "../models/mappers";

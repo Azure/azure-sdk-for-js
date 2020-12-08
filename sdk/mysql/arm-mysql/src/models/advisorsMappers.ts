@@ -9,11 +9,11 @@
 export {
   discriminators,
   Advisor,
+  AdvisorsResultList,
   AzureEntityResource,
   BaseResource,
   CloudError,
   Configuration,
-  ConfigurationListResult,
   Database,
   FirewallRule,
   LogFile,

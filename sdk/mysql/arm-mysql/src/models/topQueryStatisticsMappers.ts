@@ -13,7 +13,6 @@ export {
   BaseResource,
   CloudError,
   Configuration,
-  ConfigurationListResult,
   Database,
   FirewallRule,
   LogFile,
@@ -38,6 +37,8 @@ export {
   ServerSecurityAlertPolicy,
   Sku,
   StorageProfile,
+  TopQueryStatisticsInput,
+  TopQueryStatisticsResultList,
   TrackedResource,
   VirtualNetworkRule,
   WaitStatistic

@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/replicasMappers";
+import * as Mappers from "../models/recoverableServersMappers";
 import * as Parameters from "../models/parameters";
 import { MySQLManagementClientContext } from "../mySQLManagementClientContext";
 
-/** Class representing a Replicas. */
-export class Replicas {
+/** Class representing a RecoverableServers. */
+export class RecoverableServers {
   private readonly client: MySQLManagementClientContext;
 
   /**
-   * Create a Replicas.
+   * Create a RecoverableServers.
    * @param {MySQLManagementClientContext} client Reference to the service client.
    */
   constructor(client: MySQLManagementClientContext) {
@@ -26,43 +26,43 @@ export class Replicas {
   }
 
   /**
-   * List all the replicas for a given server.
+   * Gets a recoverable MySQL Server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ReplicasListByServerResponse>
+   * @returns Promise<Models.RecoverableServersGetResponse>
    */
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ReplicasListByServerResponse>;
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.RecoverableServersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
+  get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.RecoverableServerResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
-  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ServerListResult>, callback?: msRest.ServiceCallback<Models.ServerListResult>): Promise<Models.ReplicasListByServerResponse> {
+  get(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableServerResource>): void;
+  get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableServerResource>, callback?: msRest.ServiceCallback<Models.RecoverableServerResource>): Promise<Models.RecoverableServersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serverName,
         options
       },
-      listByServerOperationSpec,
-      callback) as Promise<Models.ReplicasListByServerResponse>;
+      getOperationSpec,
+      callback) as Promise<Models.RecoverableServersGetResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByServerOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySQL/servers/{serverName}/replicas",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySQL/servers/{serverName}/recoverableServers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -76,7 +76,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ServerListResult
+      bodyMapper: Mappers.RecoverableServerResource
     },
     default: {
       bodyMapper: Mappers.CloudError

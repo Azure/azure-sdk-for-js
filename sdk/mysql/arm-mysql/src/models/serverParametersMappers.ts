@@ -15,6 +15,8 @@ export {
   Configuration,
   ConfigurationListResult,
   Database,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   FirewallRule,
   LogFile,
   PrivateEndpointConnection,
