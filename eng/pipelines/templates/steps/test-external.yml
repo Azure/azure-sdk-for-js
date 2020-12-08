@@ -1,0 +1,57 @@
+parameters:
+  Artifacts: []
+  ServiceDirectory: not-specified
+
+steps:
+  - task: Npm@1
+    inputs:
+      command: 'install'
+    displayName: "Install dependencies"
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
+    displayName: "Build project"
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'run build:test'
+    displayName: "Build test assets"
+
+  - template: ../steps/use-node-test-version.yml
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'run test:node'
+    displayName: "Test libraries"
+    condition: and(succeeded(),eq(variables['TestType'], 'node'))
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'run test:browser'
+    displayName: "Test libraries"
+    condition: and(succeeded(),eq(variables['TestType'], 'browser'))
+
+  # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+  # PublishTestResults.searchFolder only supports absolute paths, not relative.
+  - task: PublishTestResults@2
+    inputs:
+      searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
+      testResultsFiles: "test-results.xml"
+      testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeTestVersion)]"
+    condition: and(always(),eq(variables['TestType'], 'node'))
+    displayName: "Publish NodeJS unit test results"
+
+  # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+  # PublishTestResults.searchFolder only supports absolute paths, not relative.
+  - task: PublishTestResults@2
+    inputs:
+      searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
+      testResultsFiles: "**/test-results.browser.xml"
+      testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeTestVersion)]"
+    condition: and(always(),eq(variables['TestType'], 'browser'))
+    displayName: "Publish browser unit test results"
