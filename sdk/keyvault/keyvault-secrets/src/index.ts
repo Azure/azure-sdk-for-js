@@ -20,12 +20,14 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams,
-  SetSecretResponse,
-  UpdateSecretResponse,
-  GetSecretResponse,
-  GetDeletedSecretResponse,
-  BackupSecretResponse,
-  RestoreSecretResponse
+  KeyVaultClientSetSecretResponse,
+  KeyVaultClientUpdateSecretResponse,
+  KeyVaultClientGetSecretResponse,
+  KeyVaultClientGetDeletedSecretResponse,
+  KeyVaultClientBackupSecretResponse,
+  KeyVaultClientRestoreSecretResponse,
+  SecretBundle,
+  DeletedSecretBundle
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -204,7 +206,7 @@ export class SecretClient {
 
       const span = createSpan("setSecret", unflattenedOptions);
 
-      let response: SetSecretResponse;
+      let response: KeyVaultClientSetSecretResponse;
       try {
         response = await this.client.setSecret(
           this.vaultUrl,
@@ -309,7 +311,7 @@ export class SecretClient {
 
       const span = createSpan("updateSecretProperties", unflattenedOptions);
 
-      let response: UpdateSecretResponse;
+      let response: KeyVaultClientUpdateSecretResponse;
 
       try {
         response = await this.client.updateSecret(
@@ -354,7 +356,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getSecret", requestOptions);
 
-    let response: GetSecretResponse;
+    let response: KeyVaultClientGetSecretResponse;
     try {
       response = await this.client.getSecret(
         this.vaultUrl,
@@ -389,7 +391,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getDeletedSecret", requestOptions);
 
-    let response: GetDeletedSecretResponse;
+    let response: KeyVaultClientGetDeletedSecretResponse;
 
     try {
       response = await this.client.getDeletedSecret(
@@ -507,7 +509,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("backupSecret", requestOptions);
 
-    let response: BackupSecretResponse;
+    let response: KeyVaultClientBackupSecretResponse;
 
     try {
       response = await this.client.backupSecret(
@@ -534,7 +536,7 @@ export class SecretClient {
    * ```
    * @summary Restores a backed up secret to a vault.
    * @param {Uint8Array} secretBundleBackup The backup blob associated with a secret bundle.
-   * @param {RestoreSecretResponse} [options] The optional parameters.
+   * @param {KeyVaultClientRestoreSecretResponse} [options] The optional parameters.
    */
   public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
@@ -543,7 +545,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("restoreSecretBackup", requestOptions);
 
-    let response: RestoreSecretResponse;
+    let response: KeyVaultClientRestoreSecretResponse;
 
     try {
       response = await this.client.restoreSecret(
@@ -576,7 +578,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getSecretVersions(
+      const currentSetResponse = await this.client.listSecretVersions(
         this.vaultUrl,
         secretName,
         optionsComplete
@@ -584,12 +586,12 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
         );
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getSecretVersions(
+      const currentSetResponse = await this.client.listSecretVersions(
         continuationState.continuationToken,
         secretName,
         options
@@ -597,7 +599,7 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
         );
       } else {
         break;
@@ -682,23 +684,23 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getSecrets(this.vaultUrl, optionsComplete);
+      const currentSetResponse = await this.client.listSecrets(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
         );
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getSecrets(
+      const currentSetResponse = await this.client.listSecrets(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
         );
       } else {
         break;
@@ -780,23 +782,23 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getDeletedSecrets(
+      const currentSetResponse = await this.client.listDeletedSecrets(
         this.vaultUrl,
         optionsComplete
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle) => getSecretFromSecretBundle(bundle));
+        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle));
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedSecrets(
+      const currentSetResponse = await this.client.listDeletedSecrets(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle) => getSecretFromSecretBundle(bundle));
+        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle));
       } else {
         break;
       }
