@@ -7,7 +7,7 @@ This package contains an isomorphic SDK for SparkClient.
 ### Install the package
 
 ```bash
-npm install @azure/synapse-accesscontrol
+npm install @azure/synapse-access-control
 ```
 
 ### Currently supported environments
@@ -19,7 +19,20 @@ npm install @azure/synapse-accesscontrol
 
 ## Examples
 
-In the future, we will share samples here.
+```ts
+import { AccessControlClient } from "@azure/synapse-access-control";
+import { DefaultAzureCredential } from "@azure/identity";
+
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+
+  let client = new AccessControlClient(credential, "https://joturnersynapsetest.dev.azuresynapse.net");
+  let list = await client.listRoleDefinitions();
+  for await (let item of list) {
+    console.log("item:", item);
+  } 
+}
+```
 
 ## Related projects
 

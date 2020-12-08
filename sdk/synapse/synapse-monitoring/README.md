@@ -19,8 +19,18 @@ npm install @azure/synapse-monitoring
 
 ## Examples
 
-In the future, we will share samples here.
+```ts
+import { MonitoringClient } from "@azure/synapse-monitoring";
+import { DefaultAzureCredential } from "@azure/identity";
 
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+
+  let client = new MonitoringClient(credential, "https://mysynapse.dev.azuresynapse.net");
+  let output = await client.monitoring.getSparkJobList();
+  console.log("output:", output);
+}
+```
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)

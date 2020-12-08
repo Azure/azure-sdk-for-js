@@ -465,7 +465,8 @@ export type SparkStatementLanguageType = string;
 /**
  * Optional parameters.
  */
-export interface SparkBatchGetSparkBatchJobsOptionalParams extends coreHttp.OperationOptions {
+export interface SparkBatchGetSparkBatchJobsOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Optional param specifying which index the list should begin from.
    */
@@ -504,7 +505,8 @@ export type SparkBatchGetSparkBatchJobsResponse = SparkBatchJobCollection & {
 /**
  * Optional parameters.
  */
-export interface SparkBatchCreateSparkBatchJobOptionalParams extends coreHttp.OperationOptions {
+export interface SparkBatchCreateSparkBatchJobOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Optional query param specifying whether detailed response is returned beyond plain livy.
    */
@@ -534,7 +536,8 @@ export type SparkBatchCreateSparkBatchJobResponse = SparkBatchJob & {
 /**
  * Optional parameters.
  */
-export interface SparkBatchGetSparkBatchJobOptionalParams extends coreHttp.OperationOptions {
+export interface SparkBatchGetSparkBatchJobOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Optional query param specifying whether detailed response is returned beyond plain livy.
    */
@@ -564,7 +567,8 @@ export type SparkBatchGetSparkBatchJobResponse = SparkBatchJob & {
 /**
  * Optional parameters.
  */
-export interface SparkSessionGetSparkSessionsOptionalParams extends coreHttp.OperationOptions {
+export interface SparkSessionGetSparkSessionsOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Optional param specifying which index the list should begin from.
    */
@@ -603,7 +607,8 @@ export type SparkSessionGetSparkSessionsResponse = SparkSessionCollection & {
 /**
  * Optional parameters.
  */
-export interface SparkSessionCreateSparkSessionOptionalParams extends coreHttp.OperationOptions {
+export interface SparkSessionCreateSparkSessionOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Optional query param specifying whether detailed response is returned beyond plain livy.
    */
@@ -633,7 +638,8 @@ export type SparkSessionCreateSparkSessionResponse = SparkSession & {
 /**
  * Optional parameters.
  */
-export interface SparkSessionGetSparkSessionOptionalParams extends coreHttp.OperationOptions {
+export interface SparkSessionGetSparkSessionOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Optional query param specifying whether detailed response is returned beyond plain livy.
    */
@@ -743,7 +749,8 @@ export type SparkSessionCancelSparkStatementResponse = SparkStatementCancellatio
 /**
  * Optional parameters.
  */
-export interface SparkClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface SparkClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /**
    * Valid api-version for the request.
    */

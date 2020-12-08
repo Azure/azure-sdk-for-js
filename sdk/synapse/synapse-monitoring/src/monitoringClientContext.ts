@@ -37,6 +37,10 @@ export class MonitoringClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://dev.azuresynapse.net/.default"];
+    }
+
     super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";

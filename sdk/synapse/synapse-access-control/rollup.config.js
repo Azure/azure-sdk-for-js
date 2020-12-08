@@ -9,9 +9,9 @@ const config = {
   input: "./esm/accessControlClient.js",
   external: ["@azure/core-http", "@azure/core-arm"],
   output: {
-    file: "./dist/synapse-accesscontrol.js",
+    file: "./dist/synapse-access-control.js",
     format: "umd",
-    name: "Azure.SynapseAccesscontrol",
+    name: "Azure.SynapseAccessControl",
     sourcemap: true,
     globals: {
       "@azure/core-http": "coreHttp",

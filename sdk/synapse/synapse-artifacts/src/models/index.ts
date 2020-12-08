@@ -2,6 +2,7 @@ import * as coreHttp from "@azure/core-http";
 import { LROSYM, LROResponseInfo } from "../lro/models";
 
 export type LinkedServiceUnion =
+  | LinkedService
   | AzureStorageLinkedService
   | AzureBlobStorageLinkedService
   | AzureTableStorageLinkedService
@@ -97,6 +98,7 @@ export type LinkedServiceUnion =
   | AzureDataExplorerLinkedService
   | AzureFunctionLinkedService;
 export type DatasetUnion =
+  | Dataset
   | AvroDataset
   | ParquetDataset
   | DelimitedTextDataset
@@ -179,6 +181,7 @@ export type DatasetUnion =
   | AzureDataExplorerTableDataset
   | GoogleAdWordsObjectDataset;
 export type ActivityUnion =
+  | Activity
   | ControlActivity
   | ExecutionActivityUnion
   | ExecutePipelineActivity
@@ -194,14 +197,22 @@ export type ActivityUnion =
   | WebHookActivity
   | SqlPoolStoredProcedureActivity;
 export type TriggerUnion =
+  | Trigger
   | RerunTumblingWindowTrigger
   | MultiplePipelineTriggerUnion
   | TumblingWindowTrigger
   | ChainingTrigger;
-export type DataFlowUnion = MappingDataFlow;
-export type IntegrationRuntimeUnion = ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
-export type SecretBaseUnion = SecureString | AzureKeyVaultSecretReference;
+export type DataFlowUnion = DataFlow | MappingDataFlow;
+export type IntegrationRuntimeUnion =
+  | IntegrationRuntime
+  | ManagedIntegrationRuntime
+  | SelfHostedIntegrationRuntime;
+export type SecretBaseUnion =
+  | SecretBase
+  | SecureString
+  | AzureKeyVaultSecretReference;
 export type DatasetLocationUnion =
+  | DatasetLocation
   | AzureBlobStorageLocation
   | AzureBlobFSLocation
   | AzureDataLakeStoreLocation
@@ -214,21 +225,25 @@ export type DatasetLocationUnion =
   | HttpServerLocation
   | HdfsLocation;
 export type DatasetStorageFormatUnion =
+  | DatasetStorageFormat
   | TextFormat
   | JsonFormat
   | AvroFormat
   | OrcFormat
   | ParquetFormat;
 export type DatasetCompressionUnion =
+  | DatasetCompression
   | DatasetBZip2Compression
   | DatasetGZipCompression
   | DatasetDeflateCompression
   | DatasetZipDeflateCompression;
 export type WebLinkedServiceTypePropertiesUnion =
+  | WebLinkedServiceTypeProperties
   | WebAnonymousAuthentication
   | WebBasicAuthentication
   | WebClientCertificateAuthentication;
 export type StoreReadSettingsUnion =
+  | StoreReadSettings
   | AzureBlobStorageReadSettings
   | AzureBlobFSReadSettings
   | AzureDataLakeStoreReadSettings
@@ -241,17 +256,22 @@ export type StoreReadSettingsUnion =
   | HttpReadSettings
   | HdfsReadSettings;
 export type StoreWriteSettingsUnion =
+  | StoreWriteSettings
   | SftpWriteSettings
   | AzureBlobStorageWriteSettings
   | AzureBlobFSWriteSettings
   | AzureDataLakeStoreWriteSettings
   | FileServerWriteSettings;
-export type FormatReadSettingsUnion = DelimitedTextReadSettings;
+export type FormatReadSettingsUnion =
+  | FormatReadSettings
+  | DelimitedTextReadSettings;
 export type FormatWriteSettingsUnion =
+  | FormatWriteSettings
   | AvroWriteSettings
   | DelimitedTextWriteSettings
   | JsonWriteSettings;
 export type CopySourceUnion =
+  | CopySource
   | AvroSource
   | ParquetSource
   | DelimitedTextSource
@@ -283,6 +303,7 @@ export type CopySourceUnion =
   | AzureBlobFSSource
   | HttpSource;
 export type CopySinkUnion =
+  | CopySink
   | DelimitedTextSink
   | JsonSink
   | OrcSink
@@ -317,14 +338,17 @@ export type CopySinkUnion =
   | SalesforceSink
   | SalesforceServiceCloudSink
   | CosmosDbMongoDbApiSink;
-export type CopyTranslatorUnion = TabularTranslator;
+export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
 export type DependencyReferenceUnion =
+  | DependencyReference
   | TriggerDependencyReferenceUnion
   | SelfDependencyTumblingWindowTriggerReference;
 export type LinkedIntegrationRuntimeTypeUnion =
+  | LinkedIntegrationRuntimeType
   | LinkedIntegrationRuntimeKeyAuthorization
   | LinkedIntegrationRuntimeRbacAuthorization;
 export type ExecutionActivityUnion =
+  | ExecutionActivity
   | CopyActivity
   | HDInsightHiveActivity
   | HDInsightPigActivity
@@ -350,8 +374,13 @@ export type ExecutionActivityUnion =
   | ExecuteDataFlowActivity
   | SynapseNotebookActivity
   | SynapseSparkJobDefinitionActivity;
-export type MultiplePipelineTriggerUnion = ScheduleTrigger | BlobTrigger | BlobEventsTrigger;
+export type MultiplePipelineTriggerUnion =
+  | MultiplePipelineTrigger
+  | ScheduleTrigger
+  | BlobTrigger
+  | BlobEventsTrigger;
 export type TabularSourceUnion =
+  | TabularSource
   | AzureTableSource
   | InformixSource
   | Db2Source
@@ -409,7 +438,9 @@ export type TabularSourceUnion =
   | OracleServiceCloudSource
   | GoogleAdWordsSource
   | AmazonRedshiftSource;
-export type TriggerDependencyReferenceUnion = TumblingWindowTriggerDependencyReference;
+export type TriggerDependencyReferenceUnion =
+  | TriggerDependencyReference
+  | TumblingWindowTriggerDependencyReference;
 
 /**
  * A list of linked service resources.
@@ -3129,7 +3160,12 @@ export interface DatasetStorageFormat {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
+  type:
+    | "TextFormat"
+    | "JsonFormat"
+    | "AvroFormat"
+    | "OrcFormat"
+    | "ParquetFormat";
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -3319,7 +3355,10 @@ export interface FormatWriteSettings {
   /**
    * Polymorphic discriminator, which specifies the different types this object can be
    */
-  type: "AvroWriteSettings" | "DelimitedTextWriteSettings" | "JsonWriteSettings";
+  type:
+    | "AvroWriteSettings"
+    | "DelimitedTextWriteSettings"
+    | "JsonWriteSettings";
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -4317,9 +4356,9 @@ export interface EntityReference {
  */
 export interface CustomSetupBase {
   /**
-   * The type of custom setup.
+   * Polymorphic discriminator, which specifies the different types this object can be
    */
-  type: string;
+  type: "undefined";
 }
 
 /**
@@ -4336,6 +4375,10 @@ export interface LinkedIntegrationRuntimeType {
  * The storage account linked service.
  */
 export type AzureStorageLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureStorage";
   /**
    * The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4362,6 +4405,10 @@ export type AzureStorageLinkedService = LinkedService & {
  * The azure blob storage linked service.
  */
 export type AzureBlobStorageLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobStorage";
   /**
    * The connection string. It is mutually exclusive with sasUri, serviceEndpoint property. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4405,6 +4452,10 @@ export type AzureBlobStorageLinkedService = LinkedService & {
  */
 export type AzureTableStorageLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureTableStorage";
+  /**
    * The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -4430,6 +4481,10 @@ export type AzureTableStorageLinkedService = LinkedService & {
  * Azure SQL Data Warehouse linked service.
  */
 export type AzureSqlDWLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlDW";
   /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4461,6 +4516,10 @@ export type AzureSqlDWLinkedService = LinkedService & {
  */
 export type SqlServerLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlServer";
+  /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -4482,6 +4541,10 @@ export type SqlServerLinkedService = LinkedService & {
  * Microsoft Azure SQL Database linked service.
  */
 export type AzureSqlDatabaseLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlDatabase";
   /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4513,6 +4576,10 @@ export type AzureSqlDatabaseLinkedService = LinkedService & {
  */
 export type AzureSqlMILinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlMI";
+  /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -4542,6 +4609,10 @@ export type AzureSqlMILinkedService = LinkedService & {
  * Azure Batch linked service.
  */
 export type AzureBatchLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBatch";
   /**
    * The Azure Batch account name. Type: string (or Expression with resultType string).
    */
@@ -4573,6 +4644,10 @@ export type AzureBatchLinkedService = LinkedService & {
  */
 export type AzureKeyVaultLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureKeyVault";
+  /**
    * The base URL of the Azure Key Vault. e.g. https://myakv.vault.azure.net Type: string (or Expression with resultType string).
    */
   baseUrl: any;
@@ -4582,6 +4657,10 @@ export type AzureKeyVaultLinkedService = LinkedService & {
  * Microsoft Azure Cosmos Database (CosmosDB) linked service.
  */
 export type CosmosDbLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDb";
   /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4608,6 +4687,10 @@ export type CosmosDbLinkedService = LinkedService & {
  * Dynamics linked service.
  */
 export type DynamicsLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Dynamics";
   /**
    * The deployment type of the Dynamics instance. 'Online' for Dynamics Online and 'OnPremisesWithIfd' for Dynamics on-premises with Ifd. Type: string (or Expression with resultType string).
    */
@@ -4663,6 +4746,10 @@ export type DynamicsLinkedService = LinkedService & {
  */
 export type DynamicsCrmLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsCrm";
+  /**
    * The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with resultType string).
    */
   deploymentType: DynamicsDeploymentType;
@@ -4716,6 +4803,10 @@ export type DynamicsCrmLinkedService = LinkedService & {
  * Common Data Service for Apps linked service.
  */
 export type CommonDataServiceForAppsLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CommonDataServiceForApps";
   /**
    * The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises with Ifd. Type: string (or Expression with resultType string).
    */
@@ -4771,6 +4862,10 @@ export type CommonDataServiceForAppsLinkedService = LinkedService & {
  */
 export type HDInsightLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsight";
+  /**
    * HDInsight cluster URI. Type: string (or Expression with resultType string).
    */
   clusterUri: any;
@@ -4809,6 +4904,10 @@ export type HDInsightLinkedService = LinkedService & {
  */
 export type FileServerLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FileServer";
+  /**
    * Host name of the server. Type: string (or Expression with resultType string).
    */
   host: any;
@@ -4830,6 +4929,10 @@ export type FileServerLinkedService = LinkedService & {
  * Azure File Storage linked service.
  */
 export type AzureFileStorageLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureFileStorage";
   /**
    * Host name of the server. Type: string (or Expression with resultType string).
    */
@@ -4853,6 +4956,10 @@ export type AzureFileStorageLinkedService = LinkedService & {
  */
 export type GoogleCloudStorageLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleCloudStorage";
+  /**
    * The access key identifier of the Google Cloud Storage Identity and Access Management (IAM) user. Type: string (or Expression with resultType string).
    */
   accessKeyId?: any;
@@ -4875,6 +4982,10 @@ export type GoogleCloudStorageLinkedService = LinkedService & {
  */
 export type OracleLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Oracle";
+  /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -4892,6 +5003,10 @@ export type OracleLinkedService = LinkedService & {
  * Azure MySQL database linked service.
  */
 export type AzureMySqlLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMySql";
   /**
    * The connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -4911,6 +5026,10 @@ export type AzureMySqlLinkedService = LinkedService & {
  */
 export type MySqlLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MySql";
+  /**
    * The connection string.
    */
   connectionString: any;
@@ -4929,6 +5048,10 @@ export type MySqlLinkedService = LinkedService & {
  */
 export type PostgreSqlLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PostgreSql";
+  /**
    * The connection string.
    */
   connectionString: any;
@@ -4946,6 +5069,10 @@ export type PostgreSqlLinkedService = LinkedService & {
  * Linked service for Sybase data source.
  */
 export type SybaseLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Sybase";
   /**
    * Server name for connection. Type: string (or Expression with resultType string).
    */
@@ -4980,6 +5107,10 @@ export type SybaseLinkedService = LinkedService & {
  * Linked service for DB2 data source.
  */
 export type Db2LinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Db2";
   /**
    * Server name for connection. Type: string (or Expression with resultType string).
    */
@@ -5019,6 +5150,10 @@ export type Db2LinkedService = LinkedService & {
  */
 export type TeradataLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Teradata";
+  /**
    * Teradata ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -5048,6 +5183,10 @@ export type TeradataLinkedService = LinkedService & {
  * Azure ML Studio Web Service linked service.
  */
 export type AzureMLLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureML";
   /**
    * The Batch Execution REST URL for an Azure ML Studio Web Service endpoint. Type: string (or Expression with resultType string).
    */
@@ -5083,6 +5222,10 @@ export type AzureMLLinkedService = LinkedService & {
  */
 export type AzureMLServiceLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMLService";
+  /**
    * Azure ML Service workspace subscription ID. Type: string (or Expression with resultType string).
    */
   subscriptionId: any;
@@ -5117,6 +5260,10 @@ export type AzureMLServiceLinkedService = LinkedService & {
  */
 export type OdbcLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Odbc";
+  /**
    * The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -5146,6 +5293,10 @@ export type OdbcLinkedService = LinkedService & {
  * Informix linked service.
  */
 export type InformixLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Informix";
   /**
    * The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
@@ -5177,6 +5328,10 @@ export type InformixLinkedService = LinkedService & {
  */
 export type MicrosoftAccessLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MicrosoftAccess";
+  /**
    * The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -5207,6 +5362,10 @@ export type MicrosoftAccessLinkedService = LinkedService & {
  */
 export type HdfsLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Hdfs";
+  /**
    * The URL of the HDFS service endpoint, e.g. http://myhostname:50070/webhdfs/v1 . Type: string (or Expression with resultType string).
    */
   url: any;
@@ -5232,6 +5391,10 @@ export type HdfsLinkedService = LinkedService & {
  * Open Data Protocol (OData) linked service.
  */
 export type ODataLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OData";
   /**
    * The URL of the OData service endpoint. Type: string (or Expression with resultType string).
    */
@@ -5287,6 +5450,10 @@ export type ODataLinkedService = LinkedService & {
  */
 export type WebLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Web";
+  /**
    * Web linked service properties.
    */
   typeProperties: WebLinkedServiceTypePropertiesUnion;
@@ -5296,6 +5463,10 @@ export type WebLinkedService = LinkedService & {
  * Linked service for Cassandra data source.
  */
 export type CassandraLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Cassandra";
   /**
    * Host name for connection. Type: string (or Expression with resultType string).
    */
@@ -5326,6 +5497,10 @@ export type CassandraLinkedService = LinkedService & {
  * Linked service for MongoDb data source.
  */
 export type MongoDbLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MongoDb";
   /**
    * The IP address or server name of the MongoDB server. Type: string (or Expression with resultType string).
    */
@@ -5373,6 +5548,10 @@ export type MongoDbLinkedService = LinkedService & {
  */
 export type MongoDbV2LinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MongoDbV2";
+  /**
    * The MongoDB connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -5387,6 +5566,10 @@ export type MongoDbV2LinkedService = LinkedService & {
  */
 export type CosmosDbMongoDbApiLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbMongoDbApi";
+  /**
    * The CosmosDB (MongoDB API) connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString: any;
@@ -5400,6 +5583,10 @@ export type CosmosDbMongoDbApiLinkedService = LinkedService & {
  * Azure Data Lake Store linked service.
  */
 export type AzureDataLakeStoreLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeStore";
   /**
    * Data Lake Store service URI. Type: string (or Expression with resultType string).
    */
@@ -5439,6 +5626,10 @@ export type AzureDataLakeStoreLinkedService = LinkedService & {
  */
 export type AzureBlobFSLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobFS";
+  /**
    * Endpoint for the Azure Data Lake Storage Gen2 service. Type: string (or Expression with resultType string).
    */
   url: any;
@@ -5469,6 +5660,10 @@ export type AzureBlobFSLinkedService = LinkedService & {
  */
 export type Office365LinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Office365";
+  /**
    * Azure tenant ID to which the Office 365 account belongs. Type: string (or Expression with resultType string).
    */
   office365TenantId: any;
@@ -5495,6 +5690,10 @@ export type Office365LinkedService = LinkedService & {
  */
 export type SalesforceLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Salesforce";
+  /**
    * The URL of Salesforce instance. Default is 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string).
    */
   environmentUrl?: any;
@@ -5520,6 +5719,10 @@ export type SalesforceLinkedService = LinkedService & {
  * Linked service for Salesforce Service Cloud.
  */
 export type SalesforceServiceCloudLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceServiceCloud";
   /**
    * The URL of Salesforce Service Cloud instance. Default is 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string).
    */
@@ -5551,6 +5754,10 @@ export type SalesforceServiceCloudLinkedService = LinkedService & {
  */
 export type SapCloudForCustomerLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapCloudForCustomer";
+  /**
    * The URL of SAP Cloud for Customer OData API. For example, '[https://[tenantname].crm.ondemand.com/sap/c4c/odata/v1]'. Type: string (or Expression with resultType string).
    */
   url: any;
@@ -5573,6 +5780,10 @@ export type SapCloudForCustomerLinkedService = LinkedService & {
  */
 export type SapEccLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapEcc";
+  /**
    * The URL of SAP ECC OData API. For example, '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or Expression with resultType string).
    */
   url: string;
@@ -5594,6 +5805,10 @@ export type SapEccLinkedService = LinkedService & {
  * SAP Business Warehouse Open Hub Destination Linked Service.
  */
 export type SapOpenHubLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapOpenHub";
   /**
    * Host name of the SAP BW instance where the open hub destination is located. Type: string (or Expression with resultType string).
    */
@@ -5628,6 +5843,10 @@ export type SapOpenHubLinkedService = LinkedService & {
  * Rest Service linked service.
  */
 export type RestServiceLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "RestService";
   /**
    * The base URL of the REST service.
    */
@@ -5675,6 +5894,10 @@ export type RestServiceLinkedService = LinkedService & {
  */
 export type AmazonS3LinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonS3";
+  /**
    * The access key identifier of the Amazon S3 Identity and Access Management (IAM) user. Type: string (or Expression with resultType string).
    */
   accessKeyId?: any;
@@ -5696,6 +5919,10 @@ export type AmazonS3LinkedService = LinkedService & {
  * Linked service for Amazon Redshift.
  */
 export type AmazonRedshiftLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonRedshift";
   /**
    * The name of the Amazon Redshift server. Type: string (or Expression with resultType string).
    */
@@ -5727,6 +5954,10 @@ export type AmazonRedshiftLinkedService = LinkedService & {
  */
 export type CustomDataSourceLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CustomDataSource";
+  /**
    * Custom linked service properties.
    */
   typeProperties: any;
@@ -5736,6 +5967,10 @@ export type CustomDataSourceLinkedService = LinkedService & {
  * Linked service for Windows Azure Search Service.
  */
 export type AzureSearchLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSearch";
   /**
    * URL for Azure Search service. Type: string (or Expression with resultType string).
    */
@@ -5754,6 +5989,10 @@ export type AzureSearchLinkedService = LinkedService & {
  * Linked service for an HTTP source.
  */
 export type HttpLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HttpServer";
   /**
    * The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type: string (or Expression with resultType string).
    */
@@ -5793,6 +6032,10 @@ export type HttpLinkedService = LinkedService & {
  */
 export type FtpServerLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FtpServer";
+  /**
    * Host name of the FTP server. Type: string (or Expression with resultType string).
    */
   host: any;
@@ -5830,6 +6073,10 @@ export type FtpServerLinkedService = LinkedService & {
  * A linked service for an SSH File Transfer Protocol (SFTP) server.
  */
 export type SftpServerLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Sftp";
   /**
    * The SFTP server host name. Type: string (or Expression with resultType string).
    */
@@ -5881,6 +6128,10 @@ export type SftpServerLinkedService = LinkedService & {
  */
 export type SapBWLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapBW";
+  /**
    * Host name of the SAP BW instance. Type: string (or Expression with resultType string).
    */
   server: any;
@@ -5911,6 +6162,10 @@ export type SapBWLinkedService = LinkedService & {
  */
 export type SapHanaLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapHana";
+  /**
    * SAP HANA ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -5940,6 +6195,10 @@ export type SapHanaLinkedService = LinkedService & {
  * Amazon Marketplace Web Service linked service.
  */
 export type AmazonMWSLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonMWS";
   /**
    * The endpoint of the Amazon MWS server, (i.e. mws.amazonservices.com)
    */
@@ -5987,6 +6246,10 @@ export type AmazonMWSLinkedService = LinkedService & {
  */
 export type AzurePostgreSqlLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzurePostgreSql";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6004,6 +6267,10 @@ export type AzurePostgreSqlLinkedService = LinkedService & {
  * Concur Service linked service.
  */
 export type ConcurLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Concur";
   /**
    * Application client_id supplied by Concur App Management.
    */
@@ -6039,6 +6306,10 @@ export type ConcurLinkedService = LinkedService & {
  */
 export type CouchbaseLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Couchbase";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6057,6 +6328,10 @@ export type CouchbaseLinkedService = LinkedService & {
  */
 export type DrillLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Drill";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6074,6 +6349,10 @@ export type DrillLinkedService = LinkedService & {
  * Eloqua server linked service.
  */
 export type EloquaLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Eloqua";
   /**
    * The endpoint of the Eloqua server. (i.e. eloqua.example.com)
    */
@@ -6108,6 +6387,10 @@ export type EloquaLinkedService = LinkedService & {
  * Google BigQuery service linked service.
  */
 export type GoogleBigQueryLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleBigQuery";
   /**
    * The default BigQuery project to query against.
    */
@@ -6163,6 +6446,10 @@ export type GoogleBigQueryLinkedService = LinkedService & {
  */
 export type GreenplumLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Greenplum";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6180,6 +6467,10 @@ export type GreenplumLinkedService = LinkedService & {
  * HBase server linked service.
  */
 export type HBaseLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HBase";
   /**
    * The IP address or host name of the HBase server. (i.e. 192.168.222.160)
    */
@@ -6230,6 +6521,10 @@ export type HBaseLinkedService = LinkedService & {
  * Hive Server linked service.
  */
 export type HiveLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Hive";
   /**
    * IP address or host name of the Hive server, separated by ';' for multiple hosts (only when serviceDiscoveryMode is enable).
    */
@@ -6305,6 +6600,10 @@ export type HiveLinkedService = LinkedService & {
  */
 export type HubspotLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Hubspot";
+  /**
    * The client ID associated with your Hubspot application.
    */
   clientId: any;
@@ -6342,6 +6641,10 @@ export type HubspotLinkedService = LinkedService & {
  * Impala server linked service.
  */
 export type ImpalaLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Impala";
   /**
    * The IP address or host name of the Impala server. (i.e. 192.168.222.160)
    */
@@ -6393,6 +6696,10 @@ export type ImpalaLinkedService = LinkedService & {
  */
 export type JiraLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Jira";
+  /**
    * The IP address or host name of the Jira service. (e.g. jira.example.com)
    */
   host: any;
@@ -6431,6 +6738,10 @@ export type JiraLinkedService = LinkedService & {
  */
 export type MagentoLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Magento";
+  /**
    * The URL of the Magento instance. (i.e. 192.168.222.110/magento3)
    */
   host: any;
@@ -6461,6 +6772,10 @@ export type MagentoLinkedService = LinkedService & {
  */
 export type MariaDBLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MariaDB";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6479,6 +6794,10 @@ export type MariaDBLinkedService = LinkedService & {
  */
 export type AzureMariaDBLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMariaDB";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6496,6 +6815,10 @@ export type AzureMariaDBLinkedService = LinkedService & {
  * Marketo server linked service.
  */
 export type MarketoLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Marketo";
   /**
    * The endpoint of the Marketo server. (i.e. 123-ABC-321.mktorest.com)
    */
@@ -6531,6 +6854,10 @@ export type MarketoLinkedService = LinkedService & {
  */
 export type PaypalLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Paypal";
+  /**
    * The URL of the PayPal instance. (i.e. api.sandbox.paypal.com)
    */
   host: any;
@@ -6564,6 +6891,10 @@ export type PaypalLinkedService = LinkedService & {
  * Phoenix server linked service.
  */
 export type PhoenixLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Phoenix";
   /**
    * The IP address or host name of the Phoenix server. (i.e. 192.168.222.160)
    */
@@ -6618,6 +6949,10 @@ export type PhoenixLinkedService = LinkedService & {
  * Presto server linked service.
  */
 export type PrestoLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Presto";
   /**
    * The IP address or host name of the Presto server. (i.e. 192.168.222.160)
    */
@@ -6681,6 +7016,10 @@ export type PrestoLinkedService = LinkedService & {
  */
 export type QuickBooksLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "QuickBooks";
+  /**
    * The endpoint of the QuickBooks server. (i.e. quickbooks.api.intuit.com)
    */
   endpoint: any;
@@ -6718,6 +7057,10 @@ export type QuickBooksLinkedService = LinkedService & {
  * ServiceNow server linked service.
  */
 export type ServiceNowLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ServiceNow";
   /**
    * The endpoint of the ServiceNow server. (i.e. <instance>.service-now.com)
    */
@@ -6765,6 +7108,10 @@ export type ServiceNowLinkedService = LinkedService & {
  */
 export type ShopifyLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Shopify";
+  /**
    * The endpoint of the Shopify server. (i.e. mystore.myshopify.com)
    */
   host: any;
@@ -6794,6 +7141,10 @@ export type ShopifyLinkedService = LinkedService & {
  * Spark Server linked service.
  */
 export type SparkLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Spark";
   /**
    * IP address or host name of the Spark server
    */
@@ -6857,6 +7208,10 @@ export type SparkLinkedService = LinkedService & {
  */
 export type SquareLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Square";
+  /**
    * The URL of the Square instance. (i.e. mystore.mysquare.com)
    */
   host: any;
@@ -6895,6 +7250,10 @@ export type SquareLinkedService = LinkedService & {
  */
 export type XeroLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Xero";
+  /**
    * The endpoint of the Xero server. (i.e. api.xero.com)
    */
   host: any;
@@ -6930,6 +7289,10 @@ export type XeroLinkedService = LinkedService & {
  */
 export type ZohoLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Zoho";
+  /**
    * The endpoint of the Zoho server. (i.e. crm.zoho.com/crm/private)
    */
   endpoint: any;
@@ -6960,6 +7323,10 @@ export type ZohoLinkedService = LinkedService & {
  */
 export type VerticaLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Vertica";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6978,6 +7345,10 @@ export type VerticaLinkedService = LinkedService & {
  */
 export type NetezzaLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Netezza";
+  /**
    * An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference.
    */
   connectionString?: any;
@@ -6995,6 +7366,10 @@ export type NetezzaLinkedService = LinkedService & {
  * Salesforce Marketing Cloud linked service.
  */
 export type SalesforceMarketingCloudLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceMarketingCloud";
   /**
    * The client ID associated with the Salesforce Marketing Cloud application. Type: string (or Expression with resultType string).
    */
@@ -7025,6 +7400,10 @@ export type SalesforceMarketingCloudLinkedService = LinkedService & {
  * HDInsight ondemand linked service.
  */
 export type HDInsightOnDemandLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsightOnDemand";
   /**
    * Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType string).
    */
@@ -7164,6 +7543,10 @@ export type HDInsightOnDemandLinkedService = LinkedService & {
  */
 export type AzureDataLakeAnalyticsLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeAnalytics";
+  /**
    * The Azure Data Lake Analytics account name. Type: string (or Expression with resultType string).
    */
   accountName: any;
@@ -7201,6 +7584,10 @@ export type AzureDataLakeAnalyticsLinkedService = LinkedService & {
  * Azure Databricks linked service.
  */
 export type AzureDatabricksLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDatabricks";
   /**
    * <REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string).
    */
@@ -7264,6 +7651,10 @@ export type AzureDatabricksLinkedService = LinkedService & {
  */
 export type ResponsysLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Responsys";
+  /**
    * The endpoint of the Responsys server.
    */
   endpoint: any;
@@ -7298,6 +7689,10 @@ export type ResponsysLinkedService = LinkedService & {
  */
 export type DynamicsAXLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsAX";
+  /**
    * The Dynamics AX (or Dynamics 365 Finance and Operations) instance OData endpoint.
    */
   url: any;
@@ -7327,6 +7722,10 @@ export type DynamicsAXLinkedService = LinkedService & {
  * Oracle Service Cloud linked service.
  */
 export type OracleServiceCloudLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OracleServiceCloud";
   /**
    * The URL of the Oracle Service Cloud instance.
    */
@@ -7361,6 +7760,10 @@ export type OracleServiceCloudLinkedService = LinkedService & {
  * Google AdWords service linked service.
  */
 export type GoogleAdWordsLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleAdWords";
   /**
    * The Client customer ID of the AdWords account that you want to fetch report data for.
    */
@@ -7411,6 +7814,10 @@ export type GoogleAdWordsLinkedService = LinkedService & {
  * SAP Table Linked Service.
  */
 export type SapTableLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapTable";
   /**
    * Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string).
    */
@@ -7482,6 +7889,10 @@ export type SapTableLinkedService = LinkedService & {
  */
 export type AzureDataExplorerLinkedService = LinkedService & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataExplorer";
+  /**
    * The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the format https://<clusterName>.<regionName>.kusto.windows.net. Type: string (or Expression with resultType string)
    */
   endpoint: any;
@@ -7507,6 +7918,10 @@ export type AzureDataExplorerLinkedService = LinkedService & {
  * Azure Function linked service.
  */
 export type AzureFunctionLinkedService = LinkedService & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureFunction";
   /**
    * The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net.
    */
@@ -7575,6 +7990,10 @@ export type ProxyResource = Resource & {};
  */
 export type AvroDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Avro";
+  /**
    * The location of the avro storage.
    */
   location?: DatasetLocationUnion;
@@ -7587,6 +8006,10 @@ export type AvroDataset = Dataset & {
  */
 export type ParquetDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Parquet";
+  /**
    * The location of the parquet storage.
    */
   location?: DatasetLocationUnion;
@@ -7597,6 +8020,10 @@ export type ParquetDataset = Dataset & {
  * Delimited text dataset.
  */
 export type DelimitedTextDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DelimitedText";
   /**
    * The location of the delimited text storage.
    */
@@ -7641,6 +8068,10 @@ export type DelimitedTextDataset = Dataset & {
  */
 export type JsonDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Json";
+  /**
    * The location of the json data storage.
    */
   location?: DatasetLocationUnion;
@@ -7659,6 +8090,10 @@ export type JsonDataset = Dataset & {
  */
 export type OrcDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Orc";
+  /**
    * The location of the ORC data storage.
    */
   location?: DatasetLocationUnion;
@@ -7669,6 +8104,10 @@ export type OrcDataset = Dataset & {
  * Binary dataset.
  */
 export type BinaryDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Binary";
   /**
    * The location of the Binary storage.
    */
@@ -7684,6 +8123,10 @@ export type BinaryDataset = Dataset & {
  */
 export type AzureTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureTable";
+  /**
    * The table name of the Azure Table storage. Type: string (or Expression with resultType string).
    */
   tableName: any;
@@ -7693,6 +8136,10 @@ export type AzureTableDataset = Dataset & {
  * The Azure SQL Server database dataset.
  */
 export type AzureSqlTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -7712,6 +8159,10 @@ export type AzureSqlTableDataset = Dataset & {
  */
 export type AzureSqlMITableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlMITable";
+  /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
@@ -7729,6 +8180,10 @@ export type AzureSqlMITableDataset = Dataset & {
  * The Azure SQL Data Warehouse dataset.
  */
 export type AzureSqlDWTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlDWTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -7748,6 +8203,10 @@ export type AzureSqlDWTableDataset = Dataset & {
  */
 export type CassandraTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CassandraTable";
+  /**
    * The table name of the Cassandra database. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -7762,6 +8221,10 @@ export type CassandraTableDataset = Dataset & {
  */
 export type CustomDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CustomDataset";
+  /**
    * Custom dataset properties.
    */
   typeProperties?: any;
@@ -7771,6 +8234,10 @@ export type CustomDataset = Dataset & {
  * Microsoft Azure CosmosDB (SQL API) Collection dataset.
  */
 export type CosmosDbSqlApiCollectionDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbSqlApiCollection";
   /**
    * CosmosDB (SQL API) collection name. Type: string (or Expression with resultType string).
    */
@@ -7782,6 +8249,10 @@ export type CosmosDbSqlApiCollectionDataset = Dataset & {
  */
 export type DocumentDbCollectionDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DocumentDbCollection";
+  /**
    * Document Database collection name. Type: string (or Expression with resultType string).
    */
   collectionName: any;
@@ -7791,6 +8262,10 @@ export type DocumentDbCollectionDataset = Dataset & {
  * The Dynamics entity dataset.
  */
 export type DynamicsEntityDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsEntity";
   /**
    * The logical name of the entity. Type: string (or Expression with resultType string).
    */
@@ -7802,6 +8277,10 @@ export type DynamicsEntityDataset = Dataset & {
  */
 export type DynamicsCrmEntityDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsCrmEntity";
+  /**
    * The logical name of the entity. Type: string (or Expression with resultType string).
    */
   entityName?: any;
@@ -7812,6 +8291,10 @@ export type DynamicsCrmEntityDataset = Dataset & {
  */
 export type CommonDataServiceForAppsEntityDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CommonDataServiceForAppsEntity";
+  /**
    * The logical name of the entity. Type: string (or Expression with resultType string).
    */
   entityName?: any;
@@ -7821,6 +8304,10 @@ export type CommonDataServiceForAppsEntityDataset = Dataset & {
  * The Office365 account.
  */
 export type Office365Dataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Office365Table";
   /**
    * Name of the dataset to extract from Office 365. Type: string (or Expression with resultType string).
    */
@@ -7836,6 +8323,10 @@ export type Office365Dataset = Dataset & {
  */
 export type MongoDbCollectionDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MongoDbCollection";
+  /**
    * The table name of the MongoDB database. Type: string (or Expression with resultType string).
    */
   collectionName: any;
@@ -7845,6 +8336,10 @@ export type MongoDbCollectionDataset = Dataset & {
  * The MongoDB database dataset.
  */
 export type MongoDbV2CollectionDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MongoDbV2Collection";
   /**
    * The collection name of the MongoDB database. Type: string (or Expression with resultType string).
    */
@@ -7856,6 +8351,10 @@ export type MongoDbV2CollectionDataset = Dataset & {
  */
 export type CosmosDbMongoDbApiCollectionDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbMongoDbApiCollection";
+  /**
    * The collection name of the CosmosDB (MongoDB API) database. Type: string (or Expression with resultType string).
    */
   collection: any;
@@ -7866,6 +8365,10 @@ export type CosmosDbMongoDbApiCollectionDataset = Dataset & {
  */
 export type ODataResourceDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ODataResource";
+  /**
    * The OData resource path. Type: string (or Expression with resultType string).
    */
   path?: any;
@@ -7875,6 +8378,10 @@ export type ODataResourceDataset = Dataset & {
  * The on-premises Oracle database dataset.
  */
 export type OracleTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OracleTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -7894,6 +8401,10 @@ export type OracleTableDataset = Dataset & {
  */
 export type TeradataTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TeradataTable";
+  /**
    * The database name of Teradata. Type: string (or Expression with resultType string).
    */
   database?: any;
@@ -7908,6 +8419,10 @@ export type TeradataTableDataset = Dataset & {
  */
 export type AzureMySqlTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMySqlTable";
+  /**
    * The Azure MySQL database table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -7921,6 +8436,10 @@ export type AzureMySqlTableDataset = Dataset & {
  * The Amazon Redshift table dataset.
  */
 export type AmazonRedshiftTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonRedshiftTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -7940,6 +8459,10 @@ export type AmazonRedshiftTableDataset = Dataset & {
  */
 export type Db2TableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Db2Table";
+  /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
@@ -7958,6 +8481,10 @@ export type Db2TableDataset = Dataset & {
  */
 export type RelationalTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "RelationalTable";
+  /**
    * The relational table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -7967,6 +8494,10 @@ export type RelationalTableDataset = Dataset & {
  * The Informix table dataset.
  */
 export type InformixTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "InformixTable";
   /**
    * The Informix table name. Type: string (or Expression with resultType string).
    */
@@ -7978,6 +8509,10 @@ export type InformixTableDataset = Dataset & {
  */
 export type OdbcTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OdbcTable";
+  /**
    * The ODBC table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -7988,6 +8523,10 @@ export type OdbcTableDataset = Dataset & {
  */
 export type MySqlTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MySqlTable";
+  /**
    * The MySQL table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -7997,6 +8536,10 @@ export type MySqlTableDataset = Dataset & {
  * The PostgreSQL table dataset.
  */
 export type PostgreSqlTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PostgreSqlTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8016,6 +8559,10 @@ export type PostgreSqlTableDataset = Dataset & {
  */
 export type MicrosoftAccessTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MicrosoftAccessTable";
+  /**
    * The Microsoft Access table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8025,6 +8572,10 @@ export type MicrosoftAccessTableDataset = Dataset & {
  * The Salesforce object dataset.
  */
 export type SalesforceObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceObject";
   /**
    * The Salesforce object API name. Type: string (or Expression with resultType string).
    */
@@ -8036,6 +8587,10 @@ export type SalesforceObjectDataset = Dataset & {
  */
 export type SalesforceServiceCloudObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceServiceCloudObject";
+  /**
    * The Salesforce Service Cloud object API name. Type: string (or Expression with resultType string).
    */
   objectApiName?: any;
@@ -8046,6 +8601,10 @@ export type SalesforceServiceCloudObjectDataset = Dataset & {
  */
 export type SybaseTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SybaseTable";
+  /**
    * The Sybase table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8054,12 +8613,21 @@ export type SybaseTableDataset = Dataset & {
 /**
  * The SAP BW cube dataset.
  */
-export type SapBwCubeDataset = Dataset & {};
+export type SapBwCubeDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapBwCube";
+};
 
 /**
  * The path of the SAP Cloud for Customer OData entity.
  */
 export type SapCloudForCustomerResourceDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapCloudForCustomerResource";
   /**
    * The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string).
    */
@@ -8071,6 +8639,10 @@ export type SapCloudForCustomerResourceDataset = Dataset & {
  */
 export type SapEccResourceDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapEccResource";
+  /**
    * The path of the SAP ECC OData entity. Type: string (or Expression with resultType string).
    */
   path: any;
@@ -8080,6 +8652,10 @@ export type SapEccResourceDataset = Dataset & {
  * SAP HANA Table properties.
  */
 export type SapHanaTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapHanaTable";
   /**
    * The schema name of SAP HANA. Type: string (or Expression with resultType string).
    */
@@ -8094,6 +8670,10 @@ export type SapHanaTableDataset = Dataset & {
  * Sap Business Warehouse Open Hub Destination Table properties.
  */
 export type SapOpenHubTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapOpenHubTable";
   /**
    * The name of the Open Hub Destination with destination type as Database Table. Type: string (or Expression with resultType string).
    */
@@ -8113,6 +8693,10 @@ export type SapOpenHubTableDataset = Dataset & {
  */
 export type SqlServerTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlServerTable";
+  /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
@@ -8130,6 +8714,10 @@ export type SqlServerTableDataset = Dataset & {
  * A Rest service dataset.
  */
 export type RestResourceDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "RestResource";
   /**
    * The relative URL to the resource that the RESTful API provides. Type: string (or Expression with resultType string).
    */
@@ -8157,6 +8745,10 @@ export type RestResourceDataset = Dataset & {
  */
 export type SapTableResourceDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapTableResource";
+  /**
    * The name of the SAP Table. Type: string (or Expression with resultType string).
    */
   tableName: any;
@@ -8166,6 +8758,10 @@ export type SapTableResourceDataset = Dataset & {
  * The dataset points to a HTML table in the web page.
  */
 export type WebTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "WebTable";
   /**
    * The zero-based index of the table in the web page. Type: integer (or Expression with resultType integer), minimum: 0.
    */
@@ -8181,6 +8777,10 @@ export type WebTableDataset = Dataset & {
  */
 export type AzureSearchIndexDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSearchIndex";
+  /**
    * The name of the Azure Search Index. Type: string (or Expression with resultType string).
    */
   indexName: any;
@@ -8191,6 +8791,10 @@ export type AzureSearchIndexDataset = Dataset & {
  */
 export type AmazonMWSObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonMWSObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8200,6 +8804,10 @@ export type AmazonMWSObjectDataset = Dataset & {
  * Azure PostgreSQL dataset.
  */
 export type AzurePostgreSqlTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzurePostgreSqlTable";
   /**
    * The table name of the Azure PostgreSQL database which includes both schema and table. Type: string (or Expression with resultType string).
    */
@@ -8219,6 +8827,10 @@ export type AzurePostgreSqlTableDataset = Dataset & {
  */
 export type ConcurObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ConcurObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8229,6 +8841,10 @@ export type ConcurObjectDataset = Dataset & {
  */
 export type CouchbaseTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CouchbaseTable";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8238,6 +8854,10 @@ export type CouchbaseTableDataset = Dataset & {
  * Drill server dataset.
  */
 export type DrillTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DrillTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8257,6 +8877,10 @@ export type DrillTableDataset = Dataset & {
  */
 export type EloquaObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "EloquaObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8266,6 +8890,10 @@ export type EloquaObjectDataset = Dataset & {
  * Google BigQuery service dataset.
  */
 export type GoogleBigQueryObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleBigQueryObject";
   /**
    * This property will be retired. Please consider using database + table properties instead.
    */
@@ -8285,6 +8913,10 @@ export type GoogleBigQueryObjectDataset = Dataset & {
  */
 export type GreenplumTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GreenplumTable";
+  /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
@@ -8303,6 +8935,10 @@ export type GreenplumTableDataset = Dataset & {
  */
 export type HBaseObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HBaseObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8312,6 +8948,10 @@ export type HBaseObjectDataset = Dataset & {
  * Hive Server dataset.
  */
 export type HiveObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HiveObject";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8331,6 +8971,10 @@ export type HiveObjectDataset = Dataset & {
  */
 export type HubspotObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HubspotObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8340,6 +8984,10 @@ export type HubspotObjectDataset = Dataset & {
  * Impala server dataset.
  */
 export type ImpalaObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ImpalaObject";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8359,6 +9007,10 @@ export type ImpalaObjectDataset = Dataset & {
  */
 export type JiraObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "JiraObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8368,6 +9020,10 @@ export type JiraObjectDataset = Dataset & {
  * Magento server dataset.
  */
 export type MagentoObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MagentoObject";
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
@@ -8379,6 +9035,10 @@ export type MagentoObjectDataset = Dataset & {
  */
 export type MariaDBTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MariaDBTable";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8388,6 +9048,10 @@ export type MariaDBTableDataset = Dataset & {
  * Azure Database for MariaDB dataset.
  */
 export type AzureMariaDBTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMariaDBTable";
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
@@ -8399,6 +9063,10 @@ export type AzureMariaDBTableDataset = Dataset & {
  */
 export type MarketoObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MarketoObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8409,6 +9077,10 @@ export type MarketoObjectDataset = Dataset & {
  */
 export type PaypalObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PaypalObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8418,6 +9090,10 @@ export type PaypalObjectDataset = Dataset & {
  * Phoenix server dataset.
  */
 export type PhoenixObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PhoenixObject";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8437,6 +9113,10 @@ export type PhoenixObjectDataset = Dataset & {
  */
 export type PrestoObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PrestoObject";
+  /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
@@ -8455,6 +9135,10 @@ export type PrestoObjectDataset = Dataset & {
  */
 export type QuickBooksObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "QuickBooksObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8464,6 +9148,10 @@ export type QuickBooksObjectDataset = Dataset & {
  * ServiceNow server dataset.
  */
 export type ServiceNowObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ServiceNowObject";
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
@@ -8475,6 +9163,10 @@ export type ServiceNowObjectDataset = Dataset & {
  */
 export type ShopifyObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ShopifyObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8484,6 +9176,10 @@ export type ShopifyObjectDataset = Dataset & {
  * Spark Server dataset.
  */
 export type SparkObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SparkObject";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8503,6 +9199,10 @@ export type SparkObjectDataset = Dataset & {
  */
 export type SquareObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SquareObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8512,6 +9212,10 @@ export type SquareObjectDataset = Dataset & {
  * Xero Service dataset.
  */
 export type XeroObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "XeroObject";
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
@@ -8523,6 +9227,10 @@ export type XeroObjectDataset = Dataset & {
  */
 export type ZohoObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ZohoObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8532,6 +9240,10 @@ export type ZohoObjectDataset = Dataset & {
  * Netezza dataset.
  */
 export type NetezzaTableDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "NetezzaTable";
   /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
@@ -8551,6 +9263,10 @@ export type NetezzaTableDataset = Dataset & {
  */
 export type VerticaTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "VerticaTable";
+  /**
    * This property will be retired. Please consider using schema + table properties instead.
    */
   tableName?: any;
@@ -8569,6 +9285,10 @@ export type VerticaTableDataset = Dataset & {
  */
 export type SalesforceMarketingCloudObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceMarketingCloudObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8578,6 +9298,10 @@ export type SalesforceMarketingCloudObjectDataset = Dataset & {
  * Responsys dataset.
  */
 export type ResponsysObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ResponsysObject";
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
@@ -8589,6 +9313,10 @@ export type ResponsysObjectDataset = Dataset & {
  */
 export type DynamicsAXResourceDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsAXResource";
+  /**
    * The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string).
    */
   path: any;
@@ -8598,6 +9326,10 @@ export type DynamicsAXResourceDataset = Dataset & {
  * Oracle Service Cloud dataset.
  */
 export type OracleServiceCloudObjectDataset = Dataset & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OracleServiceCloudObject";
   /**
    * The table name. Type: string (or Expression with resultType string).
    */
@@ -8609,6 +9341,10 @@ export type OracleServiceCloudObjectDataset = Dataset & {
  */
 export type AzureDataExplorerTableDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataExplorerTable";
+  /**
    * The table name of the Azure Data Explorer database. Type: string (or Expression with resultType string).
    */
   table?: any;
@@ -8619,6 +9355,10 @@ export type AzureDataExplorerTableDataset = Dataset & {
  */
 export type GoogleAdWordsObjectDataset = Dataset & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleAdWordsObject";
+  /**
    * The table name. Type: string (or Expression with resultType string).
    */
   tableName?: any;
@@ -8627,12 +9367,21 @@ export type GoogleAdWordsObjectDataset = Dataset & {
 /**
  * Base class for all control activities like IfCondition, ForEach , Until.
  */
-export type ControlActivity = Activity & {};
+export type ControlActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Container";
+};
 
 /**
  * Base class for all execution activities.
  */
 export type ExecutionActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Execution";
   /**
    * Linked service reference.
    */
@@ -8647,6 +9396,10 @@ export type ExecutionActivity = Activity & {
  * Execute pipeline activity.
  */
 export type ExecutePipelineActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ExecutePipeline";
   /**
    * Pipeline reference.
    */
@@ -8666,6 +9419,10 @@ export type ExecutePipelineActivity = Activity & {
  */
 export type IfConditionActivity = Activity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "IfCondition";
+  /**
    * An expression that would evaluate to Boolean. This is used to determine the block of activities (ifTrueActivities or ifFalseActivities) that will be executed.
    */
   expression: Expression;
@@ -8684,6 +9441,10 @@ export type IfConditionActivity = Activity & {
  */
 export type SwitchActivity = Activity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Switch";
+  /**
    * An expression that would evaluate to a string or integer. This is used to determine the block of activities in cases that will be executed.
    */
   on: Expression;
@@ -8701,6 +9462,10 @@ export type SwitchActivity = Activity & {
  * This activity is used for iterating over a collection and execute given activities.
  */
 export type ForEachActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ForEach";
   /**
    * Should the loop be executed in sequence or in parallel (max 50)
    */
@@ -8724,6 +9489,10 @@ export type ForEachActivity = Activity & {
  */
 export type WaitActivity = Activity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Wait";
+  /**
    * Duration in seconds.
    */
   waitTimeInSeconds: number;
@@ -8733,6 +9502,10 @@ export type WaitActivity = Activity & {
  * This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
  */
 export type UntilActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Until";
   /**
    * An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true
    */
@@ -8751,6 +9524,10 @@ export type UntilActivity = Activity & {
  * This activity verifies that an external resource exists.
  */
 export type ValidationActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Validation";
   /**
    * Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
@@ -8778,6 +9555,10 @@ export type ValidationActivity = Activity & {
  */
 export type FilterActivity = Activity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Filter";
+  /**
    * Input array on which filter should be applied.
    */
   items: Expression;
@@ -8791,6 +9572,10 @@ export type FilterActivity = Activity & {
  * Set value for a Variable.
  */
 export type SetVariableActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SetVariable";
   /**
    * Name of the variable whose value needs to be set.
    */
@@ -8806,6 +9591,10 @@ export type SetVariableActivity = Activity & {
  */
 export type AppendVariableActivity = Activity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AppendVariable";
+  /**
    * Name of the variable whose value needs to be appended to.
    */
   variableName?: string;
@@ -8819,6 +9608,10 @@ export type AppendVariableActivity = Activity & {
  * WebHook activity.
  */
 export type WebHookActivity = Activity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "WebHook";
   /**
    * Rest API method for target endpoint.
    */
@@ -8854,6 +9647,10 @@ export type WebHookActivity = Activity & {
  */
 export type SqlPoolStoredProcedureActivity = Activity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlPoolStoredProcedure";
+  /**
    * SQL pool stored procedure reference.
    */
   sqlPool: SqlPoolReference;
@@ -8873,6 +9670,10 @@ export type SqlPoolStoredProcedureActivity = Activity & {
  * Trigger that schedules pipeline reruns for all fixed time interval windows from a requested start time to requested end time.
  */
 export type RerunTumblingWindowTrigger = Trigger & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "RerunTumblingWindowTrigger";
   /**
    * The parent trigger reference.
    */
@@ -8896,6 +9697,10 @@ export type RerunTumblingWindowTrigger = Trigger & {
  */
 export type MultiplePipelineTrigger = Trigger & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MultiplePipelineTrigger";
+  /**
    * Pipelines that need to be started.
    */
   pipelines?: TriggerPipelineReference[];
@@ -8905,6 +9710,10 @@ export type MultiplePipelineTrigger = Trigger & {
  * Trigger that schedules pipeline runs for all fixed time interval windows from a start time without gaps and also supports backfill scenarios (when start time is in the past).
  */
 export type TumblingWindowTrigger = Trigger & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TumblingWindowTrigger";
   /**
    * Pipeline for which runs are created when an event is fired for trigger window that is ready.
    */
@@ -8948,6 +9757,10 @@ export type TumblingWindowTrigger = Trigger & {
  */
 export type ChainingTrigger = Trigger & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ChainingTrigger";
+  /**
    * Pipeline for which runs are created when all upstream pipelines complete successfully.
    */
   pipeline: TriggerPipelineReference;
@@ -8965,6 +9778,10 @@ export type ChainingTrigger = Trigger & {
  * Mapping data flow.
  */
 export type MappingDataFlow = DataFlow & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MappingDataFlow";
   /**
    * List of sources in data flow.
    */
@@ -9018,6 +9835,10 @@ export type LinkedServiceDebugResource = SubResourceDebugResource & {
  */
 export type ManagedIntegrationRuntime = IntegrationRuntime & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Managed";
+  /**
    * Integration runtime state, only valid for managed dedicated integration runtime.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -9037,6 +9858,10 @@ export type ManagedIntegrationRuntime = IntegrationRuntime & {
  */
 export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SelfHosted";
+  /**
    * Linked integration runtime type from data factory
    */
   linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
@@ -9047,6 +9872,10 @@ export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
  */
 export type SecureString = SecretBase & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SecureString";
+  /**
    * Value of secure string.
    */
   value: string;
@@ -9056,6 +9885,10 @@ export type SecureString = SecretBase & {
  * Azure Key Vault secret reference.
  */
 export type AzureKeyVaultSecretReference = SecretBase & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureKeyVaultSecret";
   /**
    * The Azure Key Vault linked service reference.
    */
@@ -9095,6 +9928,10 @@ export type DataFlowSink = Transformation & {
  */
 export type AzureBlobStorageLocation = DatasetLocation & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobStorageLocation";
+  /**
    * Specify the container of azure blob. Type: string (or Expression with resultType string).
    */
   container?: any;
@@ -9105,6 +9942,10 @@ export type AzureBlobStorageLocation = DatasetLocation & {
  */
 export type AzureBlobFSLocation = DatasetLocation & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobFSLocation";
+  /**
    * Specify the fileSystem of azure blobFS. Type: string (or Expression with resultType string).
    */
   fileSystem?: any;
@@ -9113,12 +9954,21 @@ export type AzureBlobFSLocation = DatasetLocation & {
 /**
  * The location of azure data lake store dataset.
  */
-export type AzureDataLakeStoreLocation = DatasetLocation & {};
+export type AzureDataLakeStoreLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeStoreLocation";
+};
 
 /**
  * The location of amazon S3 dataset.
  */
 export type AmazonS3Location = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonS3Location";
   /**
    * Specify the bucketName of amazon S3. Type: string (or Expression with resultType string)
    */
@@ -9132,17 +9982,31 @@ export type AmazonS3Location = DatasetLocation & {
 /**
  * The location of file server dataset.
  */
-export type FileServerLocation = DatasetLocation & {};
+export type FileServerLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FileServerLocation";
+};
 
 /**
  * The location of file server dataset.
  */
-export type AzureFileStorageLocation = DatasetLocation & {};
+export type AzureFileStorageLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureFileStorageLocation";
+};
 
 /**
  * The location of Google Cloud Storage dataset.
  */
 export type GoogleCloudStorageLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleCloudStorageLocation";
   /**
    * Specify the bucketName of Google Cloud Storage. Type: string (or Expression with resultType string)
    */
@@ -9156,17 +10020,31 @@ export type GoogleCloudStorageLocation = DatasetLocation & {
 /**
  * The location of ftp server dataset.
  */
-export type FtpServerLocation = DatasetLocation & {};
+export type FtpServerLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FtpServerLocation";
+};
 
 /**
  * The location of SFTP dataset.
  */
-export type SftpLocation = DatasetLocation & {};
+export type SftpLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SftpLocation";
+};
 
 /**
  * The location of http server.
  */
 export type HttpServerLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HttpServerLocation";
   /**
    * Specify the relativeUrl of http server. Type: string (or Expression with resultType string)
    */
@@ -9176,12 +10054,21 @@ export type HttpServerLocation = DatasetLocation & {
 /**
  * The location of HDFS.
  */
-export type HdfsLocation = DatasetLocation & {};
+export type HdfsLocation = DatasetLocation & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HdfsLocation";
+};
 
 /**
  * The data stored in text format.
  */
 export type TextFormat = DatasetStorageFormat & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TextFormat";
   /**
    * The column delimiter. Type: string (or Expression with resultType string).
    */
@@ -9225,6 +10112,10 @@ export type TextFormat = DatasetStorageFormat & {
  */
 export type JsonFormat = DatasetStorageFormat & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "JsonFormat";
+  /**
    * File pattern of JSON. To be more specific, the way of separating a collection of JSON objects. The default value is 'setOfObjects'. It is case-sensitive.
    */
   filePattern?: JsonFormatFilePattern;
@@ -9249,27 +10140,51 @@ export type JsonFormat = DatasetStorageFormat & {
 /**
  * The data stored in Avro format.
  */
-export type AvroFormat = DatasetStorageFormat & {};
+export type AvroFormat = DatasetStorageFormat & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AvroFormat";
+};
 
 /**
  * The data stored in Optimized Row Columnar (ORC) format.
  */
-export type OrcFormat = DatasetStorageFormat & {};
+export type OrcFormat = DatasetStorageFormat & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OrcFormat";
+};
 
 /**
  * The data stored in Parquet format.
  */
-export type ParquetFormat = DatasetStorageFormat & {};
+export type ParquetFormat = DatasetStorageFormat & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ParquetFormat";
+};
 
 /**
  * The BZip2 compression method used on a dataset.
  */
-export type DatasetBZip2Compression = DatasetCompression & {};
+export type DatasetBZip2Compression = DatasetCompression & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BZip2";
+};
 
 /**
  * The GZip compression method used on a dataset.
  */
 export type DatasetGZipCompression = DatasetCompression & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GZip";
   /**
    * The GZip compression level.
    */
@@ -9281,6 +10196,10 @@ export type DatasetGZipCompression = DatasetCompression & {
  */
 export type DatasetDeflateCompression = DatasetCompression & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Deflate";
+  /**
    * The Deflate compression level.
    */
   level?: DatasetCompressionLevel;
@@ -9291,6 +10210,10 @@ export type DatasetDeflateCompression = DatasetCompression & {
  */
 export type DatasetZipDeflateCompression = DatasetCompression & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ZipDeflate";
+  /**
    * The ZipDeflate compression level.
    */
   level?: DatasetCompressionLevel;
@@ -9299,12 +10222,21 @@ export type DatasetZipDeflateCompression = DatasetCompression & {
 /**
  * A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint.
  */
-export type WebAnonymousAuthentication = WebLinkedServiceTypeProperties & {};
+export type WebAnonymousAuthentication = WebLinkedServiceTypeProperties & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  authenticationType: "Anonymous";
+};
 
 /**
  * A WebLinkedService that uses basic authentication to communicate with an HTTP endpoint.
  */
 export type WebBasicAuthentication = WebLinkedServiceTypeProperties & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  authenticationType: "Basic";
   /**
    * User name for Basic authentication. Type: string (or Expression with resultType string).
    */
@@ -9320,6 +10252,10 @@ export type WebBasicAuthentication = WebLinkedServiceTypeProperties & {
  */
 export type WebClientCertificateAuthentication = WebLinkedServiceTypeProperties & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  authenticationType: "ClientCertificate";
+  /**
    * Base64-encoded contents of a PFX file.
    */
   pfx: SecretBaseUnion;
@@ -9333,6 +10269,10 @@ export type WebClientCertificateAuthentication = WebLinkedServiceTypeProperties 
  * Azure blob read settings.
  */
 export type AzureBlobStorageReadSettings = StoreReadSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobStorageReadSettings";
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
@@ -9368,6 +10308,10 @@ export type AzureBlobStorageReadSettings = StoreReadSettings & {
  */
 export type AzureBlobFSReadSettings = StoreReadSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobFSReadSettings";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -9398,6 +10342,10 @@ export type AzureBlobFSReadSettings = StoreReadSettings & {
  */
 export type AzureDataLakeStoreReadSettings = StoreReadSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeStoreReadSettings";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -9427,6 +10375,10 @@ export type AzureDataLakeStoreReadSettings = StoreReadSettings & {
  * Azure data lake store read settings.
  */
 export type AmazonS3ReadSettings = StoreReadSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonS3ReadSettings";
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
@@ -9462,6 +10414,10 @@ export type AmazonS3ReadSettings = StoreReadSettings & {
  */
 export type FileServerReadSettings = StoreReadSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FileServerReadSettings";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -9492,6 +10448,10 @@ export type FileServerReadSettings = StoreReadSettings & {
  */
 export type AzureFileStorageReadSettings = StoreReadSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureFileStorageReadSettings";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -9521,6 +10481,10 @@ export type AzureFileStorageReadSettings = StoreReadSettings & {
  * Google Cloud Storage read settings.
  */
 export type GoogleCloudStorageReadSettings = StoreReadSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleCloudStorageReadSettings";
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
@@ -9556,6 +10520,10 @@ export type GoogleCloudStorageReadSettings = StoreReadSettings & {
  */
 export type FtpReadSettings = StoreReadSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FtpReadSettings";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -9577,6 +10545,10 @@ export type FtpReadSettings = StoreReadSettings & {
  * Sftp read settings.
  */
 export type SftpReadSettings = StoreReadSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SftpReadSettings";
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
@@ -9604,6 +10576,10 @@ export type SftpReadSettings = StoreReadSettings & {
  */
 export type HttpReadSettings = StoreReadSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HttpReadSettings";
+  /**
    * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string).
    */
   requestMethod?: any;
@@ -9625,6 +10601,10 @@ export type HttpReadSettings = StoreReadSettings & {
  * HDFS read settings.
  */
 export type HdfsReadSettings = StoreReadSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HdfsReadSettings";
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
@@ -9660,6 +10640,10 @@ export type HdfsReadSettings = StoreReadSettings & {
  */
 export type SftpWriteSettings = StoreWriteSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SftpWriteSettings";
+  /**
    * Specifies the timeout for writing each chunk to SFTP server. Default value: 01:00:00 (one hour). Type: string (or Expression with resultType string).
    */
   operationTimeout?: any;
@@ -9669,6 +10653,10 @@ export type SftpWriteSettings = StoreWriteSettings & {
  * Azure blob write settings.
  */
 export type AzureBlobStorageWriteSettings = StoreWriteSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobStorageWriteSettings";
   /**
    * Indicates the block size(MB) when writing data to blob. Type: integer (or Expression with resultType integer).
    */
@@ -9680,6 +10668,10 @@ export type AzureBlobStorageWriteSettings = StoreWriteSettings & {
  */
 export type AzureBlobFSWriteSettings = StoreWriteSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobFSWriteSettings";
+  /**
    * Indicates the block size(MB) when writing data to blob. Type: integer (or Expression with resultType integer).
    */
   blockSizeInMB?: any;
@@ -9688,17 +10680,31 @@ export type AzureBlobFSWriteSettings = StoreWriteSettings & {
 /**
  * Azure data lake store write settings.
  */
-export type AzureDataLakeStoreWriteSettings = StoreWriteSettings & {};
+export type AzureDataLakeStoreWriteSettings = StoreWriteSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeStoreWriteSettings";
+};
 
 /**
  * File server write settings.
  */
-export type FileServerWriteSettings = StoreWriteSettings & {};
+export type FileServerWriteSettings = StoreWriteSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FileServerWriteSettings";
+};
 
 /**
  * Delimited text read settings.
  */
 export type DelimitedTextReadSettings = FormatReadSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DelimitedTextReadSettings";
   /**
    * Indicates the number of non-empty rows to skip when reading data from input files. Type: integer (or Expression with resultType integer).
    */
@@ -9709,6 +10715,10 @@ export type DelimitedTextReadSettings = FormatReadSettings & {
  * Avro write settings.
  */
 export type AvroWriteSettings = FormatWriteSettings & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AvroWriteSettings";
   /**
    * Top level record name in write result, which is required in AVRO spec.
    */
@@ -9724,6 +10734,10 @@ export type AvroWriteSettings = FormatWriteSettings & {
  */
 export type DelimitedTextWriteSettings = FormatWriteSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DelimitedTextWriteSettings";
+  /**
    * Indicates whether string values should always be enclosed with quotes. Type: boolean (or Expression with resultType boolean).
    */
   quoteAllText?: any;
@@ -9738,6 +10752,10 @@ export type DelimitedTextWriteSettings = FormatWriteSettings & {
  */
 export type JsonWriteSettings = FormatWriteSettings & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "JsonWriteSettings";
+  /**
    * File pattern of JSON. This setting controls the way a collection of JSON objects will be treated. The default value is 'setOfObjects'. It is case-sensitive.
    */
   filePattern?: JsonWriteFilePattern;
@@ -9747,6 +10765,10 @@ export type JsonWriteSettings = FormatWriteSettings & {
  * A copy activity Avro source.
  */
 export type AvroSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AvroSource";
   /**
    * Avro store settings.
    */
@@ -9758,6 +10780,10 @@ export type AvroSource = CopySource & {
  */
 export type ParquetSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ParquetSource";
+  /**
    * Parquet store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -9767,6 +10793,10 @@ export type ParquetSource = CopySource & {
  * A copy activity DelimitedText source.
  */
 export type DelimitedTextSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DelimitedTextSource";
   /**
    * DelimitedText store settings.
    */
@@ -9782,6 +10812,10 @@ export type DelimitedTextSource = CopySource & {
  */
 export type JsonSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "JsonSource";
+  /**
    * Json store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -9791,6 +10825,10 @@ export type JsonSource = CopySource & {
  * A copy activity ORC source.
  */
 export type OrcSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OrcSource";
   /**
    * ORC store settings.
    */
@@ -9802,6 +10840,10 @@ export type OrcSource = CopySource & {
  */
 export type BinarySource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BinarySource";
+  /**
    * Binary store settings.
    */
   storeSettings?: StoreReadSettingsUnion;
@@ -9812,6 +10854,10 @@ export type BinarySource = CopySource & {
  */
 export type TabularSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TabularSource";
+  /**
    * Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   queryTimeout?: any;
@@ -9821,6 +10867,10 @@ export type TabularSource = CopySource & {
  * A copy activity Azure Blob source.
  */
 export type BlobSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BlobSource";
   /**
    * Treat empty as null. Type: boolean (or Expression with resultType boolean).
    */
@@ -9840,6 +10890,10 @@ export type BlobSource = CopySource & {
  */
 export type DocumentDbCollectionSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DocumentDbCollectionSource";
+  /**
    * Documents query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -9857,6 +10911,10 @@ export type DocumentDbCollectionSource = CopySource & {
  * A copy activity Azure CosmosDB (SQL API) Collection source.
  */
 export type CosmosDbSqlApiSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbSqlApiSource";
   /**
    * SQL API query. Type: string (or Expression with resultType string).
    */
@@ -9876,6 +10934,10 @@ export type CosmosDbSqlApiSource = CopySource & {
  */
 export type DynamicsSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsSource";
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics (online & on-premises). Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -9885,6 +10947,10 @@ export type DynamicsSource = CopySource & {
  * A copy activity Dynamics CRM source.
  */
 export type DynamicsCrmSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsCrmSource";
   /**
    * FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online & on-premises). Type: string (or Expression with resultType string).
    */
@@ -9896,6 +10962,10 @@ export type DynamicsCrmSource = CopySource & {
  */
 export type CommonDataServiceForAppsSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CommonDataServiceForAppsSource";
+  /**
    * FetchXML is a proprietary query language that is used in Microsoft Common Data Service for Apps (online & on-premises). Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -9905,6 +10975,10 @@ export type CommonDataServiceForAppsSource = CopySource & {
  * A copy activity source for various relational databases.
  */
 export type RelationalSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "RelationalSource";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -9916,6 +10990,10 @@ export type RelationalSource = CopySource & {
  */
 export type MicrosoftAccessSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MicrosoftAccessSource";
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -9926,6 +11004,10 @@ export type MicrosoftAccessSource = CopySource & {
  */
 export type ODataSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ODataSource";
+  /**
    * OData query. For example, "$top=1". Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -9935,6 +11017,10 @@ export type ODataSource = CopySource & {
  * A copy activity Salesforce Service Cloud source.
  */
 export type SalesforceServiceCloudSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceServiceCloudSource";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -9949,6 +11035,10 @@ export type SalesforceServiceCloudSource = CopySource & {
  * A copy activity Rest service source.
  */
 export type RestSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "RestSource";
   /**
    * The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string).
    */
@@ -9980,6 +11070,10 @@ export type RestSource = CopySource & {
  */
 export type FileSystemSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FileSystemSource";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -9989,6 +11083,10 @@ export type FileSystemSource = CopySource & {
  * A copy activity HDFS source.
  */
 export type HdfsSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HdfsSource";
   /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
@@ -10003,6 +11101,10 @@ export type HdfsSource = CopySource & {
  * A copy activity Azure Data Explorer (Kusto) source.
  */
 export type AzureDataExplorerSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataExplorerSource";
   /**
    * Database query. Should be a Kusto Query Language (KQL) query. Type: string (or Expression with resultType string).
    */
@@ -10021,6 +11123,10 @@ export type AzureDataExplorerSource = CopySource & {
  * A copy activity Oracle source.
  */
 export type OracleSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OracleSource";
   /**
    * Oracle reader query. Type: string (or Expression with resultType string).
    */
@@ -10042,12 +11148,21 @@ export type OracleSource = CopySource & {
 /**
  * A copy activity source for web page table.
  */
-export type WebSource = CopySource & {};
+export type WebSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "WebSource";
+};
 
 /**
  * A copy activity source for a MongoDB database.
  */
 export type MongoDbSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MongoDbSource";
   /**
    * Database query. Should be a SQL-92 query expression. Type: string (or Expression with resultType string).
    */
@@ -10058,6 +11173,10 @@ export type MongoDbSource = CopySource & {
  * A copy activity source for a MongoDB database.
  */
 export type MongoDbV2Source = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MongoDbV2Source";
   /**
    * Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string).
    */
@@ -10081,6 +11200,10 @@ export type MongoDbV2Source = CopySource & {
  */
 export type CosmosDbMongoDbApiSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbMongoDbApiSource";
+  /**
    * Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string).
    */
   filter?: any;
@@ -10102,6 +11225,10 @@ export type CosmosDbMongoDbApiSource = CopySource & {
  * A copy activity source for an Office 365 service.
  */
 export type Office365Source = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Office365Source";
   /**
    * The groups containing all the users. Type: array of strings (or Expression with resultType array of strings).
    */
@@ -10133,6 +11260,10 @@ export type Office365Source = CopySource & {
  */
 export type AzureDataLakeStoreSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeStoreSource";
+  /**
    * If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean).
    */
   recursive?: any;
@@ -10142,6 +11273,10 @@ export type AzureDataLakeStoreSource = CopySource & {
  * A copy activity Azure BlobFS source.
  */
 export type AzureBlobFSSource = CopySource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobFSSource";
   /**
    * Treat empty as null. Type: boolean (or Expression with resultType boolean).
    */
@@ -10161,6 +11296,10 @@ export type AzureBlobFSSource = CopySource & {
  */
 export type HttpSource = CopySource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HttpSource";
+  /**
    * Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
    */
   httpRequestTimeout?: any;
@@ -10170,6 +11309,10 @@ export type HttpSource = CopySource & {
  * A copy activity DelimitedText sink.
  */
 export type DelimitedTextSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DelimitedTextSink";
   /**
    * DelimitedText store settings.
    */
@@ -10185,6 +11328,10 @@ export type DelimitedTextSink = CopySink & {
  */
 export type JsonSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "JsonSink";
+  /**
    * Json store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -10199,6 +11346,10 @@ export type JsonSink = CopySink & {
  */
 export type OrcSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OrcSink";
+  /**
    * ORC store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -10208,6 +11359,10 @@ export type OrcSink = CopySink & {
  * A copy activity Azure PostgreSQL sink.
  */
 export type AzurePostgreSqlSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzurePostgreSqlSink";
   /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType string).
    */
@@ -10219,6 +11374,10 @@ export type AzurePostgreSqlSink = CopySink & {
  */
 export type AzureMySqlSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMySqlSink";
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -10229,6 +11388,10 @@ export type AzureMySqlSink = CopySink & {
  */
 export type SapCloudForCustomerSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapCloudForCustomerSink";
+  /**
    * The write behavior for the operation. Default is 'Insert'.
    */
   writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
@@ -10237,12 +11400,21 @@ export type SapCloudForCustomerSink = CopySink & {
 /**
  * A copy activity Azure Queue sink.
  */
-export type AzureQueueSink = CopySink & {};
+export type AzureQueueSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureQueueSink";
+};
 
 /**
  * A copy activity Azure Table sink.
  */
 export type AzureTableSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureTableSink";
   /**
    * Azure Table default partition key value. Type: string (or Expression with resultType string).
    */
@@ -10266,6 +11438,10 @@ export type AzureTableSink = CopySink & {
  */
 export type AvroSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AvroSink";
+  /**
    * Avro store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -10280,6 +11456,10 @@ export type AvroSink = CopySink & {
  */
 export type ParquetSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ParquetSink";
+  /**
    * Parquet store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -10290,6 +11470,10 @@ export type ParquetSink = CopySink & {
  */
 export type BinarySink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BinarySink";
+  /**
    * Binary store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
@@ -10299,6 +11483,10 @@ export type BinarySink = CopySink & {
  * A copy activity Azure Blob sink.
  */
 export type BlobSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BlobSink";
   /**
    * Blob writer overwrite files. Type: boolean (or Expression with resultType boolean).
    */
@@ -10322,6 +11510,10 @@ export type BlobSink = CopySink & {
  */
 export type FileSystemSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "FileSystemSink";
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -10331,6 +11523,10 @@ export type FileSystemSink = CopySink & {
  * A copy activity Document Database Collection sink.
  */
 export type DocumentDbCollectionSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DocumentDbCollectionSink";
   /**
    * Nested properties separator. Default is . (dot). Type: string (or Expression with resultType string).
    */
@@ -10346,6 +11542,10 @@ export type DocumentDbCollectionSink = CopySink & {
  */
 export type CosmosDbSqlApiSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbSqlApiSink";
+  /**
    * Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType string). Allowed values: insert and upsert.
    */
   writeBehavior?: any;
@@ -10355,6 +11555,10 @@ export type CosmosDbSqlApiSink = CopySink & {
  * A copy activity SQL sink.
  */
 export type SqlSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlSink";
   /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
@@ -10388,6 +11592,10 @@ export type SqlSink = CopySink & {
  */
 export type SqlServerSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlServerSink";
+  /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
   sqlWriterStoredProcedureName?: any;
@@ -10419,6 +11627,10 @@ export type SqlServerSink = CopySink & {
  * A copy activity Azure SQL sink.
  */
 export type AzureSqlSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlSink";
   /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
@@ -10452,6 +11664,10 @@ export type AzureSqlSink = CopySink & {
  */
 export type SqlMISink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlMISink";
+  /**
    * SQL writer stored procedure name. Type: string (or Expression with resultType string).
    */
   sqlWriterStoredProcedureName?: any;
@@ -10484,6 +11700,10 @@ export type SqlMISink = CopySink & {
  */
 export type SqlDWSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlDWSink";
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -10514,6 +11734,10 @@ export type SqlDWSink = CopySink & {
  */
 export type OracleSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OracleSink";
+  /**
    * SQL pre-copy script. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -10523,6 +11747,10 @@ export type OracleSink = CopySink & {
  * A copy activity Azure Data Lake Store sink.
  */
 export type AzureDataLakeStoreSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataLakeStoreSink";
   /**
    * The type of copy behavior for copy sink.
    */
@@ -10538,6 +11766,10 @@ export type AzureDataLakeStoreSink = CopySink & {
  */
 export type AzureBlobFSSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureBlobFSSink";
+  /**
    * The type of copy behavior for copy sink.
    */
   copyBehavior?: any;
@@ -10547,6 +11779,10 @@ export type AzureBlobFSSink = CopySink & {
  * A copy activity Azure Search Index sink.
  */
 export type AzureSearchIndexSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSearchIndexSink";
   /**
    * Specify the write behavior when upserting documents into Azure Search Index.
    */
@@ -10558,6 +11794,10 @@ export type AzureSearchIndexSink = CopySink & {
  */
 export type OdbcSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OdbcSink";
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -10567,6 +11807,10 @@ export type OdbcSink = CopySink & {
  * A copy activity Informix sink.
  */
 export type InformixSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "InformixSink";
   /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType string).
    */
@@ -10578,6 +11822,10 @@ export type InformixSink = CopySink & {
  */
 export type MicrosoftAccessSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MicrosoftAccessSink";
+  /**
    * A query to execute before starting the copy. Type: string (or Expression with resultType string).
    */
   preCopyScript?: any;
@@ -10587,6 +11835,10 @@ export type MicrosoftAccessSink = CopySink & {
  * A copy activity Dynamics sink.
  */
 export type DynamicsSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsSink";
   /**
    * The write behavior for the operation.
    */
@@ -10606,6 +11858,10 @@ export type DynamicsSink = CopySink & {
  */
 export type DynamicsCrmSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsCrmSink";
+  /**
    * The write behavior for the operation.
    */
   writeBehavior: DynamicsSinkWriteBehavior;
@@ -10623,6 +11879,10 @@ export type DynamicsCrmSink = CopySink & {
  * A copy activity Common Data Service for Apps sink.
  */
 export type CommonDataServiceForAppsSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CommonDataServiceForAppsSink";
   /**
    * The write behavior for the operation.
    */
@@ -10642,6 +11902,10 @@ export type CommonDataServiceForAppsSink = CopySink & {
  */
 export type AzureDataExplorerSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataExplorerSink";
+  /**
    * A name of a pre-created csv mapping that was defined on the target Kusto table. Type: string.
    */
   ingestionMappingName?: any;
@@ -10659,6 +11923,10 @@ export type AzureDataExplorerSink = CopySink & {
  * A copy activity Salesforce sink.
  */
 export type SalesforceSink = CopySink & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceSink";
   /**
    * The write behavior for the operation. Default is Insert.
    */
@@ -10678,6 +11946,10 @@ export type SalesforceSink = CopySink & {
  */
 export type SalesforceServiceCloudSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceServiceCloudSink";
+  /**
    * The write behavior for the operation. Default is Insert.
    */
   writeBehavior?: SalesforceSinkWriteBehavior;
@@ -10696,6 +11968,10 @@ export type SalesforceServiceCloudSink = CopySink & {
  */
 export type CosmosDbMongoDbApiSink = CopySink & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CosmosDbMongoDbApiSink";
+  /**
    * Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string).
    */
   writeBehavior?: any;
@@ -10705,6 +11981,10 @@ export type CosmosDbMongoDbApiSink = CopySink & {
  * A copy activity tabular translator.
  */
 export type TabularTranslator = CopyTranslator & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TabularTranslator";
   /**
    * Column mappings. Example: "UserId: MyUserId, Group: MyGroup, Name: MyName" Type: string (or Expression with resultType string). This property will be retired. Please use mappings property.
    */
@@ -10732,6 +12012,10 @@ export type TabularTranslator = CopyTranslator & {
  */
 export type TriggerDependencyReference = DependencyReference & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TriggerDependencyReference";
+  /**
    * Referenced trigger.
    */
   referenceTrigger: TriggerReference;
@@ -10741,6 +12025,10 @@ export type TriggerDependencyReference = DependencyReference & {
  * Self referenced tumbling window trigger dependency.
  */
 export type SelfDependencyTumblingWindowTriggerReference = DependencyReference & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SelfDependencyTumblingWindowTriggerReference";
   /**
    * Timespan applied to the start time of a tumbling window when evaluating dependency.
    */
@@ -10756,6 +12044,10 @@ export type SelfDependencyTumblingWindowTriggerReference = DependencyReference &
  */
 export type LinkedIntegrationRuntimeKeyAuthorization = LinkedIntegrationRuntimeType & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  authorizationType: "Key";
+  /**
    * The key used for authorization.
    */
   key: SecureString;
@@ -10765,6 +12057,10 @@ export type LinkedIntegrationRuntimeKeyAuthorization = LinkedIntegrationRuntimeT
  * The role based access control (RBAC) authorization type integration runtime.
  */
 export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntimeType & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  authorizationType: "RBAC";
   /**
    * The resource identifier of the integration runtime to be shared.
    */
@@ -11078,6 +12374,10 @@ export type BigDataPoolResourceInfo = TrackedResource & {
  */
 export type CopyActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Copy";
+  /**
    * List of inputs for the activity.
    */
   inputs?: DatasetReference[];
@@ -11136,6 +12436,10 @@ export type CopyActivity = ExecutionActivity & {
  */
 export type HDInsightHiveActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsightHive";
+  /**
    * Storage linked service references.
    */
   storageLinkedServices?: LinkedServiceReference[];
@@ -11174,6 +12478,10 @@ export type HDInsightHiveActivity = ExecutionActivity & {
  */
 export type HDInsightPigActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsightPig";
+  /**
    * Storage linked service references.
    */
   storageLinkedServices?: LinkedServiceReference[];
@@ -11203,6 +12511,10 @@ export type HDInsightPigActivity = ExecutionActivity & {
  * HDInsight MapReduce activity type.
  */
 export type HDInsightMapReduceActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsightMapReduce";
   /**
    * Storage linked service references.
    */
@@ -11241,6 +12553,10 @@ export type HDInsightMapReduceActivity = ExecutionActivity & {
  * HDInsight streaming activity type.
  */
 export type HDInsightStreamingActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsightStreaming";
   /**
    * Storage linked service references.
    */
@@ -11296,6 +12612,10 @@ export type HDInsightStreamingActivity = ExecutionActivity & {
  */
 export type HDInsightSparkActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HDInsightSpark";
+  /**
    * The root path in 'sparkJobLinkedService' for all the job’s files. Type: string (or Expression with resultType string).
    */
   rootPath: any;
@@ -11333,6 +12653,10 @@ export type HDInsightSparkActivity = ExecutionActivity & {
  * Execute SSIS package activity.
  */
 export type ExecuteSsisPackageActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ExecuteSSISPackage";
   /**
    * SSIS package location.
    */
@@ -11388,6 +12712,10 @@ export type ExecuteSsisPackageActivity = ExecutionActivity & {
  */
 export type CustomActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Custom";
+  /**
    * Command for custom activity Type: string (or Expression with resultType string).
    */
   command: any;
@@ -11418,6 +12746,10 @@ export type CustomActivity = ExecutionActivity & {
  */
 export type SqlServerStoredProcedureActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlServerStoredProcedure";
+  /**
    * Stored procedure name. Type: string (or Expression with resultType string).
    */
   storedProcedureName: any;
@@ -11433,6 +12765,10 @@ export type SqlServerStoredProcedureActivity = ExecutionActivity & {
  * Delete activity.
  */
 export type DeleteActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Delete";
   /**
    * If true, files or sub-folders under current folder path will be deleted recursively. Default is false. Type: boolean (or Expression with resultType boolean).
    */
@@ -11460,6 +12796,10 @@ export type DeleteActivity = ExecutionActivity & {
  */
 export type AzureDataExplorerCommandActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureDataExplorerCommand";
+  /**
    * A control command, according to the Azure Data Explorer command syntax. Type: string (or Expression with resultType string).
    */
   command: any;
@@ -11473,6 +12813,10 @@ export type AzureDataExplorerCommandActivity = ExecutionActivity & {
  * Lookup activity.
  */
 export type LookupActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Lookup";
   /**
    * Dataset-specific source properties, same as copy activity source.
    */
@@ -11491,6 +12835,10 @@ export type LookupActivity = ExecutionActivity & {
  * Web activity.
  */
 export type WebActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "WebActivity";
   /**
    * Rest API method for target endpoint.
    */
@@ -11530,6 +12878,10 @@ export type WebActivity = ExecutionActivity & {
  */
 export type GetMetadataActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GetMetadata";
+  /**
    * GetMetadata activity dataset reference.
    */
   dataset: DatasetReference;
@@ -11543,6 +12895,10 @@ export type GetMetadataActivity = ExecutionActivity & {
  * Azure ML Batch Execution activity.
  */
 export type AzureMLBatchExecutionActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMLBatchExecution";
   /**
    * Key,Value pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys must match the names of web service parameters defined in the published Azure ML web service. Values will be passed in the GlobalParameters property of the Azure ML batch execution request.
    */
@@ -11562,6 +12918,10 @@ export type AzureMLBatchExecutionActivity = ExecutionActivity & {
  */
 export type AzureMLUpdateResourceActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMLUpdateResource";
+  /**
    * Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string).
    */
   trainedModelName: any;
@@ -11579,6 +12939,10 @@ export type AzureMLUpdateResourceActivity = ExecutionActivity & {
  * Azure ML Execute Pipeline activity.
  */
 export type AzureMLExecutePipelineActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMLExecutePipeline";
   /**
    * ID of the published Azure ML pipeline. Type: string (or Expression with resultType string).
    */
@@ -11605,6 +12969,10 @@ export type AzureMLExecutePipelineActivity = ExecutionActivity & {
  * Data Lake Analytics U-SQL activity.
  */
 export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DataLakeAnalyticsU-SQL";
   /**
    * Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string).
    */
@@ -11640,6 +13008,10 @@ export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
  */
 export type DatabricksNotebookActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DatabricksNotebook";
+  /**
    * The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string).
    */
   notebookPath: any;
@@ -11657,6 +13029,10 @@ export type DatabricksNotebookActivity = ExecutionActivity & {
  * DatabricksSparkJar activity.
  */
 export type DatabricksSparkJarActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DatabricksSparkJar";
   /**
    * The full name of the class containing the main method to be executed. This class must be contained in a JAR provided as a library. Type: string (or Expression with resultType string).
    */
@@ -11676,6 +13052,10 @@ export type DatabricksSparkJarActivity = ExecutionActivity & {
  */
 export type DatabricksSparkPythonActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DatabricksSparkPython";
+  /**
    * The URI of the Python file to be executed. DBFS paths are supported. Type: string (or Expression with resultType string).
    */
   pythonFile: any;
@@ -11693,6 +13073,10 @@ export type DatabricksSparkPythonActivity = ExecutionActivity & {
  * Azure Function activity.
  */
 export type AzureFunctionActivity = ExecutionActivity & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureFunctionActivity";
   /**
    * Rest API method for target endpoint.
    */
@@ -11716,6 +13100,10 @@ export type AzureFunctionActivity = ExecutionActivity & {
  */
 export type ExecuteDataFlowActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ExecuteDataFlow";
+  /**
    * Data flow reference.
    */
   dataFlow: DataFlowReference;
@@ -11738,6 +13126,10 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
  */
 export type SynapseNotebookActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SynapseNotebook";
+  /**
    * Synapse notebook reference.
    */
   notebook: SynapseNotebookReference;
@@ -11752,6 +13144,10 @@ export type SynapseNotebookActivity = ExecutionActivity & {
  */
 export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SparkJob";
+  /**
    * Synapse spark job reference.
    */
   sparkJob: SynapseSparkJobReference;
@@ -11762,6 +13158,10 @@ export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
  */
 export type ScheduleTrigger = MultiplePipelineTrigger & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ScheduleTrigger";
+  /**
    * Recurrence schedule configuration.
    */
   recurrence: ScheduleTriggerRecurrence;
@@ -11771,6 +13171,10 @@ export type ScheduleTrigger = MultiplePipelineTrigger & {
  * Trigger that runs every time the selected Blob container changes.
  */
 export type BlobTrigger = MultiplePipelineTrigger & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BlobTrigger";
   /**
    * The path of the container/folder that will trigger the pipeline.
    */
@@ -11789,6 +13193,10 @@ export type BlobTrigger = MultiplePipelineTrigger & {
  * Trigger that runs every time a Blob event occurs.
  */
 export type BlobEventsTrigger = MultiplePipelineTrigger & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "BlobEventsTrigger";
   /**
    * The blob path must begin with the pattern provided for trigger to fire. For example, '/records/blobs/december/' will only fire the trigger for blobs in the december folder under the records container. At least one of these must be provided: blobPathBeginsWith, blobPathEndsWith.
    */
@@ -11816,6 +13224,10 @@ export type BlobEventsTrigger = MultiplePipelineTrigger & {
  */
 export type AzureTableSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureTableSource";
+  /**
    * Azure Table source query. Type: string (or Expression with resultType string).
    */
   azureTableSourceQuery?: any;
@@ -11830,6 +13242,10 @@ export type AzureTableSource = TabularSource & {
  */
 export type InformixSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "InformixSource";
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -11839,6 +13255,10 @@ export type InformixSource = TabularSource & {
  * A copy activity source for Db2 databases.
  */
 export type Db2Source = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "Db2Source";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -11850,6 +13270,10 @@ export type Db2Source = TabularSource & {
  */
 export type OdbcSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OdbcSource";
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -11859,6 +13283,10 @@ export type OdbcSource = TabularSource & {
  * A copy activity source for MySQL databases.
  */
 export type MySqlSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MySqlSource";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -11870,6 +13298,10 @@ export type MySqlSource = TabularSource & {
  */
 export type PostgreSqlSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PostgreSqlSource";
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -11879,6 +13311,10 @@ export type PostgreSqlSource = TabularSource & {
  * A copy activity source for Sybase databases.
  */
 export type SybaseSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SybaseSource";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -11890,6 +13326,10 @@ export type SybaseSource = TabularSource & {
  */
 export type SapBwSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapBwSource";
+  /**
    * MDX query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -11899,6 +13339,10 @@ export type SapBwSource = TabularSource & {
  * A copy activity Salesforce source.
  */
 export type SalesforceSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceSource";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -11914,6 +13358,10 @@ export type SalesforceSource = TabularSource & {
  */
 export type SapCloudForCustomerSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapCloudForCustomerSource";
+  /**
    * SAP Cloud for Customer OData query. For example, "$top=1". Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -11924,6 +13372,10 @@ export type SapCloudForCustomerSource = TabularSource & {
  */
 export type SapEccSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapEccSource";
+  /**
    * SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -11933,6 +13385,10 @@ export type SapEccSource = TabularSource & {
  * A copy activity source for SAP HANA source.
  */
 export type SapHanaSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapHanaSource";
   /**
    * SAP HANA Sql query. Type: string (or Expression with resultType string).
    */
@@ -11956,6 +13412,10 @@ export type SapHanaSource = TabularSource & {
  */
 export type SapOpenHubSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapOpenHubSource";
+  /**
    * Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean).
    */
   excludeLastRequest?: any;
@@ -11969,6 +13429,10 @@ export type SapOpenHubSource = TabularSource & {
  * A copy activity source for SAP Table source.
  */
 export type SapTableSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SapTableSource";
   /**
    * The number of rows to be retrieved. Type: integer(or Expression with resultType integer).
    */
@@ -12008,6 +13472,10 @@ export type SapTableSource = TabularSource & {
  */
 export type SqlSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlSource";
+  /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
   sqlReaderQuery?: any;
@@ -12027,6 +13495,10 @@ export type SqlSource = TabularSource & {
  * A copy activity SQL server source.
  */
 export type SqlServerSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlServerSource";
   /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
@@ -12052,6 +13524,10 @@ export type SqlServerSource = TabularSource & {
  */
 export type AzureSqlSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureSqlSource";
+  /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
   sqlReaderQuery?: any;
@@ -12075,6 +13551,10 @@ export type AzureSqlSource = TabularSource & {
  * A copy activity Azure SQL Managed Instance source.
  */
 export type SqlMISource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlMISource";
   /**
    * SQL reader query. Type: string (or Expression with resultType string).
    */
@@ -12100,6 +13580,10 @@ export type SqlMISource = TabularSource & {
  */
 export type SqlDWSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SqlDWSource";
+  /**
    * SQL Data Warehouse reader query. Type: string (or Expression with resultType string).
    */
   sqlReaderQuery?: any;
@@ -12118,6 +13602,10 @@ export type SqlDWSource = TabularSource & {
  */
 export type AzureMySqlSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMySqlSource";
+  /**
    * Database query. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12127,6 +13615,10 @@ export type AzureMySqlSource = TabularSource & {
  * A copy activity Teradata source.
  */
 export type TeradataSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TeradataSource";
   /**
    * Teradata query. Type: string (or Expression with resultType string).
    */
@@ -12146,6 +13638,10 @@ export type TeradataSource = TabularSource & {
  */
 export type CassandraSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CassandraSource";
+  /**
    * Database query. Should be a SQL-92 query expression or Cassandra Query Language (CQL) command. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12160,6 +13656,10 @@ export type CassandraSource = TabularSource & {
  */
 export type AmazonMWSSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonMWSSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12169,6 +13669,10 @@ export type AmazonMWSSource = TabularSource & {
  * A copy activity Azure PostgreSQL source.
  */
 export type AzurePostgreSqlSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzurePostgreSqlSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12180,6 +13684,10 @@ export type AzurePostgreSqlSource = TabularSource & {
  */
 export type ConcurSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ConcurSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12189,6 +13697,10 @@ export type ConcurSource = TabularSource & {
  * A copy activity Couchbase server source.
  */
 export type CouchbaseSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "CouchbaseSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12200,6 +13712,10 @@ export type CouchbaseSource = TabularSource & {
  */
 export type DrillSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DrillSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12209,6 +13725,10 @@ export type DrillSource = TabularSource & {
  * A copy activity Eloqua server source.
  */
 export type EloquaSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "EloquaSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12220,6 +13740,10 @@ export type EloquaSource = TabularSource & {
  */
 export type GoogleBigQuerySource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleBigQuerySource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12229,6 +13753,10 @@ export type GoogleBigQuerySource = TabularSource & {
  * A copy activity Greenplum Database source.
  */
 export type GreenplumSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GreenplumSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12240,6 +13768,10 @@ export type GreenplumSource = TabularSource & {
  */
 export type HBaseSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HBaseSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12249,6 +13781,10 @@ export type HBaseSource = TabularSource & {
  * A copy activity Hive Server source.
  */
 export type HiveSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HiveSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12260,6 +13796,10 @@ export type HiveSource = TabularSource & {
  */
 export type HubspotSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "HubspotSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12269,6 +13809,10 @@ export type HubspotSource = TabularSource & {
  * A copy activity Impala server source.
  */
 export type ImpalaSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ImpalaSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12280,6 +13824,10 @@ export type ImpalaSource = TabularSource & {
  */
 export type JiraSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "JiraSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12289,6 +13837,10 @@ export type JiraSource = TabularSource & {
  * A copy activity Magento server source.
  */
 export type MagentoSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MagentoSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12300,6 +13852,10 @@ export type MagentoSource = TabularSource & {
  */
 export type MariaDBSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MariaDBSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12309,6 +13865,10 @@ export type MariaDBSource = TabularSource & {
  * A copy activity Azure MariaDB source.
  */
 export type AzureMariaDBSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AzureMariaDBSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12320,6 +13880,10 @@ export type AzureMariaDBSource = TabularSource & {
  */
 export type MarketoSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "MarketoSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12329,6 +13893,10 @@ export type MarketoSource = TabularSource & {
  * A copy activity Paypal Service source.
  */
 export type PaypalSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PaypalSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12340,6 +13908,10 @@ export type PaypalSource = TabularSource & {
  */
 export type PhoenixSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PhoenixSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12349,6 +13921,10 @@ export type PhoenixSource = TabularSource & {
  * A copy activity Presto server source.
  */
 export type PrestoSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "PrestoSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12360,6 +13936,10 @@ export type PrestoSource = TabularSource & {
  */
 export type QuickBooksSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "QuickBooksSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12369,6 +13949,10 @@ export type QuickBooksSource = TabularSource & {
  * A copy activity ServiceNow server source.
  */
 export type ServiceNowSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ServiceNowSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12380,6 +13964,10 @@ export type ServiceNowSource = TabularSource & {
  */
 export type ShopifySource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ShopifySource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12389,6 +13977,10 @@ export type ShopifySource = TabularSource & {
  * A copy activity Spark Server source.
  */
 export type SparkSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SparkSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12400,6 +13992,10 @@ export type SparkSource = TabularSource & {
  */
 export type SquareSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SquareSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12409,6 +14005,10 @@ export type SquareSource = TabularSource & {
  * A copy activity Xero Service source.
  */
 export type XeroSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "XeroSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12420,6 +14020,10 @@ export type XeroSource = TabularSource & {
  */
 export type ZohoSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ZohoSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12429,6 +14033,10 @@ export type ZohoSource = TabularSource & {
  * A copy activity Netezza source.
  */
 export type NetezzaSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "NetezzaSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12448,6 +14056,10 @@ export type NetezzaSource = TabularSource & {
  */
 export type VerticaSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "VerticaSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12457,6 +14069,10 @@ export type VerticaSource = TabularSource & {
  * A copy activity Salesforce Marketing Cloud source.
  */
 export type SalesforceMarketingCloudSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "SalesforceMarketingCloudSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12468,6 +14084,10 @@ export type SalesforceMarketingCloudSource = TabularSource & {
  */
 export type ResponsysSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "ResponsysSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12477,6 +14097,10 @@ export type ResponsysSource = TabularSource & {
  * A copy activity Dynamics AX source.
  */
 export type DynamicsAXSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "DynamicsAXSource";
   /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
@@ -12488,6 +14112,10 @@ export type DynamicsAXSource = TabularSource & {
  */
 export type OracleServiceCloudSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "OracleServiceCloudSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12498,6 +14126,10 @@ export type OracleServiceCloudSource = TabularSource & {
  */
 export type GoogleAdWordsSource = TabularSource & {
   /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "GoogleAdWordsSource";
+  /**
    * A query to retrieve data from source. Type: string (or Expression with resultType string).
    */
   query?: any;
@@ -12507,6 +14139,10 @@ export type GoogleAdWordsSource = TabularSource & {
  * A copy activity source for Amazon Redshift Source.
  */
 export type AmazonRedshiftSource = TabularSource & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "AmazonRedshiftSource";
   /**
    * Database query. Type: string (or Expression with resultType string).
    */
@@ -12521,6 +14157,10 @@ export type AmazonRedshiftSource = TabularSource & {
  * Referenced tumbling window trigger dependency.
  */
 export type TumblingWindowTriggerDependencyReference = TriggerDependencyReference & {
+  /**
+   * Polymorphic discriminator, which specifies the different types this object can be
+   */
+  type: "TumblingWindowTriggerDependencyReference";
   /**
    * Timespan applied to the start time of a tumbling window when evaluating dependency.
    */
@@ -14594,7 +16234,8 @@ export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceReso
 /**
  * Optional parameters.
  */
-export interface LinkedServiceGetLinkedServiceOptionalParams extends coreHttp.OperationOptions {
+export interface LinkedServiceGetLinkedServiceOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -14664,7 +16305,8 @@ export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse & {
 /**
  * Optional parameters.
  */
-export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreHttp.OperationOptions {
+export interface DatasetCreateOrUpdateDatasetOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
    */
@@ -14698,7 +16340,8 @@ export type DatasetCreateOrUpdateDatasetResponse = DatasetResource & {
 /**
  * Optional parameters.
  */
-export interface DatasetGetDatasetOptionalParams extends coreHttp.OperationOptions {
+export interface DatasetGetDatasetOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the dataset entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -14768,7 +16411,8 @@ export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse & {
 /**
  * Optional parameters.
  */
-export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreHttp.OperationOptions {
+export interface PipelineCreateOrUpdatePipelineOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
    */
@@ -14802,7 +16446,8 @@ export type PipelineCreateOrUpdatePipelineResponse = PipelineResource & {
 /**
  * Optional parameters.
  */
-export interface PipelineGetPipelineOptionalParams extends coreHttp.OperationOptions {
+export interface PipelineGetPipelineOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -14832,7 +16477,8 @@ export type PipelineGetPipelineResponse = PipelineResource & {
 /**
  * Optional parameters.
  */
-export interface PipelineCreatePipelineRunOptionalParams extends coreHttp.OperationOptions {
+export interface PipelineCreatePipelineRunOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Parameters of the pipeline run. These parameters will be used only if the runId is not specified.
    */
@@ -14954,7 +16600,8 @@ export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse & {
 /**
  * Optional parameters.
  */
-export interface PipelineRunCancelPipelineRunOptionalParams extends coreHttp.OperationOptions {
+export interface PipelineRunCancelPipelineRunOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * If true, cancel all the Child pipelines that are triggered by the current pipeline.
    */
@@ -14984,7 +16631,8 @@ export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse & {
 /**
  * Optional parameters.
  */
-export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreHttp.OperationOptions {
+export interface TriggerCreateOrUpdateTriggerOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
    */
@@ -15018,7 +16666,8 @@ export type TriggerCreateOrUpdateTriggerResponse = TriggerResource & {
 /**
  * Optional parameters.
  */
-export interface TriggerGetTriggerOptionalParams extends coreHttp.OperationOptions {
+export interface TriggerGetTriggerOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -15156,7 +16805,8 @@ export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResp
 /**
  * Optional parameters.
  */
-export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreHttp.OperationOptions {
+export interface DataFlowCreateOrUpdateDataFlowOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
    */
@@ -15190,7 +16840,8 @@ export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource & {
 /**
  * Optional parameters.
  */
-export interface DataFlowGetDataFlowOptionalParams extends coreHttp.OperationOptions {
+export interface DataFlowGetDataFlowOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the data flow entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -15388,7 +17039,8 @@ export type SqlScriptGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse &
 /**
  * Optional parameters.
  */
-export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams extends coreHttp.OperationOptions {
+export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the SQL script entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
    */
@@ -15418,7 +17070,8 @@ export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource & {
 /**
  * Optional parameters.
  */
-export interface SqlScriptGetSqlScriptOptionalParams extends coreHttp.OperationOptions {
+export interface SqlScriptGetSqlScriptOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the sql compute entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -15658,7 +17311,8 @@ export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse
 /**
  * Optional parameters.
  */
-export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreHttp.OperationOptions {
+export interface NotebookCreateOrUpdateNotebookOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the Note book entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
    */
@@ -15692,7 +17346,8 @@ export type NotebookCreateOrUpdateNotebookResponse = NotebookResource & {
 /**
  * Optional parameters.
  */
-export interface NotebookGetNotebookOptionalParams extends coreHttp.OperationOptions {
+export interface NotebookGetNotebookOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
    */
@@ -15933,7 +17588,8 @@ export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAcces
 /**
  * Optional parameters.
  */
-export interface ArtifactsClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface ArtifactsClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */

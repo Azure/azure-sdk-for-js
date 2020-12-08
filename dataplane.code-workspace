@@ -133,8 +133,8 @@
       "path": "sdk/storage/storage-queue"
     },
     {
-      "name": "synapse-accesscontrol",
-      "path": "sdk/synapse/synapse-accesscontrol"
+      "name": "synapse-access-control",
+      "path": "sdk/synapse/synapse-access-control"
     },
     {
       "name": "synapse-artifacts",

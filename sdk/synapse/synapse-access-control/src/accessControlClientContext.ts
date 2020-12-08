@@ -1,7 +1,7 @@
 import * as coreHttp from "@azure/core-http";
 import { AccessControlClientOptionalParams } from "./models";
 
-const packageName = "@azure/synapse-accesscontrol";
+const packageName = "@azure/synapse-access-control";
 const packageVersion = "1.0.0";
 
 export class AccessControlClientContext extends coreHttp.ServiceClient {
@@ -38,7 +38,7 @@ export class AccessControlClientContext extends coreHttp.ServiceClient {
     }
 
     if (!options.credentialScopes) {
-      options.credentialScopes = ["https://microsoft.com"];
+      options.credentialScopes = ["https://dev.azuresynapse.net/.default"];
     }
 
     super(credentials, options);

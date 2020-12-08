@@ -44,7 +44,7 @@ export class SparkClientContext extends coreHttp.ServiceClient {
     }
 
     if (!options.credentialScopes) {
-      options.credentialScopes = ["https://microsoft.com"];
+      options.credentialScopes = ["https://dev.azuresynapse.net/.default"];
     }
 
     super(credentials, options);
@@ -52,7 +52,8 @@ export class SparkClientContext extends coreHttp.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
 
     this.baseUri =
-      options.endpoint || "{endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}";
+      options.endpoint ||
+      "{endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}";
 
     // Parameter assignments
     this.endpoint = endpoint;

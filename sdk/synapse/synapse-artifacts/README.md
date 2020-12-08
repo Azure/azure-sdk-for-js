@@ -19,8 +19,20 @@ npm install @azure/synapse-artifacts
 
 ## Examples
 
-In the future, we will share samples here.
+```ts
+import { ArtifactsClient } from "@azure/synapse-artifacts";
+import { DefaultAzureCredential } from "@azure/identity";
 
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+
+  let client = new ArtifactsClient(credential, "https://mysynapse.dev.azuresynapse.net");
+  let list = await client.pipeline.listPipelinesByWorkspace();
+  for await (let item of list) {
+    console.log("item:", item);
+  } 
+}
+```
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
