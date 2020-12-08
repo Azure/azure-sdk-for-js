@@ -14,7 +14,7 @@ dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
- process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 async function main() {
   console.log("\n== Release Phone Numbers Javascript Sample ==\n");
@@ -33,7 +33,8 @@ async function main() {
   // get toll free phone numbers with the sms outbound (A2P) capability as their only capability
   // we will release these
   for await (const acquired of phoneNumbers) {
-    if (acquired.acquiredCapabilities.length === 4 &&
+    if (
+      acquired.acquiredCapabilities.length === 4 &&
       acquired.acquiredCapabilities.includes("Azure") &&
       acquired.acquiredCapabilities.includes("ThirdPartyAppAssignment") &&
       acquired.acquiredCapabilities.includes("TollFree") &&
@@ -58,7 +59,7 @@ async function main() {
   } else {
     throw new Error("Did not find any phone numbers to release.");
   }
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while releasing phone numbers: ");

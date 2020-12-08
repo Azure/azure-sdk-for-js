@@ -6,10 +6,10 @@
  * to purchase a phone number and use it to send a SMS.
  */
 
- const { PhoneNumberAdministrationClient } = require("@azure/communication-administration");
- const { SmsClient } = require("@azure/communication-sms");
+const { PhoneNumberAdministrationClient } = require("@azure/communication-administration");
+const { SmsClient } = require("@azure/communication-sms");
 
- // Load the .env file if it exists
+// Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -40,7 +40,7 @@ async function main() {
 
   // poll until phone number reservation is made
   const reservation = await reservationPoller.pollUntilDone();
-  
+
   console.log("Phone number reserved for purchase.");
   console.log(`Reservation: ${JSON.stringify(reservation)}`);
 
@@ -48,8 +48,10 @@ async function main() {
     const phoneNumber = reservation.phoneNumbers[0];
 
     // create purchase poller
-    const purchasePoller = await phoneNumberClient.beginPurchaseReservation(reservation.reservationId);
-    
+    const purchasePoller = await phoneNumberClient.beginPurchaseReservation(
+      reservation.reservationId
+    );
+
     console.log("Purchasing phone number from reservation.");
 
     // poll until reservation is purchased
@@ -61,7 +63,7 @@ async function main() {
     // wait before using number to send SMS
     let timer = 45;
     const interval = setInterval(() => {
-      timer -= 9
+      timer -= 9;
       console.log(`Sending SMS in ${timer}s...`);
     }, 9000);
 
@@ -73,14 +75,14 @@ async function main() {
 
         // create an instance of SmsClient
         const smsClient = new SmsClient(connectionString);
-        
+
         // send sms with new number
         await smsClient.send({
           to: ["+12127319863"],
           from: phoneNumber,
           message: "New phone number purchased successfully!"
         });
-    
+
         console.log("Message sent successfully!");
         resolve();
       }, 46000);

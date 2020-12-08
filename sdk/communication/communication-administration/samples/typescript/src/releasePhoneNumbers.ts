@@ -14,7 +14,7 @@ dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
- process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export const main = async () => {
   console.log("\n== Release Phone Numbers Typescript Sample ==\n");
@@ -22,7 +22,7 @@ export const main = async () => {
   // create an instance of PhoneNumberAdministrationClient
   const phoneNumberClient = new PhoneNumberAdministrationClient(connectionString);
 
-  console.log("Getting acquired phone numbers.")
+  console.log("Getting acquired phone numbers.");
 
   // get the list of acquired phone numbers
   const phoneNumbers = await phoneNumberClient.listPhoneNumbers();
@@ -33,7 +33,8 @@ export const main = async () => {
   // get toll free phone numbers with the sms outbound (A2P) capability as their only capability
   // we will release these
   for await (const acquired of phoneNumbers) {
-    if (acquired.acquiredCapabilities.length === 4 &&
+    if (
+      acquired.acquiredCapabilities.length === 4 &&
       acquired.acquiredCapabilities.includes("Azure") &&
       acquired.acquiredCapabilities.includes("ThirdPartyAppAssignment") &&
       acquired.acquiredCapabilities.includes("TollFree") &&

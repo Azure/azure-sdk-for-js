@@ -6,7 +6,10 @@
  * to purchase a phone number and use it to send a SMS.
  */
 
-import { CreateReservationRequest, PhoneNumberAdministrationClient } from "@azure/communication-administration";
+import {
+  CreateReservationRequest,
+  PhoneNumberAdministrationClient
+} from "@azure/communication-administration";
 import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
@@ -15,14 +18,14 @@ dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
- process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export const main = async () => {
   console.log("\n== Purchase Phone Number Typescript Sample ==\n");
 
   // create an instance of PhoneNumberAdministrationClient
   const phoneNumberClient = new PhoneNumberAdministrationClient(connectionString);
-  
+
   // create reservation request
   const phonePlanIds = ["ac4b0d70-30ef-422a-b5c7-8b751f021d0a"];
   const areaCode = "833";
@@ -41,7 +44,7 @@ export const main = async () => {
 
   // poll until phone number reservation is made
   const reservation = await reservationPoller.pollUntilDone();
-  
+
   console.log("Phone number reserved for purchase.");
   console.log(`Reservation: ${JSON.stringify(reservation)}`);
 
@@ -49,8 +52,10 @@ export const main = async () => {
     const phoneNumber = reservation.phoneNumbers[0];
 
     // create purchase poller
-    const purchasePoller = await phoneNumberClient.beginPurchaseReservation(reservation.reservationId!);
-    
+    const purchasePoller = await phoneNumberClient.beginPurchaseReservation(
+      reservation.reservationId!
+    );
+
     console.log("Purchasing phone number from reservation.");
 
     // poll until reservation is purchased
@@ -74,14 +79,14 @@ export const main = async () => {
 
         // create an instance of SmsClient
         const smsClient = new SmsClient(connectionString);
-        
+
         // send sms with new number
         await smsClient.send({
           to: ["+12127319863"],
           from: phoneNumber,
           message: "New phone number purchased successfully!"
         });
-    
+
         console.log("Message sent successfully!");
         resolve();
       }, 46000);
@@ -89,7 +94,7 @@ export const main = async () => {
   } else {
     throw new Error("No phone numbers found.");
   }
-}
+};
 
 main().catch((error) => {
   console.error("Encountered an error while purchasing phone number: ");

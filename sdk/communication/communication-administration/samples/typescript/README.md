@@ -13,12 +13,12 @@ urlFragment: communication-administration-identity-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Service Communication Identity to issue and refresh tokens.
 
-| **File Name**                   | **Description**                                                                                            |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [issueToken.ts][issuetoken]     | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
-| [revokeTokens.ts][revoketokens] | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
-| [purchasePhoneNumber.ts][purchasePhoneNumber] | uses the PhoneNumberAdministrationClient to purchase a phone number then use the phone number to send a SMS |
-| [releasePhoneNumbers.ts][releasePhoneNumbers] | uses the PhoneNumberAdministrationClient to release all phone numbers that match certain criteria |
+| **File Name**                                 | **Description**                                                                                             |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| [issueToken.ts][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                       |
+| [revokeTokens.ts][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens  |
+| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number then use the phone number to send a SMS |
+| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release all phone numbers that match certain criteria           |
 
 ## Prerequisites
 
@@ -64,8 +64,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/issueToken.ts
 [revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/revokeTokens.ts
-[purchasePhoneNumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/purchasePhoneNumber.ts
-[releasePhoneNumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/releasePhoneNumbers.ts
+[purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/purchasePhoneNumber.ts
+[releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/releasePhoneNumbers.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-administration
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
