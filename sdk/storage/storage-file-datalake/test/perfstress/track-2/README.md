@@ -1,8 +1,8 @@
 ### Guide
 
-1. Build the storage-file-share package `rush build -t storage-file-share`.
-2. Navigate to `storage-file-share` folder `cd sdk\storage\storage-file-share\`.
-3. Create a storage account and populate the .env file at `storage\storage-file-share` folder with `ACCOUNT_NAME` and `ACCOUNT_KEY` variables.
+1. Build the storage-file-datalake package `rush build -t storage-file-datalake`.
+2. Navigate to `storage-file-datalake` folder `cd sdk\storage\storage-file-datalake\`.
+3. Create a storage account and populate the .env file at `storage\storage-file-datalake` folder with `ACCOUNT_NAME` and `ACCOUNT_KEY` variables.
 4. Run the tests as shown below
    - append
      - `npm run perfstress-test:node -- StorageDFSAppendTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
