@@ -163,21 +163,26 @@ const pkgGraph = getPackageGraph(baseDir);
 
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs);
 
+/**
+ * Helper function to provide the rush logic that is used frequently below
+ *
+ * @param direction string which kind of rush tree selector to run (either "--from" or "--to")
+ * @param packages string[] the names of the packages to run the action on
+ */
+function rushRunAll(direction, packages) {
+  const params = flatMap(packages, (p) => [direction, p]);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+}
+
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
-  let params = [];
-  switch (action.toLowerCase().split(":")[0]) {
-    // case 'build':
-    //   params = flatMap(packageNames, (p) => [`--to`, p, `--from`, p]);
-    //   spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
-    //   break;
-
+  const actionComponents = action.toLowerCase().split(":");
+  switch (actionComponents[0]) {
     case "test":
     case "unit-test":
     case "integration-test":
-      params = flatMap(packageNames, (p) => [`--from`, p]);
-      spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+      rushRunAll("--from", pacakgeNames);
       break;
 
     case "lint":
@@ -186,13 +191,23 @@ if (serviceDirs.length === 0) {
       }
       break;
 
-    default:
-      let requiredPackageNames = packageNames;
-      if (buildTransitiveDep) {
-        requiredPackageNames = getPackagesToBuild(packageNames, pkgGraph);
+    case "build":
+      if (actionComponents[1] === "samples") {
+        // For sample builds, we use --from to run sample builds on dependents
+        rushRunAll("--from", packageNames);
+      } else {
+        // For other builds, we use the transitive dependency logic if required, and build dependencies
+        // using --to
+        const requiredPackageNames = buildTransitiveDep
+          ? getPackagesToBuild(packageNames, pkgGraph)
+          : packageNames;
+
+        rushRunAll("--to", requiredPackageNames);
       }
-      params = flatMap(requiredPackageNames, (p) => [`--to`, p]);
-      spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+      break;
+
+    default:
+      rushRunAll("--to", packageNames);
       break;
   }
 }
