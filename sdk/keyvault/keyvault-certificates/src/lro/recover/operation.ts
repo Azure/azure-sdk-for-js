@@ -10,7 +10,10 @@ import {
   RecoverDeletedCertificateOptions
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { KeyVaultClientGetCertificateResponse, KeyVaultClientRecoverDeletedCertificateResponse } from "../../generated/models";
+import {
+  KeyVaultClientGetCertificateResponse,
+  KeyVaultClientRecoverDeletedCertificateResponse
+} from "../../generated/models";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import {
   KeyVaultCertificatePollOperation,

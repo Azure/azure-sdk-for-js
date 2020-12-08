@@ -14,7 +14,10 @@ import {
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import { KeyVaultClientDeleteCertificateResponse, KeyVaultClientGetDeletedCertificateResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteCertificateResponse,
+  KeyVaultClientGetDeletedCertificateResponse
+} from "../../generated/models";
 import { createSpan, setParentSpan } from "../../../../keyvault-common";
 
 /**

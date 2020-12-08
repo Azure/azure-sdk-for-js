@@ -770,7 +770,7 @@ export class CertificateClient {
       id: properties.id || requestOptions.id,
       provider: properties.provider || requestOptions.provider
     };
-    
+
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions
     };
@@ -846,7 +846,7 @@ export class CertificateClient {
       ...requestOptions,
       id: properties.id || requestOptions.id,
       provider: properties.provider || requestOptions.provider
-    }
+    };
 
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions
