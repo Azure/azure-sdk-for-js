@@ -3,13 +3,13 @@
 
 import assert from "assert";
 import path from "path";
-import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../src";
+import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../../src";
 import {
   MockAuthHttpClient,
   assertClientCredentials,
   assertClientUsernamePassword,
   assertRejects
-} from "../authTestUtils";
+} from "../../authTestUtils";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 
 interface OAuthErrorResponse {

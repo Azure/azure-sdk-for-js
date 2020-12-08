@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { MockAzureCliCredentialClient } from "../mockAzureCliCredentialClient";
+import { MockAzureCliCredentialClient } from "../../mockAzureCliCredentialClient";
 
 describe("AzureCliCredential", function() {
   it("get access token without error", async function() {

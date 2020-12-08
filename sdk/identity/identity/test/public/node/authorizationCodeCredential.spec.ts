@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { AuthorizationCodeCredential } from "../../src";
+import { AuthorizationCodeCredential } from "../../../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { MockAuthHttpClient, assertClientCredentials } from "../authTestUtils";
+import { MockAuthHttpClient, assertClientCredentials } from "../../authTestUtils";
 
 describe("AuthorizationCodeCredential", function() {
   it("sends an authorization request with the given credentials and authorization code", async () => {

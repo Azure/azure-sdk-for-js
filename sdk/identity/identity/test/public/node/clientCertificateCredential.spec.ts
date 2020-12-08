@@ -5,8 +5,8 @@ import qs from "qs";
 import jws from "jws";
 import path from "path";
 import assert from "assert";
-import { ClientCertificateCredential } from "../../src";
-import { MockAuthHttpClient } from "../authTestUtils";
+import { ClientCertificateCredential } from "../../../src";
+import { MockAuthHttpClient } from "../../authTestUtils";
 import { setTracer, TestTracer, SpanGraph } from "@azure/core-tracing";
 
 describe("ClientCertificateCredential", function() {
