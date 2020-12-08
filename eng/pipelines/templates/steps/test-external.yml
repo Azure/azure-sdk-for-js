@@ -20,7 +20,11 @@ steps:
       customCommand: 'run build:test'
     displayName: "Build test assets"
 
-  - template: ../steps/use-node-test-version.yml
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'install keytar@5.6.0'
+    displayName: "Reinstall Native dependency"
 
   - task: Npm@1
     inputs:
