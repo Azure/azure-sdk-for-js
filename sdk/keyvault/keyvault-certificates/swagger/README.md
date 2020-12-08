@@ -2,11 +2,13 @@
 
 > see https://aka.ms/autorest
 
-``` yaml
+```yaml
 typescript:
   package-name: "@azure/keyvault-certificates"
+api-version-parameter: choice
+v3: true
 use-extension:
-  "@microsoft.azure/autorest.typescript": "~5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20201204.2"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
