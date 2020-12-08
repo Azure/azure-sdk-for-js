@@ -1,36 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { ShareFileClient } from "../../../src";
 
-import { ShareServiceClient, StorageSharedKeyCredential } from "../../../src";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import { StorageFileShareTest, streamToBuffer3 } from "./storageTest.spec";
 interface StorageFileShareDownloadTestOptions {
   size: number;
 }
 
-const account = process.env.ACCOUNT_NAME || "";
-const accountKey = process.env.ACCOUNT_KEY || "";
-
-const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-const shareServiceClient = new ShareServiceClient(
-  // When using AnonymousCredential, following url should include a valid SAS or support public access
-  `https://${account}.file.core.windows.net`,
-  sharedKeyCredential
-);
-const shareName = `newshare${new Date().getTime()}`;
-const directoryName = `newdirectory${new Date().getTime()}`;
-const fileName = `newfile${new Date().getTime()}`;
-const shareClient = shareServiceClient.getShareClient(shareName);
-const directoryClient = shareClient.getDirectoryClient(directoryName);
-const fileClient = directoryClient.getFileClient(fileName);
-
-export class StorageFileShareDownloadTest extends PerfStressTest<
+export class StorageFileShareDownloadTest extends StorageFileShareTest<
   StorageFileShareDownloadTestOptions
 > {
   public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
@@ -39,29 +18,24 @@ export class StorageFileShareDownloadTest extends PerfStressTest<
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10
+      defaultValue: 1024
     }
   };
+  static fileName = `newfile${new Date().getTime()}`;
+  fileClient: ShareFileClient;
 
-  public async globalSetup() {
-    const createShareResponse = await shareClient.create();
-    console.log(`Created share ${shareName} successfully`, createShareResponse.requestId);
-
-    const createDirectoryResponse = await directoryClient.create();
-    console.log(
-      `Created directory ${directoryName} successfully`,
-      createDirectoryResponse.requestId
-    );
-    await fileClient.uploadData(Buffer.alloc(this.parsedOptions.size.value!));
+  constructor() {
+    super();
+    this.fileClient = this.directoryClient.getFileClient(StorageFileShareDownloadTest.fileName);
   }
 
-  public async globalCleanup() {
-    const deleteShareResponse = await shareClient.delete();
-    console.log(`Deleted share ${shareName} successfully`, deleteShareResponse.requestId);
+  public async globalSetup() {
+    await super.globalSetup();
+    await this.fileClient.uploadData(Buffer.alloc(this.parsedOptions.size.value!));
   }
 
   async runAsync(): Promise<void> {
-    const downloadResponse = await fileClient.download(0);
-    console.log(`Downloaded file ${fileName} successfully`, downloadResponse.requestId);
+    const downloadResponse = await this.fileClient.download();
+    await streamToBuffer3(downloadResponse.readableStreamBody!);
   }
 }
