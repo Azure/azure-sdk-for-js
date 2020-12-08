@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -89,17 +91,30 @@ export class DataFlowDebugSession {
   ): Promise<
     LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>
   > {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createDataFlowDebugSession",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        DataFlowDebugSessionCreateDataFlowDebugSessionResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as DataFlowDebugSessionCreateDataFlowDebugSessionResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -118,20 +133,33 @@ export class DataFlowDebugSession {
    * Query all active data flow debug sessions.
    * @param options The options parameters.
    */
-  private _queryDataFlowDebugSessionsByWorkspace(
+  private async _queryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<
     DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
   > {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      queryDataFlowDebugSessionsByWorkspaceOperationSpec
-    ) as Promise<
-      DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
-    >;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        queryDataFlowDebugSessionsByWorkspaceOperationSpec
+      );
+      return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -139,18 +167,33 @@ export class DataFlowDebugSession {
    * @param request Data flow debug session definition with debug content.
    * @param options The options parameters.
    */
-  addDataFlow(
+  async addDataFlow(
     request: DataFlowDebugPackage,
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-addDataFlow",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      addDataFlowOperationSpec
-    ) as Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        addDataFlowOperationSpec
+      );
+      return result as DataFlowDebugSessionAddDataFlowResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -158,18 +201,33 @@ export class DataFlowDebugSession {
    * @param request Data flow debug session definition for deletion
    * @param options The options parameters.
    */
-  deleteDataFlowDebugSession(
+  async deleteDataFlowDebugSession(
     request: DeleteDataFlowDebugSessionRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deleteDataFlowDebugSession",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteDataFlowDebugSessionOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        deleteDataFlowDebugSessionOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -181,17 +239,30 @@ export class DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-executeCommand",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        DataFlowDebugSessionExecuteCommandResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as DataFlowDebugSessionExecuteCommandResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -212,22 +283,35 @@ export class DataFlowDebugSession {
    *                 QueryDataFlowDebugSessionsByWorkspace method.
    * @param options The options parameters.
    */
-  private _queryDataFlowDebugSessionsByWorkspaceNext(
+  private async _queryDataFlowDebugSessionsByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<
     DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
   > {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      queryDataFlowDebugSessionsByWorkspaceNextOperationSpec
-    ) as Promise<
-      DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
-    >;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        queryDataFlowDebugSessionsByWorkspaceNextOperationSpec
+      );
+      return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(

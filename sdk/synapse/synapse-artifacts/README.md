@@ -1,6 +1,6 @@
 ## Azure Synapse Artifacts client library for JavaScript
 
-This package contains an isomorphic SDK for SparkClient.
+This package contains an isomorphic SDK for Artifacts.
 
 ## Getting started
 

@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -25,16 +27,31 @@ export class IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  list(
+  async list(
     options?: coreHttp.OperationOptions
   ): Promise<IntegrationRuntimesListResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-list",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<IntegrationRuntimesListResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        listOperationSpec
+      );
+      return result as IntegrationRuntimesListResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -42,18 +59,33 @@ export class IntegrationRuntimes {
    * @param integrationRuntimeName The Integration Runtime name
    * @param options The options parameters.
    */
-  get(
+  async get(
     integrationRuntimeName: string,
     options?: coreHttp.OperationOptions
   ): Promise<IntegrationRuntimesGetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       integrationRuntimeName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<IntegrationRuntimesGetResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationSpec
+      );
+      return result as IntegrationRuntimesGetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

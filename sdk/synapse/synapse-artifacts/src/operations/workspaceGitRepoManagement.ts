@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -27,18 +29,33 @@ export class WorkspaceGitRepoManagement {
    * @param gitHubAccessTokenRequest
    * @param options The options parameters.
    */
-  getGitHubAccessToken(
+  async getGitHubAccessToken(
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getGitHubAccessToken",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       gitHubAccessTokenRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getGitHubAccessTokenOperationSpec
-    ) as Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getGitHubAccessTokenOperationSpec
+      );
+      return result as WorkspaceGitRepoManagementGetGitHubAccessTokenResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

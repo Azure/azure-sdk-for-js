@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -85,18 +87,31 @@ export class DataFlow {
     dataFlow: DataFlowResource,
     options?: DataFlowCreateOrUpdateDataFlowOptionalParams
   ): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdateDataFlow",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       dataFlow,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        DataFlowCreateOrUpdateDataFlowResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as DataFlowCreateOrUpdateDataFlowResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -116,18 +131,33 @@ export class DataFlow {
    * @param dataFlowName The data flow name.
    * @param options The options parameters.
    */
-  getDataFlow(
+  async getDataFlow(
     dataFlowName: string,
     options?: DataFlowGetDataFlowOptionalParams
   ): Promise<DataFlowGetDataFlowResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getDataFlow",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDataFlowOperationSpec
-    ) as Promise<DataFlowGetDataFlowResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getDataFlowOperationSpec
+      );
+      return result as DataFlowGetDataFlowResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -139,17 +169,30 @@ export class DataFlow {
     dataFlowName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deleteDataFlow",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -175,18 +218,31 @@ export class DataFlow {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-renameDataFlow",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -205,16 +261,31 @@ export class DataFlow {
    * Lists data flows.
    * @param options The options parameters.
    */
-  private _getDataFlowsByWorkspace(
+  private async _getDataFlowsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowGetDataFlowsByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getDataFlowsByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDataFlowsByWorkspaceOperationSpec
-    ) as Promise<DataFlowGetDataFlowsByWorkspaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getDataFlowsByWorkspaceOperationSpec
+      );
+      return result as DataFlowGetDataFlowsByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -223,18 +294,33 @@ export class DataFlow {
    *                 method.
    * @param options The options parameters.
    */
-  private _getDataFlowsByWorkspaceNext(
+  private async _getDataFlowsByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowGetDataFlowsByWorkspaceNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getDataFlowsByWorkspaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDataFlowsByWorkspaceNextOperationSpec
-    ) as Promise<DataFlowGetDataFlowsByWorkspaceNextResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getDataFlowsByWorkspaceNextOperationSpec
+      );
+      return result as DataFlowGetDataFlowsByWorkspaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(

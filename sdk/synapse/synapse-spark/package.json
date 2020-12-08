@@ -5,6 +5,7 @@
   "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "keywords": [
@@ -23,6 +24,7 @@
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
+    "@rollup/plugin-commonjs": "11.0.2",
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "7.7.11"
   },

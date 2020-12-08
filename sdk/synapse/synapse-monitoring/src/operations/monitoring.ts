@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -27,32 +29,62 @@ export class Monitoring {
    * Get list of spark applications for the workspace.
    * @param options The options parameters.
    */
-  getSparkJobList(
+  async getSparkJobList(
     options?: MonitoringGetSparkJobListOptionalParams
   ): Promise<MonitoringGetSparkJobListResponse> {
+    const { span, updatedOptions } = createSpan(
+      "MonitoringClient-getSparkJobList",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkJobListOperationSpec
-    ) as Promise<MonitoringGetSparkJobListResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkJobListOperationSpec
+      );
+      return result as MonitoringGetSparkJobListResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Get SQL OD/DW Query for the workspace.
    * @param options The options parameters.
    */
-  getSqlJobQueryString(
+  async getSqlJobQueryString(
     options?: MonitoringGetSqlJobQueryStringOptionalParams
   ): Promise<MonitoringGetSqlJobQueryStringResponse> {
+    const { span, updatedOptions } = createSpan(
+      "MonitoringClient-getSqlJobQueryString",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSqlJobQueryStringOperationSpec
-    ) as Promise<MonitoringGetSqlJobQueryStringResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSqlJobQueryStringOperationSpec
+      );
+      return result as MonitoringGetSqlJobQueryStringResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

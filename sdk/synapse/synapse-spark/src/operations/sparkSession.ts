@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -35,16 +37,31 @@ export class SparkSession {
    * List all spark sessions which are running under a particular spark pool.
    * @param options The options parameters.
    */
-  getSparkSessions(
+  async getSparkSessions(
     options?: SparkSessionGetSparkSessionsOptionalParams
   ): Promise<SparkSessionGetSparkSessionsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-getSparkSessions",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkSessionsOperationSpec
-    ) as Promise<SparkSessionGetSparkSessionsResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkSessionsOperationSpec
+      );
+      return result as SparkSessionGetSparkSessionsResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -52,18 +69,33 @@ export class SparkSession {
    * @param sparkSessionOptions Livy compatible batch job request payload.
    * @param options The options parameters.
    */
-  createSparkSession(
+  async createSparkSession(
     sparkSessionOptions: SparkSessionOptions,
     options?: SparkSessionCreateSparkSessionOptionalParams
   ): Promise<SparkSessionCreateSparkSessionResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-createSparkSession",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sparkSessionOptions,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createSparkSessionOperationSpec
-    ) as Promise<SparkSessionCreateSparkSessionResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        createSparkSessionOperationSpec
+      );
+      return result as SparkSessionCreateSparkSessionResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -71,18 +103,33 @@ export class SparkSession {
    * @param sessionId Identifier for the session.
    * @param options The options parameters.
    */
-  getSparkSession(
+  async getSparkSession(
     sessionId: number,
     options?: SparkSessionGetSparkSessionOptionalParams
   ): Promise<SparkSessionGetSparkSessionResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-getSparkSession",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkSessionOperationSpec
-    ) as Promise<SparkSessionGetSparkSessionResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkSessionOperationSpec
+      );
+      return result as SparkSessionGetSparkSessionResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -90,18 +137,33 @@ export class SparkSession {
    * @param sessionId Identifier for the session.
    * @param options The options parameters.
    */
-  cancelSparkSession(
+  async cancelSparkSession(
     sessionId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-cancelSparkSession",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      cancelSparkSessionOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        cancelSparkSessionOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -109,18 +171,33 @@ export class SparkSession {
    * @param sessionId Identifier for the session.
    * @param options The options parameters.
    */
-  resetSparkSessionTimeout(
+  async resetSparkSessionTimeout(
     sessionId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-resetSparkSessionTimeout",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      resetSparkSessionTimeoutOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        resetSparkSessionTimeoutOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -128,18 +205,33 @@ export class SparkSession {
    * @param sessionId Identifier for the session.
    * @param options The options parameters.
    */
-  getSparkStatements(
+  async getSparkStatements(
     sessionId: number,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionGetSparkStatementsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-getSparkStatements",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkStatementsOperationSpec
-    ) as Promise<SparkSessionGetSparkStatementsResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkStatementsOperationSpec
+      );
+      return result as SparkSessionGetSparkStatementsResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -148,20 +240,35 @@ export class SparkSession {
    * @param sparkStatementOptions Livy compatible batch job request payload.
    * @param options The options parameters.
    */
-  createSparkStatement(
+  async createSparkStatement(
     sessionId: number,
     sparkStatementOptions: SparkStatementOptions,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionCreateSparkStatementResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-createSparkStatement",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
       sparkStatementOptions,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createSparkStatementOperationSpec
-    ) as Promise<SparkSessionCreateSparkStatementResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        createSparkStatementOperationSpec
+      );
+      return result as SparkSessionCreateSparkStatementResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -170,20 +277,35 @@ export class SparkSession {
    * @param statementId Identifier for the statement.
    * @param options The options parameters.
    */
-  getSparkStatement(
+  async getSparkStatement(
     sessionId: number,
     statementId: number,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionGetSparkStatementResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-getSparkStatement",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
       statementId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkStatementOperationSpec
-    ) as Promise<SparkSessionGetSparkStatementResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkStatementOperationSpec
+      );
+      return result as SparkSessionGetSparkStatementResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -192,20 +314,35 @@ export class SparkSession {
    * @param statementId Identifier for the statement.
    * @param options The options parameters.
    */
-  cancelSparkStatement(
+  async cancelSparkStatement(
     sessionId: number,
     statementId: number,
     options?: coreHttp.OperationOptions
   ): Promise<SparkSessionCancelSparkStatementResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-cancelSparkStatement",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sessionId,
       statementId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      cancelSparkStatementOperationSpec
-    ) as Promise<SparkSessionCancelSparkStatementResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        cancelSparkStatementOperationSpec
+      );
+      return result as SparkSessionCancelSparkStatementResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

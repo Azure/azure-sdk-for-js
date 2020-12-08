@@ -1,6 +1,7 @@
 import rollup from "rollup";
 import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import cjs from "@rollup/plugin-commonjs";
 
 /**
  * @type {rollup.RollupFileOptions}
@@ -25,7 +26,14 @@ const config = {
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */ `
   },
-  plugins: [nodeResolve({ module: true }), sourcemaps()]
+  plugins: [nodeResolve({ module: true }), sourcemaps(),
+    cjs({
+      namedExports: {
+        assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
+        "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+      }
+    })
+  ]
 };
 
 export default config;

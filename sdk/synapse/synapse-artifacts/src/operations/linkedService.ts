@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -80,16 +82,31 @@ export class LinkedService {
    * Lists linked services.
    * @param options The options parameters.
    */
-  private _getLinkedServicesByWorkspace(
+  private async _getLinkedServicesByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<LinkedServiceGetLinkedServicesByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getLinkedServicesByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getLinkedServicesByWorkspaceOperationSpec
-    ) as Promise<LinkedServiceGetLinkedServicesByWorkspaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getLinkedServicesByWorkspaceOperationSpec
+      );
+      return result as LinkedServiceGetLinkedServicesByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -103,18 +120,31 @@ export class LinkedService {
     linkedService: LinkedServiceResource,
     options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
   ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdateLinkedService",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       linkedService,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        LinkedServiceCreateOrUpdateLinkedServiceResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as LinkedServiceCreateOrUpdateLinkedServiceResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -134,18 +164,33 @@ export class LinkedService {
    * @param linkedServiceName The linked service name.
    * @param options The options parameters.
    */
-  getLinkedService(
+  async getLinkedService(
     linkedServiceName: string,
     options?: LinkedServiceGetLinkedServiceOptionalParams
   ): Promise<LinkedServiceGetLinkedServiceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getLinkedService",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getLinkedServiceOperationSpec
-    ) as Promise<LinkedServiceGetLinkedServiceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getLinkedServiceOperationSpec
+      );
+      return result as LinkedServiceGetLinkedServiceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -157,17 +202,30 @@ export class LinkedService {
     linkedServiceName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deleteLinkedService",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -193,18 +251,31 @@ export class LinkedService {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-renameLinkedService",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -225,18 +296,33 @@ export class LinkedService {
    *                 method.
    * @param options The options parameters.
    */
-  private _getLinkedServicesByWorkspaceNext(
+  private async _getLinkedServicesByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getLinkedServicesByWorkspaceNextOperationSpec
-    ) as Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getLinkedServicesByWorkspaceNextOperationSpec
+      );
+      return result as LinkedServiceGetLinkedServicesByWorkspaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(

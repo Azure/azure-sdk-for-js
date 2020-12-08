@@ -1,6 +1,6 @@
 ## Azure Synapse Managed Private Endpoints client library for JavaScript
 
-This package contains an isomorphic SDK for SparkClient.
+This package contains an isomorphic SDK for Managed Private Endpoints.
 
 ## Getting started
 

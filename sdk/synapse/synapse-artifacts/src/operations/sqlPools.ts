@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -22,14 +24,31 @@ export class SqlPools {
    * List Sql Pools
    * @param options The options parameters.
    */
-  list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse> {
+  async list(
+    options?: coreHttp.OperationOptions
+  ): Promise<SqlPoolsListResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-list",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<SqlPoolsListResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        listOperationSpec
+      );
+      return result as SqlPoolsListResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -37,18 +56,33 @@ export class SqlPools {
    * @param sqlPoolName The Sql Pool name
    * @param options The options parameters.
    */
-  get(
+  async get(
     sqlPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<SqlPoolsGetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sqlPoolName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<SqlPoolsGetResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationSpec
+      );
+      return result as SqlPoolsGetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

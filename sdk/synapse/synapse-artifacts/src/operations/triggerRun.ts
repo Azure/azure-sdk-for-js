@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -27,20 +29,35 @@ export class TriggerRun {
    * @param runId The pipeline run identifier.
    * @param options The options parameters.
    */
-  rerunTriggerInstance(
+  async rerunTriggerInstance(
     triggerName: string,
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-rerunTriggerInstance",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      rerunTriggerInstanceOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        rerunTriggerInstanceOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -49,20 +66,35 @@ export class TriggerRun {
    * @param runId The pipeline run identifier.
    * @param options The options parameters.
    */
-  cancelTriggerInstance(
+  async cancelTriggerInstance(
     triggerName: string,
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-cancelTriggerInstance",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      cancelTriggerInstanceOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        cancelTriggerInstanceOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -70,18 +102,33 @@ export class TriggerRun {
    * @param filterParameters Parameters to filter the pipeline run.
    * @param options The options parameters.
    */
-  queryTriggerRunsByWorkspace(
+  async queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
     options?: coreHttp.OperationOptions
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-queryTriggerRunsByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      queryTriggerRunsByWorkspaceOperationSpec
-    ) as Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        queryTriggerRunsByWorkspaceOperationSpec
+      );
+      return result as TriggerRunQueryTriggerRunsByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

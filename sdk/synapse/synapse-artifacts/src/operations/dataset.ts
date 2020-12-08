@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -78,16 +80,31 @@ export class Dataset {
    * Lists datasets.
    * @param options The options parameters.
    */
-  private _getDatasetsByWorkspace(
+  private async _getDatasetsByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<DatasetGetDatasetsByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getDatasetsByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDatasetsByWorkspaceOperationSpec
-    ) as Promise<DatasetGetDatasetsByWorkspaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getDatasetsByWorkspaceOperationSpec
+      );
+      return result as DatasetGetDatasetsByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -101,18 +118,31 @@ export class Dataset {
     dataset: DatasetResource,
     options?: DatasetCreateOrUpdateDatasetOptionalParams
   ): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdateDataset",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       dataset,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        DatasetCreateOrUpdateDatasetResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as DatasetCreateOrUpdateDatasetResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -132,18 +162,33 @@ export class Dataset {
    * @param datasetName The dataset name.
    * @param options The options parameters.
    */
-  getDataset(
+  async getDataset(
     datasetName: string,
     options?: DatasetGetDatasetOptionalParams
   ): Promise<DatasetGetDatasetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getDataset",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDatasetOperationSpec
-    ) as Promise<DatasetGetDatasetResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getDatasetOperationSpec
+      );
+      return result as DatasetGetDatasetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -155,17 +200,30 @@ export class Dataset {
     datasetName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deleteDataset",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -191,18 +249,31 @@ export class Dataset {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-renameDataset",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -222,18 +293,33 @@ export class Dataset {
    * @param nextLink The nextLink from the previous successful call to the GetDatasetsByWorkspace method.
    * @param options The options parameters.
    */
-  private _getDatasetsByWorkspaceNext(
+  private async _getDatasetsByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<DatasetGetDatasetsByWorkspaceNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getDatasetsByWorkspaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getDatasetsByWorkspaceNextOperationSpec
-    ) as Promise<DatasetGetDatasetsByWorkspaceNextResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getDatasetsByWorkspaceNextOperationSpec
+      );
+      return result as DatasetGetDatasetsByWorkspaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(

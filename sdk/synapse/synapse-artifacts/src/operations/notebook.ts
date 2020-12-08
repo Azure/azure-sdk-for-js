@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -127,32 +129,62 @@ export class Notebook {
    * Lists Notebooks.
    * @param options The options parameters.
    */
-  private _getNotebooksByWorkspace(
+  private async _getNotebooksByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebooksByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getNotebooksByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getNotebooksByWorkspaceOperationSpec
-    ) as Promise<NotebookGetNotebooksByWorkspaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getNotebooksByWorkspaceOperationSpec
+      );
+      return result as NotebookGetNotebooksByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * Lists a summary of Notebooks.
    * @param options The options parameters.
    */
-  private _getNotebookSummaryByWorkSpace(
+  private async _getNotebookSummaryByWorkSpace(
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getNotebookSummaryByWorkSpace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getNotebookSummaryByWorkSpaceOperationSpec
-    ) as Promise<NotebookGetNotebookSummaryByWorkSpaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getNotebookSummaryByWorkSpaceOperationSpec
+      );
+      return result as NotebookGetNotebookSummaryByWorkSpaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -166,18 +198,31 @@ export class Notebook {
     notebook: NotebookResource,
     options?: NotebookCreateOrUpdateNotebookOptionalParams
   ): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdateNotebook",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       notebook,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        NotebookCreateOrUpdateNotebookResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as NotebookCreateOrUpdateNotebookResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -197,18 +242,33 @@ export class Notebook {
    * @param notebookName The notebook name.
    * @param options The options parameters.
    */
-  getNotebook(
+  async getNotebook(
     notebookName: string,
     options?: NotebookGetNotebookOptionalParams
   ): Promise<NotebookGetNotebookResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getNotebook",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getNotebookOperationSpec
-    ) as Promise<NotebookGetNotebookResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getNotebookOperationSpec
+      );
+      return result as NotebookGetNotebookResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -220,17 +280,30 @@ export class Notebook {
     notebookName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deleteNotebook",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -256,18 +329,31 @@ export class Notebook {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-renameNotebook",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       notebookName,
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -288,18 +374,33 @@ export class Notebook {
    *                 method.
    * @param options The options parameters.
    */
-  private _getNotebooksByWorkspaceNext(
+  private async _getNotebooksByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebooksByWorkspaceNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getNotebooksByWorkspaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getNotebooksByWorkspaceNextOperationSpec
-    ) as Promise<NotebookGetNotebooksByWorkspaceNextResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getNotebooksByWorkspaceNextOperationSpec
+      );
+      return result as NotebookGetNotebooksByWorkspaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -308,18 +409,33 @@ export class Notebook {
    *                 method.
    * @param options The options parameters.
    */
-  private _getNotebookSummaryByWorkSpaceNext(
+  private async _getNotebookSummaryByWorkSpaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getNotebookSummaryByWorkSpaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getNotebookSummaryByWorkSpaceNextOperationSpec
-    ) as Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getNotebookSummaryByWorkSpaceNextOperationSpec
+      );
+      return result as NotebookGetNotebookSummaryByWorkSpaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(

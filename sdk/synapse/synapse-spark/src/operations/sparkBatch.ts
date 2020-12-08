@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -30,16 +32,31 @@ export class SparkBatch {
    * List all spark batch jobs which are running under a particular spark pool.
    * @param options The options parameters.
    */
-  getSparkBatchJobs(
+  async getSparkBatchJobs(
     options?: SparkBatchGetSparkBatchJobsOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobsResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-getSparkBatchJobs",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkBatchJobsOperationSpec
-    ) as Promise<SparkBatchGetSparkBatchJobsResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkBatchJobsOperationSpec
+      );
+      return result as SparkBatchGetSparkBatchJobsResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -47,18 +64,33 @@ export class SparkBatch {
    * @param sparkBatchJobOptions Livy compatible batch job request payload.
    * @param options The options parameters.
    */
-  createSparkBatchJob(
+  async createSparkBatchJob(
     sparkBatchJobOptions: SparkBatchJobOptions,
     options?: SparkBatchCreateSparkBatchJobOptionalParams
   ): Promise<SparkBatchCreateSparkBatchJobResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-createSparkBatchJob",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sparkBatchJobOptions,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createSparkBatchJobOperationSpec
-    ) as Promise<SparkBatchCreateSparkBatchJobResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        createSparkBatchJobOperationSpec
+      );
+      return result as SparkBatchCreateSparkBatchJobResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -66,18 +98,33 @@ export class SparkBatch {
    * @param batchId Identifier for the batch job.
    * @param options The options parameters.
    */
-  getSparkBatchJob(
+  async getSparkBatchJob(
     batchId: number,
     options?: SparkBatchGetSparkBatchJobOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-getSparkBatchJob",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       batchId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getSparkBatchJobOperationSpec
-    ) as Promise<SparkBatchGetSparkBatchJobResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getSparkBatchJobOperationSpec
+      );
+      return result as SparkBatchGetSparkBatchJobResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -85,18 +132,33 @@ export class SparkBatch {
    * @param batchId Identifier for the batch job.
    * @param options The options parameters.
    */
-  cancelSparkBatchJob(
+  async cancelSparkBatchJob(
     batchId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
+    const { span, updatedOptions } = createSpan(
+      "SparkClient-cancelSparkBatchJob",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       batchId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      cancelSparkBatchJobOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        cancelSparkBatchJobOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

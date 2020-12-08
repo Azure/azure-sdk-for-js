@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -22,14 +24,31 @@ export class BigDataPools {
    * List Big Data Pools
    * @param options The options parameters.
    */
-  list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
+  async list(
+    options?: coreHttp.OperationOptions
+  ): Promise<BigDataPoolsListResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-list",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<BigDataPoolsListResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        listOperationSpec
+      );
+      return result as BigDataPoolsListResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -37,18 +56,33 @@ export class BigDataPools {
    * @param bigDataPoolName The Big Data Pool name
    * @param options The options parameters.
    */
-  get(
+  async get(
     bigDataPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<BigDataPoolsGetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       bigDataPoolName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<BigDataPoolsGetResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationSpec
+      );
+      return result as BigDataPoolsGetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications

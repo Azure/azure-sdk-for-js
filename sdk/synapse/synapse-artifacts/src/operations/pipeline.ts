@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -80,16 +82,31 @@ export class Pipeline {
    * Lists pipelines.
    * @param options The options parameters.
    */
-  private _getPipelinesByWorkspace(
+  private async _getPipelinesByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<PipelineGetPipelinesByWorkspaceResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getPipelinesByWorkspace",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getPipelinesByWorkspaceOperationSpec
-    ) as Promise<PipelineGetPipelinesByWorkspaceResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getPipelinesByWorkspaceOperationSpec
+      );
+      return result as PipelineGetPipelinesByWorkspaceResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -103,18 +120,31 @@ export class Pipeline {
     pipeline: PipelineResource,
     options?: PipelineCreateOrUpdatePipelineOptionalParams
   ): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdatePipeline",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       pipeline,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        PipelineCreateOrUpdatePipelineResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as PipelineCreateOrUpdatePipelineResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -134,18 +164,33 @@ export class Pipeline {
    * @param pipelineName The pipeline name.
    * @param options The options parameters.
    */
-  getPipeline(
+  async getPipeline(
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams
   ): Promise<PipelineGetPipelineResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getPipeline",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getPipelineOperationSpec
-    ) as Promise<PipelineGetPipelineResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getPipelineOperationSpec
+      );
+      return result as PipelineGetPipelineResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -157,17 +202,30 @@ export class Pipeline {
     pipelineName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deletePipeline",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -193,18 +251,31 @@ export class Pipeline {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-renamePipeline",
+      this.getOperationOptions(options, "undefined")
+    );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       request,
-      options: this.getOperationOptions(options, "undefined")
+      options: updatedOptions
     };
-    const sendOperation = (
+    const sendOperation = async (
       args: coreHttp.OperationArguments,
       spec: coreHttp.OperationSpec
     ) => {
-      return this.client.sendOperationRequest(args, spec) as Promise<
-        coreHttp.RestResponse
-      >;
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
     };
 
     const initialOperationResult = await sendOperation(
@@ -224,18 +295,33 @@ export class Pipeline {
    * @param pipelineName The pipeline name.
    * @param options The options parameters.
    */
-  createPipelineRun(
+  async createPipelineRun(
     pipelineName: string,
     options?: PipelineCreatePipelineRunOptionalParams
   ): Promise<PipelineCreatePipelineRunResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createPipelineRun",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createPipelineRunOperationSpec
-    ) as Promise<PipelineCreatePipelineRunResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        createPipelineRunOperationSpec
+      );
+      return result as PipelineCreatePipelineRunResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -244,18 +330,33 @@ export class Pipeline {
    *                 method.
    * @param options The options parameters.
    */
-  private _getPipelinesByWorkspaceNext(
+  private async _getPipelinesByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineGetPipelinesByWorkspaceNextResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getPipelinesByWorkspaceNext",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getPipelinesByWorkspaceNextOperationSpec
-    ) as Promise<PipelineGetPipelinesByWorkspaceNextResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getPipelinesByWorkspaceNextOperationSpec
+      );
+      return result as PipelineGetPipelinesByWorkspaceNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(

@@ -1,3 +1,5 @@
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -22,14 +24,31 @@ export class Workspace {
    * Get Workspace
    * @param options The options parameters.
    */
-  get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
+  async get(
+    options?: coreHttp.OperationOptions
+  ): Promise<WorkspaceGetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options: updatedOptions
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<WorkspaceGetResponse>;
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationSpec
+      );
+      return result as WorkspaceGetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications
