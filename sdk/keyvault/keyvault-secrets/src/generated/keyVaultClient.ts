@@ -7,36 +7,33 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
   ApiVersion72Preview,
-  SecretItem,
-  KeyVaultClientGetSecretsNextOptionalParams,
-  KeyVaultClientGetSecretsOptionalParams,
-  KeyVaultClientGetSecretVersionsNextOptionalParams,
-  KeyVaultClientGetSecretVersionsOptionalParams,
-  DeletedSecretItem,
-  KeyVaultClientGetDeletedSecretsNextOptionalParams,
-  KeyVaultClientGetDeletedSecretsOptionalParams,
   KeyVaultClientSetSecretOptionalParams,
   KeyVaultClientSetSecretResponse,
   KeyVaultClientDeleteSecretResponse,
   KeyVaultClientUpdateSecretOptionalParams,
   KeyVaultClientUpdateSecretResponse,
   KeyVaultClientGetSecretResponse,
+  KeyVaultClientGetSecretsOptionalParams,
   KeyVaultClientGetSecretsResponse,
+  KeyVaultClientGetSecretVersionsOptionalParams,
   KeyVaultClientGetSecretVersionsResponse,
+  KeyVaultClientGetDeletedSecretsOptionalParams,
   KeyVaultClientGetDeletedSecretsResponse,
   KeyVaultClientGetDeletedSecretResponse,
   KeyVaultClientRecoverDeletedSecretResponse,
   KeyVaultClientBackupSecretResponse,
   KeyVaultClientRestoreSecretResponse,
+  KeyVaultClientGetSecretsNextOptionalParams,
   KeyVaultClientGetSecretsNextResponse,
+  KeyVaultClientGetSecretVersionsNextOptionalParams,
   KeyVaultClientGetSecretVersionsNextResponse,
+  KeyVaultClientGetDeletedSecretsNextOptionalParams,
   KeyVaultClientGetDeletedSecretsNextResponse
 } from "./models";
 
@@ -51,184 +48,6 @@ export class KeyVaultClient extends KeyVaultClientContext {
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
-  }
-
-  /**
-   * The Get Secrets operation is applicable to the entire vault. However, only the base secret
-   * identifier and its attributes are provided in the response. Individual secret versions are not
-   * listed in the response. This operation requires the secrets/list permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param options The options parameters.
-   */
-  public listSecrets(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetSecretsOptionalParams
-  ): PagedAsyncIterableIterator<SecretItem> {
-    const iter = this.getSecretsPagingAll(vaultBaseUrl, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getSecretsPagingPage(vaultBaseUrl, options);
-      }
-    };
-  }
-
-  private async *getSecretsPagingPage(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetSecretsOptionalParams
-  ): AsyncIterableIterator<SecretItem[]> {
-    let result = await this._getSecrets(vaultBaseUrl, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getSecretsNext(
-        vaultBaseUrl,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getSecretsPagingAll(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetSecretsOptionalParams
-  ): AsyncIterableIterator<SecretItem> {
-    for await (const page of this.getSecretsPagingPage(vaultBaseUrl, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The full secret identifier and attributes are provided in the response. No values are returned for
-   * the secrets. This operations requires the secrets/list permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param secretName The name of the secret.
-   * @param options The options parameters.
-   */
-  public listSecretVersions(
-    vaultBaseUrl: string,
-    secretName: string,
-    options?: KeyVaultClientGetSecretVersionsOptionalParams
-  ): PagedAsyncIterableIterator<SecretItem> {
-    const iter = this.getSecretVersionsPagingAll(
-      vaultBaseUrl,
-      secretName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getSecretVersionsPagingPage(
-          vaultBaseUrl,
-          secretName,
-          options
-        );
-      }
-    };
-  }
-
-  private async *getSecretVersionsPagingPage(
-    vaultBaseUrl: string,
-    secretName: string,
-    options?: KeyVaultClientGetSecretVersionsOptionalParams
-  ): AsyncIterableIterator<SecretItem[]> {
-    let result = await this._getSecretVersions(
-      vaultBaseUrl,
-      secretName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getSecretVersionsNext(
-        vaultBaseUrl,
-        secretName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getSecretVersionsPagingAll(
-    vaultBaseUrl: string,
-    secretName: string,
-    options?: KeyVaultClientGetSecretVersionsOptionalParams
-  ): AsyncIterableIterator<SecretItem> {
-    for await (const page of this.getSecretVersionsPagingPage(
-      vaultBaseUrl,
-      secretName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The Get Deleted Secrets operation returns the secrets that have been deleted for a vault enabled for
-   * soft-delete. This operation requires the secrets/list permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param options The options parameters.
-   */
-  public listDeletedSecrets(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedSecretsOptionalParams
-  ): PagedAsyncIterableIterator<DeletedSecretItem> {
-    const iter = this.getDeletedSecretsPagingAll(vaultBaseUrl, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.getDeletedSecretsPagingPage(vaultBaseUrl, options);
-      }
-    };
-  }
-
-  private async *getDeletedSecretsPagingPage(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedSecretsOptionalParams
-  ): AsyncIterableIterator<DeletedSecretItem[]> {
-    let result = await this._getDeletedSecrets(vaultBaseUrl, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._getDeletedSecretsNext(
-        vaultBaseUrl,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *getDeletedSecretsPagingAll(
-    vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedSecretsOptionalParams
-  ): AsyncIterableIterator<DeletedSecretItem> {
-    for await (const page of this.getDeletedSecretsPagingPage(
-      vaultBaseUrl,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -341,7 +160,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  private _getSecrets(
+  getSecrets(
     vaultBaseUrl: string,
     options?: KeyVaultClientGetSecretsOptionalParams
   ): Promise<KeyVaultClientGetSecretsResponse> {
@@ -362,7 +181,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param secretName The name of the secret.
    * @param options The options parameters.
    */
-  private _getSecretVersions(
+  getSecretVersions(
     vaultBaseUrl: string,
     secretName: string,
     options?: KeyVaultClientGetSecretVersionsOptionalParams
@@ -384,7 +203,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  private _getDeletedSecrets(
+  getDeletedSecrets(
     vaultBaseUrl: string,
     options?: KeyVaultClientGetDeletedSecretsOptionalParams
   ): Promise<KeyVaultClientGetDeletedSecretsResponse> {
@@ -520,7 +339,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetSecrets method.
    * @param options The options parameters.
    */
-  private _getSecretsNext(
+  getSecretsNext(
     vaultBaseUrl: string,
     nextLink: string,
     options?: KeyVaultClientGetSecretsNextOptionalParams
@@ -543,7 +362,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetSecretVersions method.
    * @param options The options parameters.
    */
-  private _getSecretVersionsNext(
+  getSecretVersionsNext(
     vaultBaseUrl: string,
     secretName: string,
     nextLink: string,
@@ -567,7 +386,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param nextLink The nextLink from the previous successful call to the GetDeletedSecrets method.
    * @param options The options parameters.
    */
-  private _getDeletedSecretsNext(
+  getDeletedSecretsNext(
     vaultBaseUrl: string,
     nextLink: string,
     options?: KeyVaultClientGetDeletedSecretsNextOptionalParams

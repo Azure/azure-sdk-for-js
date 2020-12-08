@@ -6,6 +6,7 @@
 typescript:
   package-name: "@azure/keyvault-secrets"
 api-version-parameter: choice
+disable-async-iterators: true
 v3: true
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20201204.2"

@@ -578,7 +578,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.listSecretVersions(
+      const currentSetResponse = await this.client.getSecretVersions(
         this.vaultUrl,
         secretName,
         optionsComplete
@@ -592,7 +592,7 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listSecretVersions(
+      const currentSetResponse = await this.client.getSecretVersions(
         continuationState.continuationToken,
         secretName,
         options
@@ -686,7 +686,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.listSecrets(this.vaultUrl, optionsComplete);
+      const currentSetResponse = await this.client.getSecrets(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
@@ -696,7 +696,7 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listSecrets(
+      const currentSetResponse = await this.client.getSecrets(
         continuationState.continuationToken,
         options
       );
@@ -786,7 +786,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.listDeletedSecrets(
+      const currentSetResponse = await this.client.getDeletedSecrets(
         this.vaultUrl,
         optionsComplete
       );
@@ -798,7 +798,7 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.listDeletedSecrets(
+      const currentSetResponse = await this.client.getDeletedSecrets(
         continuationState.continuationToken,
         options
       );
