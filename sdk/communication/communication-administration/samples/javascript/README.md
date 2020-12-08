@@ -17,6 +17,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | [issueToken.js][issuetoken]      | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
 | [revokeTokens.js][<revoketokens] | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
+| [purchasePhoneNumber.js][purchasePhoneNumber] | uses the PhoneNumberAdministrationClient to purchase a phone number then use the phone number to send a SMS |
+| [releasePhoneNumbers.js][releasePhoneNumbers] | uses the PhoneNumberAdministrationClient to release all phone numbers that match certain criteria |
 
 ## Prerequisites
 
@@ -56,6 +58,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/issueToken.js
 [revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/revokeTokens.js
+[purchasePhoneNumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/purchasePhoneNumber.js
+[releasePhoneNumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/releasePhoneNumbers.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-administration
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
