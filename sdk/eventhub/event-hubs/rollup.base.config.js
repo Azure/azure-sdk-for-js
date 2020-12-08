@@ -43,7 +43,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = ["dist-esm/test/internal/**/*.spec.js", "dist-esm/test/public/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
