@@ -1,30 +1,30 @@
 ---
 page_type: sample
 languages:
-  - javascript
+  - typescript
 products:
   - azure
-  - azure-identity
-urlFragment: identity-javascript
+  - azure-active-directory
+urlFragment: identity-typescript
 ---
 
-# Azure Identity client library samples for JavaScript
+# Azure Identity library samples for TypeScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Identity in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Identity in some common scenarios.
 
 | **File Name**                   | **Description**                                                  |
 | ------------------------------- | ---------------------------------------------------------------- |
-| [defaultAzureCredential.js][defaultAzureCredential]    | Tries several authentications. The simplest way to use @azure/identity |
-| [clientSecretCredential.js][clientSecretCredential]    | Authenticates with a client and a client's secret. |
-| [environmentCredential.js][environmentCredential]      | Authenticates with a client and a client's secret sent through environment variables. |
-| [deviceCodeCredential.js][deviceCodeCredential]        | Authenticates by entering a code in a website as specified in the printed instructions. |
-| [interactiveBrowserCredential.js][interactiveBrowserCredential] | Opens a website page where users can authenticate using their Microsoft accounts. |
+| [defaultAzureCredential.ts][defaultAzureCredential]    | Tries several authentications. The simplest way to use @azure/identity |
+| [clientSecretCredential.ts][clientSecretCredential]    | Authenticates with a client and a client's secret. |
+| [environmentCredential.ts][environmentCredential]      | Authenticates with a client and a client's secret sent through environment variables. |
+| [deviceCodeCredential.ts][deviceCodeCredential]        | Authenticates by entering a code in a website as specified in the printed instructions. |
+| [interactiveBrowserCredential.ts][interactiveBrowserCredential] | Opens a website page where users can authenticate using their Microsoft accounts. |
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with Node.ts >= 8.0.0.
 
-Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
+Before running the samples in Node, they must be compiled to TypeScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
 ```bash
 npm install -g typescript
@@ -55,13 +55,13 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/helloWorld.js
+node dist/helloWorld.ts
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" node dist/environmentCredential.js
+npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" node dist/environmentCredential.ts
 ```
 
 ## Next Steps
@@ -73,7 +73,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [environmentCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/environmentCredential.ts
 [deviceCodeCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/deviceCodeCredential.ts
 [interactiveBrowserCredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/interactiveBrowserCredential.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
+[apiref]: https://docs.microsoft.com/Typescript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md

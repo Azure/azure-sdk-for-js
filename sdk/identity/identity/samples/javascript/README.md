@@ -4,11 +4,11 @@ languages:
   - javascript
 products:
   - azure
-  - azure-identity
+  - azure-active-directory
 urlFragment: identity-javascript
 ---
 
-# Azure Identity client library samples for JavaScript
+# Azure Identity library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Identity in some common scenarios.
 

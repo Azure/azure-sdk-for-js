@@ -1,8 +1,8 @@
 {
-  "name": "azure-keyvault-keys-samples-js",
+  "name": "azure-identity-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Key Vault Keys client library samples for JavaScript",
+  "description": "Azure Identity client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -12,8 +12,8 @@
   },
   "keywords": [
     "Azure",
-    "Key Vault",
-    "Keys",
+    "Identity",
+    "AAD",
     "Node.js",
     "JavaScript"
   ],

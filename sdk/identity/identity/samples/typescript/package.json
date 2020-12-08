@@ -1,8 +1,8 @@
 {
-  "name": "azure-keyvault-keys-samples-ts",
+  "name": "azure-identity-samples-ts",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Key Vault Keys client library samples for TypeScript",
+  "description": "Azure Identity Keys client library samples for TypeScript",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -16,8 +16,8 @@
   },
   "keywords": [
     "Azure",
-    "Key Vault",
-    "Keys",
+    "Identity",
+    "AAD",
     "Node.js",
     "TypeScript"
   ],

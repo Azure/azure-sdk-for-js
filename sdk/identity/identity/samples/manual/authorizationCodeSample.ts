@@ -46,7 +46,7 @@ function getAuthorizeUrl(
   scopes: string
 ): string {
   const queryParams = qs.stringify({
-    client_id: clientId, 
+    client_id: clientId,
     response_type: "code",
     redirect_uri: redirectUri,
     scope: scopes
