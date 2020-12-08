@@ -55,7 +55,6 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-access-control.js.map'\" -o ./dist/synapse-access-control.min.js ./dist/synapse-access-control.js",
-    "prepack": "npm install && npm run build",
     "pack": "npm pack 2>&1",
     "build:test": "echo skip",
     "unit-test:browser": "echo skipped",

@@ -55,7 +55,6 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-managed-private-endpoints.js.map'\" -o ./dist/synapse-managed-private-endpoints.min.js ./dist/synapse-managed-private-endpoints.js",
-    "prepack": "npm install && npm run build",
     "build:test": "echo skip",
     "pack": "npm pack 2>&1",
     "unit-test:browser": "echo skipped",
