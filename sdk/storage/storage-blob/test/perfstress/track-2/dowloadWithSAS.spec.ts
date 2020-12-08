@@ -52,7 +52,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
       },
       this.sharedKeyCredential
     ).toString();
-    
+
     this.sasUrl = `https://${getValueInConnString(
       StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING"),
       "AccountName"
