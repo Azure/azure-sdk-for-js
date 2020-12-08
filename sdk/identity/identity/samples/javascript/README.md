@@ -24,6 +24,22 @@ The samples are compatible with Node.js >= 8.0.0.
 
 You need [an Azure subscription][freesub] and [an Azure Key Vault][azkeyvault] to run these sample programs.
 
+To create an AAD application:
+
+- Follow [Documentation to register a new application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
+- Note down the `CLIENT_ID` and `TENANT_ID`.
+- In the "Certificates & Secrets" tab, create a secret and note that down.
+
+To allow your registered application to access your Key Vault
+
+- In the Azure portal, go to your Azure Key Vault.
+- In the left-side-navbar of your Azure Key Vault in the Azure portal, go to the `Access Policies` section, then click the `+ Add Access Policy` button.
+- In the `Add access policy` page, select all the permissions for Keys, Secrets and Certificates.
+- For the `Select principal` field, click on the `None selected`. A panel will appear at the right of the window. Search for your Azure Active Directory application, click the application on the search results, then click "Select" at the bottom.
+- Once your application is selected, click the "Add" button.
+- Click the `Save` button at the top of the Access Policies section of your Key Vault.
+- For more information on securing your Key Vault: [Learn more](https://docs.microsoft.com/azure/key-vault/general/secure-your-key-vault)
+
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
 ## Setup
