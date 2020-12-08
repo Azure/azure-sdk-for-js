@@ -9,7 +9,10 @@ import {
   KeyVaultSecretPollOperationState
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { KeyVaultClientDeleteSecretResponse, KeyVaultClientGetDeletedSecretResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteSecretResponse,
+  KeyVaultClientGetDeletedSecretResponse
+} from "../../generated/models";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getSecretFromSecretBundle } from "../../transformations";
 

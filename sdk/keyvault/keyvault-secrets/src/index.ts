@@ -586,7 +586,8 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) =>
+            getSecretFromSecretBundle(bundle).properties
         );
       }
     }
@@ -599,7 +600,8 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) =>
+            getSecretFromSecretBundle(bundle).properties
         );
       } else {
         break;
@@ -688,7 +690,8 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) =>
+            getSecretFromSecretBundle(bundle).properties
         );
       }
     }
@@ -700,7 +703,8 @@ export class SecretClient {
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
-          (bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle).properties
+          (bundle: SecretBundle | DeletedSecretBundle) =>
+            getSecretFromSecretBundle(bundle).properties
         );
       } else {
         break;
@@ -788,7 +792,9 @@ export class SecretClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle));
+        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) =>
+          getSecretFromSecretBundle(bundle)
+        );
       }
     }
     while (continuationState.continuationToken) {
@@ -798,7 +804,9 @@ export class SecretClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) => getSecretFromSecretBundle(bundle));
+        yield currentSetResponse.value.map((bundle: SecretBundle | DeletedSecretBundle) =>
+          getSecretFromSecretBundle(bundle)
+        );
       } else {
         break;
       }
