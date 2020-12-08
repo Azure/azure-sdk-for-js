@@ -10,7 +10,8 @@ import {
   RequiredSerializerOptions,
   OperationArguments,
   XML_ATTRKEY,
-  OperationSpec
+  OperationSpec,
+  DictionaryMapper
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { getPathStringFromParameter } from "./interfaceHelpers";
@@ -48,11 +49,43 @@ export function serializationPolicy(options: serializationPolicyOptions = {}): P
       const operationSpec = request.additionalInfo?.operationSpec;
       const operationArguments = request.additionalInfo?.operationArguments;
       if (operationSpec && operationArguments) {
+        serializeHeaders(request, operationArguments, operationSpec);
         serializeRequestBody(request, operationArguments, operationSpec, stringifyXML);
       }
       return next(request);
     }
   };
+}
+
+function serializeHeaders(
+  request: OperationRequest,
+  operationArguments: OperationArguments,
+  operationSpec: OperationSpec
+) {
+  if (operationSpec.headerParameters) {
+    for (const headerParameter of operationSpec.headerParameters) {
+      let headerValue = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
+      if (headerValue !== null && headerValue !== undefined) {
+        headerValue = operationSpec.serializer.serialize(
+          headerParameter.mapper,
+          headerValue,
+          getPathStringFromParameter(headerParameter)
+        );
+        const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
+          .headerCollectionPrefix;
+        if (headerCollectionPrefix) {
+          for (const key of Object.keys(headerValue)) {
+            request.headers.set(headerCollectionPrefix + key, headerValue[key]);
+          }
+        } else {
+          request.headers.set(
+            headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter),
+            headerValue
+          );
+        }
+      }
+    }
+  }
 }
 
 /**

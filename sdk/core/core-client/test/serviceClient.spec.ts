@@ -13,7 +13,8 @@ import {
   OperationArguments,
   Mapper,
   CompositeMapper,
-  OperationSpec
+  OperationSpec,
+  serializationPolicy
 } from "../src";
 import {
   createHttpHeaders,
@@ -187,6 +188,8 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest;
+    let pipeline = createEmptyPipeline();
+    pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpsClient: {
         sendRequest: (req) => {
@@ -194,7 +197,7 @@ describe("ServiceClient", function() {
           return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
         }
       },
-      pipeline: createEmptyPipeline()
+      pipeline
     });
 
     await client.sendOperationRequest(

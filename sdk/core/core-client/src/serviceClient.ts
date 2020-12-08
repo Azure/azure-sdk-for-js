@@ -20,14 +20,12 @@ import {
   OperationRequest,
   OperationResponseMap,
   FullOperationResponse,
-  DictionaryMapper,
   CompositeMapper,
   XmlOptions
 } from "./interfaces";
-import { getPathStringFromParameter, isStreamOperation } from "./interfaceHelpers";
+import { isStreamOperation } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
-import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 import { URL } from "./url";
 import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
@@ -157,34 +155,6 @@ export class ServiceClient {
     const contentType = operationSpec.contentType || this._requestContentType;
     if (contentType) {
       request.headers.set("Content-Type", contentType);
-    }
-
-    if (operationSpec.headerParameters) {
-      for (const headerParameter of operationSpec.headerParameters) {
-        let headerValue = getOperationArgumentValueFromParameter(
-          operationArguments,
-          headerParameter
-        );
-        if (headerValue !== null && headerValue !== undefined) {
-          headerValue = operationSpec.serializer.serialize(
-            headerParameter.mapper,
-            headerValue,
-            getPathStringFromParameter(headerParameter)
-          );
-          const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
-            .headerCollectionPrefix;
-          if (headerCollectionPrefix) {
-            for (const key of Object.keys(headerValue)) {
-              request.headers.set(headerCollectionPrefix + key, headerValue[key]);
-            }
-          } else {
-            request.headers.set(
-              headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter),
-              headerValue
-            );
-          }
-        }
-      }
     }
 
     const options = operationArguments.options;
