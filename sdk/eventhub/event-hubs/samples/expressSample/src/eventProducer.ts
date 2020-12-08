@@ -1,13 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
+
 import { EventData, EventDataBatch, EventHubProducerClient } from "@azure/event-hubs";
-import AsyncLock from "async-lock";
-import { v4 as uuid } from "uuid";
 
 export class EventProducer {
   private producerClient: EventHubProducerClient;
-  private batch: EventDataBatch;
+  private awaitableBatch: Promise<EventDataBatch>;
   private count: number;
-  private lock: AsyncLock;
-  private lockKey: string;
   private lastBatchCreatedTime: number;
 
   constructor(
@@ -18,8 +17,6 @@ export class EventProducer {
   ) {
     this.producerClient = new EventHubProducerClient(eventHubConnectString, eventHubName);
     this.count = 0;
-    this.lock = new AsyncLock();
-    this.lockKey = `createBatch-${uuid()}`;
     this.lastBatchCreatedTime = Date.now();
   }
 
@@ -33,30 +30,32 @@ export class EventProducer {
   }
 
   public async send(requestId: string, payload: any) {
-    if (this.batch === undefined) {
-      this.batch = await this.lock.acquire(this.lockKey, () => {
-        if (this.batch === undefined) {
-          console.log(`Acquire lock ${this.lockKey} and create a new batch`);
-          this.lastBatchCreatedTime = Date.now();
-          return this.producerClient.createBatch();
-        } else {
-          console.log(
-            `Acquire lock ${this.lockKey} and skip create. this.batch count: ${this.batch.count}`
-          );
-          return this.batch;
-        }
-      });
-    }
-    const isAdded = this.batch.tryAdd(this.constructEventData(requestId, payload));
+    const batch = await this.getOrCreateBatch();
+    const eventData = this.constructEventData(requestId, payload)
+    const isAdded = batch.tryAdd(eventData);
 
-    if (!isAdded || this.batch.count >= this.batchSendNumber) {
-      const curBatch = this.batch;
-      this.batch = undefined;
-      await this.sendBatch(curBatch);
+    if (!isAdded || batch.count >= this.batchSendNumber) {
+      this.awaitableBatch = undefined;
+      await this.sendBatch(batch);
       if (!isAdded) {
-        console.log(`Up to batch size limit, add event failed. requestId: ${requestId}`);
+        const batch = await this.getOrCreateBatch();
+        if (!batch.tryAdd(eventData)) {
+          console.log(`Up to batch size limit, add event failed. requestId: ${requestId}`);
+        }
       }
     }
+  }
+
+  private async getOrCreateBatch(): Promise<EventDataBatch> {
+    // Check if there is an existing promise for a batch.
+    if (this.awaitableBatch) {
+      return this.awaitableBatch;
+    }
+
+    console.log(`Creating a new batch.`);
+    this.lastBatchCreatedTime = Date.now();
+    this.awaitableBatch = this.producerClient.createBatch();
+    return this.awaitableBatch;
   }
 
   private async sendBatch(curBatch: EventDataBatch) {
@@ -72,9 +71,9 @@ export class EventProducer {
   public timeScan() {
     setInterval(async () => {
       if (Date.now() - this.lastBatchCreatedTime >= this.sendBatchTimeIntervalSeconds * 1000) {
-        if (this.batch !== undefined) {
-          const curBatch = this.batch;
-          this.batch = undefined;
+        if (this.awaitableBatch !== undefined) {
+          const curBatch = await this.awaitableBatch;
+          this.awaitableBatch = undefined;
           console.log(`time trigger send batch. count: ${curBatch.count}`);
           await this.sendBatch(curBatch);
         }
