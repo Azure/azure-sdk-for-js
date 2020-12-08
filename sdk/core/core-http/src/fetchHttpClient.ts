@@ -82,8 +82,11 @@ export abstract class FetchHttpClient implements HttpClient {
         if (typeof value === "function") {
           value = value();
         }
-        // eslint-disable-next-line no-prototype-builtins
-        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
+        if (
+          value &&
+          Object.prototype.hasOwnProperty.call(value, "value") &&
+          Object.prototype.hasOwnProperty.call(value, "options")
+        ) {
           requestForm.append(key, value.value, value.options);
         } else {
           requestForm.append(key, value);
