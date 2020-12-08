@@ -9,7 +9,6 @@ const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
-
 const localDirName = "temp";
 const localFileName = `${localDirName}/upload-from-test-temp-file.txt`;
 
