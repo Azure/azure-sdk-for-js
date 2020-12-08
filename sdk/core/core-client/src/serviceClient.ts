@@ -446,7 +446,9 @@ export function createClientPipeline(options: ClientPipelineOptions = {}): Pipel
     );
   }
 
-  pipeline.addPolicy(deserializationPolicy(options.deserializationOptions), { phase: "Serialize" });
+  pipeline.addPolicy(deserializationPolicy(options.deserializationOptions), {
+    phase: "Deserialize"
+  });
 
   return pipeline;
 }
