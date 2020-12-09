@@ -15,16 +15,45 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/attestation.js",
-  "module": "./esm/index.js",
-  "types": "./esm/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/attestation.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "devDependencies": {
-    "typescript": "~3.9.3",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^8.0.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^8.2.0",
+    "karma": "^5.1.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-remap-istanbul": "^0.6.0",
+    "karma-source-map-support": "~1.4.0",
+    "mocha": "^7.1.1",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "uglify-js": "^3.4.9",
-    "@microsoft/api-extractor": "7.7.11"
+    "ts-node": "^8.3.0",
+    "typescript": "~3.9.3"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js",
   "repository": {
@@ -35,25 +64,26 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
-    "./src//**/*.ts",
+    "dist/",
+    "dist-esm/src/",
+    "types/attestation.d.ts",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/attestation.js.map'\" -o ./dist/attestation.min.js ./dist/attestation.js",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:test": "tsc -p . && rollup -c 2>&1",
     "prepack": "npm install && npm run build",
-    "extract-api": "api-extractor run --local"
+    "extract-api": "api-extractor run --local",
+    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": true,
+  "browser": {
+    "./dist-esm/test/utils/base64.js": "./dist-esm/test/utils/base64.browser.js"
+  }
 }
