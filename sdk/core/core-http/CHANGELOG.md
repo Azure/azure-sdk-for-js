@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.2 (Unreleased)
+
+
 ## 1.2.1 (2020-12-09)
 
 - Support custom auth scopes. Scope is a mechanism in OAuth 2.0 to limit an application's access to a user's account [PR 12752](https://github.com/Azure/azure-sdk-for-js/pull/12752)
