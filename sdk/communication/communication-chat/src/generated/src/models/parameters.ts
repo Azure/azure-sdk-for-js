@@ -16,8 +16,8 @@ import {
   SendChatMessageRequest as SendChatMessageRequestMapper,
   UpdateChatMessageRequest as UpdateChatMessageRequestMapper,
   AddChatParticipantsRequest as AddChatParticipantsRequestMapper,
-  CreateChatThreadRequest as CreateChatThreadRequestMapper,
-  UpdateChatThreadRequest as UpdateChatThreadRequestMapper
+  UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
+  CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
 
 export const endpoint: OperationURLParameter = {
@@ -43,10 +43,10 @@ export const chatThreadId: OperationURLParameter = {
   }
 };
 
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
+export const maxpagesize: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
-    serializedName: "maxPageSize",
+    serializedName: "$maxpagesize",
     type: {
       name: "Number"
     }
@@ -151,6 +151,7 @@ export const chatParticipantId: OperationURLParameter = {
   }
 };
 
+<<<<<<< HEAD
 export const createChatThreadRequest: OperationParameter = {
   parameterPath: "createChatThreadRequest",
   mapper: CreateChatThreadRequestMapper
@@ -166,6 +167,8 @@ export const azureAcsIdempotencyKey: OperationParameter = {
   }
 };
 
+=======
+>>>>>>> feature/communication-chat-2020-11-01-preview3
 export const updateChatThreadRequest: OperationParameter = {
   parameterPath: "updateChatThreadRequest",
   mapper: UpdateChatThreadRequestMapper
@@ -181,4 +184,19 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const createChatThreadRequest: OperationParameter = {
+  parameterPath: "createChatThreadRequest",
+  mapper: CreateChatThreadRequestMapper
+};
+
+export const repeatabilityRequestID: OperationParameter = {
+  parameterPath: ["options", "repeatabilityRequestID"],
+  mapper: {
+    serializedName: "repeatability-Request-ID",
+    type: {
+      name: "String"
+    }
+  }
 };

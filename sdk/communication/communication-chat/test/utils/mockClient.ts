@@ -18,8 +18,12 @@ export const mockThread: RestModel.ChatThread = {
   id: "threadid",
   topic: "topic",
   createdBy: "createdBy",
-  createdOn: new Date("2020-06-26T18:06:06Z"),
-  participants: [mockParticipant]
+  createdOn: new Date("2020-06-26T18:06:06Z")
+};
+
+export const mockCreateThreadResult: RestModel.CreateChatThreadResult = {
+  chatThread: mockThread,
+  errors: undefined
 };
 
 export const mockThreadInfo: RestModel.ChatThreadInfo = {

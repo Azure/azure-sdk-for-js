@@ -22,13 +22,18 @@ export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipants
     participants: ChatParticipant[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "AddChatParticipantsResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;
+
 // @public
 export type AddParticipantsOptions = OperationOptions;
 
 // @public
 export class ChatClient {
     constructor(url: string, credential: CommunicationUserCredential, options?: ChatClientOptions);
-    createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<ChatThreadClient>;
+    createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResponse>;
     deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<OperationResponse>;
     getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<GetChatThreadResponse>;
     getChatThreadClient(threadId: string): Promise<ChatThreadClient>;
@@ -70,15 +75,14 @@ export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
 }
 
 // @public
-export interface ChatThread extends Omit<RestChatThread, "createdBy" | "participants"> {
+export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
     readonly createdBy?: CommunicationUser;
-    participants?: ChatParticipant[];
 }
 
 // @public
 export class ChatThreadClient {
     constructor(threadId: string, url: string, credential: CommunicationUserCredential, options?: ChatThreadClientOptions);
-    addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<OperationResponse>;
+    addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<OperationResponse>;
     dispose(): void;
     getMessage(messageId: string, options?: GetMessageOptions): Promise<GetChatMessageResponse>;
@@ -98,7 +102,7 @@ export class ChatThreadClient {
 export interface ChatThreadClientOptions extends ChatClientOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface ChatThreadInfo {
     deletedOn?: Date;
     readonly id?: string;
@@ -106,13 +110,20 @@ export interface ChatThreadInfo {
     topic?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ChatCreateChatThreadOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type CreateChatThreadOptions = OperationOptions;
+export type CreateChatThreadOptions = ChatCreateChatThreadOptionalParams;
 
 // @public
 export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "participants"> {
     participants: ChatParticipant[];
 }
+
+// Warning: (ae-forgotten-export) The symbol "CreateChatThreadResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
 
 // @public
 export type DeleteChatThreadOptions = OperationOptions;
@@ -143,11 +154,15 @@ export interface ListPageSettings {
     continuationToken?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ChatThreadListChatParticipantsOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ListParticipantsOptions = RestListChatParticipantsOptions;
+export type ListParticipantsOptions = ChatThreadListChatParticipantsOptionalParams;
 
+// Warning: (ae-forgotten-export) The symbol "ChatThreadListChatReadReceiptsOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type ListReadReceiptsOptions = RestListChatReadReceiptsOptions;
+export type ListReadReceiptsOptions = ChatThreadListChatReadReceiptsOptionalParams;
 
 // @public
 export interface OperationResponse {
@@ -162,7 +177,7 @@ export interface RestAddChatParticipantsRequest {
     participants: RestChatParticipant[];
 }
 
-// @public (undocumented)
+// @public
 export interface RestChatMessage {
     content?: string;
     readonly createdOn?: Date;
@@ -190,13 +205,12 @@ export interface RestChatParticipant {
     shareHistoryTime?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface RestChatThread {
     readonly createdBy?: string;
     readonly createdOn?: Date;
     deletedOn?: Date;
     readonly id?: string;
-    participants?: RestChatParticipant[];
     topic?: string;
 }
 
@@ -220,23 +234,23 @@ export interface RestListChatReadReceiptsOptions extends coreHttp.OperationOptio
 
 // @public
 export interface RestListChatThreadsOptions extends coreHttp.OperationOptions {
-    maxPageSize?: number;
+    maxpagesize?: number;
     startTime?: Date;
 }
 
 // @public
 export interface RestListMessagesOptions extends coreHttp.OperationOptions {
-    maxPageSize?: number;
+    maxpagesize?: number;
     startTime?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface RestUpdateMessageOptions {
     content?: string;
     priority?: ChatMessagePriority;
 }
 
-// @public (undocumented)
+// @public
 export interface RestUpdateThreadOptions {
     topic?: string;
 }

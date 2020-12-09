@@ -348,6 +348,39 @@ export const AddChatParticipantsRequest: coreHttp.CompositeMapper = {
   }
 };
 
+export const AddChatParticipantsResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AddChatParticipantsResult",
+    modelProperties: {
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Composite",
+          className: "AddChatParticipantsErrors"
+        }
+      }
+    }
+  }
+};
+
+export const AddChatParticipantsErrors: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AddChatParticipantsErrors",
+    modelProperties: {
+      invalidParticipants: {
+        serializedName: "invalidParticipants",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "ErrorModel" } }
+        }
+      }
+    }
+  }
+};
+
 export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -366,6 +399,29 @@ export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "ChatParticipant" } }
+        }
+      }
+    }
+  }
+};
+
+export const CreateChatThreadResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateChatThreadResult",
+    modelProperties: {
+      chatThread: {
+        serializedName: "chatThread",
+        type: {
+          name: "Composite",
+          className: "ChatThread"
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Composite",
+          className: "CreateChatThreadErrors"
         }
       }
     }
@@ -409,12 +465,22 @@ export const ChatThread: coreHttp.CompositeMapper = {
         type: {
           name: "DateTime"
         }
-      },
-      participants: {
-        serializedName: "participants",
+      }
+    }
+  }
+};
+
+export const CreateChatThreadErrors: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateChatThreadErrors",
+    modelProperties: {
+      invalidParticipants: {
+        serializedName: "invalidParticipants",
+        readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatParticipant" } }
+          element: { type: { name: "Composite", className: "ErrorModel" } }
         }
       }
     }

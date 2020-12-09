@@ -288,7 +288,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/readreceipts?api-version=${API_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/readReceipts?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
   });
@@ -316,7 +316,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/readreceipts?api-version=${API_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/readReceipts?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });

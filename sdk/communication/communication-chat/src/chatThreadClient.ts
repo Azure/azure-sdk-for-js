@@ -5,7 +5,7 @@ import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
 import { CommunicationUser, CommunicationUserCredential } from "@azure/communication-common";
 import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
-import { ChatApiClient } from "./generated/src/chatApiClient";
+import { ChatApiClient, ChatThread } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -15,7 +15,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
-import { SendReadReceiptRequest } from "./generated/src/models";
+import { AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src/models";
 import { OperationResponse } from "./models/models";
 import {
   ChatThreadClientOptions,
@@ -62,7 +62,7 @@ export class ChatThreadClient {
   readonly threadId: string;
 
   private readonly tokenCredential: CommunicationUserCredential;
-  private readonly api: ChatApiClient;
+  private readonly api: ChatThread;
   private disposed = false;
 
   private timeOfLastTypingRequest: Date | undefined = undefined;
@@ -101,7 +101,8 @@ export class ChatThreadClient {
     const authPolicy = createCommunicationUserCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.api = new ChatApiClient(this.url, pipeline);
+    const client = new ChatApiClient(this.url, pipeline);
+    this.api = client.chatThread;
   }
 
   /**
@@ -322,7 +323,7 @@ export class ChatThreadClient {
   public async addParticipants(
     request: AddChatParticipantsRequest,
     options: AddParticipantsOptions = {}
-  ): Promise<OperationResponse> {
+  ): Promise<AddChatParticipantsResult> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);
 
     try {
