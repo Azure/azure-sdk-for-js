@@ -86,11 +86,8 @@
   },
   "//smokeTestConfiguration": {
     "skip": [
-      "browseMessages.js",
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
-      "scheduledMessages.js",
-      "session.js",
       "useProxy.js"
     ]
   },
