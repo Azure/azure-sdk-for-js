@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { parseConnectionString } from "@azure/core-amqp";
-import { EventHubConsumerClient } from "../../src";
+import { EventHubConsumerClient, EventHubProducerClient } from "../../src";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
-import { EventHubProducerClient } from "../../src";
 import { SharedKeyCredential } from "../../src/eventhubSharedKeyCredential";
 
 const should = chai.should();

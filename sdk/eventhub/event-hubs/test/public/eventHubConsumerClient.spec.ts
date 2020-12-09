@@ -7,9 +7,9 @@ import {
   SubscriptionEventHandlers,
   latestEventPosition,
   logger,
-  CloseReason
+  CloseReason,
+  EventHubConsumerClient
 } from "../../src";
-import { EventHubConsumerClient } from "../../src";
 import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
