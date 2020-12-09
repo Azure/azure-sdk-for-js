@@ -24,7 +24,7 @@ import path from "path";
  * 3. If `.spec.ts` test files are being used directly
  *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\test\utils.spec.ts`
  *    filePath = `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\test\node\utils.spec.ts`
- * In the above example, no matter where the test files are,
+ * In the above examples, no matter where the test files are,
  *    the recordings are located at `<base path>\azure-sdk-for-js\sdk\storage\storage-blob\recordings\`.
  * In order to playback the tests, exact location of the recordings is to be found,
  *    this is done by checking the parent(s) folders until the `recordings` folder is found.

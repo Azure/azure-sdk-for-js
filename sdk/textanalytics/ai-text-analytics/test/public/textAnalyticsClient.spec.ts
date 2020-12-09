@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { env, isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { env, isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "../utils/recordedClient";
 import {
@@ -765,7 +765,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#analyze", () => {
     let pollingInterval = 2000;
-    if (isRecordMode() || env.TEST_MODE === "live") {
+    if (isRecordMode() || isLiveMode()) {
       // eslint-disable-next-line no-invalid-this
       this.timeout(1000000);
     } else {
