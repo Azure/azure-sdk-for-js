@@ -4,6 +4,8 @@
   "description": "A generated SDK for ArtifactsClient.",
   "sdk-type": "client",
   "version": "1.0.0-beta.1",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-artifacts/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
@@ -16,11 +18,18 @@
     "azure",
     "typescript",
     "browser",
+    "cloud",
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/synapse-artifacts.js",
-  "module": "./esm/index.js",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./types/synapse-artifacts.d.ts",
   "devDependencies": {
     "typescript": "~3.9.3",
@@ -32,11 +41,6 @@
     "@rollup/plugin-commonjs": "11.0.2",
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "7.7.11"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -50,7 +54,6 @@
     "esm/**/*.js.map",
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
-    "src/**/*.ts",
     "types/synapse-artifacts.d.ts",
     "README.md",
     "rollup.config.js",
@@ -58,10 +61,11 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-artifacts.js.map'\" -o ./dist/synapse-artifacts.min.js ./dist/synapse-artifacts.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skip",
-    "lint": "echo skipped",
+    "lint": "echo skip",
+    "test": "echo skip",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

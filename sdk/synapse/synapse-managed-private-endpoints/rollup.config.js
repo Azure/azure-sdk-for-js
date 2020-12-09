@@ -7,11 +7,11 @@ import cjs from "@rollup/plugin-commonjs";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/managedPrivateEndpointsClient.js",
+  input: "./dist-esm/managedPrivateEndpointsClient.js",
   external: ["@azure/core-http", "@azure/core-arm"],
   output: {
-    file: "./dist/synapse-managed-private-endpoints.js",
-    format: "umd",
+    file: "./dist/index.js",
+    format: "cjs",
     name: "Azure.SynapseManagedPrivateEndpoints",
     sourcemap: true,
     globals: {

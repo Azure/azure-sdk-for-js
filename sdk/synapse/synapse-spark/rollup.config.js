@@ -7,11 +7,11 @@ import cjs from "@rollup/plugin-commonjs";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/sparkClient.js",
+  input: "./dist-esm/sparkClient.js",
   external: ["@azure/core-http", "@azure/core-arm"],
   output: {
-    file: "./dist/synapse-spark.js",
-    format: "umd",
+    file: "./dist/index.js",
+    format: "cjs",
     name: "Azure.SynapseSpark",
     sourcemap: true,
     globals: {

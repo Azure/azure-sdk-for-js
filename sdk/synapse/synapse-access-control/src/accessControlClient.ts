@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import * as coreHttp from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -6,11 +8,10 @@ import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { AccessControlClientContext } from "./accessControlClientContext";
 import {
-  AccessControlClientOptionalParams,
   SynapseRole,
   AccessControlClientGetRoleDefinitionsResponse,
   AccessControlClientGetRoleDefinitionByIdResponse,
-  RoleAssignmentOptions,
+  CreateRoleAssignmentOptions,
   AccessControlClientCreateRoleAssignmentResponse,
   AccessControlClientGetRoleAssignmentsOptionalParams,
   AccessControlClientGetRoleAssignmentsResponse,
@@ -19,22 +20,151 @@ import {
   AccessControlClientGetRoleDefinitionsNextResponse
 } from "./models";
 
-export class AccessControlClient extends AccessControlClientContext {
-  /**
-   * Initializes a new instance of the AccessControlClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
-   *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options The parameter options
-   */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    endpoint: string,
-    options?: AccessControlClientOptionalParams
-  ) {
-    super(credentials, endpoint, options);
-  }
+// Operation Specifications
 
+const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+
+const getRoleDefinitionsOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/roles",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RolesListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getRoleDefinitionByIdOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/roles/{roleId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SynapseRole
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.roleId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createRoleAssignmentOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/roleAssignments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentDetails
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  requestBody: Parameters.createRoleAssignmentOptions,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getRoleAssignmentsOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/roleAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "RoleAssignmentDetails" }
+          }
+        }
+      },
+      headersMapper: Mappers.AccessControlClientGetRoleAssignmentsHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.roleId1, Parameters.principalId],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.continuationToken],
+  serializer
+};
+const getRoleAssignmentByIdOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/roleAssignments/{roleAssignmentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentDetails
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteRoleAssignmentByIdOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/roleAssignments/{roleAssignmentId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getCallerRoleAssignmentsOperationSpec: coreHttp.OperationSpec = {
+  path: "/rbac/getMyAssignedRoles",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Sequence", element: { type: { name: "String" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getRoleDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RolesListResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+
+export class AccessControlClient extends AccessControlClientContext {
   /**
    * List roles.
    * @param options The options parameters.
@@ -148,7 +278,7 @@ export class AccessControlClient extends AccessControlClientContext {
    * @param options The options parameters.
    */
   async createRoleAssignment(
-    createRoleAssignmentOptions: RoleAssignmentOptions,
+    createRoleAssignmentOptions: CreateRoleAssignmentOptions,
     options?: coreHttp.OperationOptions
   ): Promise<AccessControlClientCreateRoleAssignmentResponse> {
     const { span, updatedOptions } = createSpan(
@@ -340,146 +470,3 @@ export class AccessControlClient extends AccessControlClientContext {
     }
   }
 }
-// Operation Specifications
-
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getRoleDefinitionsOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/roles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RolesListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getRoleDefinitionByIdOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/roles/{roleId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SynapseRole
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roleId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createRoleAssignmentOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/roleAssignments",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignmentDetails
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  requestBody: Parameters.createRoleAssignmentOptions,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getRoleAssignmentsOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/roleAssignments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "RoleAssignmentDetails" }
-          }
-        }
-      },
-      headersMapper: Mappers.AccessControlClientGetRoleAssignmentsHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.roleId1, Parameters.principalId],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.continuationToken],
-  serializer
-};
-const getRoleAssignmentByIdOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/roleAssignments/{roleAssignmentId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignmentDetails
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteRoleAssignmentByIdOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/roleAssignments/{roleAssignmentId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getCallerRoleAssignmentsOperationSpec: coreHttp.OperationSpec = {
-  path: "/rbac/getMyAssignedRoles",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: { name: "Sequence", element: { type: { name: "String" } } }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getRoleDefinitionsNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RolesListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};

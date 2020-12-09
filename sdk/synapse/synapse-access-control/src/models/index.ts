@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -58,7 +60,7 @@ export interface ErrorDetail {
 /**
  * Role Assignment request details
  */
-export interface RoleAssignmentOptions {
+export interface CreateRoleAssignmentOptions {
   /**
    * Role ID of the Synapse Built-In Role
    */

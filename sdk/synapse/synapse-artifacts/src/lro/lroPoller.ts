@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { Poller } from "@azure/core-lro";
 import {
   OperationSpec,

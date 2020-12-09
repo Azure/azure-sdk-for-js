@@ -7,11 +7,11 @@ import cjs from "@rollup/plugin-commonjs";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/accessControlClient.js",
+  input: "./dist-esm/accessControlClient.js",
   external: ["@azure/core-http", "@azure/core-arm"],
   output: {
-    file: "./dist/synapse-access-control.js",
-    format: "umd",
+    file: "./dist/index.js",
+    format: "cjs",
     name: "Azure.SynapseAccessControl",
     sourcemap: true,
     globals: {

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { LROStrategy, BaseResult, LROOperationStep, LROSYM } from "./models";
 import { OperationSpec } from "@azure/core-http";
 import { terminalStates } from "./constants";

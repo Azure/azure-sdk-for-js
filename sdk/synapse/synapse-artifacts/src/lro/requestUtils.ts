@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { HttpOperationResponse } from "@azure/core-http";
 import { terminalStates } from "./constants";
 import { LROResponseInfo } from "./models";

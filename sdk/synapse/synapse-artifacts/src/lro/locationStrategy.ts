@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { BaseResult, LROOperationStep, LROStrategy, LROSYM } from "./models";
 import { SendOperationFn } from "./lroPoller";
 import { OperationSpec } from "@azure/core-http";

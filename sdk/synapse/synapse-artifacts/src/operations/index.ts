@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export * from "./linkedService";
 export * from "./dataset";
 export * from "./pipeline";

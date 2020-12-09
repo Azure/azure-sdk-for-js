@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";

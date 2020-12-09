@@ -7,11 +7,11 @@ import cjs from "@rollup/plugin-commonjs";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/artifactsClient.js",
+  input: "./dist-esm/artifactsClient.js",
   external: ["@azure/core-http", "@azure/core-arm"],
   output: {
-    file: "./dist/synapse-artifacts.js",
-    format: "umd",
+    file: "./dist/index.js",
+    format: "cjs",
     name: "Azure.SynapseArtifacts",
     sourcemap: true,
     globals: {

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { BaseResult, LROOperationState, LROOperation, LROSYM } from "./models";
 
 /**

@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export { shouldDeserializeLRO } from "./requestUtils";
 export { createBodyPollingStrategy } from "./bodyPollingStrategy";
 export { terminalStates } from "./constants";
