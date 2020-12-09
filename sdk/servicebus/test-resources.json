@@ -84,10 +84,35 @@
         "enablePartitioning": "false",
         "enableExpress": "false"
       }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/queues",
+      "apiVersion": "2017-04-01",
+      "name": "[concat(parameters('baseName'), '/testQueueWithSessions')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('baseName'))]"
+      ],
+      "properties": {
+        "lockDuration": "PT5M",
+        "maxSizeInMegabytes": "1024",
+        "requiresDuplicateDetection": "false",
+        "requiresSession": "true",
+        "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+        "deadLetteringOnMessageExpiration": "false",
+        "duplicateDetectionHistoryTimeWindow": "PT10M",
+        "maxDeliveryCount": "10",
+        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+        "enablePartitioning": "false",
+        "enableExpress": "false"
+      }
     }
   ],
   "outputs": {
     "SERVICEBUS_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+    },
+    "SERVICE_BUS_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('baseName'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
@@ -98,6 +123,10 @@
     "QUEUE_NAME": {
       "type": "string",
       "value": "testQueue"
+    },
+    "QUEUE_NAME_WITH_SESSIONS": {
+      "type": "string",
+      "value": "testQueueWithSessions"
     }
   }
 }
