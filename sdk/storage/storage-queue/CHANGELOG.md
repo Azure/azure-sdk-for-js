@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.1 (Unreleased)
+## 12.3.0-beta.1 (2020-12-09)
 
 - Updated Azure Storage Service API version to 2020-04-08.
 - Added `generateSasUrl` to `QueueClient` to generate a service-level SAS URI for the client.
