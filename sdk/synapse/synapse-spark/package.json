@@ -57,6 +57,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-spark.js.map'\" -o ./dist/synapse-spark.min.js ./dist/synapse-spark.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skip",
+    "lint": "eslint package.json api-extractor.json src --ext .ts",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

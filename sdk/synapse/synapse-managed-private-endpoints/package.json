@@ -58,6 +58,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/synapse-managed-private-endpoints.js.map'\" -o ./dist/synapse-managed-private-endpoints.min.js ./dist/synapse-managed-private-endpoints.js",
     "build:test": "echo skip",
     "pack": "npm pack 2>&1",
+    "lint": "eslint package.json api-extractor.json src --ext .ts",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
