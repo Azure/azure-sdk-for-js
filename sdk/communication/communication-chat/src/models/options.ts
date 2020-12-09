@@ -18,8 +18,8 @@ export {
   RestUpdateThreadOptions,
   RestListMessagesOptions,
   RestListChatThreadsOptions,
-  RestListChatParticipantsOptions,
-  RestListChatReadReceiptsOptions
+  RestListParticipantsOptions,
+  RestListReadReceiptsOptions
 };
 
 /**

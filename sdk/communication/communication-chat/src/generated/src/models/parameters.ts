@@ -151,24 +151,6 @@ export const chatParticipantId: OperationURLParameter = {
   }
 };
 
-<<<<<<< HEAD
-export const createChatThreadRequest: OperationParameter = {
-  parameterPath: "createChatThreadRequest",
-  mapper: CreateChatThreadRequestMapper
-};
-
-export const azureAcsIdempotencyKey: OperationParameter = {
-  parameterPath: ["options", "azureAcsIdempotencyKey"],
-  mapper: {
-    serializedName: "azure-Acs-IdempotencyKey",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-=======
->>>>>>> feature/communication-chat-2020-11-01-preview3
 export const updateChatThreadRequest: OperationParameter = {
   parameterPath: "updateChatThreadRequest",
   mapper: UpdateChatThreadRequestMapper
