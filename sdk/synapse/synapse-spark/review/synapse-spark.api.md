@@ -226,17 +226,22 @@ export interface SparkBatchJobState {
     terminatedAt?: Date | null;
 }
 
+// @public
+export class SparkBatchOperation {
+    constructor(client: SparkClient);
+    cancelSparkBatchJob(batchId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    createSparkBatchJob(sparkBatchJobOptions: SparkBatchJobOptions, options?: SparkBatchCreateSparkBatchJobOptionalParams): Promise<SparkBatchCreateSparkBatchJobResponse>;
+    getSparkBatchJob(batchId: number, options?: SparkBatchGetSparkBatchJobOptionalParams): Promise<SparkBatchGetSparkBatchJobResponse>;
+    getSparkBatchJobs(options?: SparkBatchGetSparkBatchJobsOptionalParams): Promise<SparkBatchGetSparkBatchJobsResponse>;
+}
+
 // @public (undocumented)
 export class SparkClient extends SparkClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
-    // Warning: (ae-forgotten-export) The symbol "SparkBatch" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    sparkBatch: SparkBatch;
-    // Warning: (ae-forgotten-export) The symbol "SparkSession" needs to be exported by the entry point index.d.ts
-    //
+    sparkBatch: SparkBatchOperation;
     // (undocumented)
-    sparkSession: SparkSession_2;
+    sparkSession: SparkSessionOperation;
 }
 
 // @public (undocumented)
@@ -457,6 +462,20 @@ export type SparkSessionGetSparkStatementsResponse = SparkStatementCollection & 
         parsedBody: SparkStatementCollection;
     };
 };
+
+// @public
+export class SparkSessionOperation {
+    constructor(client: SparkClient);
+    cancelSparkSession(sessionId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    cancelSparkStatement(sessionId: number, statementId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionCancelSparkStatementResponse>;
+    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: SparkSessionCreateSparkSessionOptionalParams): Promise<SparkSessionCreateSparkSessionResponse>;
+    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: coreHttp.OperationOptions): Promise<SparkSessionCreateSparkStatementResponse>;
+    getSparkSession(sessionId: number, options?: SparkSessionGetSparkSessionOptionalParams): Promise<SparkSessionGetSparkSessionResponse>;
+    getSparkSessions(options?: SparkSessionGetSparkSessionsOptionalParams): Promise<SparkSessionGetSparkSessionsResponse>;
+    getSparkStatement(sessionId: number, statementId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionGetSparkStatementResponse>;
+    getSparkStatements(sessionId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionGetSparkStatementsResponse>;
+    resetSparkSessionTimeout(sessionId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+}
 
 // @public (undocumented)
 export interface SparkSessionOptions {

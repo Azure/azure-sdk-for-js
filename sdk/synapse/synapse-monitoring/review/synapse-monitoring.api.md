@@ -9,10 +9,8 @@ import * as coreHttp from '@azure/core-http';
 // @public (undocumented)
 export class MonitoringClient extends MonitoringClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: MonitoringClientOptionalParams);
-    // Warning: (ae-forgotten-export) The symbol "Monitoring" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    monitoring: Monitoring;
+    monitoring: MonitoringOperation;
 }
 
 // @public (undocumented)
@@ -61,6 +59,13 @@ export type MonitoringGetSqlJobQueryStringResponse = SqlQueryStringDataModel & {
         parsedBody: SqlQueryStringDataModel;
     };
 };
+
+// @public
+export class MonitoringOperation {
+    constructor(client: MonitoringClient);
+    getSparkJobList(options?: MonitoringGetSparkJobListOptionalParams): Promise<MonitoringGetSparkJobListResponse>;
+    getSqlJobQueryString(options?: MonitoringGetSqlJobQueryStringOptionalParams): Promise<MonitoringGetSqlJobQueryStringResponse>;
+}
 
 // @public (undocumented)
 export interface SparkJob {

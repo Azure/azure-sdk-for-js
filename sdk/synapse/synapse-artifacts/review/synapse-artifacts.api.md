@@ -169,70 +169,38 @@ export interface ArtifactRenameRequest {
 // @public (undocumented)
 export class ArtifactsClient extends ArtifactsClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: ArtifactsClientOptionalParams);
-    // Warning: (ae-forgotten-export) The symbol "BigDataPools" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    bigDataPools: BigDataPools;
-    // Warning: (ae-forgotten-export) The symbol "DataFlow" needs to be exported by the entry point index.d.ts
-    //
+    bigDataPools: BigDataPoolsOperation;
     // (undocumented)
-    dataFlow: DataFlow_2;
-    // Warning: (ae-forgotten-export) The symbol "DataFlowDebugSession" needs to be exported by the entry point index.d.ts
-    //
+    dataFlow: DataFlowOperation;
     // (undocumented)
-    dataFlowDebugSession: DataFlowDebugSession;
-    // Warning: (ae-forgotten-export) The symbol "Dataset" needs to be exported by the entry point index.d.ts
-    //
+    dataFlowDebugSession: DataFlowDebugSessionOperation;
     // (undocumented)
-    dataset: Dataset_2;
-    // Warning: (ae-forgotten-export) The symbol "IntegrationRuntimes" needs to be exported by the entry point index.d.ts
-    //
+    dataset: DatasetOperation;
     // (undocumented)
-    integrationRuntimes: IntegrationRuntimes;
-    // Warning: (ae-forgotten-export) The symbol "LinkedService" needs to be exported by the entry point index.d.ts
-    //
+    integrationRuntimes: IntegrationRuntimesOperation;
     // (undocumented)
-    linkedService: LinkedService_2;
-    // Warning: (ae-forgotten-export) The symbol "Notebook" needs to be exported by the entry point index.d.ts
-    //
+    linkedService: LinkedServiceOperation;
     // (undocumented)
-    notebook: Notebook_2;
-    // Warning: (ae-forgotten-export) The symbol "Pipeline" needs to be exported by the entry point index.d.ts
-    //
+    notebook: NotebookOperation;
     // (undocumented)
-    pipeline: Pipeline;
-    // Warning: (ae-forgotten-export) The symbol "PipelineRun" needs to be exported by the entry point index.d.ts
-    //
+    pipeline: PipelineOperation;
     // (undocumented)
-    pipelineRun: PipelineRun_2;
-    // Warning: (ae-forgotten-export) The symbol "SparkJobDefinition" needs to be exported by the entry point index.d.ts
-    //
+    pipelineRun: PipelineRunOperation;
     // (undocumented)
-    sparkJobDefinition: SparkJobDefinition_2;
-    // Warning: (ae-forgotten-export) The symbol "SqlPools" needs to be exported by the entry point index.d.ts
-    //
+    sparkJobDefinition: SparkJobDefinitionOperation;
     // (undocumented)
-    sqlPools: SqlPools;
-    // Warning: (ae-forgotten-export) The symbol "SqlScript" needs to be exported by the entry point index.d.ts
-    //
+    sqlPools: SqlPoolsOperation;
     // (undocumented)
-    sqlScript: SqlScript_2;
-    // Warning: (ae-forgotten-export) The symbol "Trigger" needs to be exported by the entry point index.d.ts
-    //
+    sqlScript: SqlScriptOperation;
     // (undocumented)
-    trigger: Trigger_2;
-    // Warning: (ae-forgotten-export) The symbol "TriggerRun" needs to be exported by the entry point index.d.ts
-    //
+    trigger: TriggerOperation;
     // (undocumented)
-    triggerRun: TriggerRun_2;
-    // Warning: (ae-forgotten-export) The symbol "Workspace" needs to be exported by the entry point index.d.ts
-    //
+    triggerRun: TriggerRunOperation;
     // (undocumented)
-    workspace: Workspace_2;
-    // Warning: (ae-forgotten-export) The symbol "WorkspaceGitRepoManagement" needs to be exported by the entry point index.d.ts
-    //
+    workspace: WorkspaceOperation;
     // (undocumented)
-    workspaceGitRepoManagement: WorkspaceGitRepoManagement;
+    workspaceGitRepoManagement: WorkspaceGitRepoManagementOperation;
 }
 
 // @public (undocumented)
@@ -872,6 +840,11 @@ export type AzureTableStorageLinkedService = LinkedService & {
     encryptedCredential?: string;
 };
 
+// @public (undocumented)
+export interface BaseResult extends RestResponse {
+    _response: LROOperationResponse;
+}
+
 // @public
 export interface BigDataPoolReference {
     referenceName: string;
@@ -921,6 +894,13 @@ export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult & {
         parsedBody: BigDataPoolResourceInfoListResult;
     };
 };
+
+// @public
+export class BigDataPoolsOperation {
+    constructor(client: ArtifactsClient);
+    get(bigDataPoolName: string, options?: coreHttp.OperationOptions): Promise<BigDataPoolsGetResponse>;
+    list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse>;
+}
 
 // @public
 export type BinaryDataset = Dataset & {
@@ -1454,6 +1434,16 @@ export interface DataFlowDebugSessionInfo {
 }
 
 // @public
+export class DataFlowDebugSessionOperation {
+    constructor(client: ArtifactsClient);
+    addDataFlow(request: DataFlowDebugPackage, options?: coreHttp.OperationOptions): Promise<DataFlowDebugSessionAddDataFlowResponse>;
+    createDataFlowDebugSession(request: CreateDataFlowDebugSessionRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
+    deleteDataFlowDebugSession(request: DeleteDataFlowDebugSessionRequest, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    executeCommand(request: DataFlowDebugCommandRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>>;
+    listQueryDataFlowDebugSessionsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
+    }
+
+// @public
 export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -1515,6 +1505,16 @@ export type DataFlowGetDataFlowsByWorkspaceResponse = DataFlowListResponse & {
 export interface DataFlowListResponse {
     nextLink?: string;
     value: DataFlowResource[];
+}
+
+// @public
+export class DataFlowOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateDataFlow(dataFlowName: string, dataFlow: DataFlowResource, options?: DataFlowCreateOrUpdateDataFlowOptionalParams): Promise<LROPoller<DataFlowCreateOrUpdateDataFlowResponse>>;
+    deleteDataFlow(dataFlowName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    getDataFlow(dataFlowName: string, options?: DataFlowGetDataFlowOptionalParams): Promise<DataFlowGetDataFlowResponse>;
+    listDataFlowsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DataFlowResource>;
+    renameDataFlow(dataFlowName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
 }
 
 // @public
@@ -1698,6 +1698,16 @@ export interface DatasetLocation {
 
 // @public (undocumented)
 export type DatasetLocationUnion = DatasetLocation | AzureBlobStorageLocation | AzureBlobFSLocation | AzureDataLakeStoreLocation | AmazonS3Location | FileServerLocation | AzureFileStorageLocation | GoogleCloudStorageLocation | FtpServerLocation | SftpLocation | HttpServerLocation | HdfsLocation;
+
+// @public
+export class DatasetOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateDataset(datasetName: string, dataset: DatasetResource, options?: DatasetCreateOrUpdateDatasetOptionalParams): Promise<LROPoller<DatasetCreateOrUpdateDatasetResponse>>;
+    deleteDataset(datasetName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    getDataset(datasetName: string, options?: DatasetGetDatasetOptionalParams): Promise<DatasetGetDatasetResponse>;
+    listDatasetsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<DatasetResource>;
+    renameDataset(datasetName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+}
 
 // @public
 export interface DatasetReference {
@@ -2220,6 +2230,9 @@ export type FilterActivity = Activity & {
     items: Expression;
     condition: Expression;
 };
+
+// @public (undocumented)
+export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
 
 // @public
 export type ForEachActivity = Activity & {
@@ -2880,6 +2893,13 @@ export type IntegrationRuntimesListResponse = IntegrationRuntimeListResponse & {
         parsedBody: IntegrationRuntimeListResponse;
     };
 };
+
+// @public
+export class IntegrationRuntimesOperation {
+    constructor(client: ArtifactsClient);
+    get(integrationRuntimeName: string, options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesGetResponse>;
+    list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
+}
 
 // @public
 export interface IntegrationRuntimeSsisCatalogInfo {
@@ -4083,6 +4103,16 @@ export interface LinkedServiceListResponse {
 }
 
 // @public
+export class LinkedServiceOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateLinkedService(linkedServiceName: string, linkedService: LinkedServiceResource, options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>>;
+    deleteLinkedService(linkedServiceName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    getLinkedService(linkedServiceName: string, options?: LinkedServiceGetLinkedServiceOptionalParams): Promise<LinkedServiceGetLinkedServiceResponse>;
+    listLinkedServicesByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LinkedServiceResource>;
+    renameLinkedService(linkedServiceName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+}
+
+// @public
 export interface LinkedServiceReference {
     parameters?: {
         [propertyName: string]: any;
@@ -4113,6 +4143,79 @@ export type LookupActivity = ExecutionActivity & {
     dataset: DatasetReference;
     firstRowOnly?: any;
 };
+
+// @public
+export type LROOperationResponse = HttpOperationResponse & {
+    [LROSYM]?: LROResponseInfo;
+};
+
+// @public (undocumented)
+export interface LROOperationState<TResult extends BaseResult> extends PollOperationState<TResult> {
+    // (undocumented)
+    finalStateVia?: FinalStateVia;
+    // (undocumented)
+    initialOperation: LROOperationStep<TResult>;
+    // (undocumented)
+    lastOperation: LROOperationStep<TResult>;
+    // (undocumented)
+    pollingStrategy: LROStrategy<TResult>;
+}
+
+// @public (undocumented)
+export interface LROOperationStep<TResult extends BaseResult> {
+    // (undocumented)
+    args: OperationArguments;
+    // (undocumented)
+    result: TResult;
+    // (undocumented)
+    spec: OperationSpec;
+}
+
+// @public (undocumented)
+export class LROPoller<TResult extends BaseResult> extends Poller<LROOperationState<TResult>, TResult> {
+    constructor({ initialOperationArguments, initialOperationResult, initialOperationSpec, sendOperation, finalStateVia, intervalInMs }: LROPollerOptions<TResult>);
+    delay(): Promise<void>;
+    }
+
+// @public (undocumented)
+export interface LROPollerOptions<TResult extends BaseResult> {
+    finalStateVia?: FinalStateVia;
+    initialOperationArguments: OperationArguments;
+    initialOperationResult: TResult;
+    initialOperationSpec: OperationSpec;
+    intervalInMs?: number;
+    sendOperation: SendOperationFn<TResult>;
+}
+
+// @public (undocumented)
+export interface LROResponseInfo {
+    // (undocumented)
+    azureAsyncOperation?: string;
+    // (undocumented)
+    isInitialRequest?: boolean;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    operationLocation?: string;
+    // (undocumented)
+    provisioningState?: string;
+    // (undocumented)
+    requestMethod: HttpMethods;
+    // (undocumented)
+    status?: string;
+    // (undocumented)
+    statusCode: number;
+}
+
+// @public (undocumented)
+export interface LROStrategy<TResult extends BaseResult> {
+    // (undocumented)
+    isTerminal: () => boolean;
+    // (undocumented)
+    poll: () => Promise<LROOperationStep<TResult>>;
+    // (undocumented)
+    sendFinalRequest: () => Promise<LROOperationStep<TResult>>;
+}
 
 // @public
 export type MagentoLinkedService = LinkedService & {
@@ -4490,6 +4593,17 @@ export interface NotebookMetadata {
 }
 
 // @public
+export class NotebookOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateNotebook(notebookName: string, notebook: NotebookResource, options?: NotebookCreateOrUpdateNotebookOptionalParams): Promise<LROPoller<NotebookCreateOrUpdateNotebookResponse>>;
+    deleteNotebook(notebookName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    getNotebook(notebookName: string, options?: NotebookGetNotebookOptionalParams): Promise<NotebookGetNotebookResponse>;
+    listNotebooksByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
+    listNotebookSummaryByWorkSpace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<NotebookResource>;
+    renameNotebook(notebookName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+}
+
+// @public
 export type NotebookReferenceType = string;
 
 // @public
@@ -4862,6 +4976,17 @@ export interface PipelineListResponse {
 }
 
 // @public
+export class PipelineOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdatePipeline(pipelineName: string, pipeline: PipelineResource, options?: PipelineCreateOrUpdatePipelineOptionalParams): Promise<LROPoller<PipelineCreateOrUpdatePipelineResponse>>;
+    createPipelineRun(pipelineName: string, options?: PipelineCreatePipelineRunOptionalParams): Promise<PipelineCreatePipelineRunResponse>;
+    deletePipeline(pipelineName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    getPipeline(pipelineName: string, options?: PipelineGetPipelineOptionalParams): Promise<PipelineGetPipelineResponse>;
+    listPipelinesByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<PipelineResource>;
+    renamePipeline(pipelineName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+}
+
+// @public
 export interface PipelineReference {
     name?: string;
     referenceName: string;
@@ -4927,6 +5052,15 @@ export interface PipelineRunInvokedBy {
     readonly id?: string;
     readonly invokedByType?: string;
     readonly name?: string;
+}
+
+// @public
+export class PipelineRunOperation {
+    constructor(client: ArtifactsClient);
+    cancelPipelineRun(runId: string, options?: PipelineRunCancelPipelineRunOptionalParams): Promise<coreHttp.RestResponse>;
+    getPipelineRun(runId: string, options?: coreHttp.OperationOptions): Promise<PipelineRunGetPipelineRunResponse>;
+    queryActivityRuns(pipelineName: string, runId: string, filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryActivityRunsResponse>;
+    queryPipelineRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse>;
 }
 
 // @public
@@ -5603,6 +5737,9 @@ export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
     linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
 };
 
+// @public (undocumented)
+export type SendOperationFn<TResult extends BaseResult> = (args: OperationArguments, spec: OperationSpec) => Promise<TResult>;
+
 // @public
 export type ServiceNowAuthenticationType = string;
 
@@ -5829,6 +5966,18 @@ export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJ
         parsedBody: SparkJobDefinitionsListResponse;
     };
 };
+
+// @public
+export class SparkJobDefinitionOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateSparkJobDefinition(sparkJobDefinitionName: string, sparkJobDefinition: SparkJobDefinitionResource, options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>;
+    debugSparkJobDefinition(sparkJobDefinitionAzureResource: SparkJobDefinitionResource, options?: coreHttp.OperationOptions): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>>;
+    deleteSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    executeSparkJobDefinition(sparkJobDefinitionName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>>;
+    getSparkJobDefinition(sparkJobDefinitionName: string, options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse>;
+    listSparkJobDefinitionsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SparkJobDefinitionResource>;
+    renameSparkJobDefinition(sparkJobDefinitionName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+}
 
 // @public
 export type SparkJobDefinitionResource = AzureEntityResource & {
@@ -6076,6 +6225,13 @@ export type SqlPoolsListResponse = SqlPoolInfoListResult & {
 };
 
 // @public
+export class SqlPoolsOperation {
+    constructor(client: ArtifactsClient);
+    get(sqlPoolName: string, options?: coreHttp.OperationOptions): Promise<SqlPoolsGetResponse>;
+    list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse>;
+}
+
+// @public
 export type SqlPoolStoredProcedureActivity = Activity & {
     type: "SqlPoolStoredProcedure";
     sqlPool: SqlPoolReference;
@@ -6147,6 +6303,16 @@ export type SqlScriptGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse &
 export interface SqlScriptMetadata {
     [property: string]: any;
     language?: string;
+}
+
+// @public
+export class SqlScriptOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateSqlScript(sqlScriptName: string, sqlScript: SqlScriptResource, options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
+    deleteSqlScript(sqlScriptName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    getSqlScript(sqlScriptName: string, options?: SqlScriptGetSqlScriptOptionalParams): Promise<SqlScriptGetSqlScriptResponse>;
+    listSqlScriptsByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<SqlScriptResource>;
+    renameSqlScript(sqlScriptName: string, request: ArtifactRenameRequest, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
 }
 
 // @public
@@ -6631,6 +6797,20 @@ export interface TriggerListResponse {
 }
 
 // @public
+export class TriggerOperation {
+    constructor(client: ArtifactsClient);
+    createOrUpdateTrigger(triggerName: string, trigger: TriggerResource, options?: TriggerCreateOrUpdateTriggerOptionalParams): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>>;
+    deleteTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    getEventSubscriptionStatus(triggerName: string, options?: coreHttp.OperationOptions): Promise<TriggerGetEventSubscriptionStatusResponse>;
+    getTrigger(triggerName: string, options?: TriggerGetTriggerOptionalParams): Promise<TriggerGetTriggerResponse>;
+    listTriggersByWorkspace(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<TriggerResource>;
+    startTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    stopTrigger(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    subscribeTriggerToEvents(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>>;
+    unsubscribeTriggerFromEvents(triggerName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>>;
+}
+
+// @public
 export interface TriggerPipelineReference {
     parameters?: {
         [propertyName: string]: any;
@@ -6667,6 +6847,14 @@ export interface TriggerRun {
     readonly triggerRunId?: string;
     readonly triggerRunTimestamp?: Date;
     readonly triggerType?: string;
+}
+
+// @public
+export class TriggerRunOperation {
+    constructor(client: ArtifactsClient);
+    cancelTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    queryTriggerRunsByWorkspace(filterParameters: RunFilterParameters, options?: coreHttp.OperationOptions): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse>;
+    rerunTriggerInstance(triggerName: string, runId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
 }
 
 // @public
@@ -6944,6 +7132,12 @@ export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAcces
 };
 
 // @public
+export class WorkspaceGitRepoManagementOperation {
+    constructor(client: ArtifactsClient);
+    getGitHubAccessToken(gitHubAccessTokenRequest: GitHubAccessTokenRequest, options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse>;
+}
+
+// @public
 export interface WorkspaceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -6954,6 +7148,12 @@ export interface WorkspaceIdentity {
 export interface WorkspaceKeyDetails {
     keyVaultUrl?: string;
     name?: string;
+}
+
+// @public
+export class WorkspaceOperation {
+    constructor(client: ArtifactsClient);
+    get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse>;
 }
 
 // @public
@@ -7022,10 +7222,6 @@ export type ZohoSource = TabularSource & {
     query?: any;
 };
 
-
-// Warnings were encountered during analysis:
-//
-// src/models/index.ts:16838:5 - (ae-forgotten-export) The symbol "LROResponseInfo" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
