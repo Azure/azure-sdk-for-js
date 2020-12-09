@@ -90,7 +90,6 @@
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
       "scheduledMessages.js",
-      "sendMessages.js",
       "session.js",
       "useProxy.js"
     ]
