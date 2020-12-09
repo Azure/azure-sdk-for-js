@@ -8,7 +8,6 @@
 
 export {
   ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  PrivateLinkResource,
+  PrivateLinkResourcesListResult
 } from "../models/mappers";

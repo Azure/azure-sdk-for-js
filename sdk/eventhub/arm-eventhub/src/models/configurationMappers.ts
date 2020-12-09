@@ -7,8 +7,6 @@
  */
 
 export {
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  ClusterQuotaConfigurationProperties,
+  ErrorResponse
 } from "../models/mappers";
