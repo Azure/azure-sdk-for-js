@@ -14,6 +14,7 @@ import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from 
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
+import { TestInMemoryCheckpointStore } from "./utils/testInMemoryCheckpointStore";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -513,12 +514,15 @@ describe("EventHubConsumerClient", () => {
         ]
       );
 
+      const checkpointStore = new TestInMemoryCheckpointStore();
+
       clients.push(
         new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
-          service.path
+          service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
+          checkpointStore
           // also uses the BalancedLoadBalancingStrategy
         )
       );
@@ -537,6 +541,76 @@ describe("EventHubConsumerClient", () => {
           service.path
           // specifying your own checkpoint store activates the "production ready" code path that
           // also uses the BalancedLoadBalancingStrategy
+        )
+      );
+
+      const subscriber2 = clients[1].subscribe(tester, {
+        startPosition: latestEventPosition
+      });
+      subscriptions.push(subscriber2);
+
+      await tester.runTestAndPoll(producerClient);
+
+      // or else we won't see the abandoning message
+      for (const subscription of subscriptions) {
+        await subscription.close();
+      }
+      logTester.assert();
+    });
+
+    it("Receive from all partitions, coordinating with the same partition manager and using the GreedyLoadBalancingStrategy", async function(): Promise<
+      void
+    > {
+      // fast forward our partition manager so it starts reading from the latest offset
+      // instead of the beginning of time.
+      const logTester = new LogTester(
+        [
+          "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
+          /Starting event processor with ID /,
+          "Abandoning owned partitions"
+        ],
+        [
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger,
+          logger.verbose as debug.Debugger
+        ]
+      );
+
+      const checkpointStore = new TestInMemoryCheckpointStore();
+
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path,
+          // specifying your own checkpoint store activates the "production ready" code path that
+          {
+            loadBalancingOptions: {
+              strategy: "greedy"
+            }
+          }
+        )
+      );
+
+      const tester = new ReceivedMessagesTester(partitionIds, true);
+
+      const subscriber1 = clients[0].subscribe(tester, {
+        startPosition: latestEventPosition
+      });
+      subscriptions.push(subscriber1);
+
+      clients.push(
+        new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString!,
+          service.path,
+          // specifying your own checkpoint store activates the "production ready" code path that
+          checkpointStore,
+          {
+            loadBalancingOptions: {
+              strategy: "greedy"
+            }
+          }
         )
       );
 
