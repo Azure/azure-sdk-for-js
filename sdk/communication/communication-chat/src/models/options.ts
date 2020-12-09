@@ -17,7 +17,9 @@ export {
   RestUpdateMessageOptions,
   RestUpdateThreadOptions,
   RestListMessagesOptions,
-  RestListChatThreadsOptions
+  RestListChatThreadsOptions,
+  RestListParticipantsOptions,
+  RestListReadReceiptsOptions
 };
 
 /**

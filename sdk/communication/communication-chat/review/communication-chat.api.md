@@ -154,15 +154,11 @@ export interface ListPageSettings {
     continuationToken?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ChatThreadListChatParticipantsOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type ListParticipantsOptions = ChatThreadListChatParticipantsOptionalParams;
+export type ListParticipantsOptions = RestListParticipantsOptions;
 
-// Warning: (ae-forgotten-export) The symbol "ChatThreadListChatReadReceiptsOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type ListReadReceiptsOptions = ChatThreadListChatReadReceiptsOptionalParams;
+export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 
 // @public
 export interface OperationResponse {
@@ -230,6 +226,18 @@ export interface RestListChatThreadsOptions extends coreHttp.OperationOptions {
 export interface RestListMessagesOptions extends coreHttp.OperationOptions {
     maxpagesize?: number;
     startTime?: Date;
+}
+
+// @public
+export interface RestListParticipantsOptions extends coreHttp.OperationOptions {
+    maxpagesize?: number;
+    skip?: number;
+}
+
+// @public
+export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
+    maxpagesize?: number;
+    skip?: number;
 }
 
 // @public
