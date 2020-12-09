@@ -64,7 +64,7 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skip",
-    "lint": "echo skip",
+    "lint": "echo skipped",
     "test": "echo skip",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
