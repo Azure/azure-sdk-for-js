@@ -13,9 +13,7 @@ async function queryTables() {
   console.log("== Query tables Sample ==");
 
   // See authenticationMethods sample for other options of creating a new client
-  const serviceClient = TableServiceClient.fromConnectionString(
-    accountConnectionString
-  );
+  const serviceClient = TableServiceClient.fromConnectionString(accountConnectionString);
 
   // Create a new table
   const tableName = "OfficeSupplies3p1";
@@ -25,7 +23,7 @@ async function queryTables() {
   // odata is a helper function that takes care of encoding the query
   // filter, in this sample it will add quotes around tableName
   const queryTableResults = serviceClient.listTables({
-    queryOptions: { filter: odata`TableName eq ${tableName}` },
+    queryOptions: { filter: odata`TableName eq ${tableName}` }
   });
 
   // Iterate the results
@@ -37,7 +35,7 @@ async function queryTables() {
   await serviceClient.deleteTable(tableName);
 }
 
-async function main() {
+export async function main() {
   await queryTables();
 }
 

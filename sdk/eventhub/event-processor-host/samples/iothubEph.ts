@@ -24,7 +24,7 @@ const storageConnectionString = "";
 const storageContainerName = EventProcessorHost.createHostName("iothub-container");
 const ephName = "my-iothub-eph";
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // Start eph.
   const eph = await startEph(ephName);
   // Sleeeping for 90 seconds. This will give time for eph to receive messages.
