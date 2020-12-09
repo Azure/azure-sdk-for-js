@@ -1,8 +1,23 @@
 {
-  "extends": "../tsconfig.samples.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "typescript/dist"
+    "outDir": "typescript/dist",
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es5",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "declarationDir": "./types",
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+    "esModuleInterop": true
   },
   "include": ["typescript/src/**.ts"],
   "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../typings"]
