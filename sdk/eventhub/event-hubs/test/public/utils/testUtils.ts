@@ -4,9 +4,9 @@
 import * as dotenv from "dotenv";
 import { loggerForTest } from "./logHelpers";
 import { delay } from "@azure/core-amqp";
-import { EventHubConsumerClient } from "../../../src/";
-import { EventHubProducerClient } from "../../../src/";
-import { EventPosition } from "../../../src/";
+import { EventHubConsumerClient } from "../../../src";
+import { EventHubProducerClient } from "../../../src";
+import { EventPosition } from "../../../src";
 import { NoOpTracer, TestTracer, setTracer } from "@azure/core-tracing";
 
 dotenv.config();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../../src/";
+import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../../src";
 import {
   PartitionContext,
   SubscriptionEventHandlers

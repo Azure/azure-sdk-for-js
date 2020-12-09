@@ -17,7 +17,7 @@ import {
   EventHubProducerClient,
   Subscription
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", function(): void {
