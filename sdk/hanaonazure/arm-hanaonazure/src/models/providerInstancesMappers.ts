@@ -11,10 +11,9 @@ export {
   BaseResource,
   ErrorResponse,
   ProviderInstance,
+  ProviderInstanceListResult,
   ProxyResource,
   Resource,
   SapMonitor,
-  SapMonitorListResult,
-  Tags,
   TrackedResource
 } from "../models/mappers";
