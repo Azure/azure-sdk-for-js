@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { env, isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "../utils/recordedClient";
 import {

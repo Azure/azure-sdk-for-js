@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { env, isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "../utils/recordedClient";
 import { TextAnalyticsClient, AzureKeyCredential } from "../../src";
