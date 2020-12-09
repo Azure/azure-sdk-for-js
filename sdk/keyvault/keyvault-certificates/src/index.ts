@@ -1012,12 +1012,12 @@ export class CertificateClient {
   ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
+      vaultUrl: this.vaultUrl,
+      client: this.client,
       certificateName,
       certificatePolicy: policy,
       createCertificateOptions: options,
       requestOptions,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom
     });
