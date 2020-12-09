@@ -12,7 +12,7 @@ import { EventHubClient, EventData } from "@azure/event-hubs";
 const connectionString = "";
 const eventHubName = "";
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
   const messageCount = 300;
