@@ -26,8 +26,8 @@
     }
   },
   "variables": {
-    "isolatedTenantName": "[concat(parameters('baseName'), 'iso')]",
-    "aadTenantName": "[concat(parameters('baseName'), 'aad')]",
+    "isolatedTenantName": "[concat('js', concat(parameters('baseName'), 'iso'))]",
+    "aadTenantName": "[concat('js', concat(parameters('baseName'), 'aad'))]",
     "isolatedUri": "[format('https://{0}.{1}.attest.azure.net', variables('isolatedTenantName'), parameters('locationShortName'))]",
     "aadUri": "[format('https://{0}.{1}.attest.azure.net', variables('aadTenantName'), parameters('locationShortName'))]",
     "PolicySigningCertificates": {
