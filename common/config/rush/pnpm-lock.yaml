@@ -46,6 +46,11 @@ dependencies:
   '@rush-temp/storage-file-share': 'file:projects/storage-file-share.tgz'
   '@rush-temp/storage-internal-avro': 'file:projects/storage-internal-avro.tgz'
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
+  '@rush-temp/synapse-access-control': 'file:projects/synapse-access-control.tgz'
+  '@rush-temp/synapse-artifacts': 'file:projects/synapse-artifacts.tgz'
+  '@rush-temp/synapse-managed-private-endpoints': 'file:projects/synapse-managed-private-endpoints.tgz'
+  '@rush-temp/synapse-monitoring': 'file:projects/synapse-monitoring.tgz'
+  '@rush-temp/synapse-spark': 'file:projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
   '@rush-temp/test-utils-perfstress': 'file:projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
@@ -917,6 +922,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Agl6xbYP6FOMDeAsr3QVZ+g7Yzg0uhPHWx0j5g4LFdUBHVtqtU+gH660k/lCEe506jJLOGbEzsnqPDTZGJQLag==
+  /@types/node/14.14.10:
+    dev: false
+    resolution:
+      integrity: sha512-J32dgx2hw8vXrSbu4ZlVhn1Nm3GbeCFNw2FWL8S5QKucHGY0cyNwjdQdO+KMBZ4wpmC7KhLCiNsdk1RFRIYUQQ==
   /@types/node/8.10.66:
     dev: false
     resolution:
@@ -1829,6 +1838,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-Jw8HbFpywC9bZaR9+Uxf46J4iS8=
+  /builtin-modules/2.0.0:
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha512-3U5kUA5VPsRUA3nofm/BXX7GVHKfxz0hOBAPxXrIvHzlDRkQVqEn6yi8QJegxl4LzOHLdvb7XF5dVawa/VVYBg==
   /builtin-modules/3.1.0:
     dev: false
     engines:
@@ -6865,6 +6880,15 @@ packages:
     dev: false
     resolution:
       integrity: sha512-xRkB+W/m1KLIzPUmG0ofvR+CPNcvuCuNdjVBVS7ALKSxr3EDhnzNceGkGi1m8MToSli13AzKFYH4ie9w3I5L3g==
+  /rollup-plugin-node-resolve/3.4.0:
+    dependencies:
+      builtin-modules: 2.0.0
+      is-module: 1.0.0
+      resolve: 1.19.0
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-node-resolve.
+    dev: false
+    resolution:
+      integrity: sha512-PJcd85dxfSBWih84ozRtBkB731OjXk0KnzN0oGp7WOWcarAFkVa71cV5hTJg2qpVsV2U8EUwrzHP3tvy9vS3qg==
   /rollup-plugin-shim/1.0.0:
     dev: false
     resolution:
@@ -6931,7 +6955,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.45
-      '@types/node': 8.10.66
+      '@types/node': 14.14.10
       acorn: 7.4.1
     dev: false
     hasBin: true
@@ -10877,6 +10901,81 @@ packages:
       integrity: sha512-peAeDFKOdGTC2cqKuruSMGA0LCJ2peTAn1UPrf0T+AQQWmhyqJqtMRzdDAbd9gTx/6CGKolRoSfo0Zwtj5apRw==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
+  'file:projects/synapse-access-control.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 3.9.7
+      uglify-js: 3.12.1
+    dev: false
+    name: '@rush-temp/synapse-access-control'
+    resolution:
+      integrity: sha512-Fm1Nuq7m7yBN0X3MKPsnHVpDROAxneagP+y+cDn6752i6R8UwFuIk8gZA5AzaTpD5gfuRJl2VOiUncEvnqMVSg==
+      tarball: 'file:projects/synapse-access-control.tgz'
+    version: 0.0.0
+  'file:projects/synapse-artifacts.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 3.9.7
+      uglify-js: 3.12.1
+    dev: false
+    name: '@rush-temp/synapse-artifacts'
+    resolution:
+      integrity: sha512-z1Mzvmykm4QueMmQH8u3rs2Zo3NKDB6DOUDZpbxQd+uBfJkpCLtF3dVeweKusU1kUZh0lwB5CyEIr48QgGm/3w==
+      tarball: 'file:projects/synapse-artifacts.tgz'
+    version: 0.0.0
+  'file:projects/synapse-managed-private-endpoints.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 3.9.7
+      uglify-js: 3.12.1
+    dev: false
+    name: '@rush-temp/synapse-managed-private-endpoints'
+    resolution:
+      integrity: sha512-6aMZRNXwJ7g27eg3aeMp937no7JUghoBSJZ2WnGYJ28mOGii4nNGuTXVad6wVcJc9o5uCsp6hhbjSmzxFszwZQ==
+      tarball: 'file:projects/synapse-managed-private-endpoints.tgz'
+    version: 0.0.0
+  'file:projects/synapse-monitoring.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 3.9.7
+      uglify-js: 3.12.1
+    dev: false
+    name: '@rush-temp/synapse-monitoring'
+    resolution:
+      integrity: sha512-GMO/9OUshXiUwhVVPygWF0/pFk9qLgckZWYgOhYh4locL6PRqTcMLOFeq4TVjmzqDv0Fd94MMcirJMhE4I8tFA==
+      tarball: 'file:projects/synapse-monitoring.tgz'
+    version: 0.0.0
+  'file:projects/synapse-spark.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.0.3
+      typescript: 3.9.7
+      uglify-js: 3.12.1
+    dev: false
+    name: '@rush-temp/synapse-spark'
+    resolution:
+      integrity: sha512-N6icSSXfZHpeeQbCHi/Yo8e+rpyLYkShphRxHr8ftxQFSPin80kDZHn/44rwOwm0Uv9TpAJjlYvs+yzzljT7EA==
+      tarball: 'file:projects/synapse-spark.tgz'
+    version: 0.0.0
   'file:projects/template.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
@@ -11068,6 +11167,11 @@ specifiers:
   '@rush-temp/storage-file-share': 'file:./projects/storage-file-share.tgz'
   '@rush-temp/storage-internal-avro': 'file:./projects/storage-internal-avro.tgz'
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
+  '@rush-temp/synapse-access-control': 'file:./projects/synapse-access-control.tgz'
+  '@rush-temp/synapse-artifacts': 'file:./projects/synapse-artifacts.tgz'
+  '@rush-temp/synapse-managed-private-endpoints': 'file:./projects/synapse-managed-private-endpoints.tgz'
+  '@rush-temp/synapse-monitoring': 'file:./projects/synapse-monitoring.tgz'
+  '@rush-temp/synapse-spark': 'file:./projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
   '@rush-temp/test-utils-perfstress': 'file:./projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'
