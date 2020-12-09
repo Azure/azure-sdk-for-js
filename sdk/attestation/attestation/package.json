@@ -50,6 +50,8 @@
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "ts-node": "^8.3.0",
     "typescript": "~3.9.3"
   },
