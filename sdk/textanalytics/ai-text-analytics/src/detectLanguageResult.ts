@@ -15,11 +15,6 @@ import {
 } from "./generated/models";
 
 /**
- * The result of the detect language operation on a single document.
- */
-export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
-
-/**
  * The result of the detect language operation on a single document,
  * containing a prediction of what language the document is written in.
  */
@@ -34,6 +29,11 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
  * An error result from the detect languge operation on a single document.
  */
 export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
+
+/**
+ * The result of the detect language operation on a single document.
+ */
+export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
 
 export function makeDetectLanguageResult(
   id: string,

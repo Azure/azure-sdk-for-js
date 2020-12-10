@@ -3,10 +3,6 @@
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../shims-public.d.ts" />
-type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
-
-const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
-const abortedMap = new WeakMap<AbortSignal, boolean>();
 
 /**
  * Allows the request to be aborted upon firing of the "abort" event.
@@ -34,6 +30,13 @@ export interface AbortSignalLike {
     options?: any
   ): void;
 }
+
+type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
+
+// eslint-disable-next-line no-use-before-define
+const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
+// eslint-disable-next-line no-use-before-define
+const abortedMap = new WeakMap<AbortSignal, boolean>();
 
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
@@ -154,7 +157,8 @@ export class AbortSignal implements AbortSignalLike {
  * @returns
  * @internal
  */
-export function abortSignal(signal: AbortSignal) {
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export function abortSignal(signal: AbortSignal): void {
   if (signal.aborted) {
     return;
   }

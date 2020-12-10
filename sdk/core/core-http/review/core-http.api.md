@@ -48,7 +48,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 }
 
 // @public
-export function applyMixins(targetCtor: any, sourceCtors: any[]): void;
+export function applyMixins(targetCtorParam: any, sourceCtors: any[]): void;
 
 // @public (undocumented)
 export type Authenticator = (challenge: object) => Promise<string>;
@@ -545,10 +545,10 @@ export interface PolymorphicDiscriminator {
 }
 
 // @public @deprecated
-export function promiseToCallback(promise: Promise<any>): Function;
+export function promiseToCallback(promise: Promise<any>): (cb: Function) => void;
 
 // @public
-export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): Function;
+export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): (cb: ServiceCallback<T>) => void;
 
 // @public (undocumented)
 export type ProxyOptions = ProxySettings;
@@ -641,7 +641,7 @@ export interface RequestPrepareOptions {
     baseUrl?: string;
     body?: any;
     bodyIsStream?: boolean;
-    deserializationMapper?: object;
+    deserializationMapper?: Record<string, unknown>;
     disableClientRequestId?: boolean;
     disableJsonStringifyOnBody?: boolean;
     // (undocumented)

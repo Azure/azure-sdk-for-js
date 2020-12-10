@@ -8,6 +8,7 @@ import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorde
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function authenticate(that: any): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {

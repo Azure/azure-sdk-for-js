@@ -6,303 +6,6 @@ import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
 
-export class Serializer {
-  constructor(
-    public readonly modelMappers: { [key: string]: any } = {},
-    public readonly isXML?: boolean
-  ) {}
-
-  validateConstraints(mapper: Mapper, value: any, objectName: string): void {
-    const failValidation = (
-      constraintName: keyof MapperConstraints,
-      constraintValue: any
-    ): Error => {
-      throw new Error(
-        `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
-      );
-    };
-    if (mapper.constraints && value != undefined) {
-      const {
-        ExclusiveMaximum,
-        ExclusiveMinimum,
-        InclusiveMaximum,
-        InclusiveMinimum,
-        MaxItems,
-        MaxLength,
-        MinItems,
-        MinLength,
-        MultipleOf,
-        Pattern,
-        UniqueItems
-      } = mapper.constraints;
-      if (ExclusiveMaximum != undefined && value >= ExclusiveMaximum) {
-        failValidation("ExclusiveMaximum", ExclusiveMaximum);
-      }
-      if (ExclusiveMinimum != undefined && value <= ExclusiveMinimum) {
-        failValidation("ExclusiveMinimum", ExclusiveMinimum);
-      }
-      if (InclusiveMaximum != undefined && value > InclusiveMaximum) {
-        failValidation("InclusiveMaximum", InclusiveMaximum);
-      }
-      if (InclusiveMinimum != undefined && value < InclusiveMinimum) {
-        failValidation("InclusiveMinimum", InclusiveMinimum);
-      }
-      if (MaxItems != undefined && value.length > MaxItems) {
-        failValidation("MaxItems", MaxItems);
-      }
-      if (MaxLength != undefined && value.length > MaxLength) {
-        failValidation("MaxLength", MaxLength);
-      }
-      if (MinItems != undefined && value.length < MinItems) {
-        failValidation("MinItems", MinItems);
-      }
-      if (MinLength != undefined && value.length < MinLength) {
-        failValidation("MinLength", MinLength);
-      }
-      if (MultipleOf != undefined && value % MultipleOf !== 0) {
-        failValidation("MultipleOf", MultipleOf);
-      }
-      if (Pattern) {
-        const pattern: RegExp = typeof Pattern === "string" ? new RegExp(Pattern) : Pattern;
-        if (typeof value !== "string" || value.match(pattern) === null) {
-          failValidation("Pattern", Pattern);
-        }
-      }
-      if (
-        UniqueItems &&
-        value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
-      ) {
-        failValidation("UniqueItems", UniqueItems);
-      }
-    }
-  }
-
-  /**
-   * Serialize the given object based on its metadata defined in the mapper
-   *
-   * @param {Mapper} mapper The mapper which defines the metadata of the serializable object
-   *
-   * @param {object|string|Array|number|boolean|Date|stream} object A valid Javascript object to be serialized
-   *
-   * @param {string} objectName Name of the serialized object
-   *
-   * @param {options} options additional options to deserialization
-   *
-   * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
-   */
-  serialize(
-    mapper: Mapper,
-    object: any,
-    objectName?: string,
-    options: SerializerOptions = {}
-  ): any {
-    const updatedOptions: Required<SerializerOptions> = {
-      rootName: options.rootName ?? "",
-      includeRoot: options.includeRoot ?? false,
-      xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
-    };
-    let payload: any = {};
-    const mapperType = mapper.type.name as string;
-    if (!objectName) {
-      objectName = mapper.serializedName!;
-    }
-    if (mapperType.match(/^Sequence$/i) !== null) {
-      payload = [];
-    }
-
-    if (mapper.isConstant) {
-      object = mapper.defaultValue;
-    }
-
-    // This table of allowed values should help explain
-    // the mapper.required and mapper.nullable properties.
-    // X means "neither undefined or null are allowed".
-    //           || required
-    //           || true      | false
-    //  nullable || ==========================
-    //      true || null      | undefined/null
-    //     false || X         | undefined
-    // undefined || X         | undefined/null
-
-    const { required, nullable } = mapper;
-
-    if (required && nullable && object === undefined) {
-      throw new Error(`${objectName} cannot be undefined.`);
-    }
-    if (required && !nullable && object == undefined) {
-      throw new Error(`${objectName} cannot be null or undefined.`);
-    }
-    if (!required && nullable === false && object === null) {
-      throw new Error(`${objectName} cannot be null.`);
-    }
-
-    if (object == undefined) {
-      payload = object;
-    } else {
-      // Validate Constraints if any
-      this.validateConstraints(mapper, object, objectName);
-      if (mapperType.match(/^any$/i) !== null) {
-        payload = object;
-      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {
-        payload = serializeBasicTypes(mapperType, objectName, object);
-      } else if (mapperType.match(/^Enum$/i) !== null) {
-        const enumMapper: EnumMapper = mapper as EnumMapper;
-        payload = serializeEnumType(objectName, enumMapper.type.allowedValues, object);
-      } else if (
-        mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/i) !== null
-      ) {
-        payload = serializeDateTypes(mapperType, object, objectName);
-      } else if (mapperType.match(/^ByteArray$/i) !== null) {
-        payload = serializeByteArrayType(objectName, object);
-      } else if (mapperType.match(/^Base64Url$/i) !== null) {
-        payload = serializeBase64UrlType(objectName, object);
-      } else if (mapperType.match(/^Sequence$/i) !== null) {
-        payload = serializeSequenceType(
-          this,
-          mapper as SequenceMapper,
-          object,
-          objectName,
-          Boolean(this.isXML),
-          updatedOptions
-        );
-      } else if (mapperType.match(/^Dictionary$/i) !== null) {
-        payload = serializeDictionaryType(
-          this,
-          mapper as DictionaryMapper,
-          object,
-          objectName,
-          Boolean(this.isXML),
-          updatedOptions
-        );
-      } else if (mapperType.match(/^Composite$/i) !== null) {
-        payload = serializeCompositeType(
-          this,
-          mapper as CompositeMapper,
-          object,
-          objectName,
-          Boolean(this.isXML),
-          updatedOptions
-        );
-      }
-    }
-    return payload;
-  }
-
-  /**
-   * Deserialize the given object based on its metadata defined in the mapper
-   *
-   * @param {object} mapper The mapper which defines the metadata of the serializable object
-   *
-   * @param {object|string|Array|number|boolean|Date|stream} responseBody A valid Javascript entity to be deserialized
-   *
-   * @param {string} objectName Name of the deserialized object
-   *
-   * @param options Controls behavior of XML parser and builder.
-   *
-   * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
-   */
-  deserialize(
-    mapper: Mapper,
-    responseBody: any,
-    objectName: string,
-    options: SerializerOptions = {}
-  ): any {
-    const updatedOptions: Required<SerializerOptions> = {
-      rootName: options.rootName ?? "",
-      includeRoot: options.includeRoot ?? false,
-      xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
-    };
-    if (responseBody == undefined) {
-      if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
-        // Edge case for empty XML non-wrapped lists. xml2js can't distinguish
-        // between the list being empty versus being missing,
-        // so let's do the more user-friendly thing and return an empty list.
-        responseBody = [];
-      }
-      // specifically check for undefined as default value can be a falsey value `0, "", false, null`
-      if (mapper.defaultValue !== undefined) {
-        responseBody = mapper.defaultValue;
-      }
-      return responseBody;
-    }
-
-    let payload: any;
-    const mapperType = mapper.type.name;
-    if (!objectName) {
-      objectName = mapper.serializedName!;
-    }
-
-    if (mapperType.match(/^Composite$/i) !== null) {
-      payload = deserializeCompositeType(
-        this,
-        mapper as CompositeMapper,
-        responseBody,
-        objectName,
-        updatedOptions
-      );
-    } else {
-      if (this.isXML) {
-        const xmlCharKey = updatedOptions.xmlCharKey;
-        /**
-         * If the mapper specifies this as a non-composite type value but the responseBody contains
-         * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
-         * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
-         */
-        if (responseBody[XML_ATTRKEY] != undefined && responseBody[xmlCharKey] != undefined) {
-          responseBody = responseBody[xmlCharKey];
-        }
-      }
-
-      if (mapperType.match(/^Number$/i) !== null) {
-        payload = parseFloat(responseBody);
-        if (isNaN(payload)) {
-          payload = responseBody;
-        }
-      } else if (mapperType.match(/^Boolean$/i) !== null) {
-        if (responseBody === "true") {
-          payload = true;
-        } else if (responseBody === "false") {
-          payload = false;
-        } else {
-          payload = responseBody;
-        }
-      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
-        payload = responseBody;
-      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/i) !== null) {
-        payload = new Date(responseBody);
-      } else if (mapperType.match(/^UnixTime$/i) !== null) {
-        payload = unixTimeToDate(responseBody);
-      } else if (mapperType.match(/^ByteArray$/i) !== null) {
-        payload = base64.decodeString(responseBody);
-      } else if (mapperType.match(/^Base64Url$/i) !== null) {
-        payload = base64UrlToByteArray(responseBody);
-      } else if (mapperType.match(/^Sequence$/i) !== null) {
-        payload = deserializeSequenceType(
-          this,
-          mapper as SequenceMapper,
-          responseBody,
-          objectName,
-          updatedOptions
-        );
-      } else if (mapperType.match(/^Dictionary$/i) !== null) {
-        payload = deserializeDictionaryType(
-          this,
-          mapper as DictionaryMapper,
-          responseBody,
-          objectName,
-          updatedOptions
-        );
-      }
-    }
-
-    if (mapper.isConstant) {
-      payload = mapper.defaultValue;
-    }
-
-    return payload;
-  }
-}
-
 function trimEnd(str: string, ch: string): string {
   let len = str.length;
   while (len - 1 >= 0 && str[len - 1] === ch) {
@@ -517,6 +220,525 @@ function serializeDateTypes(typeName: string, value: any, objectName: string): a
     }
   }
   return value;
+}
+
+export interface MapperConstraints {
+  InclusiveMaximum?: number;
+  ExclusiveMaximum?: number;
+  InclusiveMinimum?: number;
+  ExclusiveMinimum?: number;
+  MaxLength?: number;
+  MinLength?: number;
+  Pattern?: RegExp;
+  MaxItems?: number;
+  MinItems?: number;
+  UniqueItems?: true;
+  MultipleOf?: number;
+}
+
+export interface SimpleMapperType {
+  name:
+    | "Base64Url"
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
+}
+
+export interface PolymorphicDiscriminator {
+  serializedName: string;
+  clientName: string;
+  [key: string]: string;
+}
+
+export interface CompositeMapperType {
+  name: "Composite";
+
+  // Only one of the two below properties should be present.
+  // Use className to reference another type definition,
+  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
+  className?: string;
+
+  // eslint-disable-next-line no-use-before-define
+  modelProperties?: { [propertyName: string]: Mapper };
+  // eslint-disable-next-line no-use-before-define
+  additionalProperties?: Mapper;
+
+  uberParent?: string;
+  polymorphicDiscriminator?: PolymorphicDiscriminator;
+}
+
+export interface SequenceMapperType {
+  name: "Sequence";
+  // eslint-disable-next-line no-use-before-define
+  element: Mapper;
+}
+
+export interface DictionaryMapperType {
+  name: "Dictionary";
+  // eslint-disable-next-line no-use-before-define
+  value: Mapper;
+}
+
+export interface EnumMapperType {
+  name: "Enum";
+  allowedValues: any[];
+}
+
+export interface BaseMapper {
+  /**
+   * Name for the xml element
+   */
+  xmlName?: string;
+  /**
+   * Xml element namespace
+   */
+  xmlNamespace?: string;
+  /**
+   * Xml element namespace prefix
+   */
+  xmlNamespacePrefix?: string;
+  /**
+   * Determines if the current property should be serialized as an attribute of the parent xml element
+   */
+  xmlIsAttribute?: boolean;
+  /**
+   * Name for the xml elements when serializing an array
+   */
+  xmlElementName?: string;
+  /**
+   * Whether or not the current property should have a wrapping XML element
+   */
+  xmlIsWrapped?: boolean;
+  /**
+   * Whether or not the current property is readonly
+   */
+  readOnly?: boolean;
+  /**
+   * Whether or not the current property is a constant
+   */
+  isConstant?: boolean;
+  /**
+   * Whether or not the current property is required
+   */
+  required?: boolean;
+  /**
+   * Whether or not the current property allows mull as a value
+   */
+  nullable?: boolean;
+  /**
+   * The name to use when serializing
+   */
+  serializedName?: string;
+  /**
+   * Type of the mapper
+   */
+  // eslint-disable-next-line no-use-before-define
+  type: MapperType;
+  /**
+   * Default value when one is not explicitly provided
+   */
+  defaultValue?: any;
+  /**
+   * Constraints to test the current value against
+   */
+  constraints?: MapperConstraints;
+}
+
+export type MapperType =
+  | SimpleMapperType
+  | CompositeMapperType
+  | SequenceMapperType
+  | DictionaryMapperType
+  | EnumMapperType;
+
+export interface CompositeMapper extends BaseMapper {
+  type: CompositeMapperType;
+}
+
+export interface SequenceMapper extends BaseMapper {
+  type: SequenceMapperType;
+}
+
+export interface DictionaryMapper extends BaseMapper {
+  type: DictionaryMapperType;
+  headerCollectionPrefix?: string;
+}
+
+export interface EnumMapper extends BaseMapper {
+  type: EnumMapperType;
+}
+
+export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
+
+export interface UrlParameterValue {
+  value: string;
+  skipUrlEncoding: boolean;
+}
+
+// TODO: why is this here?
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function serializeObject(toSerialize: any): any {
+  if (toSerialize == undefined) return undefined;
+  if (toSerialize instanceof Uint8Array) {
+    toSerialize = base64.encodeByteArray(toSerialize);
+    return toSerialize;
+  } else if (toSerialize instanceof Date) {
+    return toSerialize.toISOString();
+  } else if (Array.isArray(toSerialize)) {
+    const array = [];
+    for (let i = 0; i < toSerialize.length; i++) {
+      array.push(serializeObject(toSerialize[i]));
+    }
+    return array;
+  } else if (typeof toSerialize === "object") {
+    const dictionary: { [key: string]: any } = {};
+    for (const property in toSerialize) {
+      dictionary[property] = serializeObject(toSerialize[property]);
+    }
+    return dictionary;
+  }
+  return toSerialize;
+}
+
+/**
+ * Utility function to create a K:V from a list of strings
+ */
+function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
+  const result: any = {};
+  for (const key of o) {
+    result[key] = key;
+  }
+  return result;
+}
+
+// eslint-disable-next-line no-redeclare
+export const MapperType = strEnum([
+  "Base64Url",
+  "Boolean",
+  "ByteArray",
+  "Composite",
+  "Date",
+  "DateTime",
+  "DateTimeRfc1123",
+  "Dictionary",
+  "Enum",
+  "Number",
+  "Object",
+  "Sequence",
+  "String",
+  "Stream",
+  "TimeSpan",
+  "UnixTime"
+]);
+
+export class Serializer {
+  constructor(
+    public readonly modelMappers: { [key: string]: any } = {},
+    public readonly isXML?: boolean
+  ) {}
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  validateConstraints(mapper: Mapper, value: any, objectName: string): void {
+    const failValidation = (
+      constraintName: keyof MapperConstraints,
+      constraintValue: any
+    ): Error => {
+      throw new Error(
+        `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
+      );
+    };
+    if (mapper.constraints && value != undefined) {
+      const {
+        ExclusiveMaximum,
+        ExclusiveMinimum,
+        InclusiveMaximum,
+        InclusiveMinimum,
+        MaxItems,
+        MaxLength,
+        MinItems,
+        MinLength,
+        MultipleOf,
+        Pattern,
+        UniqueItems
+      } = mapper.constraints;
+      if (ExclusiveMaximum != undefined && value >= ExclusiveMaximum) {
+        failValidation("ExclusiveMaximum", ExclusiveMaximum);
+      }
+      if (ExclusiveMinimum != undefined && value <= ExclusiveMinimum) {
+        failValidation("ExclusiveMinimum", ExclusiveMinimum);
+      }
+      if (InclusiveMaximum != undefined && value > InclusiveMaximum) {
+        failValidation("InclusiveMaximum", InclusiveMaximum);
+      }
+      if (InclusiveMinimum != undefined && value < InclusiveMinimum) {
+        failValidation("InclusiveMinimum", InclusiveMinimum);
+      }
+      if (MaxItems != undefined && value.length > MaxItems) {
+        failValidation("MaxItems", MaxItems);
+      }
+      if (MaxLength != undefined && value.length > MaxLength) {
+        failValidation("MaxLength", MaxLength);
+      }
+      if (MinItems != undefined && value.length < MinItems) {
+        failValidation("MinItems", MinItems);
+      }
+      if (MinLength != undefined && value.length < MinLength) {
+        failValidation("MinLength", MinLength);
+      }
+      if (MultipleOf != undefined && value % MultipleOf !== 0) {
+        failValidation("MultipleOf", MultipleOf);
+      }
+      if (Pattern) {
+        const pattern: RegExp = typeof Pattern === "string" ? new RegExp(Pattern) : Pattern;
+        if (typeof value !== "string" || value.match(pattern) === null) {
+          failValidation("Pattern", Pattern);
+        }
+      }
+      if (
+        UniqueItems &&
+        value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
+      ) {
+        failValidation("UniqueItems", UniqueItems);
+      }
+    }
+  }
+
+  /**
+   * Serialize the given object based on its metadata defined in the mapper
+   *
+   * @param {Mapper} mapper The mapper which defines the metadata of the serializable object
+   *
+   * @param {object|string|Array|number|boolean|Date|stream} object A valid Javascript object to be serialized
+   *
+   * @param {string} objectName Name of the serialized object
+   *
+   * @param {options} options additional options to deserialization
+   *
+   * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
+   */
+  serialize(
+    mapper: Mapper,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    object: any,
+    objectName?: string,
+    options: SerializerOptions = {}
+  ): any {
+    const updatedOptions: Required<SerializerOptions> = {
+      rootName: options.rootName ?? "",
+      includeRoot: options.includeRoot ?? false,
+      xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
+    };
+    let payload: any = {};
+    const mapperType = mapper.type.name as string;
+    if (!objectName) {
+      objectName = mapper.serializedName!;
+    }
+    if (mapperType.match(/^Sequence$/i) !== null) {
+      payload = [];
+    }
+
+    if (mapper.isConstant) {
+      object = mapper.defaultValue;
+    }
+
+    // This table of allowed values should help explain
+    // the mapper.required and mapper.nullable properties.
+    // X means "neither undefined or null are allowed".
+    //           || required
+    //           || true      | false
+    //  nullable || ==========================
+    //      true || null      | undefined/null
+    //     false || X         | undefined
+    // undefined || X         | undefined/null
+
+    const { required, nullable } = mapper;
+
+    if (required && nullable && object === undefined) {
+      throw new Error(`${objectName} cannot be undefined.`);
+    }
+    if (required && !nullable && object == undefined) {
+      throw new Error(`${objectName} cannot be null or undefined.`);
+    }
+    if (!required && nullable === false && object === null) {
+      throw new Error(`${objectName} cannot be null.`);
+    }
+
+    if (object == undefined) {
+      payload = object;
+    } else {
+      // Validate Constraints if any
+      this.validateConstraints(mapper, object, objectName);
+      if (mapperType.match(/^any$/i) !== null) {
+        payload = object;
+      } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {
+        payload = serializeBasicTypes(mapperType, objectName, object);
+      } else if (mapperType.match(/^Enum$/i) !== null) {
+        const enumMapper: EnumMapper = mapper as EnumMapper;
+        payload = serializeEnumType(objectName, enumMapper.type.allowedValues, object);
+      } else if (
+        mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/i) !== null
+      ) {
+        payload = serializeDateTypes(mapperType, object, objectName);
+      } else if (mapperType.match(/^ByteArray$/i) !== null) {
+        payload = serializeByteArrayType(objectName, object);
+      } else if (mapperType.match(/^Base64Url$/i) !== null) {
+        payload = serializeBase64UrlType(objectName, object);
+      } else if (mapperType.match(/^Sequence$/i) !== null) {
+        payload = serializeSequenceType(
+          this,
+          mapper as SequenceMapper,
+          object,
+          objectName,
+          Boolean(this.isXML),
+          updatedOptions
+        );
+      } else if (mapperType.match(/^Dictionary$/i) !== null) {
+        payload = serializeDictionaryType(
+          this,
+          mapper as DictionaryMapper,
+          object,
+          objectName,
+          Boolean(this.isXML),
+          updatedOptions
+        );
+      } else if (mapperType.match(/^Composite$/i) !== null) {
+        payload = serializeCompositeType(
+          this,
+          mapper as CompositeMapper,
+          object,
+          objectName,
+          Boolean(this.isXML),
+          updatedOptions
+        );
+      }
+    }
+    return payload;
+  }
+
+  /**
+   * Deserialize the given object based on its metadata defined in the mapper
+   *
+   * @param {object} mapper The mapper which defines the metadata of the serializable object
+   *
+   * @param {object|string|Array|number|boolean|Date|stream} responseBody A valid Javascript entity to be deserialized
+   *
+   * @param {string} objectName Name of the deserialized object
+   *
+   * @param options Controls behavior of XML parser and builder.
+   *
+   * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
+   */
+  deserialize(
+    mapper: Mapper,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    responseBody: any,
+    objectName: string,
+    options: SerializerOptions = {}
+  ): any {
+    const updatedOptions: Required<SerializerOptions> = {
+      rootName: options.rootName ?? "",
+      includeRoot: options.includeRoot ?? false,
+      xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
+    };
+    if (responseBody == undefined) {
+      if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
+        // Edge case for empty XML non-wrapped lists. xml2js can't distinguish
+        // between the list being empty versus being missing,
+        // so let's do the more user-friendly thing and return an empty list.
+        responseBody = [];
+      }
+      // specifically check for undefined as default value can be a falsey value `0, "", false, null`
+      if (mapper.defaultValue !== undefined) {
+        responseBody = mapper.defaultValue;
+      }
+      return responseBody;
+    }
+
+    let payload: any;
+    const mapperType = mapper.type.name;
+    if (!objectName) {
+      objectName = mapper.serializedName!;
+    }
+
+    if (mapperType.match(/^Composite$/i) !== null) {
+      payload = deserializeCompositeType(
+        this,
+        mapper as CompositeMapper,
+        responseBody,
+        objectName,
+        updatedOptions
+      );
+    } else {
+      if (this.isXML) {
+        const xmlCharKey = updatedOptions.xmlCharKey;
+        /**
+         * If the mapper specifies this as a non-composite type value but the responseBody contains
+         * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
+         * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
+         */
+        if (responseBody[XML_ATTRKEY] != undefined && responseBody[xmlCharKey] != undefined) {
+          responseBody = responseBody[xmlCharKey];
+        }
+      }
+
+      if (mapperType.match(/^Number$/i) !== null) {
+        payload = parseFloat(responseBody);
+        if (isNaN(payload)) {
+          payload = responseBody;
+        }
+      } else if (mapperType.match(/^Boolean$/i) !== null) {
+        if (responseBody === "true") {
+          payload = true;
+        } else if (responseBody === "false") {
+          payload = false;
+        } else {
+          payload = responseBody;
+        }
+      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
+        payload = responseBody;
+      } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/i) !== null) {
+        payload = new Date(responseBody);
+      } else if (mapperType.match(/^UnixTime$/i) !== null) {
+        payload = unixTimeToDate(responseBody);
+      } else if (mapperType.match(/^ByteArray$/i) !== null) {
+        payload = base64.decodeString(responseBody);
+      } else if (mapperType.match(/^Base64Url$/i) !== null) {
+        payload = base64UrlToByteArray(responseBody);
+      } else if (mapperType.match(/^Sequence$/i) !== null) {
+        payload = deserializeSequenceType(
+          this,
+          mapper as SequenceMapper,
+          responseBody,
+          objectName,
+          updatedOptions
+        );
+      } else if (mapperType.match(/^Dictionary$/i) !== null) {
+        payload = deserializeDictionaryType(
+          this,
+          mapper as DictionaryMapper,
+          responseBody,
+          objectName,
+          updatedOptions
+        );
+      }
+    }
+
+    if (mapper.isConstant) {
+      payload = mapper.defaultValue;
+    }
+
+    return payload;
+  }
 }
 
 function serializeSequenceType(
@@ -793,7 +1015,7 @@ function getXmlObjectValue(
   serializedValue: any,
   isXml: boolean,
   options: Required<SerializerOptions>
-) {
+): any {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
   }
@@ -1096,215 +1318,3 @@ function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: st
     serializer.modelMappers[typeName].type.polymorphicDiscriminator
   );
 }
-
-export interface MapperConstraints {
-  InclusiveMaximum?: number;
-  ExclusiveMaximum?: number;
-  InclusiveMinimum?: number;
-  ExclusiveMinimum?: number;
-  MaxLength?: number;
-  MinLength?: number;
-  Pattern?: RegExp;
-  MaxItems?: number;
-  MinItems?: number;
-  UniqueItems?: true;
-  MultipleOf?: number;
-}
-
-export type MapperType =
-  | SimpleMapperType
-  | CompositeMapperType
-  | SequenceMapperType
-  | DictionaryMapperType
-  | EnumMapperType;
-
-export interface SimpleMapperType {
-  name:
-    | "Base64Url"
-    | "Boolean"
-    | "ByteArray"
-    | "Date"
-    | "DateTime"
-    | "DateTimeRfc1123"
-    | "Object"
-    | "Stream"
-    | "String"
-    | "TimeSpan"
-    | "UnixTime"
-    | "Uuid"
-    | "Number"
-    | "any";
-}
-
-export interface CompositeMapperType {
-  name: "Composite";
-
-  // Only one of the two below properties should be present.
-  // Use className to reference another type definition,
-  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
-  className?: string;
-
-  modelProperties?: { [propertyName: string]: Mapper };
-  additionalProperties?: Mapper;
-
-  uberParent?: string;
-  polymorphicDiscriminator?: PolymorphicDiscriminator;
-}
-
-export interface SequenceMapperType {
-  name: "Sequence";
-  element: Mapper;
-}
-
-export interface DictionaryMapperType {
-  name: "Dictionary";
-  value: Mapper;
-}
-
-export interface EnumMapperType {
-  name: "Enum";
-  allowedValues: any[];
-}
-
-export interface BaseMapper {
-  /**
-   * Name for the xml element
-   */
-  xmlName?: string;
-  /**
-   * Xml element namespace
-   */
-  xmlNamespace?: string;
-  /**
-   * Xml element namespace prefix
-   */
-  xmlNamespacePrefix?: string;
-  /**
-   * Determines if the current property should be serialized as an attribute of the parent xml element
-   */
-  xmlIsAttribute?: boolean;
-  /**
-   * Name for the xml elements when serializing an array
-   */
-  xmlElementName?: string;
-  /**
-   * Whether or not the current property should have a wrapping XML element
-   */
-  xmlIsWrapped?: boolean;
-  /**
-   * Whether or not the current property is readonly
-   */
-  readOnly?: boolean;
-  /**
-   * Whether or not the current property is a constant
-   */
-  isConstant?: boolean;
-  /**
-   * Whether or not the current property is required
-   */
-  required?: boolean;
-  /**
-   * Whether or not the current property allows mull as a value
-   */
-  nullable?: boolean;
-  /**
-   * The name to use when serializing
-   */
-  serializedName?: string;
-  /**
-   * Type of the mapper
-   */
-  type: MapperType;
-  /**
-   * Default value when one is not explicitly provided
-   */
-  defaultValue?: any;
-  /**
-   * Constraints to test the current value against
-   */
-  constraints?: MapperConstraints;
-}
-
-export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
-
-export interface PolymorphicDiscriminator {
-  serializedName: string;
-  clientName: string;
-  [key: string]: string;
-}
-
-export interface CompositeMapper extends BaseMapper {
-  type: CompositeMapperType;
-}
-
-export interface SequenceMapper extends BaseMapper {
-  type: SequenceMapperType;
-}
-
-export interface DictionaryMapper extends BaseMapper {
-  type: DictionaryMapperType;
-  headerCollectionPrefix?: string;
-}
-
-export interface EnumMapper extends BaseMapper {
-  type: EnumMapperType;
-}
-
-export interface UrlParameterValue {
-  value: string;
-  skipUrlEncoding: boolean;
-}
-
-// TODO: why is this here?
-export function serializeObject(toSerialize: any): any {
-  if (toSerialize == undefined) return undefined;
-  if (toSerialize instanceof Uint8Array) {
-    toSerialize = base64.encodeByteArray(toSerialize);
-    return toSerialize;
-  } else if (toSerialize instanceof Date) {
-    return toSerialize.toISOString();
-  } else if (Array.isArray(toSerialize)) {
-    const array = [];
-    for (let i = 0; i < toSerialize.length; i++) {
-      array.push(serializeObject(toSerialize[i]));
-    }
-    return array;
-  } else if (typeof toSerialize === "object") {
-    const dictionary: { [key: string]: any } = {};
-    for (const property in toSerialize) {
-      dictionary[property] = serializeObject(toSerialize[property]);
-    }
-    return dictionary;
-  }
-  return toSerialize;
-}
-
-/**
- * Utility function to create a K:V from a list of strings
- */
-function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
-  const result: any = {};
-  for (const key of o) {
-    result[key] = key;
-  }
-  return result;
-}
-
-export const MapperType = strEnum([
-  "Base64Url",
-  "Boolean",
-  "ByteArray",
-  "Composite",
-  "Date",
-  "DateTime",
-  "DateTimeRfc1123",
-  "Dictionary",
-  "Enum",
-  "Number",
-  "Object",
-  "Sequence",
-  "String",
-  "Stream",
-  "TimeSpan",
-  "UnixTime"
-]);

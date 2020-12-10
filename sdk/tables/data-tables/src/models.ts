@@ -98,6 +98,20 @@ export type ListTableItemsResponse = Array<TableResponseProperties> & {
 };
 
 /**
+ * A set of key-value pairs representing the table entity.
+ */
+export type TableEntity<T extends object> = T & {
+  /**
+   * The PartitionKey property of the entity.
+   */
+  partitionKey: string;
+  /**
+   * The RowKey property of the entity.
+   */
+  rowKey: string;
+};
+
+/**
  * Contains response data for the getEntity operation.
  */
 export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
@@ -153,6 +167,20 @@ export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
 };
 
 /**
+ * OData Query options to limit the set of entities returned.
+ */
+export interface TableEntityQueryOptions {
+  /**
+   * OData filter expression.
+   */
+  filter?: string;
+  /**
+   * A select expression limits the properties on each entity to just those requested.
+   */
+  select?: string[];
+}
+
+/**
  * Optional parameters for DeleteTableEntity operation
  */
 export type DeleteTableEntityOptions = OperationOptions & {
@@ -176,6 +204,16 @@ export type DeleteTableEntityOptions = OperationOptions & {
 };
 
 /**
+ * OData Query options to limit the set of tables returned.
+ */
+export interface TableQueryOptions {
+  /**
+   * OData filter expression.
+   */
+  filter?: string;
+}
+
+/**
  * Optional parameters for CreaateTable operation
  */
 export type CreateTableOptions = OperationOptions & {
@@ -188,30 +226,6 @@ export type CreateTableOptions = OperationOptions & {
    */
   requestId?: string;
 };
-
-/**
- * OData Query options to limit the set of tables returned.
- */
-export interface TableQueryOptions {
-  /**
-   * OData filter expression.
-   */
-  filter?: string;
-}
-
-/**
- * OData Query options to limit the set of entities returned.
- */
-export interface TableEntityQueryOptions {
-  /**
-   * OData filter expression.
-   */
-  filter?: string;
-  /**
-   * A select expression limits the properties on each entity to just those requested.
-   */
-  select?: string[];
-}
 
 /**
  * List tables optional parameters.
@@ -361,20 +375,6 @@ export type UpsertTableEntityOptions = OperationOptions & {
 };
 
 /**
- * A set of key-value pairs representing the table entity.
- */
-export type TableEntity<T extends object> = T & {
-  /**
-   * The PartitionKey property of the entity.
-   */
-  partitionKey: string;
-  /**
-   * The RowKey property of the entity.
-   */
-  rowKey: string;
-};
-
-/**
  * Supported EDM Types by Azure Tables.
  */
 export type EdmTypes =
@@ -417,6 +417,42 @@ export interface Edm<T extends EdmTypes> {
 export type UpdateMode = "Merge" | "Replace";
 
 /**
+ * Represents a sub-response of a Batch operation
+ */
+export interface TableBatchEntityResponse {
+  /**
+   * Entity's etag
+   */
+  etag?: string;
+  /**
+   * Entity's rowKey
+   */
+  rowKey?: string;
+  /**
+   * Sub-response status
+   */
+  status: number;
+}
+
+/**
+ * Represents the response of a Batch operation
+ */
+export interface TableBatchResponse {
+  /**
+   * Collection of sub responses
+   */
+  subResponses: TableBatchEntityResponse[];
+  /**
+   * Main Batch request status code
+   */
+  status: number;
+  /**
+   * Gets a specific response given a row key
+   */
+  getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+}
+
+/**
  * Defines the shape of a TableBatch
  */
 export interface TableBatch {
@@ -456,40 +492,4 @@ export interface TableBatch {
    * Submits the operations in the batch
    */
   submitBatch: () => Promise<TableBatchResponse>;
-}
-
-/**
- * Represents the response of a Batch operation
- */
-export interface TableBatchResponse {
-  /**
-   * Collection of sub responses
-   */
-  subResponses: TableBatchEntityResponse[];
-  /**
-   * Main Batch request status code
-   */
-  status: number;
-  /**
-   * Gets a specific response given a row key
-   */
-  getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
-}
-
-/**
- * Represents a sub-response of a Batch operation
- */
-export interface TableBatchEntityResponse {
-  /**
-   * Entity's etag
-   */
-  etag?: string;
-  /**
-   * Entity's rowKey
-   */
-  rowKey?: string;
-  /**
-   * Sub-response status
-   */
-  status: number;
 }

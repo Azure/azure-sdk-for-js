@@ -51,6 +51,10 @@ import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 
+type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
+  queryOptions?: TableEntityQueryOptions & { top?: number };
+};
+
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
  * to perform operations on a single table.
@@ -565,7 +569,3 @@ export class TableClient {
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
   return Boolean(options.innerBatchRequest);
 }
-
-type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
-  queryOptions?: TableEntityQueryOptions & { top?: number };
-};

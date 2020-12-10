@@ -15,13 +15,6 @@ import {
 } from "./generated/models";
 
 /**
- * The result of the recognize linked entities operation on a single document.
- */
-export type RecognizeLinkedEntitiesResult =
-  | RecognizeLinkedEntitiesSuccessResult
-  | RecognizeLinkedEntitiesErrorResult;
-
-/**
  * The result of the recognize linked entities operation on a single document,
  * containing a collection of the `LinkedEntity` objects identified in that document.
  */
@@ -36,6 +29,13 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
  * An error result from the recognize linked entities operation on a single document.
  */
 export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
+
+/**
+ * The result of the recognize linked entities operation on a single document.
+ */
+export type RecognizeLinkedEntitiesResult =
+  | RecognizeLinkedEntitiesSuccessResult
+  | RecognizeLinkedEntitiesErrorResult;
 
 export function makeRecognizeLinkedEntitiesResult(
   id: string,

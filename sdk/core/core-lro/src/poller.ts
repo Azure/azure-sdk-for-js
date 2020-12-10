@@ -46,6 +46,7 @@ export class PollerCancelledError extends Error {
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
+// eslint-disable-next-line no-use-before-define
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * Returns a promise that will resolve once a single polling request finishes.
@@ -160,6 +161,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  * ```
  *
  */
+// eslint-disable-next-line no-use-before-define
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult> {
   private stopped: boolean = true;

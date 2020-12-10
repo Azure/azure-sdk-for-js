@@ -39,6 +39,18 @@ export interface TokenResponse {
   refreshToken?: string;
 }
 
+/**
+ * Provides options to configure how the Identity library makes authentication
+ * requests to Azure Active Directory.
+ */
+export interface TokenCredentialOptions extends PipelineOptions {
+  /**
+   * The authority host to use for authentication requests.  The default is
+   * "https://login.microsoftonline.com".
+   */
+  authorityHost?: string;
+}
+
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
 
@@ -223,16 +235,4 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       authorityHost: DefaultAuthorityHost
     };
   }
-}
-
-/**
- * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory.
- */
-export interface TokenCredentialOptions extends PipelineOptions {
-  /**
-   * The authority host to use for authentication requests.  The default is
-   * "https://login.microsoftonline.com".
-   */
-  authorityHost?: string;
 }

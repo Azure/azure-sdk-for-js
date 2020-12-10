@@ -66,6 +66,7 @@ xml2jsBuilderSettings.renderOpts = {
  * @param opts Options that govern the parsing of given JSON object
  * `rootName` indicates the name of the root element in the resulting XML
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function stringifyXML(obj: any, opts: SerializerOptions = {}): string {
   xml2jsBuilderSettings.rootName = opts.rootName;
   xml2jsBuilderSettings.charkey = opts.xmlCharKey ?? XML_CHARKEY;

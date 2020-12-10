@@ -82,6 +82,7 @@ export interface HttpHeadersLike {
   toJson(): RawHttpHeaders;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isHttpHeadersLike(object?: any): object is HttpHeadersLike {
   if (!object || typeof object !== "object") {
     return false;

@@ -124,54 +124,6 @@ export interface CertificateOperation {
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
 /**
- * An interface representing a certificate without the certificate's policy
- */
-export interface KeyVaultCertificate {
-  /**
-   * CER contents of x509 certificate.
-   */
-  cer?: Uint8Array;
-  /**
-   * Certificate identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  id?: string;
-  /**
-   * The key id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly keyId?: string;
-  /**
-   * The secret id.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly secretId?: string;
-  /**
-   * The name of certificate.
-   */
-  readonly name: string;
-  /**
-   * The properties of the certificate
-   */
-  properties: CertificateProperties;
-}
-
-/**
- * An interface representing a certificate with its policy
- */
-export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
-  /**
-   * The management policy.
-   * **NOTE: This property will not be serialized. It can only be populated by
-   * the server.**
-   */
-  readonly policy?: CertificatePolicy;
-}
-
-/**
  * Well known issuers for choosing a default
  */
 export enum WellKnownIssuerNames {
@@ -211,6 +163,21 @@ export interface SubjectAlternativeNamesAll {
 }
 
 /**
+ * RequireAtLeastOne helps create a type where at least one of the properties of an interface (can be any property) is required to exist.
+ *
+ * This works because of TypeScript's utility types: https://www.typescriptlang.org/docs/handbook/utility-types.html
+ * Let's examine it:
+ * - `[K in keyof T]-?` this property (K) is valid only if it has the same name as any property of T.
+ * - `Required<Pick<T, K>>` makes a new type from T with just the current property in the iteration, and marks it as required
+ * - `Partial<Pick<T, Exclude<keyof T, K>>>` makes a new type with all the properties of T, except from the property K.
+ * - `&` is what unites the type with only one required property from `Required<...>` with all the optional properties from `Partial<...>`.
+ * - `[keyof T]` ensures that only properties of T are allowed.
+ */
+export type RequireAtLeastOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
+
+/**
  * Alternatives to the subject property.
  * If present, it should at least have one of the properties of SubjectAlternativeNamesAll.
  */
@@ -239,6 +206,11 @@ export interface AdministratorContact {
 }
 
 /**
+ * The action that will be executed.
+ */
+export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
+
+/**
  * Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
  */
 export interface LifetimeAction {
@@ -257,11 +229,6 @@ export interface LifetimeAction {
    */
   action?: CertificatePolicyAction;
 }
-
-/**
- * The action that will be executed.
- */
-export type CertificatePolicyAction = "EmailContacts" | "AutoRenew";
 
 /**
  * An interface representing a certificate's policy (without the subject properties).
@@ -367,6 +334,11 @@ export const DefaultCertificatePolicy = {
 };
 
 /**
+ * An interface representing the shape of the Certificate Tags. The tags are just string key-value pairs.
+ */
+export type CertificateTags = { [propertyName: string]: string };
+
+/**
  * An interface representing the properties of a certificate
  */
 export interface CertificateProperties {
@@ -435,6 +407,54 @@ export interface CertificateProperties {
 }
 
 /**
+ * An interface representing a certificate without the certificate's policy
+ */
+export interface KeyVaultCertificate {
+  /**
+   * CER contents of x509 certificate.
+   */
+  cer?: Uint8Array;
+  /**
+   * Certificate identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  id?: string;
+  /**
+   * The key id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly keyId?: string;
+  /**
+   * The secret id.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly secretId?: string;
+  /**
+   * The name of certificate.
+   */
+  readonly name: string;
+  /**
+   * The properties of the certificate
+   */
+  properties: CertificateProperties;
+}
+
+/**
+ * An interface representing a certificate with its policy
+ */
+export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
+  /**
+   * The management policy.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly policy?: CertificatePolicy;
+}
+
+/**
  * An interface representing a deleted certificate.
  */
 export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
@@ -474,6 +494,13 @@ export interface CertificatePollerOptions extends coreHttp.OperationOptions {
 }
 
 /**
+ * Options for {@link createCertificate}.
+ */
+export interface CreateCertificateOptions
+  extends CertificateProperties,
+    coreHttp.OperationOptions {}
+
+/**
  * An interface representing the optional parameters that can be
  * passed to {@link beginCreateCertificate}
  */
@@ -497,13 +524,6 @@ export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
  * Options for {@link getCertificateOperation}.
  */
 export type GetCertificateOperationOptions = CertificatePollerOptions;
-
-/**
- * Options for {@link createCertificate}.
- */
-export interface CreateCertificateOptions
-  extends CertificateProperties,
-    coreHttp.OperationOptions {}
 
 /**
  * Options for {@link cancelCertificateOperation}.
@@ -641,11 +661,6 @@ export type GetDeletedCertificateOptions = coreHttp.OperationOptions;
 export type GetCertificateOptions = coreHttp.OperationOptions;
 
 /**
- * An interface representing the shape of the Certificate Tags. The tags are just string key-value pairs.
- */
-export type CertificateTags = { [propertyName: string]: string };
-
-/**
  * Options for {@link updateCertificate}.
  */
 export interface UpdateCertificatePropertiesOptions
@@ -772,21 +787,6 @@ export interface CertificateContactAll {
    */
   phone: string;
 }
-
-/**
- * RequireAtLeastOne helps create a type where at least one of the properties of an interface (can be any property) is required to exist.
- *
- * This works because of TypeScript's utility types: https://www.typescriptlang.org/docs/handbook/utility-types.html
- * Let's examine it:
- * - `[K in keyof T]-?` this property (K) is valid only if it has the same name as any property of T.
- * - `Required<Pick<T, K>>` makes a new type from T with just the current property in the iteration, and marks it as required
- * - `Partial<Pick<T, Exclude<keyof T, K>>>` makes a new type with all the properties of T, except from the property K.
- * - `&` is what unites the type with only one required property from `Required<...>` with all the optional properties from `Partial<...>`.
- * - `[keyof T]` ensures that only properties of T are allowed.
- */
-export type RequireAtLeastOne<T> = {
-  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
-}[keyof T];
 
 /**
  * The contact information for the vault certificates.

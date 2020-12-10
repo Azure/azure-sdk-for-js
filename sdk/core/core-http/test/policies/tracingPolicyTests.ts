@@ -203,9 +203,9 @@ describe("tracingPolicy", function() {
     };
     const policy = tracingPolicy().create(
       {
-        sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+        sendRequest(requestParam: WebResource): Promise<HttpOperationResponse> {
           return Promise.reject({
-            request: request,
+            request: requestParam,
             status: 404,
             headers: new HttpHeaders()
           });

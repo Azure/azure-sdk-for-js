@@ -5,24 +5,6 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 import { TransferProgressEvent, RequestOptionsBase } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
 
-/**
- * The base options type for all operations.
- */
-export interface OperationOptions {
-  /**
-   * The signal which can be used to abort requests.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Options used when creating and sending HTTP requests for this operation.
-   */
-  requestOptions?: OperationRequestOptions;
-  /**
-   * Options used when tracing is enabled.
-   */
-  tracingOptions?: OperationTracingOptions;
-}
-
 export interface OperationRequestOptions {
   /**
    * @property {object} [customHeaders] User defined custom request headers that
@@ -49,6 +31,24 @@ export interface OperationRequestOptions {
    * HttpOperationResponse should be deserialized.
    */
   shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+}
+
+/**
+ * The base options type for all operations.
+ */
+export interface OperationOptions {
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Options used when creating and sending HTTP requests for this operation.
+   */
+  requestOptions?: OperationRequestOptions;
+  /**
+   * Options used when tracing is enabled.
+   */
+  tracingOptions?: OperationTracingOptions;
 }
 
 /**

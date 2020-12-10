@@ -14,21 +14,6 @@ import { FormRecognizerRequestBody, FormPageArray } from "../../models";
 import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
 
-export interface ContentPollerOperationOptions {
-  /**
-   * Time between each polling in milliseconds.
-   */
-  updateIntervalInMs?: number;
-  /**
-   * callback to receive events on the progress of download operation.
-   */
-  onProgress?: (state: BeginRecognizeContentPollState) => void;
-  /**
-   * A serialized poller, used to resume an existing operation
-   */
-  resumeFrom?: string;
-}
-
 /**
  * Defines the operations from a analyze client that are needed for the poller
  * to work
@@ -54,6 +39,21 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
   resultId?: string;
   status: OperationStatus;
   readonly analyzeOptions?: RecognizeContentOptions;
+}
+
+export interface ContentPollerOperationOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * callback to receive events on the progress of download operation.
+   */
+  onProgress?: (state: BeginRecognizeContentPollState) => void;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
 }
 
 export interface BeginRecognizeContentPollerOperation
@@ -136,38 +136,38 @@ function makeBeginRecognizePollOperation(
     },
 
     async update(options = {}): Promise<BeginRecognizeContentPollerOperation> {
-      const state = this.state;
-      const { client, source, contentType, analyzeOptions } = state;
+      const pollerState = this.state;
+      const { client, source, contentType, analyzeOptions } = pollerState;
 
-      if (!state.isStarted) {
+      if (!pollerState.isStarted) {
         if (!source) {
           throw new Error("Expect a valid 'source'");
         }
 
-        state.isStarted = true;
+        pollerState.isStarted = true;
         const result = await client.beginRecognize(source, contentType, analyzeOptions || {});
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
         const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-        state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
+        pollerState.resultId = result.operationLocation.substring(lastSlashIndex + 1);
         // source is no longer needed
-        state.source = undefined;
+        pollerState.source = undefined;
       }
 
-      const response = await client.getRecognizeResult(state.resultId!, {
+      const response = await client.getRecognizeResult(pollerState.resultId!, {
         abortSignal: analyzeOptions?.abortSignal
       });
 
-      state.status = response.status;
-      if (!state.isCompleted) {
+      pollerState.status = response.status;
+      if (!pollerState.isCompleted) {
         if (typeof options.fireProgress === "function") {
-          options.fireProgress(state);
+          options.fireProgress(pollerState);
         }
 
         if (response.status === "succeeded") {
-          state.result = response.pages;
-          state.isCompleted = true;
+          pollerState.result = response.pages;
+          pollerState.isCompleted = true;
         } else if (response.status === "failed") {
           const errors = response.errors
             ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
@@ -180,7 +180,7 @@ ${errors || ""}
         }
       }
 
-      return makeBeginRecognizePollOperation(state);
+      return makeBeginRecognizePollOperation(pollerState);
     },
 
     toString() {

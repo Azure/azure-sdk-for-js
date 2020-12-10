@@ -112,6 +112,7 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
 
 const serializer = new XMLSerializer();
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function stringifyXML(content: any, opts: SerializerOptions = {}): string {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",

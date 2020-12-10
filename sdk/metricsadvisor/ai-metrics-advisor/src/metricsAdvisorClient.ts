@@ -59,7 +59,7 @@ export type ListIncidentsForDetectionConfigurationOptions = {
  * Options for retreiving metric enriched series data
  */
 
-export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
+export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
 
 /**
  * Options for listing anomalies for detection configurations
@@ -142,7 +142,7 @@ export type ListMetricSeriesDefinitionsOptions = {
  * Options for retreiving metric series data
  */
 
-export type GetMetricSeriesDataOptions = {} & OperationOptions;
+export type GetMetricSeriesDataOptions = OperationOptions;
 
 /**
  * Options for listing alerts

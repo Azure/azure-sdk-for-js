@@ -6,37 +6,6 @@
 import { log } from "./log";
 
 /**
- * A simple mechanism for enabling logging.
- * Intended to mimic the publicly available `debug` package.
- */
-export interface Debug {
-  /**
-   * Creates a new logger with the given namespace.
-   */
-  (namespace: string): Debugger;
-  /**
-   * The default log method (defaults to console)
-   */
-  log: (...args: any[]) => void;
-  /**
-   * Enables a particular set of namespaces.
-   * To enable multiple separate them with commas, e.g. "info,debug".
-   * Supports wildcards, e.g. "azure:*"
-   * Supports skip syntax, e.g. "azure:*,-azure:storage:*" will enable
-   * everything under azure except for things under azure:storage.
-   */
-  enable: (namespaces: string) => void;
-  /**
-   * Checks if a particular namespace is enabled.
-   */
-  enabled: (namespace: string) => boolean;
-  /**
-   * Disables all logging, returns what was previously enabled.
-   */
-  disable: () => string;
-}
-
-/**
  * A log function that can be dynamically enabled and redirected.
  */
 export interface Debugger {
@@ -65,6 +34,37 @@ export interface Debugger {
    * Namespaces are separated with a ':' character.
    */
   extend: (namespace: string) => Debugger;
+}
+
+/**
+ * A simple mechanism for enabling logging.
+ * Intended to mimic the publicly available `debug` package.
+ */
+export interface Debug {
+  /**
+   * Creates a new logger with the given namespace.
+   */
+  (namespace: string): Debugger;
+  /**
+   * The default log method (defaults to console)
+   */
+  log: (...args: any[]) => void;
+  /**
+   * Enables a particular set of namespaces.
+   * To enable multiple separate them with commas, e.g. "info,debug".
+   * Supports wildcards, e.g. "azure:*"
+   * Supports skip syntax, e.g. "azure:*,-azure:storage:*" will enable
+   * everything under azure except for things under azure:storage.
+   */
+  enable: (namespaces: string) => void;
+  /**
+   * Checks if a particular namespace is enabled.
+   */
+  enabled: (namespace: string) => boolean;
+  /**
+   * Disables all logging, returns what was previously enabled.
+   */
+  disable: () => string;
 }
 
 const debugEnvVariable =
@@ -119,8 +119,8 @@ function enabled(namespace: string): boolean {
       return false;
     }
   }
-  for (const enabled of enabledNamespaces) {
-    if (enabled.test(namespace)) {
+  for (const enabledNamespace of enabledNamespaces) {
+    if (enabledNamespace.test(namespace)) {
       return true;
     }
   }

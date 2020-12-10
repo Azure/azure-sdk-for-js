@@ -32,6 +32,7 @@ export class URLQuery {
    * empty, then this will attempt to remove an existing query parameter with the provided
    * parameterName.
    */
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public set(parameterName: string, parameterValue: any): void {
     if (parameterName) {
       if (parameterValue !== undefined && parameterValue !== null) {
@@ -136,6 +137,10 @@ export class URLQuery {
     return result;
   }
 }
+
+type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
+
+type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 /**
  * A class that handles creating, modifying, and parsing URLs.
@@ -269,6 +274,7 @@ export class URLBuilder {
    * query parameter value is undefined or empty, then the query parameter will be removed if it
    * existed.
    */
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public setQueryParameter(queryParameterName: string, queryParameterValue: any): void {
     if (queryParameterName) {
       if (!this._query) {
@@ -383,10 +389,6 @@ export class URLBuilder {
     return result;
   }
 }
-
-type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
-
-type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 export class URLToken {
   public constructor(public readonly text: string, public readonly type: URLTokenType) {}

@@ -15,6 +15,30 @@ export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
 }
 
 /**
+ * A scope of the role assignment.
+ * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
+ */
+export type RoleAssignmentScope = "/" | "/keys" | string;
+
+/**
+ * Role assignment properties with the scope property.
+ */
+export interface KeyVaultRoleAssignmentPropertiesWithScope {
+  /**
+   * The role assignment scope.
+   */
+  scope?: RoleAssignmentScope;
+  /**
+   * The role definition ID.
+   */
+  roleDefinitionId: string;
+  /**
+   * The principal ID.
+   */
+  principalId: string;
+}
+
+/**
  * A Key Vault role assignment.
  */
 export interface KeyVaultRoleAssignment {
@@ -100,30 +124,6 @@ export interface KeyVaultRoleDefinition {
  * Role assignment properties.
  */
 export interface KeyVaultRoleAssignmentProperties {
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId: string;
-  /**
-   * The principal ID.
-   */
-  principalId: string;
-}
-
-/**
- * A scope of the role assignment.
- * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
- */
-export type RoleAssignmentScope = "/" | "/keys" | string;
-
-/**
- * Role assignment properties with the scope property.
- */
-export interface KeyVaultRoleAssignmentPropertiesWithScope {
-  /**
-   * The role assignment scope.
-   */
-  scope?: RoleAssignmentScope;
   /**
    * The role definition ID.
    */

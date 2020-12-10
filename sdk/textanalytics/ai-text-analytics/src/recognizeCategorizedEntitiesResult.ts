@@ -21,13 +21,6 @@ import {
 export interface CategorizedEntity extends Entity {}
 
 /**
- * The result of the recognize entities operation on a single document.
- */
-export type RecognizeCategorizedEntitiesResult =
-  | RecognizeCategorizedEntitiesSuccessResult
-  | RecognizeCategorizedEntitiesErrorResult;
-
-/**
  * The result of the recognize entities operation on a single document, containing the collection of
  * `Entity` objects identified in that document.
  */
@@ -42,6 +35,13 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
  * An error result from the recognize entities operation on a single document.
  */
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
+
+/**
+ * The result of the recognize entities operation on a single document.
+ */
+export type RecognizeCategorizedEntitiesResult =
+  | RecognizeCategorizedEntitiesSuccessResult
+  | RecognizeCategorizedEntitiesErrorResult;
 
 export function makeRecognizeCategorizedEntitiesResult(
   id: string,

@@ -104,7 +104,7 @@ export class AbortController {
    * @type {AbortSignal}
    * @memberof AbortController
    */
-  public get signal() {
+  public get signal(): AbortSignal {
     return this._signal;
   }
 
@@ -114,7 +114,7 @@ export class AbortController {
    *
    * @memberof AbortController
    */
-  abort() {
+  abort(): void {
     abortSignal(this._signal);
   }
 

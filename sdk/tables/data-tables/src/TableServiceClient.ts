@@ -38,6 +38,10 @@ import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
 
+type InternalListTablesOptions = ListTableItemsOptions & {
+  queryOptions?: TableQueryOptions & { top?: number };
+};
+
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
  * to perform operations on the tables and the entities.
@@ -379,7 +383,3 @@ export class TableServiceClient {
     }
   }
 }
-
-type InternalListTablesOptions = ListTableItemsOptions & {
-  queryOptions?: TableQueryOptions & { top?: number };
-};

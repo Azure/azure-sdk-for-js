@@ -256,52 +256,6 @@ export type DataFeedGranularity =
 export type DataFeedStatus = "Paused" | "Active";
 
 /**
- * Represents a Metrics Advisor data feed.
- */
-export type DataFeed = {
-  /**
-   * Unique id of the data feed.
-   */
-  id: string;
-  /**
-   * Name of the data feed.
-   */
-  name: string;
-  /**
-   * Time when the data feed is created
-   */
-  createdOn: Date;
-  /**
-   * Status of the data feed.
-   */
-  status: DataFeedStatus;
-  /**
-   * Indicates whether the current user is an administrator of the data feed.
-   */
-  isAdmin: boolean;
-  /**
-   * data feed creator
-   */
-  creator: string;
-  /**
-   * Source of the data feed.
-   */
-  source: DataFeedSource;
-  /**
-   * Schema of the data in the data feed, including names of metrics, dimensions, and timestamp columns.
-   */
-  schema: DataFeedSchema;
-  /**
-   * Granularity of the data feed.
-   */
-  granularity: DataFeedGranularity;
-  /**
-   * Ingestion settings for the data feed.
-   */
-  ingestionSettings: DataFeedIngestionSettings;
-} & DataFeedOptions;
-
-/**
  * Represents an Azure Application Insights data source.
  */
 export type AzureApplicationInsightsDataFeedSource = {
@@ -433,6 +387,61 @@ export type DataFeedSource =
   | UnknownDataFeedSource;
 
 /**
+ * Represents a Metrics Advisor data feed.
+ */
+export type DataFeed = {
+  /**
+   * Unique id of the data feed.
+   */
+  id: string;
+  /**
+   * Name of the data feed.
+   */
+  name: string;
+  /**
+   * Time when the data feed is created
+   */
+  createdOn: Date;
+  /**
+   * Status of the data feed.
+   */
+  status: DataFeedStatus;
+  /**
+   * Indicates whether the current user is an administrator of the data feed.
+   */
+  isAdmin: boolean;
+  /**
+   * data feed creator
+   */
+  creator: string;
+  /**
+   * Source of the data feed.
+   */
+  source: DataFeedSource;
+  /**
+   * Schema of the data in the data feed, including names of metrics, dimensions, and timestamp columns.
+   */
+  schema: DataFeedSchema;
+  /**
+   * Granularity of the data feed.
+   */
+  granularity: DataFeedGranularity;
+  /**
+   * Ingestion settings for the data feed.
+   */
+  ingestionSettings: DataFeedIngestionSettings;
+} & DataFeedOptions;
+
+/**
+ * A alias type of supported data sources to pass to Update Data Feed operation.
+ *
+ * When not changing the data source type, the dataSourceParameter is not required.
+ * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
+ */
+export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
+  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
+
+/**
  * Represents the input type to the Update Data Feed operation.
  */
 export type DataFeedPatch = {
@@ -465,15 +474,6 @@ export type DataFeedPatch = {
   };
 
 /**
- * A alias type of supported data sources to pass to Update Data Feed operation.
- *
- * When not changing the data source type, the dataSourceParameter is not required.
- * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
- */
-export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
-  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
-
-/**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
  */
 export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
@@ -484,28 +484,6 @@ export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 export type DetectionConditionsOperator = "AND" | "OR";
 
 /**
- * Represents properties common to anomaly detection conditions.
- */
-export interface DetectionConditionsCommon {
-  /**
-   * Condition operator
-   */
-  conditionOperator?: DetectionConditionsOperator;
-  /**
-   * Specifies the condition for Smart Detection
-   */
-  smartDetectionCondition?: SmartDetectionCondition;
-  /**
-   * Specifies a hard threshold range used to detect anomalies when metric values fall outside of the range.
-   */
-  hardThresholdCondition?: HardThresholdConditionUnion;
-  /**
-   * Specifies the condition for Change Threshold
-   */
-  changeThresholdCondition?: ChangeThresholdConditionUnion;
-}
-
-/**
  * String key-value pairs that consist of dimension names and dimension values.
  *
  * For a metric with two dimensions: city and category, Examples include
@@ -514,31 +492,6 @@ export interface DetectionConditionsCommon {
  *   { { city: "Karachi" } }                     - identifies all time series with city === "Karachi"
  */
 export type DimensionKey = Record<string, string>;
-
-/**
- * Detection condition for all time series of a metric.
- */
-export type MetricDetectionCondition = DetectionConditionsCommon;
-
-/**
- * Detection condition for a series group.
- */
-export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
-  /**
-   * identifies the group of time series
-   */
-  group: DimensionKey;
-};
-
-/**
- * Detection condition for a specific time series.
- */
-export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
-  /**
-   * identifies the time series
-   */
-  series: DimensionKey;
-};
 
 /**
  * Represents the hard threshold detection condition.
@@ -617,13 +570,51 @@ export type ChangeThresholdConditionUnion =
     };
 
 /**
- * A union type of all metric feedback types.
+ * Represents properties common to anomaly detection conditions.
  */
-export type MetricFeedbackUnion =
-  | MetricAnomalyFeedback
-  | MetricChangePointFeedback
-  | MetricCommentFeedback
-  | MetricPeriodFeedback;
+export interface DetectionConditionsCommon {
+  /**
+   * Condition operator
+   */
+  conditionOperator?: DetectionConditionsOperator;
+  /**
+   * Specifies the condition for Smart Detection
+   */
+  smartDetectionCondition?: SmartDetectionCondition;
+  /**
+   * Specifies a hard threshold range used to detect anomalies when metric values fall outside of the range.
+   */
+  hardThresholdCondition?: HardThresholdConditionUnion;
+  /**
+   * Specifies the condition for Change Threshold
+   */
+  changeThresholdCondition?: ChangeThresholdConditionUnion;
+}
+
+/**
+ * Detection condition for all time series of a metric.
+ */
+export type MetricDetectionCondition = DetectionConditionsCommon;
+
+/**
+ * Detection condition for a series group.
+ */
+export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
+  /**
+   * identifies the group of time series
+   */
+  group: DimensionKey;
+};
+
+/**
+ * Detection condition for a specific time series.
+ */
+export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
+  /**
+   * identifies the time series
+   */
+  series: DimensionKey;
+};
 
 /**
  * Represents properties common to all metric feedback types.
@@ -650,41 +641,6 @@ export interface MetricFeedbackCommon {
    */
   dimensionKey: DimensionKey;
 }
-
-/**
- * Represents feedback of whether data points within the time range should be considered anomalies or not.
- */
-export type MetricAnomalyFeedback = {
-  /**
-   * Feedback type.
-   */
-  feedbackType: "Anomaly";
-  /**
-   * the start timestamp of feedback timerange
-   */
-  startTime: Date;
-  /**
-   * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
-   */
-  endTime: Date;
-  /**
-   * feedback value
-   */
-  value: "AutoDetect" | "Anomaly" | "NotAnomaly";
-
-  /**
-   * The anomaly detection configuration id.
-   *
-   * May be available when retrieving feedback from the Metrics Advisor service.
-   */
-  readonly anomalyDetectionConfigurationId?: string;
-  /**
-   * The snapshot of the anomaly detection configuration when feedback was created.
-   *
-   * May be vailable when retrieving feedback from the Metrics Advisor service.
-   */
-  readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
-} & MetricFeedbackCommon;
 
 /**
  * Represents feedback of whether data points within the time range should be considered change point or not.
@@ -1150,6 +1106,41 @@ export interface AnomalyDetectionConfiguration {
 }
 
 /**
+ * Represents feedback of whether data points within the time range should be considered anomalies or not.
+ */
+export type MetricAnomalyFeedback = {
+  /**
+   * Feedback type.
+   */
+  feedbackType: "Anomaly";
+  /**
+   * the start timestamp of feedback timerange
+   */
+  startTime: Date;
+  /**
+   * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
+   */
+  endTime: Date;
+  /**
+   * feedback value
+   */
+  value: "AutoDetect" | "Anomaly" | "NotAnomaly";
+
+  /**
+   * The anomaly detection configuration id.
+   *
+   * May be available when retrieving feedback from the Metrics Advisor service.
+   */
+  readonly anomalyDetectionConfigurationId?: string;
+  /**
+   * The snapshot of the anomaly detection configuration when feedback was created.
+   *
+   * May be vailable when retrieving feedback from the Metrics Advisor service.
+   */
+  readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
+} & MetricFeedbackCommon;
+
+/**
  * Represents the root cause of an incident.
  */
 export interface IncidentRootCause {
@@ -1363,6 +1354,15 @@ export type GetIncidentRootCauseResponse = {
     parsedBody: any;
   };
 };
+
+/**
+ * A union type of all metric feedback types.
+ */
+export type MetricFeedbackUnion =
+  | MetricAnomalyFeedback
+  | MetricChangePointFeedback
+  | MetricCommentFeedback
+  | MetricPeriodFeedback;
 
 /**
  * Contains response data for the getFeedback operation.

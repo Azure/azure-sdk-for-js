@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+
 import { assert } from "chai";
 
 import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
@@ -108,8 +110,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         const listAllOpinions = (acc: string[], sentence: SentenceSentiment): string[] =>
           acc.concat(
             sentence.minedOpinions.reduce(
-              (acc: string[], aspect: MinedOpinion) =>
-                acc.concat(aspect.opinions.map((opinion: OpinionSentiment) => opinion.text)),
+              (opinions: string[], aspect: MinedOpinion) =>
+                opinions.concat(aspect.opinions.map((opinion: OpinionSentiment) => opinion.text)),
               []
             )
           );
@@ -789,8 +791,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         }
       );
-      const result = await poller.pollUntilDone();
-      for await (const page of result) {
+      const results = await poller.pollUntilDone();
+      for await (const page of results) {
         const entitiesResult = page.entitiesRecognitionResults;
         if (entitiesResult && entitiesResult.length === 1) {
           const task = entitiesResult[0];
@@ -825,8 +827,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         }
       );
-      const result = await poller.pollUntilDone();
-      for await (const page of result) {
+      const results = await poller.pollUntilDone();
+      for await (const page of results) {
         const keyPhrasesResult = page.keyPhrasesExtractionResults;
         if (keyPhrasesResult && keyPhrasesResult.length === 1) {
           const task = keyPhrasesResult[0];
@@ -1013,33 +1015,33 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults;
         if (entitiesResult && entitiesResult.length === 1) {
-          const docs = entitiesResult[0];
-          assert.equal(docs.length, 3);
-          assert.isDefined(docs[0].error);
-          assert.isDefined(docs[1].error);
-          assert.isUndefined(docs[2].error);
+          const entitiesDocs = entitiesResult[0];
+          assert.equal(entitiesDocs.length, 3);
+          assert.isDefined(entitiesDocs[0].error);
+          assert.isDefined(entitiesDocs[1].error);
+          assert.isUndefined(entitiesDocs[2].error);
         } else {
           assert.fail("expected an array of entities results but did not get one.");
         }
 
         const piiEntitiesResult = page.piiEntitiesRecognitionResults;
         if (piiEntitiesResult && piiEntitiesResult.length === 1) {
-          const docs = piiEntitiesResult[0];
-          assert.equal(docs.length, 3);
-          assert.isDefined(docs[0].error);
-          assert.isDefined(docs[1].error);
-          assert.isUndefined(docs[2].error);
+          const piiEntitiesDocs = piiEntitiesResult[0];
+          assert.equal(piiEntitiesDocs.length, 3);
+          assert.isDefined(piiEntitiesDocs[0].error);
+          assert.isDefined(piiEntitiesDocs[1].error);
+          assert.isUndefined(piiEntitiesDocs[2].error);
         } else {
           assert.fail("expected an array of pii entities results but did not get one.");
         }
 
         const keyPhrasesResult = page.keyPhrasesExtractionResults;
         if (keyPhrasesResult && keyPhrasesResult.length === 1) {
-          const docs = keyPhrasesResult[0];
-          assert.equal(docs.length, 3);
-          assert.isDefined(docs[0].error);
-          assert.isDefined(docs[1].error);
-          assert.isUndefined(docs[2].error);
+          const keyPhrasesDocs = keyPhrasesResult[0];
+          assert.equal(keyPhrasesDocs.length, 3);
+          assert.isDefined(keyPhrasesDocs[0].error);
+          assert.isDefined(keyPhrasesDocs[1].error);
+          assert.isUndefined(keyPhrasesDocs[2].error);
         } else {
           assert.fail("expected an array of key phrases results but did not get one.");
         }
@@ -1081,33 +1083,33 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults;
         if (entitiesResult && entitiesResult.length === 1) {
-          const docs = entitiesResult[0];
-          assert.equal(docs.length, 3);
-          assert.isDefined(docs[0].error);
-          assert.isDefined(docs[1].error);
-          assert.isDefined(docs[2].error);
+          const entitiesDocs = entitiesResult[0];
+          assert.equal(entitiesDocs.length, 3);
+          assert.isDefined(entitiesDocs[0].error);
+          assert.isDefined(entitiesDocs[1].error);
+          assert.isDefined(entitiesDocs[2].error);
         } else {
           assert.fail("expected an array of entities results but did not get one.");
         }
 
         const piiEntitiesResult = page.piiEntitiesRecognitionResults;
         if (piiEntitiesResult && piiEntitiesResult.length === 1) {
-          const docs = piiEntitiesResult[0];
-          assert.equal(docs.length, 3);
-          assert.isDefined(docs[0].error);
-          assert.isDefined(docs[1].error);
-          assert.isDefined(docs[2].error);
+          const piiEntitiesDocs = piiEntitiesResult[0];
+          assert.equal(piiEntitiesDocs.length, 3);
+          assert.isDefined(piiEntitiesDocs[0].error);
+          assert.isDefined(piiEntitiesDocs[1].error);
+          assert.isDefined(piiEntitiesDocs[2].error);
         } else {
           assert.fail("expected an array of pii entities results but did not get one.");
         }
 
         const keyPhrasesResult = page.keyPhrasesExtractionResults;
         if (keyPhrasesResult && keyPhrasesResult.length === 1) {
-          const docs = keyPhrasesResult[0];
-          assert.equal(docs.length, 3);
-          assert.isDefined(docs[0].error);
-          assert.isDefined(docs[1].error);
-          assert.isDefined(docs[2].error);
+          const keyPhrasesDocs = keyPhrasesResult[0];
+          assert.equal(keyPhrasesDocs.length, 3);
+          assert.isDefined(keyPhrasesDocs[0].error);
+          assert.isDefined(keyPhrasesDocs[1].error);
+          assert.isDefined(keyPhrasesDocs[2].error);
         } else {
           assert.fail("expected an array of key phrases results but did not get one.");
         }
@@ -1140,10 +1142,10 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults;
         if (entitiesResult && entitiesResult.length === 1) {
-          const docs = entitiesResult[0];
-          assert.equal(docs.length, 5);
+          const entitiesDocs = entitiesResult[0];
+          assert.equal(entitiesDocs.length, 5);
           let i = 1;
-          for (const doc of docs) {
+          for (const doc of entitiesDocs) {
             assert.equal(parseInt(doc.id), i++);
           }
         } else {
@@ -1152,10 +1154,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const piiEntitiesResult = page.piiEntitiesRecognitionResults;
         if (piiEntitiesResult && piiEntitiesResult.length === 1) {
-          const docs = piiEntitiesResult[0];
-          assert.equal(docs.length, 5);
+          const piiEntitiesDocs = piiEntitiesResult[0];
+          assert.equal(piiEntitiesDocs.length, 5);
           let i = 1;
-          for (const doc of docs) {
+          for (const doc of piiEntitiesDocs) {
             assert.equal(parseInt(doc.id), i++);
           }
         } else {
@@ -1164,10 +1166,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const keyPhrasesResult = page.keyPhrasesExtractionResults;
         if (keyPhrasesResult && keyPhrasesResult.length === 1) {
-          const docs = keyPhrasesResult[0];
-          assert.equal(docs.length, 5);
+          const keyPhrasesDocs = keyPhrasesResult[0];
+          assert.equal(keyPhrasesDocs.length, 5);
           let i = 1;
-          for (const doc of docs) {
+          for (const doc of keyPhrasesDocs) {
             assert.equal(parseInt(doc.id), i++);
           }
         } else {
@@ -1203,10 +1205,10 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults;
         if (entitiesResult && entitiesResult.length === 1) {
-          const docs = entitiesResult[0];
-          assert.equal(docs.length, 5);
+          const entitiesDocs = entitiesResult[0];
+          assert.equal(entitiesDocs.length, 5);
           let i = 0;
-          for (const doc of docs) {
+          for (const doc of entitiesDocs) {
             assert.equal(doc.id, in_order[i++]);
           }
         } else {
@@ -1215,10 +1217,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const piiEntitiesResult = page.piiEntitiesRecognitionResults;
         if (piiEntitiesResult && piiEntitiesResult.length === 1) {
-          const docs = piiEntitiesResult[0];
-          assert.equal(docs.length, 5);
+          const piiEntitiesDocs = piiEntitiesResult[0];
+          assert.equal(piiEntitiesDocs.length, 5);
           let i = 0;
-          for (const doc of docs) {
+          for (const doc of piiEntitiesDocs) {
             assert.equal(doc.id, in_order[i++]);
           }
         } else {
@@ -1227,10 +1229,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const keyPhrasesResult = page.keyPhrasesExtractionResults;
         if (keyPhrasesResult && keyPhrasesResult.length === 1) {
-          const docs = keyPhrasesResult[0];
-          assert.equal(docs.length, 5);
+          const keyPhrasesDocs = keyPhrasesResult[0];
+          assert.equal(keyPhrasesDocs.length, 5);
           let i = 0;
-          for (const doc of docs) {
+          for (const doc of keyPhrasesDocs) {
             assert.equal(doc.id, in_order[i++]);
           }
         } else {
@@ -1297,9 +1299,9 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults!;
         assert.equal(entitiesResult.length, 1);
-        for (const docs of entitiesResult) {
-          assert.equal(docs.length, 3);
-          for (const doc of docs) {
+        for (const entitiesDocs of entitiesResult) {
+          assert.equal(entitiesDocs.length, 3);
+          for (const doc of entitiesDocs) {
             assert.isUndefined(doc.error);
           }
         }
@@ -1331,9 +1333,9 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults!;
         assert.equal(entitiesResult.length, 1);
-        for (const docs of entitiesResult) {
-          assert.equal(docs.length, 3);
-          for (const doc of docs) {
+        for (const entitiesDocs of entitiesResult) {
+          assert.equal(entitiesDocs.length, 3);
+          for (const doc of entitiesDocs) {
             assert.isUndefined(doc.error);
           }
         }
@@ -1364,9 +1366,9 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults!;
         assert.equal(entitiesResult.length, 1);
-        for (const docs of entitiesResult) {
-          assert.equal(docs.length, 3);
-          for (const doc of docs) {
+        for (const entitiesDocs of entitiesResult) {
+          assert.equal(entitiesDocs.length, 3);
+          for (const doc of entitiesDocs) {
             assert.isUndefined(doc.error);
           }
         }
@@ -1397,9 +1399,9 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const entitiesResult = page.entitiesRecognitionResults!;
         assert.equal(entitiesResult.length, 1);
-        for (const docs of entitiesResult) {
-          assert.equal(docs.length, 3);
-          for (const doc of docs) {
+        for (const entitiesDocs of entitiesResult) {
+          assert.equal(entitiesDocs.length, 3);
+          for (const doc of entitiesDocs) {
             assert.isUndefined(doc.error);
           }
         }
@@ -1539,9 +1541,9 @@ describe("[AAD] TextAnalyticsClient", function() {
       for await (const page of result) {
         const piiEntitiesResult = page.piiEntitiesRecognitionResults!;
         assert.equal(piiEntitiesResult.length, 1);
-        for (const docs of piiEntitiesResult) {
-          assert.equal(docs.length, 3);
-          for (const doc of docs) {
+        for (const piiEntitiesDocs of piiEntitiesResult) {
+          assert.equal(piiEntitiesDocs.length, 3);
+          for (const doc of piiEntitiesDocs) {
             assert.isUndefined(doc.error);
             if (!doc.error) {
               assert.isNotEmpty(doc.redactedText);

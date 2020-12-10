@@ -9,19 +9,21 @@ export const DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
 export const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
 export const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isNumber(n: any): n is number {
   return typeof n === "number";
-}
-export interface RetryData {
-  retryCount: number;
-  retryInterval: number;
-  error?: RetryError;
 }
 
 export interface RetryError extends Error {
   message: string;
   code?: string;
   innerError?: RetryError;
+}
+
+export interface RetryData {
+  retryCount: number;
+  retryInterval: number;
+  error?: RetryError;
 }
 
 /**

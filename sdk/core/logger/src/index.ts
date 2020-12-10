@@ -4,21 +4,8 @@
 import debug, { Debugger } from "./debug";
 export { Debugger } from "./debug";
 
-const registeredLoggers = new Set<AzureDebugger>();
 const logLevelFromEnv =
   (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
-
-let azureLogLevel: AzureLogLevel | undefined;
-
-/**
- * The AzureLogger provides a mechanism for overriding where logs are output to.
- * By default, logs are sent to stderr.
- * Override the `log` method to redirect logs to another location.
- */
-export const AzureLogger: AzureClientLogger = debug("azure");
-AzureLogger.log = (...args) => {
-  debug.log(...args);
-};
 
 /**
  * The log levels supported by the logger.
@@ -29,14 +16,29 @@ AzureLogger.log = (...args) => {
  * - error
  */
 export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
+
+let azureLogLevel: AzureLogLevel | undefined;
+
 const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
 
 type AzureDebugger = Debugger & { level: AzureLogLevel };
+
+const registeredLoggers = new Set<AzureDebugger>();
 
 /**
  * An AzureClientLogger is a function that can log to an appropriate severity level.
  */
 export type AzureClientLogger = Debugger;
+
+/**
+ * The AzureLogger provides a mechanism for overriding where logs are output to.
+ * By default, logs are sent to stderr.
+ * Override the `log` method to redirect logs to another location.
+ */
+export const AzureLogger: AzureClientLogger = debug("azure");
+AzureLogger.log = (...args) => {
+  debug.log(...args);
+};
 
 if (logLevelFromEnv) {
   // avoid calling setLogLevel because we don't want a mis-set environment variable to crash
@@ -95,6 +97,7 @@ const levelMap = {
 /**
  * Defines the methods available on the SDK-facing logger.
  */
+// eslint-disable-next-line no-redeclare
 export interface AzureLogger {
   /**
    * Used for failures the program is unlikely to recover from,

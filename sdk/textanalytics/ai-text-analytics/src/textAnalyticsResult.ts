@@ -15,11 +15,6 @@ import {
 import { sortResponseIdObjects } from "./util";
 
 /**
- * The result of a text analytics operation on a single input document.
- */
-export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
-
-/**
  * An Error Code returned from the Text Analytics service. Possible
  * values include:
  *
@@ -90,6 +85,11 @@ export interface TextAnalyticsErrorResult {
    */
   readonly error: TextAnalyticsError;
 }
+
+/**
+ * The result of a text analytics operation on a single input document.
+ */
+export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
 export interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {

@@ -138,11 +138,11 @@ describe("ExponentialRetryPolicy", () => {
       it(`should return after max retry count for retriable status code ${code}`, async () => {
         class FailEveryRequestPolicy {
           public count = 0;
-          constructor(private code: number) {}
+          constructor(private statusCode: number) {}
           public sendRequest(_request: WebResource): Promise<HttpOperationResponse> {
             this.count++;
             const response = {
-              status: this.code,
+              status: this.statusCode,
               request: new WebResource(),
               headers: new HttpHeaders()
             };
