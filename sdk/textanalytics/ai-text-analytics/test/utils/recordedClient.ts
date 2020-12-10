@@ -2,14 +2,11 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
 import { AzureKeyCredential, TextAnalyticsClient } from "../../src/";
-
-dotenv.config();
 
 export interface RecordedClient {
   client: TextAnalyticsClient;
