@@ -33,10 +33,6 @@ export async function main(): Promise<void> {
   await stopEph(eph);
 }
 
-main().catch((err) => {
-  console.log("Exiting from main() due to an error: %O.", err);
-});
-
 /**
  * Creates an EPH with the given name and starts the EPH.
  * @param ephName The name of the EPH.
@@ -46,9 +42,9 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
   // Create an Event Processor Host from an IotHub ConnectionString
   const eph = await EventProcessorHost.createFromIotHubConnectionString(
     ephName,
-    storageConnectionString!,
+    storageConnectionString,
     storageContainerName,
-    iotConnectionString!,
+    iotConnectionString,
     {
       onEphError: (error: any) => {
         console.log("[%s] Error: %O", ephName, error);
@@ -111,3 +107,7 @@ async function stopEph(eph: EventProcessorHost): Promise<void> {
   await eph.stop();
   console.log("Successfully stopped the EPH - '%s'.", eph.hostName);
 }
+
+main().catch((err) => {
+  console.log("Exiting from main() due to an error: %O.", err);
+});
