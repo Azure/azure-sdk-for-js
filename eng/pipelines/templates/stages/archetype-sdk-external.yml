@@ -16,6 +16,12 @@ parameters:
   default: true
 - name: RepoId
   type: string
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
 
 stages:
 - stage: Build
