@@ -12,13 +12,8 @@ import {
   testHasChanged,
   stripNewLines
 } from "./utils";
-import {
-  NiseRecorder,
-  NockRecorder,
-  BaseRecorder,
-  setEnvironmentOnLoad,
-  setEnvironmentVariables
-} from "./baseRecorder";
+import { setEnvironmentVariables } from "./baseRecorder";
+import { createRecorder } from "./createRecorder";
 import MD5 from "md5";
 
 /**
@@ -109,7 +104,6 @@ export function record(
   testContext: TestContextInterface | Mocha.Context,
   recorderEnvironmentSetup: RecorderEnvironmentSetup
 ): Recorder {
-  let recorder: BaseRecorder;
   let testHierarchy: string;
   let testTitle: string;
 
@@ -138,13 +132,7 @@ export function record(
     testContext.skip();
   }
 
-  setEnvironmentOnLoad();
-
-  if (isBrowser()) {
-    recorder = new NiseRecorder(currentHash, testHierarchy, testTitle);
-  } else {
-    recorder = new NockRecorder(currentHash, testHierarchy, testTitle);
-  }
+  const recorder = createRecorder(currentHash, testHierarchy, testTitle);
 
   if (isRecordMode()) {
     // If TEST_MODE=record, invokes the recorder, hits the live-service,
