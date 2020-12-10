@@ -133,6 +133,26 @@
       "path": "sdk/storage/storage-queue"
     },
     {
+      "name": "synapse-access-control",
+      "path": "sdk/synapse/synapse-access-control"
+    },
+    {
+      "name": "synapse-artifacts",
+      "path": "sdk/synapse/synapse-artifacts"
+    },
+    {
+      "name": "synapse-managed-private-endpoints",
+      "path": "sdk/synapse/synapse-managed-private-endpoints"
+    },
+    {
+      "name": "synapse-monitoring",
+      "path": "sdk/synapse/synapse-monitoring"
+    },
+    {
+      "name": "synapse-spark",
+      "path": "sdk/synapse/synapse-spark"
+    },
+    {
       "name": "tables",
       "path": "sdk/tables/data-tables"
     },
