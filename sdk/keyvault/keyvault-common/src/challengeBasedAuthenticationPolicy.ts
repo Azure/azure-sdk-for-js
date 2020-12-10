@@ -205,7 +205,9 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     // Ensure that we're about to use a secure connection.
     if (!webResource.url.startsWith("https:")) {
-      throw new Error("The resource address for authorization must use the 'https' protocol.");
+      throw new Error(
+        `The resource address for authorization must use the 'https' protocol.: url:'${webResource.url}'`
+      );
     }
 
     // The next request will happen differently whether we have a challenge or not.
