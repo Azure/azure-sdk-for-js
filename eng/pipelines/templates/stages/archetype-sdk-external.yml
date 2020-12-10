@@ -14,6 +14,8 @@ parameters:
 - name: RunUnitTests
   type: boolean
   default: true
+- name: RepoId
+  type: string
 
 stages:
 - stage: Build
@@ -24,3 +26,16 @@ stages:
       Artifacts: ${{ parameters.Artifacts }}
       TestPipeline: ${{ parameters.TestPipeline }}
       RunUnitTests: ${{ parameters.RunUnitTests }}
+
+# The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
+- ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
+  - template: archetype-js-release.yml
+    parameters:
+      DependsOn: Build
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
+      Artifacts: ${{ parameters.Artifacts }}
+      TestPipeline: ${{ parameters.TestPipeline }}
+      ArtifactName: packages
+      TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+      TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
+      RepoId: ${{parameters.RepoId}}
