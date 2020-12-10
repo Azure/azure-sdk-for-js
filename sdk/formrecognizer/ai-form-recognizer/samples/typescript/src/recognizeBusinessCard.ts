@@ -77,6 +77,10 @@ export async function main() {
  * processing.
  */
 function printSimpleArrayField(businessCard: RecognizedForm, fieldName: string) {
+  if (businessCard.fields[fieldName] == null) {
+    return;
+  }
+
   const fieldValues = businessCard.fields[fieldName]?.value;
   if (Array.isArray(fieldValues)) {
     console.log(`${fieldName}:`);
