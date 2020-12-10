@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { SASPermissionsLike } from "../models";
+
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a container.
  * Setting a value to true means that any SAS which uses these permissions will grant permissions for that operation.
@@ -61,6 +63,50 @@ export class ContainerSASPermissions {
       }
     }
 
+    return containerSASPermissions;
+  }
+
+  /**
+   * Creates a {@link ContainerSASPermissions} from a raw object which contains same keys as it
+   * and boolean values for them.
+   *
+   * @static
+   * @param {SASPermissionsLike} permissionLike
+   * @returns {ContainerSASPermissions}
+   * @memberof ContainerSASPermissions
+   */
+  public static from(permissionLike: SASPermissionsLike): ContainerSASPermissions {
+    const containerSASPermissions = new ContainerSASPermissions();
+    if (permissionLike.read) {
+      containerSASPermissions.read = true;
+    }
+    if (permissionLike.add) {
+      containerSASPermissions.add = true;
+    }
+    if (permissionLike.create) {
+      containerSASPermissions.create = true;
+    }
+    if (permissionLike.write) {
+      containerSASPermissions.write = true;
+    }
+    if (permissionLike.delete) {
+      containerSASPermissions.delete = true;
+    }
+    if (permissionLike.list) {
+      containerSASPermissions.list = true;
+    }
+    if (permissionLike.deleteVersion) {
+      containerSASPermissions.deleteVersion = true;
+    }
+    if (permissionLike.tag) {
+      containerSASPermissions.tag = true;
+    }
+    if (permissionLike.move) {
+      containerSASPermissions.move = true;
+    }
+    if (permissionLike.execute) {
+      containerSASPermissions.execute = true;
+    }
     return containerSASPermissions;
   }
 

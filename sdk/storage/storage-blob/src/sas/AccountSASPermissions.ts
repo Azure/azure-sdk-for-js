@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { SASPermissionsLike } from "../models";
+
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -65,6 +67,53 @@ export class AccountSASPermissions {
       }
     }
 
+    return accountSASPermissions;
+  }
+
+  /**
+   * Creates a {@link AccountSASPermissions} from a raw object which contains same keys as it
+   * and boolean values for them.
+   *
+   * @static
+   * @param {SASPermissionsLike} permissionLike
+   * @returns {AccountSASPermissions}
+   * @memberof AccountSASPermissions
+   */
+  public static from(permissionLike: SASPermissionsLike): AccountSASPermissions {
+    const accountSASPermissions = new AccountSASPermissions();
+    if (permissionLike.read) {
+      accountSASPermissions.read = true;
+    }
+    if (permissionLike.write) {
+      accountSASPermissions.write = true;
+    }
+    if (permissionLike.delete) {
+      accountSASPermissions.delete = true;
+    }
+    if (permissionLike.deleteVersion) {
+      accountSASPermissions.deleteVersion = true;
+    }
+    if (permissionLike.filter) {
+      accountSASPermissions.filter = true;
+    }
+    if (permissionLike.tag) {
+      accountSASPermissions.tag = true;
+    }
+    if (permissionLike.list) {
+      accountSASPermissions.list = true;
+    }
+    if (permissionLike.add) {
+      accountSASPermissions.add = true;
+    }
+    if (permissionLike.create) {
+      accountSASPermissions.create = true;
+    }
+    if (permissionLike.update) {
+      accountSASPermissions.update = true;
+    }
+    if (permissionLike.process) {
+      accountSASPermissions.process = true;
+    }
     return accountSASPermissions;
   }
 

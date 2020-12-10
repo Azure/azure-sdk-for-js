@@ -50,6 +50,7 @@ export class AccountSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     filter: boolean;
+    static from(permissionLike: SASPermissionsLike): AccountSASPermissions;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
@@ -1006,6 +1007,7 @@ export class BlobSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    static from(permissionLike: SASPermissionsLike): BlobSASPermissions;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
@@ -1916,6 +1918,7 @@ export class ContainerSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    static from(permissionLike: SASPermissionsLike): ContainerSASPermissions;
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
@@ -2693,6 +2696,11 @@ export interface SasIPRange {
     end?: string;
     start: string;
 }
+
+// @public
+export type SASPermissionsLike = {
+    [K in "read" | "add" | "create" | "write" | "delete" | "deleteVersion" | "list" | "tag" | "move" | "execute" | "manageOwnership" | "manageAccessControl" | "update" | "process" | "filter"]?: boolean;
+};
 
 // @public
 export enum SASProtocol {

@@ -319,3 +319,26 @@ export interface BlobQueryArrowField {
    */
   scale?: number;
 }
+
+/**
+ * A type that looks like a SAS permission.
+ * Used in {@link BlobSASPermissions} {@link ContainerSASPermissions} and {@link AccountSASPermissions} to parse SAS permissions from raw objects.
+ */
+export type SASPermissionsLike = {
+  [K in
+    | "read"
+    | "add"
+    | "create"
+    | "write"
+    | "delete"
+    | "deleteVersion"
+    | "list"
+    | "tag"
+    | "move"
+    | "execute"
+    | "manageOwnership"
+    | "manageAccessControl"
+    | "update"
+    | "process"
+    | "filter"]?: boolean;
+};

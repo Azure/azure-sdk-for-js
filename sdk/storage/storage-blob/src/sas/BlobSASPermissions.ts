@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+import { SASPermissionsLike } from "../models";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -60,6 +61,47 @@ export class BlobSASPermissions {
       }
     }
 
+    return blobSASPermissions;
+  }
+
+  /**
+   * Creates a {@link BlobSASPermissions} from a raw object which contains same keys as it
+   * and boolean values for them.
+   *
+   * @static
+   * @param {SASPermissionsLike} permissionLike
+   * @returns {BlobSASPermissions}
+   * @memberof BlobSASPermissions
+   */
+  public static from(permissionLike: SASPermissionsLike): BlobSASPermissions {
+    const blobSASPermissions = new BlobSASPermissions();
+    if (permissionLike.read) {
+      blobSASPermissions.read = true;
+    }
+    if (permissionLike.add) {
+      blobSASPermissions.add = true;
+    }
+    if (permissionLike.create) {
+      blobSASPermissions.create = true;
+    }
+    if (permissionLike.write) {
+      blobSASPermissions.write = true;
+    }
+    if (permissionLike.delete) {
+      blobSASPermissions.delete = true;
+    }
+    if (permissionLike.deleteVersion) {
+      blobSASPermissions.deleteVersion = true;
+    }
+    if (permissionLike.tag) {
+      blobSASPermissions.tag = true;
+    }
+    if (permissionLike.move) {
+      blobSASPermissions.move = true;
+    }
+    if (permissionLike.execute) {
+      blobSASPermissions.execute = true;
+    }
     return blobSASPermissions;
   }
 
