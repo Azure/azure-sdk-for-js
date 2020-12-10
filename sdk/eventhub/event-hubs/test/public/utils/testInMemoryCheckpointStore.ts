@@ -6,13 +6,13 @@ import { generate_uuid } from "rhea-promise";
 
 /**
  * The `EventProcessor` relies on a `CheckpointStore` to store checkpoints and handle partition
- * ownerships. `InMemoryCheckpointStore` is simple partition manager that stores checkpoints and
- * partition ownerships in memory of your program.
+ * ownerships. `TestInMemoryCheckpointStore` is simple partition manager, copied from the production code `InMemoryCheckPointStore`
+ * for test purposes, that stores checkpoints and partition ownerships in memory of your program.
  *
  * You can use the `TestInMemoryCheckpointStore` to get started with using the `EventProcessor`.
  * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
- *
+ * Please note - this is only meant for use within the test and not in production code
  * @class
  * @internal
  * @ignore
