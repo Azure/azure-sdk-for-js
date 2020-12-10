@@ -194,7 +194,7 @@
    "query": {
     "api-version": "7.1"
    },
-   "requestBody": "{}",
+   "requestBody": null,
    "status": 200,
    "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/issuers/CRUDCertificateName-cancreatereadanddeleteacertificateissuer-\",\"provider\":\"Test\",\"credentials\":{\"account_id\":\"keyvaultuser\"},\"org_details\":{\"zip\":0,\"admin_details\":[{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"admin@microsoft.com\",\"phone\":\"4255555555\"}]},\"attributes\":{\"enabled\":true,\"created\":1593212169,\"updated\":1593212170}}",
    "responseHeaders": {
