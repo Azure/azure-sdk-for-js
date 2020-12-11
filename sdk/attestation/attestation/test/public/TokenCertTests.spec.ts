@@ -9,15 +9,14 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
+import { decodeString } from '../utils/base64';
 
 describe("TokenCertTests", function() {
   let recorder: Recorder;
-  let client: AttestationClient;
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
     recorder = createRecorder(this);
-    client = createRecordedClient("AAD");
   });
 
   afterEach(async function() {
@@ -25,8 +24,56 @@ describe("TokenCertTests", function() {
   });
 
   it("#GetCertificatesAAD", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("AAD");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
-  });
-});
+    for (var key of certs)
+    {
+      assert(key.x5C != null);
+      for (var cert in key.x5C)
+      {
+        var berCert = decodeString(cert);
+        console.log(berCert);
+
+      }
+    }
+    });
+    it("#GetCertificatesIsolated", async () => {
+      let client: AttestationClient;
+      client = createRecordedClient("Isolated");
+      const signingCertificates = await client.signingCertificates.get();
+      const certs = signingCertificates.keys!;
+      assert(certs.length > 0);
+      for (var key of certs)
+      {
+        assert(key.x5C != null);
+        for (var cert in key.x5C)
+        {
+          var berCert = decodeString(cert);
+          console.log(berCert);
+  
+        }
+      }
+      });
+
+      it("#GetCertificatesShared", async () => {
+        let client: AttestationClient;
+        client = createRecordedClient("Shared");
+        const signingCertificates = await client.signingCertificates.get();
+        const certs = signingCertificates.keys!;
+        assert(certs.length > 0);
+        for (var key of certs)
+        {
+          assert(key.x5C != null);
+          for (var cert in key.x5C)
+          {
+            var berCert = decodeString(cert);
+            console.log(berCert);
+    
+          }
+        }
+        });
+  
+    });
