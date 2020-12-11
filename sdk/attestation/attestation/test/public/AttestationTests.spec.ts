@@ -7,7 +7,11 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder, verifyAttestationToken } from "../utils/recordedClient";
+import {
+  createRecordedClient,
+  createRecorder,
+  verifyAttestationToken
+} from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 import { decodeString } from "../utils/base64";
 
@@ -130,8 +134,7 @@ describe("[AAD] Attestation Client", function() {
     });
 
     assert(attestationResult.token);
-    if (attestationResult?.token)
-    {
+    if (attestationResult?.token) {
       await verifyAttestationToken(attestationResult.token, client);
     }
   });
@@ -147,10 +150,8 @@ describe("[AAD] Attestation Client", function() {
       }
     });
 
-
     assert(attestationResult.token);
-    if (attestationResult?.token)
-    {
+    if (attestationResult?.token) {
       await verifyAttestationToken(attestationResult.token, client);
     }
   });
@@ -168,10 +169,8 @@ describe("[AAD] Attestation Client", function() {
     });
 
     assert(attestationResult.token);
-    if (attestationResult?.token)
-    {
+    if (attestationResult?.token) {
       await verifyAttestationToken(attestationResult.token, client);
     }
-
   });
 });

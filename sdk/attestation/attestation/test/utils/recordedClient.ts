@@ -13,7 +13,7 @@ import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-uti
 import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
 
 import { decode } from "jsonwebtoken";
-import { decodeString } from './base64';
+import { decodeString } from "./base64";
 
 dotenv.config();
 
@@ -80,38 +80,31 @@ export async function verifyAttestationToken(
   attestationToken: string,
   client: AttestationClient
 ): Promise<any | undefined> {
-  var decoded = decode(attestationToken,  { complete: true, json: true });
-  
+  var decoded = decode(attestationToken, { complete: true, json: true });
+
   assert(decoded);
   var keyId;
-  if (decoded?.header)
-  {
-    assert(decoded.header.alg != 'none');
-    assert(decoded.header.typ == 'JWT');
-    assert(decoded.header.jku == client.instanceUrl+"/certs");
+  if (decoded?.header) {
+    assert(decoded.header.alg != "none");
+    assert(decoded.header.typ == "JWT");
+    assert(decoded.header.jku == client.instanceUrl + "/certs");
     keyId = decoded.header.kid;
   }
 
   var signingCerts = await client.signingCertificates.get();
   var signingCertx5C;
-  if (signingCerts?.keys)
-  {
+  if (signingCerts?.keys) {
     assert(signingCerts.keys?.length > 0);
-    for (var key of signingCerts.keys)
-    {
-      if (key.kid == keyId)
-      {
+    for (var key of signingCerts.keys) {
+      if (key.kid == keyId) {
         signingCertx5C = key.x5C;
       }
     }
-    if (signingCertx5C != null)
-    {
-      var berCertificate = decodeString(signingCertx5C[0])
+    if (signingCertx5C != null) {
+      var berCertificate = decodeString(signingCertx5C[0]);
       console.log(berCertificate);
     }
   }
 
-
   return decoded?.payload;
 }
-

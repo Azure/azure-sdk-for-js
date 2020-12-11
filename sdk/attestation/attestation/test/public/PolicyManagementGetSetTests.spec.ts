@@ -7,8 +7,12 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder, verifyAttestationToken } from "../utils/recordedClient";
-import { AttestationClient } from '../../src';
+import {
+  createRecordedClient,
+  createRecorder,
+  verifyAttestationToken
+} from "../utils/recordedClient";
+import { AttestationClient } from "../../src";
 
 describe("PolicyManagementTests ", function() {
   let recorder: Recorder;
@@ -23,20 +27,18 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#GetPolicyManagementCertificatesAad", async () => {
-    let client : AttestationClient;
+    let client: AttestationClient;
     client = createRecordedClient("AAD");
-    
+
     const policyResult = await client.policyCertificates.get();
     const result = policyResult.token;
     assert(result);
-    if (result)
-    {
+    if (result) {
       var tokenResult = await verifyAttestationToken(result, client);
       assert(tokenResult != null);
-      if (tokenResult)
-      {
+      if (tokenResult) {
         console.log(tokenResult);
-        var tokenKeys = tokenResult['x-ms-policy-certificates'];
+        var tokenKeys = tokenResult["x-ms-policy-certificates"];
         console.log(tokenKeys);
 
         assert(tokenKeys.keys.length == 0);
@@ -45,20 +47,18 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#GetPolicyShared", async () => {
-    let client : AttestationClient;
+    let client: AttestationClient;
     client = createRecordedClient("Shared");
     const policyResult = await client.policyCertificates.get();
 
     const result = policyResult.token;
     assert(result);
-    if (result)
-    {
+    if (result) {
       var tokenResult = await verifyAttestationToken(result, client);
       assert(tokenResult != null);
-      if (tokenResult)
-      {
+      if (tokenResult) {
         console.log(tokenResult);
-        var tokenKeys = tokenResult['x-ms-policy-certificates'];
+        var tokenKeys = tokenResult["x-ms-policy-certificates"];
         console.log(tokenKeys);
 
         assert(tokenKeys.keys.length == 0);
@@ -67,20 +67,18 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#GetPolicyIsolated", async () => {
-    let client : AttestationClient;
+    let client: AttestationClient;
     client = createRecordedClient("Isolated");
     const policyResult = await client.policyCertificates.get();
 
     const result = policyResult.token;
     assert(result);
-    if (result)
-    {
+    if (result) {
       var tokenResult = await verifyAttestationToken(result, client);
       assert(tokenResult != null);
-      if (tokenResult)
-      {
+      if (tokenResult) {
         console.log(tokenResult);
-        var tokenKeys = tokenResult['x-ms-policy-certificates'];
+        var tokenKeys = tokenResult["x-ms-policy-certificates"];
         console.log(tokenKeys);
 
         // The isolated client has a single management client, unlike the others.

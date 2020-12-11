@@ -9,7 +9,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
-import { decodeString } from '../utils/base64';
+import { decodeString } from "../utils/base64";
 
 describe("TokenCertTests", function() {
   let recorder: Recorder;
@@ -29,51 +29,41 @@ describe("TokenCertTests", function() {
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
-    for (var key of certs)
-    {
+    for (var key of certs) {
       assert(key.x5C != null);
-      for (var cert in key.x5C)
-      {
+      for (var cert in key.x5C) {
         var berCert = decodeString(cert);
         console.log(berCert);
-
       }
     }
-    });
-    it("#GetCertificatesIsolated", async () => {
-      let client: AttestationClient;
-      client = createRecordedClient("Isolated");
-      const signingCertificates = await client.signingCertificates.get();
-      const certs = signingCertificates.keys!;
-      assert(certs.length > 0);
-      for (var key of certs)
-      {
-        assert(key.x5C != null);
-        for (var cert in key.x5C)
-        {
-          var berCert = decodeString(cert);
-          console.log(berCert);
-  
-        }
+  });
+  it("#GetCertificatesIsolated", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Isolated");
+    const signingCertificates = await client.signingCertificates.get();
+    const certs = signingCertificates.keys!;
+    assert(certs.length > 0);
+    for (var key of certs) {
+      assert(key.x5C != null);
+      for (var cert in key.x5C) {
+        var berCert = decodeString(cert);
+        console.log(berCert);
       }
-      });
+    }
+  });
 
-      it("#GetCertificatesShared", async () => {
-        let client: AttestationClient;
-        client = createRecordedClient("Shared");
-        const signingCertificates = await client.signingCertificates.get();
-        const certs = signingCertificates.keys!;
-        assert(certs.length > 0);
-        for (var key of certs)
-        {
-          assert(key.x5C != null);
-          for (var cert in key.x5C)
-          {
-            var berCert = decodeString(cert);
-            console.log(berCert);
-    
-          }
-        }
-        });
-  
-    });
+  it("#GetCertificatesShared", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Shared");
+    const signingCertificates = await client.signingCertificates.get();
+    const certs = signingCertificates.keys!;
+    assert(certs.length > 0);
+    for (var key of certs) {
+      assert(key.x5C != null);
+      for (var cert in key.x5C) {
+        var berCert = decodeString(cert);
+        console.log(berCert);
+      }
+    }
+  });
+});
