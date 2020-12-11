@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { HttpRequestBody, isNode, TokenCredential, URLQuery } from "@azure/core-http";
+import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/api";
 import { Readable } from "stream";
@@ -946,16 +946,11 @@ export class DataLakePathClient extends StorageClient {
       const renameDestination = `/${destinationFileSystem}/${split[0]}`;
       destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
       destinationUrl = setURLQueries(destinationUrl, split[1]);
-    } else {
+    } else if (split.length === 1) {
       const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
       destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
-      // If the source is authenticating using SAS while the destination doesn't have a SAS, fallback to use the source's SAS on the destination
-      if (!!sourceQueryString) {
-        let sourceQuery = URLQuery.parse(sourceQueryString);
-        sourceQuery.set("snapshot", undefined);
-        sourceQuery.set("versionid", undefined);
-        destinationUrl = setURLQueries(destinationUrl, sourceQuery.toString());
-      }
+    } else {
+      throw new RangeError("Source path should not contain more than one query string");
     }
 
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
