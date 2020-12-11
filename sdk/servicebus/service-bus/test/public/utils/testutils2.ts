@@ -20,8 +20,8 @@ import {
   verifyMessageCount
 } from "./managementUtils";
 import chai from "chai";
-import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/serviceBusMessage";
-import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../../src/models";
+import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src";
+import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../../src";
 
 dotenv.config();
 const env = getEnvVars();
