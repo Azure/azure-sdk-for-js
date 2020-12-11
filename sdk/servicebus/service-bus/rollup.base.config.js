@@ -68,9 +68,9 @@ export function nodeConfig({ test = false, production = false } = {}) {
   if (test) {
     // entry point is every test file
     baseConfig.input = [
-      "dist-esm/service-bus/test/internal/*.spec.js",
-      "dist-esm/service-bus/test/node/*.spec.js",
-      "dist-esm/service-bus/test/*.spec.js"
+      "dist-esm/service-bus/test/internal/**/*.spec.js",
+      "dist-esm/service-bus/test/internal/node/*.spec.js",
+      "dist-esm/service-bus/test/public/**/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
