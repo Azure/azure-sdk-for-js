@@ -7,7 +7,7 @@ import {
   isKeyCredential,
   CommunicationUser
 } from "@azure/communication-common";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -60,7 +60,17 @@ export class CommunicationIdentityClient {
     credential: KeyCredential,
     options?: CommunicationIdentityOptions
   );
-
+  /**
+   * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
+   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
+   * @param credential An object that is used to authenticate requests to the service. Use the TokenCredential.
+   * @param options Optional. Options to configure the HTTP pipeline.
+   */
+  public constructor(
+    url: string,
+    credential: TokenCredential,
+    options?: CommunicationIdentityOptions
+  );
   /**
    * Creates an instance of CommunicationIdentity.
    *
@@ -70,7 +80,7 @@ export class CommunicationIdentityClient {
    */
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions,
+    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
     maybeOptions: CommunicationIdentityOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
