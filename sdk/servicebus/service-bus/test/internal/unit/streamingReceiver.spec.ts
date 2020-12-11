@@ -4,13 +4,13 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { ProcessErrorArgs } from "../../src";
-import { ReceiveMode } from "../../src/models";
-import { StreamingReceiver } from "../../src/core/streamingReceiver";
+import { ProcessErrorArgs } from "../../../src";
+import { ReceiveMode } from "../../../src/models";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants, MessagingError, RetryConfig, RetryMode } from "@azure/core-amqp";
-import { createAndInitStreamingReceiverForTest } from "../utils/testUtils";
+import { createAndInitStreamingReceiverForTest } from "../../public/utils/testUtils";
 import { AbortError } from "@azure/abort-controller";
 
 chai.use(chaiAsPromised);
