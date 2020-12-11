@@ -16,7 +16,7 @@ One scenario is building an HTTP-based service that accepts events as part of an
 | **File Name**                     | **Description**                                                                                                                |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | [asyncBatchingProducer.ts][eventproducer] | Demonstrates how the send() function can be used to send events to an Event Hub instance. Support batch send and time trigger. |
-| [index.ts][index]                 | Express Http server entry point. Receive http payload and use eventProducer to ingest payload to eventHub.                     |
+| [index.ts][index]                 | Express Http server entry point. Receive http payload and use AsyncBatchingProducer to ingest payload to eventHub.                     |
 
 ## Prerequisites
 
