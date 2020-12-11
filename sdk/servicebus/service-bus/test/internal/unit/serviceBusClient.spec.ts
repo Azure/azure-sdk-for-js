@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
+import { extractReceiverArguments, ServiceBusClient } from "../../../src/serviceBusClient";
 import chai from "chai";
-import { ServiceBusSessionReceiverOptions } from "../../src/models";
-import { entityPathMisMatchError } from "../../src/util/errors";
+import { ServiceBusSessionReceiverOptions } from "../../../src/models";
+import { entityPathMisMatchError } from "../../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
   createConnectionContextForTokenCredential
-} from "../../src/constructorHelpers";
+} from "../../../src/constructorHelpers";
 import { TokenCredential } from "@azure/core-http";
-import { ConnectionContext } from "../../src/connectionContext";
+import { ConnectionContext } from "../../../src/connectionContext";
 import { createConnectionContextForTestsWithSessionId } from "./unittestUtils";
 import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl
-} from "../../src/receivers/sessionReceiver";
+} from "../../../src/receivers/sessionReceiver";
 import { AbortController } from "@azure/abort-controller";
 const assert = chai.assert;
 
