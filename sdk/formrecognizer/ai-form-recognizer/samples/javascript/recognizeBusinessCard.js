@@ -73,7 +73,7 @@ async function main() {
  * processing.
  */
 function printSimpleArrayField(businessCard, fieldName) {
-  if (businessCard.fields[fieldName] == null) {
+  if (!businessCard.fields[fieldName]) {
     return;
   }
 
