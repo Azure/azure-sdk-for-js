@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
@@ -11,8 +10,6 @@ import {
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } from "../../../src";
-
-dotenv.config();
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
