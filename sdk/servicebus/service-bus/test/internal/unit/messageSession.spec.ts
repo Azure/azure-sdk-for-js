@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { MessageSession } from "../../src/session/messageSession";
+import { MessageSession } from "../../../src/session/messageSession";
 import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
@@ -18,10 +18,10 @@ import {
   Message as RheaMessage,
   SessionEvents
 } from "rhea-promise";
-import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
-import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ProcessErrorArgs } from "../../src";
-import { ReceiveMode } from "../../src/models";
+import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
+import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+import { ProcessErrorArgs } from "../../../src";
+import { ReceiveMode } from "../../../src/models";
 import { Constants } from "@azure/core-amqp";
 
 chai.use(chaiAsPromised);

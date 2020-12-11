@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents } from "rhea-promise";
-import { ReceiverHelper } from "../../src/core/receiverHelper";
+import { ReceiverHelper } from "../../../src/core/receiverHelper";
 import { createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;

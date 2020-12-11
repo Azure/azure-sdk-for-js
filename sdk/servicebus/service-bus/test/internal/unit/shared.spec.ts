@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getMessageIterator, wrapProcessErrorHandler } from "../../src/receivers/shared";
+import { getMessageIterator, wrapProcessErrorHandler } from "../../../src/receivers/shared";
 import chai from "chai";
-import { ServiceBusReceiver } from "../../src/receivers/receiver";
-import { ServiceBusLogger } from "../../src/log";
-import { ProcessErrorArgs } from "../../src/models";
-import { ServiceBusError, translateServiceBusError } from "../../src/serviceBusError";
+import { ServiceBusReceiver } from "../../../src/receivers/receiver";
+import { ServiceBusLogger } from "../../../src/log";
+import { ProcessErrorArgs } from "../../../src/models";
+import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
 import { MessagingError } from "@azure/core-amqp";
 const assert = chai.assert;
 

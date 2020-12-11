@@ -7,18 +7,18 @@ import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { StreamingReceiver } from "../../src/core/streamingReceiver";
-import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { BatchingReceiver } from "../../../src/core/batchingReceiver";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { InternalMessageHandlers } from "../../src/models";
-import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
+import { InternalMessageHandlers } from "../../../src/models";
+import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { MessageSession } from "../../src/session/messageSession";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
+import { MessageSession } from "../../../src/session/messageSession";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {

@@ -6,7 +6,7 @@ import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { createServiceBusLogger } from "../../src/log";
+import { createServiceBusLogger } from "../../../src/log";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseServiceBusConnectionString } from "../../src/util/connectionStringUtils";
+import { parseServiceBusConnectionString } from "../../../src/util/connectionStringUtils";
 import chai from "chai";
 
 const assert = chai.assert;

@@ -11,15 +11,15 @@ import {
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject
-} from "../../src/util/atomXmlHelper";
-import * as Constants from "../../src/util/constants";
-import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
-import { QueueResourceSerializer } from "../../src/serializers/queueResourceSerializer";
+} from "../../../src/util/atomXmlHelper";
+import * as Constants from "../../../src/util/constants";
+import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
+import { QueueResourceSerializer } from "../../../src/serializers/queueResourceSerializer";
 import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
-import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionResourceSerializer } from "../../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../../src/serializers/ruleResourceSerializer";
-import { getXMLNSPrefix, isJSONLikeObject } from "../../src/util/utils";
+import { TopicResourceSerializer } from "../../../src/serializers/topicResourceSerializer";
+import { SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
+import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
+import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
 
 const queueProperties = [
   Constants.LOCK_DURATION,

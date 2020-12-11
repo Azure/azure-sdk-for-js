@@ -8,24 +8,24 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage
-} from "../../src/serviceBusMessage";
+} from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
   createProcessingSpan,
   instrumentServiceBusMessage,
   TRACEPARENT_PROPERTY
-} from "../../src/diagnostics/instrumentServiceBusMessage";
-import { OperationOptionsBase, trace } from "../../src/modelsToBeSharedWithEventHubs";
-import { setTracerForTest } from "../utils/misc";
+} from "../../../src/diagnostics/instrumentServiceBusMessage";
+import { OperationOptionsBase, trace } from "../../../src/modelsToBeSharedWithEventHubs";
+import { setTracerForTest } from "../../public/utils/misc";
 import { SpanKind } from "@opentelemetry/api";
-import { BatchingReceiverLite } from "../../src/core/batchingReceiver";
+import { BatchingReceiverLite } from "../../../src/core/batchingReceiver";
 import { Receiver } from "rhea-promise";
 import { createConnectionContextForTests } from "./unittestUtils";
 import sinon from "sinon";
-import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { OnMessage } from "../../src/core/messageReceiver";
-import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { MessageSession } from "../../src/session/messageSession";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
+import { OnMessage } from "../../../src/core/messageReceiver";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
+import { MessageSession } from "../../../src/session/messageSession";
 const should = chai.should();
 const assert = chai.assert;
 

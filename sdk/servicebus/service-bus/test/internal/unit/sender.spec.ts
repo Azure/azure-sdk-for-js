@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
-import { ConnectionContext } from "../../src/connectionContext";
-import { ServiceBusMessage } from "../../src";
-import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
+import { ConnectionContext } from "../../../src/connectionContext";
+import { ServiceBusMessage } from "../../../src";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { PartitionKeySessionIdMismatchError } from "../../src/util/errors";
+import { PartitionKeySessionIdMismatchError } from "../../../src/util/errors";
 
 const assert = chai.assert;
 

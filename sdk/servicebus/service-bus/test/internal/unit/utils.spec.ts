@@ -5,7 +5,7 @@ import {
   checkAndRegisterWithAbortSignal,
   waitForTimeoutOrAbortOrResolve,
   StandardAbortMessage
-} from "../../src/util/utils";
+} from "../../../src/util/utils";
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
 import chai from "chai";
@@ -13,8 +13,8 @@ import chaiAsPromised from "chai-as-promised";
 import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY
-} from "../../src/diagnostics/instrumentServiceBusMessage";
-import { ServiceBusReceivedMessage } from "../../src";
+} from "../../../src/diagnostics/instrumentServiceBusMessage";
+import { ServiceBusReceivedMessage } from "../../../src";
 import { TraceFlags } from "@opentelemetry/api";
 chai.use(chaiAsPromised);
 const assert = chai.assert;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionContext } from "../../src/connectionContext";
+import { ConnectionContext } from "../../../src/connectionContext";
 import {
   AwaitableSender,
   Receiver as RheaReceiver,
@@ -11,7 +11,7 @@ import {
 import { Constants } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "events";
-import { getUniqueName } from "../../src/util/utils";
+import { getUniqueName } from "../../../src/util/utils";
 import { Link } from "rhea-promise/typings/lib/link";
 
 export interface CreateConnectionContextForTestsOptions {

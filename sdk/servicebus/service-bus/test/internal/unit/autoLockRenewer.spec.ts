@@ -7,8 +7,8 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 import * as sinon from "sinon";
-import { LockRenewer } from "../../src/core/autoLockRenewer";
-import { ManagementClient, SendManagementRequestOptions } from "../../src/core/managementClient";
+import { LockRenewer } from "../../../src/core/autoLockRenewer";
+import { ManagementClient, SendManagementRequestOptions } from "../../../src/core/managementClient";
 import { getPromiseResolverForTest } from "./unittestUtils";
 
 describe("autoLockRenewer unit tests", () => {

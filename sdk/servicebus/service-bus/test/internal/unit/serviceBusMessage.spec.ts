@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import {
   Delivery,
   uuid_to_string,

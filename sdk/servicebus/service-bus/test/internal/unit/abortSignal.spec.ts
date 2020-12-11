@@ -14,13 +14,13 @@ import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal
-} from "../../utils/abortSignalTestUtils";
+} from "../../public/utils/abortSignalTestUtils";
 import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
 import { StandardAbortMessage } from "../../../src/util/utils";
-import { isLinkLocked } from "../../utils/misc";
+import { isLinkLocked } from "../../public/utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { MessageSession } from "../../../src/session/messageSession";
