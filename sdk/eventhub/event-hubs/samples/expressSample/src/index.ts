@@ -34,7 +34,7 @@ app.post("/ingest", async (req, res) => {
   res.send(`ingested event. requestId: ${requestId}`);
 });
 
-// enable timeTrigger for eventHub.
+// Enable sending events to an Event Hub based on the maxWaitTimeInSeconds and maxBatchSize.
 eventProducer.start();
 
 app.listen(port, () => {
