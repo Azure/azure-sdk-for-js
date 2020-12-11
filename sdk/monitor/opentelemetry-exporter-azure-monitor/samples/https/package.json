@@ -33,7 +33,7 @@
     "cross-env": "^7.0.2"
   },
   "dependencies": {
-    "@microsoft/opentelemetry-exporter-azure-monitor": "latest",
+    "@azure/opentelemetry-exporter-azure-monitor": "latest",
     "@opentelemetry/api": "latest",
     "@opentelemetry/core": "latest",
     "@opentelemetry/node": "latest",
