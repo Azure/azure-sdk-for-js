@@ -4,13 +4,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import chalk from "chalk";
+import path from "path";
 
 const printModes = ["info", "warn", "error", "success", "debug"] as const;
 
 export type Fn<T = void> = (...values: any[]) => T;
 export type ModeMap<T> = { [k in typeof printModes[number]]: T };
 
-const DEV_TOOL_PATH = __dirname.split("dev-tool")[0];
+// Compute the base directory of the dev-tool command package
+// We must do this specially for the printer module because using
+// the package resolution function from the utils/resolveProject
+// module would create a difficult circular dependency.
+const DEV_TOOL_PATH = (() => {
+  const directoryFragment = path.sep + "dev-tool" + path.sep;
+  const parts = __dirname.split(directoryFragment);
+  // There might be "/dev-tool/" somewhere higher in the path, so
+  // we will slice the end off of this array and re-join with "/dev-tool/"
+  // to get the full directory part
+  const baseDirectoryParts = parts.slice(0, -1);
+  // Adding path.sep at the end makes the debug output a little cleaner by removing a leading "/"
+  return path.resolve(baseDirectoryParts.join(directoryFragment) + directoryFragment) + path.sep;
+})();
 
 /**
  * The interface that describes the Printer produced by {@link createPrinter}
