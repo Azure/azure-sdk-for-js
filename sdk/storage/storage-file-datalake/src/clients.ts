@@ -936,9 +936,13 @@ export class DataLakePathClient extends StorageClient {
     // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
     // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
     const sourceQueryString = getURLQueryString(this.dfsEndpointUrl);
+    const encodedPathName = this.name
+      .split("/")
+      .map((segment) => encodeURIComponent(segment))
+      .join("/");
     const renameSource = !!sourceQueryString
-      ? `/${this.fileSystemName}/${encodeURIComponent(this.name)}?${sourceQueryString}`
-      : `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
+      ? `/${this.fileSystemName}/${encodedPathName}?${sourceQueryString}`
+      : `/${this.fileSystemName}/${encodedPathName}`;
 
     const split: string[] = destinationPath.split("?");
     let destinationUrl: string;
