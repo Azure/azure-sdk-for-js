@@ -21,7 +21,18 @@ npm install @azure/synapse-spark
 
 ## Examples
 
-In the future, we will share samples here.
+```ts
+import { SparkClient } from "@azure/synapse-spark";
+import { DefaultAzureCredential } from "@azure/identity";
+
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+
+  let client = new SparkClient(credential, "https://mysynapse.dev.azuresynapse.net", "mysparkpool");
+  let output = await client.sparkBatch.getSparkBatchJobs();
+  console.log("output:", output);
+}
+```
 
 ## Related projects
 

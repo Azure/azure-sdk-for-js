@@ -5,7 +5,7 @@
 
 import { assert } from "chai";
 
-import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient } from "../utils/recordedClient";
 import {
@@ -538,7 +538,6 @@ describe("[AAD] TextAnalyticsClient", function() {
 
       if (result.error === undefined) {
         assert.fail("Expected an error from the service");
-        return;
       }
 
       assert.equal(result.error.code, "UnsupportedLanguageCode");
@@ -768,7 +767,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   describe("#analyze", () => {
     let pollingInterval = 2000;
-    if (isRecordMode() || process.env.TEST_MODE === "live") {
+    if (isRecordMode() || isLiveMode()) {
       // eslint-disable-next-line no-invalid-this
       this.timeout(1000000);
     } else {

@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "stream": "./node_modules/stream-browserify/index.js",
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
   "types": "types/template.d.ts",
