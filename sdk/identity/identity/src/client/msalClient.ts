@@ -48,6 +48,11 @@ export interface AuthenticationRecord {
   tenantId: string;
 
   /**
+   * Local, tenant-specific account identifer for this account object, usually used in legacy cases
+   */
+  localAccountId: string;
+
+  /**
    * The username of the logged in account
    */
   username: string;

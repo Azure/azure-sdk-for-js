@@ -3,7 +3,7 @@
 
 import { replaceAll } from "./util/utils";
 
-export { URL, URLSearchParams } from "./util/url";
+export { URL } from "./util/url";
 
 type URLQueryParseState = "ParameterName" | "ParameterValue";
 

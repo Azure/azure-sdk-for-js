@@ -11,7 +11,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc",
-    "build:test": "echo skipped",
+    "build:test": "echo Skipped.",
     "clean": "rimraf dist dist-* *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write src/**/*.ts test/**/*.ts *.{js,json}",
@@ -64,8 +64,6 @@
     "mocha": "^7.1.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "rollup-plugin-node-builtins": "~2.1.2",
-    "rollup-plugin-node-globals": "~1.4.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-visualizer": "^4.0.4"
   }
