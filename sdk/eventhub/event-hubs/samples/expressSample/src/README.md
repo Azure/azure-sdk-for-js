@@ -10,7 +10,8 @@ urlFragment: event-hubs-typescript-express-node
 
 # Azure Event Hubs client library express samples for Typescript
 
-This sample programs show how to use the JavaScript client libraries for Azure Event Hubs to send events in the node express framework. Classical scenairo is building an async web service to server http payload and ingest event into downstream eventHub.
+This sample programs show how to use the JavaScript client libraries for Azure Event Hubs to send events in the node express framework.
+One scenario is building an HTTP-based service that accepts events as part of an HTTP request, then transforms and sends those events into a downstream Event Hub.
 
 | **File Name**                     | **Description**                                                                                                                |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
