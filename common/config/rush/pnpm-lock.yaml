@@ -943,7 +943,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 10.17.13
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -2166,6 +2166,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=
+  /csv-parse/4.14.1:
+    dev: false
+    resolution:
+      integrity: sha512-4wmcO7QbWtDAncGFaBwlWFPhEN4Akr64IbM4zvDwEOFekI8blLc04Nw7XjQjtSNy+3AUAgBgtUa9nWo5Cq89Xg==
   /currently-unhandled/0.4.1:
     dependencies:
       array-find-index: 1.0.2
@@ -8077,6 +8081,7 @@ packages:
       '@types/node': 8.10.66
       chai: 4.2.0
       cross-env: 7.0.3
+      csv-parse: 4.14.1
       dotenv: 8.2.0
       eslint: 6.8.0
       inherits: 2.0.4
@@ -8107,7 +8112,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-qjzItDLXUHlLKZzcra/vMaMhnIZHe3sugsqjNB9aLGc1LUopD2Og1hWhs2vYE/wi3WCkmh0IlaaYhUGXogkRsg==
+      integrity: sha512-k1E8c1E8NN/DNnaZNOXEkZ2TtnF4Uvkm/b4ig5KrMcaCNZAznm3eqKMWyBTM/Cv8OB1WdOByzjI3bm9cmycoig==
       tarball: 'file:projects/ai-anomaly-detector.tgz'
     version: 0.0.0
   'file:projects/ai-form-recognizer.tgz':
@@ -9030,7 +9035,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-qbwi39GDaiRX9f2cbz/O7V1iMJl2b04wm5mI4iS8nGYHPqlAc+khzpVAGa9D0v+3KhhoLblXzYrl4Hgko7ZLCA==
+      integrity: sha512-7uhZYVpDMNLv0OdiE+jNnD0j1wO9uR//PCYyOz6ewsWVdwpx371hHk44VrW1NNolEQO2W6X6aa7n9LwtSGZPWw==
       tarball: 'file:projects/data-tables.tgz'
     version: 0.0.0
   'file:projects/dev-tool.tgz':
@@ -9271,7 +9276,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-PcBX08laNi3E9cryiwiRVA6JiXzY/Es/vJL3PpOpmdAXqX5FDTrzjbdD2/3UTYbttp3ESd1ltmkJod8oShXhbA==
+      integrity: sha512-7k+2oZ5nflUg8GiQstHziGcBobelWEkHG56zanKSPSZ7OcY6/if3/TgraBEfAc679RLczKvd2YL5sNlK+LiM8g==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventgrid.tgz':
@@ -9385,7 +9390,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-GMcma24M4rw0qyWbX1Rj+B3oKVwLea0iC1GBw2658ZWs4iQcBtXfyGc30W36kBiEGJQKOkaT4enXt8X1Ysklxg==
+      integrity: sha512-n/DxtKXsvNmNY6SVfbFH+WAxbDIgGoAh3cdR7ZrFHSWDmAz3+9zuvtX+9oml6lgvKo/mHYZZKjGWGTRVgMTHOw==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
