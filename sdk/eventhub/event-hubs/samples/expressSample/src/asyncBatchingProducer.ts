@@ -1,3 +1,17 @@
+/**
+  Copyright (c) Microsoft Corporation.
+  Licensed under the MIT Licence.  
+  
+  This sample demonstrates a strategy for creating and sending
+  batches of events to Event Hubs.
+  
+  The AsyncBatchingProducer optimizes for creating the fewest
+  number of batches possible while sending events.
+  It supports setting thresholds for both the maximum number of
+  events allowed per batch, and the maximum amount of time
+  between sending batches.
+*/
+
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventData, EventDataBatch, EventHubProducerClient } from "@azure/event-hubs";
 
