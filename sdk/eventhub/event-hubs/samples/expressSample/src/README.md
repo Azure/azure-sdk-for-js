@@ -40,7 +40,7 @@ npm install
 npm run build
 ```
 
-3. Serve the node service on http://localhost:8080:
+3. Start the node service on http://localhost:8080:
 
 ```bash
 npm start
