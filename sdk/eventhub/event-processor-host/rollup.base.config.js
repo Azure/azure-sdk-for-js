@@ -6,7 +6,6 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
-import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
 
 import path from "path";
@@ -29,12 +28,12 @@ export function nodeConfig(test = false) {
         delimiters: ["", ""],
         // replace dynamic checks with if (true) since this is for node only.
         // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+        "if (isNode)": "if (true)",
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs(),
-      json()
-    ]
+      json(),
+    ],
   };
 
   baseConfig.external.push("crypto", "path");
@@ -66,8 +65,6 @@ export function nodeConfig(test = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.plugins.push(uglify());
   }
 
   return baseConfig;
@@ -82,7 +79,7 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
-      globals: { "ms-rest-js": "msRest" }
+      globals: { "ms-rest-js": "msRest" },
     },
     preserveSymlinks: false,
     plugins: [
@@ -94,18 +91,18 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
+          "if (isNode)": "if (false)",
         }
       ),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] }
+        namedExports: { events: ["EventEmitter"] },
       }),
-      json()
-    ]
+      json(),
+    ],
   };
 
   if (test) {
@@ -117,8 +114,6 @@ export function browserConfig(test = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
-  } else if (production) {
-    baseConfig.plugins.push(uglify());
   }
 
   return baseConfig;
