@@ -6,26 +6,26 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { MessageSender } from "../../src/";
-import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
+import { MessageSender } from "../../../src/core/messageSender";
+import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs";
 import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
-import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
-import { StreamingReceiver } from "../../src/core/streamingReceiver";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal
-} from "../utils/abortSignalTestUtils";
+} from "../../utils/abortSignalTestUtils";
 import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { StandardAbortMessage } from "../../src/util/utils";
-import { isLinkLocked } from "../utils/misc";
-import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
-import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { MessageSession } from "../../src/session/messageSession";
-import { ProcessErrorArgs } from "../../src";
-import { ReceiveMode } from "../../src/models";
+import { StandardAbortMessage } from "../../../src/util/utils";
+import { isLinkLocked } from "../../utils/misc";
+import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
+import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
+import { MessageSession } from "../../../src/session/messageSession";
+import { ProcessErrorArgs } from "../../../src";
+import { ReceiveMode } from "../../../src/models";
 
 describe("AbortSignal", () => {
   const defaultOptions = {
