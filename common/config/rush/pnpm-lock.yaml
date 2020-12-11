@@ -778,7 +778,7 @@ packages:
       integrity: sha512-1zzPV9FDe1I/WHhRkf9SNgqtRJWZqrBWgu7JGveuHmmyR9CnAPCie2N/x+iHrgnpYBIcCJWHBoMRv2TRWktsvw==
   /@types/connect/3.4.34:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 10.17.13
     dev: false
     resolution:
       integrity: sha512-ePPA/JuI+X0vb+gSWlPKOY0NdNAie/rPUqX2GUPpbZwiKTkSPhjXWuee47E4MtE54QVzGCQMQkAL6JhV2E1+cQ==
@@ -943,7 +943,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 10.17.13
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -1016,7 +1016,7 @@ packages:
       integrity: sha512-jfcNBxHFYJ4nPIacsi3woz1+kvUO6s1CyeEhtnDHBjHUMNj5UlW2GynmnSgiJJEdNg9yW5C8lfoNRZrHGv5EqA==
   /@types/yauzl/2.9.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 10.17.13
     dev: false
     optional: true
     resolution:
@@ -8689,8 +8689,6 @@ packages:
       '@types/tunnel': 0.0.1
       '@types/uuid': 8.3.0
       '@types/xml2js': 0.4.7
-      '@typescript-eslint/eslint-plugin': 4.9.1_627665e6b1e05c18bd385e4eb529224b
-      '@typescript-eslint/parser': 4.9.1_eslint@6.8.0+typescript@4.1.2
       babel-runtime: 6.26.0
       chai: 4.2.0
       cross-env: 7.0.3
@@ -8735,7 +8733,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-fX8l1Eoxw3jyfNhDyUgmTi81aI3Rwat0NAf5Kvdid267F3dQydeOCNkcN1U2bGGkuXGziBW2K7uULIKu5W212Q==
+      integrity: sha512-JrQQBo7QwsYC/GGRXY5S+9gdy5ldhwxJBBs9Y/n8dUY33o1BAuJhfrz73lD4YpmBcrhGtIRjk5/iRlk3Pfp2ZA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
