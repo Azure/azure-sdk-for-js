@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { MessagingError, ServiceBusError, ServiceBusErrorCode } from "../src";
+import { MessagingError, ServiceBusError, ServiceBusErrorCode } from "../../src";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
