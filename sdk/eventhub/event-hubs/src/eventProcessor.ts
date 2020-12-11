@@ -409,7 +409,8 @@ export class EventProcessor {
     const cancelLoopPromise = new Promise<void>((resolve) => {
       cancelLoopResolver = resolve;
       if (abortSignal.aborted) {
-        return resolve();
+        resolve();
+        return;
       }
 
       abortSignal.addEventListener("abort", resolve);

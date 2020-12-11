@@ -97,7 +97,7 @@ const levelMap = {
 /**
  * Defines the methods available on the SDK-facing logger.
  */
-// eslint-disable-next-line no-redeclare
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export interface AzureLogger {
   /**
    * Used for failures the program is unlikely to recover from,

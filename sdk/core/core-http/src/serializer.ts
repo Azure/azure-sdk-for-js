@@ -268,9 +268,7 @@ export interface CompositeMapperType {
   // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
   className?: string;
 
-  // eslint-disable-next-line no-use-before-define
   modelProperties?: { [propertyName: string]: Mapper };
-  // eslint-disable-next-line no-use-before-define
   additionalProperties?: Mapper;
 
   uberParent?: string;
@@ -279,13 +277,11 @@ export interface CompositeMapperType {
 
 export interface SequenceMapperType {
   name: "Sequence";
-  // eslint-disable-next-line no-use-before-define
   element: Mapper;
 }
 
 export interface DictionaryMapperType {
   name: "Dictionary";
-  // eslint-disable-next-line no-use-before-define
   value: Mapper;
 }
 
@@ -342,7 +338,6 @@ export interface BaseMapper {
   /**
    * Type of the mapper
    */
-  // eslint-disable-next-line no-use-before-define
   type: MapperType;
   /**
    * Default value when one is not explicitly provided
@@ -421,7 +416,7 @@ function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
   return result;
 }
 
-// eslint-disable-next-line no-redeclare
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MapperType = strEnum([
   "Base64Url",
   "Boolean",

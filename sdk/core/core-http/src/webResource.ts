@@ -243,21 +243,27 @@ export interface WebResourceLike {
   clone(): WebResourceLike;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isWebResourceLike(object: any): object is WebResourceLike {
-  if (typeof object !== "object") {
-    return false;
-  }
-  if (
-    typeof object.url === "string" &&
-    typeof object.method === "string" &&
-    typeof object.headers === "object" &&
-    isHttpHeadersLike(object.headers) &&
-    typeof object.validateRequestProperties === "function" &&
-    typeof object.prepare === "function" &&
-    typeof object.clone === "function"
-  ) {
-    return true;
+export function isWebResourceLike(object: unknown): object is WebResourceLike {
+  if (object && typeof object === "object") {
+    const castObject = object as {
+      url: unknown;
+      method: unknown;
+      headers: unknown;
+      validateRequestProperties: unknown;
+      prepare: unknown;
+      clone: unknown;
+    };
+    if (
+      typeof castObject.url === "string" &&
+      typeof castObject.method === "string" &&
+      typeof castObject.headers === "object" &&
+      isHttpHeadersLike(castObject.headers) &&
+      typeof castObject.validateRequestProperties === "function" &&
+      typeof castObject.prepare === "function" &&
+      typeof castObject.clone === "function"
+    ) {
+      return true;
+    }
   }
   return false;
 }

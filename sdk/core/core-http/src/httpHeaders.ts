@@ -82,26 +82,36 @@ export interface HttpHeadersLike {
   toJson(): RawHttpHeaders;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isHttpHeadersLike(object?: any): object is HttpHeadersLike {
-  if (!object || typeof object !== "object") {
-    return false;
+export function isHttpHeadersLike(object?: unknown): object is HttpHeadersLike {
+  if (object && typeof object === "object") {
+    const castObject = object as {
+      rawHeaders: unknown;
+      clone: unknown;
+      get: unknown;
+      set: unknown;
+      contains: unknown;
+      remove: unknown;
+      headersArray: unknown;
+      headerValues: unknown;
+      headerNames: unknown;
+      toJson: unknown;
+    };
+    if (
+      typeof castObject.rawHeaders === "function" &&
+      typeof castObject.clone === "function" &&
+      typeof castObject.get === "function" &&
+      typeof castObject.set === "function" &&
+      typeof castObject.contains === "function" &&
+      typeof castObject.remove === "function" &&
+      typeof castObject.headersArray === "function" &&
+      typeof castObject.headerValues === "function" &&
+      typeof castObject.headerNames === "function" &&
+      typeof castObject.toJson === "function"
+    ) {
+      return true;
+    }
   }
 
-  if (
-    typeof object.rawHeaders === "function" &&
-    typeof object.clone === "function" &&
-    typeof object.get === "function" &&
-    typeof object.set === "function" &&
-    typeof object.contains === "function" &&
-    typeof object.remove === "function" &&
-    typeof object.headersArray === "function" &&
-    typeof object.headerValues === "function" &&
-    typeof object.headerNames === "function" &&
-    typeof object.toJson === "function"
-  ) {
-    return true;
-  }
   return false;
 }
 

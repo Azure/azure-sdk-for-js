@@ -12,10 +12,10 @@ import { matrix } from "../../utils/matrix";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 
-function makeTestUrl(pathParam: string): string {
+function makeTestUrl(urlPath: string): string {
   const testingContainerUrl = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
   const parts = testingContainerUrl.split("?");
-  return `${parts[0]}${pathParam}?${parts[1]}`;
+  return `${parts[0]}${urlPath}?${parts[1]}`;
 }
 
 type MaybeTypedFormField<T extends FormField["valueType"]> =

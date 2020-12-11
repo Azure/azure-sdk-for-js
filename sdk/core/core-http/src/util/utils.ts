@@ -261,8 +261,7 @@ export function replaceAll(
  * @param {any} value Any entity
  * @return {boolean} - true is it is primitive type, false otherwise.
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isPrimitiveType(value: any): boolean {
+export function isPrimitiveType(value: unknown): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
 }
 

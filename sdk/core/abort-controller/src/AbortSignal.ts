@@ -33,9 +33,7 @@ export interface AbortSignalLike {
 
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
-// eslint-disable-next-line no-use-before-define
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
-// eslint-disable-next-line no-use-before-define
 const abortedMap = new WeakMap<AbortSignal, boolean>();
 
 /**

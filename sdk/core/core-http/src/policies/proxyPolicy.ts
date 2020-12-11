@@ -16,7 +16,7 @@ import { getEnvironmentValue } from "../util/utils";
 
 let noProxyList: string[] = [];
 let isNoProxyInitalized = false;
-const byPassedList = new Map();
+const byPassedList: Map<string, boolean> = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
   if (!process) {
@@ -31,7 +31,7 @@ function loadEnvironmentProxyValue(): string | undefined {
 }
 
 // Check whether the given `uri` matches the noProxyList. If it matches, any request sent to that same `uri` won't set the proxy settings.
-function isBypassed(uri: string): any {
+function isBypassed(uri: string): boolean | undefined {
   if (byPassedList.has(uri)) {
     return byPassedList.get(uri);
   }

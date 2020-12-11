@@ -440,13 +440,11 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
  * @param eventType The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
  * @param event The event to test.
  */
-// eslint-disable-next-line no-redeclare
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
   event: CloudEvent<unknown>
 ): event is CloudEvent<SystemEventNameToEventData[T]>;
 
-// eslint-disable-next-line no-redeclare
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
   event: EventGridEvent<unknown> | CloudEvent<unknown>
