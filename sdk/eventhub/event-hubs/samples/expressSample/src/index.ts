@@ -25,7 +25,7 @@ const app = express();
 
 const eventHubConnectionString = "my connection string";
 const eventHubName = "my event hub name";
-const batchSendSize = 3;
+const batchSendSize = 20;
 const timeIntervalSeconds = 10;
 const eventProducer = new AsyncBatchingProducer({
   producer: new EventHubProducerClient(eventHubConnectionString, eventHubName),
