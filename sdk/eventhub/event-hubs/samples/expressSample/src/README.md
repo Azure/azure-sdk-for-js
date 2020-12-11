@@ -34,7 +34,7 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Create a bundle JavaScript file that can be ran in the browser:
+2. Compile the sample to JavaScript by running the following command:
 
 ```bash
 npm run build
