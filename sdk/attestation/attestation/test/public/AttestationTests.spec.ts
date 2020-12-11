@@ -7,23 +7,32 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 import { decodeString } from "../utils/base64";
+import { decode } from "jsonwebtoken"
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
-  let client: AttestationClient;
+  let sharedclient: AttestationClient;
+  let aadclient: AttestationClient;
+  let isolatedclient: AttestationClient;
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this, "AAD"));
+    recorder = createRecorder(this);
+    aadclient = createRecordedClient("AAD");
+    isolatedclient = createRecordedClient("Isolated");
+    sharedclient = createRecordedClient("Shared");
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
+  // runtimeData is a Base64Url encoded blob. The sgxQuote contains the SHA256 hash of this blob
+  // inside the binary quote data, that can be used to verify that the enclave creating the quote 
+  // has knowledge of the contents of the runtimeData object.
   const _runtimeData =
     "wFdC6gBMrrej2JTuNlTjWOe-ebL7Rz34WjmEUnbfFEc_5BITs2t4V8uuEI8JX73t0g_nUTu6g07xyC6rx9wl8IUQFYyP" +
     "KhsMk3FLESkryhb5dz9cDxoxwMNnGbu-B7AsOBCe3lckQmoRAEf4_5qUm-PS26DD3SkbNRT-XjMQMQ19Q33dpKFvXPrQ" +
@@ -34,6 +43,10 @@ describe("[AAD] Attestation Client", function() {
     "xEHoNWZBUCWAS9Qy4OpdQZ1-vINHJaTIZsehSZrkk1a5ttJdghTSUJGbEPWt3Azstjidyq8x1l5q-PIClhJE_Q_vHOvT" +
     "zxCebqZOhFJl08rx8I2OYxzekLA1miJ4aZs8h3eB6tOHZF06gJC8wcIORvy8d8ysEZvja40AWSg";
 
+  // An SGX quote is a binary blob which is cryptographically verified to come from an Intel
+  // SGX enclave. The Microsoft Azure Attestation service takes this SGX quote and
+  // verifies that the quote is valid and returns a JSON Web Token which can be used by
+  // a relying party to verify the runtimeData associated with the request.
   const _sgxQuote =
     "AwACAAAAAAAFAAoAk5pyM_ecTKmUCg2zlX8GBxikFG2RGHbLfXx_vS5gtP8AAAAADg4CBf-ABwAAAAAAAA" +
     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAAAAAAAAHAAAAAAAAANlxlh9yS3HfxfFV" +
@@ -113,7 +126,7 @@ describe("[AAD] Attestation Client", function() {
 
   it("#AttestSgxShared", async () => {
     const binaryRuntimeData = decodeString(_runtimeData);
-    const attestationResult = await client.attestation.attestSgxEnclave({
+    const attestationResult = await sharedclient.attestation.attestSgxEnclave({
       quote: decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
@@ -122,5 +135,32 @@ describe("[AAD] Attestation Client", function() {
     });
     // FIXME: not sure what to do with it
     assert(attestationResult.token);
+  });
+  it("#AttestSgxAad", async () => {
+    const binaryRuntimeData = decodeString(_runtimeData);
+    const attestationResult = await aadclient.attestation.attestSgxEnclave({
+      quote: decodeString(_sgxQuote),
+      runtimeData: {
+        data: binaryRuntimeData,
+        dataType: "Binary"
+      }
+    });
+    // FIXME: not sure what to do with it
+    assert(attestationResult.token);
+  });
+  it("#AttestSgxIsolated", async () => {
+    const binaryRuntimeData = decodeString(_runtimeData);
+    const attestationResult = await isolatedclient.attestation.attestSgxEnclave({
+      quote: decodeString(_sgxQuote),
+      runtimeData: {
+        data: binaryRuntimeData,
+        dataType: "Binary"
+      }
+    });
+    // FIXME: not sure what to do with it
+    assert(attestationResult.token);
+    var decoded = decode((attestationResult.token as string));
+    assert(decoded);
+    console.log(decoded);
   });
 });

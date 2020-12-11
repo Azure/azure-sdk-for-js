@@ -5,6 +5,7 @@
   "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure/core-http": "^1.2.0",
+    "rush": "0.0.2",
     "tslib": "^2.0.0"
   },
   "keywords": [
@@ -23,10 +24,12 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "chai": "^4.2.0",

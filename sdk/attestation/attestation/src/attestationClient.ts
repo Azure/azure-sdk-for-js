@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreHttp from "@azure/core-http";
 import {
   Policy,
   PolicyCertificates,
@@ -19,11 +20,16 @@ import { AttestationClientOptionalParams } from "./models";
 export class AttestationClient extends AttestationClientContext {
   /**
    * Initializes a new instance of the AttestationClient class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param options The parameter options
    */
-  constructor(instanceUrl: string, options?: AttestationClientOptionalParams) {
-    super(instanceUrl, options);
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    instanceUrl: string,
+    options?: AttestationClientOptionalParams
+  ) {
+    super(credentials, instanceUrl, options);
     this.policy = new Policy(this);
     this.policyCertificates = new PolicyCertificates(this);
     this.attestation = new Attestation(this);
