@@ -48,7 +48,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 }
 
 // @public
-export function applyMixins(targetCtorParam: any, sourceCtors: any[]): void;
+export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
 // @public (undocumented)
 export type Authenticator = (challenge: object) => Promise<string>;
@@ -236,7 +236,7 @@ export interface EnumMapperType {
 }
 
 // @public
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): Promise<any>;
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: unknown): Promise<any>;
 
 // @public
 export class ExpiringAccessTokenCache implements AccessTokenCache {
@@ -805,7 +805,7 @@ export interface SpanConfig {
 }
 
 // @public
-export function stringifyXML(obj: any, opts?: SerializerOptions): string;
+export function stringifyXML(obj: unknown, opts?: SerializerOptions): string;
 
 // @public
 export function stripRequest(request: WebResourceLike): WebResourceLike;
@@ -862,7 +862,7 @@ export class URLBuilder {
     setPath(path: string | undefined): void;
     setPort(port: number | string | undefined): void;
     setQuery(query: string | undefined): void;
-    setQueryParameter(queryParameterName: string, queryParameterValue: any): void;
+    setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void;
     setScheme(scheme: string | undefined): void;
     // (undocumented)
     toString(): string;
@@ -882,7 +882,7 @@ export class URLQuery {
     get(parameterName: string): string | string[] | undefined;
     keys(): string[];
     static parse(text: string): URLQuery;
-    set(parameterName: string, parameterValue: any): void;
+    set(parameterName: string, parameterValue: unknown): void;
     toString(): string;
 }
 
@@ -897,7 +897,7 @@ export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFac
 
 // @public
 export class WebResource implements WebResourceLike {
-    constructor(url?: string, method?: HttpMethods, body?: any, query?: {
+    constructor(url?: string, method?: HttpMethods, body?: unknown, query?: {
         [key: string]: any;
     }, headers?: {
         [key: string]: any;

@@ -41,9 +41,11 @@ export function dateToServiceTimeString(d: Date): string {
  *
  * @param credential the object to test
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isKeyCredentialLike(o: any): o is KeyCredential {
-  return o.key !== undefined;
+export function isKeyCredentialLike(o: unknown): o is KeyCredential {
+  const castO = o as {
+    key: unknown;
+  };
+  return castO.key !== undefined;
 }
 
 export function parseAndWrap(jsonStringOrObject: string | object): any[] {

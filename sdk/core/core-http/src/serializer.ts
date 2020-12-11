@@ -381,8 +381,8 @@ export interface UrlParameterValue {
 }
 
 // TODO: why is this here?
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function serializeObject(toSerialize: any): any {
+export function serializeObject(toSerialize: unknown): any {
+  const castToSerialize = toSerialize as Record<string, unknown>;
   if (toSerialize == undefined) return undefined;
   if (toSerialize instanceof Uint8Array) {
     toSerialize = base64.encodeByteArray(toSerialize);
@@ -398,7 +398,7 @@ export function serializeObject(toSerialize: any): any {
   } else if (typeof toSerialize === "object") {
     const dictionary: { [key: string]: any } = {};
     for (const property in toSerialize) {
-      dictionary[property] = serializeObject(toSerialize[property]);
+      dictionary[property] = serializeObject(castToSerialize[property]);
     }
     return dictionary;
   }
@@ -442,8 +442,7 @@ export class Serializer {
     public readonly isXML?: boolean
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  validateConstraints(mapper: Mapper, value: any, objectName: string): void {
+  validateConstraints(mapper: Mapper, value: unknown, objectName: string): void {
     const failValidation = (
       constraintName: keyof MapperConstraints,
       constraintValue: any
@@ -452,7 +451,8 @@ export class Serializer {
         `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
       );
     };
-    if (mapper.constraints && value != undefined) {
+    if (mapper.constraints && value !== undefined) {
+      const valueAsNumber = value as number;
       const {
         ExclusiveMaximum,
         ExclusiveMinimum,
@@ -466,31 +466,32 @@ export class Serializer {
         Pattern,
         UniqueItems
       } = mapper.constraints;
-      if (ExclusiveMaximum != undefined && value >= ExclusiveMaximum) {
+      if (ExclusiveMaximum != undefined && valueAsNumber >= ExclusiveMaximum) {
         failValidation("ExclusiveMaximum", ExclusiveMaximum);
       }
-      if (ExclusiveMinimum != undefined && value <= ExclusiveMinimum) {
+      if (ExclusiveMinimum != undefined && valueAsNumber <= ExclusiveMinimum) {
         failValidation("ExclusiveMinimum", ExclusiveMinimum);
       }
-      if (InclusiveMaximum != undefined && value > InclusiveMaximum) {
+      if (InclusiveMaximum != undefined && valueAsNumber > InclusiveMaximum) {
         failValidation("InclusiveMaximum", InclusiveMaximum);
       }
-      if (InclusiveMinimum != undefined && value < InclusiveMinimum) {
+      if (InclusiveMinimum != undefined && valueAsNumber < InclusiveMinimum) {
         failValidation("InclusiveMinimum", InclusiveMinimum);
       }
-      if (MaxItems != undefined && value.length > MaxItems) {
+      const valueAsArray = value as any[];
+      if (MaxItems != undefined && valueAsArray.length > MaxItems) {
         failValidation("MaxItems", MaxItems);
       }
-      if (MaxLength != undefined && value.length > MaxLength) {
+      if (MaxLength != undefined && valueAsArray.length > MaxLength) {
         failValidation("MaxLength", MaxLength);
       }
-      if (MinItems != undefined && value.length < MinItems) {
+      if (MinItems != undefined && valueAsArray.length < MinItems) {
         failValidation("MinItems", MinItems);
       }
-      if (MinLength != undefined && value.length < MinLength) {
+      if (MinLength != undefined && valueAsArray.length < MinLength) {
         failValidation("MinLength", MinLength);
       }
-      if (MultipleOf != undefined && value % MultipleOf !== 0) {
+      if (MultipleOf != undefined && valueAsNumber % MultipleOf !== 0) {
         failValidation("MultipleOf", MultipleOf);
       }
       if (Pattern) {
@@ -501,7 +502,7 @@ export class Serializer {
       }
       if (
         UniqueItems &&
-        value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
+        valueAsArray.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
       ) {
         failValidation("UniqueItems", UniqueItems);
       }
@@ -523,8 +524,7 @@ export class Serializer {
    */
   serialize(
     mapper: Mapper,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    object: any,
+    object: unknown,
     objectName?: string,
     options: SerializerOptions = {}
   ): any {
@@ -568,7 +568,7 @@ export class Serializer {
       throw new Error(`${objectName} cannot be null.`);
     }
 
-    if (object == undefined) {
+    if (object === undefined) {
       payload = object;
     } else {
       // Validate Constraints if any
@@ -585,9 +585,9 @@ export class Serializer {
       ) {
         payload = serializeDateTypes(mapperType, object, objectName);
       } else if (mapperType.match(/^ByteArray$/i) !== null) {
-        payload = serializeByteArrayType(objectName, object);
+        payload = serializeByteArrayType(objectName, object as Uint8Array);
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
-        payload = serializeBase64UrlType(objectName, object);
+        payload = serializeBase64UrlType(objectName, object as Uint8Array);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
         payload = serializeSequenceType(
           this,
@@ -635,8 +635,7 @@ export class Serializer {
    */
   deserialize(
     mapper: Mapper,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    responseBody: any,
+    responseBody: unknown,
     objectName: string,
     options: SerializerOptions = {}
   ): any {
@@ -681,13 +680,17 @@ export class Serializer {
          * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
          * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
          */
-        if (responseBody[XML_ATTRKEY] != undefined && responseBody[xmlCharKey] != undefined) {
-          responseBody = responseBody[xmlCharKey];
+        const castResponseBody = responseBody as Record<string, unknown>;
+        if (
+          castResponseBody[XML_ATTRKEY] != undefined &&
+          castResponseBody[xmlCharKey] != undefined
+        ) {
+          responseBody = castResponseBody[xmlCharKey];
         }
       }
 
       if (mapperType.match(/^Number$/i) !== null) {
-        payload = parseFloat(responseBody);
+        payload = parseFloat(responseBody as string);
         if (isNaN(payload)) {
           payload = responseBody;
         }
@@ -702,13 +705,13 @@ export class Serializer {
       } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
         payload = responseBody;
       } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/i) !== null) {
-        payload = new Date(responseBody);
+        payload = new Date(responseBody as string);
       } else if (mapperType.match(/^UnixTime$/i) !== null) {
-        payload = unixTimeToDate(responseBody);
+        payload = unixTimeToDate(responseBody as number);
       } else if (mapperType.match(/^ByteArray$/i) !== null) {
-        payload = base64.decodeString(responseBody);
+        payload = base64.decodeString(responseBody as string);
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
-        payload = base64UrlToByteArray(responseBody);
+        payload = base64UrlToByteArray(responseBody as string);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
         payload = deserializeSequenceType(
           this,

@@ -118,11 +118,29 @@ export function getJobID(operationLocation: string): string {
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error the incoming error
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function handleInvalidDocumentBatch(error: any): any {
-  const innerCode = error.response?.parsedBody?.error?.innererror?.code;
-  const innerMessage = error.response?.parsedBody?.error?.innererror?.message;
-  return innerCode === "InvalidDocumentBatch"
-    ? new RestError(innerMessage, innerCode, error.statusCode)
-    : error;
+export function handleInvalidDocumentBatch(error: unknown): any {
+  const castError = error as {
+    response: {
+      parsedBody?: {
+        error?: {
+          innererror?: {
+            code: string;
+            message: string;
+          };
+        };
+      };
+    };
+    statusCode: number;
+  };
+  const innerCode = castError.response?.parsedBody?.error?.innererror?.code;
+  const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
+  if (innerMessage) {
+    return innerCode === "InvalidDocumentBatch"
+      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      : error;
+  } else {
+    throw new Error(
+      `The error coming from the service does not follow the expected structure: ${error}`
+    );
+  }
 }

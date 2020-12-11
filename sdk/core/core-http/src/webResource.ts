@@ -328,8 +328,7 @@ export class WebResource implements WebResourceLike {
   constructor(
     url?: string,
     method?: HttpMethods,
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    body?: any,
+    body?: unknown,
     query?: { [key: string]: any },
     headers?: { [key: string]: any } | HttpHeadersLike,
     streamResponseBody?: boolean,

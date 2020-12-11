@@ -109,8 +109,7 @@ export function generateUuid(): string {
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  kickstart: any
+  kickstart: unknown
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
@@ -196,8 +195,7 @@ export function promiseToServiceCallback<T>(
 }
 
 export function prepareXMLRootList(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  obj: any,
+  obj: unknown,
   elementName: string,
   xmlNamespaceKey?: string,
   xmlNamespace?: string
@@ -220,11 +218,13 @@ export function prepareXMLRootList(
  * @param {object} targetCtor The target object on which the properties need to be applied.
  * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function applyMixins(targetCtorParam: any, sourceCtors: any[]): void {
+export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void {
+  const castTargetCtorParam = targetCtorParam as {
+    prototype: Record<string, unknown>;
+  };
   sourceCtors.forEach((sourceCtor) => {
     Object.getOwnPropertyNames(sourceCtor.prototype).forEach((name) => {
-      targetCtorParam.prototype[name] = sourceCtor.prototype[name];
+      castTargetCtorParam.prototype[name] = sourceCtor.prototype[name];
     });
   });
 }
