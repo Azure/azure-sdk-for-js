@@ -10,7 +10,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 import { decodeString } from "../utils/base64";
-import { decode } from "jsonwebtoken"
+import { decode } from "jsonwebtoken";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -31,7 +31,7 @@ describe("[AAD] Attestation Client", function() {
   });
 
   // runtimeData is a Base64Url encoded blob. The sgxQuote contains the SHA256 hash of this blob
-  // inside the binary quote data, that can be used to verify that the enclave creating the quote 
+  // inside the binary quote data, that can be used to verify that the enclave creating the quote
   // has knowledge of the contents of the runtimeData object.
   const _runtimeData =
     "wFdC6gBMrrej2JTuNlTjWOe-ebL7Rz34WjmEUnbfFEc_5BITs2t4V8uuEI8JX73t0g_nUTu6g07xyC6rx9wl8IUQFYyP" +
@@ -159,7 +159,7 @@ describe("[AAD] Attestation Client", function() {
     });
     // FIXME: not sure what to do with it
     assert(attestationResult.token);
-    var decoded = decode((attestationResult.token as string));
+    var decoded = decode(attestationResult.token as string);
     assert(decoded);
     console.log(decoded);
   });

@@ -18,7 +18,6 @@ describe("PolicyGetSetTests ", function() {
     // eslint-disable-next-line no-invalid-this
     recorder = createRecorder(this);
     client = createRecordedClient("AAD");
-
   });
 
   afterEach(async function() {

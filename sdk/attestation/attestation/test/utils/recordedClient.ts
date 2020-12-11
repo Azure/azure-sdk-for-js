@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { EnvironmentCredential } from "@azure/identity"
+import { EnvironmentCredential } from "@azure/identity";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
@@ -44,12 +44,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecorder(
-  context: Context
-) : Recorder {
+export function createRecorder(context: Context): Recorder {
   return record(context, environmentSetup);
 }
-
 
 type EndpointType = "AAD" | "Isolated" | "Shared";
 
@@ -60,13 +57,13 @@ export function createRecordedClient(
   const credential = new EnvironmentCredential();
   switch (endpointType) {
     case "AAD": {
-      return new AttestationClient(credential, testEnv.AAD_ATTESTATION_URL, options)
+      return new AttestationClient(credential, testEnv.AAD_ATTESTATION_URL, options);
     }
     case "Isolated": {
-      return new AttestationClient(credential, testEnv.ISOLATED_ATTESTATION_URL, options)
+      return new AttestationClient(credential, testEnv.ISOLATED_ATTESTATION_URL, options);
     }
     case "Shared": {
-      return new AttestationClient(credential, "https://shareduks.uks.attest.azure.net", options)
+      return new AttestationClient(credential, "https://shareduks.uks.attest.azure.net", options);
     }
     default: {
       throw new Error(`Unsupported endpoint type: ${endpointType}`);
