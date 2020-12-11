@@ -6,7 +6,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { MessageSender } from "../../src/core/messageSender";
+import { MessageSender } from "../../src/";
 import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
 import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
