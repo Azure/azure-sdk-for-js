@@ -13,6 +13,21 @@ import {
 import { CopyAuthorization, CustomFormModelInfo } from "../../models";
 export { OperationStatus };
 
+export interface CopyPollerOperationOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * callback to receive events on the progress of download operation.
+   */
+  onProgress?: (state: BeginCopyModelPollState) => void;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
+
 /**
  * Defines the operations from a training client that are needed for the poller
  * to work
@@ -71,21 +86,6 @@ export interface BeginCopyModelPollState extends PollOperationState<CustomFormMo
    * Option to the copy model operation.
    */
   readonly copyModelOptions?: CopyModelOptions;
-}
-
-export interface CopyPollerOperationOptions {
-  /**
-   * Time between each polling in milliseconds.
-   */
-  updateIntervalInMs?: number;
-  /**
-   * callback to receive events on the progress of download operation.
-   */
-  onProgress?: (state: BeginCopyModelPollState) => void;
-  /**
-   * A serialized poller, used to resume an existing operation
-   */
-  resumeFrom?: string;
 }
 
 export interface BeginCopyModelPollerOperation

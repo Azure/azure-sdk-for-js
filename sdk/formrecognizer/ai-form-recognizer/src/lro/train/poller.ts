@@ -125,7 +125,7 @@ function makeBeginTrainingPollOperation(
 
     async update(options = {}): Promise<BeginTrainingPollerOperation> {
       const pollerState = this.state;
-      const { trainingInputs, trainModelOptions } = pollerState;
+      const { trainingInputs, trainModelOptions } = state;
 
       if (!pollerState.isStarted) {
         pollerState.isStarted = true;

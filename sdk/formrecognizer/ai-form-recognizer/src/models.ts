@@ -446,20 +446,6 @@ export interface CommonFieldValue {
 }
 
 /**
- * Represents errors from Azure Form Recognizer service
- */
-export interface FormRecognizerError {
-  /**
-   * Error code
-   */
-  code: string;
-  /**
-   * Error message
-   */
-  message: string;
-}
-
-/**
  * Report for a custom model training document.
  */
 export interface TrainingDocumentInfo {
@@ -701,6 +687,20 @@ export interface AccountProperties {
    * Max number of models that can be trained for this account.
    */
   customModelLimit: number;
+}
+
+/**
+ * Represents errors from Azure Form Recognizer service
+ */
+export interface FormRecognizerError {
+  /**
+   * Error code
+   */
+  code: string;
+  /**
+   * Error message
+   */
+  message: string;
 }
 
 /**

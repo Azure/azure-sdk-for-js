@@ -17,6 +17,17 @@ import {
 import { XML_CHARKEY, SerializerOptions } from "../util/serializer.common";
 
 /**
+ * Options to configure API response deserialization.
+ */
+export interface DeserializationOptions {
+  /**
+   * Configures the expected content types for the deserialization of
+   * JSON and XML response bodies.
+   */
+  expectedContentTypes: DeserializationContentTypes;
+}
+
+/**
  * The content-types that will indicate that an operation response should be deserialized in a
  * particular way.
  */
@@ -32,17 +43,6 @@ export interface DeserializationContentTypes {
    * Defaults to [ "application/xml", "application/atom+xml" ].
    */
   xml?: string[];
-}
-
-/**
- * Options to configure API response deserialization.
- */
-export interface DeserializationOptions {
-  /**
-   * Configures the expected content types for the deserialization of
-   * JSON and XML response bodies.
-   */
-  expectedContentTypes: DeserializationContentTypes;
 }
 
 /**

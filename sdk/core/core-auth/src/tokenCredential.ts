@@ -5,6 +5,23 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions } from "@azure/core-tracing";
 
 /**
+ * Represents a credential capable of providing an authentication token.
+ */
+export interface TokenCredential {
+  /**
+   * Gets the token provided by this credential.
+   *
+   * This method is called automatically by Azure SDK client libraries. You may call this method
+   * directly, but you must also handle token caching and token refreshing.
+   *
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+}
+
+/**
  * Defines options for TokenCredential.getToken.
  */
 export interface GetTokenOptions {
@@ -45,23 +62,6 @@ export interface AccessToken {
    * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
-}
-
-/**
- * Represents a credential capable of providing an authentication token.
- */
-export interface TokenCredential {
-  /**
-   * Gets the token provided by this credential.
-   *
-   * This method is called automatically by Azure SDK client libraries. You may call this method
-   * directly, but you must also handle token caching and token refreshing.
-   *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
-   */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
 /**

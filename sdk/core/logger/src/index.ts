@@ -4,31 +4,11 @@
 import debug, { Debugger } from "./debug";
 export { Debugger } from "./debug";
 
+const registeredLoggers = new Set<AzureDebugger>();
 const logLevelFromEnv =
   (typeof process !== "undefined" && process.env && process.env.AZURE_LOG_LEVEL) || undefined;
 
-/**
- * The log levels supported by the logger.
- * The log levels in order of most verbose to least verbose are:
- * - verbose
- * - info
- * - warning
- * - error
- */
-export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
-
 let azureLogLevel: AzureLogLevel | undefined;
-
-const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
-
-type AzureDebugger = Debugger & { level: AzureLogLevel };
-
-const registeredLoggers = new Set<AzureDebugger>();
-
-/**
- * An AzureClientLogger is a function that can log to an appropriate severity level.
- */
-export type AzureClientLogger = Debugger;
 
 /**
  * The AzureLogger provides a mechanism for overriding where logs are output to.
@@ -39,6 +19,24 @@ export const AzureLogger: AzureClientLogger = debug("azure");
 AzureLogger.log = (...args) => {
   debug.log(...args);
 };
+
+/**
+ * The log levels supported by the logger.
+ * The log levels in order of most verbose to least verbose are:
+ * - verbose
+ * - info
+ * - warning
+ * - error
+ */
+export type AzureLogLevel = "verbose" | "info" | "warning" | "error";
+const AZURE_LOG_LEVELS = ["verbose", "info", "warning", "error"];
+
+type AzureDebugger = Debugger & { level: AzureLogLevel };
+
+/**
+ * An AzureClientLogger is a function that can log to an appropriate severity level.
+ */
+export type AzureClientLogger = Debugger;
 
 if (logLevelFromEnv) {
   // avoid calling setLogLevel because we don't want a mis-set environment variable to crash

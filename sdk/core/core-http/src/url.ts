@@ -142,10 +142,6 @@ export class URLQuery {
   }
 }
 
-type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
-
-type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
-
 /**
  * A class that handles creating, modifying, and parsing URLs.
  */
@@ -392,6 +388,10 @@ export class URLBuilder {
     return result;
   }
 }
+
+type URLTokenizerState = "SCHEME" | "SCHEME_OR_HOST" | "HOST" | "PORT" | "PATH" | "QUERY" | "DONE";
+
+type URLTokenType = "SCHEME" | "HOST" | "PORT" | "PATH" | "QUERY";
 
 export class URLToken {
   public constructor(public readonly text: string, public readonly type: URLTokenType) {}

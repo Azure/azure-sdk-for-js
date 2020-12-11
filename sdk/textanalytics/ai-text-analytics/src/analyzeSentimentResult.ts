@@ -23,6 +23,60 @@ import {
 import { findOpinionIndex, OpinionIndex } from "./util";
 
 /**
+ * The result of the analyze sentiment operation on a single document.
+ */
+export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
+
+/**
+ *  The result of the analyze sentiment operation on a single document,
+ *  containing the predicted sentiment for each sentence as well as for the full document.
+ */
+export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
+  /**
+   * Predicted sentiment for document. Possible values
+   * include: 'positive', 'neutral', 'negative', 'mixed'
+   */
+  sentiment: DocumentSentimentLabel;
+  /**
+   * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
+   */
+  confidenceScores: SentimentConfidenceScores;
+  /**
+   * The predicted sentiment for each sentence in the corresponding document.
+   */
+  sentences: SentenceSentiment[];
+}
+
+/**
+ * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
+ */
+export interface SentenceSentiment {
+  /**
+   * The sentence text.
+   */
+  text: string;
+  /**
+   * The predicted Sentiment for the sentence.
+   */
+  sentiment: SentenceSentimentLabel;
+  /**
+   * The sentiment confidence score between 0 and 1 for the sentence for all classes.
+   */
+  confidenceScores: SentimentConfidenceScores;
+  /**
+   * The sentence text offset from the start of the document.
+   */
+  offset: number;
+  /**
+   * The list of opinions mined from this sentence. For example in "The food is
+   * good, but the service is bad", we would mind these two opinions "food is
+   * good", "service is bad". Only returned if `show_opinion_mining` is set to
+   * True in the call to `analyze_sentiment`.
+   */
+  minedOpinions: MinedOpinion[];
+}
+
+/**
  * AspectSentiment contains the related opinions, predicted sentiment,
  * confidence scores and other information about an aspect of a product.
  * An aspect of a product/service is a key component of that product/service.
@@ -74,63 +128,9 @@ export interface MinedOpinion {
 }
 
 /**
- * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
- */
-export interface SentenceSentiment {
-  /**
-   * The sentence text.
-   */
-  text: string;
-  /**
-   * The predicted Sentiment for the sentence.
-   */
-  sentiment: SentenceSentimentLabel;
-  /**
-   * The sentiment confidence score between 0 and 1 for the sentence for all classes.
-   */
-  confidenceScores: SentimentConfidenceScores;
-  /**
-   * The sentence text offset from the start of the document.
-   */
-  offset: number;
-  /**
-   * The list of opinions mined from this sentence. For example in "The food is
-   * good, but the service is bad", we would mind these two opinions "food is
-   * good", "service is bad". Only returned if `show_opinion_mining` is set to
-   * True in the call to `analyze_sentiment`.
-   */
-  minedOpinions: MinedOpinion[];
-}
-
-/**
- *  The result of the analyze sentiment operation on a single document,
- *  containing the predicted sentiment for each sentence as well as for the full document.
- */
-export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
-  /**
-   * Predicted sentiment for document. Possible values
-   * include: 'positive', 'neutral', 'negative', 'mixed'
-   */
-  sentiment: DocumentSentimentLabel;
-  /**
-   * Document level sentiment confidence scores between 0 and 1 for each sentiment class.
-   */
-  confidenceScores: SentimentConfidenceScores;
-  /**
-   * The predicted sentiment for each sentence in the corresponding document.
-   */
-  sentences: SentenceSentiment[];
-}
-
-/**
  * An error result from the analyze sentiment operation on a single document.
  */
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
-
-/**
- * The result of the analyze sentiment operation on a single document.
- */
-export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
 
 export function makeAnalyzeSentimentResult(
   document: DocumentSentiment

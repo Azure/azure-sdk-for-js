@@ -12,17 +12,16 @@ export const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 export function isNumber(n: unknown): n is number {
   return typeof n === "number";
 }
+export interface RetryData {
+  retryCount: number;
+  retryInterval: number;
+  error?: RetryError;
+}
 
 export interface RetryError extends Error {
   message: string;
   code?: string;
   innerError?: RetryError;
-}
-
-export interface RetryData {
-  retryCount: number;
-  retryInterval: number;
-  error?: RetryError;
 }
 
 /**

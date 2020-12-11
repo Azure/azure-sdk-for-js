@@ -20,6 +20,24 @@ export interface SecretClientOptions extends coreHttp.PipelineOptions {
 }
 
 /**
+ * An interface representing a KeyVault Secret, with its name, value and {@link SecretProperties}.
+ */
+export interface KeyVaultSecret {
+  /**
+   * The properties of the secret.
+   */
+  properties: SecretProperties;
+  /**
+   * The value of the secret.
+   */
+  value?: string;
+  /**
+   * The name of the secret.
+   */
+  name: string;
+}
+
+/**
  * An interface representing the properties of a {@link KeyVaultSecret}.
  */
 export interface SecretProperties {
@@ -105,24 +123,6 @@ export interface SecretProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
-}
-
-/**
- * An interface representing a KeyVault Secret, with its name, value and {@link SecretProperties}.
- */
-export interface KeyVaultSecret {
-  /**
-   * The properties of the secret.
-   */
-  properties: SecretProperties;
-  /**
-   * The value of the secret.
-   */
-  value?: string;
-  /**
-   * The name of the secret.
-   */
-  name: string;
 }
 
 /**

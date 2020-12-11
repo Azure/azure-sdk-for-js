@@ -123,6 +123,38 @@ export interface JsonWebKey {
 }
 
 /**
+ * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
+ */
+export interface KeyVaultKey {
+  /**
+   * The key value.
+   */
+  key?: JsonWebKey;
+  /**
+   * The name of the key.
+   */
+  name: string;
+  /**
+   * Key identifier.
+   */
+  id?: string;
+  /**
+   * JsonWebKey Key Type (kty), as defined in
+   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
+   */
+  keyType?: KeyType;
+  /**
+   * Operations allowed on this key
+   */
+  keyOperations?: KeyOperation[];
+  /**
+   * The properties of the key.
+   */
+  properties: KeyProperties;
+}
+
+/**
  * An interface representing the Properties of {@link KeyVaultKey}
  */
 export interface KeyProperties {
@@ -187,38 +219,6 @@ export interface KeyProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
-}
-
-/**
- * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
- */
-export interface KeyVaultKey {
-  /**
-   * The key value.
-   */
-  key?: JsonWebKey;
-  /**
-   * The name of the key.
-   */
-  name: string;
-  /**
-   * Key identifier.
-   */
-  id?: string;
-  /**
-   * JsonWebKey Key Type (kty), as defined in
-   * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
-   */
-  keyType?: KeyType;
-  /**
-   * Operations allowed on this key
-   */
-  keyOperations?: KeyOperation[];
-  /**
-   * The properties of the key.
-   */
-  properties: KeyProperties;
 }
 
 /**

@@ -10,6 +10,27 @@ import { RecognizedFormArray } from "../../models";
 import { toRecognizedFormArray } from "../../transforms";
 
 /**
+ * Options for Form Recognition shared between prebuilt and custom models.
+ */
+export interface FormPollerOperationOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  updateIntervalInMs?: number;
+
+  /**
+   * Callback that will receive events related to the progress of the
+   * form recognition operation.
+   */
+  onProgress?: (state: RecognizeFormsOperationState) => void;
+
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
+
+/**
  * Encapsulates the steps to start and query the status of
  * a form recognition operation
  */
@@ -45,43 +66,6 @@ export interface RecognizeFormsOperationState extends PollOperationState<Recogni
    */
   status: OperationStatus;
 }
-
-/**
- * Options for Form Recognition shared between prebuilt and custom models.
- */
-export interface FormPollerOperationOptions {
-  /**
-   * Time between each polling in milliseconds.
-   */
-  updateIntervalInMs?: number;
-
-  /**
-   * Callback that will receive events related to the progress of the
-   * form recognition operation.
-   */
-  onProgress?: (state: RecognizeFormsOperationState) => void;
-
-  /**
-   * A serialized poller, used to resume an existing operation
-   */
-  resumeFrom?: string;
-}
-
-/**
- * Set of intrinsic properties that describe a form recognition polling operation.
- */
-export type FormPollerOperationDescription = FormPollerOperationOptions &
-  FormRecognitionOperationClient & {
-    /**
-     * The expected document type that should be used to validate recognition
-     * results.
-     */
-    expectedDocType?: string;
-    /**
-     * The model ID that should be used for this poller, if one is required.
-     */
-    modelId?: string;
-  };
 
 /**
  * Create a form recognition poll operation.
@@ -141,6 +125,22 @@ function makeFormRecognitionOperation(
 
   return self;
 }
+
+/**
+ * Set of intrinsic properties that describe a form recognition polling operation.
+ */
+export type FormPollerOperationDescription = FormPollerOperationOptions &
+  FormRecognitionOperationClient & {
+    /**
+     * The expected document type that should be used to validate recognition
+     * results.
+     */
+    expectedDocType?: string;
+    /**
+     * The model ID that should be used for this poller, if one is required.
+     */
+    modelId?: string;
+  };
 
 const DEFAULT_POLLING_INTERVAL = 5000;
 

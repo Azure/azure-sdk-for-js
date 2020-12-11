@@ -177,7 +177,7 @@ export class BlobService {
             containerName,
             result.exists
           );
-          resolve(!!result.exists);
+          resolve(Boolean(result.exists));
         }
       });
     });

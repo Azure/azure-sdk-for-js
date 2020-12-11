@@ -14,6 +14,11 @@ import {
 } from "./generated/models";
 
 /**
+ * The result of the extract key phrases operation on a single document.
+ */
+export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
+
+/**
  * The result of the extract key phrases operation on a single document,
  * containing a collection of the key phrases identified in that document.
  */
@@ -29,11 +34,6 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
  * An error result from the extract key phrases operation on a single document.
  */
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
-
-/**
- * The result of the extract key phrases operation on a single document.
- */
-export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
 
 export function makeExtractKeyPhrasesResult(
   id: string,

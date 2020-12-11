@@ -870,11 +870,6 @@ function getOperationArgumentValueFromParameter(
   );
 }
 
-interface PropertySearchResult {
-  propertyValue?: any;
-  propertyFound: boolean;
-}
-
 export function getOperationArgumentValueFromParameterPath(
   serviceClient: ServiceClient,
   operationArguments: OperationArguments,
@@ -948,6 +943,11 @@ export function getOperationArgumentValueFromParameterPath(
     }
   }
   return value;
+}
+
+interface PropertySearchResult {
+  propertyValue?: any;
+  propertyFound: boolean;
 }
 
 function getPropertyFromParameterPath(

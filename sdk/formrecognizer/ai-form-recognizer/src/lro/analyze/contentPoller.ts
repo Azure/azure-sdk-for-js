@@ -14,6 +14,21 @@ import { FormRecognizerRequestBody, FormPageArray } from "../../models";
 import { RecognizeContentResultResponse } from "../../internalModels";
 export { OperationStatus };
 
+export interface ContentPollerOperationOptions {
+  /**
+   * Time between each polling in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * callback to receive events on the progress of download operation.
+   */
+  onProgress?: (state: BeginRecognizeContentPollState) => void;
+  /**
+   * A serialized poller, used to resume an existing operation
+   */
+  resumeFrom?: string;
+}
+
 /**
  * Defines the operations from a analyze client that are needed for the poller
  * to work
@@ -39,21 +54,6 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
   resultId?: string;
   status: OperationStatus;
   readonly analyzeOptions?: RecognizeContentOptions;
-}
-
-export interface ContentPollerOperationOptions {
-  /**
-   * Time between each polling in milliseconds.
-   */
-  updateIntervalInMs?: number;
-  /**
-   * callback to receive events on the progress of download operation.
-   */
-  onProgress?: (state: BeginRecognizeContentPollState) => void;
-  /**
-   * A serialized poller, used to resume an existing operation
-   */
-  resumeFrom?: string;
 }
 
 export interface BeginRecognizeContentPollerOperation

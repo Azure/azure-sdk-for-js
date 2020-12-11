@@ -71,6 +71,7 @@ export class AbortController {
    * @constructor
    */
   constructor(...parentSignals: AbortSignalLike[]);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   constructor(parentSignals?: any) {
     this._signal = new AbortSignal();
 

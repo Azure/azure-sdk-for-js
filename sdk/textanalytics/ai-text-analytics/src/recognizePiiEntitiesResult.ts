@@ -16,6 +16,13 @@ import { Entity, TextAnalyticsError } from "./generated/models";
 export interface PiiEntity extends Entity {}
 
 /**
+ * The result of the recognize entities operation on a single document.
+ */
+export type RecognizePiiEntitiesResult =
+  | RecognizePiiEntitiesSuccessResult
+  | RecognizePiiEntitiesErrorResult;
+
+/**
  * The result of the recognize entities operation on a single document, containing the collection of
  * `Entity` objects identified in that document.
  */
@@ -34,13 +41,6 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
  * An error result from the recognize entities operation on a single document.
  */
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
-
-/**
- * The result of the recognize entities operation on a single document.
- */
-export type RecognizePiiEntitiesResult =
-  | RecognizePiiEntitiesSuccessResult
-  | RecognizePiiEntitiesErrorResult;
 
 export function makeRecognizePiiEntitiesResult(
   document: RecognizePiiEntitiesSuccessResult

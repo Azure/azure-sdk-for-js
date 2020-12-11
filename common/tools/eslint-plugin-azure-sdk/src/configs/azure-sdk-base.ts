@@ -50,6 +50,7 @@ export default {
     "space-infix-ops": ["error", { int32Hint: false }],
     "use-isnan": "error",
     "no-only-tests/no-only-tests": "error",
+    "@typescript-eslint/explicit-module-boundary-types": ["error"],
     "no-redeclare": "off",
     "@typescript-eslint/no-redeclare": ["error", { builtinGlobals: true }],
     "@typescript-eslint/camelcase": "off",

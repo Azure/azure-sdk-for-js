@@ -6,436 +6,6 @@ import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
 
-function trimEnd(str: string, ch: string): string {
-  let len = str.length;
-  while (len - 1 >= 0 && str[len - 1] === ch) {
-    --len;
-  }
-  return str.substr(0, len);
-}
-
-function bufferToBase64Url(buffer: any): string | undefined {
-  if (!buffer) {
-    return undefined;
-  }
-  if (!(buffer instanceof Uint8Array)) {
-    throw new Error(`Please provide an input of type Uint8Array for converting to Base64Url.`);
-  }
-  // Uint8Array to Base64.
-  const str = base64.encodeByteArray(buffer);
-  // Base64 to Base64Url.
-  return trimEnd(str, "=")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_");
-}
-
-function base64UrlToByteArray(str: string): Uint8Array | undefined {
-  if (!str) {
-    return undefined;
-  }
-  if (str && typeof str.valueOf() !== "string") {
-    throw new Error("Please provide an input of type string for converting to Uint8Array");
-  }
-  // Base64Url to Base64.
-  str = str.replace(/-/g, "+").replace(/_/g, "/");
-  // Base64 to Uint8Array.
-  return base64.decodeString(str);
-}
-
-function splitSerializeName(prop: string | undefined): string[] {
-  const classes: string[] = [];
-  let partialclass = "";
-  if (prop) {
-    const subwords = prop.split(".");
-
-    for (const item of subwords) {
-      if (item.charAt(item.length - 1) === "\\") {
-        partialclass += item.substr(0, item.length - 1) + ".";
-      } else {
-        partialclass += item;
-        classes.push(partialclass);
-        partialclass = "";
-      }
-    }
-  }
-
-  return classes;
-}
-
-function dateToUnixTime(d: string | Date): number | undefined {
-  if (!d) {
-    return undefined;
-  }
-
-  if (typeof d.valueOf() === "string") {
-    d = new Date(d as string);
-  }
-  return Math.floor((d as Date).getTime() / 1000);
-}
-
-function unixTimeToDate(n: number): Date | undefined {
-  if (!n) {
-    return undefined;
-  }
-  return new Date(n * 1000);
-}
-
-function serializeBasicTypes(typeName: string, objectName: string, value: any): any {
-  if (value !== null && value !== undefined) {
-    if (typeName.match(/^Number$/i) !== null) {
-      if (typeof value !== "number") {
-        throw new Error(`${objectName} with value ${value} must be of type number.`);
-      }
-    } else if (typeName.match(/^String$/i) !== null) {
-      if (typeof value.valueOf() !== "string") {
-        throw new Error(`${objectName} with value "${value}" must be of type string.`);
-      }
-    } else if (typeName.match(/^Uuid$/i) !== null) {
-      if (!(typeof value.valueOf() === "string" && utils.isValidUuid(value))) {
-        throw new Error(
-          `${objectName} with value "${value}" must be of type string and a valid uuid.`
-        );
-      }
-    } else if (typeName.match(/^Boolean$/i) !== null) {
-      if (typeof value !== "boolean") {
-        throw new Error(`${objectName} with value ${value} must be of type boolean.`);
-      }
-    } else if (typeName.match(/^Stream$/i) !== null) {
-      const objectType = typeof value;
-      if (
-        objectType !== "string" &&
-        objectType !== "function" &&
-        !(value instanceof ArrayBuffer) &&
-        !ArrayBuffer.isView(value) &&
-        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob)
-      ) {
-        throw new Error(
-          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`
-        );
-      }
-    }
-  }
-
-  return value;
-}
-
-function serializeEnumType(objectName: string, allowedValues: Array<any>, value: any): any {
-  if (!allowedValues) {
-    throw new Error(
-      `Please provide a set of allowedValues to validate ${objectName} as an Enum Type.`
-    );
-  }
-  const isPresent = allowedValues.some((item) => {
-    if (typeof item.valueOf() === "string") {
-      return item.toLowerCase() === value.toLowerCase();
-    }
-    return item === value;
-  });
-  if (!isPresent) {
-    throw new Error(
-      `${value} is not a valid value for ${objectName}. The valid values are: ${JSON.stringify(
-        allowedValues
-      )}.`
-    );
-  }
-  return value;
-}
-
-function serializeByteArrayType(objectName: string, value: Uint8Array): string {
-  let returnValue: string = "";
-  if (value != undefined) {
-    if (!(value instanceof Uint8Array)) {
-      throw new Error(`${objectName} must be of type Uint8Array.`);
-    }
-    returnValue = base64.encodeByteArray(value);
-  }
-  return returnValue;
-}
-
-function serializeBase64UrlType(objectName: string, value: Uint8Array): string {
-  let returnValue: string = "";
-  if (value != undefined) {
-    if (!(value instanceof Uint8Array)) {
-      throw new Error(`${objectName} must be of type Uint8Array.`);
-    }
-    returnValue = bufferToBase64Url(value) || "";
-  }
-  return returnValue;
-}
-
-function serializeDateTypes(typeName: string, value: any, objectName: string): any {
-  if (value != undefined) {
-    if (typeName.match(/^Date$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
-        throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
-      }
-      value =
-        value instanceof Date
-          ? value.toISOString().substring(0, 10)
-          : new Date(value).toISOString().substring(0, 10);
-    } else if (typeName.match(/^DateTime$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
-        throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
-      }
-      value = value instanceof Date ? value.toISOString() : new Date(value).toISOString();
-    } else if (typeName.match(/^DateTimeRfc1123$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
-        throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
-      }
-      value = value instanceof Date ? value.toUTCString() : new Date(value).toUTCString();
-    } else if (typeName.match(/^UnixTime$/i) !== null) {
-      if (
-        !(
-          value instanceof Date ||
-          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
-        )
-      ) {
-        throw new Error(
-          `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
-            `for it to be serialized in UnixTime/Epoch format.`
-        );
-      }
-      value = dateToUnixTime(value);
-    } else if (typeName.match(/^TimeSpan$/i) !== null) {
-      if (!utils.isDuration(value)) {
-        throw new Error(
-          `${objectName} must be a string in ISO 8601 format. Instead was "${value}".`
-        );
-      }
-    }
-  }
-  return value;
-}
-
-export interface MapperConstraints {
-  InclusiveMaximum?: number;
-  ExclusiveMaximum?: number;
-  InclusiveMinimum?: number;
-  ExclusiveMinimum?: number;
-  MaxLength?: number;
-  MinLength?: number;
-  Pattern?: RegExp;
-  MaxItems?: number;
-  MinItems?: number;
-  UniqueItems?: true;
-  MultipleOf?: number;
-}
-
-export interface SimpleMapperType {
-  name:
-    | "Base64Url"
-    | "Boolean"
-    | "ByteArray"
-    | "Date"
-    | "DateTime"
-    | "DateTimeRfc1123"
-    | "Object"
-    | "Stream"
-    | "String"
-    | "TimeSpan"
-    | "UnixTime"
-    | "Uuid"
-    | "Number"
-    | "any";
-}
-
-export interface PolymorphicDiscriminator {
-  serializedName: string;
-  clientName: string;
-  [key: string]: string;
-}
-
-export interface CompositeMapperType {
-  name: "Composite";
-
-  // Only one of the two below properties should be present.
-  // Use className to reference another type definition,
-  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
-  className?: string;
-
-  modelProperties?: { [propertyName: string]: Mapper };
-  additionalProperties?: Mapper;
-
-  uberParent?: string;
-  polymorphicDiscriminator?: PolymorphicDiscriminator;
-}
-
-export interface SequenceMapperType {
-  name: "Sequence";
-  element: Mapper;
-}
-
-export interface DictionaryMapperType {
-  name: "Dictionary";
-  value: Mapper;
-}
-
-export interface EnumMapperType {
-  name: "Enum";
-  allowedValues: any[];
-}
-
-export interface BaseMapper {
-  /**
-   * Name for the xml element
-   */
-  xmlName?: string;
-  /**
-   * Xml element namespace
-   */
-  xmlNamespace?: string;
-  /**
-   * Xml element namespace prefix
-   */
-  xmlNamespacePrefix?: string;
-  /**
-   * Determines if the current property should be serialized as an attribute of the parent xml element
-   */
-  xmlIsAttribute?: boolean;
-  /**
-   * Name for the xml elements when serializing an array
-   */
-  xmlElementName?: string;
-  /**
-   * Whether or not the current property should have a wrapping XML element
-   */
-  xmlIsWrapped?: boolean;
-  /**
-   * Whether or not the current property is readonly
-   */
-  readOnly?: boolean;
-  /**
-   * Whether or not the current property is a constant
-   */
-  isConstant?: boolean;
-  /**
-   * Whether or not the current property is required
-   */
-  required?: boolean;
-  /**
-   * Whether or not the current property allows mull as a value
-   */
-  nullable?: boolean;
-  /**
-   * The name to use when serializing
-   */
-  serializedName?: string;
-  /**
-   * Type of the mapper
-   */
-  type: MapperType;
-  /**
-   * Default value when one is not explicitly provided
-   */
-  defaultValue?: any;
-  /**
-   * Constraints to test the current value against
-   */
-  constraints?: MapperConstraints;
-}
-
-export type MapperType =
-  | SimpleMapperType
-  | CompositeMapperType
-  | SequenceMapperType
-  | DictionaryMapperType
-  | EnumMapperType;
-
-export interface CompositeMapper extends BaseMapper {
-  type: CompositeMapperType;
-}
-
-export interface SequenceMapper extends BaseMapper {
-  type: SequenceMapperType;
-}
-
-export interface DictionaryMapper extends BaseMapper {
-  type: DictionaryMapperType;
-  headerCollectionPrefix?: string;
-}
-
-export interface EnumMapper extends BaseMapper {
-  type: EnumMapperType;
-}
-
-export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
-
-export interface UrlParameterValue {
-  value: string;
-  skipUrlEncoding: boolean;
-}
-
-// TODO: why is this here?
-export function serializeObject(toSerialize: unknown): any {
-  const castToSerialize = toSerialize as Record<string, unknown>;
-  if (toSerialize == undefined) return undefined;
-  if (toSerialize instanceof Uint8Array) {
-    toSerialize = base64.encodeByteArray(toSerialize);
-    return toSerialize;
-  } else if (toSerialize instanceof Date) {
-    return toSerialize.toISOString();
-  } else if (Array.isArray(toSerialize)) {
-    const array = [];
-    for (let i = 0; i < toSerialize.length; i++) {
-      array.push(serializeObject(toSerialize[i]));
-    }
-    return array;
-  } else if (typeof toSerialize === "object") {
-    const dictionary: { [key: string]: any } = {};
-    for (const property in toSerialize) {
-      dictionary[property] = serializeObject(castToSerialize[property]);
-    }
-    return dictionary;
-  }
-  return toSerialize;
-}
-
-/**
- * Utility function to create a K:V from a list of strings
- */
-function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
-  const result: any = {};
-  for (const key of o) {
-    result[key] = key;
-  }
-  return result;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const MapperType = strEnum([
-  "Base64Url",
-  "Boolean",
-  "ByteArray",
-  "Composite",
-  "Date",
-  "DateTime",
-  "DateTimeRfc1123",
-  "Dictionary",
-  "Enum",
-  "Number",
-  "Object",
-  "Sequence",
-  "String",
-  "Stream",
-  "TimeSpan",
-  "UnixTime"
-]);
-
 export class Serializer {
   constructor(
     public readonly modelMappers: { [key: string]: any } = {},
@@ -451,7 +21,7 @@ export class Serializer {
         `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
       );
     };
-    if (mapper.constraints && value !== undefined) {
+    if (mapper.constraints && value != undefined) {
       const valueAsNumber = value as number;
       const {
         ExclusiveMaximum,
@@ -675,12 +245,12 @@ export class Serializer {
     } else {
       if (this.isXML) {
         const xmlCharKey = updatedOptions.xmlCharKey;
+        const castResponseBody = responseBody as Record<string, unknown>;
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
          * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
          * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
          */
-        const castResponseBody = responseBody as Record<string, unknown>;
         if (
           castResponseBody[XML_ATTRKEY] != undefined &&
           castResponseBody[xmlCharKey] != undefined
@@ -737,6 +307,222 @@ export class Serializer {
 
     return payload;
   }
+}
+
+function trimEnd(str: string, ch: string): string {
+  let len = str.length;
+  while (len - 1 >= 0 && str[len - 1] === ch) {
+    --len;
+  }
+  return str.substr(0, len);
+}
+
+function bufferToBase64Url(buffer: any): string | undefined {
+  if (!buffer) {
+    return undefined;
+  }
+  if (!(buffer instanceof Uint8Array)) {
+    throw new Error(`Please provide an input of type Uint8Array for converting to Base64Url.`);
+  }
+  // Uint8Array to Base64.
+  const str = base64.encodeByteArray(buffer);
+  // Base64 to Base64Url.
+  return trimEnd(str, "=")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+}
+
+function base64UrlToByteArray(str: string): Uint8Array | undefined {
+  if (!str) {
+    return undefined;
+  }
+  if (str && typeof str.valueOf() !== "string") {
+    throw new Error("Please provide an input of type string for converting to Uint8Array");
+  }
+  // Base64Url to Base64.
+  str = str.replace(/-/g, "+").replace(/_/g, "/");
+  // Base64 to Uint8Array.
+  return base64.decodeString(str);
+}
+
+function splitSerializeName(prop: string | undefined): string[] {
+  const classes: string[] = [];
+  let partialclass = "";
+  if (prop) {
+    const subwords = prop.split(".");
+
+    for (const item of subwords) {
+      if (item.charAt(item.length - 1) === "\\") {
+        partialclass += item.substr(0, item.length - 1) + ".";
+      } else {
+        partialclass += item;
+        classes.push(partialclass);
+        partialclass = "";
+      }
+    }
+  }
+
+  return classes;
+}
+
+function dateToUnixTime(d: string | Date): number | undefined {
+  if (!d) {
+    return undefined;
+  }
+
+  if (typeof d.valueOf() === "string") {
+    d = new Date(d as string);
+  }
+  return Math.floor((d as Date).getTime() / 1000);
+}
+
+function unixTimeToDate(n: number): Date | undefined {
+  if (!n) {
+    return undefined;
+  }
+  return new Date(n * 1000);
+}
+
+function serializeBasicTypes(typeName: string, objectName: string, value: any): any {
+  if (value !== null && value !== undefined) {
+    if (typeName.match(/^Number$/i) !== null) {
+      if (typeof value !== "number") {
+        throw new Error(`${objectName} with value ${value} must be of type number.`);
+      }
+    } else if (typeName.match(/^String$/i) !== null) {
+      if (typeof value.valueOf() !== "string") {
+        throw new Error(`${objectName} with value "${value}" must be of type string.`);
+      }
+    } else if (typeName.match(/^Uuid$/i) !== null) {
+      if (!(typeof value.valueOf() === "string" && utils.isValidUuid(value))) {
+        throw new Error(
+          `${objectName} with value "${value}" must be of type string and a valid uuid.`
+        );
+      }
+    } else if (typeName.match(/^Boolean$/i) !== null) {
+      if (typeof value !== "boolean") {
+        throw new Error(`${objectName} with value ${value} must be of type boolean.`);
+      }
+    } else if (typeName.match(/^Stream$/i) !== null) {
+      const objectType = typeof value;
+      if (
+        objectType !== "string" &&
+        objectType !== "function" &&
+        !(value instanceof ArrayBuffer) &&
+        !ArrayBuffer.isView(value) &&
+        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob)
+      ) {
+        throw new Error(
+          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`
+        );
+      }
+    }
+  }
+
+  return value;
+}
+
+function serializeEnumType(objectName: string, allowedValues: Array<any>, value: any): any {
+  if (!allowedValues) {
+    throw new Error(
+      `Please provide a set of allowedValues to validate ${objectName} as an Enum Type.`
+    );
+  }
+  const isPresent = allowedValues.some((item) => {
+    if (typeof item.valueOf() === "string") {
+      return item.toLowerCase() === value.toLowerCase();
+    }
+    return item === value;
+  });
+  if (!isPresent) {
+    throw new Error(
+      `${value} is not a valid value for ${objectName}. The valid values are: ${JSON.stringify(
+        allowedValues
+      )}.`
+    );
+  }
+  return value;
+}
+
+function serializeByteArrayType(objectName: string, value: Uint8Array): string {
+  let returnValue: string = "";
+  if (value != undefined) {
+    if (!(value instanceof Uint8Array)) {
+      throw new Error(`${objectName} must be of type Uint8Array.`);
+    }
+    returnValue = base64.encodeByteArray(value);
+  }
+  return returnValue;
+}
+
+function serializeBase64UrlType(objectName: string, value: Uint8Array): string {
+  let returnValue: string = "";
+  if (value != undefined) {
+    if (!(value instanceof Uint8Array)) {
+      throw new Error(`${objectName} must be of type Uint8Array.`);
+    }
+    returnValue = bufferToBase64Url(value) || "";
+  }
+  return returnValue;
+}
+
+function serializeDateTypes(typeName: string, value: any, objectName: string): any {
+  if (value != undefined) {
+    if (typeName.match(/^Date$/i) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
+        throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
+      }
+      value =
+        value instanceof Date
+          ? value.toISOString().substring(0, 10)
+          : new Date(value).toISOString().substring(0, 10);
+    } else if (typeName.match(/^DateTime$/i) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
+        throw new Error(`${objectName} must be an instanceof Date or a string in ISO8601 format.`);
+      }
+      value = value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+    } else if (typeName.match(/^DateTimeRfc1123$/i) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
+        throw new Error(`${objectName} must be an instanceof Date or a string in RFC-1123 format.`);
+      }
+      value = value instanceof Date ? value.toUTCString() : new Date(value).toUTCString();
+    } else if (typeName.match(/^UnixTime$/i) !== null) {
+      if (
+        !(
+          value instanceof Date ||
+          (typeof value.valueOf() === "string" && !isNaN(Date.parse(value)))
+        )
+      ) {
+        throw new Error(
+          `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
+            `for it to be serialized in UnixTime/Epoch format.`
+        );
+      }
+      value = dateToUnixTime(value);
+    } else if (typeName.match(/^TimeSpan$/i) !== null) {
+      if (!utils.isDuration(value)) {
+        throw new Error(
+          `${objectName} must be a string in ISO 8601 format. Instead was "${value}".`
+        );
+      }
+    }
+  }
+  return value;
 }
 
 function serializeSequenceType(
@@ -1316,3 +1102,217 @@ function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: st
     serializer.modelMappers[typeName].type.polymorphicDiscriminator
   );
 }
+
+export interface MapperConstraints {
+  InclusiveMaximum?: number;
+  ExclusiveMaximum?: number;
+  InclusiveMinimum?: number;
+  ExclusiveMinimum?: number;
+  MaxLength?: number;
+  MinLength?: number;
+  Pattern?: RegExp;
+  MaxItems?: number;
+  MinItems?: number;
+  UniqueItems?: true;
+  MultipleOf?: number;
+}
+
+export type MapperType =
+  | SimpleMapperType
+  | CompositeMapperType
+  | SequenceMapperType
+  | DictionaryMapperType
+  | EnumMapperType;
+
+export interface SimpleMapperType {
+  name:
+    | "Base64Url"
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
+}
+
+export interface CompositeMapperType {
+  name: "Composite";
+
+  // Only one of the two below properties should be present.
+  // Use className to reference another type definition,
+  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
+  className?: string;
+
+  modelProperties?: { [propertyName: string]: Mapper };
+  additionalProperties?: Mapper;
+
+  uberParent?: string;
+  polymorphicDiscriminator?: PolymorphicDiscriminator;
+}
+
+export interface SequenceMapperType {
+  name: "Sequence";
+  element: Mapper;
+}
+
+export interface DictionaryMapperType {
+  name: "Dictionary";
+  value: Mapper;
+}
+
+export interface EnumMapperType {
+  name: "Enum";
+  allowedValues: any[];
+}
+
+export interface BaseMapper {
+  /**
+   * Name for the xml element
+   */
+  xmlName?: string;
+  /**
+   * Xml element namespace
+   */
+  xmlNamespace?: string;
+  /**
+   * Xml element namespace prefix
+   */
+  xmlNamespacePrefix?: string;
+  /**
+   * Determines if the current property should be serialized as an attribute of the parent xml element
+   */
+  xmlIsAttribute?: boolean;
+  /**
+   * Name for the xml elements when serializing an array
+   */
+  xmlElementName?: string;
+  /**
+   * Whether or not the current property should have a wrapping XML element
+   */
+  xmlIsWrapped?: boolean;
+  /**
+   * Whether or not the current property is readonly
+   */
+  readOnly?: boolean;
+  /**
+   * Whether or not the current property is a constant
+   */
+  isConstant?: boolean;
+  /**
+   * Whether or not the current property is required
+   */
+  required?: boolean;
+  /**
+   * Whether or not the current property allows mull as a value
+   */
+  nullable?: boolean;
+  /**
+   * The name to use when serializing
+   */
+  serializedName?: string;
+  /**
+   * Type of the mapper
+   */
+  type: MapperType;
+  /**
+   * Default value when one is not explicitly provided
+   */
+  defaultValue?: any;
+  /**
+   * Constraints to test the current value against
+   */
+  constraints?: MapperConstraints;
+}
+
+export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
+
+export interface PolymorphicDiscriminator {
+  serializedName: string;
+  clientName: string;
+  [key: string]: string;
+}
+
+export interface CompositeMapper extends BaseMapper {
+  type: CompositeMapperType;
+}
+
+export interface SequenceMapper extends BaseMapper {
+  type: SequenceMapperType;
+}
+
+export interface DictionaryMapper extends BaseMapper {
+  type: DictionaryMapperType;
+  headerCollectionPrefix?: string;
+}
+
+export interface EnumMapper extends BaseMapper {
+  type: EnumMapperType;
+}
+
+export interface UrlParameterValue {
+  value: string;
+  skipUrlEncoding: boolean;
+}
+
+// TODO: why is this here?
+export function serializeObject(toSerialize: unknown): any {
+  const castToSerialize = toSerialize as Record<string, unknown>;
+  if (toSerialize == undefined) return undefined;
+  if (toSerialize instanceof Uint8Array) {
+    toSerialize = base64.encodeByteArray(toSerialize);
+    return toSerialize;
+  } else if (toSerialize instanceof Date) {
+    return toSerialize.toISOString();
+  } else if (Array.isArray(toSerialize)) {
+    const array = [];
+    for (let i = 0; i < toSerialize.length; i++) {
+      array.push(serializeObject(toSerialize[i]));
+    }
+    return array;
+  } else if (typeof toSerialize === "object") {
+    const dictionary: { [key: string]: any } = {};
+    for (const property in toSerialize) {
+      dictionary[property] = serializeObject(castToSerialize[property]);
+    }
+    return dictionary;
+  }
+  return toSerialize;
+}
+
+/**
+ * Utility function to create a K:V from a list of strings
+ */
+function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
+  const result: any = {};
+  for (const key of o) {
+    result[key] = key;
+  }
+  return result;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const MapperType = strEnum([
+  "Base64Url",
+  "Boolean",
+  "ByteArray",
+  "Composite",
+  "Date",
+  "DateTime",
+  "DateTimeRfc1123",
+  "Dictionary",
+  "Enum",
+  "Number",
+  "Object",
+  "Sequence",
+  "String",
+  "Stream",
+  "TimeSpan",
+  "UnixTime"
+]);

@@ -67,11 +67,14 @@ export function parseAndWrap(jsonStringOrObject: string | object): any[] {
 
 const EVENT_GRID_SCHEMA_METADATA_VERSION = "1";
 
-export function validateEventGridEvent(o: any): void {
+export function validateEventGridEvent(o: unknown): void {
   if (typeof o !== "object") {
     throw new TypeError("event is not an object");
   }
 
+  const castO = o as {
+    metadataVersion: unknown;
+  };
   validateRequiredStringProperties(o, [
     "eventType",
     "eventTime",
@@ -84,14 +87,14 @@ export function validateEventGridEvent(o: any): void {
 
   validateRequiredAnyProperties(o, ["data"]);
 
-  if (o.metadataVersion !== EVENT_GRID_SCHEMA_METADATA_VERSION) {
+  if (castO.metadataVersion !== EVENT_GRID_SCHEMA_METADATA_VERSION) {
     throw new TypeError("event is not in the Event Grid schema");
   }
 }
 
 const CLOUD_EVENT_1_0_SPEC_VERSION = "1.0";
 
-export function validateCloudEventEvent(o: any): void {
+export function validateCloudEventEvent(o: unknown): void {
   validateRequiredStringProperties(o, ["type", "source", "id", "specversion"]);
   validateOptionalStringProperties(o, ["time", "dataschema", "datacontenttype", "subject"]);
 
@@ -99,7 +102,11 @@ export function validateCloudEventEvent(o: any): void {
     throw new TypeError("event is not an object");
   }
 
-  if (o.specversion !== CLOUD_EVENT_1_0_SPEC_VERSION) {
+  const castO = o as {
+    specversion: unknown;
+  };
+
+  if (castO.specversion !== CLOUD_EVENT_1_0_SPEC_VERSION) {
     throw new Error("event is not in the Cloud Event 1.0 schema");
   }
 }

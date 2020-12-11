@@ -4,6 +4,11 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../shims-public.d.ts" />
 
+type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
+
+const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
+const abortedMap = new WeakMap<AbortSignal, boolean>();
+
 /**
  * Allows the request to be aborted upon firing of the "abort" event.
  * Compatible with the browser built-in AbortSignal and common polyfills.
@@ -30,11 +35,6 @@ export interface AbortSignalLike {
     options?: any
   ): void;
 }
-
-type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
-
-const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
-const abortedMap = new WeakMap<AbortSignal, boolean>();
 
 /**
  * An aborter instance implements AbortSignal interface, can abort HTTP requests.
