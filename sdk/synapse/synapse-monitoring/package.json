@@ -67,7 +67,8 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "echo skipped",
-    "extract-api": "api-extractor run --local"
+    "extract-api": "api-extractor run --local",
+    "build:samples": "echo Skipped."
   },
   "sideEffects": false,
   "autoPublish": true
