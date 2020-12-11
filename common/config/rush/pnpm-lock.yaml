@@ -573,83 +573,95 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-mNAhARn4dEdOjTa9OdysjI4fRHMbvr4YSbPuH7jhkyPzgoa+DnvnbY3GGpEay6kpuYJsrW8Ef9OIKAV/GndhbQ==
-  /@rollup/plugin-commonjs/11.0.2_rollup@1.32.1:
+  /@rollup/plugin-commonjs/17.0.0_rollup@2.34.2:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
-      estree-walker: 1.0.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.34.2
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 7.1.6
       is-reference: 1.2.1
       magic-string: 0.25.7
       resolve: 1.19.0
-      rollup: 1.32.1
+      rollup: 2.34.2
     dev: false
     engines:
       node: '>= 8.0.0'
     peerDependencies:
-      rollup: ^1.20.0
+      rollup: ^2.30.0
     resolution:
-      integrity: sha512-MPYGZr0qdbV5zZj8/2AuomVpnRVXRU5XKXb3HVniwRoRCreGlf5kOE081isNWeiLIi6IYkwTX9zE0/c7V8g81g==
-  /@rollup/plugin-inject/4.0.2_rollup@1.32.1:
+      integrity: sha512-/omBIJG1nHQc+bgkYDuLpb/V08QyutP9amOrJRUSlYJZP+b/68gM//D8sxJe3Yry2QnYIr3QjR3x4AlxJEN3GA==
+  /@rollup/plugin-inject/4.0.2_rollup@2.34.2:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.34.2
       estree-walker: 1.0.1
       magic-string: 0.25.7
-      rollup: 1.32.1
+      rollup: 2.34.2
     dev: false
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-TSLMA8waJ7Dmgmoc8JfPnwUwVZgLjjIAM6MqeIFqPO2ODK36JqE0Cf2F54UTgCUuW8da93Mvoj75a6KAVWgylw==
-  /@rollup/plugin-json/4.1.0_rollup@1.32.1:
+  /@rollup/plugin-json/4.1.0_rollup@2.34.2:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
-      rollup: 1.32.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.34.2
+      rollup: 2.34.2
     dev: false
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==
-  /@rollup/plugin-multi-entry/3.0.1_rollup@1.32.1:
+  /@rollup/plugin-multi-entry/4.0.0_rollup@2.34.2:
     dependencies:
-      matched: 1.0.2
-      rollup: 1.32.1
+      '@rollup/plugin-virtual': 2.0.3_rollup@2.34.2
+      matched: 5.0.1
+      rollup: 2.34.2
     dev: false
+    engines:
+      node: '>=10.0.0'
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
-      integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==
-  /@rollup/plugin-node-resolve/8.4.0_rollup@1.32.1:
+      integrity: sha512-1Sw86rwFxrNS7ECY3iSZ7T940xKnruNGpmQDgSDVTp+VTa1g5cPXNzBgp+IoOer41CiVeGFLwYwvicVoJLHEDQ==
+  /@rollup/plugin-node-resolve/11.0.0_rollup@2.34.2:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.34.2
       '@types/resolve': 1.17.1
       builtin-modules: 3.1.0
-      deep-freeze: 0.0.1
       deepmerge: 4.2.2
       is-module: 1.0.0
       resolve: 1.19.0
-      rollup: 1.32.1
+      rollup: 2.34.2
     dev: false
     engines:
-      node: '>= 8.0.0'
+      node: '>= 10.0.0'
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
     resolution:
-      integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==
-  /@rollup/plugin-replace/2.3.4_rollup@1.32.1:
+      integrity: sha512-8Hrmwjn1pLYjUxcv7U7IPP0qfnzEJWHyHE6CaZ8jbLM+8axaarJRB1jB6JgKTDp5gNga+TpsgX6F8iuvgOerKQ==
+  /@rollup/plugin-replace/2.3.4_rollup@2.34.2:
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
+      '@rollup/pluginutils': 3.1.0_rollup@2.34.2
       magic-string: 0.25.7
-      rollup: 1.32.1
+      rollup: 2.34.2
     dev: false
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     resolution:
       integrity: sha512-waBhMzyAtjCL1GwZes2jaE9MjuQ/DQF2BatH3fRivUF3z0JBFrU0U6iBNC/4WR+2rLKhaAhPWDNPYp4mI6RqdQ==
-  /@rollup/pluginutils/3.1.0_rollup@1.32.1:
+  /@rollup/plugin-virtual/2.0.3_rollup@2.34.2:
+    dependencies:
+      rollup: 2.34.2
+    dev: false
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    resolution:
+      integrity: sha512-pw6ziJcyjZtntQ//bkad9qXaBx665SgEL8C8KI5wO8G5iU5MPxvdWrQyVaAvjojGm9tJoS8M9Z/EEepbqieYmw==
+  /@rollup/pluginutils/3.1.0_rollup@2.34.2:
     dependencies:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.2.2
-      rollup: 1.32.1
+      rollup: 2.34.2
     dev: false
     engines:
       node: '>= 8.0.0'
@@ -952,7 +964,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 8.10.66
+      '@types/node': 14.14.10
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -1420,12 +1432,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
-  /arr-union/3.1.0:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=
   /array-differ/1.0.0:
     dev: false
     engines:
@@ -1518,12 +1524,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-+Ryf6g3BKoRc7jfp7ad8tM4TtMiaWvbF/1/sQcZPkkS7ag3D5nMBCe2UfOTONtAkaG0tO0ij3C5Lwmf1EiyjHg==
-  /async-array-reduce/0.2.1:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-yL4BCitc0A3qlsgRFgNGk9/dgtE=
   /async-limiter/1.0.1:
     dev: false
     resolution:
@@ -2521,10 +2521,6 @@ packages:
     optional: true
     resolution:
       integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
-  /deep-freeze/0.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-OgsABd4YZygZ39OM0x+RF5yJPoQ=
   /deep-is/0.1.3:
     dev: false
     resolution:
@@ -3107,6 +3103,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
+  /estree-walker/2.0.2:
+    dev: false
+    resolution:
+      integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
   /esutils/2.0.3:
     dev: false
     engines:
@@ -3166,14 +3166,6 @@ packages:
     optional: true
     resolution:
       integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==
-  /expand-tilde/2.0.2:
-    dependencies:
-      homedir-polyfill: 1.0.3
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-l+gBqgUt8CRU3kawK/YhZCzchQI=
   /express/4.17.1:
     dependencies:
       accepts: 1.3.7
@@ -3702,28 +3694,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
-  /global-modules/1.0.0:
-    dependencies:
-      global-prefix: 1.0.2
-      is-windows: 1.0.2
-      resolve-dir: 1.0.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-sKzpEkf11GpOFuw0Zzjzmt4B4UZwjOcG757PPvrfhxcLFbq0wpsgpOqxpxtxFiCG4DtG93M6XRVbF2oGdev7bg==
-  /global-prefix/1.0.2:
-    dependencies:
-      expand-tilde: 2.0.2
-      homedir-polyfill: 1.0.3
-      ini: 1.3.5
-      is-windows: 1.0.2
-      which: 1.3.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-2/dDxsFJklk8ZVVoy2btMsASLr4=
   /global/4.4.0:
     dependencies:
       min-document: 2.19.0
@@ -3880,14 +3850,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
-  /has-glob/1.0.0:
-    dependencies:
-      is-glob: 3.1.0
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-mqqe7b/7G6OZCnsAEPtnjuAIEgc=
   /has-gulplog/0.1.0:
     dependencies:
       sparkles: 1.0.1
@@ -3965,14 +3927,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=
-  /homedir-polyfill/1.0.3:
-    dependencies:
-      parse-passwd: 1.0.0
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==
   /hosted-git-info/2.8.8:
     dev: false
     resolution:
@@ -4150,6 +4104,7 @@ packages:
       integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
   /ini/1.3.5:
     dev: false
+    optional: true
     resolution:
       integrity: sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
   /inquirer/7.3.3:
@@ -4289,14 +4244,6 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-2Omr/twNtufVZFr1GhxjOMFPAj2sjc/dKaIqBhvo4qciXfJmITGH6ZGd8eZYNHza8t1y0e01AuqRhJwfWp26WQ==
-  /is-glob/3.1.0:
-    dependencies:
-      is-extglob: 2.1.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-e6WuJCF4BKxwcHuWkiVnSGzD6Eo=
   /is-glob/4.0.1:
     dependencies:
       is-extglob: 2.1.1
@@ -4383,18 +4330,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Sw2hRCEE0bM2NA6AeX6GXPOffXI=
-  /is-valid-glob/1.0.0:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-Kb8+/3Ab4tTTFdusw5vDn+j2Aao=
-  /is-windows/1.0.2:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-eXK1UInq2bPmjyX6e3VHIzMLobc4J94i4AWn+Hpq3OU5KkrRC96OAcR3PRJ/pGu6m8TRnBHP9dkXQVsT/COVIA==
   /is-wsl/2.2.0:
     dependencies:
       is-docker: 2.1.1
@@ -4872,11 +4807,11 @@ packages:
       karma: '>=0.9'
     resolution:
       integrity: sha1-l/O3cAZSVPm0ck8tm+SjouG69vw=
-  /karma-rollup-preprocessor/7.0.5_rollup@1.32.1:
+  /karma-rollup-preprocessor/7.0.5_rollup@2.34.2:
     dependencies:
       chokidar: 3.4.3
       debounce: 1.2.0
-      rollup: 1.32.1
+      rollup: 2.34.2
     dev: false
     engines:
       node: '>= 8.0.0'
@@ -5314,19 +5249,15 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-EGwzEeCcLniFX51DhTpmTom+dSA/MG/OBUDjnWtHbEnjAH180VzUeAw+oE4+Zv+CoYBWyRlYOTR0N8SO9R1PVw==
-  /matched/1.0.2:
+  /matched/5.0.1:
     dependencies:
-      arr-union: 3.1.0
-      async-array-reduce: 0.2.1
       glob: 7.1.6
-      has-glob: 1.0.0
-      is-valid-glob: 1.0.0
-      resolve-dir: 1.0.1
+      picomatch: 2.2.2
     dev: false
     engines:
-      node: '>= 0.12.0'
+      node: '>=10'
     resolution:
-      integrity: sha512-7ivM1jFZVTOOS77QsR+TtYHH0ecdLclMkqbf5qiJdX2RorqfhsL65QHySPZgDE0ZjHoh+mQUNHTanNXIlzXd0Q==
+      integrity: sha512-E1fhSTPRyhAlNaNvGXAgZQlq1hL0bgYMTk/6bktVlIhzUnX/SZs7296ACdVeNJE8xFNGSuvd9IpI7vSnmcqLvw==
   /md5.js/1.3.4:
     dependencies:
       hash-base: 3.1.0
@@ -6048,12 +5979,6 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-3YHlOa/JgH6Mnpr05jP9eDG254US9ek25LyIxZlDItp2iJtwyaXQb57lBYLdT3MowkUFYEV2XXNAYIPlESvJlA==
-  /parse-passwd/1.0.0:
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-bVuTSkVpk7I9N/QKOC1vFmao5cY=
   /parseqs/0.0.5:
     dependencies:
       better-assert: 1.0.2
@@ -6747,15 +6672,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
-  /resolve-dir/1.0.1:
-    dependencies:
-      expand-tilde: 2.0.2
-      global-modules: 1.0.0
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha1-eaQGRMNivoLybv/nOcm7U4IEb0M=
   /resolve-from/4.0.0:
     dev: false
     engines:
@@ -6897,9 +6813,9 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rZqFD43y4U9nSqVq3iyWBiDwmBQJY8Txi04yI9jTKD3xcl7CbFjh1qRpQshUB3sONLubDzm7vJiwB+1MEGv67w==
-  /rollup-plugin-sourcemaps/0.4.2_rollup@1.32.1:
+  /rollup-plugin-sourcemaps/0.4.2_rollup@2.34.2:
     dependencies:
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-pluginutils: 2.8.2
       source-map-resolve: 0.5.3
     dev: false
@@ -6910,11 +6826,11 @@ packages:
       rollup: '>=0.31.2'
     resolution:
       integrity: sha1-YhJaqUCHqt97g+9N+vYptHMTXoc=
-  /rollup-plugin-terser/5.3.1_rollup@1.32.1:
+  /rollup-plugin-terser/5.3.1_rollup@2.34.2:
     dependencies:
       '@babel/code-frame': 7.10.4
       jest-worker: 24.9.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-pluginutils: 2.8.2
       serialize-javascript: 4.0.0
       terser: 4.8.0
@@ -6935,11 +6851,11 @@ packages:
       rollup: '>=0.66.0 <2'
     resolution:
       integrity: sha512-ddgqkH02klveu34TF0JqygPwZnsbhHVI6t8+hGTcYHngPkQb5MIHI0XiztXIN/d6V9j+efwHAqEL7LspSxQXGw==
-  /rollup-plugin-visualizer/4.2.0_rollup@1.32.1:
+  /rollup-plugin-visualizer/4.2.0_rollup@2.34.2:
     dependencies:
       nanoid: 3.1.20
       open: 7.3.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       source-map: 0.7.3
       yargs: 16.2.0
     dev: false
@@ -6965,6 +6881,15 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-/2HA0Ec70TvQnXdzynFffkjA6XN+1e2pEv/uKS5Ulca40g2L7KuOE3riasHoNVHOsFD5KKZgDsMk1CP3Tw9s+A==
+  /rollup/2.34.2:
+    dev: false
+    engines:
+      node: '>=10.0.0'
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.1.3
+    resolution:
+      integrity: sha512-mvtQLqu3cNeoctS+kZ09iOPxrc1P1/Bt1z15enuQ5feyKOdM3MJAVFjjsygurDpSWn530xB4AlA83TWIzRstXA==
   /run-async/2.4.1:
     dev: false
     engines:
@@ -8590,10 +8515,10 @@ packages:
   'file:projects/abort-controller.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -8616,16 +8541,16 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-ePGF2T1ovFoO5zMj5swjozDl1D9pNY1L5fGgDU7ugfDHfCovr6md3cch0ytFFrtFPDIdSbrHChjUQ26gxX6Jaw==
+      integrity: sha512-Wn3c5G8cXXobLIRBiqCOvTyXQhB/gYhPI62Di59eSXAQ/uwrZrWjgh9Q7VjxBaVLZ+AlbsKsKIRdIC96I5YuAA==
       tarball: 'file:projects/abort-controller.tgz'
     version: 0.0.0
   'file:projects/ai-anomaly-detector.tgz':
@@ -8633,11 +8558,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -8663,18 +8588,18 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-x9L7AxP7505Qji9y5rvSK3iJ6f0bWWq+lpsmZFpCtIcow6rsGF83VS42RuAKfIbSH7TyN/kqh3wkpXGjzbbp1A==
+      integrity: sha512-W5ATE3w8/MSegxXc50YrjTBcs1U3NLwcJ5Yz3+cD9Wz+xmv0JY54ftwjpmNVvq7KO+hY9IUIEp9ZfACyt6zocw==
       tarball: 'file:projects/ai-anomaly-detector.tgz'
     version: 0.0.0
   'file:projects/ai-form-recognizer.tgz':
@@ -8709,7 +8634,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
@@ -8717,7 +8642,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-form-recognizer'
     resolution:
-      integrity: sha512-ggLKyydURwTpuEH3YqnsqWowerF8nOCZnEpH+DjH0i3ryU67fJ+cLHttIIQ/z9lqRrZlv0djJ9cVEUGBHuzaUw==
+      integrity: sha512-5f7VJgU6cxTZPdOgH/GrttvZJE8H4iLqAOFJB6//9p4gU9kainlayyOxeAGXqR9l+P9iTQMKWCs5gefcTaA2tQ==
       tarball: 'file:projects/ai-form-recognizer.tgz'
     version: 0.0.0
   'file:projects/ai-metrics-advisor.tgz':
@@ -8752,7 +8677,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
@@ -8761,7 +8686,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-metrics-advisor'
     resolution:
-      integrity: sha512-BlG5txD2yfImdOEmTLfpTGoVn5hhjzqQD3ZZOVR/ZYAX9erIPCa3dmycJ35dE3q2LtLqR0zMmMuEvGHji4Uy6g==
+      integrity: sha512-2glMLrar/wNbzHWsz4fhhDtqVWxgYrrH63L/1geUA7tXV+fRTD8KSbQZK1RyBpPGL4IYrq9EvLRL9g6Y0XYDiw==
       tarball: 'file:projects/ai-metrics-advisor.tgz'
     version: 0.0.0
   'file:projects/ai-text-analytics.tgz':
@@ -8798,7 +8723,7 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
@@ -8807,7 +8732,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-XOI2yx/SP/BU3sS09tB73xNR6qjbtGD5AYwruw6X1DHIl+z9JkFAHCF5UcQFd76yYUEfZcL9eeLfX+iJJvKl2w==
+      integrity: sha512-Q+TDEODCttZRs605a8KT1hngA7Tp2I1681m1B++SkgVRDdCLWoevFfbuo/9h5zOEkKGo3zAFktYLxq3N1bP/UA==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -8815,12 +8740,12 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -8848,10 +8773,10 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
       sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -8860,7 +8785,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-JXMfo451lyxj07kUIQBSAow4FgLaBi1TtCHcm2VBsKvvT0JuFrNvvTIUwh+aKbUvkn/ZDDYJqQIkZc9vzWj2/A==
+      integrity: sha512-PSB/1WH+yLyeXraCxp8DiZNMW/FqdpDtseAS3QcqFne2mvRBwKL8gNO+tIyRDKkZ8JiAGp84Y7D9diZVkR2/vg==
       tarball: 'file:projects/app-configuration.tgz'
     version: 0.0.0
   'file:projects/communication-administration.tgz':
@@ -8869,11 +8794,11 @@ packages:
       '@microsoft/api-documenter': 7.8.56
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -8903,18 +8828,18 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-kDZMCkId+dq0dDqs6wzQiKwGBKQ2BgSCEVcX8Ge4asrhN3WzTwl/eoxCNGV3fPgLXuZ7yB1Azpq9jyE/8eOlyg==
+      integrity: sha512-frZLsPn7w9P9/7C02EB5+28Y6mbFT5ZLuDmiJUy9WButb8lkRowJdFUKQRvuULQO+yO3z9R/OehHh5JLduDITQ==
       tarball: 'file:projects/communication-administration.tgz'
     version: 0.0.0
   'file:projects/communication-chat.tgz':
@@ -8923,11 +8848,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -8957,11 +8882,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -8969,18 +8894,18 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-l7iNBZI9fgurymKsHXrPuyXfCZNnYKmxuxs+DU3VGP5bKPDtHTPPKuk59k9cYyTT9FsypPBCkREU/jlsJM6DrA==
+      integrity: sha512-iu0nWX6GRy2CidywcKiXIKGnpvQSqR2fuz30MtpEwjKNzFKXQ1EWeElv2sRgzN2ypsCny9z2XFAdLNMoL98Huw==
       tarball: 'file:projects/communication-chat.tgz'
     version: 0.0.0
   'file:projects/communication-common.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/jwt-decode': 2.2.1
@@ -9011,10 +8936,10 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9022,7 +8947,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-common'
     resolution:
-      integrity: sha512-urCDs68xfK5hgKP4vgAPncOgaMEPgMCQlIXr3UshMXJUVAryUflhfVYCwLiy3tPDHBUpRFMu7qWjU76IVUqulA==
+      integrity: sha512-ZcA8wVJk79EnPbwr5HT1PaJyhUMLAv8tRR5+JhS8uDf5PH6FP32IHC6Y1VY0w+VTqHqnijbl+1+WtNMeJ6ROnQ==
       tarball: 'file:projects/communication-common.tgz'
     version: 0.0.0
   'file:projects/communication-sms.tgz':
@@ -9030,11 +8955,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9062,11 +8987,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9074,18 +8999,18 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-CelUWH6TA8Xj5s14bViMKZ+WvmK8DUN0AJKeLe+86CeYIOWHB5JCr8BRQ2hDQIB3n++g6xNUzfrwG9ECMG3uug==
+      integrity: sha512-WjmBhKeR4ueJv/IMhbDvP7wQE+fZt8EJ3fN7x2v+9Uph9p0s8g868EsbiNeVI6tVxudG2FOGBIEKix1soeCZDA==
       tarball: 'file:projects/communication-sms.tgz'
     version: 0.0.0
   'file:projects/core-amqp.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/async-lock': 1.1.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
@@ -9119,10 +9044,10 @@ packages:
       rhea: 1.0.24
       rhea-promise: 1.0.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
       sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -9133,7 +9058,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-x6mKN9gSowCFmjRbwapUXG+7Q8SXgIj04M9Uxzz2em44VtCvLxDt1xQEoVM735J1ggwtEKJeNU3NwGO125NfEA==
+      integrity: sha512-bNUNGhIuzylBmTxFf1S258oSb6n0mHC/tlDA1jO9K0SZsWNN1sCarzRMzkb5zVtpLg2y8rdeSDFTxxU+xckSSg==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-asynciterator-polyfill.tgz':
@@ -9153,11 +9078,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -9169,17 +9094,17 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
     dev: false
     name: '@rush-temp/core-auth'
     resolution:
-      integrity: sha512-cTNwAPeRONmLxx9r7nvghh+WW1HhcdPSKtlvcvKiHD4UTqLWShmH3Jsrw57ClL8swAclXA0OsWpvFR1oss9qgw==
+      integrity: sha512-WhFc2Ig+uukD38lHQKcQvAk0Fwq6QsbJ8p8UkK0RGW8cOlWDgk/jH5JUuUHkcFuNlDoXhrmOH+KDUBUAijI8cA==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
   'file:projects/core-client.tgz':
@@ -9187,11 +9112,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9216,10 +9141,10 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9227,7 +9152,7 @@ packages:
     dev: false
     name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-VYIBEitRkTb5B0RxzcvQ9Xj0IRxS23NPGXDp34XMxuypK5HbsHGfyzDP5w6JMlVALW5a1tAfrCjnRjOSl1CSxA==
+      integrity: sha512-DW2+4wM/WHZ3PF87g1LIKDT64OqmbwmoJSl+48vcQ5thpxJASNUd041TlGan7wgL1mgBqSGdNQnooiAjYBKlRA==
       tarball: 'file:projects/core-client.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
@@ -9236,10 +9161,10 @@ packages:
       '@azure/logger-js': 1.3.2
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/express': 4.17.9
       '@types/glob': 7.1.3
@@ -9266,7 +9191,7 @@ packages:
       karma-edge-launcher: 0.4.2_karma@5.2.3
       karma-firefox-launcher: 1.3.0
       karma-mocha: 2.0.1
-      karma-rollup-preprocessor: 7.0.5_rollup@1.32.1
+      karma-rollup-preprocessor: 7.0.5_rollup@2.34.2
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9278,9 +9203,9 @@ packages:
       puppeteer: 3.3.0
       regenerator-runtime: 0.13.7
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       shx: 0.3.3
       sinon: 9.2.1
       tough-cookie: 4.0.0
@@ -9295,7 +9220,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-DpgHabhCkCWjyoaCH/M7rsup4GWW976NEw9plc0YebJSd4XzWc35e4a4TNyaPuxGraca7hHdWcdRZgTWR7CJkQ==
+      integrity: sha512-MyjJPhVzjDu0aPgNx/Zf+HNpTDIqEZkRnueqmyFAtYuHdFG3XKAThFPXtU87M7EByEEFohP9fpMTE/Z4iYUlVA==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -9303,11 +9228,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9335,10 +9260,10 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
@@ -9348,17 +9273,17 @@ packages:
     dev: false
     name: '@rush-temp/core-https'
     resolution:
-      integrity: sha512-tZXTdf7lHpP1SsLKNlvsT0thEH6lwPK8hmbr+xA7HKCFtrUSkEZSV4k0EWPNGJGyp8wDvem2XOQodnv5Do3SgA==
+      integrity: sha512-UwPRU4rNDTD4jvy9xOZOVWQ7rYXWxiba3Ge4OPgzxoxjH6ignEwucmDp67eJm/SS2Z5pAFXLi9Vq0F4IvKarVQ==
       tarball: 'file:projects/core-https.tgz'
     version: 0.0.0
   'file:projects/core-lro.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9383,11 +9308,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9395,7 +9320,7 @@ packages:
     dev: false
     name: '@rush-temp/core-lro'
     resolution:
-      integrity: sha512-+3Pa0Cvs5BdZnsj+IJVnnvwsEjqVH2OMOFTYurioIbNfyhSHLgpm8i3DcDUA+iZO3MyR0Wat1P0hyA4FpHlzLg==
+      integrity: sha512-b0OSfBy6J4mMqxi74ogidNSb9F66F8kdNL1F7jY2gs7UNNgPmPZL4uAQh7KxqLAUAbVJxVad2pJ8swjE7qBIJw==
       tarball: 'file:projects/core-lro.tgz'
     version: 0.0.0
   'file:projects/core-paging.tgz':
@@ -9416,11 +9341,11 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@opencensus/web-types': 0.0.7
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -9431,27 +9356,27 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-oVTo1Y9QipLjugO55ByAQ8XLgI6wWl8OPS1XDax5r4GmR4VBwPEzNM7SS2a8pbvAeqDnr5h16v1SeMxpB5Vr8g==
+      integrity: sha512-NmLqiYweObGGXvXXn+5nrNDPJTTkkeScZVgvJivrVxsmvznsC2/2YM/s7ADB0hg5ZOVbLFfAokQgYDq5+SRccg==
       tarball: 'file:projects/core-tracing.tgz'
     version: 0.0.0
   'file:projects/core-xml.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9477,10 +9402,10 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9489,14 +9414,14 @@ packages:
     dev: false
     name: '@rush-temp/core-xml'
     resolution:
-      integrity: sha512-VPKz+0t+SMBAPupKiPl15CsjeEHzsBMey7tdKzR53G5P/ZMgYxrPp9wdB1OeTmFfUH/yw4djDBw0gExgD97+Kg==
+      integrity: sha512-TMZF6NQ+Dr9nn5YFhGcQvconGUDgkfoBs4PakdGf6K22A1tEPzs0ZlPil+SK9Nsmb0TJXYXKLZH7A4RYcCI7PA==
       tarball: 'file:projects/core-xml.tgz'
     version: 0.0.0
   'file:projects/cosmos.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
       '@types/debug': 4.1.5
       '@types/fast-json-stable-stringify': 2.0.0
       '@types/mocha': 7.0.2
@@ -9527,7 +9452,7 @@ packages:
       proxy-agent: 3.1.1
       requirejs: 2.3.6
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-local-resolve: 1.0.7
       semaphore: 1.1.0
       sinon: 9.2.1
@@ -9544,7 +9469,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-X8WFwEdSz7jOAK8i4j8Img+Sb/3NKF70PXitSlb2c3mmrPHEA3C9Z5zHIQ6QJG/BZrVmmFnC6BvDLrUdoVCuTA==
+      integrity: sha512-5BLc6zl3rhigzkAxJ02m7j4TCwYwnnlguEvExvVvM5THgBNVr5ywpLRnt0mpVrQT442ur7xon01PgJBmLeRVOA==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/data-tables.tgz':
@@ -9552,12 +9477,12 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9583,11 +9508,11 @@ packages:
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9595,15 +9520,15 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-UMKcEozzNrbbeUY6uEaf46fqDGGbsunONMl4Kt6yGU2IemQuxtRUleQtGbFPoLEm2mX+hrVXxxtgvlivduga4Q==
+      integrity: sha512-fXRY/boBPDANOO1j8SXFcJRZd0pz+vLCVxEae5GRMCeqXH+wafGee9Asefisxy/uF/cw27z8VK3TxDnUl2Mrgg==
       tarball: 'file:projects/data-tables.tgz'
     version: 0.0.0
   'file:projects/dev-tool.tgz':
     dependencies:
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/chalk': 2.2.0
@@ -9624,17 +9549,17 @@ packages:
       mocha: 7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-node-builtins: 2.1.2
       rollup-plugin-node-globals: 1.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       ts-node: 8.10.2_typescript@3.9.7
       typescript: 3.9.7
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-notCssT9R/KKMe/W99lQe9YKQGsiNptEC1BiUFlvAslih0jmMtu0bYrFz6ild0Ag8Wxze64Byp7HwE2GkZDSRg==
+      integrity: sha512-E4uLLG/dTl7iJ81xXdUN5mGtiW8Gjg8c2qpSVTl0oatE2BcpDX9RJZJdDZ3HunfKnQve/qogYk+5/Y8EiMIh0A==
       tarball: 'file:projects/dev-tool.tgz'
     version: 0.0.0
   'file:projects/digital-twins-core.tgz':
@@ -9642,11 +9567,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9674,11 +9599,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9686,7 +9611,7 @@ packages:
     dev: false
     name: '@rush-temp/digital-twins-core'
     resolution:
-      integrity: sha512-7PFSyOl5EOrUMDiG6K1z7HjhGiPptxj8JXO1fwlMu8KhSpd3EcvgWcVyn2K7cadIakIF5bh74divfXR2kI7+aQ==
+      integrity: sha512-hLHyFIxpeLFDwf6uDN0nJh906K5Yft4DwOe/6pCohY088ajsmJ5Sbogwm3jOmFX4kQOkf0IZjvQl4jKpzYmD4w==
       tarball: 'file:projects/digital-twins-core.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':
@@ -9727,12 +9652,12 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/async-lock': 1.1.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
@@ -9777,10 +9702,10 @@ packages:
       puppeteer: 3.3.0
       rhea-promise: 1.0.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
       sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -9790,7 +9715,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-ilsDcySQmnvO8QTZ0WnLoxJvlG91FhasAa5cxQNvFZTOqM8E38n4AQEXx5n2RqELi09DETy8Y8y2M2ueC9c9Gg==
+      integrity: sha512-NLIZiQo9Y0qrRdgsiHrcR98vI6s1i5Xje7bmwx7mu20nIkMZa6/rWgkommb7Hl1PHRjPVQcj4VTDUxlcWB4f5w==
       tarball: 'file:projects/event-hubs.tgz'
     version: 0.0.0
   'file:projects/event-processor-host.tgz':
@@ -9798,11 +9723,11 @@ packages:
       '@azure/event-hubs': 2.1.4
       '@azure/ms-rest-nodeauth': 0.9.3
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/async-lock': 1.1.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
@@ -9829,8 +9754,8 @@ packages:
       path-browserify: 1.0.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
       rollup-plugin-uglify: 6.0.4_rollup@1.32.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -9840,7 +9765,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-5q9OjZ4GQp/BWc/Qm581a7dwZG153HakFDaxUVuudMac7nKhYvwwBbv6whNYPuJp6IHCloR3UvO69lyPnLb9uw==
+      integrity: sha512-yj7K1UB5YatOQOPn0B+ukm4OlVfZZWHM/5P5J89ybPYXkq5raOA+tozdEsPhmT/EK55Tj+Fsw6kqWNSbowJgzg==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventgrid.tgz':
@@ -9848,11 +9773,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
@@ -9882,11 +9807,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
@@ -9895,19 +9820,19 @@ packages:
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-y6YNn5sMKn1xsmZ3nyOnLw1oMVJD52z6aLyc+WeqSElWflH5ga1/hQq/CWQXK52zbZW88NfIJnl7wYnGWkpxyA==
+      integrity: sha512-zewWDXjtoSiuPEm6Yac9PIBjjRbWvRGQz5jK4xi49amGryC4C8WqIayAt5l9PdKzZQfFWLuM4BiDStldd9bDEA==
       tarball: 'file:projects/eventgrid.tgz'
     version: 0.0.0
   'file:projects/eventhubs-checkpointstore-blob.tgz':
     dependencies:
       '@azure/storage-blob': 12.3.0
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/chai-string': 1.4.2
@@ -9942,11 +9867,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
       typescript: 3.9.7
@@ -9954,7 +9879,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-5Dl3Py9dBaVdYMz/Pd4RNQoS8GSzmSMP+DtIBR2kPiV17kSugOqjrrUjyzovbHwgRn6n+DK7m87KhCTp7kgTdw==
+      integrity: sha512-A8i+iwJkq6+vF6SIokcam0nZWIQ1dnUAuXgRijsGXmRVwyhEMBNt+VTiQJXr+faglU1qED9DlE4ibSenTBf3FQ==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -9963,11 +9888,11 @@ packages:
       '@azure/msal-node': 1.0.0-beta.1
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/express': 4.17.9
       '@types/jws': 3.2.2
       '@types/mocha': 7.0.2
@@ -10000,10 +9925,10 @@ packages:
       puppeteer: 3.3.0
       qs: 6.9.4
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       tslib: 2.0.3
       typescript: 3.9.7
@@ -10014,7 +9939,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-2LQ3mAUWaWyF1fnwF68SVXPTfWVJD1Y89swC76mBHMeY+kP7ogTw1ucUf47HnDxS2sp1r+8NH0nOTxocIRKheQ==
+      integrity: sha512-cIXsbEWPgfxwMs4OeZKaohr5Gvpmq8wWpHv9Pz0EiEWmRM/jd+HHDNU+80djPpKZLQacdtNxvlZpwQgH7BmyTw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
@@ -10022,11 +9947,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
@@ -10057,11 +9982,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
@@ -10070,7 +9995,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-6mOQjAHnCOHmlxRR7Ku4Vz07pTlxLal4ePFqKWUDUunw9nEqCwDOsJSBS6L3uVc+6dM1d0LfhRQE9Em0aTTXjw==
+      integrity: sha512-XIICiBCRi+9FQcRox1BD11uQ36soK8sYabXd+tx8TuXu5pxMXhrwx0jlnjqpJQg3LPEJp0Wpf6oGUgffR2FVsA==
       tarball: 'file:projects/keyvault-admin.tgz'
     version: 0.0.0
   'file:projects/keyvault-certificates.tgz':
@@ -10078,11 +10003,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
@@ -10116,11 +10041,11 @@ packages:
       puppeteer: 3.3.0
       query-string: 5.1.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
@@ -10129,7 +10054,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-PWtyIwmJ6+ef0crYzvlR32v84QTGm4L9S02iJ7EaiJ9GwEEJBEiufpBqM5O40BSXbGEoEAMZEPP+jn9qnFP4Eg==
+      integrity: sha512-yfNpHwUj8BVX1g2TG18w97d7coRAkQR2z0u5waLAP2l7ibEVNFxGLIxi01dTGHRD9l2Pfroj6jjKq7b9PELGgg==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
   'file:projects/keyvault-common.tgz':
@@ -10152,11 +10077,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
@@ -10190,11 +10115,11 @@ packages:
       puppeteer: 3.3.0
       query-string: 5.1.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
@@ -10203,7 +10128,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-JjUBTPWmDNrW4rlQv7bgDXjMmaTdp5Obg0vQaQC9SciD+GEzYSdnnQPqR3Pn7a6ODxtW3fi8OBspFzy/wPHorA==
+      integrity: sha512-UhecAcKbCmgi3HXpQub0/em0osmlC/LG0t3NlQ8ysqq+1hlDDlvC0tPyjMycS1TWL6W/miE7ecO4C7WvcyM+Zw==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10211,11 +10136,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
@@ -10249,11 +10174,11 @@ packages:
       puppeteer: 3.3.0
       query-string: 5.1.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       tslib: 2.0.3
@@ -10262,16 +10187,16 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-quiZqigPTDfMpmk25Iv8KFXEzx2ikDsI14yXMw4WO+MGW7FsV9V1ePLB5tJMobsbHhsGjbv78LgrbYDAZP9VIQ==
+      integrity: sha512-0DuCI0fymWDbJDn8hCIDLJSUgvZSZzgRKq3OvIpCHiBjjS7JbommmUkd80AkDSyK2S6YBrCUHYrh+XY/qIOhbw==
       tarball: 'file:projects/keyvault-secrets.tgz'
     version: 0.0.0
   'file:projects/logger.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -10299,9 +10224,9 @@ packages:
       prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup: 2.34.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
       sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10309,7 +10234,7 @@ packages:
     dev: false
     name: '@rush-temp/logger'
     resolution:
-      integrity: sha512-KhMQ8SGiLx75uy0tjxJy1TOPqejl1QvhGa0+Gfzno1zqyPn4+UOJxsXgJOYK1aViPujcLpe7L1XFXpecg06ZCw==
+      integrity: sha512-AGRNQHE5gjMFe1SpaAHdSRkcJpMS/l/qbm3rBbK5rFRlV14puuH4J968xrZ/uDEJlSCCaj58VApDAuwnT2Tl/w==
       tarball: 'file:projects/logger.tgz'
     version: 0.0.0
   'file:projects/opentelemetry-exporter-azure-monitor.tgz':
@@ -10344,11 +10269,11 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
@@ -10379,29 +10304,29 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
     dev: false
     name: '@rush-temp/schema-registry-avro'
     resolution:
-      integrity: sha512-EqsEETl8kUKb2VWG+N/ZdyC0n0ZYfd5DV8k9CXVo2HCGMNTU1oPK+3fK449s3uu/eBivECV47Uysi5J5OyZ4kQ==
+      integrity: sha512-ecGO/qEnPNVfmhKQjMekpKxpZJi6Sw7XeBNWSn61W4bSPcmp3YYNBQIZMJhcmm4napgbAj+dKzSxeoAZcExYmw==
       tarball: 'file:projects/schema-registry-avro.tgz'
     version: 0.0.0
   'file:projects/schema-registry.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
@@ -10429,18 +10354,18 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       tslib: 2.0.3
       typescript: 3.9.7
     dev: false
     name: '@rush-temp/schema-registry'
     resolution:
-      integrity: sha512-mF+8c4mn7AsFrfsDdW1oSdJyh04/iCYalc+F77XFKWFfm2HhFYa7qIouBFd62Fl/vdReyBRT2saKMhX39ZYxVQ==
+      integrity: sha512-72v2IOJrsTnY3Z1bJMM4IZHgZBCF+4hpqUTGwU4610N4FQSls5qX6b5YArVJiEwUPc3aSuIbSq5n4/V2gm7lCA==
       tarball: 'file:projects/schema-registry.tgz'
     version: 0.0.0
   'file:projects/search-documents.tgz':
@@ -10448,11 +10373,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -10481,11 +10406,11 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10494,7 +10419,7 @@ packages:
     dev: false
     name: '@rush-temp/search-documents'
     resolution:
-      integrity: sha512-zE1WZpcj1S6huA1g9E4NW0EGiDDMyQgjSZw+UBGUQKwjOho2sNKurymm+aDjLofSr+DOKrqFwh/JFG4ruV0hqg==
+      integrity: sha512-6nb2P+ZzVf/lionNdoQhCNOKdzOxXmiGCy4VN8QhRfjpEks2f6Rnufxx9vlt3l+x7PHKbINPDVV/tQ1Lz1OmZA==
       tarball: 'file:projects/search-documents.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -10502,12 +10427,12 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-inject': 4.0.2_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/chai-as-promised': 7.1.3
       '@types/debug': 4.1.5
@@ -10557,10 +10482,10 @@ packages:
       puppeteer: 3.3.0
       rhea-promise: 1.0.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
       sinon: 9.2.1
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10569,7 +10494,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-947ihqmHYOF4tude9GzyRGzrYeNOXNcNIVXMJyPHgV06T+WP/snZavFpC0YrS2RBRvrIqWRQh4kId2e0VfUYcg==
+      integrity: sha512-r90XwEdR46Ch64+kuApi0xuQGk9lqYdJZryBqXRFR6775BHn2UkjGKgPaHvZCaYxvOp2kd4Ii/8nx8mJeL4WoQ==
       tarball: 'file:projects/service-bus.tgz'
     version: 0.0.0
   'file:projects/storage-blob-changefeed.tgz':
@@ -10577,10 +10502,10 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/sinon': 9.0.9
@@ -10612,11 +10537,11 @@ packages:
       prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       sinon: 9.2.1
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
@@ -10626,7 +10551,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob-changefeed'
     resolution:
-      integrity: sha512-U5HH3kAl/MopYbiGlI1yHvup6Tze6f2S3bSqAli1FVZ/8/H1T1btEEyWlxhF0VYWvxzsSz7RCF0iUzi1uGqXVQ==
+      integrity: sha512-IfcvTWObviLPfEXY+3WOVXNsu/iPhGkfRkceSnhoRrRzrzOlr86jonVsLLc5pzkiBJo1aVPasQ270XKW8HqYHw==
       tarball: 'file:projects/storage-blob-changefeed.tgz'
     version: 0.0.0
   'file:projects/storage-blob.tgz':
@@ -10634,11 +10559,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -10669,11 +10594,11 @@ packages:
       prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10682,7 +10607,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-S5qF/wHpHCaW7CTfWYjq/eAHOGa23wDaYiMbQqElQO1WQsERQfGWIH/bf1C0Mg1HQYfKjH7UxmTfvt87Iouxjg==
+      integrity: sha512-DOMz0JAUn4rcyBSLxTBeMl3O2lT7zuk4jkl3NdOglpJ6y83lYAiLxNihOh2ukSY9E0wRw4t36n1E8qLj+V1cRw==
       tarball: 'file:projects/storage-blob.tgz'
     version: 0.0.0
   'file:projects/storage-file-datalake.tgz':
@@ -10690,11 +10615,11 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -10730,11 +10655,11 @@ packages:
       puppeteer: 3.3.0
       query-string: 5.1.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10743,7 +10668,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-Ib4gYai+ioEantTQKnCPY+ltjL5nVNS3TAZnl5bfmU4KhTeISx1bUvQ4t5Hphg8zec/hTD8AzLm9UintPzqbRA==
+      integrity: sha512-jYtbXPNZ8o8xjhXbQdYD95Tc33t77ohg/D+pQzz62LdQRjXTE/ZKo22s9PUobxSa3LGFEpDWG9IKSQy+vyrTzQ==
       tarball: 'file:projects/storage-file-datalake.tgz'
     version: 0.0.0
   'file:projects/storage-file-share.tgz':
@@ -10751,10 +10676,10 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -10785,11 +10710,11 @@ packages:
       prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10798,16 +10723,16 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-tNubXcGD+kdnyl9UIyeL6JwvmVA7cynbOlIaZ8oyfj3/HRv+rT6oDwPbF/5gEjgAxC99uwAW+SoU2MMz5bxIiQ==
+      integrity: sha512-S1bpNp7ErGg9J1Vy9ju1nsI3VKAa1zurk7IMyX6F/ompt/bg1vgOKkO9UxW/BHJ+oyHOS/R2Cb0B4gkhcLHBNw==
       tarball: 'file:projects/storage-file-share.tgz'
     version: 0.0.0
   'file:projects/storage-internal-avro.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -10836,11 +10761,11 @@ packages:
       prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10849,7 +10774,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-internal-avro'
     resolution:
-      integrity: sha512-0SDBUmCEthTK5dc2YxuJqRPE443HPL0DQV9VtqMAZmged7D0B2eGP2A9u9pYuQa5zP1dtAdzI3Dd3NCiZH4/vw==
+      integrity: sha512-HyPEq0uuP2NsjDMOxJT5dulxba12dBAzmOruGE2SluJpyW++p+GGz9tfxJyXbaFtRak0BMnHGlpvwTIrE6Y7Og==
       tarball: 'file:projects/storage-internal-avro.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10857,10 +10782,10 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       assert: 1.5.0
@@ -10890,11 +10815,11 @@ packages:
       prettier: 1.19.1
       puppeteer: 3.3.0
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       source-map-support: 0.5.19
       ts-node: 8.10.2_typescript@3.9.7
       tslib: 2.0.3
@@ -10903,97 +10828,97 @@ packages:
     dev: false
     name: '@rush-temp/storage-queue'
     resolution:
-      integrity: sha512-peAeDFKOdGTC2cqKuruSMGA0LCJ2peTAn1UPrf0T+AQQWmhyqJqtMRzdDAbd9gTx/6CGKolRoSfo0Zwtj5apRw==
+      integrity: sha512-Wu3nn6uJAnCy+AQj92Xw3NZ1nH9ieo1ZoAHH2J1PZtxU3HVSkCyNSpH6Mr5xnfUHj+ym37o2f/Jmck6O6SGW4Q==
       tarball: 'file:projects/storage-queue.tgz'
     version: 0.0.0
   'file:projects/synapse-access-control.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
       eslint: 6.8.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       uglify-js: 3.12.1
     dev: false
     name: '@rush-temp/synapse-access-control'
     resolution:
-      integrity: sha512-ftUOcMLLWN96gO5+GublAA7vvSvDodeqA6EjvQVz6+VqL/cIYnmrg+56UT0orZ84+KQvWK2YwxoFOXdGQA5pxg==
+      integrity: sha512-QR19WveSwvmag7KCWxT4y7JI5KwmX3qhlllFJzFW+UACeFnv8P+BpUxGo/dlCu9XrWvSngoOlBDlYK4noybhQg==
       tarball: 'file:projects/synapse-access-control.tgz'
     version: 0.0.0
   'file:projects/synapse-artifacts.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
       eslint: 6.8.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       uglify-js: 3.12.1
     dev: false
     name: '@rush-temp/synapse-artifacts'
     resolution:
-      integrity: sha512-BziRwB2KqehZAZ9BGw1eEicTYzHawThCutpBLqiqydhWAzsuh/kjA+j4VXP1StOJLpQhPufoj8z3XvUY9o20Mw==
+      integrity: sha512-WiN+FcnPp+cm0S5VsSimRojjkYJpcPveKHgOy6c29lUXZd1pZTe8zCSF7RX2e2DeJmHZSQxc9qHxfFCgVOYaAA==
       tarball: 'file:projects/synapse-artifacts.tgz'
     version: 0.0.0
   'file:projects/synapse-managed-private-endpoints.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
       eslint: 6.8.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       uglify-js: 3.12.1
     dev: false
     name: '@rush-temp/synapse-managed-private-endpoints'
     resolution:
-      integrity: sha512-Pbv80NWjOqCVIk+6WvWeRy91C1BgJTcaz9+TP/EtAvOc0NyoySCbiRbhE8ijSE8dp+CNSCULoxy3aHCGBcZ1YA==
+      integrity: sha512-f7IieoZtCn9hNrFO4ezPK0Gu0pqMkiGM/Jj5KW3p/12fhtR/KtjStUXkTBNhaxeFbMo7kbbRPNm8+EZ+EYkvzA==
       tarball: 'file:projects/synapse-managed-private-endpoints.tgz'
     version: 0.0.0
   'file:projects/synapse-monitoring.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
       eslint: 6.8.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       uglify-js: 3.12.1
     dev: false
     name: '@rush-temp/synapse-monitoring'
     resolution:
-      integrity: sha512-FVavoIunyn6oS0WHawIQ9/w0y18Yu/PvmAmzIgPn3WCQhQp2jVPuuk0zdyuypbU2UhvzEPMa2QPKWx0n93AqqA==
+      integrity: sha512-mViX/X/v4aV54hDYVdtoGJkjC/V9p50hAKFUORhKiYjuJP6NFF2nVsT2DWqBr80EGaz1YLg7XefNs1Y/Hln2Bg==
       tarball: 'file:projects/synapse-monitoring.tgz'
     version: 0.0.0
   'file:projects/synapse-spark.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
       eslint: 6.8.0
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       uglify-js: 3.12.1
     dev: false
     name: '@rush-temp/synapse-spark'
     resolution:
-      integrity: sha512-HyHa+JtclUl+rTvQUWk0DDhbboms8vo6fk2+p3zqeo2/BjnQLea3DlvVc5xswGqdEadtwRIfA2t1RgnB+XjxtQ==
+      integrity: sha512-NH0oUjgS/FyWnA0EYDPQS+qmGzndFa+8WJyMvQzgC7W2YCY6G+jpwRzYBHAChXNxKcd/Bbw6sHeXRVwdPrKUWA==
       tarball: 'file:projects/synapse-spark.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11028,14 +10953,14 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       util: 0.12.3
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-hE8hxvkCHl7jN3xlQ9fsWQvKNs7h47NCd6ulQl9DbSGsxSh88snVWuJG7BkjYirIUhF6S2ZpszERBYMPJA/OyA==
+      integrity: sha512-FSFyEoQ+ImVpecRGdnxdiuK4fe3i5RRSoKS5BEfovw6jtMTz5iMzEsPusjnokIYq+hWL7/ts8ql6ATNro86s1Q==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
   'file:projects/test-utils-perfstress.tgz':
@@ -11064,10 +10989,10 @@ packages:
   'file:projects/test-utils-recorder.tgz':
     dependencies:
       '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@rollup/plugin-commonjs': 17.0.0_rollup@2.34.2
+      '@rollup/plugin-multi-entry': 4.0.0_rollup@2.34.2
+      '@rollup/plugin-node-resolve': 11.0.0_rollup@2.34.2
+      '@rollup/plugin-replace': 2.3.4_rollup@2.34.2
       '@types/chai': 4.2.14
       '@types/fs-extra': 8.1.1
       '@types/md5': 2.2.1
@@ -11104,18 +11029,18 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
+      rollup: 2.34.2
       rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.34.2
+      rollup-plugin-terser: 5.3.1_rollup@2.34.2
+      rollup-plugin-visualizer: 4.2.0_rollup@2.34.2
       tslib: 2.0.3
       typescript: 3.9.7
       xhr-mock: 2.5.1
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-W38/tLuzTQxNgGL5lvza2Fn3dktqWduww8HDzQYIpf01cR2TobIYvzEzMRzdhdvuzTqe7mtdQ4rijktZrEmboQ==
+      integrity: sha512-VArt3RmmP3E0B+LlqRUQvB/WeEJMBGXxUjuNhKeX/zBrnRNdAqvbCRpNb7IljhGgon5w8GgYg0dwx4cO/vPprA==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':

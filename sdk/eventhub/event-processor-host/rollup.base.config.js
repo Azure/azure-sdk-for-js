@@ -28,12 +28,12 @@ export function nodeConfig(test = false) {
         delimiters: ["", ""],
         // replace dynamic checks with if (true) since this is for node only.
         // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)",
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs(),
-      json(),
-    ],
+      json()
+    ]
   };
 
   baseConfig.external.push("crypto", "path");
@@ -79,7 +79,7 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "ExampleClient",
       sourcemap: true,
-      globals: { "ms-rest-js": "msRest" },
+      globals: { "ms-rest-js": "msRest" }
     },
     preserveSymlinks: false,
     plugins: [
@@ -91,18 +91,18 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)",
+          "if (isNode)": "if (false)"
         }
       ),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false,
+        preferBuiltins: false
       }),
       cjs({
-        namedExports: { events: ["EventEmitter"] },
+        namedExports: { events: ["EventEmitter"] }
       }),
-      json(),
-    ],
+      json()
+    ]
   };
 
   if (test) {
