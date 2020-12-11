@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "../../src";
-import { CreateTopicOptions } from "../../src/serializers/topicResourceSerializer";
-import { CreateSubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
-import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
+import { delay } from "../../../src";
+import { CreateTopicOptions } from "../../../src/serializers/topicResourceSerializer";
+import { CreateSubscriptionOptions } from "../../../src/serializers/subscriptionResourceSerializer";
+import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
-import { CreateQueueOptions } from "../../src/serializers/queueResourceSerializer";
+import { CreateQueueOptions } from "../../../src/serializers/queueResourceSerializer";
 const should = chai.should();
 
 let client: ServiceBusAdministrationClient;

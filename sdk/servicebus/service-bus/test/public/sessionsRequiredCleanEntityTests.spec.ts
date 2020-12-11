@@ -7,10 +7,10 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../src/sender";
-import { ServiceBusMessage, ServiceBusSessionReceiver } from "../src";
-import { TestMessage } from "./utils/testUtils";
+} from "../public/utils/testutils2";
+import { ServiceBusSender } from "../../src";
+import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src";
+import { TestMessage } from "../public/utils/testUtils";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic

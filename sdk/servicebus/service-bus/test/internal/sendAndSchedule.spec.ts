@@ -7,8 +7,8 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay } from "../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
+import { ServiceBusReceiver } from "../src";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -17,11 +17,11 @@ import {
   getRandomTestClientTypeWithSessions,
   EntityName,
   getRandomTestClientType
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../src/sender";
+} from "../public/utils/testutils2";
+import { ServiceBusSender } from "../src";
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
-import { setTracerForTest } from "./utils/misc";
+import { setTracerForTest } from "../public/utils/misc";
 import { TRACEPARENT_PROPERTY } from "../src/diagnostics/instrumentServiceBusMessage";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

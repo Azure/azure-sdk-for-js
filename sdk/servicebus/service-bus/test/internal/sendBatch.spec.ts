@@ -6,14 +6,14 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { OperationOptions, ServiceBusMessage } from "../src";
-import { TestClientType } from "./utils/testUtils";
+import { TestClientType } from "../public/utils/testUtils";
 import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
-} from "./utils/testutils2";
+} from "../public/utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 
 describe("Send Batch", () => {

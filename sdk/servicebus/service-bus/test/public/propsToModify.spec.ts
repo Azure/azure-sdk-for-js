@@ -4,9 +4,9 @@
 import chai from "chai";
 const should = chai.should();
 
-import { createServiceBusClientForTests } from "./utils/testutils2";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceivedMessage, ServiceBusReceiver } from "../src";
+import { createServiceBusClientForTests } from "../public/utils/testutils2";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
+import { ServiceBusReceivedMessage, ServiceBusReceiver } from "../../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;

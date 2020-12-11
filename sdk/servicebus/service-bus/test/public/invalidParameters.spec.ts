@@ -7,9 +7,9 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { ServiceBusSender } from "../src/sender";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "../public/utils/testutils2";
+import { ServiceBusSender } from "../src";
 import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 
 describe("invalid parameters", () => {

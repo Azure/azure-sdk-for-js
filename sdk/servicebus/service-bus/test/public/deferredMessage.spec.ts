@@ -5,18 +5,18 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, ServiceBusMessage } from "../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+import { delay, ServiceBusMessage } from "../../src";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   EntityName,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
-} from "./utils/testutils2";
-import { ServiceBusReceiver } from "../src/receivers/receiver";
-import { ServiceBusSender } from "../src/sender";
-import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
+} from "../public/utils/testutils2";
+import { ServiceBusReceiver } from "../../src";
+import { ServiceBusSender } from "../../src";
+import { ServiceBusReceivedMessage } from "../../src";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;

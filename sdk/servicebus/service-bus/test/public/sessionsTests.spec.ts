@@ -6,18 +6,18 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, isServiceBusError } from "../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
-import { ServiceBusSender } from "../src/sender";
-import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
+import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
+import { ServiceBusSender } from "../../src";
+import { ServiceBusSessionReceiver } from "../../src";
 import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
-} from "./utils/testutils2";
+} from "../public/utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { MessagingError, ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../src";
+import { MessagingError, ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
 import * as dotenv from "dotenv";
-import { ConnectionContext } from "../../src/connectionContext";
-import { ReceiveOptions } from "../../src/core/messageReceiver";
-import { StreamingReceiver } from "../../src/core/streamingReceiver";
+import { ConnectionContext } from "../../../src/connectionContext";
+import { ReceiveOptions } from "../../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver";
 dotenv.config();
 
 export class TestMessage {

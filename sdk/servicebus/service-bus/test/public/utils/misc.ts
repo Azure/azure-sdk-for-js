@@ -3,9 +3,9 @@
 
 import { defaultLock } from "@azure/core-amqp";
 import { NoOpTracer, setTracer, TestTracer } from "@azure/core-tracing";
-import { Delivery, ServiceBusReceivedMessage } from "../../src";
-import { LinkEntity } from "../../src/core/linkEntity";
-import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
+import { Delivery, ServiceBusReceivedMessage } from "../../../src";
+import { LinkEntity } from "../../../src/core/linkEntity";
+import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 
 // some functions useful as we transition between interfaces and classes.
 

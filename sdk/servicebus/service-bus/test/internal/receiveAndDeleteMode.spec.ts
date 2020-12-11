@@ -11,12 +11,12 @@ import {
   ServiceBusMessage,
   ServiceBusReceiver,
   ProcessErrorArgs
-} from "../src";
+} from "../../src";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
 
-import { InvalidOperationInReceiveAndDeleteMode } from "../src/util/errors";
-import { ServiceBusSender } from "../src/sender";
+import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors";
+import { ServiceBusSender } from "../../src";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -24,8 +24,8 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
-} from "./utils/testutils2";
-import { DispositionType } from "../src/serviceBusMessage";
+} from "../public/utils/testutils2";
+import { DispositionType } from "../../src/serviceBusMessage";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

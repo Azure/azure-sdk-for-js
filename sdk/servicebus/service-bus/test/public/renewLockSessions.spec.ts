@@ -5,16 +5,16 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../src/sender";
-import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
-import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
+} from "../public/utils/testutils2";
+import { ServiceBusSender } from "../../src";
+import { ServiceBusSessionReceiver } from "../../src";
+import { ServiceBusReceivedMessage } from "../../src";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;

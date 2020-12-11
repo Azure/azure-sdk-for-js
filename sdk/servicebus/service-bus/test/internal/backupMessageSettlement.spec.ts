@@ -3,10 +3,10 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage } from "../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
-import { ServiceBusSender } from "../src/sender";
+import { delay, ServiceBusMessage } from "../../src";
+import { TestClientType, TestMessage } from "../public/utils/testUtils";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { ServiceBusSender } from "../../src";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -14,12 +14,12 @@ import {
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
-} from "./utils/testutils2";
+} from "../public/utils/testutils2";
 import {
   DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage
-} from "../src/serviceBusMessage";
+} from "../../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

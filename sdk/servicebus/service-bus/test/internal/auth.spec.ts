@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SharedKeyCredential } from "../src/servicebusSharedKeyCredential";
+import { SharedKeyCredential } from "../../src/servicebusSharedKeyCredential";
 import chai from "chai";
-import { ServiceBusClient, ServiceBusReceiver, parseServiceBusConnectionString } from "../src";
-import { getEnvVars } from "./utils/envVarUtils";
-import { TestClientType } from "./utils/testUtils";
+import { ServiceBusClient, ServiceBusReceiver, parseServiceBusConnectionString } from "../../src";
+import { getEnvVars } from "../public/utils/envVarUtils";
+import { TestClientType } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,
   ServiceBusClientForTests,
   ServiceBusTestHelpers
-} from "./utils/testutils2";
+} from "../public/utils/testutils2";
 const assert = chai.assert;
 
 type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends Promise<infer U>

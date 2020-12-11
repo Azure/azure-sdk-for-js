@@ -12,12 +12,12 @@ import {
   ServiceBusClient,
   ServiceBusError,
   ServiceBusSessionReceiver
-} from "../src";
-import { ServiceBusSender } from "../src/sender";
-import { DispositionType, ServiceBusReceivedMessage } from "../src/serviceBusMessage";
-import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
-import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
-import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
+} from "../../src";
+import { ServiceBusSender } from "../../src";
+import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
+import { EnvVarNames, getEnvVars, isNode } from "../public/utils/envVarUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,
   EntityName,
@@ -25,8 +25,8 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
-} from "./utils/testutils2";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
+} from "../public/utils/testutils2";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

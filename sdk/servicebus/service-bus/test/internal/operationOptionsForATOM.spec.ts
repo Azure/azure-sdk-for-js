@@ -5,12 +5,12 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
-import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
+import { ServiceBusAdministrationClient } from "../../src";
+import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
-import { executeAtomXmlOperation } from "../src/util/atomXmlHelper";
-import { NamespaceResourceSerializer } from "../src/serializers/namespaceResourceSerializer";
+import { executeAtomXmlOperation } from "../../src/util/atomXmlHelper";
+import { NamespaceResourceSerializer } from "../../src/serializers/namespaceResourceSerializer";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 
 chai.use(chaiAsPromised);
