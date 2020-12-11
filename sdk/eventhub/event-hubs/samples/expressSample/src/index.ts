@@ -18,19 +18,18 @@
 import { v4 as uuid } from "uuid";
 import { AsyncBatchingProducer } from "./asyncBatchingProducer";
 import bodyParser from "body-parser";
-
 import express from "express";
 import { EventHubProducerClient } from "@azure/event-hubs";
 const app = express();
 
 const eventHubConnectionString = "my connection string";
 const eventHubName = "my event hub name";
-const batchSendSize = 20;
-const timeIntervalSeconds = 10;
+const maxBatchSendSize = 20;
+const maxWaitTimeInSeconds = 10;
 const eventProducer = new AsyncBatchingProducer({
   producer: new EventHubProducerClient(eventHubConnectionString, eventHubName),
-  maxWaitTimeInSeconds: timeIntervalSeconds,
-  maxBatchSize: batchSendSize
+  maxWaitTimeInSeconds: maxWaitTimeInSeconds,
+  maxBatchSize: maxBatchSendSize
 });
 const port = 8080;
 
