@@ -80,7 +80,7 @@ export function isTokenCredential(credential: unknown): credential is TokenCrede
     signRequest: unknown;
   };
   return (
-    credential &&
+    castCredential &&
     typeof castCredential.getToken === "function" &&
     (castCredential.signRequest === undefined || castCredential.getToken.length > 0)
   );

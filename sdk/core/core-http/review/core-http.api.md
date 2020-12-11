@@ -51,7 +51,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
 // @public (undocumented)
-export type Authenticator = (challenge: object) => Promise<string>;
+export type Authenticator = (challenge: unknown) => Promise<string>;
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -727,23 +727,23 @@ export interface SequenceMapperType {
 }
 
 // @public (undocumented)
-export function serializeObject(toSerialize: any): any;
+export function serializeObject(toSerialize: unknown): any;
 
 // @public (undocumented)
 export class Serializer {
     constructor(modelMappers?: {
         [key: string]: any;
     }, isXML?: boolean | undefined);
-    deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
+    deserialize(mapper: Mapper, responseBody: unknown, objectName: string, options?: SerializerOptions): any;
     // (undocumented)
     readonly isXML?: boolean | undefined;
     // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+    serialize(mapper: Mapper, object: unknown, objectName?: string, options?: SerializerOptions): any;
     // (undocumented)
-    validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+    validateConstraints(mapper: Mapper, value: unknown, objectName: string): void;
 }
 
 // @public
