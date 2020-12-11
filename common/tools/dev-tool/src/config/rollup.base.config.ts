@@ -76,14 +76,7 @@ function makeBrowserTestConfig() {
         mainFields: ["module", "browser"]
       }),
       cjs({
-        namedExports: {
-          // Chai's strange internal architecture makes it impossible to statically
-          // analyze its exports.
-          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          // OpenTelemetry uses an __exportStar downleveled helper function to
-          // declare its exports, and so we have to add them here as well.
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
-        }
+        include: /node_modules/
       }),
       json(),
       sourcemaps()
