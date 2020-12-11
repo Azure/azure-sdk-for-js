@@ -14,7 +14,7 @@ This sample programs show how to use the JavaScript client libraries for Azure E
 
 | **File Name**                     | **Description**                                                                                                                |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| [eventProducer.ts][eventproducer] | Demonstrates how the send() function can be used to send events to an Event Hub instance. Support batch send and time trigger. |
+| [asyncBatchingProducer.ts][eventproducer] | Demonstrates how the send() function can be used to send events to an Event Hub instance. Support batch send and time trigger. |
 | [index.ts][index]                 | Express Http server entry point. Receive http payload and use eventProducer to ingest payload to eventHub.                     |
 
 ## Prerequisites
