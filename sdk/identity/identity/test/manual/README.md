@@ -33,7 +33,7 @@ Grant access to this AAD application to your Key Vault by:
 - Creating a Key Vault (if you haven't created one).
 - Either in the "Access policies" section of the creation form, or by going to your Key Vault's "Access policies" page, click con `+ Add Access Policy`, select all permissions, then select your AAD application as the "principal", then click "Add", then click "Save" if applicable.
 
-With the AAD application and the Key Vault configured, make sure `npm start` is running, then go to <http://localhost:8080>, then enter the Tenant ID, the Client ID of the AAD application and the name of the Key Vault, then click on the `Get Keys` button, and a list of the available keys will be presented after the form in the web page.
+With the AAD application and the Key Vault configured, make sure `npm start` is running, then go to `http://localhost:8080`, then enter the Tenant ID, the Client ID of the AAD application and the name of the Key Vault, then click on the `Get Keys` button, and a list of the available keys will be presented after the form in the web page.
 
 ## Avoiding CORS errors
 
