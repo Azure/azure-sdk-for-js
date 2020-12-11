@@ -5,7 +5,7 @@ Measures the maximum throughput of `receiver.receive()` in package `azure-sb`.
 # Instructions
 1. Create a Service Bus namespace with `Tier=Premium` and `Messaging Units=4`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
 2. Create a queue inside the namespace.
-3. Set env vars `SERVICE_BUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
+3. Set env vars `SERVICEBUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
 4. This test presumes that there are messages in the queue.
 5. `ts-node receive.ts [totalMessages]`
 6. Example: `ts-node receive.ts 1000000`
@@ -21,7 +21,7 @@ let _messages = 0;
 
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
-  const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING as string;
+  const connectionString = process.env.SERVICEBUS_CONNECTION_STRING as string;
   const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
 
   const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;

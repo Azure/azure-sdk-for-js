@@ -86,13 +86,10 @@
   },
   "//smokeTestConfiguration": {
     "skip": [
-      "browseMessages.js",
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
-      "scheduledMessages.js",
-      "sendMessages.js",
-      "session.js",
-      "useProxy.js"
+      "useProxy.js",
+      "usingAadAuth.js"
     ]
   },
   "dependencies": {
