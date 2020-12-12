@@ -102,21 +102,20 @@ export async function verifyAttestationToken(
       }
     }
     if (signingCertx5C != null) {
-//      var berCertificate = Buffer.from(signingCertx5C[0], "base64");
-//      console.log(berCertificate);
-//      let cert : Certificate;
-//      var asn1 = ASN1.fromDER(berCertificate);
-//      cert = new Certificate(asn1);
-//      console.log(cert);
+      //      var berCertificate = Buffer.from(signingCertx5C[0], "base64");
+      //      console.log(berCertificate);
+      //      let cert : Certificate;
+      //      var asn1 = ASN1.fromDER(berCertificate);
+      //      cert = new Certificate(asn1);
+      //      console.log(cert);
 
       // Convert the inbound certificate to PEM format so the verify function is happy.dir dist
-      let  pemCert : string;
+      let pemCert: string;
       pemCert = "-----BEGIN CERTIFICATE-----\r\n";
       pemCert += signingCertx5C[0];
       pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-
-      return verify(attestationToken, pemCert, { algorithms:["RS256"] });
+      return verify(attestationToken, pemCert, { algorithms: ["RS256"] });
     }
   }
 
