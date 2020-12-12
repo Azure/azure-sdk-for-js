@@ -5,6 +5,7 @@ import parsedArgs from "minimist";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { iptablesDrop, iptablesReset } from "./utils/iptables";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
@@ -124,3 +125,13 @@ export async function scenarioStreamingReceive() {
 scenarioStreamingReceive().catch((err) => {
   console.log("Error occurred: ", err);
 });
+
+
+const badNetworkDurationInMs = 120000; // For 120 seconds
+// Simulate a temporary bad network state.
+setTimeout(() => {
+  iptablesDrop();
+  setTimeout(() => {
+    iptablesReset();
+  }, badNetworkDurationInMs);
+}, 15000); // 15 seconds into the test
