@@ -136,7 +136,7 @@ function triggerDisconnects(numberOfDisconnects: number, testDurationInMs: numbe
 
   for (let index = 0; index < numberOfDisconnects; index++) {
     const intervalToTrigger = Math.floor(
-      (Math.random() * (testDurationInMs / badNetworkDurationInMs))
+      Math.random() * (testDurationInMs / badNetworkDurationInMs)
     );
     // Simulate a temporary bad network state.
     setTimeout(() => {
