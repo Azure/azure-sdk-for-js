@@ -624,7 +624,7 @@ describe("Event Processor", function(): void {
         name: "waiting for errors thrown from user's handlers",
         timeBetweenRunsMs: 1000,
         maxTimes: 30,
-        until: async () => errors.size >= partitionIds.length * 3
+        until: async () => errors.size >= partitionIds.length * 2
       });
       console.log("event processor loop completed");
       const messages = [...errors].map((e) => e.message);
