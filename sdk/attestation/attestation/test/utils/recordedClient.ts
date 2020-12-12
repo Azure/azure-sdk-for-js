@@ -119,8 +119,8 @@ export async function verifyAttestationToken(
         algorithms: ["RS256"],
         ignoreExpiration: true,
         clockTolerance: 10,
-        issuer: client.instanceUrl,
-       });
+        issuer: client.instanceUrl
+      });
     }
   }
 
