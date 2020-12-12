@@ -16,6 +16,12 @@ The new version 7 of the Service Bus library provides the ability to share in so
 
 ## Changes in version 7 of the Service Bus library
 
+### Message format changes
+
+Some key fields have been renamed in the ServiceBusMessage and ServiceBusReceivedMessage to better align with AMQP:
+* `label` has been renamed to `subject`
+* `userProperties` has been renamed to `applicationProperties`
+
 ### Client hierarchy
 
 In the interest of simplifying the API surface we've made a single top level client called `ServiceBusClient`, rather than one for each of queue, topic, and subscription. This acts as the single entry point in contrast with multiple entry points from before. You can create senders and receivers from this client to the queue/topic/subscription/session of your choice and start sending/receiving messages.
