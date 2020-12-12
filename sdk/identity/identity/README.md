@@ -206,6 +206,10 @@ const client = new KeyClient(vaultUrl, credentialChain);
 | `AzureCliCredential`         | authenticate in a development environment with the Azure CLI      |
 | `VisualStudioCodeCredential` | authenticate in a development environment with Visual Studio Code |
 
+### Authenticating via browsers
+
+To authenticate within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. For more information, please check our [manual `InteractiveBrowserCredential` test](/test/manual).
+
 ## Troubleshooting
 
 ### Error Handling
