@@ -115,7 +115,12 @@ export async function verifyAttestationToken(
       pemCert += signingCertx5C[0];
       pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-      return verify(attestationToken, pemCert, { algorithms: ["RS256"] });
+      return verify(attestationToken, pemCert, {
+        algorithms: ["RS256"],
+        ignoreExpiration: true,
+        clockTolerance: 10,
+        issuer: client.instanceUrl,
+       });
     }
   }
 
