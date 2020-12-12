@@ -4,6 +4,13 @@ This library simplifies authentication against Azure Active Directory for Azure 
 It provides a set of `TokenCredential` implementations which can be passed into SDK libraries
 to authenticate API requests. It supports token authentication using an Azure Active Directory [service principal](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli) or [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
+Our Identity library relies on the stability and robustness of the Microsoft Authentication Library [MSAL](https://www.npmjs.com/package/@azure/msal-node), while also simplifying the authentication experience as it integrates with all of the Azure SDK clients. Besides authentication, the Azure SDK Identity library exposes common concepts like logging, tracing, retrying, error handling, as well as an automated approach to define the most appropriate authentication method through our `DefaultAzureCredential` and our `ManagedIdentityCredential` classes.
+
+- For more information about our integration with MSAL, go to the section: [MSAL Integration](#MSAL).
+- For more information about the credentials we offer, you may go to the section: [Credentials](#Credentials)
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity) | [Package (npm)](https://www.npmjs.com/package/@azure/identity) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/identity) | [Product documentation](https://azure.microsoft.com/services/active-directory/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples)
+
 ## Getting started
 
 ### Install the package
@@ -48,6 +55,23 @@ For systems without a default web browser, the `az login` command will use the d
 ## Key concepts
 
 If this is your first time using `@azure/identity` or the Microsoft identity platform (Azure Active Directory), we recommend that you read [Using `@azure/identity` with Microsoft Identity Platform](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/using-azure-identity.md) first. This document will give you a deeper understanding of the platform and how to configure your Azure account correctly.
+
+### Active Directory
+
+The Azure Identity client focuses on delivering a seamless integration with the version V2 of the AD endpoints. Moreover, our goal is to provide a library that manages to ease the user experience by automatically figuring out whether to use the V1 or V2 endpoints so that users can write the same code and run it unchanged in a variety of different environments.
+
+For more information, you can compare the v1 and v2 versions through the link: [Azure AD Endpoint V1 vs V2](https://devblogs.microsoft.com/premier-developer/azure-ad-endpoint-v1-vs-v2/).
+
+### MSAL
+
+There are some scenarios where users may choose to user MSAL directly rather than the SDK Identity library. The MSAL libraries offer specific functionality that is independent of the Azure SDKs, which enable a variety of authentication scenarios and use cases with popular development frameworks that can be useful regardless of the customer's use of the Azure SDKs.
+
+For more information, please refer to:
+
+- [The Microsoft Authentication Library (MSAL) documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/msal-overview).
+- [The @azure/msal library](https://www.npmjs.com/package/@azure/msal).
+- [The @azure/msal-node library](https://www.npmjs.com/package/@azure/msal-node).
+- [The @azure/msal-browser library](https://www.npmjs.com/package/@azure/msal-browser).
 
 ### Credentials
 
