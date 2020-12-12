@@ -19,8 +19,8 @@ The new version 7 of the Service Bus library provides the ability to share in so
 ### Message format changes
 
 Some key fields have been renamed in the ServiceBusMessage and ServiceBusReceivedMessage to better align with AMQP:
-* `label` has been renamed to `subject`
-* `userProperties` has been renamed to `applicationProperties`
+- `label` has been renamed to `subject`
+- `userProperties` has been renamed to `applicationProperties`
 
 ### Client hierarchy
 
