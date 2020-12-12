@@ -1,5 +1,6 @@
 import { ReceiveMode, ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
+import { iptablesReset, iptablesDrop } from "./utils/iptables";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
 
@@ -136,3 +137,12 @@ export async function scenarioReceiveBatch() {
 scenarioReceiveBatch().catch((err) => {
   console.log("Error occurred: ", err);
 });
+
+const badNetworkDurationInMs = 10000; // For 10 seconds
+// Simulate a temporary bad network state.
+setTimeout(() => {
+  iptablesDrop();
+  setTimeout(() => {
+    iptablesReset();
+  }, badNetworkDurationInMs);
+}, 15000); // 50 seconds into the test
