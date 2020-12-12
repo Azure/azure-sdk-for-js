@@ -23,6 +23,7 @@ interface ScenarioStreamingReceiveOptions {
   totalNumberOfMessagesToSend?: number;
   completeMessageAfterDuration?: boolean;
   settleMessageOnReceive?: boolean;
+  numberOfDisconnects?: number;
 }
 
 function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptions> {
@@ -51,7 +52,8 @@ function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptio
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
     completeMessageAfterDuration: options.completeMessageAfterDuration,
-    settleMessageOnReceive: options.settleMessageOnReceive
+    settleMessageOnReceive: options.settleMessageOnReceive,
+    numberOfDisconnects: options.numberOfDisconnects || 1
   };
 }
 
@@ -68,7 +70,8 @@ export async function scenarioStreamingReceive() {
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
     completeMessageAfterDuration,
-    settleMessageOnReceive
+    settleMessageOnReceive,
+    numberOfDisconnects
   } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -105,6 +108,8 @@ export async function scenarioStreamingReceive() {
     }
   }
 
+  triggerDisconnects(numberOfDisconnects, testDurationInMs);
+
   // Resolve
   await Promise.all([
     sendMessages(),
@@ -126,12 +131,19 @@ scenarioStreamingReceive().catch((err) => {
   console.log("Error occurred: ", err);
 });
 
+function triggerDisconnects(numberOfDisconnects: number, testDurationInMs: number) {
+  const badNetworkDurationInMs = 120000; // For 120 seconds
 
-const badNetworkDurationInMs = 120000; // For 120 seconds
-// Simulate a temporary bad network state.
-setTimeout(() => {
-  iptablesDrop();
-  setTimeout(() => {
-    iptablesReset();
-  }, badNetworkDurationInMs);
-}, 15000); // 15 seconds into the test
+  for (let index = 0; index < numberOfDisconnects; index++) {
+    const intervalToTrigger = Math.floor(
+      (Math.random() * (testDurationInMs / badNetworkDurationInMs))
+    );
+    // Simulate a temporary bad network state.
+    setTimeout(() => {
+      iptablesDrop();
+      setTimeout(() => {
+        iptablesReset();
+      }, badNetworkDurationInMs);
+    }, intervalToTrigger * badNetworkDurationInMs);
+  }
+}
