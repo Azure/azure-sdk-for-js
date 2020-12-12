@@ -14,17 +14,17 @@ export function iptablesDrop() {
   const foreignAddress = netstat();
   if (!foreignAddress) {
     console.log(
-      `Run "iptables -A INPUT -s x.x.x.x -j DROP" (replace x.x.x.x with Foreign Address)`
+      `Run "sudo iptables -A INPUT -s x.x.x.x -j DROP" (replace x.x.x.x with Foreign Address)`
     );
   } else {
-    const command = `iptables -A INPUT -s ${foreignAddress} -j DROP`;
+    const command = `sudo iptables -A INPUT -s ${foreignAddress} -j DROP`;
     console.log(`Running "${command}"`);
     execSync(command);
   }
 }
 
 export function iptablesReset() {
-  const command = "iptables -D INPUT 1";
+  const command = "sudo iptables -D INPUT 1";
   console.log(`Running "${command}"`);
   execSync(command);
 }
