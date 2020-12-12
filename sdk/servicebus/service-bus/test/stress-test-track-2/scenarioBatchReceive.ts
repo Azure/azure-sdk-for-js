@@ -138,11 +138,11 @@ scenarioReceiveBatch().catch((err) => {
   console.log("Error occurred: ", err);
 });
 
-const badNetworkDurationInMs = 10000; // For 10 seconds
+const badNetworkDurationInMs = 120000; // For 120 seconds
 // Simulate a temporary bad network state.
 setTimeout(() => {
   iptablesDrop();
   setTimeout(() => {
     iptablesReset();
   }, badNetworkDurationInMs);
-}, 15000); // 50 seconds into the test
+}, 15000); // 15 seconds into the test
