@@ -188,7 +188,7 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
  * @export
  * @interface ShareProperties
  */
-export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+export type ShareProperties = Omit<SharePropertiesInternal, "enabledProtocols"> & {
   /**
    * The protocols that have been enabled on the share.
    * @type {ShareProtocols}

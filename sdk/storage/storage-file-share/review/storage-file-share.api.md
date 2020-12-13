@@ -1773,7 +1773,7 @@ export interface SharePermission {
 }
 
 // @public
-export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+export type ShareProperties = Omit<SharePropertiesInternal, "enabledProtocols"> & {
     protocols?: ShareProtocols;
 };
 
