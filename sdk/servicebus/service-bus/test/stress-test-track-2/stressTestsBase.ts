@@ -170,37 +170,14 @@ export class SBStressTestsBase {
   public async receiveStreaming(
     receiver: ServiceBusReceiver,
     duration: number,
-    options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls"> & {
-      manualLockRenewal: boolean;
-      completeMessageAfterDuration: boolean;
-      maxAutoRenewLockDurationInMs: number;
-      settleMessageOnReceive: boolean;
-    }
+    processMessageCallback: (message: ServiceBusReceivedMessage) => Promise<void>,
+    options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls">
   ) {
-    const startTime = new Date();
     const processMessage = async (message: ServiceBusReceivedMessage) => {
-      // TODO: message to keep renewing locks - pass args
-      // TODO: message to complete after certain number of renewals
-      if (receiver.receiveMode === "peekLock") {
-        if (options.settleMessageOnReceive) {
-          await this.completeMessage(message, receiver);
-        } else if (
-          !options.autoComplete &&
-          options.maxAutoRenewLockDurationInMs === 0 &&
-          options.manualLockRenewal
-        ) {
-          const elapsedTime = new Date().valueOf() - startTime.valueOf();
-          this.renewMessageLockUntil(
-            message,
-            receiver,
-            duration - elapsedTime,
-            options.completeMessageAfterDuration
-          );
-        }
-      }
       this.trackMessageIds([message], "received");
       this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
       this.receiveInfo.numberOfSuccesses++;
+      await processMessageCallback(message);
     };
     const processError = async (error) => {
       this.receiveInfo.errors.push(error);
@@ -211,7 +188,7 @@ export class SBStressTestsBase {
         processMessage,
         processError
       },
-      options
+      { autoComplete: options.autoComplete, maxConcurrentCalls: options.maxConcurrentCalls }
     );
     await delay(duration);
     await subscriber.close();

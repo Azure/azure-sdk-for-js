@@ -1,4 +1,9 @@
-import { ReceiveMode, ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
+import {
+  ReceiveMode,
+  ServiceBusClient,
+  ServiceBusReceivedMessage,
+  ServiceBusReceiver
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -24,6 +29,19 @@ interface ScenarioStreamingReceiveOptions {
   completeMessageAfterDuration?: boolean;
   settleMessageOnReceive?: boolean;
   numberOfDisconnects?: number;
+  /**
+   * This requires
+   * `settleMessageOnReceive` to be true,
+   * `autoComplete` to be false,
+   * `receiveMode` to be "peekLock",
+   * and
+   * `manualLockRenewal` is ignored
+   *
+   *
+   * @type {number}
+   * @memberof ScenarioStreamingReceiveOptions
+   */
+  delayBeforeCompletingMessageInMs?: number;
 }
 
 function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptions> {
@@ -53,7 +71,8 @@ function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptio
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
     completeMessageAfterDuration: options.completeMessageAfterDuration,
     settleMessageOnReceive: options.settleMessageOnReceive,
-    numberOfDisconnects: options.numberOfDisconnects || 1
+    numberOfDisconnects: options.numberOfDisconnects || 1,
+    delayBeforeCompletingMessageInMs: options.delayBeforeCompletingMessageInMs || 0
   };
 }
 
@@ -71,7 +90,8 @@ export async function scenarioStreamingReceive() {
     totalNumberOfMessagesToSend,
     completeMessageAfterDuration,
     settleMessageOnReceive,
-    numberOfDisconnects
+    numberOfDisconnects,
+    delayBeforeCompletingMessageInMs
   } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -92,7 +112,9 @@ export async function scenarioStreamingReceive() {
       maxAutoLockRenewalDurationInMs: maxAutoRenewLockDurationInMs
     });
   } else {
-    receiver = sbClient.createReceiver(stressBase.queueName);
+    receiver = sbClient.createReceiver(stressBase.queueName, {
+      maxAutoLockRenewalDurationInMs: maxAutoRenewLockDurationInMs
+    });
   }
 
   // Sending
@@ -108,18 +130,33 @@ export async function scenarioStreamingReceive() {
     }
   }
 
+  const processMessageCallback = async (message: ServiceBusReceivedMessage) => {
+    // TODO: message to keep renewing locks - pass args
+    // TODO: message to complete after certain number of renewals
+    if (receiver.receiveMode === "peekLock") {
+      if (settleMessageOnReceive) {
+        await delay(delayBeforeCompletingMessageInMs);
+        await stressBase.completeMessage(message, receiver);
+      } else if (!autoComplete && maxAutoRenewLockDurationInMs === 0 && manualLockRenewal) {
+        const elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        stressBase.renewMessageLockUntil(
+          message,
+          receiver,
+          testDurationInMs - elapsedTime,
+          completeMessageAfterDuration
+        );
+      }
+    }
+  };
+
   triggerDisconnects(numberOfDisconnects, testDurationInMs);
 
   // Resolve
   await Promise.all([
     sendMessages(),
-    stressBase.receiveStreaming(receiver, testDurationInMs, {
+    stressBase.receiveStreaming(receiver, testDurationInMs, processMessageCallback, {
       autoComplete,
-      maxConcurrentCalls,
-      maxAutoRenewLockDurationInMs,
-      manualLockRenewal,
-      completeMessageAfterDuration,
-      settleMessageOnReceive
+      maxConcurrentCalls
     })
   ]);
   await sbClient.close();
