@@ -2683,7 +2683,6 @@ export { RestError }
 
 // @public
 export interface RetentionPolicy {
-    allowPermanentDelete?: boolean;
     days?: number;
     enabled: boolean;
 }
