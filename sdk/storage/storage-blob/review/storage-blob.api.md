@@ -2044,7 +2044,7 @@ export interface FilterBlobItem {
     name: string;
     tags?: Tags;
     // @deprecated
-    tagValue?: string;
+    tagValue: string;
 }
 
 // @public

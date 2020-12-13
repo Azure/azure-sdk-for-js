@@ -234,7 +234,7 @@ export interface FilterBlobItem {
    * @type {string}
    * @memberof FilterBlobItem
    */
-  tagValue?: string;
+  tagValue: string;
 }
 
 /**
@@ -932,7 +932,7 @@ export class BlobServiceClient extends StorageClient {
         ...response,
         _response: response._response, // _response is made non-enumerable
         blobs: response.blobs.map((blob) => {
-          let tagValue = undefined;
+          let tagValue = "";
           if (blob.tags?.blobTagSet.length === 1) {
             tagValue = blob.tags.blobTagSet[0].value;
           }
