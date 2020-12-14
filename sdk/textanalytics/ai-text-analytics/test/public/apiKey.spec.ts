@@ -524,9 +524,9 @@ describe("[API Key] TextAnalyticsClient", function() {
       const result = await poller.pollUntilDone();
       let docCount = 0,
         pageCount = 0;
-      for await (const docs of result.byPage()) {
+      for await (const pageDocs of result.byPage()) {
         ++pageCount;
-        for (const doc of docs) {
+        for (const doc of pageDocs) {
           assert.isUndefined(doc.error);
           ++docCount;
           if (!doc.error) {
@@ -554,9 +554,9 @@ describe("[API Key] TextAnalyticsClient", function() {
       let docCount = 0;
       let pageCount = 0;
       const pageSize = 10;
-      for await (const docs of result.byPage({ maxPageSize: pageSize })) {
+      for await (const pageDocs of result.byPage({ maxPageSize: pageSize })) {
         ++pageCount;
-        for (const doc of docs) {
+        for (const doc of pageDocs) {
           assert.isUndefined(doc.error);
           ++docCount;
           if (!doc.error) {

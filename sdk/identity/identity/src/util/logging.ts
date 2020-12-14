@@ -123,9 +123,9 @@ export interface CredentialLogger extends CredentialLoggerInstance {
  *
  */
 export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
-  const logger = credentialLoggerInstance(title, undefined, log);
+  const credLogger = credentialLoggerInstance(title, undefined, log);
   return {
-    ...logger,
-    getToken: credentialLoggerInstance("=> getToken()", logger, log)
+    ...credLogger,
+    getToken: credentialLoggerInstance("=> getToken()", credLogger, log)
   };
 }

@@ -536,13 +536,13 @@ export class FormTrainingClient {
     options: BeginTrainingOptions = {}
   ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
     const trainPollerClient: TrainPollerClient = {
-      getCustomModel: (modelId: string, options: GetModelOptions) =>
-        this.getCustomModel(modelId, options),
+      getCustomModel: (modelId: string, optionsParam: GetModelOptions) =>
+        this.getCustomModel(modelId, optionsParam),
       trainCustomModelInternal: (
         source: string | string[],
         _useLabelFile?: boolean,
-        options?: BeginTrainingOptions
-      ) => trainCustomModelInternal(this.client, source as string, useTrainingLabels, options)
+        optionsParam?: BeginTrainingOptions
+      ) => trainCustomModelInternal(this.client, source as string, useTrainingLabels, optionsParam)
     };
 
     const poller = new BeginTrainingPoller({
@@ -597,12 +597,12 @@ export class FormTrainingClient {
     options: BeginCreateComposedModelOptions
   ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
     const composePollerClient: TrainPollerClient = {
-      getCustomModel: (modelId, options) => this.getCustomModel(modelId, options),
+      getCustomModel: (modelId, optionsParam) => this.getCustomModel(modelId, optionsParam),
       trainCustomModelInternal: (
         sources: string | string[],
         _?: boolean,
-        options?: BeginTrainingOptions
-      ) => composeModelInternal(this.client, sources as string[], options)
+        optionsParam?: BeginTrainingOptions
+      ) => composeModelInternal(this.client, sources as string[], optionsParam)
     };
 
     const poller = new BeginTrainingPoller({

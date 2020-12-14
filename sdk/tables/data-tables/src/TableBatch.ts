@@ -204,9 +204,9 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
     if (statusMatch?.length !== 2) {
       throw new Error(`Couldn't extract status from sub-response:\n ${subResponse}`);
     }
-    const status = Number.parseInt(statusMatch[1]);
-    if (!Number.isInteger(status)) {
-      throw new Error(`Expected sub-response status to be an integer ${status}`);
+    const subResponseStatus = Number.parseInt(statusMatch[1]);
+    if (!Number.isInteger(subResponseStatus)) {
+      throw new Error(`Expected sub-response status to be an integer ${subResponseStatus}`);
     }
 
     const bodyMatch = subResponse.match(/\{(.*)\}/);
@@ -216,7 +216,13 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
       if (parsedError && parsedError["odata.error"]) {
         const error: TableServiceErrorOdataError = parsedError["odata.error"];
         const message = error.message?.value || "One of the batch operations failed";
-        throw new RestError(message, error.code, status, batchResponse.request, batchResponse);
+        throw new RestError(
+          message,
+          error.code,
+          subResponseStatus,
+          batchResponse.request,
+          batchResponse
+        );
       }
     }
 
@@ -224,7 +230,7 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
     const rowKeyMatch = subResponse.match(/RowKey='(.*)'/);
 
     return {
-      status,
+      status: subResponseStatus,
       ...(rowKeyMatch?.length === 2 && { rowKey: rowKeyMatch[1] }),
       ...(etagMatch?.length === 2 && { etag: etagMatch[1] })
     };

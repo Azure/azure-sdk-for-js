@@ -71,6 +71,7 @@ export class AbortController {
    * @constructor
    */
   constructor(...parentSignals: AbortSignalLike[]);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   constructor(parentSignals?: any) {
     this._signal = new AbortSignal();
 
@@ -104,7 +105,7 @@ export class AbortController {
    * @type {AbortSignal}
    * @memberof AbortController
    */
-  public get signal() {
+  public get signal(): AbortSignal {
     return this._signal;
   }
 
@@ -114,7 +115,7 @@ export class AbortController {
    *
    * @memberof AbortController
    */
-  abort() {
+  abort(): void {
     abortSignal(this._signal);
   }
 

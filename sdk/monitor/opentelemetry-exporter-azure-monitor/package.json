@@ -66,8 +66,6 @@
     "@microsoft/api-extractor": "7.7.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
     "eslint": "^6.1.0",
     "eslint-plugin-node": "^11.1.0",
     "execa": "^3.3.0",
@@ -78,7 +76,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-mocha": "^7.0.0",
-    "typescript": "~3.9.3"
+    "typescript": "4.1.2"
   },
   "dependencies": {
     "@azure/core-http": "^1.2.0",
