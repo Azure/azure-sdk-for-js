@@ -10,14 +10,11 @@ import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
 import { parseServiceBusConnectionString } from "../../src";
 import { CreateQueueOptions } from "../../src";
-import { RuleProperties, CreateRuleOptions } from "../../src/serializers/ruleResourceSerializer";
+import { RuleProperties } from "../../src";
 import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src";
 import { CreateTopicOptions } from "../../src";
-import {
-  ServiceBusAdministrationClient,
-  WithResponse,
-} from "../../src/serviceBusAtomManagementClient";
-import { EntityStatus, EntityAvailabilityStatus, isNode } from "../../src/util/utils";
+import { ServiceBusAdministrationClient, WithResponse } from "../../src";
+import { EntityStatus, EntityAvailabilityStatus } from "../../src";
 import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
 import {
   recreateQueue,
@@ -25,6 +22,7 @@ import {
   recreateTopic,
 } from "../public/utils/managementUtils";
 import { EntityNames } from "../public/utils/testUtils";
+import { CreateRuleOptions } from "../../src/serializers/ruleResourceSerializer";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -2425,7 +2423,7 @@ async function createEntity(
   queueOptions?: Omit<CreateQueueOptions, "name">,
   topicOptions?: Omit<CreateTopicOptions, "name">,
   subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<CreateRuleOptions, "name">
+  ruleOptions?: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
