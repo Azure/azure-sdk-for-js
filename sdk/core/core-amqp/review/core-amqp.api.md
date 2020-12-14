@@ -163,6 +163,8 @@ export interface ConnectionConfig {
     endpoint: string;
     entityPath?: string;
     host: string;
+    hostname?: string;
+    port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
     webSocket?: WebSocketImpl;

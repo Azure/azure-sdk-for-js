@@ -30,6 +30,14 @@ export interface ConnectionConfig {
    */
   host: string;
   /**
+   * @property {string} hostname - The hostname "<yournamespace>.servicebus.windows.net".
+   */
+  hostname?: string;
+  /**
+   * The port number.
+   */
+  port?: number;
+  /**
    * @property {string} connectionString - The connection string.
    */
   connectionString: string;
@@ -135,7 +143,7 @@ export const ConnectionConfig = {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
     if (config.entityPath != undefined) {
-       config.entityPath = String(config.entityPath);
+      config.entityPath = String(config.entityPath);
     }
 
     if (!isSharedAccessSignature(config.connectionString)) {

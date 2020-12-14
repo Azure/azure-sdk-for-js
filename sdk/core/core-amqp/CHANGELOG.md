@@ -2,6 +2,9 @@
 
 ## 2.0.1 (Unreleased)
 
+- Adds the ability to configure the `hostname` and `port` that a `ConnectionContextBase` will use
+  when connecting to a service.
+
 - Fixes the bug reported in issue [12610](https://github.com/Azure/azure-sdk-for-js/issues/12610).
   Previously, `retry` would still sleep one more time after all retry attempts were exhausted before returning.
   Now, `retry` will return immediately after all retry attempts are completed as necessary.

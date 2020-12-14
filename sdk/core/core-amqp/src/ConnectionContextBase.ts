@@ -122,9 +122,9 @@ export const ConnectionContextBase = {
     const connectionOptions: ConnectionOptions = {
       transport: Constants.TLS,
       host: parameters.config.host,
-      hostname: parameters.config.host,
+      hostname: parameters.config.hostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: 5671,
+      port: parameters.config.port ?? 5671,
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,
@@ -144,7 +144,7 @@ export const ConnectionContextBase = {
       (!isNode && typeof window !== "undefined" && (window as any).WebSocket)
     ) {
       const socket = parameters.config.webSocket || (window as any).WebSocket;
-      const host = parameters.config.host;
+      const host = connectionOptions.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};
 
