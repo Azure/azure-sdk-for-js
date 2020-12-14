@@ -22,11 +22,11 @@ import { ServiceBusSender } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { setTracerForTest } from "../public/utils/misc";
-import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentServiceBusMessage";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 const anyRandomTestClientType = getRandomTestClientType();
+export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
 describe("Sender Tests", () => {
   let sender: ServiceBusSender;
