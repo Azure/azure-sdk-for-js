@@ -17,7 +17,7 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
-import { getDeliveryProperty } from "../public/utils/misc";
+import { getDeliveryProperty } from "./utils/misc";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import sinon from "sinon";
 import { isNode } from "@azure/core-http";

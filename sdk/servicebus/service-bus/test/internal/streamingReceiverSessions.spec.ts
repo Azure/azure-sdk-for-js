@@ -20,7 +20,7 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
 } from "../public/utils/testutils2";
-import { getDeliveryProperty } from "../public/utils/misc";
+import { getDeliveryProperty } from "./utils/misc";
 import { singleMessagePromise } from "./streamingReceiver.spec";
 const should = chai.should();
 chai.use(chaiAsPromised);
