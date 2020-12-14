@@ -319,8 +319,13 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           abortSignal: options.abortSignal,
           fireProgress: this.fireProgress.bind(this)
         });
-        if (this.isDone() && this.resolve && state.result) {
-          this.resolve(state.result);
+        if (this.isDone() && this.resolve) {
+          // If the poller has finished polling, this means we now have a result.
+          // However, it can be the case that TResult is instantiated to void, so
+          // we are not expecting a result anyway. To assert that we might not
+          // have a result eventually after finishing polling, we cast the result
+          // to TResult.
+          this.resolve(state.result as TResult);
         }
       }
     } catch (e) {
