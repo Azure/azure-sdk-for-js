@@ -9595,7 +9595,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-UMKcEozzNrbbeUY6uEaf46fqDGGbsunONMl4Kt6yGU2IemQuxtRUleQtGbFPoLEm2mX+hrVXxxtgvlivduga4Q==
+      integrity: sha512-YhZXwE7Xn6Brx6tjC0SFg83H/zenh0dVSmlbmcj5Hait/ddO6cgpvZlNHU6JyNWELXV12Zvw2KVXoRpNMJ00Ug==
       tarball: 'file:projects/data-tables.tgz'
     version: 0.0.0
   'file:projects/dev-tool.tgz':
@@ -9840,7 +9840,7 @@ packages:
     dev: false
     name: '@rush-temp/event-processor-host'
     resolution:
-      integrity: sha512-5q9OjZ4GQp/BWc/Qm581a7dwZG153HakFDaxUVuudMac7nKhYvwwBbv6whNYPuJp6IHCloR3UvO69lyPnLb9uw==
+      integrity: sha512-dE48Y2e0bfKi/gI7kyW+27B3HkazT7tBsLqnjI2ulTAreTsBiLqROCSqbapdx4nN6yCh2UeZM9KXVK5aZfAl9A==
       tarball: 'file:projects/event-processor-host.tgz'
     version: 0.0.0
   'file:projects/eventgrid.tgz':
@@ -10317,6 +10317,7 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@opentelemetry/core': 0.10.2
+      '@opentelemetry/resources': 0.10.2
       '@opentelemetry/semantic-conventions': 0.10.2
       '@opentelemetry/tracing': 0.10.2
       '@types/mocha': 7.0.2
@@ -10337,7 +10338,7 @@ packages:
     dev: false
     name: '@rush-temp/opentelemetry-exporter-azure-monitor'
     resolution:
-      integrity: sha512-xYPlB3UO4LSslU7rnHjR7pwLkPPOmQEGzqtG+gI0/imVB2H0JcGeFQuX1w83J2LzhUp8UNZxVbSGUdPL6BNcFw==
+      integrity: sha512-qZCrQconfIcU1FLRgWI1701t++WOQzdgpwXupluJ918Vg26USCjujHVABFOFtQHamut4XIj88O1yCK89wcq1Ew==
       tarball: 'file:projects/opentelemetry-exporter-azure-monitor.tgz'
     version: 0.0.0
   'file:projects/schema-registry-avro.tgz':
@@ -10912,6 +10913,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       eslint: 6.8.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10921,7 +10923,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-access-control'
     resolution:
-      integrity: sha512-ftUOcMLLWN96gO5+GublAA7vvSvDodeqA6EjvQVz6+VqL/cIYnmrg+56UT0orZ84+KQvWK2YwxoFOXdGQA5pxg==
+      integrity: sha512-V5iBkzRPayBGmEuEJTouq59xcB6hJYtjbYSL2oPSgyx6QrwZHDw1WS+REIMbCA4kRQVTDRpARcm5Kg9eA4oc6w==
       tarball: 'file:projects/synapse-access-control.tgz'
     version: 0.0.0
   'file:projects/synapse-artifacts.tgz':
@@ -10930,6 +10932,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       eslint: 6.8.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10939,7 +10942,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-artifacts'
     resolution:
-      integrity: sha512-BziRwB2KqehZAZ9BGw1eEicTYzHawThCutpBLqiqydhWAzsuh/kjA+j4VXP1StOJLpQhPufoj8z3XvUY9o20Mw==
+      integrity: sha512-HpFN2tUdTNPg2jpYIFa1EnQ+xsOdOc97W3WeocMFMm3Iyt4qx2Yu/nOFVT5YroN9MJk6SsZJsaQw0kjo/xC9Pw==
       tarball: 'file:projects/synapse-artifacts.tgz'
     version: 0.0.0
   'file:projects/synapse-managed-private-endpoints.tgz':
@@ -10948,6 +10951,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       eslint: 6.8.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10957,7 +10961,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-managed-private-endpoints'
     resolution:
-      integrity: sha512-Pbv80NWjOqCVIk+6WvWeRy91C1BgJTcaz9+TP/EtAvOc0NyoySCbiRbhE8ijSE8dp+CNSCULoxy3aHCGBcZ1YA==
+      integrity: sha512-Dd0cEOq37OGIfIcpcG5ndVcfvBLk5ecBrAurpyf1Wyw7c2vrvuoQ66C7Dw0PT5NoiCM2RMjCwlp3VGDHFUyshA==
       tarball: 'file:projects/synapse-managed-private-endpoints.tgz'
     version: 0.0.0
   'file:projects/synapse-monitoring.tgz':
@@ -10966,6 +10970,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       eslint: 6.8.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10975,7 +10980,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-monitoring'
     resolution:
-      integrity: sha512-FVavoIunyn6oS0WHawIQ9/w0y18Yu/PvmAmzIgPn3WCQhQp2jVPuuk0zdyuypbU2UhvzEPMa2QPKWx0n93AqqA==
+      integrity: sha512-Bke8F1OdvrutqQUigE6GuJVEhwXrvplb9Sr+k9FjUHPySkNDC4fC+fZ8vDBu0c6CRWTxeCaSN3KXpXMHlpUuNA==
       tarball: 'file:projects/synapse-monitoring.tgz'
     version: 0.0.0
   'file:projects/synapse-spark.tgz':
@@ -10984,6 +10989,7 @@ packages:
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       eslint: 6.8.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10993,7 +10999,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-spark'
     resolution:
-      integrity: sha512-HyHa+JtclUl+rTvQUWk0DDhbboms8vo6fk2+p3zqeo2/BjnQLea3DlvVc5xswGqdEadtwRIfA2t1RgnB+XjxtQ==
+      integrity: sha512-75dyFZphblJIxIGGrYCA58TUFLngkGhETAMnEzdkFZxexd/M7E+b4jlbpI7AmIt+RdseCmrsmKFhNBOkDwc3qQ==
       tarball: 'file:projects/synapse-spark.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
