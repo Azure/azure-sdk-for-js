@@ -237,6 +237,7 @@ export {
 /**
  * Deprecated KeyVault copy of core-lro's PollerLike.
  */
+// eslint-disable-next-line no-use-before-define
 export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<
   TState,
   TResult

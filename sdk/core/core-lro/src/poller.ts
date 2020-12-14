@@ -46,6 +46,7 @@ export class PollerCancelledError extends Error {
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
+// eslint-disable-next-line no-use-before-define
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * Returns a promise that will resolve once a single polling request finishes.
@@ -160,10 +161,11 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  * ```
  *
  */
+// eslint-disable-next-line no-use-before-define
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult> {
   private stopped: boolean = true;
-  private resolve?: (value?: TResult) => void;
+  private resolve?: (value: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private pollOncePromise?: Promise<void>;
   private cancelPromise?: Promise<void>;
@@ -243,9 +245,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    */
   constructor(operation: PollOperation<TState, TResult>) {
     this.operation = operation;
-    this.promise = new Promise(
+    this.promise = new Promise<TResult>(
       (
-        resolve: (result?: TResult) => void,
+        resolve: (result: TResult) => void,
         reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
       ) => {
         this.resolve = resolve;
@@ -281,7 +283,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * ```
    *
    */
-  protected abstract async delay(): Promise<void>;
+  protected abstract delay(): Promise<void>;
 
   /**
    * @internal
@@ -318,7 +320,12 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           fireProgress: this.fireProgress.bind(this)
         });
         if (this.isDone() && this.resolve) {
-          this.resolve(state.result);
+          // If the poller has finished polling, this means we now have a result.
+          // However, it can be the case that TResult is instantiated to void, so
+          // we are not expecting a result anyway. To assert that we might not
+          // have a result eventually after finishing polling, we cast the result
+          // to TResult.
+          this.resolve(state.result as TResult);
         }
       }
     } catch (e) {

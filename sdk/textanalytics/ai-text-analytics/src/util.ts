@@ -118,10 +118,36 @@ export function getJobID(operationLocation: string): string {
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error the incoming error
  */
-export function handleInvalidDocumentBatch(error: any): any {
-  const innerCode = error.response?.parsedBody?.error?.innererror?.code;
-  const innerMessage = error.response?.parsedBody?.error?.innererror?.message;
-  return innerCode === "InvalidDocumentBatch"
-    ? new RestError(innerMessage, innerCode, error.statusCode)
-    : error;
+export function handleInvalidDocumentBatch(error: unknown): any {
+  const castError = error as {
+    response: {
+      parsedBody?: {
+        error?: {
+          innererror?: {
+            code: string;
+            message: string;
+          };
+        };
+      };
+    };
+    statusCode: number;
+  };
+  const innerCode = castError.response?.parsedBody?.error?.innererror?.code;
+  const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
+  if (innerMessage) {
+    return innerCode === "InvalidDocumentBatch"
+      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      : error;
+  } else {
+    // unfortunately, the service currently does not follow the swagger definition
+    // for errors in some cases.
+    // Issue: https://msazure.visualstudio.com/Cognitive%20Services/_workitems/edit/8775003/?workitem=8972164
+    // throw new Error(
+    //   `The error coming from the service does not follow the expected structure: ${error}`
+    // );
+    logger.warning(
+      `The error coming from the service does not follow the expected structure: ${error}`
+    );
+    return error;
+  }
 }

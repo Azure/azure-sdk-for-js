@@ -10,7 +10,7 @@ import { ConnectionString } from "./internalModels";
  * @param _extractedCreds parsed connection string
  * @param _options TablesServiceClient options
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
 export function fromAccountConnectionString(
   _connectionString: ConnectionString,
   _options?: TableServiceClientOptions
