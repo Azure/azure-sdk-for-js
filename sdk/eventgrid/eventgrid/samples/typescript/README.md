@@ -4,7 +4,7 @@ languages:
   - typescript
 products:
   - azure
-  - azure-eventgrid
+  - azure-event-grid
 urlFragment: eventgrid-typescript
 ---
 

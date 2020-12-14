@@ -974,10 +974,13 @@ export class PhoneNumberAdministrationClient {
     phoneNumbers: string[],
     options: BeginReleasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
+    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new ReleasePhoneNumbersPoller({
       phoneNumbers,
       client: this.client,
-      requestOptions: options
+      pollInterval,
+      resumeFrom,
+      requestOptions
     });
 
     await poller.poll();
@@ -1010,10 +1013,13 @@ export class PhoneNumberAdministrationClient {
     reservationRequest: CreateReservationRequest,
     options: BeginReservePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>> {
+    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new ReservePhoneNumbersPoller({
       reservationRequest,
       client: this.client,
-      requestOptions: options
+      pollInterval,
+      resumeFrom,
+      requestOptions
     });
 
     await poller.poll();
@@ -1045,10 +1051,13 @@ export class PhoneNumberAdministrationClient {
     reservationId: string,
     options: BeginPurchaseReservationOptions = {}
   ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new PurchaseReservationPoller({
       reservationId,
       client: this.client,
-      requestOptions: options
+      pollInterval,
+      resumeFrom,
+      requestOptions
     });
 
     await poller.poll();

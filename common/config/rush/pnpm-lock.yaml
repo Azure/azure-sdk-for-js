@@ -2378,6 +2378,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==
+  /csv-parse/4.14.1:
+    dev: false
+    resolution:
+      integrity: sha512-4wmcO7QbWtDAncGFaBwlWFPhEN4Akr64IbM4zvDwEOFekI8blLc04Nw7XjQjtSNy+3AUAgBgtUa9nWo5Cq89Xg==
   /currently-unhandled/0.4.1:
     dependencies:
       array-find-index: 1.0.2
@@ -8639,6 +8643,7 @@ packages:
       '@types/node': 8.10.66
       chai: 4.2.0
       cross-env: 7.0.3
+      csv-parse: 4.14.1
       dotenv: 8.2.0
       eslint: 6.8.0
       inherits: 2.0.4
@@ -8669,7 +8674,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-im0Az15EfcttIX5T61sj0aRo6KT6NP4dQeWJ3TQFJUR33Oco7W15VRMv+UXT1Eqwe3a/z3rqIvdBPZF5JYsA5A==
+      integrity: sha512-x9L7AxP7505Qji9y5rvSK3iJ6f0bWWq+lpsmZFpCtIcow6rsGF83VS42RuAKfIbSH7TyN/kqh3wkpXGjzbbp1A==
       tarball: 'file:projects/ai-anomaly-detector.tgz'
     version: 0.0.0
   'file:projects/ai-form-recognizer.tgz':
@@ -9629,7 +9634,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-ciciEM+oL304KwFyiYKOYiw/e1tXhpeEAX6kak4fz9dpljOLyqw7zfem3rbVQxbt44hw5zyt700KUp5tqsv73Q==
+      integrity: sha512-notCssT9R/KKMe/W99lQe9YKQGsiNptEC1BiUFlvAslih0jmMtu0bYrFz6ild0Ag8Wxze64Byp7HwE2GkZDSRg==
       tarball: 'file:projects/dev-tool.tgz'
     version: 0.0.0
   'file:projects/digital-twins-core.tgz':
@@ -9949,7 +9954,7 @@ packages:
     dev: false
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     resolution:
-      integrity: sha512-4X2kAc1pqNo8Z4t/Ahv6q98mE/ohryn9WJJOCjxc9e26njnwA7f9VInmPWw3WUIPWNonvWfSSRwr5N71Fnpy/Q==
+      integrity: sha512-5Dl3Py9dBaVdYMz/Pd4RNQoS8GSzmSMP+DtIBR2kPiV17kSugOqjrrUjyzovbHwgRn6n+DK7m87KhCTp7kgTdw==
       tarball: 'file:projects/eventhubs-checkpointstore-blob.tgz'
     version: 0.0.0
   'file:projects/identity.tgz':
@@ -10904,6 +10909,9 @@ packages:
   'file:projects/synapse-access-control.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      eslint: 6.8.0
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10913,12 +10921,15 @@ packages:
     dev: false
     name: '@rush-temp/synapse-access-control'
     resolution:
-      integrity: sha512-Fm1Nuq7m7yBN0X3MKPsnHVpDROAxneagP+y+cDn6752i6R8UwFuIk8gZA5AzaTpD5gfuRJl2VOiUncEvnqMVSg==
+      integrity: sha512-ftUOcMLLWN96gO5+GublAA7vvSvDodeqA6EjvQVz6+VqL/cIYnmrg+56UT0orZ84+KQvWK2YwxoFOXdGQA5pxg==
       tarball: 'file:projects/synapse-access-control.tgz'
     version: 0.0.0
   'file:projects/synapse-artifacts.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      eslint: 6.8.0
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10928,12 +10939,15 @@ packages:
     dev: false
     name: '@rush-temp/synapse-artifacts'
     resolution:
-      integrity: sha512-z1Mzvmykm4QueMmQH8u3rs2Zo3NKDB6DOUDZpbxQd+uBfJkpCLtF3dVeweKusU1kUZh0lwB5CyEIr48QgGm/3w==
+      integrity: sha512-BziRwB2KqehZAZ9BGw1eEicTYzHawThCutpBLqiqydhWAzsuh/kjA+j4VXP1StOJLpQhPufoj8z3XvUY9o20Mw==
       tarball: 'file:projects/synapse-artifacts.tgz'
     version: 0.0.0
   'file:projects/synapse-managed-private-endpoints.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      eslint: 6.8.0
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10943,12 +10957,15 @@ packages:
     dev: false
     name: '@rush-temp/synapse-managed-private-endpoints'
     resolution:
-      integrity: sha512-6aMZRNXwJ7g27eg3aeMp937no7JUghoBSJZ2WnGYJ28mOGii4nNGuTXVad6wVcJc9o5uCsp6hhbjSmzxFszwZQ==
+      integrity: sha512-Pbv80NWjOqCVIk+6WvWeRy91C1BgJTcaz9+TP/EtAvOc0NyoySCbiRbhE8ijSE8dp+CNSCULoxy3aHCGBcZ1YA==
       tarball: 'file:projects/synapse-managed-private-endpoints.tgz'
     version: 0.0.0
   'file:projects/synapse-monitoring.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      eslint: 6.8.0
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10958,12 +10975,15 @@ packages:
     dev: false
     name: '@rush-temp/synapse-monitoring'
     resolution:
-      integrity: sha512-GMO/9OUshXiUwhVVPygWF0/pFk9qLgckZWYgOhYh4locL6PRqTcMLOFeq4TVjmzqDv0Fd94MMcirJMhE4I8tFA==
+      integrity: sha512-FVavoIunyn6oS0WHawIQ9/w0y18Yu/PvmAmzIgPn3WCQhQp2jVPuuk0zdyuypbU2UhvzEPMa2QPKWx0n93AqqA==
       tarball: 'file:projects/synapse-monitoring.tgz'
     version: 0.0.0
   'file:projects/synapse-spark.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      eslint: 6.8.0
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -10973,7 +10993,7 @@ packages:
     dev: false
     name: '@rush-temp/synapse-spark'
     resolution:
-      integrity: sha512-N6icSSXfZHpeeQbCHi/Yo8e+rpyLYkShphRxHr8ftxQFSPin80kDZHn/44rwOwm0Uv9TpAJjlYvs+yzzljT7EA==
+      integrity: sha512-HyHa+JtclUl+rTvQUWk0DDhbboms8vo6fk2+p3zqeo2/BjnQLea3DlvVc5xswGqdEadtwRIfA2t1RgnB+XjxtQ==
       tarball: 'file:projects/synapse-spark.tgz'
     version: 0.0.0
   'file:projects/template.tgz':
@@ -11057,6 +11077,7 @@ packages:
       '@types/nise': 1.4.0
       '@types/node': 8.10.66
       chai: 4.2.0
+      dotenv: 8.2.0
       eslint: 6.8.0
       fs-extra: 8.1.0
       karma: 5.2.3
@@ -11094,7 +11115,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-jgRVA11kPh/vgHr6KAfqHmSK/J/cb/dnU77nxk02f8OlZ901ftda1v6IeuPY3M/UT8TZxlBz6Vv7XwlDpbtj6w==
+      integrity: sha512-W38/tLuzTQxNgGL5lvza2Fn3dktqWduww8HDzQYIpf01cR2TobIYvzEzMRzdhdvuzTqe7mtdQ4rijktZrEmboQ==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
