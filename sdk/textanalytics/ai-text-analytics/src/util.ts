@@ -145,7 +145,9 @@ export function handleInvalidDocumentBatch(error: unknown): any {
     // throw new Error(
     //   `The error coming from the service does not follow the expected structure: ${error}`
     // );
-    logger.warning(`The error coming from the service does not follow the expected structure: ${error}`);
+    logger.warning(
+      `The error coming from the service does not follow the expected structure: ${error}`
+    );
     return error;
   }
 }
