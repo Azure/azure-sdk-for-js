@@ -3,11 +3,10 @@
 
 /**
  * Demonstrates how to us the PhoneNumberAdministrationClient
- * to purchase a phone number and use it to send a SMS.
+ * to purchase a phone number.
  */
 
 const { PhoneNumberAdministrationClient } = require("@azure/communication-administration");
-const { SmsClient } = require("@azure/communication-sms");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -58,35 +57,6 @@ async function main() {
     purchasePoller.pollUntilDone();
 
     console.log(`Phone number, ${phoneNumber}, purchased successfully.`);
-    console.log("Will attempt to send an SMS with new number...");
-
-    // wait before using number to send SMS
-    let timer = 45;
-    const interval = setInterval(() => {
-      timer -= 9;
-      console.log(`Sending SMS in ${timer}s...`);
-    }, 9000);
-
-    await new Promise((resolve) => {
-      setTimeout(async () => {
-        clearInterval(interval);
-
-        console.log("Sending Sms...");
-
-        // create an instance of SmsClient
-        const smsClient = new SmsClient(connectionString);
-
-        // send sms with new number
-        await smsClient.send({
-          to: ["+12127319863"],
-          from: phoneNumber,
-          message: "New phone number purchased successfully!"
-        });
-
-        console.log("Message sent successfully!");
-        resolve();
-      }, 46000);
-    });
   } else {
     throw new Error("No phone numbers found.");
   }

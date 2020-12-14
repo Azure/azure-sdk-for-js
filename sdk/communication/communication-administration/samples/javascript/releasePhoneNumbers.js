@@ -41,6 +41,7 @@ async function main() {
       acquired.acquiredCapabilities.includes("OutboundA2PSms")
     ) {
       phoneNumbersToRelease.push(acquired.phoneNumber);
+      break;
     }
   }
 

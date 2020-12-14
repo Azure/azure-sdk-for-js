@@ -28,7 +28,6 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/communication-administration": "latest",
-    "@azure/communication-sms": "latest",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
