@@ -348,6 +348,22 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
+export const enum KnownApiVersion72Preview {
+    Seven2Preview = "7.2-preview"
+}
+
+// @public
+export const enum KnownDeletionRecoveryLevel {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+    Purgeable = "Purgeable",
+    Recoverable = "Recoverable",
+    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+    RecoverablePurgeable = "Recoverable+Purgeable"
+}
+
+// @public
 export const enum KnownJsonWebKeyCurveName {
     // (undocumented)
     P256 = "P-256",
@@ -357,6 +373,44 @@ export const enum KnownJsonWebKeyCurveName {
     P384 = "P-384",
     // (undocumented)
     P521 = "P-521"
+}
+
+// @public
+export const enum KnownJsonWebKeyType {
+    // (undocumented)
+    EC = "EC",
+    // (undocumented)
+    ECHSM = "EC-HSM",
+    // (undocumented)
+    Oct = "oct",
+    // (undocumented)
+    OctHSM = "oct-HSM",
+    // (undocumented)
+    RSA = "RSA",
+    // (undocumented)
+    RSAHSM = "RSA-HSM"
+}
+
+// @public
+export const enum KnownKeyUsageType {
+    // (undocumented)
+    CRLSign = "cRLSign",
+    // (undocumented)
+    DataEncipherment = "dataEncipherment",
+    // (undocumented)
+    DecipherOnly = "decipherOnly",
+    // (undocumented)
+    DigitalSignature = "digitalSignature",
+    // (undocumented)
+    EncipherOnly = "encipherOnly",
+    // (undocumented)
+    KeyAgreement = "keyAgreement",
+    // (undocumented)
+    KeyCertSign = "keyCertSign",
+    // (undocumented)
+    KeyEncipherment = "keyEncipherment",
+    // (undocumented)
+    NonRepudiation = "nonRepudiation"
 }
 
 // @public

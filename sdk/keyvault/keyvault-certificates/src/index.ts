@@ -118,7 +118,11 @@ import {
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   ActionType,
   DeletionRecoveryLevel,
-  KnownJsonWebKeyCurveName
+  KnownJsonWebKeyCurveName,
+  KnownApiVersion72Preview,
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyType,
+  KnownKeyUsageType
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -233,7 +237,11 @@ export {
   logger,
   CancelCertificateOperationOptions,
   KeyVaultCertificatePollOperationState,
-  KnownJsonWebKeyCurveName
+  KnownJsonWebKeyCurveName,
+  KnownApiVersion72Preview,
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyType,
+  KnownKeyUsageType
 };
 
 /**
