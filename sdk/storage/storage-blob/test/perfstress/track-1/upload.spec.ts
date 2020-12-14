@@ -29,6 +29,10 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
       this.containerClient,
       `newblob${new Date().getTime()}`
     );
-    await blockBlobClient.upload(Aborter.none, Buffer.alloc(0), 0);
+    await blockBlobClient.upload(
+      Aborter.none,
+      Buffer.alloc(this.parsedOptions.size.value!),
+      this.parsedOptions.size.value!
+    );
   }
 }
