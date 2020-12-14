@@ -774,7 +774,7 @@ export class CertificateClient {
     let requestOptions = operationOptionsToRequestOptionsBase(unflattenedOptions);
     const span = createSpan("createIssuer", requestOptions);
     const credentials: IssuerCredentials = requestOptions.credentials || {};
-    
+
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions
     };
@@ -845,7 +845,7 @@ export class CertificateClient {
     let requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("updateIssuer", requestOptions);
     const credentials: IssuerCredentials = requestOptions.credentials || {};
-    
+
     const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
       ...requestOptions
     };
