@@ -3,6 +3,7 @@
 
 import {
   createPipelineFromOptions,
+  InternalPipelineOptions,
   isTokenCredential,
   signingPolicy,
   TokenCredential
@@ -21,6 +22,7 @@ import { BackupOperationState } from "./lro/backup/operation";
 import { RestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { SelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
+import { KeyVaultClientOptionalParams } from "./generated/models";
 
 export {
   BackupOperationState,
@@ -77,7 +79,6 @@ export class KeyVaultBackupClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -88,27 +89,24 @@ export class KeyVaultBackupClient {
       ? challengeBasedAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient({
-      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      ...pipeline
-    });
+    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
+      internalPipelineOptions,
+      authPolicy
+    );
+    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    this.client = new KeyVaultClient(params);
   }
 
   /**

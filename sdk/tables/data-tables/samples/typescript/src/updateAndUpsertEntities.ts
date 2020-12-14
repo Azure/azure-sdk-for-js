@@ -57,7 +57,7 @@ interface Entity {
   brand?: string;
 }
 
-async function main() {
+export async function main() {
   await createAndDeleteEntities();
 }
 

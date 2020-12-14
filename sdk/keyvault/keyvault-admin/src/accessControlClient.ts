@@ -6,13 +6,15 @@ import {
   TokenCredential,
   isTokenCredential,
   signingPolicy,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  InternalPipelineOptions
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
+  KeyVaultClientOptionalParams,
   RoleAssignmentsCreateResponse,
   RoleAssignmentsDeleteResponse,
   RoleAssignmentsListForScopeOptionalParams
@@ -84,7 +86,6 @@ export class KeyVaultAccessControlClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -95,27 +96,24 @@ export class KeyVaultAccessControlClient {
       ? challengeBasedAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient({
-      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      ...pipeline
-    });
+    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
+      internalPipelineOptions,
+      authPolicy
+    );
+    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    this.client = new KeyVaultClient(params);
   }
 
   /**

@@ -4,8 +4,6 @@ languages:
   - typescript
 products:
   - azure
-  - azure-communication-service
-  - azure-communication-administration
 urlFragment: communication-administration-identity-typescript
 ---
 

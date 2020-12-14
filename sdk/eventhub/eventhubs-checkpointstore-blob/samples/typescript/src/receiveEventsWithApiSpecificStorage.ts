@@ -35,7 +35,7 @@ const storageContainerUrl =
 const storageAccountName = process.env["STORAGE_ACCOUNT_NAME"] || "<storageaccount>";
 const storageAccountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<key>";
 
-async function main() {
+export async function main() {
   // The `containerClient` will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage.
   const storageCredential = new StorageSharedKeyCredential(storageAccountName, storageAccountKey);
@@ -78,7 +78,7 @@ async function main() {
       );
     },
     processError: async (err, context) => {
-      console.log(`Error : ${err}`);
+      console.log(`Error on partition "${context.partitionId}": ${err}`);
     }
   });
 
