@@ -2451,9 +2451,7 @@ export class BlobClient extends StorageClient {
       //   doing the same in the SDK side so that the user doesn't have to replace "\" instances in the blobName
       blobName = blobName.replace(/\\/g, "/");
 
-      if (!blobName) {
-        throw new Error("Provided blobName is invalid.");
-      } else if (!containerName) {
+      if (!containerName) {
         throw new Error("Provided containerName is invalid.");
       }
 
