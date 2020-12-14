@@ -19,7 +19,7 @@
   to learn about session state.
 */
 
-import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -98,10 +98,10 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
   const sender = sbClient.createSender(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
-    const message = {
+    const message: ServiceBusMessage = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      label: "Shopping Step"
+      subject: "Shopping Step"
     };
     await sender.sendMessages(message);
   }
