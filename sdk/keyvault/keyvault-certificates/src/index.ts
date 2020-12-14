@@ -771,7 +771,7 @@ export class CertificateClient {
       credentials: { accountId: options.accountId, password: options.password }
     };
 
-    let requestOptions = operationOptionsToRequestOptionsBase(unflattenedOptions);
+    const requestOptions = operationOptionsToRequestOptionsBase(unflattenedOptions);
     const span = createSpan("createIssuer", requestOptions);
     const credentials: IssuerCredentials = requestOptions.credentials || {};
 
@@ -842,7 +842,7 @@ export class CertificateClient {
     issuerName: string,
     options: UpdateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
-    let requestOptions = operationOptionsToRequestOptionsBase(options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("updateIssuer", requestOptions);
     const credentials: IssuerCredentials = requestOptions.credentials || {};
 
