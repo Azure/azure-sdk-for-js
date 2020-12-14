@@ -126,6 +126,7 @@
   },
   "//smokeTestConfiguration": {
     "skip": [
+      "createComposedModel.js",
       "customModelManagement.js",
       "differentiateLabeledUnlabeled.js",
       "getBoundingBoxes.js",

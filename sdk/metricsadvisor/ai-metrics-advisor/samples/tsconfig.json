@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "outDir": "typescript/dist",
-    "lib": ["ES6"]
+    "lib": ["ES6", "dom"]
   },
   "include": ["typescript/src/**.ts"],
   "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../types"]

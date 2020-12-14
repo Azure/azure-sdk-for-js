@@ -62,7 +62,6 @@
     "node": ">=10.10.0"
   },
   "dependencies": {
-    "generate-static-index": "file:eng/tools/generate-static-index",
     "versioning": "file:eng/tools/versioning"
   }
 }

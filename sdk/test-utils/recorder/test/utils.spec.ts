@@ -9,9 +9,9 @@ import {
   generateTestRecordingFilePath,
   isHex
 } from "../src/utils";
-import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
-const { expect } = chai;
+
+import { expect } from "chai";
 
 describe("utils", () => {
   describe("encodeRFC3986", () => {

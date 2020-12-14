@@ -11,6 +11,7 @@ extends:
   parameters:
     PackageName: "@azure/ai-metrics-advisor"
     TestSamples: false
+    TestMinMax: true
     ResourceGroupLocation: "${{ parameters.Location }}"
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)

@@ -73,6 +73,10 @@ async function main() {
  * processing.
  */
 function printSimpleArrayField(businessCard, fieldName) {
+  if (!businessCard.fields[fieldName]) {
+    return;
+  }
+
   const fieldValues = businessCard.fields[fieldName].value;
   if (Array.isArray(fieldValues)) {
     console.log(`${fieldName}:`);
