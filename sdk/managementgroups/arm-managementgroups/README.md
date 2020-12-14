@@ -9,34 +9,33 @@ This package contains an isomorphic SDK for ManagementGroupsAPI.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-managementgroups
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list managementGroups as an example written in TypeScript.
+#### nodejs - client creation and list managementGroups as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
-npm install @azure/ms-rest-nodeauth
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ManagementGroupsAPI, ManagementGroupsAPIModels, ManagementGroupsAPIMappers } from "@azure/arm-managementgroups";
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+```typescript
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { ManagementGroupsAPI } = require("@azure/arm-managementgroups");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ManagementGroupsAPI(creds, subscriptionId);
   const cacheControl = "testcacheControl";
-  const skiptoken = "testskiptoken";
-  client.managementGroups.list(cacheControl, skiptoken).then((result) => {
+  client.managementGroups.list(cacheControl).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -49,7 +48,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -80,8 +79,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         }
         const client = new Azure.ArmManagementgroups.ManagementGroupsAPI(res.creds, subscriptionId);
         const cacheControl = "testcacheControl";
-        const skiptoken = "testskiptoken";
-        client.managementGroups.list(cacheControl, skiptoken).then((result) => {
+        client.managementGroups.list(cacheControl).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -99,5 +97,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmanagementgroups%2Farm-managementgroups%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/managementgroups/arm-managementgroups/README.png)
