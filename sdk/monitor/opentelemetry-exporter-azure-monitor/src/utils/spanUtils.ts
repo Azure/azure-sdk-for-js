@@ -46,15 +46,16 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (span.resource && span.resource.labels) {
     const serviceName = span.resource.labels[SERVICE_RESOURCE.NAME];
     const serviceNamespace = span.resource.labels[SERVICE_RESOURCE.NAMESPACE];
+    const serviceInstanceId = span.resource.labels[SERVICE_RESOURCE.INSTANCE_ID];
     if (serviceName) {
       if (serviceNamespace) {
-        tags[AI_CLOUD_ROLE] = serviceNamespace + "." + serviceName;
+        tags[AI_CLOUD_ROLE] = `${serviceNamespace}.${serviceName}`;
       } else {
-        tags[AI_CLOUD_ROLE] = serviceName.toString();
+        tags[AI_CLOUD_ROLE] = String(serviceName);
       }
     }
-    if (span.resource.labels[SERVICE_RESOURCE.INSTANCE_ID]) {
-      tags[AI_CLOUD_ROLE_INSTACE] = span.resource.labels[SERVICE_RESOURCE.INSTANCE_ID].toString();
+    if (serviceInstanceId) {
+      tags[AI_CLOUD_ROLE_INSTACE] = String(serviceInstanceId);
     }
   }
 
