@@ -4,8 +4,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { InteractiveBrowserCredential, BrowserLoginStyle, logger } from "@azure/identity";
-import { KeyClient, DeletedKey } from "@azure/keyvault-keys";
+import { InteractiveBrowserCredential, BrowserLoginStyle } from "@azure/identity";
+import { KeyClient, KeyVaultKey } from "@azure/keyvault-keys";
 
 const getRandomKeyName = () => `key${Math.random()}`.replace(/\./g, "");
 
@@ -98,7 +98,7 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
 
 function useKeyVaultKeys(vaultName: string, clientDetails: ClientDetails) {
   const [running, setRunning] = React.useState(false)
-  const [keys, setKeys] = React.useState<DeletedKey[]>(undefined)
+  const [keys, setKeys] = React.useState<KeyVaultKey[]>(undefined)
   const [error, setErrorInner] = React.useState(undefined);
   const url = `https://${vaultName}.vault.azure.net`;
 
