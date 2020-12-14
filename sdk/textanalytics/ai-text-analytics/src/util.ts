@@ -139,8 +139,13 @@ export function handleInvalidDocumentBatch(error: unknown): any {
       ? new RestError(innerMessage, innerCode, castError.statusCode)
       : error;
   } else {
-    throw new Error(
-      `The error coming from the service does not follow the expected structure: ${error}`
-    );
+    // unfortunately, the service currently does not follow the swagger definition
+    // for errors in some cases.
+    // Issue: https://msazure.visualstudio.com/Cognitive%20Services/_workitems/edit/8775003/?workitem=8972164
+    // throw new Error(
+    //   `The error coming from the service does not follow the expected structure: ${error}`
+    // );
+    logger.warning(`The error coming from the service does not follow the expected structure: ${error}`);
+    return error;
   }
 }

@@ -138,7 +138,7 @@ export class Serializer {
       throw new Error(`${objectName} cannot be null.`);
     }
 
-    if (object === undefined) {
+    if (object == undefined) {
       payload = object;
     } else {
       // Validate Constraints if any
