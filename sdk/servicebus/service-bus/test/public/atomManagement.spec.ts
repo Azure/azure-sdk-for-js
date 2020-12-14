@@ -22,7 +22,6 @@ import {
   recreateTopic,
 } from "../public/utils/managementUtils";
 import { EntityNames } from "../public/utils/testUtils";
-import { CreateRuleOptions } from "../../src/serializers/ruleResourceSerializer";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -1723,7 +1722,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
   // Rule tests
   const createRuleTests: {
     testCaseTitle: string;
-    input: Omit<CreateRuleOptions, "name"> | undefined;
+    input: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name"> | undefined;
     output: RuleProperties;
   }[] = [
     {
