@@ -2698,9 +2698,23 @@ export interface SasIPRange {
 }
 
 // @public
-export type SASPermissionsLike = {
-    [K in "read" | "add" | "create" | "write" | "delete" | "deleteVersion" | "list" | "tag" | "move" | "execute" | "manageOwnership" | "manageAccessControl" | "update" | "process" | "filter"]?: boolean;
-};
+export interface SASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    execute?: boolean;
+    filter?: boolean;
+    list?: boolean;
+    manageAccessControl?: boolean;
+    manageOwnership?: boolean;
+    move?: boolean;
+    process?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    update?: boolean;
+    write?: boolean;
+}
 
 // @public
 export enum SASProtocol {

@@ -324,21 +324,127 @@ export interface BlobQueryArrowField {
  * A type that looks like a SAS permission.
  * Used in {@link BlobSASPermissions} {@link ContainerSASPermissions} and {@link AccountSASPermissions} to parse SAS permissions from raw objects.
  */
-export type SASPermissionsLike = {
-  [K in
-    | "read"
-    | "add"
-    | "create"
-    | "write"
-    | "delete"
-    | "deleteVersion"
-    | "list"
-    | "tag"
-    | "move"
-    | "execute"
-    | "manageOwnership"
-    | "manageAccessControl"
-    | "update"
-    | "process"
-    | "filter"]?: boolean;
-};
+export interface SASPermissionsLike {
+  /**
+   * Specifies Read access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  read?: boolean;
+
+  /**
+   * Specifies Add access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  add?: boolean;
+
+  /**
+   * Specifies Create access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  create?: boolean;
+
+  /**
+   * Specifies Write access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  write?: boolean;
+
+  /**
+   * Specifies Delete access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  delete?: boolean;
+
+  /**
+   * Specifies Delete version access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  deleteVersion?: boolean;
+
+  /**
+   * Specifies List access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  list?: boolean;
+
+  /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  tag?: boolean;
+
+  /**
+   * Specifies Move access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  move?: boolean;
+
+  /**
+   * Specifies Execute access granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  execute?: boolean;
+
+  /**
+   * Permissions to update messages and table entities granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  update?: boolean;
+
+  /**
+   * Permission to get and delete messages granted.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  process?: boolean;
+
+  /**
+   * Permission to filter blobs.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  filter?: boolean;
+
+  /**
+   * Specifies Ownership access granted, which allows the caller to set owner, owning group,
+   * or act as the owner when renaming or deleting a blob (file or directory) within a folder
+   * that has the sticky bit set.
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  manageOwnership?: boolean;
+
+  /**
+   * Specifies Permission access granted, which allows the caller to set permissions and
+   * POSIX ACLs on blobs (files and directories).
+   *
+   * @type {boolean}
+   * @memberof SASPermissionsLike
+   */
+  manageAccessControl?: boolean;
+}
