@@ -8,7 +8,10 @@ import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource, SERVICE_RESOURCE } from "@opentelemetry/resources";
 
 import { Tags, Properties, Measurements } from "../../../src/types";
-import { AI_CLOUD_ROLE, AI_CLOUD_ROLE_INSTACE } from "../../../src/utils/constants/applicationinsights";
+import {
+  AI_CLOUD_ROLE,
+  AI_CLOUD_ROLE_INSTACE
+} from "../../../src/utils/constants/applicationinsights";
 import * as http from "../../../src/utils/constants/span/httpAttributes";
 import * as grpc from "../../../src/utils/constants/span/grpcAttributes";
 import * as ai from "../../../src/utils/constants/applicationinsights";
@@ -62,7 +65,11 @@ function assertEnvelope(
     [AI_CLOUD_ROLE]: "testServiceNamespace.testServiceName",
     [AI_CLOUD_ROLE_INSTACE]: "testServiceInstanceID"
   };
-  assert.deepStrictEqual(envelope.tags, { ...context.tags, ...expectedServiceTags, ...expectedTags });
+  assert.deepStrictEqual(envelope.tags, {
+    ...context.tags,
+    ...expectedServiceTags,
+    ...expectedTags
+  });
   assert.deepStrictEqual((envelope?.data?.baseData as RequestData).properties, expectedProperties);
   assert.deepStrictEqual(
     (envelope?.data?.baseData as RequestData).measurements,

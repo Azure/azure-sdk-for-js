@@ -49,8 +49,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     if (serviceName) {
       if (serviceNamespace) {
         tags[AI_CLOUD_ROLE] = serviceNamespace + "." + serviceName;
-      }
-      else {
+      } else {
         tags[AI_CLOUD_ROLE] = serviceName.toString();
       }
     }
