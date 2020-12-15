@@ -13,6 +13,7 @@ import * as Models from "../models";
 import * as Mappers from "../models/customDomainsMappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { Profiles } from "./profiles";
 
 /** Class representing a CustomDomains. */
 export class CustomDomains {
@@ -113,7 +114,7 @@ export class CustomDomains {
    * @returns Promise<Models.CustomDomainsCreateResponse>
    */
   create(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, hostName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsCreateResponse> {
-    return this.beginCreate(resourceGroupName,profileName,endpointName,customDomainName,hostName,options)
+    return this.beginCreate(resourceGroupName, profileName, endpointName, customDomainName, hostName, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CustomDomainsCreateResponse>;
   }
 
@@ -127,7 +128,7 @@ export class CustomDomains {
    * @returns Promise<Models.CustomDomainsDeleteMethodResponse>
    */
   deleteMethod(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: msRest.RequestOptionsBase): Promise<Models.CustomDomainsDeleteMethodResponse> {
-    return this.beginDeleteMethod(resourceGroupName,profileName,endpointName,customDomainName,options)
+    return this.beginDeleteMethod(resourceGroupName, profileName, endpointName, customDomainName, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CustomDomainsDeleteMethodResponse>;
   }
 
@@ -199,16 +200,42 @@ export class CustomDomains {
    */
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options: Models.CustomDomainsEnableCustomHttpsOptionalParams, callback: msRest.ServiceCallback<Models.CustomDomain>): void;
   enableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: Models.CustomDomainsEnableCustomHttpsOptionalParams | msRest.ServiceCallback<Models.CustomDomain>, callback?: msRest.ServiceCallback<Models.CustomDomain>): Promise<Models.CustomDomainsEnableCustomHttpsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        profileName,
-        endpointName,
-        customDomainName,
-        options
-      },
-      enableCustomHttpsOperationSpec,
-      callback) as Promise<Models.CustomDomainsEnableCustomHttpsResponse>;
+    // #region Added default values to add backwards compatibility
+    let newOptions: Models.CustomDomainsEnableCustomHttpsOptionalParams = {};
+
+    if (typeof options === "function") {
+      callback = options;
+    } else {
+      newOptions = options as Models.CustomDomainsEnableCustomHttpsOptionalParams;
+    }
+
+    if (!newOptions) {
+      newOptions = {};
+    }
+
+    let optionsPreparationPromise = Promise.resolve(options);
+
+    if (!newOptions.customDomainHttpsParameters) {
+      let profiles = new Profiles(this.client);
+      optionsPreparationPromise = profiles.get(resourceGroupName, profileName).then(profile => {
+        newOptions.customDomainHttpsParameters = getDefaultCustomDomainHttpsParameters(profile);
+        return newOptions;
+      })
+    }
+
+    return optionsPreparationPromise.then(options =>
+      this.client.sendOperationRequest(
+        {
+          resourceGroupName,
+          profileName,
+          endpointName,
+          customDomainName,
+          options
+        },
+        enableCustomHttpsOperationSpec,
+        callback) as Promise<Models.CustomDomainsEnableCustomHttpsResponse>
+    );
+    // #endregion
   }
 
   /**
@@ -286,13 +313,53 @@ export class CustomDomains {
   }
 }
 
+// #region Added default values to add backwards compatibility
+class SkuNames {
+  public static get standard_microsoft() { return "Standard_Microsoft"; }
+  public static get standard_verizon() { return "Standard_Verizon"; }
+  public static get standard_akamai() { return "Standard_Akamai"; }
+}
+
+function getDefaultCustomDomainHttpsParameters(profile: Models.Profile): Models.CdnManagedHttpsParameters | undefined {
+  switch (profile.sku.name) {
+    case SkuNames.standard_microsoft:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Dedicated"
+        },
+        protocolType: "ServerNameIndication"
+      }
+    case SkuNames.standard_akamai:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Shared"
+        },
+        protocolType: "ServerNameIndication"
+      }
+    case SkuNames.standard_verizon:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Shared"
+        },
+        protocolType: "IPBased"
+      }
+    default:
+      return undefined;
+  }
+}
+
+// #endregion
+
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
 const listByEndpointOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains",
   urlParameters: [
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.subscriptionId
@@ -318,7 +385,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
   urlParameters: [
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.customDomainName,
@@ -345,7 +412,7 @@ const disableCustomHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps",
   urlParameters: [
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.customDomainName,
@@ -373,7 +440,7 @@ const enableCustomHttpsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps",
   urlParameters: [
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.customDomainName,
@@ -408,7 +475,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
   urlParameters: [
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.customDomainName,
@@ -450,7 +517,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}",
   urlParameters: [
-    Parameters.resourceGroupName0,
+    Parameters.resourceGroupName,
     Parameters.profileName,
     Parameters.endpointName,
     Parameters.customDomainName,
@@ -481,9 +548,6 @@ const listByEndpointNextOperationSpec: msRest.OperationSpec = {
   path: "{nextLink}",
   urlParameters: [
     Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
