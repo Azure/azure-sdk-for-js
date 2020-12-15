@@ -58,7 +58,7 @@
     "builtin-modules": "~3.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "mocha": "^7.1.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
