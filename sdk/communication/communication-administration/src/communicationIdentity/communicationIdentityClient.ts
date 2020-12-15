@@ -29,9 +29,6 @@ import {
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
-import {
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
   options && !isKeyCredential(options);
