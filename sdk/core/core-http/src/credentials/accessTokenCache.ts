@@ -16,13 +16,13 @@ export interface AccessTokenCache {
   /**
    * Sets the cached token.
    *
-   * @param The {@link AccessToken} to be cached or null to
+   * @param accessToken - The {@link AccessToken} to be cached or null to
    *        clear the cached token.
    */
   setCachedToken(accessToken: AccessToken | undefined): void;
 
   /**
-   * Returns the cached {@link AccessToken} or undefined if nothing is cached.
+   * @returns the cached {@link AccessToken} or undefined if nothing is cached.
    */
   getCachedToken(): AccessToken | undefined;
 }

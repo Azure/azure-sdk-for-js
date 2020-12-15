@@ -22,8 +22,8 @@ export const isNode =
 /**
  * Checks if a parsed URL is HTTPS
  *
- * @param {object} urlToCheck The url to check
- * @return {boolean} True if the URL is HTTPS; false otherwise.
+ * @param urlToCheck - The url to check
+ * @returns True if the URL is HTTPS; false otherwise.
  */
 export function urlIsHTTPS(urlToCheck: { protocol: string }): boolean {
   return urlToCheck.protocol.toLowerCase() === Constants.HTTPS;
@@ -32,8 +32,8 @@ export function urlIsHTTPS(urlToCheck: { protocol: string }): boolean {
 /**
  * Encodes an URI.
  *
- * @param {string} uri The URI to be encoded.
- * @return {string} The encoded URI.
+ * @param uri - The URI to be encoded.
+ * @returns The encoded URI.
  */
 export function encodeUri(uri: string): string {
   return encodeURIComponent(uri)
@@ -48,9 +48,8 @@ export function encodeUri(uri: string): string {
  * Returns a stripped version of the Http Response which only contains body,
  * headers and the status.
  *
- * @param {HttpOperationResponse} response The Http Response
- *
- * @return {object} The stripped version of Http Response.
+ * @param response - The Http Response
+ * @returns The stripped version of Http Response.
  */
 export function stripResponse(response: HttpOperationResponse): any {
   const strippedResponse: any = {};
@@ -64,9 +63,8 @@ export function stripResponse(response: HttpOperationResponse): any {
  * Returns a stripped version of the Http Request that does not contain the
  * Authorization header.
  *
- * @param {WebResourceLike} request The Http Request object
- *
- * @return {WebResourceLike} The stripped version of Http Request.
+ * @param request - The Http Request object
+ * @returns The stripped version of Http Request.
  */
 export function stripRequest(request: WebResourceLike): WebResourceLike {
   const strippedRequest = request.clone();
@@ -79,9 +77,8 @@ export function stripRequest(request: WebResourceLike): WebResourceLike {
 /**
  * Validates the given uuid as a string
  *
- * @param {string} uuid The uuid as a string that needs to be validated
- *
- * @return {boolean} True if the uuid is valid; false otherwise.
+ * @param uuid - The uuid as a string that needs to be validated
+ * @returns True if the uuid is valid; false otherwise.
  */
 export function isValidUuid(uuid: string): boolean {
   return validUuidRegex.test(uuid);
@@ -90,7 +87,7 @@ export function isValidUuid(uuid: string): boolean {
 /**
  * Generated UUID
  *
- * @return {string} RFC4122 v4 UUID.
+ * @returns RFC4122 v4 UUID.
  */
 export function generateUuid(): string {
   return uuidv4();
@@ -100,12 +97,10 @@ export function generateUuid(): string {
  * Executes an array of promises sequentially. Inspiration of this method is here:
  * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
  *
- * @param {Array} promiseFactories An array of promise factories(A function that return a promise)
- *
- * @param {any} [kickstart] Input to the first promise that is used to kickstart the promise chain.
+ * @param promiseFactories - An array of promise factories(A function that return a promise)
+ * @param kickstart - Input to the first promise that is used to kickstart the promise chain.
  * If not provided then the promise chain starts with undefined.
- *
- * @return A chain of resolved or rejected promises
+ * @returns A chain of resolved or rejected promises
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
@@ -120,9 +115,9 @@ export function executePromisesSequentially(
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} t The number of milliseconds to be delayed.
- * @param {T} value The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} Resolved promise
+ * @param t - The number of milliseconds to be delayed.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns Resolved promise
  */
 export function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -134,10 +129,10 @@ export function delay<T>(t: number, value?: T): Promise<T | void> {
 export interface ServiceCallback<TResult> {
   /**
    * A method that will be invoked as a callback to a service function.
-   * @param {Error | RestError | null} err The error occurred if any, while executing the request; otherwise null.
-   * @param {TResult} [result] The deserialized response body if an error did not occur.
-   * @param {WebResourceLike} [request] The raw/actual request sent to the server if an error did not occur.
-   * @param {HttpOperationResponse} [response] The raw/actual response from the server if an error did not occur.
+   * @param err - The error occurred if any, while executing the request; otherwise null.
+   * @param result - The deserialized response body if an error did not occur.
+   * @param request - The raw/actual request sent to the server if an error did not occur.
+   * @param response - The raw/actual response from the server if an error did not occur.
    */
   (
     err: Error | RestError | null,
@@ -149,8 +144,8 @@ export interface ServiceCallback<TResult> {
 
 /**
  * Converts a Promise to a callback.
- * @param {Promise<any>} promise The Promise to be converted to a callback
- * @returns {Function} A function that takes the callback (cb: Function) => void
+ * @param promise - The Promise to be converted to a callback
+ * @returns A function that takes the callback `(cb: Function) => void`
  * @deprecated generated code should instead depend on responseToBody
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -174,8 +169,8 @@ export function promiseToCallback(promise: Promise<any>): (cb: Function) => void
 
 /**
  * Converts a Promise to a service callback.
- * @param {Promise<HttpOperationResponse>} promise - The Promise of HttpOperationResponse to be converted to a service callback
- * @returns {Function} A function that takes the service callback (cb: ServiceCallback<T>): void
+ * @param promise - The Promise of HttpOperationResponse to be converted to a service callback
+ * @returns A function that takes the service callback (cb: ServiceCallback<T>): void
  */
 export function promiseToServiceCallback<T>(
   promise: Promise<HttpOperationResponse>
@@ -215,8 +210,8 @@ export function prepareXMLRootList(
 
 /**
  * Applies the properties on the prototype of sourceCtors to the prototype of targetCtor
- * @param {object} targetCtor The target object on which the properties need to be applied.
- * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
+ * @param targetCtor - The target object on which the properties need to be applied.
+ * @param sourceCtors - An array of source objects from which the properties need to be taken.
  */
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void {
   const castTargetCtorParam = targetCtorParam as {
@@ -233,8 +228,8 @@ const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?
 
 /**
  * Indicates whether the given string is in ISO 8601 format.
- * @param {string} value The value to be validated for ISO 8601 duration format.
- * @return {boolean} `true` if valid, `false` otherwise.
+ * @param value - The value to be validated for ISO 8601 duration format.
+ * @returns `true` if valid, `false` otherwise.
  */
 export function isDuration(value: string): boolean {
   return validateISODuration.test(value);
@@ -242,10 +237,10 @@ export function isDuration(value: string): boolean {
 
 /**
  * Replace all of the instances of searchValue in value with the provided replaceValue.
- * @param {string | undefined} value The value to search and replace in.
- * @param {string} searchValue The value to search for in the value argument.
- * @param {string} replaceValue The value to replace searchValue with in the value argument.
- * @returns {string | undefined} The value where each instance of searchValue was replaced with replacedValue.
+ * @param value - The value to search and replace in.
+ * @param searchValue - The value to search for in the value argument.
+ * @param replaceValue - The value to replace searchValue with in the value argument.
+ * @returns The value where each instance of searchValue was replaced with replacedValue.
  */
 export function replaceAll(
   value: string | undefined,
@@ -258,8 +253,8 @@ export function replaceAll(
 /**
  * Determines whether the given entity is a basic/primitive type
  * (string, number, boolean, null, undefined).
- * @param {any} value Any entity
- * @return {boolean} - true is it is primitive type, false otherwise.
+ * @param value - Any entity
+ * @returns true is it is primitive type, false otherwise.
  */
 export function isPrimitiveType(value: unknown): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
