@@ -29,7 +29,9 @@ import {
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
-import { bearerTokenAuthenticationPolicy, BearerTokenAuthenticationPolicy } from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
+import {
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
   options && !isKeyCredential(options);
@@ -113,7 +115,10 @@ export class CommunicationIdentityClient {
     let authPolicy: RequestPolicyFactory;
 
     if (isTokenCredential(credentialOrOptions)) {
-      authPolicy = bearerTokenAuthenticationPolicy(credentialOrOptions, "https://communication.azure.com//.default");      
+      authPolicy = bearerTokenAuthenticationPolicy(
+        credentialOrOptions,
+        "https://communication.azure.com//.default"
+      );
     } else {
       authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
     }
