@@ -51,8 +51,7 @@
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
-    "build:samples": "echo Skipped."
+    "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -67,6 +66,7 @@
   },
   "dependencies": {
     "@typescript-eslint/typescript-estree": "^4.9.0",
+    "@types/eslint": "^7.2.6",
     "@types/estree": "^0.0.45",
     "eslint-config-prettier": "^7.0.0",
     "glob": "^7.1.2",
@@ -74,22 +74,20 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.27",
     "@types/chai": "^4.1.6",
-    "@types/eslint": "^6.1.0",
     "@types/glob": "^7.1.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/experimental-utils": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
-    "bluebird": "^3.5.5",
     "chai": "^4.2.0",
     "eslint": "^7.15.0",
     "mocha": "^7.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "mocha-junit-reporter": "^1.18.0"
+    "mocha-junit-reporter": "^1.18.0",
+    "typescript": "4.1.2"
   }
 }
