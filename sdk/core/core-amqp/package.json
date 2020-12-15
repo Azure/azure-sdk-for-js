@@ -107,7 +107,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-mocha": "^2.0.1",

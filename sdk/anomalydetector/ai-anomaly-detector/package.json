@@ -85,7 +85,7 @@
     "cross-env": "^7.0.2",
     "csv-parse": "^4.4.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
