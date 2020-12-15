@@ -7,7 +7,6 @@
  */
 
 export {
-  AccessKeys,
   Action,
   ArmDisasterRecovery,
   BaseResource,
@@ -32,19 +31,17 @@ export {
   PremiumMessagingRegionsProperties,
   PrivateEndpoint,
   PrivateEndpointConnection,
-  RegenerateAccessKeyParameters,
+  PrivateEndpointConnectionListResult,
   Resource,
   ResourceNamespacePatch,
   Rule,
   SBAuthorizationRule,
-  SBAuthorizationRuleListResult,
   SBNamespace,
   SBNamespaceUpdateParameters,
   SBQueue,
   SBSku,
   SBSubscription,
   SBTopic,
-  SBTopicListResult,
   SqlFilter,
   SqlRuleAction,
   Subnet,
