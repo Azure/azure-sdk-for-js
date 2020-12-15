@@ -7,12 +7,13 @@ import {
   isKeyCredential,
   CommunicationUser
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  RequestPolicyFactory
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
@@ -28,6 +29,7 @@ import {
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
+import { bearerTokenAuthenticationPolicy, BearerTokenAuthenticationPolicy } from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
   options && !isKeyCredential(options);
@@ -108,9 +110,15 @@ export class CommunicationIdentityClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    let authPolicy: RequestPolicyFactory;
 
+    if (isTokenCredential(credentialOrOptions)) {
+      authPolicy = bearerTokenAuthenticationPolicy(credentialOrOptions, "https://communication.azure.com//.default");      
+    } else {
+      authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    }
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new IdentityRestClient(url, pipeline).communicationIdentity;
   }
 
