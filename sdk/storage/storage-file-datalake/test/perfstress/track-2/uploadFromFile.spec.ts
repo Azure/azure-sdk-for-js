@@ -25,8 +25,11 @@ export class StorageDFSUploadFromFileTest extends StorageDFSUploadTest {
   }
 
   async runAsync(): Promise<void> {
+    // ${Math.floor(Math.random() * 1000)}
+    // so that the following service error is not seen
+    // Error"The uploaded data is not contiguous or the position query parameter value is not equal to the length of the file after appending the uploaded data."
     await this.directoryClient
-      .getFileClient(`newfile${new Date().getTime()}`)
+      .getFileClient(`newfile${new Date().getTime()}-${Math.floor(Math.random() * 1000)}`)
       .uploadFile(localFileName);
   }
 }
