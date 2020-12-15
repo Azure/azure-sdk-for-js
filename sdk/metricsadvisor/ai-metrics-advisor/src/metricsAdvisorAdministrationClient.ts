@@ -135,14 +135,12 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * @internal
-   * @ignore
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
    * @internal
-   * @ignore
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -159,9 +157,9 @@ export class MetricsAdvisorAdministrationClient {
    *    new MetricsAdvisorKeyCredential("<subscription key>", "<api key>")
    * );
    * ```
-   * @param {string} endpointUrl Url to an Azure Metrics Advisor service endpoint
-   * @param {MetricsAdvisorKeyCredential} credential Used to authenticate requests to the service.
-   * @param {MetricsAdvisorAdministrationClientOptions} [options] Used to configure the Metrics Advisor client.
+   * @param endpointUrl - Url to an Azure Metrics Advisor service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Metrics Advisor client.
    */
   constructor(
     endpointUrl: string,
@@ -174,9 +172,9 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * Adds a new data feed for a specifc data source and provided settings
-   * @param feed the data feed object to create
-   * @param options The options parameter.
+   * Adds a new data feed for a specific data source and provided settings
+   * @param feed - the data feed object to create
+   * @param options - The options parameter.
    */
 
   public async createDataFeed(
@@ -274,8 +272,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves data feed for the given data feed id
-   * @param id id for the data feed to retrieve
-   * @param options The options parameter.
+   * @param id - id for the data feed to retrieve
+   * @param options - The options parameter.
    */
 
   public async getDataFeed(
@@ -353,7 +351,7 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param options The options parameter.
+   * @param options - The options parameter.
    */
 
   public listDataFeeds(
@@ -362,13 +360,13 @@ export class MetricsAdvisorAdministrationClient {
     const iter = this.listItemsOfDataFeeds(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
@@ -386,7 +384,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
@@ -399,7 +397,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
@@ -453,9 +451,9 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates a data feed given its id
-   * @param dataFeedId id of the data feed to update
-   * @param patch Input to the update data feed operation {@link DataFeedPatch}
-   * @param options The options parameter.
+   * @param dataFeedId - id of the data feed to update
+   * @param patch - Input to the update data feed operation {@link DataFeedPatch}
+   * @param options - The options parameter.
    */
 
   public async updateDataFeed(
@@ -517,8 +515,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes a data feed for the given data feed id
-   * @param id id of the data feed to delete
-   * @param options The options parameter.
+   * @param id - id of the data feed to delete
+   * @param options - The options parameter.
    */
 
   public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<RestResponse> {
@@ -543,8 +541,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Creates an anomaly detection configuration for a given metric
-   * @param config The detection configuration object to create
-   * @param options The options parameter
+   * @param config - The detection configuration object to create
+   * @param options - The options parameter
    */
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
@@ -580,8 +578,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves metric anomaly detection configuration for the given configuration id
-   * @param id id of the detection configuration to retrieve
-   * @param options The options parameter.
+   * @param id - id of the detection configuration to retrieve
+   * @param options - The options parameter.
    */
 
   public async getDetectionConfig(
@@ -613,9 +611,9 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates a metric anomaly detection configuration for the given configuration id
-   * @param id id of the detection configuration for metric anomaly to update
-   * @param patch Input to the update anomaly detection configuration operation {@link AnomalyDetectionConfigurationPatch}
-   * @param options The options parameter.
+   * @param id - id of the detection configuration for metric anomaly to update
+   * @param patch - Input to the update anomaly detection configuration operation {@link AnomalyDetectionConfigurationPatch}
+   * @param options - The options parameter.
    */
 
   public async updateDetectionConfig(
@@ -646,8 +644,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes a metric anomaly detection configuration for the given configuration id
-   * @param id id of the detection configuration to delete
-   * @param options The options parameter.
+   * @param id - id of the detection configuration to delete
+   * @param options - The options parameter.
    */
 
   public async deleteDetectionConfig(
@@ -675,7 +673,7 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Creates anomaly alerting configuration for a given metric
-   * @param config the alert configuration object to create
+   * @param config - The alert configuration object to create
    */
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
@@ -711,9 +709,9 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates an anomaly alert configuration for the given configuration id
-   * @param id id of the anomaly alert configuration to update
-   * @param patch Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
-   * @param options The options parameter
+   * @param id - id of the anomaly alert configuration to update
+   * @param patch - Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
+   * @param options - The options parameter
    */
   public async updateAlertConfig(
     id: string,
@@ -743,8 +741,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves metric anomaly alert configuration for the given configuration id
-   * @param id id of the anomaly alert configuration to retrieve
-   * @param options The options parameter.
+   * @param id - id of the anomaly alert configuration to retrieve
+   * @param options - The options parameter.
    */
 
   public async getAlertConfig(
@@ -773,8 +771,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes metric anomaly alert configuration for the given configuration id
-   * @param id id of the anomaly alert configuration to delete
-   * @param options The options parameter.
+   * @param id - id of the anomaly alert configuration to delete
+   * @param options - The options parameter.
    */
 
   public async deleteAlertConfig(
@@ -801,7 +799,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
 
   private async *listSegmentsOfAlertingConfigurations(
@@ -822,7 +820,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
 
   private async *listItemsOfAlertingConfigurations(
@@ -886,8 +884,8 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param detectionConfigId  anomaly detection configuration unique id
-   * @param options The options parameter.
+   * @param detectionConfigId - anomaly detection configuration unique id
+   * @param options - The options parameter.
    */
 
   public listAlertConfigs(
@@ -901,19 +899,19 @@ export class MetricsAdvisorAdministrationClient {
     const iter = this.listItemsOfAlertingConfigurations(detectionConfigId, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Returns an AsyncIterableIterator that works a page at a time
        */
       byPage: () => {
         return this.listSegmentsOfAlertingConfigurations(detectionConfigId, {
@@ -926,8 +924,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Adds a new hook
-   * @param hookInfo Information for the new hook consists of the hook type, name, description, external link and hook parameter
-   * @param options The options parameter.
+   * @param hookInfo - Information for the new hook consists of the hook type, name, description, external link and hook parameter
+   * @param options - The options parameter.
    */
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
@@ -970,8 +968,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves hook for the given hook id
-   * @param id id for the hook to retrieve
-   * @param options The options parameter.
+   * @param id - id for the hook to retrieve
+   * @param options - The options parameter.
    */
 
   public async getHook(id: string, options: OperationOptions = {}): Promise<GetHookResponse> {
@@ -998,7 +996,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
 
   private async *listSegmentOfHooks(
@@ -1042,7 +1040,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
 
   private async *listItemsOfHooks(
@@ -1100,7 +1098,7 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param options The options parameter.
+   * @param options - The options parameter.
    */
 
   public listHooks(
@@ -1109,19 +1107,19 @@ export class MetricsAdvisorAdministrationClient {
     const iter = this.listItemsOfHooks(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @returns An AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfHooks(settings.continuationToken, settings.maxPageSize, options);
@@ -1131,9 +1129,9 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates hook for the given hook id
-   * @param id id of the hook to update
-   * @param patch Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
-   * @param options The options parameter
+   * @param id - id of the hook to update
+   * @param patch - Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
+   * @param options - The options parameter
    */
   public async updateHook(
     id: string,
@@ -1161,8 +1159,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes hook for the given hook id
-   * @param id id of the hook to delete
-   * @param options The options parameter
+   * @param id - id of the hook to delete
+   * @param options - The options parameter
    */
   public async deleteHook(id: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1185,7 +1183,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
 
   private async *listSegmentsOfDetectionConfigurations(
@@ -1203,7 +1201,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
 
   private async *listItemsOfDetectionConfigurations(
@@ -1268,8 +1266,8 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param metricId metric id for list of anomaly detection configurations
-   * @param options The options parameter.
+   * @param metricId - metric id for list of anomaly detection configurations
+   * @param options - The options parameter.
    */
 
   public listDetectionConfigs(
@@ -1283,19 +1281,19 @@ export class MetricsAdvisorAdministrationClient {
     const iter = this.listItemsOfDetectionConfigurations(metricId, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @returns An AsyncIterableIterator that works a page at a time
        */
       byPage: () => {
         return this.listSegmentsOfDetectionConfigurations(metricId, {
@@ -1308,8 +1306,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves data feed ingestion progress for the given data feed id
-   * @param dataFeedId data feed id for the ingestion progress to retrieve
-   * @param options The options parameter.
+   * @param dataFeedId - data feed id for the ingestion progress to retrieve
+   * @param options - The options parameter.
    */
 
   public async getDataFeedIngestionProgress(
@@ -1341,7 +1339,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
@@ -1421,7 +1419,7 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
@@ -1489,10 +1487,10 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param dataFeedId data feed id for list of data feed ingestion status
-   * @param startTime The start point of time range to query data ingestion status
-   * @param endTime The end point of time range to query data ingestion status
-   * @param options The options parameter.
+   * @param dataFeedId - data feed id for list of data feed ingestion status
+   * @param startTime - The start point of time range to query data ingestion status
+   * @param endTime - The end point of time range to query data ingestion status
+   * @param options - The options parameter.
    */
 
   public listDataFeedIngestionStatus(
@@ -1509,19 +1507,19 @@ export class MetricsAdvisorAdministrationClient {
     );
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @returns an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfIngestionStatus(
@@ -1540,10 +1538,10 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Refreshes or resets data feed ingestion progress for the given data feed id
-   * @param dataFeedId The data feed id for the ingestion progress to refresh or reset
-   * @param startTime The start point of time range to query data ingestion status
-   * @param endTime The end point of time range to query data ingestion status
-   * @param options The options parameter.
+   * @param dataFeedId - The data feed id for the ingestion progress to refresh or reset
+   * @param startTime - The start point of time range to query data ingestion status
+   * @param endTime - The end point of time range to query data ingestion status
+   * @param options - The options parameter.
    */
 
   public async refreshDataFeedIngestion(
