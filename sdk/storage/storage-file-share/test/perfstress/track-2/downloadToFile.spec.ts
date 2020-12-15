@@ -43,7 +43,7 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
     if (!(await fileExists(localDirName))) await mkdir(localDirName);
     await this.fileClient.uploadData(Buffer.alloc(this.parsedOptions.size.value!));
   }
-  public async cleanup() {
+  public async globalCleanup() {
     await deleteFile(`${localDirName}/${StorageFileShareDownloadToFileTest.fileName}`);
     console.log(
       `Deleted local file ${localDirName}/${StorageFileShareDownloadToFileTest.fileName} successfully`
