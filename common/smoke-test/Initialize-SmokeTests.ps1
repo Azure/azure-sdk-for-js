@@ -40,6 +40,15 @@ param (
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
+  [Parameter()]
+  [switch] $Nightly,
+
+  [Parameter()]
+  [string] $TagOverride,
+
+  [Parameter()]
+  [array] $TagOverridePackages,
+
   # Captures any arguments not declared here (prevents no parameter errors)
   [Parameter(ValueFromRemainingArguments = $true)]
   $RemainingArguments
@@ -118,7 +127,18 @@ function Update-SampleDependencies {
 
   foreach ($dep in $packageSpec.dependencies.Keys) {
     if ($dep.StartsWith('@azure/')) {
-      $dependencies[$dep] = "dev"
+      if ($Nightly) {
+        $dependencies[$dep] = "dev"
+      } elseif ($dep -in $TagOverridePackages) {
+        # For non-nightly smoke tests (i.e. release smoke tests), specifically
+        # override the package.json tag for the newly released package under test.
+        # Tag will be either 'latest' or 'next'
+        $dependencies[$dep] = $TagOverride
+      } else {
+        # For non-nightly smoke tests and/or non-azure dependencies,
+        # use whatever is in the source package.json
+        $dependencies[$dep] = $packageSpec.dependencies[$dep]
+      }
     }
     else {
       $dependencies[$dep] = $packageSpec.dependencies[$dep]
