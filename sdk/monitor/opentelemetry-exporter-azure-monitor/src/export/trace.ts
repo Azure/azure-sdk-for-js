@@ -107,10 +107,10 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     } catch (senderErr) {
       // Request failed -- always retry
       this._logger.error(
-        "Envelopes could not be exported and are not retriable. Error message:",
+        "Retrying due to transient client side error. Error message:",
         senderErr.message
       );
-      return ExportResult.FAILED_NOT_RETRYABLE;
+      return ExportResult.FAILED_RETRYABLE;
     }
   }
 
