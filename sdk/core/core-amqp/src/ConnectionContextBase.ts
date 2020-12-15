@@ -147,10 +147,11 @@ export const ConnectionContextBase = {
       const host = connectionOptions.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};
+      const port = parameters.config.port ?? 443;
 
       connectionOptions.webSocketOptions = {
         webSocket: socket,
-        url: `wss://${host}:443/${endpoint}`,
+        url: `wss://${host}:${port}/${endpoint}`,
         protocol: ["AMQPWSB10"],
         options: socketOptions
       };
