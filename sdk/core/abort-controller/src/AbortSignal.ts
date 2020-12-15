@@ -3,6 +3,7 @@
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../shims-public.d.ts" />
+
 type AbortEventListener = (this: AbortSignalLike, ev?: any) => any;
 
 const listenersMap = new WeakMap<AbortSignal, AbortEventListener[]>();
@@ -154,7 +155,8 @@ export class AbortSignal implements AbortSignalLike {
  * @returns
  * @internal
  */
-export function abortSignal(signal: AbortSignal) {
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export function abortSignal(signal: AbortSignal): void {
   if (signal.aborted) {
     return;
   }

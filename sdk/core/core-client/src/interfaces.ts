@@ -65,6 +65,11 @@ export interface OperationRequestInfo {
   operationSpec?: OperationSpec;
 
   /**
+   * Used to encode the request.
+   */
+  operationArguments?: OperationArguments;
+
+  /**
    * A function that returns the proper OperationResponseMap for the given OperationSpec and
    * PipelineResponse combination. If this is undefined, then a simple status code lookup will
    * be used.

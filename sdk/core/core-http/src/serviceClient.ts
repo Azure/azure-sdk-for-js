@@ -61,6 +61,7 @@ import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
+import { URL } from "./url";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -150,6 +151,10 @@ export interface ServiceClientOptions {
    * Proxy settings which will be used for every HTTP request (Node.js only).
    */
   proxySettings?: ProxySettings;
+  /**
+   * If specified, will be used to build the BearerTokenAuthenticationPolicy.
+   */
+  credentialScopes?: string | string[];
 }
 
 /**
@@ -217,16 +222,28 @@ export class ServiceClient {
           let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
           // eslint-disable-next-line @typescript-eslint/no-this-alias
           const serviceClient = this;
+          const serviceClientOptions = options;
           return {
-            create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
-              if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
-                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
-                  credentials,
-                  `${serviceClient.baseUri || ""}/.default`
+            create(nextPolicy: RequestPolicy, createOptions: RequestPolicyOptions): RequestPolicy {
+              const credentialScopes = getCredentialScopes(
+                serviceClientOptions,
+                serviceClient.baseUri
+              );
+
+              if (!credentialScopes) {
+                throw new Error(
+                  `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
                 );
               }
 
-              return bearerTokenPolicyFactory.create(nextPolicy, options);
+              if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
+                bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
+                  credentials,
+                  credentialScopes
+                );
+              }
+
+              return bearerTokenPolicyFactory.create(nextPolicy, createOptions);
             }
           };
         };
@@ -521,7 +538,6 @@ export class ServiceClient {
     const cb = callback;
     if (cb) {
       result
-        // tslint:disable-next-line:no-null-keyword
         .then((res) => cb(null, res._response.parsedBody, res._response.request, res._response))
         .catch((err) => cb(err));
     }
@@ -963,7 +979,9 @@ export function flattenResponse(
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
-  const addOperationResponse = (obj: {}): {
+  const addOperationResponse = (
+    obj: Record<string, unknown>
+  ): {
     _response: HttpOperationResponse;
   } => {
     return Object.defineProperty(obj, "_response", {
@@ -1028,4 +1046,21 @@ export function flattenResponse(
     ...parsedHeaders,
     ..._response.parsedBody
   });
+}
+
+function getCredentialScopes(
+  options?: ServiceClientOptions,
+  baseUri?: string
+): string | string[] | undefined {
+  if (options?.credentialScopes) {
+    const scopes = options.credentialScopes;
+    return Array.isArray(scopes)
+      ? scopes.map((scope) => new URL(scope).toString())
+      : new URL(scopes).toString();
+  }
+
+  if (baseUri) {
+    return `${baseUri}/.default`;
+  }
+  return undefined;
 }

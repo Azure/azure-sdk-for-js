@@ -57,6 +57,7 @@ export interface KeyVaultSecretPollOperationOptions {
 /**
  * Common properties and methods of the Key Vault Secret Poller operations.
  */
+// eslint-disable-next-next no-use-before-define
 export class KeyVaultSecretPollOperation<
   TState extends KeyVaultSecretPollOperationState<TResult>,
   TResult

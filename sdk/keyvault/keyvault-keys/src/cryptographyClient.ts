@@ -16,7 +16,7 @@ import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy, setParentSpan } from "../../keyvault-common/src";
 
 import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
 
@@ -107,7 +107,7 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
       this.keyBundle = keyBundle;
       return keyBundle.key! as JsonWebKey;
@@ -162,7 +162,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         plaintext,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -206,7 +206,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         ciphertext,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -261,7 +261,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         key,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -304,7 +304,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         encryptedKey,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -345,7 +345,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         digest,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -389,7 +389,7 @@ export class CryptographyClient {
         algorithm,
         digest,
         signature,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -443,7 +443,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         digest,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -510,7 +510,7 @@ export class CryptographyClient {
         algorithm,
         digest,
         signature,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -622,7 +622,6 @@ export class CryptographyClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -635,24 +634,19 @@ export class CryptographyClient {
 
     const internalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
 
     let parsed;
@@ -700,33 +694,6 @@ export class CryptographyClient {
     );
     span.setAttribute("az.namespace", "Microsoft.KeyVault");
     return span;
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Returns updated HTTP options with the given span as the parent of future spans,
-   * if applicable.
-   * @param {Span} span The span for the current operation.
-   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
-   */
-  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecording()) {
-      const spanOptions = options.spanOptions || {};
-      return {
-        ...options,
-        spanOptions: {
-          ...spanOptions,
-          parent: span.context(),
-          attributes: {
-            ...spanOptions.attributes,
-            "az.namespace": "Microsoft.KeyVault"
-          }
-        }
-      };
-    } else {
-      return options;
-    }
   }
 
   /**

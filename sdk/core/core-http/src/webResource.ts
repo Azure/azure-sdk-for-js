@@ -143,20 +143,27 @@ export interface WebResourceLike {
   clone(): WebResourceLike;
 }
 
-export function isWebResourceLike(object: any): object is WebResourceLike {
-  if (typeof object !== "object") {
-    return false;
-  }
-  if (
-    typeof object.url === "string" &&
-    typeof object.method === "string" &&
-    typeof object.headers === "object" &&
-    isHttpHeadersLike(object.headers) &&
-    typeof object.validateRequestProperties === "function" &&
-    typeof object.prepare === "function" &&
-    typeof object.clone === "function"
-  ) {
-    return true;
+export function isWebResourceLike(object: unknown): object is WebResourceLike {
+  if (object && typeof object === "object") {
+    const castObject = object as {
+      url: unknown;
+      method: unknown;
+      headers: unknown;
+      validateRequestProperties: unknown;
+      prepare: unknown;
+      clone: unknown;
+    };
+    if (
+      typeof castObject.url === "string" &&
+      typeof castObject.method === "string" &&
+      typeof castObject.headers === "object" &&
+      isHttpHeadersLike(castObject.headers) &&
+      typeof castObject.validateRequestProperties === "function" &&
+      typeof castObject.prepare === "function" &&
+      typeof castObject.clone === "function"
+    ) {
+      return true;
+    }
   }
   return false;
 }
@@ -221,7 +228,7 @@ export class WebResource implements WebResourceLike {
   constructor(
     url?: string,
     method?: HttpMethods,
-    body?: any,
+    body?: unknown,
     query?: { [key: string]: any },
     headers?: { [key: string]: any } | HttpHeadersLike,
     streamResponseBody?: boolean,
@@ -601,7 +608,7 @@ export interface RequestPrepareOptions {
   /**
    * Provides information on how to deserialize the response body.
    */
-  deserializationMapper?: object;
+  deserializationMapper?: Record<string, unknown>;
   /**
    * Indicates whether this method should JSON.stringify() the request body. Default value: false.
    */

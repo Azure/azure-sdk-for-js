@@ -97,7 +97,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
   // Then we only keep the strings with an equal sign after a word and before a quote.
   // also splitting these sections by their equal sign
   const keyValues = parts.reduce<string[][]>(
-    (parts, str) => (str.match(/\w="/) ? [...parts, str.split("=")] : parts),
+    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
     []
   );
   // Then we transform these key-value pairs back into an object.

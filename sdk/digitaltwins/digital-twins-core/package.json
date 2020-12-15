@@ -16,7 +16,7 @@
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "npm run build:test:node && npm run build:test:browser",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.node.js --reporter ../../../common/tools/mocha-multi-reporter.js",
@@ -115,7 +115,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "util": "^0.12.1"
   },
   "sideEffects": false

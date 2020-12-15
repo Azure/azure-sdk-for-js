@@ -68,8 +68,10 @@ export const assertions: Record<"keyOps" | "rsa" | "nodeOnly", LocalAssertion> =
  * pipeAssertions allows us to execute a sequence of assertions.
  * @param assertions One or more LocalAssertions
  */
-const pipeAssertions = (...assertions: LocalAssertion[]): LocalAssertion => (...params): void => {
-  for (const assertion of assertions) {
+const pipeAssertions = (...assertionsParam: LocalAssertion[]): LocalAssertion => (
+  ...params
+): void => {
+  for (const assertion of assertionsParam) {
     assertion(...params);
   }
 };

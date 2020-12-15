@@ -109,7 +109,7 @@ export function generateUuid(): string {
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart: any
+  kickstart: unknown
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
@@ -124,7 +124,7 @@ export function executePromisesSequentially(
  * @param {T} value The value to be resolved with after a timeout of t milliseconds.
  * @returns {Promise<T>} Resolved promise
  */
-export function delay<T>(t: number, value?: T): Promise<T> {
+export function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 
@@ -150,13 +150,15 @@ export interface ServiceCallback<TResult> {
 /**
  * Converts a Promise to a callback.
  * @param {Promise<any>} promise The Promise to be converted to a callback
- * @returns {Function} A function that takes the callback (cb: Function): void
+ * @returns {Function} A function that takes the callback (cb: Function) => void
  * @deprecated generated code should instead depend on responseToBody
  */
-export function promiseToCallback(promise: Promise<any>): Function {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function promiseToCallback(promise: Promise<any>): (cb: Function) => void {
   if (typeof promise.then !== "function") {
     throw new Error("The provided input is not a Promise.");
   }
+  // eslint-disable-next-line @typescript-eslint/ban-types
   return (cb: Function): void => {
     promise
       .then((data: any) => {
@@ -175,7 +177,9 @@ export function promiseToCallback(promise: Promise<any>): Function {
  * @param {Promise<HttpOperationResponse>} promise - The Promise of HttpOperationResponse to be converted to a service callback
  * @returns {Function} A function that takes the service callback (cb: ServiceCallback<T>): void
  */
-export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): Function {
+export function promiseToServiceCallback<T>(
+  promise: Promise<HttpOperationResponse>
+): (cb: ServiceCallback<T>) => void {
   if (typeof promise.then !== "function") {
     throw new Error("The provided input is not a Promise.");
   }
@@ -191,7 +195,7 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
 }
 
 export function prepareXMLRootList(
-  obj: any,
+  obj: unknown,
   elementName: string,
   xmlNamespaceKey?: string,
   xmlNamespace?: string
@@ -214,10 +218,13 @@ export function prepareXMLRootList(
  * @param {object} targetCtor The target object on which the properties need to be applied.
  * @param {Array<object>} sourceCtors An array of source objects from which the properties need to be taken.
  */
-export function applyMixins(targetCtor: any, sourceCtors: any[]): void {
-  sourceCtors.forEach((sourceCtors) => {
-    Object.getOwnPropertyNames(sourceCtors.prototype).forEach((name) => {
-      targetCtor.prototype[name] = sourceCtors.prototype[name];
+export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void {
+  const castTargetCtorParam = targetCtorParam as {
+    prototype: Record<string, unknown>;
+  };
+  sourceCtors.forEach((sourceCtor) => {
+    Object.getOwnPropertyNames(sourceCtor.prototype).forEach((name) => {
+      castTargetCtorParam.prototype[name] = sourceCtor.prototype[name];
     });
   });
 }
@@ -254,7 +261,7 @@ export function replaceAll(
  * @param {any} value Any entity
  * @return {boolean} - true is it is primitive type, false otherwise.
  */
-export function isPrimitiveType(value: any): boolean {
+export function isPrimitiveType(value: unknown): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
 }
 

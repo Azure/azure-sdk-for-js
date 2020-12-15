@@ -99,7 +99,7 @@ Headers: {
       "x-ms-safe-header": "It me",
       "x-ms-oh-noes": ":-p"
     });
-    delete request.requestId;
+    delete (request as any).requestId;
     assertLog(request, expected, done);
   });
 
@@ -123,7 +123,7 @@ Headers: {
 `;
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 });
-    delete request.requestId;
+    delete (request as any).requestId;
     assertLog(request, expected, done, {
       "x-ms-safe-header": "It me",
       "x-ms-oh-noes": ":-p"
@@ -153,7 +153,7 @@ Headers: {
       "Capitalized-Header": "Don't redact me, bro",
       "x-ms-safe-header": "It me"
     });
-    delete request.requestId;
+    delete (request as any).requestId;
     assertLog(request, expected, done);
   });
 
@@ -183,7 +183,7 @@ Headers: {
       { a: 1 },
       { "api-version": "1.0", secret: "goose" }
     );
-    delete request.requestId;
+    delete (request as any).requestId;
     assertLog(request, expected, done);
   });
 
@@ -206,7 +206,7 @@ Headers: {
     const request = new WebResource("https://foo.com?api-version=1.0&secret=goose", "PUT", {
       a: 1
     });
-    delete request.requestId;
+    delete (request as any).requestId;
     assertLog(request, expected, done);
   });
 });

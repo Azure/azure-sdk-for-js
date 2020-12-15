@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "../utils/recordedClient";
 import { TextAnalyticsClient, AzureKeyCredential } from "../../src";
@@ -80,7 +80,7 @@ describe("[API Key] TextAnalyticsClient", function() {
 
   describe("#health", () => {
     let pollingInterval = 2000;
-    if (isRecordMode() || process.env.TEST_MODE === "live") {
+    if (isRecordMode() || isLiveMode()) {
       // eslint-disable-next-line no-invalid-this
       this.timeout(1000000);
     } else {
@@ -524,9 +524,9 @@ describe("[API Key] TextAnalyticsClient", function() {
       const result = await poller.pollUntilDone();
       let docCount = 0,
         pageCount = 0;
-      for await (const docs of result.byPage()) {
+      for await (const pageDocs of result.byPage()) {
         ++pageCount;
-        for (const doc of docs) {
+        for (const doc of pageDocs) {
           assert.isUndefined(doc.error);
           ++docCount;
           if (!doc.error) {
@@ -554,9 +554,9 @@ describe("[API Key] TextAnalyticsClient", function() {
       let docCount = 0;
       let pageCount = 0;
       const pageSize = 10;
-      for await (const docs of result.byPage({ maxPageSize: pageSize })) {
+      for await (const pageDocs of result.byPage({ maxPageSize: pageSize })) {
         ++pageCount;
-        for (const doc of docs) {
+        for (const doc of pageDocs) {
           assert.isUndefined(doc.error);
           ++docCount;
           if (!doc.error) {

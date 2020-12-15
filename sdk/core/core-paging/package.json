@@ -61,7 +61,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "build:samples": "echo Skipped."
   },
   "sideEffects": true,
   "private": false,
@@ -74,6 +75,6 @@
     "eslint": "^6.1.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "typescript": "~3.9.3"
+    "typescript": "4.1.2"
   }
 }

@@ -105,7 +105,7 @@ const getLeafPackages = (packageGraph, packageNames) => {
 };
 
 const getPackagesToBuild = (packageNames, packageGraph) => {
-  // Find all packages that takes current pacakge as dependency recursively and add leaf packages into list to build
+  // Find all packages that takes current package as dependency recursively and add leaf packages into list to build
   // This will ensure all transitive dependencies are built
   // A -> D, C -> D. When A is built, it will build D and C also just by adding --to D
   for (const dependentPackage of getLeafPackages(packageGraph, packageNames)) {
@@ -163,21 +163,26 @@ const pkgGraph = getPackageGraph(baseDir);
 
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs);
 
+/**
+ * Helper function to provide the rush logic that is used frequently below
+ *
+ * @param direction string which kind of rush tree selector to run (either "--from" or "--to")
+ * @param packages string[] the names of the packages to run the action on
+ */
+function rushRunAll(direction, packages) {
+  const params = flatMap(packages, (p) => [direction, p]);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+}
+
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
-  let params = [];
-  switch (action.toLowerCase().split(":")[0]) {
-    // case 'build':
-    //   params = flatMap(packageNames, (p) => [`--to`, p, `--from`, p]);
-    //   spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
-    //   break;
-
+  const actionComponents = action.toLowerCase().split(":");
+  switch (actionComponents[0]) {
     case "test":
     case "unit-test":
     case "integration-test":
-      params = flatMap(packageNames, (p) => [`--from`, p]);
-      spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+      rushRunAll("--from", packageNames);
       break;
 
     case "lint":
@@ -186,13 +191,23 @@ if (serviceDirs.length === 0) {
       }
       break;
 
-    default:
-      let requiredPackageNames = packageNames;
-      if (buildTransitiveDep) {
-        requiredPackageNames = getPackagesToBuild(packageNames, pkgGraph);
+    case "build":
+      if (actionComponents[1] === "samples") {
+        // For sample builds, we use --from to run sample builds on dependents
+        rushRunAll("--from", packageNames);
+      } else {
+        // For other builds, we use the transitive dependency logic if required, and build dependencies
+        // using --to
+        const requiredPackageNames = buildTransitiveDep
+          ? getPackagesToBuild(packageNames, pkgGraph)
+          : packageNames;
+
+        rushRunAll("--to", requiredPackageNames);
       }
-      params = flatMap(requiredPackageNames, (p) => [`--to`, p]);
-      spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+      break;
+
+    default:
+      rushRunAll("--to", packageNames);
       break;
   }
 }

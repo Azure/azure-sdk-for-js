@@ -113,8 +113,8 @@ async function retry(
     try {
       await utils.delay(retryData.retryInterval);
       return policy._nextPolicy.sendRequest(request.clone());
-    } catch (err) {
-      return retry(policy, request, operationResponse, err, retryData);
+    } catch (nestedErr) {
+      return retry(policy, request, operationResponse, nestedErr, retryData);
     }
   } else {
     if (err) {
