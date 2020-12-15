@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { delay } from "@azure/core-http";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
@@ -24,11 +25,22 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
 
   public async globalSetup() {
     await super.globalSetup();
-    const tasks = [];
-    for (let i = 0; i < this.parsedOptions.count.value!; i++) {
-      tasks.push(this.containerClient.uploadBlockBlob(`blob-${i}`, Buffer.alloc(0), 0));
+    let createdCount = 0;
+    let toBeCreatedCount = this.parsedOptions.count.value!;
+    while (createdCount < this.parsedOptions.count.value!) {
+      const tasks = []; // Number of blobs to created in this round // Limiting 5000 per round so that the service doesn't fail
+      let roundTotal = Math.min(1000, toBeCreatedCount);
+      for (let i = 0; i < roundTotal; i++) {
+        tasks.push(
+          this.containerClient.uploadBlockBlob(`blob-${createdCount}-${i}`, Buffer.alloc(0), 0)
+        );
+      }
+      await Promise.all(tasks);
+      await delay(1000);
+      createdCount = createdCount + tasks.length;
+      toBeCreatedCount = toBeCreatedCount - tasks.length;
+      console.log(`created so far - ${createdCount}`);
     }
-    await Promise.all(tasks);
   }
 
   async runAsync(): Promise<void> {
