@@ -44,12 +44,10 @@ export interface AbortSignalLike {
  * cannot or will not ever be cancelled.
  *
  * @example
- * // Abort without timeout
+ * Abort without timeout
+ * ```ts
  * await doAsyncWork(AbortSignal.none);
- *
- * @export
- * @class AbortSignal
- * @implements {AbortSignalLike}
+ * ```
  */
 export class AbortSignal implements AbortSignalLike {
   constructor() {
@@ -61,8 +59,6 @@ export class AbortSignal implements AbortSignalLike {
    * Status of whether aborted or not.
    *
    * @readonly
-   * @type {boolean}
-   * @memberof AbortSignal
    */
   public get aborted(): boolean {
     if (!abortedMap.has(this)) {
@@ -76,9 +72,6 @@ export class AbortSignal implements AbortSignalLike {
    * Creates a new AbortSignal instance that will never be aborted.
    *
    * @readonly
-   * @static
-   * @type {AbortSignal}
-   * @memberof AbortSignal
    */
   public static get none(): AbortSignal {
     return new AbortSignal();
@@ -86,17 +79,14 @@ export class AbortSignal implements AbortSignalLike {
 
   /**
    * onabort event listener.
-   *
-   * @memberof AbortSignal
    */
   public onabort: ((ev?: Event) => any) | null = null;
 
   /**
    * Added new "abort" event listener, only support "abort" event.
    *
-   * @param {"abort"} _type Only support "abort" event
-   * @param {(this: AbortSignalLike, ev: any) => any} listener
-   * @memberof AbortSignal
+   * @param _type - Only support "abort" event
+   * @param listener - The listener to be added
    */
   public addEventListener(
     // tslint:disable-next-line:variable-name
@@ -114,9 +104,8 @@ export class AbortSignal implements AbortSignalLike {
   /**
    * Remove "abort" event listener, only support "abort" event.
    *
-   * @param {"abort"} _type Only support "abort" event
-   * @param {(this: AbortSignalLike, ev: any) => any} listener
-   * @memberof AbortSignal
+   * @param _type - Only support "abort" event
+   * @param listener - The listener to be removed
    */
   public removeEventListener(
     // tslint:disable-next-line:variable-name
