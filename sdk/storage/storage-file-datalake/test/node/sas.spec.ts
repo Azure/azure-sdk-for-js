@@ -920,7 +920,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     await directoryClientwithSAS.setPermissions(permissions);
   });
 
-  it.only("generateDataLakeSASQueryParameters for root directory should work", async () => {
+  it("generateDataLakeSASQueryParameters for root directory should work", async () => {
     const rootDirName = "";
     const rootDirectoryClient = fileSystemClient.getDirectoryClient(rootDirName);
 
