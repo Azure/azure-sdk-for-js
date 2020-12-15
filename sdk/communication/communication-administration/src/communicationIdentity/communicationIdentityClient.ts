@@ -13,7 +13,8 @@ import {
   createPipelineFromOptions,
   OperationOptions,
   operationOptionsToRequestOptionsBase,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
