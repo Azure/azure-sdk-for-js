@@ -1,11 +1,16 @@
 import * as assert from "assert";
+import { AbortController } from "@azure/abort-controller";
 import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Readable, ReadableOptions, PassThrough } from "stream";
 import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
+import {
+  ReadableStreamGetter,
+  RetriableReadableStream
+} from "../../src/utils/RetriableReadableStream";
 dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
@@ -378,5 +383,139 @@ describe("Utility Helpers Node.js only", () => {
         }
       });
     });
+  });
+});
+
+describe("RetriableReadableStream", () => {
+  class Counter extends Readable {
+    constructor(
+      private _max: number = 1000000,
+      public index: number = 0,
+      opt: ReadableOptions = {}
+    ) {
+      super(opt);
+    }
+
+    _read() {
+      const i = this.index++;
+      if (i >= this._max) {
+        this.push(null);
+      } else {
+        const str = String(i);
+        const buf = Buffer.from(str, "ascii");
+        this.push(buf);
+      }
+    }
+  }
+
+  const getter: ReadableStreamGetter = (offset) => {
+    return new Promise((resolve) => {
+      resolve(new Counter(undefined, offset));
+    });
+  };
+
+  // beforeEach(async function() {
+  // });
+
+  // afterEach(async function() {
+  // });
+
+  it("destory should work", async () => {
+    const counter = new Counter();
+    let counterClosed = false;
+    counter.on("close", () => {
+      // check source didn't flow
+      assert.ok(counter.index === 0);
+      counterClosed = true;
+    });
+
+    const retriable = new RetriableReadableStream(counter, getter, 0, 1000);
+    // spare time to flow
+    await delay(1000);
+
+    retriable.destroy();
+    // spare time for "close" to fire
+    await delay(1000);
+    assert.ok(counterClosed);
+  });
+
+  it("setEncoding should work", async () => {
+    const counter = new Counter(1);
+    const retriable = new RetriableReadableStream(counter, getter, 0, 1);
+    for await (const i of retriable as any) {
+      assert.deepStrictEqual(i, Buffer.from("0", "ascii"));
+    }
+
+    const counter2 = new Counter(1);
+    const retriable2 = new RetriableReadableStream(counter2, getter, 0, 1);
+    retriable2.setEncoding("ascii");
+    for await (const i of retriable2 as any) {
+      assert.deepStrictEqual(i, "0");
+    }
+
+    counter.destroy();
+  });
+
+  it("pause and resume should work", async () => {
+    const counter = new Counter(10, undefined, { highWaterMark: 1 });
+    const retriable = new RetriableReadableStream(counter, getter, 0, 10, { highWaterMark: 1 });
+
+    let cur = 0;
+    retriable.on("data", (chunk) => {
+      assert.deepStrictEqual(chunk, Buffer.from(String(cur++), "ascii"));
+      assert.equal(counter.index, cur + 1);
+      retriable.pause();
+    });
+    await delay(1000);
+    assert.equal(cur, 1);
+
+    retriable.resume();
+    await delay(1000);
+    assert.equal(cur, 2);
+  });
+
+  it("abort should destroy underlying source", async () => {
+    const counter = new Counter();
+    let counterClosed = false;
+    counter.on("close", () => {
+      // check source didn't flow
+      assert.ok(counter.index === 0);
+      counterClosed = true;
+    });
+
+    const aborter = new AbortController();
+    const retriable = new RetriableReadableStream(counter, getter, 0, 1000, {
+      abortSignal: aborter.signal
+    });
+
+    let aborted = false;
+    retriable.on("error", (err) => {
+      assert.deepStrictEqual(err.name, "AbortError");
+      aborted = true;
+    });
+
+    // spare time to flow
+    await delay(1000);
+
+    aborter.abort();
+    // spare time for "close" to fire
+    await delay(1000);
+    assert.ok(aborted);
+    assert.ok(counterClosed);
+  });
+
+  it("source close should work", async () => {
+    const counter = new Counter(10, undefined, { highWaterMark: 1 });
+    const retriable = new RetriableReadableStream(counter, getter, 0, 10, { highWaterMark: 1 });
+
+    let errorCaught = false;
+    retriable.on("error", (err) => {
+      assert.deepStrictEqual(err.message, "Download stream unexpectly closed.");
+      errorCaught = true;
+    });
+
+    counter.destroy();
+    await delay(1000);
+    assert.ok(errorCaught);
   });
 });

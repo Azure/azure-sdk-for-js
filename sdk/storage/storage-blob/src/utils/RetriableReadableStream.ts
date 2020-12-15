@@ -46,6 +46,14 @@ export interface RetriableReadableStreamOptions {
    * @memberof RetriableReadableStreamOptions
    */
   doInjectErrorOnce?: boolean;
+
+  /**
+   * A threshold, not a limit. Dictates the amount of data that a stream buffers before it stops asking for more data.
+   *
+   * @type {number}
+   * @memberof RetriableReadableStreamOptions
+   */
+  highWaterMark?: number;
 }
 
 const ABORT_ERROR = new AbortError("The operation was aborted.");
@@ -70,9 +78,10 @@ export class RetriableReadableStream extends Readable {
   private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
   private abortHandler = () => {
-    this.source.pause();
-    this.emit("error", ABORT_ERROR);
+    this.destroy(ABORT_ERROR);
   };
+  private destroyCalled: boolean = false;
+  private dataEnded: boolean = false;
 
   /**
    * Creates an instance of RetriableReadableStream.
@@ -92,10 +101,11 @@ export class RetriableReadableStream extends Readable {
     count: number,
     options: RetriableReadableStreamOptions = {}
   ) {
-    super();
+    super({ highWaterMark: options.highWaterMark });
     this.aborter = options.abortSignal || AbortSignal.none;
     this.getter = getter;
     this.source = source;
+    this.source.pause();
     this.start = offset;
     this.offset = offset;
     this.end = offset + count - 1;
@@ -109,6 +119,12 @@ export class RetriableReadableStream extends Readable {
     this.setSourceDataHandler();
     this.setSourceEndHandler();
     this.setSourceErrorHandler();
+
+    this.source.on("close", () => {
+      if (!this.destroyCalled && !this.aborter.aborted && !this.dataEnded) {
+        this.destroy(new Error("Download stream unexpectly closed."));
+      }
+    });
   }
 
   public _read() {
@@ -148,6 +164,7 @@ export class RetriableReadableStream extends Readable {
       //   }, dest end : ${this.end}`
       // );
       if (this.offset - 1 === this.end) {
+        this.dataEnded = true;
         this.aborter.removeEventListener("abort", this.abortHandler);
         this.push(null);
       } else if (this.offset <= this.end) {
@@ -195,5 +212,12 @@ export class RetriableReadableStream extends Readable {
     this.source.on("error", (error) => {
       this.emit("error", error);
     });
+  }
+
+  _destroy(error: Error | null, callback: (error?: Error) => void): void {
+    this.destroyCalled = true;
+    // release source
+    (this.source as Readable).destroy(error === null ? undefined : error);
+    callback();
   }
 }
