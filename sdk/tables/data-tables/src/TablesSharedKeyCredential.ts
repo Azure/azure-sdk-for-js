@@ -19,8 +19,8 @@ export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
   /**
    * Generates a hash signature for an HTTP request or for a SAS.
    *
-   * @param {string} stringToSign
-   * @returns {string}
+   * @param stringToSign -
+   * @returns
    */
   computeHMACSHA256: (stringToSign: string) => string;
 }
@@ -29,9 +29,6 @@ export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * TablesSharedKeyCredential for account key authorization of Azure Tables service.
- *
- * @export
- * @class TablesSharedKeyCredential
  */
 export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike {
   /**
@@ -41,15 +38,13 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
 
   /**
    * Azure  account key; readonly.
-   *
-   * @type {Buffer}
    */
   private readonly accountKey: Buffer;
 
   /**
    * Creates an instance of TablesSharedKeyCredential.
-   * @param {string} accountName
-   * @param {string} accountKey
+   * @param accountName -
+   * @param accountKey -
    */
   constructor(accountName: string, accountKey: string) {
     this.accountName = accountName;
@@ -59,9 +54,9 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
   /**
    * Creates a {@link TablesSharedKeyCredentialPolicy} object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptionsLike} options
-   * @returns {TablesSharedKeyCredentialPolicy}
+   * @param nextPolicy -
+   * @param options -
+   * @returns
    */
   public create(
     nextPolicy: RequestPolicy,
@@ -73,8 +68,8 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
   /**
    * Generates a hash signature for an HTTP request or for a SAS.
    *
-   * @param {string} stringToSign
-   * @returns {string}
+   * @param stringToSign -
+   * @returns
    */
   public computeHMACSHA256(stringToSign: string): string {
     return createHmac("sha256", this.accountKey)
