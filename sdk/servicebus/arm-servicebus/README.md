@@ -15,7 +15,7 @@ npm install @azure/arm-servicebus
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list operations as an example written in TypeScript.
+#### nodejs - client creation and listIpFilterRules namespaces as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -26,16 +26,17 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ServiceBusManagementClient, ServiceBusManagementModels, ServiceBusManagementMappers } from "@azure/arm-servicebus";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { ServiceBusManagementClient } = require("@azure/arm-servicebus");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ServiceBusManagementClient(creds, subscriptionId);
-  client.operations.list().then((result) => {
+  const resourceGroupName = "testresourceGroupName";
+  const namespaceName = "testnamespaceName";
+  client.namespaces.listIpFilterRules(resourceGroupName, namespaceName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -44,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list operations as an example written in JavaScript.
+#### browser - Authentication, client creation and listIpFilterRules namespaces as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -78,7 +79,9 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmServicebus.ServiceBusManagementClient(res.creds, subscriptionId);
-        client.operations.list().then((result) => {
+        const resourceGroupName = "testresourceGroupName";
+        const namespaceName = "testnamespaceName";
+        client.namespaces.listIpFilterRules(resourceGroupName, namespaceName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
