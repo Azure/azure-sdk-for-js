@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.3.2",
+  "version": "5.4.0-beta.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -29,7 +29,8 @@
     }
   },
   "browser": {
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "engine": {
     "node": ">=8.0.0"
@@ -89,7 +90,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.0.0",
+    "@azure/core-amqp": "^2.0.1",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-auth": "^1.1.3",
