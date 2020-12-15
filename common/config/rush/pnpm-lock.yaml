@@ -9669,6 +9669,7 @@ packages:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@opentelemetry/core': 0.10.2
+      '@opentelemetry/resources': 0.10.2
       '@opentelemetry/semantic-conventions': 0.10.2
       '@opentelemetry/tracing': 0.10.2
       '@types/mocha': 7.0.2
@@ -10495,6 +10496,7 @@ packages:
       integrity: sha512-o7zYyw6/QJHBg2/e3mbbeOe+ohKdRse2FU1aX4i7AdO+1337l44mWy1DwVWhcFUy5aSzahd194/6nrgp7Sj6JQ==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
+registry: ''
 specifiers:
   '@rush-temp/abort-controller': 'file:./projects/abort-controller.tgz'
   '@rush-temp/ai-anomaly-detector': 'file:./projects/ai-anomaly-detector.tgz'
