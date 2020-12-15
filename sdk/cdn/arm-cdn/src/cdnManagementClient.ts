@@ -44,13 +44,10 @@ class CdnManagementClient extends CdnManagementClientContext {
    * Initializes a new instance of the CdnManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription ID.
-   * @param subscriptionId1 Azure Subscription ID.
-   * @param apiVersion1 Version of the API to be used with the client request. Current version is
-   * 2019-09-01.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, apiVersion1: string, options?: Models.CdnManagementClientOptions) {
-    super(credentials, subscriptionId, subscriptionId1, apiVersion1, options);
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CdnManagementClientOptions) {
+    super(credentials, subscriptionId, options);
     this.profiles = new operations.Profiles(this);
     this.endpoints = new operations.Endpoints(this);
     this.origins = new operations.Origins(this);
