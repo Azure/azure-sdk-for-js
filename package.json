@@ -54,7 +54,7 @@
     "plugin-error": "^1.0.1",
     "prettier": "^1.16.4",
     "ts-node": "^7.0.1",
-    "tslib": "^1.11.2",
+    "tslib": "1.11.2",
     "typescript": "^3.2.2",
     "yargs": "^11.0.0"
   },
@@ -62,8 +62,6 @@
     "node": ">=10.10.0"
   },
   "dependencies": {
-    "@azure/communication-administration": "^1.0.0-beta.3",
-    "@types/mocha": "^8.2.0",
     "versioning": "file:eng/tools/versioning"
   }
 }
