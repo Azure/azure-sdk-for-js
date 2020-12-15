@@ -30,7 +30,10 @@ export interface KeyVaultKeyPollOperationState<TResult> extends PollOperationSta
 /**
  * Common properties and methods of the Key Vault Key Pollers.
  */
-export abstract class KeyVaultKeyPoller<TState extends KeyVaultKeyPollOperationState<TResult>, TResult> extends Poller<TState, TResult> {
+export abstract class KeyVaultKeyPoller<
+  TState extends KeyVaultKeyPollOperationState<TResult>,
+  TResult
+> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */

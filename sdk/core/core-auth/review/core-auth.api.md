@@ -32,7 +32,7 @@ export interface GetTokenOptions {
 }
 
 // @public
-export function isTokenCredential(credential: any): credential is TokenCredential;
+export function isTokenCredential(credential: unknown): credential is TokenCredential;
 
 // @public
 export interface KeyCredential {

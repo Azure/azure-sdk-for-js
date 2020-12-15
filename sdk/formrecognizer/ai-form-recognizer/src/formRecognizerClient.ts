@@ -444,12 +444,12 @@ export class FormRecognizerClient {
           )
         );
       }),
-      getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
+      getResult: span("getCustomForms", async (finalOptions, resultId, modelIdParam) =>
         // using the modelId from the parameter here is important, as we could be restoring from
         // a suspended LRO
         this.client.getAnalyzeFormResult(
           // Must be defined to have reached this point, but only for custom form recognition
-          modelId!,
+          modelIdParam!,
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
@@ -512,12 +512,12 @@ export class FormRecognizerClient {
           })
         );
       }),
-      getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
+      getResult: span("getCustomForms", async (finalOptions, resultId, modelIdParam) =>
         // using the modelId from the parameter here is important, as we could be restoring from
         // a suspended LRO
         this.client.getAnalyzeFormResult(
           // Must be defined to have reached this point, but only for custom form recognition
-          modelId!,
+          modelIdParam!,
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )

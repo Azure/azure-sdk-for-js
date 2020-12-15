@@ -81,13 +81,13 @@ describe("SchemaRegistryClient", function() {
     const endpoint = "https://example.com/schemaregistry/";
     const credential = new ClientSecretCredential("x", "y", "z");
 
-    let client = new SchemaRegistryClient(endpoint, credential, options);
-    assert.equal(client.endpoint, endpoint);
+    let customClient = new SchemaRegistryClient(endpoint, credential, options);
+    assert.equal(customClient.endpoint, endpoint);
     assert.equal(options.userAgentOptions?.userAgentPrefix, `CustomPrefix ${LIB_INFO}`);
 
     options = {};
-    client = new SchemaRegistryClient(endpoint, credential, options);
-    assert.equal(client.endpoint, endpoint);
+    customClient = new SchemaRegistryClient(endpoint, credential, options);
+    assert.equal(customClient.endpoint, endpoint);
     assert.equal(options.userAgentOptions?.userAgentPrefix, LIB_INFO);
   });
 

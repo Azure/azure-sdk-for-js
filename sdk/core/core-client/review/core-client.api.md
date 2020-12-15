@@ -38,10 +38,11 @@ export interface BaseMapper {
 // @public
 export interface ClientPipelineOptions extends InternalPipelineOptions {
     credentialOptions?: {
-        baseUri?: string;
-        credential?: TokenCredential;
+        credentialScopes: string | string[];
+        credential: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
+    serializationOptions?: serializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -223,6 +224,7 @@ export type OperationRequest = PipelineRequest<OperationRequestInfo>;
 
 // @public
 export interface OperationRequestInfo {
+    operationArguments?: OperationArguments;
     operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
@@ -310,6 +312,18 @@ export interface SequenceMapperType {
 }
 
 // @public
+export function serializationPolicy(options?: serializationPolicyOptions): PipelinePolicy;
+
+// @public
+export const serializationPolicyName = "serializationPolicy";
+
+// @public
+export interface serializationPolicyOptions {
+    serializerOptions?: SerializerOptions;
+    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
+}
+
+// @public
 export interface Serializer {
     // (undocumented)
     deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
@@ -335,12 +349,13 @@ export class ServiceClient {
     constructor(options?: ServiceClientOptions);
     sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-    }
+}
 
 // @public
 export interface ServiceClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
+    credentialScopes?: string | string[];
     httpsClient?: HttpsClient;
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;

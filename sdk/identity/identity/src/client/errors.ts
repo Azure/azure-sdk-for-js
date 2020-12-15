@@ -91,6 +91,7 @@ export class AuthenticationError extends Error {
    */
   public readonly errorResponse: ErrorResponse;
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
     let errorResponse: ErrorResponse = {
       error: "unknown",

@@ -5,8 +5,6 @@ import cjs from "@rollup/plugin-commonjs";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
-import nodeBuiltinsPlugin from "rollup-plugin-node-builtins";
-import nodeGlobals from "rollup-plugin-node-globals";
 
 import nodeBuiltins from "builtin-modules";
 
@@ -18,6 +16,12 @@ interface PackageJson {
 }
 
 // #region Warning Handler
+
+/**
+ * A function that can determine whether a rollupwarning should be ignored. If
+ * the function returns `true`, then the warning will not be displayed.
+ */
+export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
 function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
   return (
@@ -58,33 +62,31 @@ function makeBrowserTestConfig() {
   const config: RollupOptions = {
     input: {
       include: ["dist-esm/test/**/*.spec.js"],
-      exclude: ["dist-esm/test/**/node/*.spec.js"]
+      exclude: ["dist-esm/test/**/node/**"]
     },
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",
-      sourcemap: true,
-      globals: { "fs-extra": "undefined" }
+      sourcemap: true
     },
     preserveSymlinks: false,
-    // fs-extra must be marked as external in order to avoid an initialization error
-    external: ["fs-extra"],
     plugins: [
       multiEntry({ exports: false }),
       nodeResolve({
-        mainFields: ["module", "browser"],
-        preferBuiltins: true
+        mainFields: ["module", "browser"]
       }),
       cjs({
         namedExports: {
-          chai: ["assert", "use"],
+          // Chai's strange internal architecture makes it impossible to statically
+          // analyze its exports.
+          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
+          // OpenTelemetry uses an __exportStar downleveled helper function to
+          // declare its exports, and so we have to add them here as well.
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
       json(),
-      sourcemaps(),
-      nodeGlobals(),
-      nodeBuiltinsPlugin()
+      sourcemaps()
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),
@@ -94,8 +96,6 @@ function makeBrowserTestConfig() {
     // code, which causes all tests to be removed by tree-shaking.
     treeshake: false
   };
-
-  // (config.external as string[]).push(...Object.keys(pkg.devDependencies));
 
   return config;
 }

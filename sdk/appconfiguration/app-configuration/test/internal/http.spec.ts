@@ -5,12 +5,17 @@ import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
-import { getUserAgentPrefix, packageVersion } from "../../src/appConfigurationClient";
+import {
+  getUserAgentPrefix,
+  InternalAppConfigurationClientOptions,
+  packageVersion
+} from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
   startRecorder
-} from "../testHelpers";
+} from "../public/utils/testHelpers";
+
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -146,7 +151,7 @@ describe("http request related tests", function() {
       syncTokens = new SyncTokens();
 
       client =
-        createAppConfigurationClientForTests({
+        createAppConfigurationClientForTests<InternalAppConfigurationClientOptions>({
           syncTokens: syncTokens
         }) || this.skip();
 

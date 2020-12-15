@@ -55,7 +55,8 @@
     "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
     "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
     "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
-    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js"
+    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js",
+    "./es/src/util/url.js": "./es/src/util/url.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-http/README.md",
@@ -99,7 +100,8 @@
     "dep:ms-rest-azure-js": "npx ts-node .scripts/testDependentProjects.ts ms-rest-azure-js",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
-    "latest": "ts-node ./.scripts/latest.ts"
+    "latest": "ts-node ./.scripts/latest.ts",
+    "build:samples": "echo Skipped."
   },
   "sideEffects": false,
   "nyc": {
@@ -190,7 +192,7 @@
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
     "xhr-mock": "^2.4.1"
   }

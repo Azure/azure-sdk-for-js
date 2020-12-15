@@ -69,15 +69,19 @@ export interface AccessToken {
  *
  * @param credential The assumed TokenCredential to be tested.
  */
-export function isTokenCredential(credential: any): credential is TokenCredential {
+export function isTokenCredential(credential: unknown): credential is TokenCredential {
   // Check for an object with a 'getToken' function and possibly with
   // a 'signRequest' function.  We do this check to make sure that
   // a ServiceClientCredentials implementor (like TokenClientCredentials
   // in ms-rest-nodeauth) doesn't get mistaken for a TokenCredential if
   // it doesn't actually implement TokenCredential also.
+  const castCredential = credential as {
+    getToken: unknown;
+    signRequest: unknown;
+  };
   return (
-    credential &&
-    typeof credential.getToken === "function" &&
-    (credential.signRequest === undefined || credential.getToken.length > 0)
+    castCredential &&
+    typeof castCredential.getToken === "function" &&
+    (castCredential.signRequest === undefined || castCredential.getToken.length > 0)
   );
 }
