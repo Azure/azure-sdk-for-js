@@ -62,7 +62,8 @@
     "@typescript-eslint/parser": "^4.9.0",
     "eslint": "^7.15.0",
     "eslint-plugin-no-only-tests": "^2.4.0",
-    "eslint-plugin-promise": "^4.2.1"
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-tsdoc": "^0.2.10"
   },
   "dependencies": {
     "@typescript-eslint/typescript-estree": "^4.9.0",
