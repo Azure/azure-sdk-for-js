@@ -9,7 +9,6 @@ import { KeyCurveName } from "./cryptographyClientModels";
  * Defines values for KeyOperation.
  * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
  * @readonly
- * @enum {string}
  */
 export type KeyOperation =
   | "encrypt"
@@ -24,7 +23,6 @@ export type KeyOperation =
  * Defines values for KeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
  * @readonly
- * @enum {string}
  */
 export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
@@ -96,7 +94,7 @@ export interface JsonWebKey {
    */
   p?: Uint8Array;
   /**
-   * RSA secret prime, with p < q.
+   * RSA secret prime, with `p < q`.
    */
   q?: Uint8Array;
   /**
@@ -215,7 +213,7 @@ export interface KeyProperties {
   readonly recoveryLevel?: DeletionRecoveryLevel;
   /**
    * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
@@ -458,14 +456,12 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
  * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
  * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}
