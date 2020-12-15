@@ -3,11 +3,14 @@
 /* eslint-disable eqeqeq */
 
 import { ConnectionConfig } from "@azure/core-amqp";
+import { URL } from "./util/url";
 
 /**
  * Describes the connection config object that is created after parsing an EventHub connection
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
+ * @internal
+ * @ignore
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**
@@ -65,7 +68,8 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * Describes the connection config object that is created after parsing an EventHub connection
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
- * @module EventHubConnectionConfig
+ * @internal
+ * @ignore
  */
 export const EventHubConnectionConfig = {
   /**
@@ -139,6 +143,21 @@ export const EventHubConnectionConfig = {
       return `${config.entityPath}/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;
     };
     return config as EventHubConnectionConfig;
+  },
+
+  /**
+   * Updates the provided EventHubConnectionConfig to use the custom endpoint address.
+   * @param config An existing connection configuration to be updated.
+   * @param customEndpointAddress The custom endpoint address to use.
+   */
+  setCustomEndpointAddress(config: EventHubConnectionConfig, customEndpointAddress: string): void {
+    // The hostname should match the host prior to using the custom endpoint.
+    config.hostname = config.host;
+    const { host, port } = new URL(customEndpointAddress);
+    config.host = host;
+    if (port) {
+      config.port = parseInt(port, 10);
+    }
   },
 
   /**
