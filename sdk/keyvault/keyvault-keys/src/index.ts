@@ -170,6 +170,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -759,6 +760,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfKeyVersions}.
    * @param name - The name of the Key Vault Key.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -801,6 +803,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeyVersions}.
    * @param name - The name of the Key Vault Key.
    * @param options - Common options for the iterative endpoints.
@@ -861,6 +864,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfKeys}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Common options for the iterative endpoints.
@@ -896,6 +900,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeys}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -953,6 +958,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the pagination of {@link listDeletedKeys}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Common options for the iterative endpoints.
@@ -988,6 +994,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedKeys}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -1044,6 +1051,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
@@ -1097,6 +1105,7 @@ export class KeyClient {
 
   /**
    * @internal
+   * @hidden
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {

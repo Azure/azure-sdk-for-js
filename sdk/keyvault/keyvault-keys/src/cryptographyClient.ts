@@ -85,6 +85,7 @@ export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle): void {
 export class CryptographyClient {
   /**
    * @internal
+   * @hidden
    * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:
@@ -520,6 +521,7 @@ export class CryptographyClient {
 
   /**
    * @internal
+   * @hidden
    * Attempts to retrieve the ID of the key.
    */
   private getKeyID(): string | undefined {
@@ -540,6 +542,7 @@ export class CryptographyClient {
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -677,6 +680,7 @@ export class CryptographyClient {
 
   /**
    * @internal
+   * @hidden
    * Creates a span using the tracer that was set by the user.
    * @param methodName - The name of the method creating the span.
    * @param options - The options for the underlying HTTP request.

@@ -7,6 +7,7 @@ import { DeletedSecret, KeyVaultSecret } from "./secretsModels";
 
 /**
  * @internal
+ * @hidden
  * Shapes the exposed {@link KeyVaultKey} based on either a received secret bundle or deleted secret bundle.
  */
 export function getSecretFromSecretBundle(

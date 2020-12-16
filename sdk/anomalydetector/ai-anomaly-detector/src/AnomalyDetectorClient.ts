@@ -44,6 +44,7 @@ export class AnomalyDetectorClient {
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated AnomalyDetector HTTP client.
    */
   private client: GeneratedClient;

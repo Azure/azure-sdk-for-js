@@ -88,6 +88,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   );
   /**
+   * @hidden
    * @internal
    */
   constructor(

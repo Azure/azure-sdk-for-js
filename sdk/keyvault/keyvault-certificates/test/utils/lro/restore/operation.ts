@@ -13,6 +13,7 @@ export interface BeginRestoreCertificateBackupOptions extends CertificatePollerO
 
 /**
  * @internal
+ * @hidden
  * An interface representing the CertificateClient. For internal use.
  */
 export interface TestCertificateClientInterface {

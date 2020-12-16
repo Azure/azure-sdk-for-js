@@ -50,6 +50,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   constructor(options?: TokenCredentialOptions);
   /**
    * @internal
+   * @hidden
    */
   constructor(
     clientIdOrOptions: string | TokenCredentialOptions | undefined,

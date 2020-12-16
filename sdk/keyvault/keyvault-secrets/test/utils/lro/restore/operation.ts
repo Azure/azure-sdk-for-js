@@ -13,6 +13,7 @@ export interface BeginRestoreSecretBackupOptions extends SecretPollerOptions {}
 
 /**
  * @internal
+ * @hidden
  * An interface representing the SecretClient. For internal use.
  */
 export interface TestSecretClientInterface {

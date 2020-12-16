@@ -15,6 +15,7 @@ export interface IdObject {
  * return a sorted array of results.
  *
  * @internal
+ * @hidden
  * @param sortedArray - An array of entries sorted by `id`
  * @param unsortedArray - An array of entries that contain `id` but are not sorted
  */
@@ -115,6 +116,7 @@ export function getJobID(operationLocation: string): string {
 
 /**
  * @internal
+ * @hidden
  * parses incoming errors from the service and if the inner error code is
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error - the incoming error

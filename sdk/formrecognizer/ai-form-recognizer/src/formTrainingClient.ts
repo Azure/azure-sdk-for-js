@@ -177,16 +177,19 @@ export class FormTrainingClient {
 
   /**
    * @internal
+   * @hidden
    */
   private readonly credential: TokenCredential | KeyCredential;
 
   /**
    * @internal
+   * @hidden
    */
   private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;

@@ -456,12 +456,14 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
+ * @hidden
  * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
+ * @hidden
  * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}

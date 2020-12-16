@@ -45,6 +45,7 @@ export class KeyVaultBackupClient {
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;

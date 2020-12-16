@@ -360,6 +360,7 @@ export class FormRecognizerClient {
   /**
    * Retrieves result of content recognition operation.
    * @internal
+   * @hidden
    */
   private async getRecognizedContent(
     resultId: string,

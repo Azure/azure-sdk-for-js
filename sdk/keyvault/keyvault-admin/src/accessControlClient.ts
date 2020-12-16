@@ -52,6 +52,7 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -244,6 +245,7 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the pagination of {@link listRoleAssignments}.
    * @param roleScope - The scope of the role assignments.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -284,6 +286,7 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the iteration of all the available results of {@link listRoleAssignments}.
    * @param roleScope - The scope of the role assignments.
    * @param options - Common options for the iterative endpoints.
@@ -338,6 +341,7 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the pagination of {@link listRoleDefinitions}.
    * @param roleScope - The scope of the role definition.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -378,6 +382,7 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
+   * @hidden
    * Deals with the iteration of all the available results of {@link listRoleDefinitions}.
    * @param roleScope - The scope of the role definition.
    * @param options - Common options for the iterative endpoints.
