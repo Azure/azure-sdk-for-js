@@ -7,7 +7,7 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 
 describe("PolicyGetSetTests ", function() {
@@ -16,14 +16,15 @@ describe("PolicyGetSetTests ", function() {
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this, "AAD"));
+    recorder = createRecorder(this);
+    client = createRecordedClient("AAD");
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("#GetPolicyShared", async () => {
+  it("#GetPolicyAad", async () => {
     const policyResult = await client.policy.get("SgxEnclave");
     const result = policyResult.token;
     assert(result);

@@ -7,7 +7,7 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 
 describe("TokenCertTests", function() {
@@ -16,14 +16,15 @@ describe("TokenCertTests", function() {
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this, "AAD"));
+    recorder = createRecorder(this);
+    client = createRecordedClient("AAD");
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("#GetCertificates", async () => {
+  it("#GetCertificatesAAD", async () => {
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);

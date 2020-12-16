@@ -7,14 +7,6 @@
 import * as coreHttp from '@azure/core-http';
 
 // @public
-export class Attestation {
-    constructor(client: AttestationClient);
-    attestOpenEnclave(request: AttestOpenEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestOpenEnclaveResponse>;
-    attestSgxEnclave(request: AttestSgxEnclaveRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestSgxEnclaveResponse>;
-    attestTpm(request: TpmAttestationRequest, options?: coreHttp.OperationOptions): Promise<AttestationAttestTpmResponse>;
-    }
-
-// @public
 export type AttestationAttestOpenEnclaveResponse = AttestationResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -45,22 +37,32 @@ export interface AttestationCertificateManagementBody {
 
 // @public (undocumented)
 export class AttestationClient extends AttestationClientContext {
-    constructor(instanceUrl: string, options?: AttestationClientOptionalParams);
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
+    // Warning: (ae-forgotten-export) The symbol "Attestation" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     attestation: Attestation;
+    // Warning: (ae-forgotten-export) The symbol "MetadataConfiguration" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     metadataConfiguration: MetadataConfiguration;
+    // Warning: (ae-forgotten-export) The symbol "Policy" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     policy: Policy;
+    // Warning: (ae-forgotten-export) The symbol "PolicyCertificates" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     policyCertificates: PolicyCertificates;
+    // Warning: (ae-forgotten-export) The symbol "SigningCertificates" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     signingCertificates: SigningCertificates;
 }
 
 // @public (undocumented)
 export class AttestationClientContext extends coreHttp.ServiceClient {
-    constructor(instanceUrl: string, options?: AttestationClientOptionalParams);
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, instanceUrl: string, options?: AttestationClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -210,12 +212,6 @@ export const enum KnownPolicyModification {
 }
 
 // @public
-export class MetadataConfiguration {
-    constructor(client: AttestationClient);
-    get(options?: coreHttp.OperationOptions): Promise<MetadataConfigurationGetResponse>;
-}
-
-// @public
 export type MetadataConfigurationGetResponse = {
     body: any;
     _response: coreHttp.HttpResponse & {
@@ -223,22 +219,6 @@ export type MetadataConfigurationGetResponse = {
         parsedBody: any;
     };
 };
-
-// @public
-export class Policy {
-    constructor(client: AttestationClient);
-    get(attestationType: AttestationType, options?: coreHttp.OperationOptions): Promise<PolicyGetResponse>;
-    reset(attestationType: AttestationType, policyJws: string, options?: coreHttp.OperationOptions): Promise<PolicyResetResponse>;
-    set(attestationType: AttestationType, newAttestationPolicy: string, options?: coreHttp.OperationOptions): Promise<PolicySetModelResponse>;
-}
-
-// @public
-export class PolicyCertificates {
-    constructor(client: AttestationClient);
-    add(policyCertificateToAdd: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesAddResponse>;
-    get(options?: coreHttp.OperationOptions): Promise<PolicyCertificatesGetResponse>;
-    remove(policyCertificateToRemove: string, options?: coreHttp.OperationOptions): Promise<PolicyCertificatesRemoveResponse>;
-}
 
 // @public
 export type PolicyCertificatesAddResponse = PolicyCertificatesModifyResponse & {
@@ -329,12 +309,6 @@ export type PolicySetModelResponse = PolicyResponse & {
 export interface RuntimeData {
     data?: Uint8Array;
     dataType?: DataType;
-}
-
-// @public
-export class SigningCertificates {
-    constructor(client: AttestationClient);
-    get(options?: coreHttp.OperationOptions): Promise<SigningCertificatesGetResponse>;
 }
 
 // @public
