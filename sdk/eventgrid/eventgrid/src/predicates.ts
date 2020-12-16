@@ -209,7 +209,7 @@ export type KnownSystemEventTypes =
 /**
  * A mapping of event type names to event data type interfaces.
  *
- * @internal
+ * @hidden
  */
 export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */

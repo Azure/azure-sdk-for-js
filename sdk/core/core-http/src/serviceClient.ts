@@ -157,6 +157,9 @@ export interface ServiceClientOptions {
   credentialScopes?: string | string[];
 }
 
+/**
+ * ServiceClient sends service requests and receives responses.
+ */
 export class ServiceClient {
   /**
    * If specified, this is the base URI that requests will be made against for this ServiceClient.

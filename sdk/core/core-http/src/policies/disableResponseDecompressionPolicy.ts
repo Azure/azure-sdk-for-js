@@ -11,7 +11,7 @@ import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 
 /**
- * @returns a request policy factory that can be used to create an instance of
+ * Returns a request policy factory that can be used to create an instance of
  * {@link DisableResponseDecompressionPolicy}.
  */
 export function disableResponseDecompressionPolicy(): RequestPolicyFactory {

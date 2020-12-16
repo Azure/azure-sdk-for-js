@@ -22,7 +22,7 @@ export interface AccessTokenCache {
   setCachedToken(accessToken: AccessToken | undefined): void;
 
   /**
-   * @returns the cached {@link AccessToken} or undefined if nothing is cached.
+   * Returns the cached {@link AccessToken} or undefined if nothing is cached.
    */
   getCachedToken(): AccessToken | undefined;
 }
