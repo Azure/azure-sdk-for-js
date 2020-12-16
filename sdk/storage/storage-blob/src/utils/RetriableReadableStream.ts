@@ -217,7 +217,7 @@ export class RetriableReadableStream extends Readable {
   _destroy(error: Error | null, callback: (error?: Error) => void): void {
     this.destroyCalled = true;
     // release source
-    (this.source as Readable).destroy(error === null ? undefined : error);
-    callback();
+    (this.source as Readable).destroy();
+    callback(error === null ? undefined : error);
   }
 }

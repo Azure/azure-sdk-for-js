@@ -414,12 +414,6 @@ describe("RetriableReadableStream", () => {
     });
   };
 
-  // beforeEach(async function() {
-  // });
-
-  // afterEach(async function() {
-  // });
-
   it("destory should work", async () => {
     const counter = new Counter();
     let counterClosed = false;
@@ -430,13 +424,21 @@ describe("RetriableReadableStream", () => {
     });
 
     const retriable = new RetriableReadableStream(counter, getter, 0, 1000);
-    // spare time to flow
+    const passedInError = new Error("Passed in error.");
+    let errorCaught = false;
+    retriable.on("error", (err) => {
+      assert.deepStrictEqual(err, passedInError);
+      errorCaught = true;
+    });
+
+    // spare time to flow while it shouldn't
     await delay(1000);
 
-    retriable.destroy();
+    retriable.destroy(passedInError);
     // spare time for "close" to fire
     await delay(1000);
     assert.ok(counterClosed);
+    assert.ok(errorCaught);
   });
 
   it("setEncoding should work", async () => {
