@@ -10,7 +10,8 @@ export {
   discriminators,
   ErrorDefinition,
   ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  GroupIdInformation,
+  GroupIdInformationProperties,
+  GroupIdInformationPropertiesModel,
+  GroupIdInformationResponse
 } from "../models/mappers";
