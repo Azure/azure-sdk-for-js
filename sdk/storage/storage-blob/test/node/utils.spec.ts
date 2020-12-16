@@ -416,11 +416,9 @@ describe("RetriableReadableStream", () => {
 
   it("destory should work", async () => {
     const counter = new Counter();
-    let counterClosed = false;
     counter.on("close", () => {
       // check source didn't flow
       assert.ok(counter.index === 0);
-      counterClosed = true;
     });
 
     const retriable = new RetriableReadableStream(counter, getter, 0, 1000);
@@ -437,25 +435,23 @@ describe("RetriableReadableStream", () => {
     retriable.destroy(passedInError);
     // spare time for "close" to fire
     await delay(1000);
-    assert.ok(counterClosed);
+    assert.ok((counter as any).destroyed);
     assert.ok(errorCaught);
   });
 
   it("setEncoding should work", async () => {
     const counter = new Counter(1);
     const retriable = new RetriableReadableStream(counter, getter, 0, 1);
-    for await (const i of retriable as any) {
-      assert.deepStrictEqual(i, Buffer.from("0", "ascii"));
-    }
+    retriable.on("data", (chunk) => {
+      assert.deepStrictEqual(chunk, Buffer.from("0", "ascii"));
+    });
 
     const counter2 = new Counter(1);
     const retriable2 = new RetriableReadableStream(counter2, getter, 0, 1);
     retriable2.setEncoding("ascii");
-    for await (const i of retriable2 as any) {
-      assert.deepStrictEqual(i, "0");
-    }
-
-    counter.destroy();
+    retriable2.on("data", (chunk) => {
+      assert.deepStrictEqual(chunk, "0");
+    });
   });
 
   it("pause and resume should work", async () => {
@@ -478,11 +474,9 @@ describe("RetriableReadableStream", () => {
 
   it("abort should destroy underlying source", async () => {
     const counter = new Counter();
-    let counterClosed = false;
     counter.on("close", () => {
       // check source didn't flow
       assert.ok(counter.index === 0);
-      counterClosed = true;
     });
 
     const aborter = new AbortController();
@@ -503,7 +497,7 @@ describe("RetriableReadableStream", () => {
     // spare time for "close" to fire
     await delay(1000);
     assert.ok(aborted);
-    assert.ok(counterClosed);
+    assert.ok((counter as any).destroyed);
   });
 
   it("source close should work", async () => {
@@ -516,7 +510,7 @@ describe("RetriableReadableStream", () => {
       errorCaught = true;
     });
 
-    counter.destroy();
+    counter.emit("close");
     await delay(1000);
     assert.ok(errorCaught);
   });
