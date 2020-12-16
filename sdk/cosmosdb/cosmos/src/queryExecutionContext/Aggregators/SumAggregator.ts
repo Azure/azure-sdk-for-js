@@ -13,11 +13,10 @@ export class SumAggregator implements Aggregator {
    */
   public aggregate(other: number) {
     if (other === undefined) {
-      this.sum = undefined;
       return;
     }
     if (this.sum === undefined) {
-      this.sum = other;
+      this.sum = undefined;
     } else {
       this.sum += other;
     }
