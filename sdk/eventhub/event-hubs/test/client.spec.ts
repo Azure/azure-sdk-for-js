@@ -97,7 +97,7 @@ describe("Create EventHubConsumerClient", function(): void {
       { customEndpointAddress: "sb://foo.private.bar:111" }
     );
     client.should.be.an.instanceof(EventHubConsumerClient);
-    client["_context"].config.host.should.equal("foo.private.bar:111");
+    client["_context"].config.host.should.equal("foo.private.bar");
     client["_context"].config.hostname!.should.equal("test.servicebus.windows.net");
     client["_context"].config.port!.should.equal(111);
   });
@@ -119,7 +119,7 @@ describe("Create EventHubConsumerClient", function(): void {
       { customEndpointAddress: "sb://foo.private.bar:111" }
     );
     client.should.be.an.instanceof(EventHubConsumerClient);
-    client["_context"].config.host.should.equal("foo.private.bar:111");
+    client["_context"].config.host.should.equal("foo.private.bar");
     client["_context"].config.hostname!.should.equal("test.servicebus.windows.net");
     client["_context"].config.port!.should.equal(111);
   });
@@ -196,7 +196,7 @@ describe("Create EventHubProducerClient", function(): void {
       { customEndpointAddress: "sb://foo.private.bar:111" }
     );
     client.should.be.an.instanceof(EventHubProducerClient);
-    client["_context"].config.host.should.equal("foo.private.bar:111");
+    client["_context"].config.host.should.equal("foo.private.bar");
     client["_context"].config.hostname!.should.equal("test.servicebus.windows.net");
     client["_context"].config.port!.should.equal(111);
   });
@@ -217,7 +217,7 @@ describe("Create EventHubProducerClient", function(): void {
       { customEndpointAddress: "sb://foo.private.bar:111" }
     );
     client.should.be.an.instanceof(EventHubProducerClient);
-    client["_context"].config.host.should.equal("foo.private.bar:111");
+    client["_context"].config.host.should.equal("foo.private.bar");
     client["_context"].config.hostname!.should.equal("test.servicebus.windows.net");
     client["_context"].config.port!.should.equal(111);
   });

@@ -153,8 +153,9 @@ export const EventHubConnectionConfig = {
   setCustomEndpointAddress(config: EventHubConnectionConfig, customEndpointAddress: string): void {
     // The hostname should match the host prior to using the custom endpoint.
     config.hostname = config.host;
-    const { host, port } = new URL(customEndpointAddress);
-    config.host = host;
+    const { hostname, port } = new URL(customEndpointAddress);
+    // Since we specify the port separately, set host to the customEndpointAddress hostname.
+    config.host = hostname;
     if (port) {
       config.port = parseInt(port, 10);
     }

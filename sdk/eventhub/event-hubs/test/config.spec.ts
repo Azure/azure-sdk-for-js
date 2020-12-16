@@ -178,7 +178,7 @@ describe("ConnectionConfig", function() {
           "https://foo.private.endpoint:1111"
         );
         config.should.have.property("hostname").that.equals("hostname.servicebus.windows.net");
-        config.should.have.property("host").that.equals("foo.private.endpoint:1111");
+        config.should.have.property("host").that.equals("foo.private.endpoint");
         config.should.have.property("port").that.equals(1111);
       });
     });
