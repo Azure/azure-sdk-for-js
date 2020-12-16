@@ -127,22 +127,26 @@ describe("Queries", function() {
 
     describe("SUM query iterator", function() {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
-  
+
       it("returns undefined sum with undefined value in aggregator", async function() {
-        const container = await getTestContainer("Validate QueryIterator Functionality", undefined, {
-          throughput: 11100,
-          partitionKey: '/id'
-        });
+        const container = await getTestContainer(
+          "Validate QueryIterator Functionality",
+          undefined,
+          {
+            throughput: 11100,
+            partitionKey: "/id"
+          }
+        );
         await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
         await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
         await container.items.create({ id: "5edasdfasdfed6f8a21be0109ae34e29", age: null });
         await container.items.create({ id: "5eded6f8a2dd1be0109ae34e29", age: 22 });
         await container.items.create({ id: "AndersenFamily" });
         await container.items.create({ id: "1" });
-  
+
         const queryIterator = container.items.query("SELECT SUM(c.age) FROM c");
         const { resources: sum } = await queryIterator.fetchAll();
-        assert.equal(sum.length, 0)
+        assert.equal(sum.length, 0);
       });
     });
   });
