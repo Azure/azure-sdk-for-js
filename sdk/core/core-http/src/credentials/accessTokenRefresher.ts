@@ -19,8 +19,6 @@ export class AccessTokenRefresher {
   /**
    * Returns true if the required milliseconds(defaulted to 30000) have been passed signifying
    * that we are ready for a new refresh.
-   *
-   * @returns
    */
   public isReady(): boolean {
     // We're only ready for a new refresh if the required milliseconds have passed.
@@ -34,7 +32,6 @@ export class AccessTokenRefresher {
    * then requests a new token,
    * then sets this.promise to undefined,
    * then returns the token.
-   * @param options -
    */
   private async getToken(options: GetTokenOptions): Promise<AccessToken | undefined> {
     this.lastCalled = Date.now();
