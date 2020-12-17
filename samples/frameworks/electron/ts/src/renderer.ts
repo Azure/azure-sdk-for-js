@@ -1,12 +1,17 @@
+/*
+  Copyright (c) Microsoft Corporation.
+  Licensed under the MIT license.
+
+  This sample demonstrates how we can integrate with
+  various Azure SDKs in an electron application.
+*/
 import { ipcRenderer } from "electron";
 import { UIManager } from "./UIManager";
 
-import { IPC_MESSAGES } from "./Constants";
+import { IPC_MESSAGES, MSAL_CONFIG } from "./Constants";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { ServiceBusClient } from "@azure/service-bus";
 import { AuthorizationCodeCredential } from "@azure/identity";
-import { msalConfig } from "./AuthProvider";
-import * as logger from "@azure/logger";
 import { getEnvironmentVariable } from "./utils";
 import dotenv from "dotenv";
 
@@ -15,41 +20,61 @@ dotenv.config();
 const uiManager = new UIManager();
 
 let authCredential: AuthorizationCodeCredential;
-logger.setLogLevel("verbose");
 
-// Event handlers implementation
+// The main process will publish an authorization code to be used with the
+// AuthorizationCodeCredential to authenticate with various Azure services.
+// The renderer process will receive this code and construct an AuthorizationCodeCredential
+// object to be used when making service calls.
+// For more information about the AuthorizationCodeCredential and the authorization
+// code flow please see https://docs.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential
 const onLoginSuccess = (_e: Electron.IpcRendererEvent, authCode: string) => {
   authCredential = new AuthorizationCodeCredential(
-    msalConfig.tenantId,
-    msalConfig.clientId,
+    MSAL_CONFIG.tenantId,
+    MSAL_CONFIG.clientId,
     authCode,
-    msalConfig.redirectUri
+    MSAL_CONFIG.redirectUri
   );
   uiManager.showLoggedIn();
 };
 
+// Handle the Fetch Blob click event by creating a new Azure Blob Storage
+// client and fetching a given Blob.
 const onFetchBlobClick = async () => {
   uiManager.showBlobContents("Fetch blob...");
   if (!authCredential) {
     throw new Error("Auth service never completed!");
   }
   const blobUri = getEnvironmentVariable("BLOB_URI");
+  const blobContainer = getEnvironmentVariable("BLOB_CONTAINER");
+  const blobName = getEnvironmentVariable("BLOB_NAME");
+
+  // We can pass our existing AuthorizationCodeCredential to have
+  // the BlobServiceClient automatically convert it to tokens when
+  // making requests.
   let client = new BlobServiceClient(blobUri, authCredential);
-  let container = client.getContainerClient("todos");
-  let blob = container.getBlobClient("todo.txt");
+  let container = client.getContainerClient(blobContainer);
+  let blob = container.getBlobClient(blobName);
   let bits = await blob.downloadToBuffer();
   uiManager.showBlobContents(bits.toString());
 };
 
+// Handle the Send Service Bus Message click event by creating a new
+// producer and consumer for Azure Service Bus, publishing a message
+// and then fetching it to be displayed in the UI
 const onServiceBusClick = async () => {
-  uiManager.showServicebusMessage("Sending...");
   if (!authCredential) {
     throw new Error("Auth service never completed!");
   }
-
   let serviceBusNamespace = getEnvironmentVariable("SERVICE_BUS_NAMESPACE");
   let serviceBusQueue = getEnvironmentVariable("SERVICE_BUS_QUEUE");
+
+  uiManager.showServicebusMessage("Sending...");
+
+  // We can reuse our existing AuthorizationCodeCredential to have
+  // the ServiceBusClient automatically convert it to tokens when
+  // making requests.
   let client = new ServiceBusClient(serviceBusNamespace, authCredential);
+
   let sender = client.createSender(serviceBusQueue);
   await sender.sendMessages({
     body: `Hello, world! ${new Date()}`
@@ -60,9 +85,13 @@ const onServiceBusClick = async () => {
   let receiver = client.createReceiver(serviceBusQueue, {
     receiveMode: "receiveAndDelete"
   });
+
   let messages = await receiver.receiveMessages(1);
-  console.log(messages);
+
   uiManager.showServicebusMessage(messages.map((m) => m.body).join("<br />"));
+
+  sender.close();
+  receiver.close();
 };
 
 // UI event handlers

@@ -1,5 +1,8 @@
 /**
- * Class that handles UI updates for the app.
+  Copyright (c) Microsoft Corporation.
+  Licensed under the MIT license.
+
+  Class that handles UI updates for the app.
  */
 export class UIManager {
   // Select DOM elements to work with
@@ -16,7 +19,6 @@ export class UIManager {
   }
 
   public showLoggedIn() {
-    // Reconfiguring DOM elements
     this.cardDiv.style.display = "initial";
     this.signInButton.style.display = "none";
     this.signOutButton.style.display = "initial";

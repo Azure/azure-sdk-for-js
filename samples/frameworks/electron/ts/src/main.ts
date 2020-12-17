@@ -1,20 +1,24 @@
-import { app, BrowserWindow, ipcMain, session } from "electron";
+/*
+  Copyright (c) Microsoft Corporation.
+  Licensed under the MIT license.
+
+  The main process is responsible for renderer window management
+  as well as integration between a renderer and the authentication provider.
+*/
+import { app, BrowserWindow, ipcMain } from "electron";
 import { IPC_MESSAGES } from "./Constants";
 import AuthProvider from "./AuthProvider";
 import * as path from "path";
-import * as logger from "@azure/logger";
 
 export default class Main {
   static application: Electron.App;
   static mainWindow: Electron.BrowserWindow;
   static authProvider: AuthProvider;
-  static accessToken: string;
 
   static main(): void {
     Main.application = app;
     Main.application.on("window-all-closed", Main.onWindowAllClosed);
     Main.application.on("ready", Main.onReady);
-    logger.setLogLevel("verbose");
   }
 
   private static onWindowAllClosed(): void {
@@ -33,7 +37,6 @@ export default class Main {
     Main.registerSubscriptions();
   }
 
-  // Creates main application window
   private static createMainWindow(): void {
     this.mainWindow = new BrowserWindow({
       width: 800,
@@ -42,7 +45,6 @@ export default class Main {
         nodeIntegration: true
       }
     });
-    this.mainWindow.webContents.openDevTools();
   }
 
   public static publish(message: string, payload: any): void {
