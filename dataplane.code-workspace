@@ -145,6 +145,10 @@
       "path": "sdk/storage/storage-file-share"
     },
     {
+      "name": "storage-internal-avro",
+      "path": "sdk/storage/storage-internal-avro"
+    },
+    {
       "name": "storage-queue",
       "path": "sdk/storage/storage-queue"
     },
