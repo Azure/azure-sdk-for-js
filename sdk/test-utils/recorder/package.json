@@ -34,7 +34,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -115,6 +116,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "4.1.2",
-    "xhr-mock": "^2.4.1"
+    "xhr-mock": "^2.4.1",
+    "typedoc": "0.15.0"
   }
 }
