@@ -37,7 +37,7 @@ function readClientDetails(): ClientDetails {
 }
 
 function getCredential(clientDetails: ClientDetails): InteractiveBrowserCredential | undefined {
-  return new InteractiveBrowserCredential(clientDetails);
+  return clientDetails.tenantId.length > 0 && clientDetails.clientId.length > 0 ? new InteractiveBrowserCredential(clientDetails) : undefined;
 }
 
 function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetailsEditorProps) {
