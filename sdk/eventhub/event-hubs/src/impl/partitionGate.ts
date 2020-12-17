@@ -10,7 +10,7 @@
  * continually steals/overwrites checkpointing and ownership with itself.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export class PartitionGate {
   private _partitions = new Set<string>();

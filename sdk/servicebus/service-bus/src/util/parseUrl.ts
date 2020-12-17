@@ -6,13 +6,13 @@
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 const url = require("url");
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * @param {string} rawUrl
  */
 export const parseURL = (rawUrl: string) => {

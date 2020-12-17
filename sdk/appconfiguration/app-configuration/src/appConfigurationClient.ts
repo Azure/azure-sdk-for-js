@@ -66,7 +66,7 @@ const packageName = "azsdk-js-app-configuration";
  * This constant should always be the same as the package.json's version - we use it when forming the
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
- * @ignore
+ * @hidden
  */
 export const packageVersion = "1.1.1";
 const apiVersion = "1.0";
@@ -102,7 +102,7 @@ export interface AppConfigurationClientOptions {
 /**
  * Provides internal configuration options for AppConfigurationClient.
  * @internal
- * @ignore
+ * @hidden
  */
 export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
   /**
@@ -509,7 +509,7 @@ export class AppConfigurationClient {
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal
- * @ignore
+ * @hidden
  */
 export function getGeneratedClientOptions(
   baseUri: string,
@@ -545,7 +545,7 @@ export function getGeneratedClientOptions(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): string {
   const appConfigDefaultUserAgent = `${packageName}/${packageVersion} ${getCoreHttpDefaultUserAgentValue()}`;

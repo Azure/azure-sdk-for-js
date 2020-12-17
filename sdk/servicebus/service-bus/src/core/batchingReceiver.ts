@@ -26,7 +26,7 @@ import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
- * @ignore
+ * @hidden
  * @class BatchingReceiver
  * @extends MessageReceiver
  */
@@ -165,7 +165,7 @@ export class BatchingReceiver extends MessageReceiver {
  * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function getRemainingWaitTimeInMsFn(
   maxWaitTimeInMs: number,
@@ -189,7 +189,7 @@ export function getRemainingWaitTimeInMsFn(
  * import the events definition (which is annoying with browsers).
  *
  * @internal
- * @ignore
+ * @hidden
  */
 type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
 
@@ -198,7 +198,7 @@ type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeLi
  * message receiving.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
   EventEmitterLike<Receiver> & {
@@ -211,13 +211,13 @@ export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "add
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 interface ReceiveMessageArgs extends OperationOptionsBase {
   maxMessageCount: number;
@@ -232,7 +232,7 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * Usable with both session and non-session receivers.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export class BatchingReceiverLite {
   /**
@@ -280,7 +280,7 @@ export class BatchingReceiverLite {
    * Receives a set of messages,
    *
    * @internal
-   * @ignore
+   * @hidden
    */
   public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
     try {

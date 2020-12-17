@@ -22,7 +22,7 @@ import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export type ReceiverHandlers = Pick<
   ReceiverOptions,
@@ -31,7 +31,7 @@ export type ReceiverHandlers = Pick<
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
@@ -39,7 +39,7 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface ReceiveOptions extends SubscribeOptions {
   /**
@@ -62,7 +62,7 @@ export interface ReceiveOptions extends SubscribeOptions {
 /**
  * Describes the signature of the message handler passed to `registerMessageHandler` method.
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnMessage {
   /**
@@ -75,7 +75,7 @@ export interface OnMessage {
  * Describes the signature of the error handler passed to `registerMessageHandler` method.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnError {
   /**
@@ -92,7 +92,7 @@ export interface OnError {
  * with an implicit ProcessErrorContext. Used by LockRenewer.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnErrorNoContext {
   (error: MessagingError | Error): void;
@@ -100,7 +100,7 @@ export interface OnErrorNoContext {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */

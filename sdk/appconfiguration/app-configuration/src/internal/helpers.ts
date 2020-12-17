@@ -17,7 +17,7 @@ import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generat
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
- * @ignore
+ * @hidden
  */
 export function quoteETag(etag: string | undefined): string | undefined {
   // https://tools.ietf.org/html/rfc7232#section-3.1
@@ -41,7 +41,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * and throws an Error. Otherwise, returns the properties properly quoted.
  * @param options An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
- * @ignore
+ * @hidden
  */
 export function checkAndFormatIfAndIfNoneMatch(
   configurationSetting: ConfigurationSettingId,
@@ -73,7 +73,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  * into the format the REST call will need.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
@@ -108,7 +108,7 @@ export function formatWildcards(
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
- * @ignore
+ * @hidden
  */
 export function formatAcceptDateTime(newOptions: {
   acceptDateTime?: Date;
@@ -122,7 +122,7 @@ export function formatAcceptDateTime(newOptions: {
  * Take the URL that gets returned from next link and extract the 'after' token needed
  * to get the next page of results.
  * @internal
- * @ignore
+ * @hidden
  */
 export function extractAfterTokenFromNextLink(nextLink: string) {
   let parsedLink = URLBuilder.parse(nextLink);
@@ -161,7 +161,7 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
@@ -175,7 +175,7 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -190,7 +190,7 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function transformKeyValueResponse<
