@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (Unreleased)
 
 - Adds the ability to configure the `hostname` and `port` that a `ConnectionContextBase` will use
   when connecting to a service.
