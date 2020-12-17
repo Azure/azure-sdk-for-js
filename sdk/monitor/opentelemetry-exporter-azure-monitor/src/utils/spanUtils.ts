@@ -5,6 +5,7 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SpanKind, Logger, CanonicalCode, Link } from "@opentelemetry/api";
+import { SERVICE_RESOURCE } from "@opentelemetry/resources";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
   HTTP_METHOD,
@@ -13,6 +14,8 @@ import {
   HTTP_STATUS_CODE
 } from "./constants/span/httpAttributes";
 import {
+  AI_CLOUD_ROLE,
+  AI_CLOUD_ROLE_INSTACE,
   AI_OPERATION_ID,
   AI_OPERATION_PARENT_ID,
   AI_OPERATION_NAME,
@@ -35,10 +38,27 @@ import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "..
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
+
   tags[AI_OPERATION_ID] = span.spanContext.traceId;
   if (span.parentSpanId) {
     tags[AI_OPERATION_PARENT_ID] = span.parentSpanId;
   }
+  if (span.resource && span.resource.labels) {
+    const serviceName = span.resource.labels[SERVICE_RESOURCE.NAME];
+    const serviceNamespace = span.resource.labels[SERVICE_RESOURCE.NAMESPACE];
+    const serviceInstanceId = span.resource.labels[SERVICE_RESOURCE.INSTANCE_ID];
+    if (serviceName) {
+      if (serviceNamespace) {
+        tags[AI_CLOUD_ROLE] = `${serviceNamespace}.${serviceName}`;
+      } else {
+        tags[AI_CLOUD_ROLE] = String(serviceName);
+      }
+    }
+    if (serviceInstanceId) {
+      tags[AI_CLOUD_ROLE_INSTACE] = String(serviceInstanceId);
+    }
+  }
+
   // @todo: is this for RequestData only?
   if (
     (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) &&

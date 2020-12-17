@@ -7,7 +7,7 @@
  */
 
 import { Rule } from "eslint";
-import { ArrayExpression, Literal, ObjectExpression, Property } from "estree";
+import { ArrayExpression, Literal, ObjectExpression, Property, SpreadElement } from "estree";
 
 interface StructureData {
   outer: string;
@@ -64,9 +64,12 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     const properties = node.properties;
 
     if (
-      properties.every((property: Property): boolean => {
-        const key = property.key as Literal;
-        return key.value !== outer;
+      properties.every((value: Property | SpreadElement): unknown => {
+        if (value.type === "Property") {
+          const key = value.key as Literal;
+          return key.value !== outer;
+        }
+        return false;
       })
     ) {
       context.report({
@@ -122,9 +125,12 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     const properties = value.properties;
 
     if (
-      properties.every((property: Property): boolean => {
-        const key = property.key as Literal;
-        return key.value !== inner;
+      properties.every((value: Property | SpreadElement): unknown => {
+        if (value.type === "Property") {
+          const key = value.key as Literal;
+          return key.value !== inner;
+        }
+        return false;
       })
     ) {
       context.report({

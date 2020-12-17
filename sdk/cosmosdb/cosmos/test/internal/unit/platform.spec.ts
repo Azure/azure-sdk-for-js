@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../../src";
-import { getUserAgent } from "../../../src/common";
+import { Constants } from "../../../dist-esm/index";
+import { getUserAgent } from "../../../dist-esm/common";
 
-const packageJson = require("../../package.json");
+const packageJson = require("../../../package.json");
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 
