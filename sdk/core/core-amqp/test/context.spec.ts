@@ -68,7 +68,7 @@ describe("ConnectionContextBase", function() {
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
-    config.hostname = "127.0.0.1";
+    config.amqpHostname = "127.0.0.1";
     const context = ConnectionContextBase.create({
       config: config,
       connectionProperties: {
@@ -154,7 +154,7 @@ describe("ConnectionContextBase", function() {
     const path = "mypath";
     const config = ConnectionConfig.create(connectionString, path);
     config.webSocket = websockets;
-    config.hostname = config.host;
+    config.amqpHostname = config.host;
     config.host = "127.0.0.1";
     const context = ConnectionContextBase.create({
       config: config,

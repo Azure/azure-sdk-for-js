@@ -26,13 +26,18 @@ export interface ConnectionConfig {
    */
   endpoint: string;
   /**
-   * @property {string} host - The host "<yournamespace>.servicebus.windows.net".
+   * The DNS hostname or IP address of the service.
+   * Typically of the form "<yournamespace>.servicebus.windows.net" unless connecting
+   * to the service through an intermediary.
    */
   host: string;
   /**
-   * @property {string} hostname - The hostname "<yournamespace>.servicebus.windows.net".
+   * The fully qualified name of the host to connect to.
+   * This field can be used by AMQP proxies to determine the correct back-end service to
+   * connect the client to.
+   * Typically of the form "<yournamespace>.servicebus.windows.net".
    */
-  hostname?: string;
+  amqpHostname?: string;
   /**
    * The port number.
    */
