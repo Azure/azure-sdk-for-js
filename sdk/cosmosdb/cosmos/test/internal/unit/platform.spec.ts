@@ -4,7 +4,7 @@ import assert from "assert";
 import { Constants } from "../../../src";
 import { getUserAgent } from "../../../src/common";
 
-const packageJson = require("../../package.json");
+const packageJson = require("../../../package.json");
 const packageVersion = packageJson["version"];
 const constantVersion = Constants.SDKVersion;
 
