@@ -182,6 +182,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
+  /@azure/keyvault-keys/4.1.0:
+    dependencies:
+      '@azure/core-http': 1.2.1
+      '@azure/core-lro': 1.0.2
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/logger': 1.0.0
+      '@opentelemetry/api': 0.10.2
+      tslib: 2.0.3
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-xdz7nkYulWSo2+CsBRxaOe2JrGWQP3WxEjPLdIzZNHyaYBuLlnKHL3XWYH5j0UUVoDcmQClZUlZ2P/kdOiy/aQ==
   /@azure/logger-js/1.3.2:
     dependencies:
       tslib: 1.14.1
@@ -9333,6 +9347,7 @@ packages:
   'file:projects/identity.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/keyvault-keys': 4.1.0
       '@azure/msal-node': 1.0.0-beta.1
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
@@ -9387,7 +9402,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-W6fiD1kheW4WBLzp6o1DPpgmiYh7ZY+QA972IwLPNEdKfUABdF7ri+CAGTVE3pZiHwfRryqqy6TH2ND4KiQ2XA==
+      integrity: sha512-ds4vLATwWYaHLLrl63bsufnawqHC3wChQaBek9N2LIyscJ+KWxS4T/wAhYRFjtF3RLwAbDjGI0TdC7cqoCPUSg==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
@@ -9709,7 +9724,7 @@ packages:
     dev: false
     name: '@rush-temp/opentelemetry-exporter-azure-monitor'
     resolution:
-      integrity: sha512-RtvAZIQarwqGmOWYNN88wHQf4F9WX6/1TFR6gXNq4odNmbKjtYo6+6VHC8e34QEX3D+Qe1jJBvqzm13uFsVSog==
+      integrity: sha512-y7goTrUg6anqxUC4L47Pox44E7LQrCfSXlmugiFnzJL3Kvt+iW9NuRag1Wocvi75OmMrrjrxPKXI6uPktunyaQ==
       tarball: 'file:projects/opentelemetry-exporter-azure-monitor.tgz'
     version: 0.0.0
   'file:projects/schema-registry-avro.tgz':

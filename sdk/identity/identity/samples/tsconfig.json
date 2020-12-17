@@ -7,8 +7,13 @@
     "declarationDir": null,
     "sourceMap": false,
     "inlineSources": false,
-    "outDir": "../"
+    "outDir": "samples/typescript/dist"
   },
-  "include": ["**/*.ts"],
-  "exclude": ["src/**/*", "test/**/*"]
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*",
+    "test/**/*"
+  ]
 }
