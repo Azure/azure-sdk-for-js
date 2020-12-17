@@ -188,7 +188,6 @@ export class LinkEntity {
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
    * @ignore
-   * @returns
    */
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeoutInMs) {

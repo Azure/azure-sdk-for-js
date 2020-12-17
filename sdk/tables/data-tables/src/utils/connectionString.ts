@@ -15,7 +15,6 @@ import { URL } from "./url";
  * - SAS Connection String: Attach a SAS token to the storage account url for authentication
  * @param connectionString - Connection string to parse
  * @param options - TableService client options
- * @returns
  */
 export function getClientParamsFromConnectionString(
   connectionString: string,

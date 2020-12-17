@@ -66,7 +66,6 @@ export abstract class BaseRecorder {
    *
    * @protected
    * @param content
-   * @returns
    * @memberof BaseRecorder
    */
   protected filterSecrets(content: any): any {

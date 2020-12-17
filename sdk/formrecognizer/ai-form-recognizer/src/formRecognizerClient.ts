@@ -205,6 +205,7 @@ export class FormRecognizerClient {
 
   /**
    * @internal
+   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
