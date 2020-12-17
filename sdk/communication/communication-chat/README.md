@@ -37,7 +37,7 @@ A chat conversation is represented by a thread. Each user in the thread is calle
 Use resource url and user access token to initialize chat client.
 
 ```JavaScript
-import { ChatClient } from '@azure/communicationservices-chat';
+import { ChatClient } from '@azure/communication-chat';
 import { AzureCommunicationUserCredential } from "@azure/communication-common";
 
 // Your unique Azure Communication service endpoint

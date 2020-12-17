@@ -42,7 +42,7 @@ async function sendMessages() {
   for (let index = 0; index < data.length; index++) {
     const message = {
       body: data[index],
-      label: "RecipeStep",
+      subject: "RecipeStep",
       contentType: "application/json"
     };
     // the way we shuffle the message order is to introduce a tiny random delay before each of the messages is sent

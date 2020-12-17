@@ -8,7 +8,6 @@ import { DeletionRecoveryLevel, KeyUsageType } from "./generated/models";
  * Defines values for CertificateKeyType.
  * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
  * @readonly
- * @enum {string}
  */
 export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
@@ -16,7 +15,6 @@ export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
  * Defines values for CertificateKeyCurveName.
  * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
  * @readonly
- * @enum {string}
  */
 export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
@@ -119,7 +117,6 @@ export interface CertificateOperation {
  * Defines values for contentType.
  * Possible values include: 'application/x-pem-file', 'application/x-pkcs12'
  * @readonly
- * @enum {string}
  */
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
@@ -428,7 +425,7 @@ export interface CertificateProperties {
   readonly x509Thumbprint?: Uint8Array;
   /**
    * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
