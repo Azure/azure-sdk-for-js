@@ -1771,7 +1771,9 @@ export class BlobClient extends StorageClient {
    *
    * @param {BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specified blob HTTP headers, these blob HTTP
-   *                                                   headers without a value will be cleared.
+   *                                                   headers without a value will be cleared. 
+   *                                                   A common header to set is `blobContentType`, *                                                   enabling the browser to provide functionality 
+   *                                                   based on file type.
    * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
    * @returns {Promise<BlobSetHTTPHeadersResponse>}
    * @memberof BlobClient
@@ -2579,7 +2581,9 @@ export interface AppendBlobCreateOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * HTTP headers to set when creating append blobs.
+   * HTTP headers to set when creating append blobs. A common header
+   * to set is `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
    *
    * @type {BlobHTTPHeaders}
    * @memberof AppendBlobCreateOptions
@@ -2634,7 +2638,9 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * HTTP headers to set when creating append blobs.
+   * HTTP headers to set when creating append blobs. A common header to set is
+   * `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
    *
    * @type {BlobHTTPHeaders}
    * @memberof AppendBlobCreateIfNotExistsOptions
@@ -3309,7 +3315,9 @@ export interface BlockBlobUploadOptions extends CommonOptions {
    */
   conditions?: BlobRequestConditions;
   /**
-   * HTTP headers to set when uploading to a block blob.
+   * HTTP headers to set when uploading to a block blob. A common header to set is
+   * `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
    *
    * @type {BlobHTTPHeaders}
    * @memberof BlockBlobUploadOptions
@@ -3437,8 +3445,11 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    */
   copySourceBlobProperties?: boolean;
   /**
-   * HTTP headers to set when uploading to a block blob.
-   *
+   * HTTP headers to set when uploading to a block blob. 
+   * 
+   * A common header to set is `blobContentType`, enabling the browser to provide functionality
+   * based on file type.
+   * 
    * @type {BlobHTTPHeaders}
    * @memberof BlockBlobSyncUploadFromURLOptions
    */
@@ -3917,6 +3928,9 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
 
   /**
    * Blob HTTP Headers.
+   * 
+   * A common header to set is `blobContentType`, enabling the 
+   * browser to provide functionality based on file type.
    *
    * @type {BlobHTTPHeaders}
    * @memberof BlockBlobUploadStreamOptions
@@ -4019,7 +4033,9 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Blob HTTP Headers.
+   * Blob HTTP Headers. A common header to set is 
+   * `blobContentType`, enabling the browser to provide 
+   * functionality based on file type.
    *
    * @type {BlobHTTPHeaders}
    * @memberof BlockBlobParallelUploadOptions
@@ -4703,7 +4719,11 @@ export class BlockBlobClient extends BlobClient {
    * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
-   *
+   * 
+   * A common {@link BlockBlobParallelUploadOptions.blobHTTPHeaders} option to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
+   * 
    * @export
    * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
    * @param {BlockBlobParallelUploadOptions} [options]
@@ -4763,6 +4783,10 @@ export class BlockBlobClient extends BlobClient {
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
    *
+   * A common {@link BlockBlobParallelUploadOptions.blobHTTPHeaders} option to set is
+   * `blobContentType`, enabling the browser to provide
+   * functionality based on file type.
+   * 
    * @deprecated Use {@link uploadData} instead.
    *
    * @export
