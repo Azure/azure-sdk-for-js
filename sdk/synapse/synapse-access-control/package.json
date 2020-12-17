@@ -9,8 +9,7 @@
   "dependencies": {
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",
-    "tslib": "^2.0.0",
-    "rimraf": "^3.0.0"
+    "tslib": "^2.0.0"
   },
   "keywords": [
     "node",
@@ -62,7 +61,6 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
-    "clean": "rimraf ./dist* types *.log",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "test": "echo skip",
