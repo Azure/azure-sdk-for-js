@@ -9,34 +9,36 @@
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PhoneNumberRestClient } from "../phoneNumberRestClient";
+import { PhoneNumbersClient } from "../phoneNumbersClient";
 import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
-  SearchRequest,
-  PhoneNumberAdministrationSearchAvailablePhoneNumbersResponse,
-  PhoneNumberAdministrationGetSearchResultResponse,
-  PurchaseRequest,
-  PhoneNumberAdministrationPurchasePhoneNumbersResponse,
-  PhoneNumberAdministrationGetOperationResponse,
-  PhoneNumberAdministrationListPhoneNumbersResponse,
-  PhoneNumberAdministrationGetPhoneNumberResponse,
+  PhoneNumberSearchRequest,
+  PhoneNumbersSearchAvailablePhoneNumbersResponse,
+  PhoneNumbersGetSearchResultResponse,
+  PhoneNumberPurchaseRequest,
+  PhoneNumbersPurchasePhoneNumbersResponse,
+  PhoneNumbersGetOperationResponse,
+  PhoneNumbersListPhoneNumbersResponse,
+  PhoneNumbersGetPhoneNumberResponse,
   AcquiredPhoneNumberUpdate,
-  PhoneNumberAdministrationUpdatePhoneNumberResponse,
-  PhoneNumberAdministrationReleasePhoneNumberResponse,
-  PhoneNumberAdministrationListPhoneNumbersNextResponse
+  PhoneNumbersUpdatePhoneNumberResponse,
+  PhoneNumbersReleasePhoneNumberResponse,
+  PhoneNumberCapabilitiesRequest,
+  PhoneNumbersUpdatePhoneNumberCapabilitiesResponse,
+  PhoneNumbersListPhoneNumbersNextResponse
 } from "../models";
 
 /**
- * Class representing a PhoneNumberAdministration.
+ * Class representing a PhoneNumbers.
  */
-export class PhoneNumberAdministration {
-  private readonly client: PhoneNumberRestClient;
+export class PhoneNumbers {
+  private readonly client: PhoneNumbersClient;
 
   /**
-   * Initialize a new instance of the class PhoneNumberAdministration class.
+   * Initialize a new instance of the class PhoneNumbers class.
    * @param client Reference to the service client
    */
-  constructor(client: PhoneNumberRestClient) {
+  constructor(client: PhoneNumbersClient) {
     this.client = client;
   }
 
@@ -48,9 +50,9 @@ export class PhoneNumberAdministration {
    */
   async searchAvailablePhoneNumbers(
     countryCode: string,
-    search: SearchRequest,
+    search: PhoneNumberSearchRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumberAdministrationSearchAvailablePhoneNumbersResponse>> {
+  ): Promise<LROPoller<PhoneNumbersSearchAvailablePhoneNumbersResponse>> {
     const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
 
     const args: coreHttp.OperationArguments = {
@@ -60,7 +62,7 @@ export class PhoneNumberAdministration {
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
       this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumberAdministrationSearchAvailablePhoneNumbersResponse
+        PhoneNumbersSearchAvailablePhoneNumbersResponse
       >;
     const initialOperationResult = await sendOperation(
       args,
@@ -83,14 +85,14 @@ export class PhoneNumberAdministration {
   getSearchResult(
     searchId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumberAdministrationGetSearchResultResponse> {
+  ): Promise<PhoneNumbersGetSearchResultResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { searchId, options: operationOptions },
       getSearchResultOperationSpec
-    ) as Promise<PhoneNumberAdministrationGetSearchResultResponse>;
+    ) as Promise<PhoneNumbersGetSearchResultResponse>;
   }
 
   /**
@@ -99,9 +101,9 @@ export class PhoneNumberAdministration {
    * @param options The options parameters.
    */
   async purchasePhoneNumbers(
-    purchase: PurchaseRequest,
+    purchase: PhoneNumberPurchaseRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumberAdministrationPurchasePhoneNumbersResponse>> {
+  ): Promise<LROPoller<PhoneNumbersPurchasePhoneNumbersResponse>> {
     const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
 
     const args: coreHttp.OperationArguments = {
@@ -110,7 +112,7 @@ export class PhoneNumberAdministration {
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
       this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumberAdministrationPurchasePhoneNumbersResponse
+        PhoneNumbersPurchasePhoneNumbersResponse
       >;
     const initialOperationResult = await sendOperation(args, purchasePhoneNumbersOperationSpec);
 
@@ -130,14 +132,14 @@ export class PhoneNumberAdministration {
   getOperation(
     operationId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumberAdministrationGetOperationResponse> {
+  ): Promise<PhoneNumbersGetOperationResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { operationId, options: operationOptions },
       getOperationOperationSpec
-    ) as Promise<PhoneNumberAdministrationGetOperationResponse>;
+    ) as Promise<PhoneNumbersGetOperationResponse>;
   }
 
   /**
@@ -164,14 +166,14 @@ export class PhoneNumberAdministration {
    */
   listPhoneNumbers(
     options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumberAdministrationListPhoneNumbersResponse> {
+  ): Promise<PhoneNumbersListPhoneNumbersResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { options: operationOptions },
       listPhoneNumbersOperationSpec
-    ) as Promise<PhoneNumberAdministrationListPhoneNumbersResponse>;
+    ) as Promise<PhoneNumbersListPhoneNumbersResponse>;
   }
 
   /**
@@ -183,14 +185,14 @@ export class PhoneNumberAdministration {
   getPhoneNumber(
     phoneNumber: string,
     options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumberAdministrationGetPhoneNumberResponse> {
+  ): Promise<PhoneNumbersGetPhoneNumberResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { phoneNumber, options: operationOptions },
       getPhoneNumberOperationSpec
-    ) as Promise<PhoneNumberAdministrationGetPhoneNumberResponse>;
+    ) as Promise<PhoneNumbersGetPhoneNumberResponse>;
   }
 
   /**
@@ -204,7 +206,7 @@ export class PhoneNumberAdministration {
     phoneNumber: string,
     update: AcquiredPhoneNumberUpdate,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumberAdministrationUpdatePhoneNumberResponse>> {
+  ): Promise<LROPoller<PhoneNumbersUpdatePhoneNumberResponse>> {
     const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
 
     const args: coreHttp.OperationArguments = {
@@ -214,7 +216,7 @@ export class PhoneNumberAdministration {
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
       this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumberAdministrationUpdatePhoneNumberResponse
+        PhoneNumbersUpdatePhoneNumberResponse
       >;
     const initialOperationResult = await sendOperation(args, updatePhoneNumberOperationSpec);
 
@@ -235,7 +237,7 @@ export class PhoneNumberAdministration {
   async releasePhoneNumber(
     phoneNumber: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumberAdministrationReleasePhoneNumberResponse>> {
+  ): Promise<LROPoller<PhoneNumbersReleasePhoneNumberResponse>> {
     const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
 
     const args: coreHttp.OperationArguments = {
@@ -244,13 +246,49 @@ export class PhoneNumberAdministration {
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
       this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumberAdministrationReleasePhoneNumberResponse
+        PhoneNumbersReleasePhoneNumberResponse
       >;
     const initialOperationResult = await sendOperation(args, releasePhoneNumberOperationSpec);
 
     return new LROPoller({
       initialOperationArguments: args,
       initialOperationSpec: releasePhoneNumberOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
+  }
+
+  /**
+   * Update capabilities of an acquired phone number.
+   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
+   *                    as %2B.
+   * @param update Update capabilities of an acquired phone number.
+   * @param options The options parameters.
+   */
+  async updatePhoneNumberCapabilities(
+    phoneNumber: string,
+    update: PhoneNumberCapabilitiesRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<LROPoller<PhoneNumbersUpdatePhoneNumberCapabilitiesResponse>> {
+    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
+
+    const args: coreHttp.OperationArguments = {
+      phoneNumber,
+      update,
+      options: operationOptions
+    };
+    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
+      this.client.sendOperationRequest(args, spec) as Promise<
+        PhoneNumbersUpdatePhoneNumberCapabilitiesResponse
+      >;
+    const initialOperationResult = await sendOperation(
+      args,
+      updatePhoneNumberCapabilitiesOperationSpec
+    );
+
+    return new LROPoller({
+      initialOperationArguments: args,
+      initialOperationSpec: updatePhoneNumberCapabilitiesOperationSpec,
       initialOperationResult,
       sendOperation
     });
@@ -264,14 +302,14 @@ export class PhoneNumberAdministration {
   listPhoneNumbersNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<PhoneNumberAdministrationListPhoneNumbersNextResponse> {
+  ): Promise<PhoneNumbersListPhoneNumbersNextResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { nextLink, options: operationOptions },
       listPhoneNumbersNextOperationSpec
-    ) as Promise<PhoneNumberAdministrationListPhoneNumbersNextResponse>;
+    ) as Promise<PhoneNumbersListPhoneNumbersNextResponse>;
   }
 
   private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
@@ -295,19 +333,19 @@ const searchAvailablePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.PhoneNumberAdministrationSearchAvailablePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     201: {
-      headersMapper: Mappers.PhoneNumberAdministrationSearchAvailablePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     202: {
-      headersMapper: Mappers.PhoneNumberAdministrationSearchAvailablePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     204: {
-      headersMapper: Mappers.PhoneNumberAdministrationSearchAvailablePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersSearchAvailablePhoneNumbersHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: Parameters.search,
@@ -322,10 +360,10 @@ const getSearchResultOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SearchResult
+      bodyMapper: Mappers.PhoneNumberSearchResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -337,19 +375,19 @@ const purchasePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.PhoneNumberAdministrationPurchasePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     201: {
-      headersMapper: Mappers.PhoneNumberAdministrationPurchasePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     202: {
-      headersMapper: Mappers.PhoneNumberAdministrationPurchasePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     204: {
-      headersMapper: Mappers.PhoneNumberAdministrationPurchasePhoneNumbersHeaders
+      headersMapper: Mappers.PhoneNumbersPurchasePhoneNumbersHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: Parameters.purchase,
@@ -364,10 +402,10 @@ const getOperationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Operation
+      bodyMapper: Mappers.PhoneNumberOperation
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -380,7 +418,7 @@ const cancelOperationOperationSpec: coreHttp.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -395,7 +433,7 @@ const listPhoneNumbersOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.AcquiredPhoneNumbers
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -410,7 +448,7 @@ const getPhoneNumberOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.AcquiredPhoneNumber
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -422,23 +460,19 @@ const updatePhoneNumberOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumberAdministrationUpdatePhoneNumberHeaders
+      bodyMapper: Mappers.AcquiredPhoneNumber
     },
     201: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumberAdministrationUpdatePhoneNumberHeaders
+      bodyMapper: Mappers.AcquiredPhoneNumber
     },
     202: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumberAdministrationUpdatePhoneNumberHeaders
+      bodyMapper: Mappers.AcquiredPhoneNumber
     },
     204: {
-      bodyMapper: Mappers.AcquiredPhoneNumber,
-      headersMapper: Mappers.PhoneNumberAdministrationUpdatePhoneNumberHeaders
+      bodyMapper: Mappers.AcquiredPhoneNumber
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: Parameters.update,
@@ -453,23 +487,54 @@ const releasePhoneNumberOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.PhoneNumberAdministrationReleasePhoneNumberHeaders
+      headersMapper: Mappers.PhoneNumbersReleasePhoneNumberHeaders
     },
     201: {
-      headersMapper: Mappers.PhoneNumberAdministrationReleasePhoneNumberHeaders
+      headersMapper: Mappers.PhoneNumbersReleasePhoneNumberHeaders
     },
     202: {
-      headersMapper: Mappers.PhoneNumberAdministrationReleasePhoneNumberHeaders
+      headersMapper: Mappers.PhoneNumbersReleasePhoneNumberHeaders
     },
     204: {
-      headersMapper: Mappers.PhoneNumberAdministrationReleasePhoneNumberHeaders
+      headersMapper: Mappers.PhoneNumbersReleasePhoneNumberHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
+  serializer
+};
+const updatePhoneNumberCapabilitiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/phoneNumbers/{phoneNumber}/capabilities",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
+    },
+    201: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
+    },
+    202: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
+    },
+    204: {
+      bodyMapper: Mappers.AcquiredPhoneNumber,
+      headersMapper: Mappers.PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.update1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.phoneNumber],
+  headerParameters: [Parameters.contentType1],
+  mediaType: "json",
   serializer
 };
 const listPhoneNumbersNextOperationSpec: coreHttp.OperationSpec = {
@@ -480,7 +545,7 @@ const listPhoneNumbersNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.AcquiredPhoneNumbers
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

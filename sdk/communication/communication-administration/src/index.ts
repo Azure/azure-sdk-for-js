@@ -4,6 +4,6 @@
 export * from "./common/models";
 export * from "./communicationIdentity/communicationIdentityClient";
 export * from "./communicationIdentity/models";
-export * from "./phoneNumber/phoneNumberAdministrationClient";
+export * from "./phoneNumber/phoneNumbersClient";
 export * from "./phoneNumber/models";
 export * from "./phoneNumber/lroModels";

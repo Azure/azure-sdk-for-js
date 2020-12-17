@@ -16,14 +16,14 @@ import { PollOperationState } from '@azure/core-lro';
 // @public
 export interface AcquiredPhoneNumber {
     applicationId: string;
-    assignmentType: AssignmentType;
-    callbackUrl: string;
-    capabilities: Capabilities;
+    assignmentType: PhoneNumberAssignmentType;
+    callbackUri: string;
+    capabilities: PhoneNumberCapabilities;
+    cost: PhoneNumberCost;
     countryCode: string;
     id: string;
-    monthlyRate: MonthlyRate;
-    numberType: PhoneNumberType;
     phoneNumber: string;
+    phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
 }
 
@@ -36,12 +36,8 @@ export interface AcquiredPhoneNumbers {
 // @public
 export interface AcquiredPhoneNumberUpdate {
     applicationId?: string;
-    callbackUrl?: string;
-    capabilities?: CapabilitiesRequest;
+    callbackUri?: string;
 }
-
-// @public
-export type AssignmentType = "person" | "application";
 
 // @public
 export interface BeginPurchasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
@@ -58,21 +54,6 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPoll
 // @public (undocumented)
 export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
-
-// @public
-export interface Capabilities {
-    calling: CapabilityValue;
-    sms: CapabilityValue;
-}
-
-// @public
-export interface CapabilitiesRequest {
-    calling?: CapabilityValue;
-    sms?: CapabilityValue;
-}
-
-// @public
-export type CapabilityValue = "inbound" | "outbound" | "inbound+outbound" | "none";
 
 // @public
 export class CommunicationIdentityClient {
@@ -118,25 +99,28 @@ export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
 export type ListPhoneNumbersOptions = OperationOptions;
 
 // @public
-export interface MonthlyRate {
-    currency: string;
-    value: number;
+export type PhoneNumberAssignmentType = "person" | "application";
+
+// @public
+export interface PhoneNumberCapabilities {
+    calling: PhoneNumberCapabilityValue;
+    sms: PhoneNumberCapabilityValue;
 }
 
 // @public
-export class PhoneNumberAdministrationClient {
-    constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
-    constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
-    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
-    beginSearchAvailablePhoneNumbers(countryCode: string, search: SearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<SearchResult>, SearchResult>>;
-    beginUpdatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
-    getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
-    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
-    }
+export interface PhoneNumberCapabilitiesRequest {
+    calling?: PhoneNumberCapabilityValue;
+    sms?: PhoneNumberCapabilityValue;
+}
 
 // @public
-export interface PhoneNumberAdministrationClientOptions extends PipelineOptions {
+export type PhoneNumberCapabilityValue = "inbound" | "outbound" | "inbound+outbound" | "none";
+
+// @public
+export interface PhoneNumberCost {
+    amount: number;
+    billingFrequency: "monthly";
+    currencyCode: string;
 }
 
 // @public
@@ -146,27 +130,43 @@ export interface PhoneNumberPollerOptionsBase {
 }
 
 // @public
-export type PhoneNumberType = "tollFree" | "geographic";
+export class PhoneNumbersClient {
+    constructor(connectionString: string, options?: PhoneNumbersClientOptions);
+    constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
+    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
+    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
+    beginSearchAvailablePhoneNumbers(countryCode: string, search: PhoneNumberSearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
+    beginUpdatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
+    getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
+    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
+    }
 
 // @public
-export interface SearchRequest {
+export interface PhoneNumbersClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface PhoneNumberSearchRequest {
     areaCode?: string;
-    assignmentType: AssignmentType;
-    capabilities: CapabilitiesRequest;
-    numberType: PhoneNumberType;
+    assignmentType: PhoneNumberAssignmentType;
+    capabilities: PhoneNumberCapabilitiesRequest;
+    phoneNumberType: PhoneNumberType;
     quantity?: number;
 }
 
 // @public
-export interface SearchResult {
-    assignmentType: AssignmentType;
-    capabilities: Capabilities;
+export interface PhoneNumberSearchResult {
+    assignmentType: PhoneNumberAssignmentType;
+    capabilities: PhoneNumberCapabilities;
+    cost: PhoneNumberCost;
     id: string;
-    monthlyRate: MonthlyRate;
-    numberType: PhoneNumberType;
     phoneNumbers: string[];
+    phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
 }
+
+// @public
+export type PhoneNumberType = "tollFree" | "geographic";
 
 // @public
 export type TokenScope = "chat" | "voip" | "pstn";

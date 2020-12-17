@@ -6,13 +6,12 @@
 
 ```yaml
 package-name: azure-communication-administration-phoneNumber
-override-client-name: PhoneNumberRestClient
 description: Phone number configuration client
 package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/phoneNumber/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b5811b8612b712777578b5eabdd4494c7aae427d/specification/communication/data-plane/Microsoft.CommunicationServicesAdministration/preview/2020-11-01-preview3/phonenumbers.json
+input-file: https://raw.githubusercontent.com/DominikMe/azure-rest-api-specs/5e81c9fa247fbd7b36ad3868599554bcd6af89d5/specification/communication/data-plane/Microsoft.CommunicationServicesAdministration/preview/2020-11-01-preview3/phonenumbers.json
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:

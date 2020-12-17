@@ -12,9 +12,10 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  SearchRequest as SearchRequestMapper,
-  PurchaseRequest as PurchaseRequestMapper,
-  AcquiredPhoneNumberUpdate as AcquiredPhoneNumberUpdateMapper
+  PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
+  PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
+  AcquiredPhoneNumberUpdate as AcquiredPhoneNumberUpdateMapper,
+  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -31,7 +32,7 @@ export const contentType: OperationParameter = {
 
 export const search: OperationParameter = {
   parameterPath: "search",
-  mapper: SearchRequestMapper
+  mapper: PhoneNumberSearchRequestMapper
 };
 
 export const endpoint: OperationURLParameter = {
@@ -60,7 +61,7 @@ export const countryCode: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-07-20-preview1",
+    defaultValue: "2020-11-01-preview3",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -82,7 +83,7 @@ export const searchId: OperationURLParameter = {
 
 export const purchase: OperationParameter = {
   parameterPath: "purchase",
-  mapper: PurchaseRequestMapper
+  mapper: PhoneNumberPurchaseRequestMapper
 };
 
 export const operationId: OperationURLParameter = {
@@ -122,6 +123,11 @@ export const contentType1: OperationParameter = {
 export const update: OperationParameter = {
   parameterPath: "update",
   mapper: AcquiredPhoneNumberUpdateMapper
+};
+
+export const update1: OperationParameter = {
+  parameterPath: "update",
+  mapper: PhoneNumberCapabilitiesRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

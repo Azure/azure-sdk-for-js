@@ -18,9 +18,9 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { logger } from "../common/logger";
 import { createSpan } from "../common/tracing";
 import {
-  PhoneNumberRestClient,
-  PhoneNumberAdministration
-} from "./generated/src/phoneNumberRestClient";
+  PhoneNumbers as GeneratedClient,
+  PhoneNumbersClient as PhoneNumbersGeneratedClient
+} from "./generated/src/phoneNumbersClient";
 import { SDK_VERSION } from "./constants";
 import { VoidResponse } from "../common/models";
 import {
@@ -33,28 +33,27 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AcquiredPhoneNumber,
   AcquiredPhoneNumberUpdate,
-  SearchRequest,
-  SearchResult
+  PhoneNumberSearchRequest,
+  PhoneNumberSearchResult,
 } from "./generated/src/models";
 import { GetPhoneNumberOptions, ListPhoneNumbersOptions } from "./models";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
  */
-export interface PhoneNumberAdministrationClientOptions extends PipelineOptions {}
+export interface PhoneNumbersClientOptions extends PipelineOptions {}
 
-const isPhoneNumberAdministrationClientOptions = (
-  options: any
-): options is PhoneNumberAdministrationClientOptions => options && !isKeyCredential(options);
+const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
+  options && !isKeyCredential(options);
 
 /**
  * Client class for interacting with Azure Communication Services PhoneNumber Administration.
  */
-export class PhoneNumberAdministrationClient {
+export class PhoneNumbersClient {
   /**
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
-  private readonly client: PhoneNumberAdministration;
+  private readonly client: GeneratedClient;
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class.
@@ -62,7 +61,7 @@ export class PhoneNumberAdministrationClient {
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param options Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
+  public constructor(connectionString: string, options?: PhoneNumbersClientOptions);
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
@@ -70,19 +69,15 @@ export class PhoneNumberAdministrationClient {
    * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(
-    url: string,
-    credential: KeyCredential,
-    options?: PhoneNumberAdministrationClientOptions
-  );
+  public constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
 
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | PhoneNumberAdministrationClientOptions,
-    maybeOptions: PhoneNumberAdministrationClientOptions = {}
+    credentialOrOptions?: KeyCredential | PhoneNumbersClientOptions,
+    maybeOptions: PhoneNumbersClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isPhoneNumberAdministrationClientOptions(credentialOrOptions)
+    const options = isPhoneNumbersClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
     const libInfo = `azsdk-js-communication-administration/${SDK_VERSION}`;
@@ -108,7 +103,7 @@ export class PhoneNumberAdministrationClient {
 
     const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new PhoneNumberRestClient(url, pipeline).phoneNumberAdministration;
+    this.client = new PhoneNumbersGeneratedClient(url, pipeline).phoneNumbers;
   }
 
   /**
@@ -119,9 +114,9 @@ export class PhoneNumberAdministrationClient {
    */
   public async beginSearchAvailablePhoneNumbers(
     countryCode: string,
-    search: SearchRequest,
+    search: PhoneNumberSearchRequest,
     options?: BeginSearchAvailablePhoneNumbersOptions
-  ): Promise<PollerLike<PollOperationState<SearchResult>, SearchResult>> {
+  ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
     return this.client.searchAvailablePhoneNumbers(countryCode, search, options) as any;
   }
 
@@ -294,12 +289,12 @@ export {
   AcquiredPhoneNumber,
   AcquiredPhoneNumbers,
   PhoneNumberType,
-  AssignmentType,
-  Capabilities,
-  MonthlyRate,
-  SearchRequest,
-  SearchResult,
+  PhoneNumberAssignmentType,
+  PhoneNumberCapabilities,
+  PhoneNumberCost,
+  PhoneNumberSearchRequest,
+  PhoneNumberSearchResult,
   AcquiredPhoneNumberUpdate,
-  CapabilitiesRequest,
-  CapabilityValue
+  PhoneNumberCapabilitiesRequest,
+  PhoneNumberCapabilityValue
 } from "./generated/src/models";

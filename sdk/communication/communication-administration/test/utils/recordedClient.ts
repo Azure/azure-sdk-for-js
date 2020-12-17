@@ -12,7 +12,7 @@ import {
   isPlaybackMode
 } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
-import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
+import { CommunicationIdentityClient, PhoneNumbersClient } from "../../src";
 
 if (isNode) {
   dotenv.config();
@@ -71,15 +71,15 @@ export function createRecordedCommunicationIdentityClient(
   };
 }
 
-export function createRecordedPhoneNumberAdministrationClient(
+export function createRecordedPhoneNumbersClient(
   context: Context
-): RecordedClient<PhoneNumberAdministrationClient> & {
+): RecordedClient<PhoneNumbersClient> & {
   includePhoneNumberLiveTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+    client: new PhoneNumbersClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder,
     includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
