@@ -32,7 +32,7 @@
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "echo Skipped."
   },
   "dependencies": {
     "@azure/event-hubs": "^2.1.4",
@@ -51,7 +51,6 @@
     "yargs": "^15.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.15.0",
-    "typedoc": "0.15.0"
+    "eslint": "^7.15.0"
   }
 }
