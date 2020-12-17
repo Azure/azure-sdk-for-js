@@ -13,7 +13,7 @@ export default function TodoList(): JSX.Element {
   // Initialize the hooks needed for integrating with our Azure services.
   const [todos, addTodo, updateTodo] = useTodos();
   const [note, setNote] = useState<string | undefined>();
-  const [getBlob] = useBlobs();
+  const getBlob = useBlobs();
 
   const [newTodoLabel, setNewTodoLabel] = useState("");
 

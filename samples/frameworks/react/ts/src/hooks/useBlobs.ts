@@ -13,7 +13,13 @@ import { useEffect, useRef } from "react";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { credential, getEnvironmentVariable } from "../utils";
 
-const useBlobs: () => ((blobName: string) => Promise<Blob | undefined>)[] = () => {
+type Hook = () => (blobName: string) => Promise<Blob | undefined>;
+
+/**
+ * The Azure Blob hook exposes a single method that allows you
+ * to fetch an Azure Blob given a name.
+ */
+const useBlobs: Hook = () => {
   // Keep a reference to a client for a Blob Container
   // in order to lazy-load it as needed.
   // For more information about Azure Blob Storage container
@@ -48,7 +54,7 @@ const useBlobs: () => ((blobName: string) => Promise<Blob | undefined>)[] = () =
     }
   }, []);
 
-  return [getBlob];
+  return getBlob;
 };
 
 export { useBlobs };

@@ -20,8 +20,13 @@ import { credential, getEnvironmentVariable } from "../utils";
 
 type Hook = (
   callBack: (EventData: EventData) => Promise<void>
-) => [(event: EventData) => Promise<void>];
+) => (event: EventData) => Promise<void>;
 
+/**
+ * The EventHubs hook accepts a callback function and returns a function
+ * that allows you to publish events to EventHubs.
+ * @param callback The function to be called for every EventHubs message
+ */
 const useEventHubs: Hook = (callback) => {
   // Keep a reference on our consumer and producer EventHubs
   // clients in order to lazy-load them as needed.
@@ -30,8 +35,8 @@ const useEventHubs: Hook = (callback) => {
 
   /**
    * Publish an event to an EventHubs instance using the
-   * default settings defined in environment variables.
-   * @param event The event to publish to EventHubs
+   * settings defined in environment variables.
+   * @param event The event to publish to EventHubs.
    */
   const publishEvent = async (event: EventData) => {
     if (!producer.current) {
@@ -93,7 +98,7 @@ const useEventHubs: Hook = (callback) => {
     };
   }, []);
 
-  return [publishEvent];
+  return publishEvent;
 };
 
 export { useEventHubs };

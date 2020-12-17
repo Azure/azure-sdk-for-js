@@ -23,8 +23,13 @@ import { getEnvironmentVariable } from "../utils";
 
 type Hook = (
   callback: (message: ServiceBusMessage) => void
-) => [(message: ServiceBusMessage) => Promise<void>];
+) => (message: ServiceBusMessage) => Promise<void>;
 
+/**
+ * The ServiceBus hook accepts a callback function and returns a function
+ * that allows you to publish messages to ServiceBus.
+ * @param callback The function to be called for every ServiceBus message
+ */
 const useServiceBus: Hook = (callback) => {
   // Keep a reference on our sender and receiver ServiceBus
   // clients in order to lazy-load them as needed.
@@ -79,7 +84,7 @@ const useServiceBus: Hook = (callback) => {
     };
   }, []);
 
-  return [sendMessage];
+  return sendMessage;
 };
 
 export { useServiceBus };

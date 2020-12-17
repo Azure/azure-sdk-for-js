@@ -21,8 +21,16 @@ export interface Todo {
   noteFileName?: string;
 }
 
-type Hook = [Todo[], (todo: Todo) => Promise<void>, (todo: Todo) => Promise<void>];
+type Todos = Todo[];
+type AddTodo = (todo: Todo) => Promise<void>;
+type UpdateTodo = (todo: Todo) => Promise<void>;
+type Hook = [Todos, AddTodo, UpdateTodo];
 
+/**
+ * The useTodos hook is the main entrypoint for most of the todo
+ * lifecycle management. It exposes the current todos state, a method
+ * to add a new todo, and a method to update an existing todo.
+ */
 export const useTodos: () => Hook = () => {
   // Set up a hardcoded list of Todos for this example.
   // In a production application you might fetch these from
@@ -47,7 +55,7 @@ export const useTodos: () => Hook = () => {
   const onServiceBusMessage = (message: ServiceBusMessage) => {
     console.log("Received message for processing", message.body);
   };
-  const [publishtoServiceBus] = useServiceBus(onServiceBusMessage);
+  const publishtoServiceBus = useServiceBus(onServiceBusMessage);
 
   // An example of using EventHubs to process events which will
   // be published to every consumer. For simplicity we just override
@@ -60,7 +68,7 @@ export const useTodos: () => Hook = () => {
       setTodos(todos);
     }
   };
-  const [publishToEventHubs] = useEventHubs(onEventHubMessage);
+  const publishToEventHubs = useEventHubs(onEventHubMessage);
 
   const addTodo = async (todo: Todo): Promise<void> => onChange([todo, ...todos]);
 
