@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, executeParallel } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
@@ -24,11 +24,14 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
 
   public async globalSetup() {
     await super.globalSetup();
-    const tasks = [];
-    for (let i = 0; i < this.parsedOptions.count.value!; i++) {
-      tasks.push(this.containerClient.uploadBlockBlob(`blob-${i}`, Buffer.alloc(0), 0));
-    }
-    await Promise.all(tasks);
+    await executeParallel(
+      async (count: number, parallelIndex: number) => {
+        await this.containerClient.uploadBlockBlob(`blob-${count}`, Buffer.alloc(0), 0);
+        console.log(`[` + parallelIndex + `] ` + count);
+      },
+      this.parsedOptions.count.value!,
+      1000
+    );
   }
 
   async runAsync(): Promise<void> {
