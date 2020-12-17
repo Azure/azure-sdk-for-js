@@ -9,11 +9,6 @@
     "inlineSources": false,
     "outDir": "samples/typescript/dist"
   },
-  "include": [
-    "typescript/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*",
-    "test/**/*"
-  ]
+  "include": ["typescript/**/*.ts"],
+  "exclude": ["src/**/*", "test/**/*"]
 }
