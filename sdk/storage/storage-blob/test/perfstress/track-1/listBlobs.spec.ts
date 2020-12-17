@@ -36,7 +36,10 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     // List blobs
     let marker = undefined;
     do {
-      marker = (await this.containerClient.listBlobFlatSegment(Aborter.none, marker)).nextMarker;
+      const segmentResponse = await this.containerClient.listBlobFlatSegment(Aborter.none, marker);
+      for (const _ of segmentResponse.segment.blobItems) {
+      }
+      marker = segmentResponse.nextMarker;
     } while (marker);
   }
 }
