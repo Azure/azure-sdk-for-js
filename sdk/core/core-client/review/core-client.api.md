@@ -245,7 +245,6 @@ export interface OperationRequestOptions {
 export interface OperationResponse {
     // (undocumented)
     [key: string]: any;
-    _response: FullOperationResponse;
 }
 
 // @public

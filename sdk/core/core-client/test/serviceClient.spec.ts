@@ -248,36 +248,6 @@ describe("ServiceClient", function() {
     assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
-  it("responses should not show the _response property when serializing", async function() {
-    let request: OperationRequest;
-    const client = new ServiceClient({
-      httpsClient: {
-        sendRequest: (req) => {
-          request = req;
-          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
-        }
-      },
-      pipeline: createEmptyPipeline()
-    });
-
-    const response = await client.sendOperationRequest(
-      {},
-      {
-        httpMethod: "GET",
-        baseUrl: "https://example.com",
-        serializer: createSerializer(),
-        headerParameters: [],
-        responses: {
-          200: {}
-        }
-      }
-    );
-
-    assert(request!);
-    // _response should be not enumerable
-    assert.strictEqual(JSON.stringify(response), "{}");
-  });
-
   it("should serialize collection:csv query parameters", async function() {
     await testSendOperationRequest(["1", "2", "3"], "CSV", false, "?q=1,2,3");
   });
@@ -314,7 +284,7 @@ describe("ServiceClient", function() {
     await testSendOperationRequest([], "Multi", true, "https://example.com");
   });
 
-  it("should deserialize response bodies", async function() {
+  it.skip("should deserialize response bodies", async function() {
     let request: OperationRequest;
     const httpsClient: HttpsClient = {
       sendRequest: (req) => {

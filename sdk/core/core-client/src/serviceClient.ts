@@ -25,7 +25,6 @@ import {
 } from "./interfaces";
 import { isStreamOperation } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
-import { isPrimitiveType } from "./utils";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 import { URL } from "./url";
 import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
@@ -289,25 +288,14 @@ function flattenResponse(
   const parsedHeaders = fullResponse.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
-  function addResponse<T extends object>(
-    obj: T
-  ): T & { readonly _response: FullOperationResponse } {
-    return Object.defineProperty(obj, "_response", {
-      configurable: false,
-      enumerable: false,
-      writable: false,
-      value: fullResponse
-    });
-  }
-
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
     if (typeName === "Stream") {
-      return addResponse({
+      return {
         ...parsedHeaders,
         blobBody: fullResponse.blobBody,
         readableStreamBody: fullResponse.readableStreamBody
-      });
+      };
     }
 
     const modelProperties =
@@ -330,32 +318,21 @@ function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return addResponse(arrayResponse);
+      return arrayResponse;
     }
 
     if (typeName === "Composite" || typeName === "Dictionary") {
-      return addResponse({
+      return {
         ...parsedHeaders,
         ...fullResponse.parsedBody
-      });
+      };
     }
   }
 
-  if (
-    bodyMapper ||
-    fullResponse.request.method === "HEAD" ||
-    isPrimitiveType(fullResponse.parsedBody)
-  ) {
-    return addResponse({
-      ...parsedHeaders,
-      body: fullResponse.parsedBody
-    });
-  }
-
-  return addResponse({
+  return {
     ...parsedHeaders,
     ...fullResponse.parsedBody
-  });
+  };
 }
 
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {

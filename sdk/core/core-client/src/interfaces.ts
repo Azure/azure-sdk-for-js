@@ -337,11 +337,6 @@ export interface FullOperationResponse extends PipelineResponse {
  * Contains merged properties of the parsed body and headers.
  */
 export interface OperationResponse {
-  /**
-   * The underlying HTTP response containing both raw and deserialized response data.
-   */
-  _response: FullOperationResponse;
-
   [key: string]: any;
 }
 
