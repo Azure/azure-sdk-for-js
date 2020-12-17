@@ -18,9 +18,6 @@ export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
   accountName: string;
   /**
    * Generates a hash signature for an HTTP request or for a SAS.
-   *
-   * @param stringToSign -
-   * @returns
    */
   computeHMACSHA256: (stringToSign: string) => string;
 }
@@ -43,8 +40,6 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
 
   /**
    * Creates an instance of TablesSharedKeyCredential.
-   * @param accountName -
-   * @param accountKey -
    */
   constructor(accountName: string, accountKey: string) {
     this.accountName = accountName;
@@ -53,10 +48,6 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
 
   /**
    * Creates a {@link TablesSharedKeyCredentialPolicy} object.
-   *
-   * @param nextPolicy -
-   * @param options -
-   * @returns
    */
   public create(
     nextPolicy: RequestPolicy,
@@ -67,9 +58,6 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
 
   /**
    * Generates a hash signature for an HTTP request or for a SAS.
-   *
-   * @param stringToSign -
-   * @returns
    */
   public computeHMACSHA256(stringToSign: string): string {
     return createHmac("sha256", this.accountKey)

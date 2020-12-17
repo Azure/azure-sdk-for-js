@@ -33,7 +33,6 @@ export async function generateKey(secret: string, stringToSign: string): Promise
  * @internal
  * @ignore
  * @param {string} value
- * @returns
  */
 function convertToUint8Array(value: string) {
   const arr = new Uint8Array(value.length);

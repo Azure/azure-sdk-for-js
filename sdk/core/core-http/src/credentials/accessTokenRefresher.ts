@@ -43,7 +43,6 @@ export class AccessTokenRefresher {
   /**
    * Requests a new token if we're not currently waiting for a new token.
    * Returns null if the required time between each call hasn't been reached.
-   * @param options -
    */
   public refresh(options: GetTokenOptions): Promise<AccessToken | undefined> {
     if (!this.promise) {
