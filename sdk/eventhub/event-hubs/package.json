@@ -29,8 +29,7 @@
     }
   },
   "browser": {
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
   "engine": {
     "node": ">=8.0.0"

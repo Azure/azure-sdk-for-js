@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 
 import { ConnectionConfig } from "@azure/core-amqp";
-import { URL } from "./util/url";
+import { parseEndpoint } from "./util/parseEndpoint";
 
 /**
  * Describes the connection config object that is created after parsing an EventHub connection
@@ -153,7 +153,7 @@ export const EventHubConnectionConfig = {
   setCustomEndpointAddress(config: EventHubConnectionConfig, customEndpointAddress: string): void {
     // The amqpHostname should match the host prior to using the custom endpoint.
     config.amqpHostname = config.host;
-    const { hostname, port } = new URL(customEndpointAddress);
+    const { hostname, port } = parseEndpoint(customEndpointAddress);
     // Since we specify the port separately, set host to the customEndpointAddress hostname.
     config.host = hostname;
     if (port) {
