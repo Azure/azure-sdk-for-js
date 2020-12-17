@@ -28,12 +28,6 @@ export interface AcquiredPhoneNumber {
 }
 
 // @public
-export interface AcquiredPhoneNumbers {
-    nextLink?: string;
-    value: AcquiredPhoneNumber[];
-}
-
-// @public
 export interface AcquiredPhoneNumberUpdate {
     applicationId?: string;
     callbackUri?: string;
@@ -136,10 +130,11 @@ export class PhoneNumbersClient {
     beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginSearchAvailablePhoneNumbers(countryCode: string, search: PhoneNumberSearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
-    beginUpdatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
+    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
-    }
+    updatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: UpdatePhoneNumberOptions): Promise<UpdatePhoneNumberResponse>;
+}
 
 // @public
 export interface PhoneNumbersClientOptions extends PipelineOptions {
@@ -170,6 +165,12 @@ export type PhoneNumberType = "tollFree" | "geographic";
 
 // @public
 export type TokenScope = "chat" | "voip" | "pstn";
+
+// @public (undocumented)
+export type UpdatePhoneNumberOptions = OperationOptions;
+
+// @public (undocumented)
+export type UpdatePhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 // @public
 export type VoidResponse = WithResponse<{}>;

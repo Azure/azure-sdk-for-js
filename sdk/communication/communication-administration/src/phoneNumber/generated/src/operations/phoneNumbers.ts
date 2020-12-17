@@ -202,30 +202,18 @@ export class PhoneNumbers {
    * @param update Update to an acquired phone number.
    * @param options The options parameters.
    */
-  async updatePhoneNumber(
+  updatePhoneNumber(
     phoneNumber: string,
     update: AcquiredPhoneNumberUpdate,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<PhoneNumbersUpdatePhoneNumberResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(options);
-
-    const args: coreHttp.OperationArguments = {
-      phoneNumber,
-      update,
-      options: operationOptions
-    };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) =>
-      this.client.sendOperationRequest(args, spec) as Promise<
-        PhoneNumbersUpdatePhoneNumberResponse
-      >;
-    const initialOperationResult = await sendOperation(args, updatePhoneNumberOperationSpec);
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: updatePhoneNumberOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
+  ): Promise<PhoneNumbersUpdatePhoneNumberResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.client.sendOperationRequest(
+      { phoneNumber, update, options: operationOptions },
+      updatePhoneNumberOperationSpec
+    ) as Promise<PhoneNumbersUpdatePhoneNumberResponse>;
   }
 
   /**
@@ -460,15 +448,6 @@ const updatePhoneNumberOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AcquiredPhoneNumber
-    },
-    201: {
-      bodyMapper: Mappers.AcquiredPhoneNumber
-    },
-    202: {
-      bodyMapper: Mappers.AcquiredPhoneNumber
-    },
-    204: {
       bodyMapper: Mappers.AcquiredPhoneNumber
     },
     default: {

@@ -37,7 +37,12 @@ import {
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult
 } from "./generated/src/models";
-import { GetPhoneNumberOptions, ListPhoneNumbersOptions, UpdatePhoneNumberOptions } from "./models";
+import {
+  GetPhoneNumberOptions,
+  ListPhoneNumbersOptions,
+  UpdatePhoneNumberOptions,
+  UpdatePhoneNumberResponse
+} from "./models";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -57,7 +62,7 @@ export class PhoneNumbersClient {
   private readonly client: GeneratedClient;
 
   /**
-   * Initializes a new instance of the PhoneNumberAdministrationClient class.
+   * Initializes a new instance of the PhoneNumbersClient class.
    * @param connectionString Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
    * @param options Optional. Options to configure the HTTP pipeline.
@@ -65,7 +70,7 @@ export class PhoneNumbersClient {
   public constructor(connectionString: string, options?: PhoneNumbersClientOptions);
 
   /**
-   * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
+   * Initializes a new instance of the PhoneNumbersClient class using an Azure KeyCredential.
    * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
    * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options Optional. Options to configure the HTTP pipeline.
@@ -108,7 +113,8 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Search for available phone numbers to purchase.
+   * Starts the search for available phone numbers to purchase.
+   *
    * @param countryCode The ISO 3166-2 country code.
    * @param search The search request.
    * @param options The options parameters.
@@ -118,7 +124,17 @@ export class PhoneNumbersClient {
     search: PhoneNumberSearchRequest,
     options?: BeginSearchAvailablePhoneNumbersOptions
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
-    return this.client.searchAvailablePhoneNumbers(countryCode, search, options) as any;
+    const poller = await this.client.searchAvailablePhoneNumbers(countryCode, search, options);
+    // const finalPoller: PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult> = {
+
+    //   cancelOperation: (options?: {
+    //     abortSignal?: AbortSignalLike;
+    // }): Promise<void> => {
+    //   return this.client.cancelOperation(poller.toString())
+    // }
+    // }
+
+    return poller as any;
   }
 
   /**
@@ -173,7 +189,7 @@ export class PhoneNumbersClient {
    *
    * Example usage:
    * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
+   * let client = new PhoneNumbersClient(credentials);
    * for await (const acquired of client.listPhoneNumbers()) {
    *   console.log("phone number: ", acquired.phoneNumber);
    * }
@@ -184,10 +200,7 @@ export class PhoneNumbersClient {
   public listPhoneNumbers(
     options: ListPhoneNumbersOptions = {}
   ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listAllPhoneNumbers",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PhoneNumbersClient-listPhoneNumbers", options);
     const iter = this.listPhoneNumbersAll(options);
 
     span.end();
@@ -209,7 +222,7 @@ export class PhoneNumbersClient {
    *
    * Example usage:
    * ```ts
-   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+   * const client = new PhoneNumbersClient(CONNECTION_STRING);
    * const releasePoller = await client.beginReleasePhoneNumbers(PHONE_NUMBERS);
    *
    * // Serializing the poller
@@ -230,14 +243,14 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Starts the purchase of the phone number(s) in the reservation associated with a given id.
+   * Starts the purchase of the phone number(s) in the search result associated with a given id.
    *
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
    *
    * Example usage:
    * ```ts
-   * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const purchasePoller = await client.beginPurchaseReservation(RESERVATION_ID);
+   * const client = new PhoneNumbersClient(CONNECTION_STRING);
+   * const purchasePoller = await client.beginPurchasePhoneNumbers(SEARCH_ID);
    *
    * // Serializing the poller
    * const serialized = purchasePoller.toString();
@@ -281,12 +294,28 @@ export class PhoneNumbersClient {
     phoneNumber: string,
     update: AcquiredPhoneNumberUpdate,
     options?: UpdatePhoneNumberOptions
-  ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
-    return this.client.updatePhoneNumber(phoneNumber, update, options) as any;
+  ): Promise<UpdatePhoneNumberResponse> {
+    return this.client.updatePhoneNumber(phoneNumber, update, options);
   }
 
   /**
-   * Update capabilities of an acquired phone number.
+   * Starts the update of capabilities for an acquired phone number.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the operation is complete.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new PhoneNumbersClient(CONNECTION_STRING);
+   * const updatePoller = await client.beginUpdatePhoneNumberCapabilities(PHONE_NUMBER, { sms: "inbound+outbound" });
+   *
+   * // Serializing the poller
+   * const serialized = updatePoller.toString();
+   *
+   * // Waiting until it's done
+   * const results = await updatePoller.pollUntilDone();
+   * console.log(results);
+   * ```
+   *
    * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
    *                    as %2B.
    * @param request The new set of capabilities.
@@ -303,7 +332,6 @@ export class PhoneNumbersClient {
 
 export {
   AcquiredPhoneNumber,
-  AcquiredPhoneNumbers,
   PhoneNumberType,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
