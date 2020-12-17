@@ -68,9 +68,9 @@ export async function setAuthorizationHeader(
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
       await clientOptions.tokenProvider({ verb, path, resourceId, resourceType, headers })
     );
-  } else if (clientOptions.aadToken) {
+  } else if (clientOptions.aadCredential) {
     const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-    const authorizationToken = `${AUTH_PREFIX}${clientOptions.aadToken}`;
+    const authorizationToken = `${AUTH_PREFIX}${clientOptions.aadCredential.token}`;
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(authorizationToken);
   }
 }

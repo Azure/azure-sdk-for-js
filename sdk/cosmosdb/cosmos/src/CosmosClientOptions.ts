@@ -28,8 +28,15 @@ export interface CosmosClientOptions {
    * Allows users to generating their own auth tokens, potentially using a separate service
    */
   tokenProvider?: TokenProvider;
-  /** AAD token from @azure/identity */
-  aadToken?: string;
+  /** AAD token from @azure/identity
+   * Obtain a credential object by creating an @azure/identity credential object
+   * We will then use your credential object and a scope URL (your cosmos db endpoint)
+   * e.g., https://zfoster-rbactest-1.documents.azure.com/.default
+   */
+  aadCredentials?: {
+    credentials: any,
+    scope: string
+  };
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.
