@@ -38,7 +38,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run --testMode=unit && npm run integration-test:browser",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js && npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -115,7 +116,8 @@
     "dotenv": "^8.2.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "rollup-plugin-shim": "^1.0.0",
-    "@rollup/plugin-inject": "^4.0.0"
+    "@rollup/plugin-inject": "^4.0.0",
+    "typedoc": "0.15.0"
   },
   "//metadata": {
     "constantPaths": [

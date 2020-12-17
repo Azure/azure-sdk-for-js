@@ -288,7 +288,6 @@ export class ManagementClient extends LinkEntity {
    * Closes the AMQP management session to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @ignore
-   * @returns
    */
   async close(): Promise<void> {
     try {

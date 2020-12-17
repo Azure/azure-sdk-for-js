@@ -31,7 +31,8 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "build:samples": "echo Skipped."
+    "build:samples": "echo Skipped.",
+    "docs": "echo Skipped."
   },
   "dependencies": {
     "@azure/event-hubs": "^2.1.4",

@@ -31,7 +31,8 @@
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
     "test": "npm run clean && npm run build && npm run unit-test",
-    "build:samples": "echo Skipped."
+    "build:samples": "echo Skipped.",
+    "docs": "echo Skipped."
   },
   "files": [
     "dist/",
