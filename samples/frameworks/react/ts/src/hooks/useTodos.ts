@@ -21,11 +21,9 @@ export interface Todo {
   noteFileName?: string;
 }
 
-export const useTodos: () => [
-  Todo[],
-  (todo: Todo) => Promise<void>,
-  (todo: Todo) => Promise<void>
-] = () => {
+type Hook = [Todo[], (todo: Todo) => Promise<void>, (todo: Todo) => Promise<void>];
+
+export const useTodos: () => Hook = () => {
   // Set up a hardcoded list of Todos for this example.
   // In a production application you might fetch these from
   // a database like Cosmos DB on render.

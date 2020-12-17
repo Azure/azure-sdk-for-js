@@ -18,9 +18,11 @@ import {
 } from "@azure/event-hubs";
 import { credential, getEnvironmentVariable } from "../utils";
 
-const useEventHubs: (
-  callback: (eventData: EventData) => Promise<void>
-) => [(event: EventData) => Promise<void>] = (callback) => {
+type Hook = (
+  callBack: (EventData: EventData) => Promise<void>
+) => [(event: EventData) => Promise<void>];
+
+const useEventHubs: Hook = (callback) => {
   // Keep a reference on our consumer and producer EventHubs
   // clients in order to lazy-load them as needed.
   const consumer = useRef<EventHubConsumerClient>();
