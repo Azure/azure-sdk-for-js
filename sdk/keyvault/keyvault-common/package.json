@@ -53,7 +53,8 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test:node:no-timeout": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "echo Skipped."
   },
   "dependencies": {
     "@azure/core-http": "^1.2.0",
