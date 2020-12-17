@@ -34,8 +34,8 @@ export interface CosmosClientOptions {
    * e.g., https://zfoster-rbactest-1.documents.azure.com/.default
    */
   aadCredentials?: {
-    credentials: any,
-    scope: string
+    credentials: any;
+    scope: string;
   };
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
