@@ -1,0 +1,5 @@
+export const IPC_MESSAGES = {
+  LOGIN: "LOGIN",
+  LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGOUT: "LOGOUT",
+};
