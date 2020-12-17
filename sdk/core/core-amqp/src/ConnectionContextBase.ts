@@ -144,7 +144,7 @@ export const ConnectionContextBase = {
       (!isNode && typeof window !== "undefined" && (window as any).WebSocket)
     ) {
       const socket = parameters.config.webSocket || (window as any).WebSocket;
-      const host = connectionOptions.host;
+      const host = parameters.config.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};
       const port = parameters.config.port ?? 443;
