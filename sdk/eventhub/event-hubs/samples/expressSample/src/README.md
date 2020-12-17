@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-event-hubs
-urlFragment: event-hubs-typescript-express-node
----
-
 # Azure Event Hubs client library express samples for Typescript
 
 This sample programs show how to use the JavaScript client libraries for Azure Event Hubs to send events in the node express framework.
