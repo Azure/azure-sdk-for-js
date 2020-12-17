@@ -115,6 +115,8 @@ export interface EventHubClientOptions {
    * This can be useful when your network does not allow connecting to the
    * standard Azure Event Hubs endpoint address, but does allow connecting
    * through an intermediary.
+   *
+   * Example: "https://my.custom.endpoint:100/"
    */
   customEndpointAddress?: string;
   /**
