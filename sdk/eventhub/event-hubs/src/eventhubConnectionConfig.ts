@@ -151,8 +151,8 @@ export const EventHubConnectionConfig = {
    * @param customEndpointAddress The custom endpoint address to use.
    */
   setCustomEndpointAddress(config: EventHubConnectionConfig, customEndpointAddress: string): void {
-    // The hostname should match the host prior to using the custom endpoint.
-    config.hostname = config.host;
+    // The amqpHostname should match the host prior to using the custom endpoint.
+    config.amqpHostname = config.host;
     const { hostname, port } = new URL(customEndpointAddress);
     // Since we specify the port separately, set host to the customEndpointAddress hostname.
     config.host = hostname;

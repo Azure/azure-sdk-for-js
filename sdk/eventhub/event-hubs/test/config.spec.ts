@@ -123,7 +123,7 @@ describe("ConnectionConfig", function() {
           .should.equal("sb://hostname.servicebus.windows.net/ep/ConsumerGroups/cg/Partitions/0");
 
         EventHubConnectionConfig.setCustomEndpointAddress(config, "https://foo.private.endpoint");
-        config.should.have.property("hostname").that.equals("hostname.servicebus.windows.net");
+        config.should.have.property("amqpHostname").that.equals("hostname.servicebus.windows.net");
         config.should.have.property("host").that.equals("foo.private.endpoint");
         config.should.not.have.property("port");
       });
@@ -177,7 +177,7 @@ describe("ConnectionConfig", function() {
           config,
           "https://foo.private.endpoint:1111"
         );
-        config.should.have.property("hostname").that.equals("hostname.servicebus.windows.net");
+        config.should.have.property("amqpHostname").that.equals("hostname.servicebus.windows.net");
         config.should.have.property("host").that.equals("foo.private.endpoint");
         config.should.have.property("port").that.equals(1111);
       });

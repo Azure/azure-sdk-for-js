@@ -111,7 +111,7 @@ export enum CloseReason {
  */
 export interface EventHubClientOptions {
   /**
-   * A custom endpoint to use when connection to the Event Hubs service.
+   * A custom endpoint to use when connecting to the Event Hubs service.
    * This can be useful when your network does not allow connecting to the
    * standard Azure Event Hubs endpoint address, but does allow connecting
    * through an intermediary.
