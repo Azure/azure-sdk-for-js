@@ -9,3 +9,4 @@ import { OperationOptions } from "@azure/core-http";
  */
 export type ListPhoneNumbersOptions = OperationOptions;
 export type GetPhoneNumberOptions = OperationOptions;
+export type UpdatePhoneNumberOptions = OperationOptions;

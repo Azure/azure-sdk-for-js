@@ -33,10 +33,11 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AcquiredPhoneNumber,
   AcquiredPhoneNumberUpdate,
+  PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchRequest,
-  PhoneNumberSearchResult,
+  PhoneNumberSearchResult
 } from "./generated/src/models";
-import { GetPhoneNumberOptions, ListPhoneNumbersOptions } from "./models";
+import { GetPhoneNumberOptions, ListPhoneNumbersOptions, UpdatePhoneNumberOptions } from "./models";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -276,12 +277,27 @@ export class PhoneNumbersClient {
    * @param update Update to an acquired phone number.
    * @param options The options parameters.
    */
-  public async beginUpdatePhoneNumber(
+  public async updatePhoneNumber(
     phoneNumber: string,
     update: AcquiredPhoneNumberUpdate,
-    options?: BeginUpdatePhoneNumberOptions
+    options?: UpdatePhoneNumberOptions
   ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
     return this.client.updatePhoneNumber(phoneNumber, update, options) as any;
+  }
+
+  /**
+   * Update capabilities of an acquired phone number.
+   * @param phoneNumber The phone number id in E.164 format. The leading plus can be either + or encoded
+   *                    as %2B.
+   * @param request The new set of capabilities.
+   * @param options The options parameters.
+   */
+  public async beginUpdatePhoneNumberCapabilities(
+    phoneNumber: string,
+    request: PhoneNumberCapabilitiesRequest,
+    options?: BeginUpdatePhoneNumberOptions
+  ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
+    return this.client.updatePhoneNumberCapabilities(phoneNumber, request, options) as any;
   }
 }
 
