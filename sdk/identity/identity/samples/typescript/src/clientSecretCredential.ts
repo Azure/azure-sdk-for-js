@@ -9,9 +9,9 @@ require("dotenv").config();
 
 export async function main(): Promise<void> {
   const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID,    // The tenant ID in Azure Active Directory
-    process.env.AZURE_CLIENT_ID,    // The application (client) ID registered in the AAD tenant
-    process.env.AZURE_CLIENT_SECRET // The client secret for the registered application
+    process.env.AZURE_TENANT_ID!,    // The tenant ID in Azure Active Directory
+    process.env.AZURE_CLIENT_ID!,    // The application (client) ID registered in the AAD tenant
+    process.env.AZURE_CLIENT_SECRET! // The client secret for the registered application
   );
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;

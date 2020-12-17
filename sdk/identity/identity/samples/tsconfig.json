@@ -10,7 +10,7 @@
     "outDir": "samples/typescript/dist"
   },
   "include": [
-    "**/*.ts"
+    "typescript/**/*.ts"
   ],
   "exclude": [
     "src/**/*",

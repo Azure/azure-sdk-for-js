@@ -7,7 +7,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 // Load the .env file if it exists
 require("dotenv").config();
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   // EnvironmentCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
