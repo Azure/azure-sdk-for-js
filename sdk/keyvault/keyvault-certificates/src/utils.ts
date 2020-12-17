@@ -7,7 +7,7 @@ import { CertificateContentType } from "./certificatesModels";
 /**
  * Decodes a Uint8Array into a Base64 string.
  * @internal
- * @param bytes Uint8Array
+ * @param bytes -
  */
 export function toBase64(bytes: Uint8Array): string {
   if (isNode) {
@@ -20,7 +20,7 @@ export function toBase64(bytes: Uint8Array): string {
 /**
  * Decodes a Uint8Array into an ASCII string.
  * @internal
- * @param bytes Uint8Array
+ * @param bytes -
  */
 export function toAscii(bytes: Uint8Array): string {
   if (isNode) {
@@ -33,7 +33,7 @@ export function toAscii(bytes: Uint8Array): string {
 /**
  * Encodes a JavaScript string into a Uint8Array.
  * @internal
- * @param value string
+ * @param value -
  */
 export function stringToUint8Array(value: string): Uint8Array {
   if (isNode) {
@@ -46,7 +46,7 @@ export function stringToUint8Array(value: string): Uint8Array {
 /**
  * Encodes a Base64 string into a Uint8Array.
  * @internal
- * @param value string
+ * @param value -
  */
 export function base64ToUint8Array(value: string): Uint8Array {
   if (isNode) {
@@ -61,8 +61,8 @@ export function base64ToUint8Array(value: string): Uint8Array {
  * into a Base64 encoded string.
  *
  * @internal
- * @param certificateBytes The PFX or ASCII PEM formatted value of the certificate containing both the X.509 certificates and the private key
- * @param contentType "application/x-pem-file", "application/x-pkcs12" or undefined
+ * @param certificateBytes - The PFX or ASCII PEM formatted value of the certificate containing both the X.509 certificates and the private key
+ * @param contentType - "application/x-pem-file", "application/x-pkcs12" or undefined
  */
 export function parseCertificateBytes(
   certificateBytes: Uint8Array,

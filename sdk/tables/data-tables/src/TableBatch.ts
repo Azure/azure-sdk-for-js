@@ -51,9 +51,9 @@ export class TableBatchImpl implements TableBatch {
   public readonly partitionKey: string;
 
   /**
-   * @param url Tables account url
-   * @param partitionKey partition key
-   * @param credential credential to authenticate the batch request
+   * @param url - Tables account url
+   * @param partitionKey - partition key
+   * @param credential - credential to authenticate the batch request
    */
   constructor(
     url: string,
@@ -87,7 +87,7 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds a createEntity operation to the batch
-   * @param entity Entity to create
+   * @param entity - Entity to create
    */
   public createEntity<T extends object>(entity: TableEntity<T>): void {
     this.checkPartitionKey(entity.partitionKey);
@@ -96,10 +96,10 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds a createEntity operation to the batch per each entity in the entities array
-   * @param entitites Array of entities to create
+   * @param entities - Array of entities to create
    */
-  public createEntities<T extends object>(entitites: TableEntity<T>[]): void {
-    for (const entity of entitites) {
+  public createEntities<T extends object>(entities: TableEntity<T>[]): void {
+    for (const entity of entities) {
       this.checkPartitionKey(entity.partitionKey);
       this.pendingOperations.push(this.interceptClient.createEntity(entity));
     }
@@ -107,9 +107,9 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds a deleteEntity operation to the batch
-   * @param partitionKey partition key of the entity to delete
-   * @param rowKey row key of the entity to delete
-   * @param options options for the delete operation
+   * @param partitionKey - Partition key of the entity to delete
+   * @param rowKey - Row key of the entity to delete
+   * @param options - Options for the delete operation
    */
   public deleteEntity(
     partitionKey: string,
@@ -122,9 +122,9 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds an updateEntity operation to the batch
-   * @param entity entity to update
-   * @param mode update mode (Merge or Replace)
-   * @param options options for the update operation
+   * @param entity - Entity to update
+   * @param mode - Update mode (Merge or Replace)
+   * @param options - Options for the update operation
    */
   public updateEntity<T extends object>(
     entity: TableEntity<T>,
@@ -245,9 +245,8 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
 
 /**
  * Prepares the operation url to be added to the body, removing the SAS token if present
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @param url - Source URL string
+ * @returns
  */
 function getSubRequestUrl(url: string): string {
   const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];
@@ -258,7 +257,7 @@ function getSubRequestUrl(url: string): string {
 
 /**
  * This method creates a batch request object that provides functions to build the envelope and body for a batch request
- * @param batchGuid Id of the batch
+ * @param batchGuid - Id of the batch
  */
 export function createInnerBatchRequest(batchGuid: string, changesetId: string): InnerBatchRequest {
   const HTTP_LINE_ENDING = "\r\n";

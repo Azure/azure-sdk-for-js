@@ -110,7 +110,8 @@ export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFo
 
 /**
  * Creates a poll operation given the provided state.
- * @ignore
+ * @internal
+ * @hidden
  */
 function makeBeginTrainingPollOperation(
   client: TrainPollerClient,

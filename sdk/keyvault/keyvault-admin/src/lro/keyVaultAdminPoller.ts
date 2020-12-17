@@ -76,7 +76,6 @@ export abstract class KeyVaultAdminPoller<
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
-   * @memberof DeleteKeyPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

@@ -43,14 +43,10 @@ export function systemErrorRetryPolicy(
 }
 
 /**
- * @class
- * Instantiates a new "ExponentialRetryPolicyFilter" instance.
- *
- * @constructor
- * @param {number} retryCount        The client retry count.
- * @param {number} retryInterval     The client retry interval, in milliseconds.
- * @param {number} minRetryInterval  The minimum retry interval, in milliseconds.
- * @param {number} maxRetryInterval  The maximum retry interval, in milliseconds.
+ * @param retryCount - The client retry count.
+ * @param retryInterval - The client retry interval, in milliseconds.
+ * @param minRetryInterval - The minimum retry interval, in milliseconds.
+ * @param maxRetryInterval - The maximum retry interval, in milliseconds.
  */
 export class SystemErrorRetryPolicy extends BaseRequestPolicy {
   retryCount: number;
