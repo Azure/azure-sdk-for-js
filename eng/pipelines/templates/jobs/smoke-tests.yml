@@ -10,46 +10,41 @@ parameters:
     default: []
 
 jobs:
-  - job: smoke_test_eligibility
-    displayName: Check Smoke Test Eligibility
-    steps:
-      - ${{ if and(eq(parameters.Nightly, false), ne(variables['Skip.Release'], 'true')) }}:
-        - pwsh: |
-            if (!"${{ parameters.ServiceDirectory }}") {
-              Write-Error "ServiceDirectory parameter must be specified"
-              exit 1
-            }
-            $samples = (Get-ChildItem -Path "./sdk/${{ parameters.ServiceDirectory }}/*/samples/javascript/" -Directory
-              | Where-Object { Test-Path "$_/package.json" })
-            $samples | ForEach-Object {
-              $package = Get-Content -Path $_/../../package.json | ConvertFrom-Json -AsHashtable
-              if ($package.ContainsKey('//smokeTestConfiguration') -and $package['//smokeTestConfiguration'].skipFolder) {
-                Write-Host "Smoke tests will NOT run for $($package.name)"
-              } else {
-                Write-Host "Smoke tests will run for $($package.name)"
-                Write-Host "##vso[task.setvariable variable=RunSmokeTests;]true"
+  - ${{ if and(eq(parameters.Nightly, false) }}:
+    - job: smoke_test_eligibility
+      displayName: Check Smoke Test Eligibility
+      steps:
+        - ${{ if and(ne(variables['Skip.Release'], 'true'), ne(artifact.skipPublishPackage, 'true')) }}:
+          - pwsh: |
+              if (!"${{ parameters.ServiceDirectory }}") {
+                Write-Error "ServiceDirectory parameter must be specified"
+                exit 1
               }
-            }
-          name: check_smoke_tests_${{ parameters.ServiceDirectory }}
-          displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
+              $samples = (Get-ChildItem -Path "./sdk/${{ parameters.ServiceDirectory }}/*/samples/javascript/" -Directory
+                | Where-Object { Test-Path "$_/package.json" })
+              $samples | ForEach-Object {
+                $package = Get-Content -Path $_/../../package.json | ConvertFrom-Json -AsHashtable
+                if ($package.ContainsKey('//smokeTestConfiguration') -and $package['//smokeTestConfiguration'].skipFolder) {
+                  Write-Host "Smoke tests will NOT run for $($package.name)"
+                } else {
+                  Write-Host "Smoke tests will run for $($package.name)"
+                  Write-Host "##vso[task.setvariable variable=RunSmokeTests;]true"
+                }
+              }
+            name: check_smoke_tests_${{ parameters.ServiceDirectory }}
+            displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
 
-      - ${{ if eq(parameters.Nightly, true) }}:
         - pwsh: |
-            Write-Host "Smoke tests will run for nightly configuration. Setting RunSmokeTests to $($env:RunSmokeTests)"
-            Write-Host "##vso[task.setvariable variable=RunSmokeTests;]true"
-          name: enable_smoke_tests_nightly
-          displayName: Enable smoke tests for nightly run
-
-      - pwsh: |
-          Write-Host "Setting RunSmokeTests to $($env:RunSmokeTests)"
-          Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]$($env:RunSmokeTests)"
-        name: output_eligibility
-        env:
-          RunSmokeTests: $(RunSmokeTests)
+            Write-Host "Setting RunSmokeTests to $($env:RunSmokeTests)"
+            Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]$($env:RunSmokeTests)"
+          name: output_eligibility
+          env:
+            RunSmokeTests: $(RunSmokeTests)
 
   - job: SmokeTest
-    dependsOn: smoke_test_eligibility
-    condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['output_eligibility.RunSmokeTests'], true))
+    ${{ if eq(parameters.Nightly, false) }}:
+      dependsOn: smoke_test_eligibility
+      condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['output_eligibility.RunSmokeTests'], true))
     strategy:
       matrix:
         Linux Node14 (AzureCloud):
