@@ -24,11 +24,7 @@ In this sample, we build a simple Todo application in React using [create-react-
 
 The samples are compatible with Node.js >= 8.0.0.
 
-Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
-
-```bash
-npm install -g typescript
-```
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
@@ -41,9 +37,15 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 Once the above created you'll want to ensure React has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application.
 
+Install the various packages as well as the TypeScript compiler using:
+
+```bash
+npm install
+```
+
 Run the sample app:
 
-```base
+```bash
 npm start
 ```
 

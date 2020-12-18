@@ -10,8 +10,6 @@
 import { EventData } from "@azure/event-hubs";
 import { useState } from "react";
 import { useEventHubs } from "./useEventHubs";
-import { useServiceBus } from "./useServiceBus";
-import { ServiceBusMessage } from "@azure/service-bus";
 import { v4 as uuid } from "uuid";
 
 export interface Todo {
@@ -49,14 +47,6 @@ export const useTodos: () => Hook = () => {
     }
   ]);
 
-  // An example of using ServiceBus to process messages
-  // by a single consumer. The callback is used to handle
-  // the message.
-  const onServiceBusMessage = (message: ServiceBusMessage) => {
-    console.log("Received message for processing", message.body);
-  };
-  const publishtoServiceBus = useServiceBus(onServiceBusMessage);
-
   // An example of using EventHubs to process events which will
   // be published to every consumer. For simplicity we just override
   // our internal state with whatever the event data is. In a production
@@ -80,7 +70,6 @@ export const useTodos: () => Hook = () => {
   // onChange will publish the new set of todos to all the clients.
   const onChange = async (newTodos: Todo[]): Promise<void> => {
     setTodos(newTodos);
-    publishtoServiceBus({ body: newTodos });
     publishToEventHubs({ body: newTodos });
   };
 
