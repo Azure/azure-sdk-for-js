@@ -89,7 +89,9 @@ Now in `@azure/keyvault-keys` you can create a `KeyClient` using any credential 
 
 You can install them by simply running the following command at the root of your project:
 
-  npm install --save @azure/identity @azure/keyvault-keys
+```
+npm install --save @azure/identity @azure/keyvault-keys
+```
 
 Below is a simple example using both `@azure/keyvault-keys` and [`DefaultAzureCredential`][identity-readme-DAC]:
 
