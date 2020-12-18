@@ -10,13 +10,13 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
   ServiceBusReceiver,
-  ProcessErrorArgs
+  ProcessErrorArgs,
+  ServiceBusSender
 } from "../../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
 
 import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors";
-import { ServiceBusSender } from "../../src";
 import {
   EntityName,
   ServiceBusClientForTests,

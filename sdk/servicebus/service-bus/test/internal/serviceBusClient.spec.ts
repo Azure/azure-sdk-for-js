@@ -11,9 +11,9 @@ import {
   ProcessErrorArgs,
   ServiceBusClient,
   ServiceBusError,
-  ServiceBusSessionReceiver
+  ServiceBusSessionReceiver,
+  ServiceBusSender
 } from "../../src";
-import { ServiceBusSender } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../public/utils/envVarUtils";

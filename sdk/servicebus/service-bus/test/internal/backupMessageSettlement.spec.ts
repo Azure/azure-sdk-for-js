@@ -3,10 +3,9 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage } from "../../src";
+import { delay, ServiceBusMessage, ServiceBusSender } from "../../src";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { ServiceBusSender } from "../../src";
 import {
   EntityName,
   ServiceBusClientForTests,

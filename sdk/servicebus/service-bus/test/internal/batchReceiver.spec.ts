@@ -4,11 +4,10 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage, delay, ProcessErrorArgs } from "../../src";
+import { ServiceBusMessage, delay, ProcessErrorArgs, ServiceBusSender, ServiceBusReceivedMessage } from "../../src";
 import { getAlreadyReceivingErrorMsg, InvalidOperationForPeekedMessage } from "../../src/util/errors";
 import { TestClientType, TestMessage } from "../public/utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { ServiceBusSender } from "../../src";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -18,7 +17,6 @@ import {
   EntityName,
   getRandomTestClientType
 } from "../public/utils/testutils2";
-import { ServiceBusReceivedMessage } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
 

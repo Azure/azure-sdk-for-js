@@ -3,12 +3,10 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../../src";
+import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, ServiceBusReceiver, ServiceBusSender } from "../../src";
 import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../../src/util/errors";
 import { TestMessage, checkWithTimeout, TestClientType } from "../public/utils/testUtils";
 import { DispositionType, ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ServiceBusReceiver } from "../../src";
-import { ServiceBusSender } from "../../src";
 import {
   EntityName,
   ServiceBusClientForTests,
