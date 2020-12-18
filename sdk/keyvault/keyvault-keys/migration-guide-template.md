@@ -49,7 +49,7 @@ Across all of the new Azure client libraries, clients consistently take an endpo
 
 #### Authenticating
 
-Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `2.6.0`. Higher versions are not supported).
+Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `^2.6.0`. Higher versions are not supported).
 
 The dependencies on the `package.json` for a project with `azure-keyvault` would look like the following:
 
