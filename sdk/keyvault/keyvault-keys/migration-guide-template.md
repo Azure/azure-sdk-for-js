@@ -144,63 +144,50 @@ const ecKey2 = await client.createEcKey("MyECKey2");
 
 ### Retrieve a key
 
-In `azure-keyvault` you could retrieve a key (in a `KeyBundle`) by using `getKey` and specifying the desired vault endpoint, key name, and key version. You could retrieve the versions of a key with the `getKeyVersions` method, which returned an iterator-like object.
+In `azure-keyvault` you could retrieve a key (in a `KeyBundle`) by using `getKey` and specifying the desired vault endpoint, key name, and key version. You could retrieve the versions of a key with the `getKeyVersions` method, which returned an array with key items that can be used to retrieve the full key afterwards.
 
 ```js
-YOU ARE HERE
+const keyItems = await client.getKeyVersions(vaultUrl, "MyKey");
+
+for (let keyItem of keyItems) {
+  const version = keyItem.kid.split("/").pop();
+  console.log({ version });
+
+  const keyBundle = await client.getKey(vaultUrl, "MyKey", version);
+  console.log({ keyBundle });
+}
 ```
 
-```python
-from azure.keyvault import KeyId
+Now in `@azure/keyvault-keys` you can retrieve the latest version of a key (as a `KeyVaultKey`) by using `getKey` and providing a key name. In addition, `listPropertiesOfKeyVersions` can be used to iterate over the versions of a specific key.
 
-key_items = client.get_key_versions(
-    vault_base_url="https://my-vault.vault.azure.net/",
-    key_name="key-name"
-)
+```ts
+const keyVaultKey = await client.getKey("MyKey");
+console.log(keyVaultKey.name);
+console.log(keyVaultKey.keyType);
+console.log(keyVaultKey.properties.version);
 
-for key_item in key_items:
-    key_id = KeyId(key_item.kid)
-    key_version = key_id.version
-
-    key_bundle = client.get_key(
-        vault_base_url="https://my-vault.vault.azure.net/",
-        key_name="key-name",
-        key_version=key_version
-    )
-    key = key_bundle.key
-```
-
-Now in `azure-keyvault-keys` you can retrieve the latest version of a key (as a `KeyVaultKey`) by using `get_key` and providing a key name.
-
-```python
-key = key_client.get_key(name="key-name")
-
-print(key.name)
-print(key.key_type)
-
-# get the version of the key
-key_version = key.properties.version
+for await (let versionProperties of client.listPropertiesOfKeyVersions("MyKey")) {
+  console.log("Version properties: ", versionProperties);
+}
 ```
 
 ### List properties of keys
 
-In `azure-keyvault` you could list the properties of keys in a specified vault with the `get_keys` method. This returned an iterator-like object containing `KeyItem` instances.
+In `azure-keyvault` you could list the properties of keys in a specified vault with the `getKeys` method. This returned an array containing the basic properties of each available key.
 
-```python
-keys = client.get_keys(vault_base_url="https://my-vault.vault.azure.net/")
-
-for key in keys:
-    print(key.attributes.created)
+```js
+const keyItems = await client.getKeys(vaultUrl);
+for (let keyItem of keyItems) {
+  console.log(keyItem.kid);
+}
 ```
 
-Now in `azure-keyvault-keys` you can list the properties of keys in a vault with the `list_properties_of_keys` method. This returns an iterator-like object containing `KeyProperties` instances.
+Now in `@azure/keyvault-keys` you can list the properties of keys in a vault with the `listPropertiesOfKeys` method. This returns an iterator-like object containing `KeyProperties` instances.
 
-```python
-keys = key_client.list_properties_of_keys()
-
-for key in keys:
-    print(key.name)
-    print(key.created_on)
+```ts
+for await (let keyProperties of client.listPropertiesOfKeys()) {
+    console.log("Key name: ", keyProperties.name);
+}
 ```
 
 ### Delete a key
