@@ -45,7 +45,7 @@ In the interest of simplifying the API `azure-keyvault` and `KeyVaultClient` wer
 
 ### Client constructors
 
-Across all of the new Azure client libraries, clients consistently take an endpoint or connection string along with token credentials on their constructors. This differs from the legacy `KeyVaultClient`, which didn't receive the vault endpoint on the constructor, but required users to pass the vault endpoint as the first parameter to each one of the methods that the `KeyVaultClient` provided.
+Across all of the new Azure client libraries, clients consistently take an endpoint or connection string along with token credentials on their constructors. This differs from the legacy `KeyVaultClient`, which didn't receive the vault endpoint on the constructor, but required users to pass the vault endpoint as the first parameter to the methods that the `KeyVaultClient` provided.
 
 #### Authenticating
 
@@ -87,14 +87,9 @@ main().catch((err) => console.error(err));
 
 Now in `@azure/keyvault-keys` you can create a `KeyClient` using any credential from [`@azure/identity`][identity-readme].
 
-The dependencies in your `package.json` would change to look as follows:
+You can install them by simply running the following command at the root of your project:
 
-```json
-  "dependencies": {
-    "@azure/identity": "1.2.1-alpha.20201217.1",
-    "@azure/keyvault-keys": "4.2.0-alpha.20201217.1",
-  }
-```
+  npm install --save @azure/identity @azure/keyvault-keys
 
 Below is a simple example using both `@azure/keyvault-keys` and [`DefaultAzureCredential`][identity-readme-DAC]:
 
@@ -218,7 +213,7 @@ console.log(deletedKey.deletedDate);
 await client.purgeDeletedKey(vaultUrl, keyName);
 ```
 
-Now in `@azure/keyvault-keys` you can delete a key with `beginDeleteKey`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `getResult()` on the poller will return information about the deleted key (as a `DeletedKey`) without waiting for the operation to complete, but calling `wait()` will wait for the deletion to complete. Again, `purge_deleted_key` will permanently delete your deleted key and make it unrecoverable.
+Now in `@azure/keyvault-keys` you can delete a key with `beginDeleteKey`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `getResult()` on the poller will return information about the deleted key (as a `DeletedKey`) without waiting for the operation to complete, but calling `pollUntilDone()` on the poller will wait for the deletion to complete. Then, `purgeDeletedKey` will permanently delete your deleted key and make it unrecoverable.
 
 ```ts
 const deletePoller = await client.beginDeleteKey("MyKey");
@@ -229,7 +224,7 @@ await client.purgeDeletedKey(deletedKey.name);
 
 ### Perform cryptographic operations
 
-In `azure-keyvault` you could perform cryptographic operations with keys by using the `encrypt`/`decrypt`, `wrap_key`/`unwrap_key`, and `sign`/`verify` methods. Each of these methods accepted a vault endpoint, key name, key version, and algorithm along with other parameters.
+In `azure-keyvault` you could perform cryptographic operations with keys by using the `encrypt`/`decrypt`, `wrapKey`/`unwrapKey`, and `sign`/`verify` methods. These methods accept a vault endpoint, key name, key version, and algorithm along with other parameters.
 
 ```js
 const keyName = "MyKey";
@@ -238,7 +233,7 @@ const operationResult = await client.encrypt(vaultUrl, keyName, "", "RSA1_5", Bu
 console.log(operationResult.result);
 ```
 
-Now in `@azure/keyvault-keys` you can perform these cryptographic operations by using a `CryptographyClient`. The key used to create the client will be used for these operations. Cryptographic operations are now performed locally by the client when it's initialized with the necessary key material or is able to get that material from Key Vault, and are only performed by the Key Vault service when required key material is unavailable.
+Now in `@azure/keyvault-keys` you can perform these cryptographic operations by using a `CryptographyClient`. The key used to create the client will be used for these operations. Some of the Cryptographic operations are now performed locally by the client when it's initialized with the necessary key material or is able to get that material from Key Vault.
 
 ```ts
 const keyVaultKey = await client.getKey("MyKey");
