@@ -182,6 +182,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==
+  /@azure/keyvault-keys/4.1.0:
+    dependencies:
+      '@azure/core-http': 1.2.1
+      '@azure/core-lro': 1.0.2
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/logger': 1.0.0
+      '@opentelemetry/api': 0.10.2
+      tslib: 2.0.3
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-xdz7nkYulWSo2+CsBRxaOe2JrGWQP3WxEjPLdIzZNHyaYBuLlnKHL3XWYH5j0UUVoDcmQClZUlZ2P/kdOiy/aQ==
   /@azure/logger-js/1.3.2:
     dependencies:
       tslib: 1.14.1
@@ -9368,6 +9382,7 @@ packages:
   'file:projects/identity.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/keyvault-keys': 4.1.0
       '@azure/msal-node': 1.0.0-beta.1
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
@@ -9423,7 +9438,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-WJOJ7+HD7LnQmOEszTRNvDTlQq6GfsgMF/5Lga38trgkCYvZziYq3Wpj77zpPXKoijUklAkkPrUQMd6T1OtuwA==
+      integrity: sha512-ZCzaGxJsU3n67T2O+8DtrTWeuFg6gBOwA64vLE07BgvTuLYeJL2KPawcSq1EUgaVAJz/yfOsOSSy6voyC7ORvw==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
@@ -9556,7 +9571,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-common'
     resolution:
-      integrity: sha512-wGsIDNLQxOtmtG36q4jZFT5fe+tIn2u1IJ0eKEOdafLAt4ij8y0T61EYKt0Szy2P/5KPUjXf71L+Gn3YKp1ajg==
+      integrity: sha512-2zFAKDUWUYLbduUtaBOYxIq4aazqkzh3KfJF1MgY6fpYifMMRdaYHqUMng/IGu+MBZfJdzV+Upsi518u4Ldfsg==
       tarball: 'file:projects/keyvault-common.tgz'
     version: 0.0.0
   'file:projects/keyvault-keys.tgz':
@@ -10273,7 +10288,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-internal-avro'
     resolution:
-      integrity: sha512-K2Ewnm3Ca4h8KMWzAEJGQW3JjbkcfH7+WmHQwWPdlO1Juqqu6oHY2aPt6o+1o37SKg9eNxe9Ov1qvewgOvirRA==
+      integrity: sha512-dbfd9Yi+PhwWkq+wQglScXEzEwuK57J9ghvGzcLl/YjEb8xiBP9tcCJFuQHiL09kYjjWXo1ovp6YxGDtwTFnmA==
       tarball: 'file:projects/storage-internal-avro.tgz'
     version: 0.0.0
   'file:projects/storage-queue.tgz':
@@ -10495,7 +10510,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-perfstress'
     resolution:
-      integrity: sha512-gMGFoDklp2uuxwqIPE+qmYDHS/rjhhkQA7tsMlLuLAcoCApMXUJa51w8Am+hF8XWgQmPne9RcMghBHGFTnkWHQ==
+      integrity: sha512-sm36kIhCNYBbbMAWgDDyE0pUlOyFhC3q5fbvFkAVoQVowfZ8IJK//1jQsEI3z0yB5bNHJR+rw+QaWgldrkB46w==
       tarball: 'file:projects/test-utils-perfstress.tgz'
     version: 0.0.0
   'file:projects/test-utils-recorder.tgz':
@@ -10553,7 +10568,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-djCe32KpPT8TTJ7k/W/bdzDJ4UEo0Rz5bJtsNQOlqaD+MVwedY6Bi+HkKcdyCTlUZ5voabCQwixJAuIvsGxOTw==
+      integrity: sha512-WEfRyUxdNUxn8+8eedpTcgdFv7ARQ2N/Y+ILJQuHjEJY1mY11+CAbTOXMod2r76fmJs6KkeIunHWpU6Y95X8Xg==
       tarball: 'file:projects/test-utils-recorder.tgz'
     version: 0.0.0
   'file:projects/testhub.tgz':
@@ -10576,7 +10591,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-H+vYaFnYiRChkB0tGH5+DP/KFMLNXsogMJbkDFRbZccdMPKexg+zRX35PWzwNyWiOQ7K4SNXNRzaGJGbOjcRxg==
+      integrity: sha512-o7zYyw6/QJHBg2/e3mbbeOe+ohKdRse2FU1aX4i7AdO+1337l44mWy1DwVWhcFUy5aSzahd194/6nrgp7Sj6JQ==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
