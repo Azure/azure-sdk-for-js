@@ -210,7 +210,7 @@ In `azure-keyvault` you could delete all versions of a key with the `deleteKey` 
 ```js
 const deletedKey = await client.deleteKey(vaultUrl, "MyKey");
 console.log(deletedKey.deletedDate);
-await client.purgeDeletedKey(vaultUrl, keyName);
+await client.purgeDeletedKey(vaultUrl, "MyKey");
 ```
 
 Now in `@azure/keyvault-keys` you can delete a key with `beginDeleteKey`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `getResult()` on the poller will return information about the deleted key (as a `DeletedKey`) without waiting for the operation to complete, but calling `pollUntilDone()` on the poller will wait for the deletion to complete. Then, `purgeDeletedKey` will permanently delete your deleted key and make it unrecoverable.
