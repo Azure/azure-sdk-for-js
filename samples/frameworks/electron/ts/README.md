@@ -37,7 +37,7 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 ## Running the sample
 
-Once the above created you'll want to ensure React has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application.
+Once the above created you'll want to ensure Electron has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application.
 
 Install the dependencies:
 
