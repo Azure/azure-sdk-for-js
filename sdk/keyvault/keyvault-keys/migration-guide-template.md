@@ -23,19 +23,15 @@ A natural question to ask when considering whether or not to adopt a new version
 
 There were several areas of consistent feedback expressed across the Azure client library ecosystem. One of the most important is that the client libraries for different Azure services have not had a consistent approach to organization, naming, and API structure. Additionally, many developers have felt that the learning curve was difficult, and the APIs did not offer a good, approachable, and consistent onboarding story for those learning Azure or exploring a specific Azure service.
 
-To try and improve the development experience across Azure services, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [add language here-specific guidelines][ts-guidelines] was also introduced to ensure that JavaScript clients have a natural and idiomatic feel with respect to the JavaScript and TypeScript ecosystems. Further details are available in the guidelines for those interested.
+To try and improve the development experience across Azure services, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript specific guidelines][ts-guidelines] was also introduced to ensure that JavaScript clients have a natural and idiomatic feel with respect to the JavaScript and TypeScript ecosystems. Further details are available in the guidelines for those interested.
 
 ### Cross Service SDK improvements
 
-The modern Key Vault client libraries also provide the ability to share in some of the cross-service improvements made to the Azure development experience, such as 
-- using the new Azure.Identity library to share a single authentication approach between clients
-- a unified logging and diagnostics pipeline offering a common view of the activities across each of the client libraries
-- (In case of JS) use of promises rather than callbacks for a simplified programming experience
-- (In case of JS) use of async iterators in paging APIs
-
-### Performance improvements
-
-Use this section to advertise the performance improvements in new package when compared to the old one. Skip this section if no perf improvements are found yet.
+The modern Key Vault client libraries also share some of the cross-service improvements made to the Azure development experience, such as:
+- Using the new `@azure/identity` library to share a single authentication approach between clients.
+- A unified logging and diagnostics pipeline that offers a common view of the activities across each of the client libraries.
+- (In case of JavaScript) The use of promises rather than callbacks for a simplified programming experience.
+- (In case of JavaScript) The use of async iterators in paging APIs.
 
 ## Important changes
 
@@ -43,17 +39,28 @@ Use this section to advertise the performance improvements in new package when c
 
 In the interest of simplifying the API `azure-keyvault` and `KeyVaultClient` were split into separate packages and clients:
 
-- [`azure-keyvault-keys`][kvk-readme] contains `KeyClient` for working with keys and `CryptographyClient` for performing cryptographic operations.
-- [`azure-keyvault-secrets`][kvs-readme] contains `SecretClient` for working with secrets.
+- [`@azure/keyvault-keys`][kvk-readme] contains `KeyClient` for working with Key Vault keys, and `CryptographyClient` for performing cryptographic operations.
+- [`@azure/keyvault-secrets`][kvs-readme] contains `SecretClient` for working with secrets.
 - [`@azure/keyvault-certificates`][kvc-readme] contains `CertificateClient` for working with certificates.
 
 ### Client constructors
 
-Across all modern Azure client libraries, clients consistently take an endpoint or connection string along with token credentials. This differs from `KeyVaultClient`, which took an authentication delegate and could be used for multiple Key Vault endpoints.
+Across all of the new Azure client libraries, clients consistently take an endpoint or connection string along with token credentials on their constructors. This differs from the legacy `KeyVaultClient`, which didn't receive the vault endpoint on the constructor, but required users to pass the vault endpoint as the first parameter to each one of the methods that the `KeyVaultClient` provided.
 
 #### Authenticating
 
-Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `2.6.0`. Higher versions are not supported):
+Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `2.6.0`. Higher versions are not supported).
+
+The dependencies on the `package.json` for a project with `azure-keyvault` would look like the following:
+
+```json
+  "dependencies": {
+    "azure-keyvault": "^3.0.5",
+    "ms-rest-azure": "^2.6.0"
+  }
+```
+
+With that `package.json` a simple use case of `azure-keyvault` would look as follows:
 
 ```js
 var KeyVault = require('azure-keyvault');
@@ -78,7 +85,18 @@ async function main() {
 main().catch((err) => console.error(err));
 ```
 
-Now in `@azure/keyvault-keys` you can create a `KeyClient` using any credential from [`@azure/identity`][identity-readme]. Below is an example using [`DefaultAzureCredential`][identity-readme-DAC]:
+Now in `@azure/keyvault-keys` you can create a `KeyClient` using any credential from [`@azure/identity`][identity-readme].
+
+The dependencies in your `package.json` would change to look as follows:
+
+```json
+  "dependencies": {
+    "@azure/identity": "1.2.1-alpha.20201217.1",
+    "@azure/keyvault-keys": "4.2.0-alpha.20201217.1",
+  }
+```
+
+Below is a simple example using both `@azure/keyvault-keys` and [`DefaultAzureCredential`][identity-readme-DAC]:
 
 ```ts
 // The default credential first checks environment variables for configuration as described above.
@@ -99,7 +117,7 @@ async function main(): Promise<void> {
 main().catch((err) => console.error(err));
 ```
 
-You can also create a `CryptographyClient` to perform cryptographic operations (encrypt/decrypt, wrap/unwrap, sign/verify) using a particular key.
+The new client also provides a `CryptographyClient` to perform cryptographic operations (encrypt/decrypt, wrap/unwrap, sign/verify) using a particular key. Below is an example.
 
 ```ts
 const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");
