@@ -206,7 +206,9 @@ function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $moniker
 function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = "")
 {
   # Find api.json file in service temp directory
-  $packageDir = Join-Path $artifactDir ($packageName -Replace "_", "-") "temp"
+  [regex]$pattern = "azure-"
+  $pkgName = $pattern.replace($packageName, "", 1)
+  $packageDir = Join-Path $artifactDir $pkgName "temp"
   Write-Host "Searching for *.api.json in path $($packageDir)"
   $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript {$_.Name.EndsWith(".api.json")}
   if (!$files)
