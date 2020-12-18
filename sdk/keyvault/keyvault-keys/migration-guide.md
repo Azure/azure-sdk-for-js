@@ -183,6 +183,8 @@ console.log(keyVaultKey.properties.version);
 
 for await (let versionProperties of client.listPropertiesOfKeyVersions("MyKey")) {
   console.log("Name:", versionProperties.name, "Version:", versionProperties.version);
+  const keyVaultKey = await client.getKey(versionProperties.name, { version: versionProperties.version });
+  console.log(keyVaultKey.properties.version);
 }
 ```
 
