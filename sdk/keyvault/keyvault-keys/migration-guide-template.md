@@ -167,7 +167,7 @@ console.log(keyVaultKey.keyType);
 console.log(keyVaultKey.properties.version);
 
 for await (let versionProperties of client.listPropertiesOfKeyVersions("MyKey")) {
-  console.log("Version properties: ", versionProperties);
+  console.log("Name:", versionProperties.name, "Version:", versionProperties.version);
 }
 ```
 
@@ -186,79 +186,55 @@ Now in `@azure/keyvault-keys` you can list the properties of keys in a vault wit
 
 ```ts
 for await (let keyProperties of client.listPropertiesOfKeys()) {
-    console.log("Key name: ", keyProperties.name);
+  console.log("Key name:", keyProperties.name);
 }
 ```
 
 ### Delete a key
 
-In `azure-keyvault` you could delete all versions of a key with the `delete_key` method. This returned information about the deleted key (as a `DeletedKeyBundle`), but you could not poll the deletion operation to know when it completed. This would be valuable information if you intended to permanently delete the deleted key with `purge_deleted_key`.
+In `azure-keyvault` you could delete all versions of a key with the `deleteKey` method. This returned information about the deleted key (as a `DeletedKeyBundle`), but you could not poll the deletion operation to know when it completed. This would be valuable information if you intended to permanently delete the deleted key with `purgeDeletedKey`.
 
-```python
-deleted_key = client.delete_key(vault_base_url="https://my-vault.vault.azure.net/", key_name="key-name")
-
-# this purge would fail if deletion hadn't finished
-client.purge_deleted_key(vault_base_url="https://my-vault.vault.azure.net/", key_name="key-name")
+```js
+const deletedKey = await client.deleteKey(vaultUrl, "MyKey");
+console.log(deletedKey.deletedDate);
+await client.purgeDeletedKey(vaultUrl, keyName);
 ```
 
-Now in `azure-keyvault-keys` you can delete a key with `begin_delete_key`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `result()` on the poller will return information about the deleted key (as a `DeletedKey`) without waiting for the operation to complete, but calling `wait()` will wait for the deletion to complete. Again, `purge_deleted_key` will permanently delete your deleted key and make it unrecoverable.
+Now in `@azure/keyvault-keys` you can delete a key with `beginDeleteKey`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `getResult()` on the poller will return information about the deleted key (as a `DeletedKey`) without waiting for the operation to complete, but calling `wait()` will wait for the deletion to complete. Again, `purge_deleted_key` will permanently delete your deleted key and make it unrecoverable.
 
-```python
-deleted_key_poller = key_client.begin_delete_key(name="key-name")
-deleted_key = deleted_key_poller.result()
-
-deleted_key_poller.wait()
-key_client.purge_deleted_key(name="key-name")
+```ts
+const deletePoller = await client.beginDeleteKey("MyKey");
+const deletedKey = deletePoller.getResult();
+await deletePoller.pollUntilDone();
+await client.purgeDeletedKey(deletedKey.name);
 ```
 
 ### Perform cryptographic operations
 
 In `azure-keyvault` you could perform cryptographic operations with keys by using the `encrypt`/`decrypt`, `wrap_key`/`unwrap_key`, and `sign`/`verify` methods. Each of these methods accepted a vault endpoint, key name, key version, and algorithm along with other parameters.
 
-```python
-from azure.keyvault import KeyId
-
-key_bundle = client.create_key(
-    vault_base_url="https://my-vault.vault.azure.net/",
-    key_name="key-name",
-    kty="RSA"
-)
-key = key_bundle.key
-key_id = KeyId(key.kid)
-key_version = key_id.version
-
-plaintext = b"plaintext"
-
-# encrypt data using the key
-operation_result = client.encrypt(
-    vault_base_url="https://my-vault.vault.azure.net/",
-    key_name="key-name",
-    key_version=key_version,
-    algorithm="RSA-OAEP-256",
-    value=plaintext
-)
-ciphertext = operation_result.result
+```js
+const keyName = "MyKey";
+await client.createKey(vaultUrl, keyName, "RSA");
+const operationResult = await client.encrypt(vaultUrl, keyName, "", "RSA1_5", Buffer.from("plaintext"));
+console.log(operationResult.result);
 ```
 
-Now in `azure-keyvault-keys` you can perform these cryptographic operations by using a `CryptographyClient`. The key used to create the client will be used for these operations. Cryptographic operations are now performed locally by the client when it's intialized with the necessary key material or is able to get that material from Key Vault, and are only performed by the Key Vault service when required key material is unavailable.
+Now in `@azure/keyvault-keys` you can perform these cryptographic operations by using a `CryptographyClient`. The key used to create the client will be used for these operations. Cryptographic operations are now performed locally by the client when it's initialized with the necessary key material or is able to get that material from Key Vault, and are only performed by the Key Vault service when required key material is unavailable.
 
-```python
-from azure.keyvault.keys.crypto import CryptographyClient, EncryptionAlgorithm
-
-key = key_client.get_key(name="key-name")
-crypto_client = CryptographyClient(key=key, credential=credential)
-
-plaintext = b"plaintext"
-
-# encrypt data using the key
-result = crypto_client.encrypt(algorithm=EncryptionAlgorithm.rsa_oaep_256, plaintext=plaintext)
-ciphertext = result.ciphertext
+```ts
+const keyVaultKey = await client.getKey("MyKey");
+const cryptographyClient = new CryptographyClient(keyVaultKey.id!, credential);
+const operationResult = await cryptographyClient.encrypt("RSA1_5", Buffer.from("plaintext"));
+console.log(operationResult.result);
 ```
 
 ## Additional samples
 
-* [Key Vault keys samples for Python](https://github.com/Azure/azure-sdk-for-python/tree/master/sdk/keyvault/azure-keyvault-keys/samples)
-* [General Key Vault samples for Python](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=python)
+* [Key Vault keys samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript)
+* [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
+* [Key Vault keys samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/typescript)
+* [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
 [kvk-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md
 [kvs-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/README.md
