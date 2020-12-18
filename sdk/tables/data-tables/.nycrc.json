@@ -1,5 +1,5 @@
 {
-  "include": ["dist-esm/src/**/*.js"],
+  "include": ["dist-esm/keyavult-keys/src/**/*.js"],
   "exclude": ["**/*.d.ts", "dist-esm/src/generated/*"],
   "reporter": ["text-summary", "html", "cobertura"],
   "exclude-after-remap": false,
