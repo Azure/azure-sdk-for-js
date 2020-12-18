@@ -107,7 +107,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -134,7 +134,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uuid": "^8.3.0"
   }
 }

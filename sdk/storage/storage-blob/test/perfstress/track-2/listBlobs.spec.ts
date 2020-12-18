@@ -35,7 +35,9 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
   }
 
   async runAsync(): Promise<void> {
-    for await (const _ of this.containerClient.listBlobsFlat()) {
+    for await (const segmentResponse of this.containerClient.listBlobsFlat().byPage()) {
+      for (const _ of segmentResponse.segment.blobItems) {
+      }
     }
   }
 }

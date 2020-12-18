@@ -88,8 +88,8 @@ export interface SchemaRegistry {
    * is created at version 1. If schema of specified name exists already in
    * specified group, schema is created at latest version + 1.
    *
-   * @param schema Schema to register.
-   * @return Registered schema's ID.
+   * @param schema - Schema to register.
+   * @returns Registered schema's ID.
    */
   registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 
@@ -97,16 +97,16 @@ export interface SchemaRegistry {
    * Gets the ID of an existing schema with matching name, group, type, and
    * content.
    *
-   * @param schema Schema to match.
-   * @return Matched schema's ID.
+   * @param schema - Schema to match.
+   * @returns Matched schema's ID.
    */
   getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
 
   /**
    * Gets an existing schema by ID.
    *
-   * @param id Unique schema ID.
-   * @return Schema with given ID.
+   * @param id - Unique schema ID.
+   * @returns Schema with given ID.
    */
   getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
 }
