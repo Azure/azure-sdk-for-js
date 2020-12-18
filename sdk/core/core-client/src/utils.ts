@@ -1,16 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * Returns true if the given value is a basic/primitive type
- * (string, number, boolean, null, undefined).
- * @param value Value to test
- * @ignore @internal
- */
-export function isPrimitiveType(value: any): boolean {
-  return (typeof value !== "object" && typeof value !== "function") || value === null;
-}
-
 const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
 
 /**

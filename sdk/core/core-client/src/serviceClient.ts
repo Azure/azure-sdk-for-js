@@ -285,14 +285,12 @@ function flattenResponse(
   fullResponse: FullOperationResponse,
   responseSpec: OperationResponseMap | undefined
 ): OperationResponse {
-  const parsedHeaders = fullResponse.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
     if (typeName === "Stream") {
       return {
-        ...parsedHeaders,
         blobBody: fullResponse.blobBody,
         readableStreamBody: fullResponse.readableStreamBody
       };
@@ -312,27 +310,11 @@ function flattenResponse(
           arrayResponse[key] = fullResponse.parsedBody?.[key];
         }
       }
-
-      if (parsedHeaders) {
-        for (const key of Object.keys(parsedHeaders)) {
-          arrayResponse[key] = parsedHeaders[key];
-        }
-      }
       return arrayResponse;
-    }
-
-    if (typeName === "Composite" || typeName === "Dictionary") {
-      return {
-        ...parsedHeaders,
-        ...fullResponse.parsedBody
-      };
     }
   }
 
-  return {
-    ...parsedHeaders,
-    ...fullResponse.parsedBody
-  };
+  return fullResponse.parsedBody;
 }
 
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {

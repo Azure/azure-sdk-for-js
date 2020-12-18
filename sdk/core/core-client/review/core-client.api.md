@@ -203,6 +203,7 @@ export interface OperationArguments {
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     requestOptions?: OperationRequestOptions;
+    responseMetadata?: RawResponseCallback;
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
 }
@@ -242,10 +243,7 @@ export interface OperationRequestOptions {
 }
 
 // @public
-export interface OperationResponse {
-    // (undocumented)
-    [key: string]: any;
-}
+export type OperationResponse = unknown;
 
 // @public
 export interface OperationResponseMap {
@@ -295,6 +293,9 @@ export interface PolymorphicDiscriminator {
 
 // @public
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
+
+// @public
+export type RawResponseCallback = (response: OperationResponse, rawResponse: FullOperationResponse) => unknown;
 
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {

@@ -43,7 +43,8 @@ export {
   XML_ATTRKEY,
   XML_CHARKEY,
   XmlOptions,
-  SerializerOptions
+  SerializerOptions,
+  RawResponseCallback
 } from "./interfaces";
 export {
   deserializationPolicy,

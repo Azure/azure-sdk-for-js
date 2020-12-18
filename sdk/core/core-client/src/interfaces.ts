@@ -86,6 +86,14 @@ export interface OperationRequestInfo {
 }
 
 /**
+ * type of the callback that will receive the raw response if needed
+ */
+export type RawResponseCallback = (
+  response: OperationResponse,
+  rawResponse: FullOperationResponse
+) => unknown;
+
+/**
  * The base options type for all operations.
  */
 export interface OperationOptions {
@@ -105,6 +113,10 @@ export interface OperationOptions {
    * Options to override serialization/de-serialization behavior.
    */
   serializerOptions?: SerializerOptions;
+  /**
+   * Callback used to request the raw response
+   */
+  responseMetadata?: RawResponseCallback;
 }
 
 /**
@@ -336,9 +348,7 @@ export interface FullOperationResponse extends PipelineResponse {
  * The processed and flattened response to an operation call.
  * Contains merged properties of the parsed body and headers.
  */
-export interface OperationResponse {
-  [key: string]: any;
-}
+export type OperationResponse = unknown;
 
 /**
  * Used to map raw response objects to final shapes.
