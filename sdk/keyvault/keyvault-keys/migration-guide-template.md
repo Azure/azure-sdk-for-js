@@ -53,7 +53,7 @@ Across all modern Azure client libraries, clients consistently take an endpoint 
 
 #### Authenticating
 
-Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure`:
+Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `2.6.0`. Higher versions are not supported):
 
 ```js
 var KeyVault = require('azure-keyvault');
@@ -62,11 +62,20 @@ var msRestAzure = require('ms-rest-azure');
 const clientId = "client id";
 const secret = "client secret";
 const domain = "tenant id";
+const vaultUrl = `https://my-vault.vault.azure.net/`;
 
-msRestAzure.loginWithServicePrincipalSecret(clientId, secret, domain, function(err, credentials) {
-  if (err) return console.log(err);
-  var client = new KeyVault.KeyVaultClient(credentials);
-});
+async function main() {
+  const credentials = await msRestAzure.loginWithServicePrincipalSecret(
+    clientId,
+    secret,
+    domain
+  );
+  const client = new KeyVault.KeyVaultClient(credentials);
+  const keyVaultKey = await client.getKey(vaultUrl, "MyKey", "");
+  console.log(keyVaultKey);
+}
+
+main().catch((err) => console.error(err));
 ```
 
 Now in `@azure/keyvault-keys` you can create a `KeyClient` using any credential from [`@azure/identity`][identity-readme]. Below is an example using [`DefaultAzureCredential`][identity-readme-DAC]:
@@ -79,9 +88,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
-const vaultUrl = "https://my-key-vault.vault.azure.net/";
+const vaultUrl = "https://my-vault.vault.azure.net/";
 const client = new KeyClient(vaultUrl, credential);
-const keyVaultKey = await client.getKey("MyKeyName");
+
+async function main(): Promise<void> {
+  const keyVaultKey = await client.getKey("MyKey");
+  console.log(keyVaultKey);
+}
+
+main().catch((err) => console.error(err));
 ```
 
 You can also create a `CryptographyClient` to perform cryptographic operations (encrypt/decrypt, wrap/unwrap, sign/verify) using a particular key.
@@ -91,11 +106,17 @@ const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const credential = new DefaultAzureCredential();
-const vaultUrl = "https://my-key-vault.vault.azure.net/";
+const vaultUrl = "https://my-vault.vault.azure.net/";
 const client = new KeyClient(vaultUrl, credential);
-const keyVaultKey = await client.getKey("MyKeyName");
 
-const cryptographyClient = new CryptographyClient(keyVaultKey.id!, credential);
+async function main(): Promise<void> {
+  const keyVaultKey = await client.getKey("MyKey");
+  const cryptographyClient = new CryptographyClient(keyVaultKey.id!, credential);
+  const signed = await cryptographyClient.signData("RS256", "some data");
+  console.log(signed);
+}
+
+main().catch((err) => console.error(err));
 ```
 
 ### Create a key
@@ -104,36 +125,36 @@ In `azure-keyvault` you could create a key by using `KeyVaultClient`'s `createKe
 
 ```js
 // create an RSA key
-client.createKey(vaultUri, "mykey", "RSA").then((keyBundle) => {
-  console.log(keyBundle);
-});
+let keyBundle = await client.createKey(vaultUrl, "myRSAKey", "RSA");
+console.log(keyBundle);
 
 // create an elliptic curve key
-client.createKey(vaultUri, "mykey", "EC").then((keyBundle) => {
-  console.log(keyBundle);
-});
+keyBundle = await client.createKey(vaultUrl, "myECKey", "EC")
+console.log(keyBundle);
 ```
 
 Now in `@azure/keyvault-keys` there are multiple ways to create keys. You can provide a key name and type to the general `createKey` method, or provide just a name to `createRsaKey` or `createEcKey`. These methods all return the created key as a `KeyVaultKey`.
 
 ```ts
-const rsaKey1: KeyVaultKey = await keysClient.createKey("MyRSAKey1", "RSA");
-const rsaKey2: KeyVaultKey = await keysClient.createRsaKey("MyRSAKey2");
-const rsaEC1: KeyVaultKey = await keysClient.createKey("MyECKey1", "EC");
-const rsaEC2: KeyVaultKey = await keysClient.createEcKey("MyECKey2");
+const rsaKey1 = await client.createKey("MyRSAKey1", "RSA");
+const rsaKey2 = await client.createRsaKey("MyRSAKey2");
+const ecKey1 = await client.createKey("MyECKey1", "EC");
+const ecKey2 = await client.createEcKey("MyECKey2");
 ```
 
 ### Retrieve a key
 
 In `azure-keyvault` you could retrieve a key (in a `KeyBundle`) by using `getKey` and specifying the desired vault endpoint, key name, and key version. You could retrieve the versions of a key with the `getKeyVersions` method, which returned an iterator-like object.
 
-I AM HERE
+```js
+YOU ARE HERE
+```
 
 ```python
 from azure.keyvault import KeyId
 
 key_items = client.get_key_versions(
-    vault_base_url="https://my-key-vault.vault.azure.net/",
+    vault_base_url="https://my-vault.vault.azure.net/",
     key_name="key-name"
 )
 
@@ -142,7 +163,7 @@ for key_item in key_items:
     key_version = key_id.version
 
     key_bundle = client.get_key(
-        vault_base_url="https://my-key-vault.vault.azure.net/",
+        vault_base_url="https://my-vault.vault.azure.net/",
         key_name="key-name",
         key_version=key_version
     )
@@ -166,7 +187,7 @@ key_version = key.properties.version
 In `azure-keyvault` you could list the properties of keys in a specified vault with the `get_keys` method. This returned an iterator-like object containing `KeyItem` instances.
 
 ```python
-keys = client.get_keys(vault_base_url="https://my-key-vault.vault.azure.net/")
+keys = client.get_keys(vault_base_url="https://my-vault.vault.azure.net/")
 
 for key in keys:
     print(key.attributes.created)
@@ -187,10 +208,10 @@ for key in keys:
 In `azure-keyvault` you could delete all versions of a key with the `delete_key` method. This returned information about the deleted key (as a `DeletedKeyBundle`), but you could not poll the deletion operation to know when it completed. This would be valuable information if you intended to permanently delete the deleted key with `purge_deleted_key`.
 
 ```python
-deleted_key = client.delete_key(vault_base_url="https://my-key-vault.vault.azure.net/", key_name="key-name")
+deleted_key = client.delete_key(vault_base_url="https://my-vault.vault.azure.net/", key_name="key-name")
 
 # this purge would fail if deletion hadn't finished
-client.purge_deleted_key(vault_base_url="https://my-key-vault.vault.azure.net/", key_name="key-name")
+client.purge_deleted_key(vault_base_url="https://my-vault.vault.azure.net/", key_name="key-name")
 ```
 
 Now in `azure-keyvault-keys` you can delete a key with `begin_delete_key`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `result()` on the poller will return information about the deleted key (as a `DeletedKey`) without waiting for the operation to complete, but calling `wait()` will wait for the deletion to complete. Again, `purge_deleted_key` will permanently delete your deleted key and make it unrecoverable.
@@ -211,7 +232,7 @@ In `azure-keyvault` you could perform cryptographic operations with keys by usin
 from azure.keyvault import KeyId
 
 key_bundle = client.create_key(
-    vault_base_url="https://my-key-vault.vault.azure.net/",
+    vault_base_url="https://my-vault.vault.azure.net/",
     key_name="key-name",
     kty="RSA"
 )
@@ -223,7 +244,7 @@ plaintext = b"plaintext"
 
 # encrypt data using the key
 operation_result = client.encrypt(
-    vault_base_url="https://my-key-vault.vault.azure.net/",
+    vault_base_url="https://my-vault.vault.azure.net/",
     key_name="key-name",
     key_version=key_version,
     algorithm="RSA-OAEP-256",
