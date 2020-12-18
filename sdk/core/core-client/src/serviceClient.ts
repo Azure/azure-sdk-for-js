@@ -312,6 +312,12 @@ function flattenResponse(
       }
       return arrayResponse;
     }
+
+    if (fullResponse.request.method === "HEAD") {
+      return {
+        ...fullResponse.parsedHeaders
+      };
+    }
   }
 
   return fullResponse.parsedBody;
