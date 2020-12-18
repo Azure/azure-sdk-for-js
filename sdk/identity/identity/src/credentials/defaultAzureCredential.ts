@@ -37,7 +37,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
    * Creates an instance of the DefaultAzureCredential class.
    *
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
     const credentials = [];

@@ -199,7 +199,7 @@ export function delay<T>(
   abortSignal?: AbortSignalLike,
   abortErrorMsg?: string,
   value?: T
-): Promise<T> {
+): Promise<T | void> {
   return new Promise((resolve, reject) => {
     const rejectOnAbort = (): void => {
       return reject(

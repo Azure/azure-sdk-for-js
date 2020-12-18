@@ -16,6 +16,12 @@ The new version 7 of the Service Bus library provides the ability to share in so
 
 ## Changes in version 7 of the Service Bus library
 
+### Message format changes
+
+Some key fields have been renamed in the ServiceBusMessage and ServiceBusReceivedMessage to better align with [AMQP](https://www.amqp.org/sites/amqp.org/files/amqp.pdf):
+- `label` has been renamed to `subject`
+- `userProperties` has been renamed to `applicationProperties`
+
 ### Client hierarchy
 
 In the interest of simplifying the API surface we've made a single top level client called `ServiceBusClient`, rather than one for each of queue, topic, and subscription. This acts as the single entry point in contrast with multiple entry points from before. You can create senders and receivers from this client to the queue/topic/subscription/session of your choice and start sending/receiving messages.
@@ -172,7 +178,25 @@ const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.n
 ### Settling messages
 
 Previously, the methods to settle messages (`complete()`, `abandon()`, `defer()` and `deadLetter()`) were on the messages themselves.
+
+```typescript
+// legacy
+const serviceBusReceivedMessage: ServiceBusReceivedMessage;
+serviceBusReceivedMessage.complete();
+// or .abandon(), .defer(), deadLetter()
+```
+
 These have been moved to the receiver in the new version, take the message as input and have the `Message` suffix in their name.
+
+```typescript
+// current
+const serviceBusReceivedMessage: ServiceBusReceivedMessage
+const serviceBusReceiver: ServiceBusReceiver;
+
+serviceBusReceiver.completeMessage(serviceBusReceivedMessage);
+// or .abandonMessage(), .deferMessage(), deadLetterMessage()
+```
+
 The idea is to have the message represents just the data and not have the responsibility of any operation on the service side.
 Additionally, since a message cannot be settled if the receiver that was used to receive it is not alive, tying these operations to the receiver drives the message home better.
 

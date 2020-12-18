@@ -40,7 +40,7 @@ async function sendMessage() {
       type: "Dinner"
     },
     contentType: "application/json",
-    label: "Recipe"
+    subject: "Recipe"
   };
   await sender.sendMessages(message);
   await sender.close();

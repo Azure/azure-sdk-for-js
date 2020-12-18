@@ -802,7 +802,9 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
   });
 }).timeout(60000);
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function verifyDataFeedDeletion(
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   this: any,
   client: MetricsAdvisorAdministrationClient,
   createdDataFeedId: string

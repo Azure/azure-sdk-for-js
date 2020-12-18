@@ -79,7 +79,7 @@ export async function main() {
   });
 
   // after 30 seconds, stop processing
-  await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     setTimeout(async () => {
       await subscription.close();
       await consumerClient.close();

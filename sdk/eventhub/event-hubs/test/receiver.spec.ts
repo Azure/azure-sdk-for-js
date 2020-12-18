@@ -61,7 +61,7 @@ describe("EventHubConsumerClient", function(): void {
   describe("subscribe() with partitionId 0 as number", function(): void {
     it("should not throw an error", async function(): Promise<void> {
       let subscription: Subscription | undefined;
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           // @ts-expect-error
           0,
@@ -112,7 +112,7 @@ describe("EventHubConsumerClient", function(): void {
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {
@@ -165,7 +165,7 @@ describe("EventHubConsumerClient", function(): void {
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {
@@ -218,7 +218,7 @@ describe("EventHubConsumerClient", function(): void {
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {
@@ -278,7 +278,7 @@ describe("EventHubConsumerClient", function(): void {
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {
@@ -331,7 +331,7 @@ describe("EventHubConsumerClient", function(): void {
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {
@@ -393,7 +393,7 @@ describe("EventHubConsumerClient", function(): void {
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
 
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {
@@ -657,7 +657,7 @@ describe("EventHubConsumerClient", function(): void {
       debug("partition info: ", pInfo);
 
       let subscription: Subscription | undefined;
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
           partitionId,
           {

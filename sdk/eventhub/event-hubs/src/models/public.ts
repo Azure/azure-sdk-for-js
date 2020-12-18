@@ -111,18 +111,24 @@ export enum CloseReason {
  */
 export interface EventHubClientOptions {
   /**
-   * @property
+   * A custom endpoint to use when connecting to the Event Hubs service.
+   * This can be useful when your network does not allow connecting to the
+   * standard Azure Event Hubs endpoint address, but does allow connecting
+   * through an intermediary.
+   *
+   * Example: "https://my.custom.endpoint:100/"
+   */
+  customEndpointAddress?: string;
+  /**
    * Options to configure the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
    */
   retryOptions?: RetryOptions;
   /**
-   * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
   /**
-   * @property
    * Value that is appended to the built in user agent string that is passed to the Event Hubs service.
    */
   userAgent?: string;
