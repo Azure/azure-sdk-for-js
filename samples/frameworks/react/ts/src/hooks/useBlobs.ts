@@ -13,11 +13,13 @@ import { useEffect, useRef } from "react";
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { credential, getEnvironmentVariable } from "../utils";
 
-type Hook = () => (blobName: string) => Promise<Blob | undefined>;
+type GetBlob = (blobName: string) => Promise<Blob | undefined>;
+type UploadBlob = (blobName: string, content: string) => Promise<void>;
+type Hook = () => [GetBlob, UploadBlob];
 
 /**
- * The Azure Blob hook exposes a single method that allows you
- * to fetch an Azure Blob given a name.
+ * The Azure Blob hook exposes a methods to interact
+ * With Azure Blob Storage.
  */
 const useBlobs: Hook = () => {
   // Keep a reference to a client for a Blob Container
@@ -28,7 +30,7 @@ const useBlobs: Hook = () => {
 
   /**
    * Fetch a Blob from Azure Blob Storage, returning its body if the blob exists.
-   * @param blobName The name of the blob within the container
+   * @param blobName The name of the blob within the container.
    */
   const getBlob = async (blobName: string): Promise<Blob | undefined> => {
     if (!instance.current) {
@@ -37,6 +39,19 @@ const useBlobs: Hook = () => {
     const blob = instance.current.getBlobClient(blobName);
     const response = await blob.download();
     return response.blobBody;
+  };
+
+  /**
+   * Upload a string to Azure blob Stroage, overwriting it if it already exists.
+   * @param blobName The name of the blob within the container.
+   * @param content
+   */
+  const uploadBlob = async (blobName: string, content: string): Promise<void> => {
+    if (!instance.current) {
+      throw new Error("[useBLobs]: Instance never initialized.");
+    }
+    const blockBlobClient = instance.current.getBlockBlobClient(blobName);
+    await blockBlobClient.upload(content, content.length);
   };
 
   useEffect(() => {
@@ -54,7 +69,7 @@ const useBlobs: Hook = () => {
     }
   }, []);
 
-  return getBlob;
+  return [getBlob, uploadBlob];
 };
 
 export { useBlobs };

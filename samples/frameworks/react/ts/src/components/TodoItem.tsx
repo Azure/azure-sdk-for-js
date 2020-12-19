@@ -10,7 +10,8 @@ const TodoItem: React.FC<{
   todo: Todo;
   onToggleComplete: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onNotesClick: (event: React.MouseEvent<HTMLElement>) => void;
-}> = ({ todo, onToggleComplete, onNotesClick }) => {
+  onNoteUploadClick: (event: React.MouseEvent<HTMLElement>) => void;
+}> = ({ todo, onToggleComplete, onNotesClick, onNoteUploadClick }) => {
   return (
     <li className="list-group-item d-flex justify-content-between align-items-center">
       <span>
@@ -26,10 +27,13 @@ const TodoItem: React.FC<{
       </span>
       <span>
         {todo.noteFileName && (
-          <button className="btn btn-primary" type="button" onClick={onNotesClick}>
-            Fetch the note!
+          <button className="btn btn-primary mr-1" type="button" onClick={onNotesClick}>
+            Fetch the note
           </button>
         )}
+        <button className="btn btn-primary" type="button" onClick={onNoteUploadClick}>
+          Upload a note
+        </button>
       </span>
     </li>
   );

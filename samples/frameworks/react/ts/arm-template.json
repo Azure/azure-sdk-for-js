@@ -106,7 +106,7 @@
           "corsRules": [
             {
               "allowedOrigins": ["[concat('http://localhost:', parameters('appPort'))]"],
-              "allowedMethods": ["GET", "OPTIONS"],
+              "allowedMethods": ["GET", "OPTIONS", "PUT", "POST"],
               "maxAgeInSeconds": 0,
               "exposedHeaders": ["*"],
               "allowedHeaders": ["*"]
