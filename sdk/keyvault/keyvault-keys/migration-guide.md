@@ -2,7 +2,7 @@
 
 This guide is intended to assist in the migration to `@azure/keyvault-keys` from `azure-keyvault`. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for name of @azure/keyvault-keys here][kvk-readme] rather than this guide.
+Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for @azure/keyvault-keys][kvk-readme] rather than this guide.
 
 ## Table of contents
 
