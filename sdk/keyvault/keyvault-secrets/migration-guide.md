@@ -88,7 +88,9 @@ Now in `@azure/keyvault-secrets` you can create a `SecretClient` using any crede
 
 You can install them by simply running the following command at the root of your project:
 
-  npm install --save @azure/identity @azure/keyvault-secrets
+```
+npm install --save @azure/identity @azure/keyvault-secrets
+```
 
 Below is a simple example using both `@azure/keyvault-secrets` and [`DefaultAzureCredential`][identity-readme-DAC]:
 
@@ -151,6 +153,8 @@ console.log(keyVaultSecret.properties.version);
 
 for await (let versionProperties of client.listPropertiesOfSecretVersions("MySecret")) {
   console.log("Name:", versionProperties.name, "Version:", versionProperties.version);
+  const keyVaultSecret = await client.getSecret(versionProperties.name, { version: versionProperties.version });
+  console.log(keyVaultSecret.properties.version);
 }
 ```
 
@@ -175,12 +179,12 @@ for await (let secretProperties of client.listPropertiesOfSecrets()) {
 
 ### Delete a secret
 
-In `azure-keyvault` you could delete all versions of a secret with the `deleteSecret` method. This returned information about the deleted secret (as a `DeletedSecretBundle`), but you could not poll the deletion operation to know when it completed. This would be valuable information if you intended to permanently delete the deleted key with `purgeDeletedKey`.
+In `azure-keyvault` you could delete all versions of a secret with the `deleteSecret` method. This returned information about the deleted secret (as a `DeletedSecretBundle`), but you could not poll the deletion operation to know when it completed. This would be valuable information if you intended to permanently delete the deleted secret with `purgeDeletedSecret`.
 
 ```js
 const deletedKey = await client.deleteSecret(vaultUrl, "MySecret");
 console.log(deletedKey.deletedDate);
-await client.purgeDeletedKey(vaultUrl, "MySecret");
+await client.purgeDeletedSecret(vaultUrl, "MySecret");
 ```
 
 Now in `@azure/keyvault-secrets` you can delete a secret with `beginDeleteSecret`, which returns a long operation poller object that can be used to wait/check on the operation. Calling `getResult()` on the poller will return information about the deleted secret (as a `DeletedSecret`) without waiting for the operation to complete, but calling `pollUntilDone()` on the poller will wait for the deletion to complete. Then, `purgeDeletedSecret` will permanently delete your deleted secret and make it unrecoverable.
