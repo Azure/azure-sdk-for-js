@@ -2,7 +2,7 @@
 
 This guide is intended to assist in the migration to `@azure/keyvault-keys` from `azure-keyvault`. It will focus on side-by-side comparisons for similar operations between the two packages.
 
-Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for name of new package here][kvk-readme] rather than this guide.
+Familiarity with the `azure-keyvault` package is assumed. For those new to the Key Vault client libraries for JavaScript, please refer to the [README for name of @azure/keyvault-keys here][kvk-readme] rather than this guide.
 
 ## Table of contents
 
@@ -30,18 +30,18 @@ To try and improve the development experience across Azure services, a set of un
 The modern Key Vault client libraries also share some of the cross-service improvements made to the Azure development experience, such as:
 - Using the new `@azure/identity` library to share a single authentication approach between clients.
 - A unified logging and diagnostics pipeline that offers a common view of the activities across each of the client libraries.
-- (In case of JavaScript) The use of promises rather than callbacks for a simplified programming experience.
-- (In case of JavaScript) The use of async iterators in paging APIs.
+- The use of promises rather than callbacks for a simplified programming experience.
+- The use of async iterators in paging APIs.
 
 ## Important changes
 
 ### Separate packages and clients
 
-In the interest of simplifying the API `azure-keyvault` and `KeyVaultClient` were split into separate packages and clients:
+In the interest of simplifying the API for working with Key Vault keys, secrets and certificates, the `azure-keyvault`  package is split into separate packages.
 
 - [`@azure/keyvault-keys`][kvk-readme] contains `KeyClient` for working with Key Vault keys, and `CryptographyClient` for performing cryptographic operations.
-- [`@azure/keyvault-secrets`][kvs-readme] contains `SecretClient` for working with secrets.
-- [`@azure/keyvault-certificates`][kvc-readme] contains `CertificateClient` for working with certificates.
+- [`@azure/keyvault-secrets`][kvs-readme] contains `SecretClient` for working with Key Vault secrets.
+- [`@azure/keyvault-certificates`][kvc-readme] contains `CertificateClient` for working with Key Vault certificates.
 
 ### Client constructors
 
@@ -51,16 +51,6 @@ Across all of the new Azure client libraries, clients consistently take an endpo
 
 Previously in `azure-keyvault` you could create a `KeyVaultClient` by using credentials from `ms-rest-azure` (up to the version `^2.6.0`. Higher versions are not supported).
 
-The dependencies on the `package.json` for a project with `azure-keyvault` would look like the following:
-
-```json
-  "dependencies": {
-    "azure-keyvault": "^3.0.5",
-    "ms-rest-azure": "^2.6.0"
-  }
-```
-
-With that `package.json` a simple use case of `azure-keyvault` would look as follows:
 
 ```js
 var KeyVault = require('azure-keyvault');
