@@ -141,10 +141,17 @@ console.log(keyBundle);
 Now in `@azure/keyvault-keys` there are multiple ways to create keys. You can provide a key name and type to the general `createKey` method, or provide just a name to `createRsaKey` or `createEcKey`. These methods all return the created key as a `KeyVaultKey`.
 
 ```ts
+// create RSA keys
 const rsaKey1 = await client.createKey("MyRSAKey1", "RSA");
+console.log(rsaKey1);
 const rsaKey2 = await client.createRsaKey("MyRSAKey2");
+console.log(rsaKey2);
+
+// create elliptic curve keys
 const ecKey1 = await client.createKey("MyECKey1", "EC");
+console.log(ecKey1);
 const ecKey2 = await client.createEcKey("MyECKey2");
+console.log(ecKey2);
 ```
 
 ### Retrieve a key
@@ -193,7 +200,7 @@ Now in `@azure/keyvault-keys` you can list the properties of keys in a vault wit
 
 ```ts
 for await (let keyProperties of client.listPropertiesOfKeys()) {
-  console.log("Key name:", keyProperties.name);
+  console.log("Key Id:", keyProperties.id);
 }
 ```
 
