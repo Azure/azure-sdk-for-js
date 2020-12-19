@@ -2,7 +2,7 @@
 
 This sample application shows how to use the TypeScript client libraries for Azure in some common scenarios.
 
-In this sample, we build a simple Todo application in React using [create-react-app][react] and integrating with various Azure services
+In this sample, we build a simple Todo application in React using [create-react-app][react] and integrating with various Azure services.
 
 - Integration with Azure EventHubs showcases a mechanism for multiple instances to consume EventHub messages produced by any one of them.
 - Integration with Azure ServiceBus showcases a mechanism for any single instance to consume ServiceBus messages. When multiple windows are open, only one of them will receive any given message.
@@ -36,9 +36,9 @@ Run the sample app:
 npm start
 ```
 
-A new browser window will open containing a sample set of Todos that have been created. Since this is a contrived example you can only create new Todos and complete existing Todos. As you interact with the application you'll notice EventHubs and ServiceBus messages get written out to the console in the the browser's developer tools.
+A new browser window will open containing a sample set of Todos that have been created. Since this is a contrived example, you can only create new Todos and complete existing Todos. As you interact with the application, you'll notice EventHubs and ServiceBus messages get written out to the console in the browser's developer tools.
 
-Additionally you may open multiple instances of this sample application and watch as Todos synchronize in real time.
+Additionally, you may open multiple instances of this sample application and watch as Todos synchronize in real-time.
 
 ## Next Steps
 
