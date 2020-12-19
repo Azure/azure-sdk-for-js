@@ -1,15 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-event-hubs
-  - azure-service-bus
-  - azure-storage
-urlFragment: react-typescript
----
-
 # Azure SDK samples for React (TypeScript)
 
 This sample application shows how to use the TypeScript client libraries for Azure in some common scenarios.
@@ -29,7 +17,6 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
 - An Azure EventHubs namespace. Please refer to the [EventHubs documentation][eventhubs] for additional information on EventHubs
-- An Azure ServiceBus namespace and queue. Please refer to the [ServiceBus documentation][servicebus] for additional information on ServiceBus.
 - An Azure Storage Blob container, with a single text file uploaded called "todo.txt" to support the sample. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
 - Finally, you'll need a way to authenticate the application with Azure. This requires some additional setup configuring the correct access permissions to the above resources using either a service principal or a role-based-authentication. Please refer to the [@azure/identity][identity] package for information on authentication.
 
