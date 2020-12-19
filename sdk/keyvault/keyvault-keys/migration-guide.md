@@ -39,9 +39,9 @@ The modern Key Vault client libraries also share some of the cross-service impro
 
 In the interest of simplifying the API for working with Key Vault keys, secrets and certificates, the `azure-keyvault`  package is split into separate packages.
 
-- [`@azure/keyvault-keys`][kvk-readme] contains `KeyClient` for working with Key Vault keys, and `CryptographyClient` for performing cryptographic operations.
-- [`@azure/keyvault-secrets`][kvs-readme] contains `SecretClient` for working with Key Vault secrets.
-- [`@azure/keyvault-certificates`][kvc-readme] contains `CertificateClient` for working with Key Vault certificates.
+- [`@azure/keyvault-keys`][kvk-npm] contains `KeyClient` for working with Key Vault keys, and `CryptographyClient` for performing cryptographic operations.
+- [`@azure/keyvault-secrets`][kvs-npm] contains `SecretClient` for working with Key Vault secrets.
+- [`@azure/keyvault-certificates`][kvc-npm] contains `CertificateClient` for working with Key Vault certificates.
 
 ### Client constructors
 
@@ -253,6 +253,9 @@ console.log(operationResult.result);
 [kvk-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md
 [kvs-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/README.md
 [kvc-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md
+[kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
+[kvs-npm]: https://www.npmjs.com/package/@azure/keyvault-secrets
+[kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates
 [ts-guidelines]: https://azure.github.io/azure-sdk/typescript_introduction.html
 [identity-readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
 [identity-readme-DAC]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential
