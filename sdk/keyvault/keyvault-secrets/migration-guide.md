@@ -115,6 +115,7 @@ A similar approach exists now in `@azure/keyvault-secrets`. You can provide a se
 
 ```ts
 const keyVaultSecret = await client.setSecret("MySecret", "My secret value");
+console.log(keyVaultSecret);
 ```
 
 ### Retrieve a secret
@@ -162,7 +163,7 @@ Now in `@azure/keyvault-secrets` you can list the properties of secrets in a vau
 
 ```ts
 for await (let secretProperties of client.listPropertiesOfSecrets()) {
-  console.log("Secret name:", secretProperties.name);
+  console.log("Secret Id:", secretProperties.id);
 }
 ```
 
