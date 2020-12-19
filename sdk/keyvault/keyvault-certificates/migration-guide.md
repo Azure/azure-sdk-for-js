@@ -132,7 +132,9 @@ const certificatePolicy = {
 
 const poller = await client.beginCreateCertificate("MyCertificate", certificatePolicy);
 const keyVaultCertificate = poller.getResult();
+console.log(keyVaultCertificate);
 await poller.pollUntilDone();
+
 ```
 
 ### Retrieve a certificate
@@ -180,7 +182,7 @@ Now in `@azure/keyvault-certificates` you can list the properties of certificate
 
 ```ts
 for await (let certificateProperties of client.listPropertiesOfCertificates()) {
-  console.log("Certificate name:", certificateProperties.name);
+  console.log("Certificate Id:", certificateProperties.id);
 }
 ```
 
