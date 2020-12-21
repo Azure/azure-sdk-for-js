@@ -16,8 +16,8 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
 - An Azure EventHubs namespace. Please refer to the [EventHubs documentation][eventhubs] for additional information on EventHubs.
-- An Azure Storage Blob container, with a single text file uploaded called "todo.txt" to support the sample. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
-- Finally, you'll need a way to authenticate the application with Azure. This requires some additional setup configuring the correct access permissions to the above resources using either a service principal or a role-based-authentication. Please refer to the [@azure/identity][identity] package for information on authentication.
+- An Azure Storage Blob container. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
+- Finally, you'll need a way to authenticate the application with Azure. Please refer to the [@azure/identity][identity] package for information on authentication. The instructions below will walk you through the necessary steps.
 
 To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
 
@@ -71,3 +71,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
 [identity]: https://docs.microsoft.com/javascript/api/@azure/identity
 [apiref]: https://docs.microsoft.com/javascript/api/
+[implicitgrantflow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
