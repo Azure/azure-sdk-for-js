@@ -21,7 +21,7 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fd2e22e77fcb80fa04f526df020c7d1016365539d%2Fsamples%2Fframeworks%2Freact%2Fts%2Farm-template.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2F6e519929f154b919e8a47245715076e73cd7915c%2Fsamples%2Fframeworks%2Freact%2Farm-template.json)
 
 The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. Authentication will still need to be set-up manually using the following instructions:
 
