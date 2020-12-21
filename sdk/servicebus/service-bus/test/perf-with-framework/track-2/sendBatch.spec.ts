@@ -7,9 +7,10 @@ import { ServiceBusTest } from "./sbBase.spec";
 
 interface SendTestOptions {
   messageBodySize: number;
+  numberOfMessages: number;
 }
 
-export class SimpleSendTest extends ServiceBusTest<SendTestOptions> {
+export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
   sender: ServiceBusSender;
   sbMessage: ServiceBusMessage;
   public options: PerfStressOptionDictionary<SendTestOptions> = {
@@ -19,18 +20,27 @@ export class SimpleSendTest extends ServiceBusTest<SendTestOptions> {
       shortName: "sz",
       longName: "size",
       defaultValue: 1024
+    },
+    numberOfMessages: {
+      required: true,
+      description: "Number of messages per send",
+      shortName: "num",
+      longName: "numberOfMessages",
+      defaultValue: 10
     }
   };
 
   constructor() {
     super();
-    this.sender = this.sbClient.createSender(SimpleSendTest.queueName);
+    this.sender = this.sbClient.createSender(BatchSendTest.queueName);
     this.sbMessage = {
       body: Buffer.alloc(this.parsedOptions.messageBodySize.value!)
     };
   }
 
   async runAsync(): Promise<void> {
-    await this.sender.sendMessages(this.sbMessage);
+    await this.sender.sendMessages(
+      new Array(this.parsedOptions.numberOfMessages.value!).fill(this.sbMessage)
+    );
   }
 }
