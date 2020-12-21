@@ -16,7 +16,7 @@ export class SumAggregator implements Aggregator {
       return;
     }
     if (this.sum === undefined) {
-      this.sum = other;
+      this.sum = undefined;
     } else {
       this.sum += other;
     }
