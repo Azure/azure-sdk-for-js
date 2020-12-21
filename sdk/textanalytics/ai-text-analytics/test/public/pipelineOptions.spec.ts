@@ -2,23 +2,21 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import * as dotenv from "dotenv";
 
-import {
-  TextAnalyticsClient,
-  DetectLanguageResultArray,
-  DetectLanguageSuccessResult,
-  AzureKeyCredential
-} from "../../src";
-import { testEnv } from "../utils/recordedClient";
+import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
 
-import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import { WebResource, HttpOperationResponse, HttpHeaders, isNode } from "@azure/core-http";
+import { createClient } from "../utils/recordedClient";
+
+if (isNode) {
+  dotenv.config();
+}
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
-  const credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
-
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
-      const client = new TextAnalyticsClient(testEnv.ENDPOINT, credential, {
+      const client = createClient("APIKey", {
         httpClient: {
           sendRequest: async (request: WebResource): Promise<HttpOperationResponse> => ({
             status: 200,

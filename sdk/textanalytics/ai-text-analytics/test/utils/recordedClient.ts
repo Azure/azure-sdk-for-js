@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
-import { AzureKeyCredential, TextAnalyticsClient } from "../../src/";
+import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../src/";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -17,12 +17,6 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
   ENDPOINT: "https://endpoint/"
 };
-
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -43,18 +37,21 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export type AuthMethod = "APIKey" | "AAD";
 
-export function createClient(authMethod: AuthMethod): TextAnalyticsClient {
+export function createClient(
+  authMethod: AuthMethod,
+  options?: TextAnalyticsClientOptions
+): TextAnalyticsClient {
   let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
     case "APIKey": {
-      credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
+      credential = new AzureKeyCredential(env.TEXT_ANALYTICS_API_KEY);
       break;
     }
     case "AAD": {
       credential = new ClientSecretCredential(
-        testEnv.AZURE_TENANT_ID,
-        testEnv.AZURE_CLIENT_ID,
-        testEnv.AZURE_CLIENT_SECRET
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
       );
       break;
     }
@@ -62,7 +59,7 @@ export function createClient(authMethod: AuthMethod): TextAnalyticsClient {
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  return new TextAnalyticsClient(testEnv.ENDPOINT, credential);
+  return new TextAnalyticsClient(env.ENDPOINT, credential, options);
 }
 
 export function createRecorder(context: Context): Recorder {
