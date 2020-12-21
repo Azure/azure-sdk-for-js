@@ -6,9 +6,9 @@
    "query": {
     "api-version": "2020-07-20-preview1"
    },
-   "requestBody": "{\"from\":\"+18005555555\",\"to\":[\"+18005551234\"],\"message\":\"test message\",\"sendSmsOptions\":{}}",
+   "requestBody": "{\"from\":\"+18005551234\",\"to\":[\"+18005551234\"],\"message\":\"test message\",\"sendSmsOptions\":{}}",
    "status": 200,
-   "response": "{\"messageId\":\"sanitized\"}",
+   "response": "{\"messageId\":\"Sanitized\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "374ae81554bf5d59f8c053f011ad4636"
+ "hash": "63f513b3717d5e9621615a8353f736af"
 }

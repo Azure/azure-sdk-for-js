@@ -66,7 +66,7 @@ describe("Long Running Operations - custom client", function() {
       // NOTE: Don't set any responses so that poller.poll throws an error
       const client = new TestClient(new TestTokenCredential("my-test-token"));
       let foundUnhandled = false;
-      const checker = () => {
+      const checker = (): void => {
         foundUnhandled = true;
       };
 

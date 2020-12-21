@@ -383,7 +383,6 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Closes the underlying AMQP receiver.
    * @ignore
-   * @returns
    */
   async close(): Promise<void> {
     try {
@@ -542,7 +541,6 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    * @ignore
-   * @returns
    */
   async initialize(): Promise<void> {
     try {
