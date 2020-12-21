@@ -32,7 +32,7 @@ import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
-  options && !isKeyCredential(options);
+  options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
  * Client class for interacting with Azure Communication Services User Token Management.
@@ -85,7 +85,7 @@ export class CommunicationIdentityClient {
     credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
     maybeOptions: CommunicationIdentityOptions = {}
   ) {
-    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
+    const { url, credential} = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isCommunicationIdentityOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
@@ -118,7 +118,7 @@ export class CommunicationIdentityClient {
         "https://communication.azure.com//.default"
       );
     } else {
-      authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+      authPolicy = createCommunicationAccessKeyCredentialPolicy(credential as KeyCredential);
     }
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
