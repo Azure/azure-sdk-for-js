@@ -44,7 +44,7 @@ const useBlobs: Hook = () => {
   /**
    * Upload a string to Azure blob Stroage, overwriting it if it already exists.
    * @param blobName The name of the blob within the container.
-   * @param content
+   * @param content The file contents.
    */
   const uploadBlob = async (blobName: string, content: string): Promise<void> => {
     if (!instance.current) {

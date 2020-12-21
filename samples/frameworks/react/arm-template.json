@@ -9,17 +9,17 @@
         "description": "The base resource name."
       }
     },
-    "appPort": {
+    "origin": {
       "type": "string",
-      "defaultValue": "3000",
+      "defaultValue": "http://localhost:3000",
       "metadata": {
-        "description": "The port used for the React app. Defaults to 3000"
+        "description": "The application origin for configuring CORS policies. By default it'll be set to http://localhost:3000 locally."
       }
     }
   },
   "variables": {
     "eventHubsName": "events",
-    "eventHubsNamespace": "[concat(parameters('baseName'), 'reactEvents')]",
+    "eventHubsNamespace": "[concat(parameters('baseName'), 'reactevents')]",
     "storageAccount": "[concat(parameters('baseName'), 'reactstorage')]",
     "storageContainer": "[concat(parameters('baseName'), 'reactstorage', '/default/blobs')]",
     "location": "[resourceGroup().location]"
@@ -105,7 +105,7 @@
         "cors": {
           "corsRules": [
             {
-              "allowedOrigins": ["[concat('http://localhost:', parameters('appPort'))]"],
+              "allowedOrigins": ["[parameters('origin')]"],
               "allowedMethods": ["GET", "OPTIONS", "PUT", "POST"],
               "maxAgeInSeconds": 0,
               "exposedHeaders": ["*"],
