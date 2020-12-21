@@ -26,9 +26,9 @@ describe("[API Key] TextAnalyticsClient", function() {
   this.timeout(100000);
 
   beforeEach(function() {
-    client = createClient("APIKey");
     // eslint-disable-next-line no-invalid-this
     recorder = createRecorder(this);
+    client = createClient("APIKey");
   });
 
   afterEach(async function() {
