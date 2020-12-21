@@ -4,7 +4,8 @@ This sample application shows how to use the TypeScript client libraries for Azu
 
 In this sample, we build a simple Todo application in React using [create-react-app][react] and integrating with various Azure services.
 
-- Integration with Azure EventHubs showcases a mechanism for multiple instances to consume EventHub messages produced by any one of them.
+- Integration with Azure Event Hubs to support real-time updates across multiple instances of the application.
+- Integration with Azure Storage Blob for persisting ToDo items.
 - Integration with Azure Storage Blob showcases a mechanism for fetching Azure blobs and displaying them in the browser.
 
 ## Prerequisites
@@ -15,7 +16,7 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
-- An Azure EventHubs namespace. Please refer to the [EventHubs documentation][eventhubs] for additional information on EventHubs.
+- An Azure Event Hubs namespace. Please refer to the [Event Hubs documentation][eventhubs] for additional information on Event Hubs.
 - An Azure Storage Blob container. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
 - Finally, you'll need a way to authenticate the application with Azure. Please refer to the [@azure/identity][identity] package for information on authentication. The instructions below will walk you through the necessary steps.
 
