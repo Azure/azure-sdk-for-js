@@ -6,7 +6,6 @@ In this sample, we build a simple Todo application in React using [create-react-
 
 - Integration with Azure Event Hubs to support real-time updates across multiple instances of the application.
 - Integration with Azure Storage Blob for persisting ToDo items.
-- Integration with Azure Storage Blob showcases a mechanism for fetching Azure blobs and displaying them in the browser.
 
 ## Prerequisites
 
