@@ -7,8 +7,8 @@ chaiUse(chaiPromises);
 
 import { isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, testEnv } from "../utils/recordedClient";
-import { TextAnalyticsClient, AzureKeyCredential } from "../../src";
+import { createClient, createRecorder } from "../utils/recordedClient";
+import { TextAnalyticsClient } from "../../src";
 import { assertAllSuccess } from "../utils/resultHelper";
 
 const testDataEn = [
@@ -22,14 +22,13 @@ describe("[API Key] TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
 
-  const apiKey = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
-
   // eslint-disable-next-line no-invalid-this
   this.timeout(100000);
 
   beforeEach(function() {
+    client = createClient("APIKey");
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this, apiKey));
+    recorder = createRecorder(this);
   });
 
   afterEach(async function() {

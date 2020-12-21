@@ -8,11 +8,6 @@ import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
 import { AzureKeyCredential, TextAnalyticsClient } from "../../src/";
 
-export interface RecordedClient {
-  client: TextAnalyticsClient;
-  recorder: Recorder;
-}
-
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -46,25 +41,30 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedClient(
-  context: Context,
-  apiKey?: AzureKeyCredential
-): RecordedClient {
-  const recorder = record(context, environmentSetup);
+export type AuthMethod = "APIKey" | "AAD";
 
+export function createClient(authMethod: AuthMethod): TextAnalyticsClient {
   let credential: AzureKeyCredential | TokenCredential;
-  if (apiKey !== undefined) {
-    credential = apiKey;
-  } else {
-    credential = new ClientSecretCredential(
-      testEnv.AZURE_TENANT_ID,
-      testEnv.AZURE_CLIENT_ID,
-      testEnv.AZURE_CLIENT_SECRET
-    );
+  switch (authMethod) {
+    case "APIKey": {
+      credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
+      break;
+    }
+    case "AAD": {
+      credential = new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      );
+      break;
+    }
+    default: {
+      throw Error(`Unsupported authentication method: ${authMethod}`);
+    }
   }
+  return new TextAnalyticsClient(testEnv.ENDPOINT, credential);
+}
 
-  return {
-    client: new TextAnalyticsClient(testEnv.ENDPOINT, credential),
-    recorder
-  };
+export function createRecorder(context: Context): Recorder {
+  return record(context, environmentSetup);
 }

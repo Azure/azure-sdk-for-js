@@ -7,7 +7,7 @@ import { assert } from "chai";
 
 import { isLiveMode, isRecordMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "../utils/recordedClient";
+import { createClient, createRecorder } from "../utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
@@ -45,7 +45,9 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this));
+    client = createClient("AAD");
+    // eslint-disable-next-line no-invalid-this
+    recorder = createRecorder(this);
     let nextId = 0;
     getId = () => {
       nextId += 1;
