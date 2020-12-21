@@ -18,19 +18,17 @@ export class AzureCommunicationUserCredential implements CommunicationUserCreden
     }
 
 // @public
-export interface CallingApplication {
+export interface CallingApplicationIdentifier {
     callingApplicationId: string;
 }
 
 // @public
-export interface CallingApplicationKind extends CallingApplication {
+export interface CallingApplicationIdentifierKind extends CallingApplicationIdentifier {
     kind: "CallingApplication";
 }
 
 // @public
-export interface CommunicationUser {
-    communicationUserId: string;
-}
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | UnknownIdentifier;
 
 // @public
 export interface CommunicationUserCredential {
@@ -39,7 +37,12 @@ export interface CommunicationUserCredential {
 }
 
 // @public
-export interface CommunicationUserKind extends CommunicationUser {
+export interface CommunicationUserIdentifier {
+    communicationUserId: string;
+}
+
+// @public
+export interface CommunicationUserIdentifierKind extends CommunicationUserIdentifier {
     kind: "CommunicationUser";
 }
 
@@ -47,39 +50,36 @@ export interface CommunicationUserKind extends CommunicationUser {
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
-export const getIdentifierKind: (identifier: Identifier) => IdentifierKind;
+export const getIdentifierKind: (identifier: CommunicationIdentifier) => IdentifierKind;
 
 // @public
-export type Identifier = CommunicationUser | PhoneNumber | CallingApplication | UnknownIdentifier;
+export type IdentifierKind = CommunicationUserIdentifierKind | PhoneNumberIdentifierKind | CallingApplicationIdentifierKind | UnknownIdentifierKind;
 
 // @public
-export type IdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | UnknownIdentifierKind;
+export const isCallingApplicationIdentifier: (identifier: CommunicationIdentifier) => identifier is CallingApplicationIdentifier;
 
 // @public
-export const isCallingApplication: (identifier: Identifier) => identifier is CallingApplication;
-
-// @public
-export const isCommunicationUser: (identifier: Identifier) => identifier is CommunicationUser;
+export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
 
 // @public
 export const isKeyCredential: (credential: any) => credential is KeyCredential;
 
 // @public
-export const isPhoneNumber: (identifier: Identifier) => identifier is PhoneNumber;
+export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => identifier is PhoneNumberIdentifier;
 
 // @public
-export const isUnknownIdentifier: (identifier: Identifier) => identifier is UnknownIdentifier;
+export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
 export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
 
 // @public
-export interface PhoneNumber {
+export interface PhoneNumberIdentifier {
     phoneNumber: string;
 }
 
 // @public
-export interface PhoneNumberKind extends PhoneNumber {
+export interface PhoneNumberIdentifierKind extends PhoneNumberIdentifier {
     kind: "PhoneNumber";
 }
 

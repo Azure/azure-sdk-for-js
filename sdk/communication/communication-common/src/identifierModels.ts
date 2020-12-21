@@ -4,14 +4,14 @@
 /**
  * Identifies a communication user.
  */
-export type Identifier = CommunicationUser | PhoneNumber | CallingApplication | UnknownIdentifier;
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | UnknownIdentifier;
 
 /**
  * An Azure Communication user.
  */
-export interface CommunicationUser {
+export interface CommunicationUserIdentifier {
   /**
-   * Id of the CommunicationUser as returned from the Communication Service.
+   * Id of the CommunicationUserIdentifier as returned from the Communication Service.
    */
   communicationUserId: string;
 }
@@ -19,7 +19,7 @@ export interface CommunicationUser {
 /**
  * A phone number.
  */
-export interface PhoneNumber {
+export interface PhoneNumberIdentifier {
   /**
    * The phone number in E.164 format.
    */
@@ -29,9 +29,9 @@ export interface PhoneNumber {
 /**
  * A calling application, i.e. a non-human participant in communication.
  */
-export interface CallingApplication {
+export interface CallingApplicationIdentifier {
   /**
-   * Id of the CallingApplication.
+   * Id of the CallingApplicationIdentifier.
    */
   callingApplicationId: string;
 }
@@ -51,7 +51,7 @@ export interface UnknownIdentifier {
  *
  * @param identifier The assumed CommunicationUser to be tested.
  */
-export const isCommunicationUser = (identifier: Identifier): identifier is CommunicationUser => {
+export const isCommunicationUserIdentifier = (identifier: CommunicationIdentifier): identifier is CommunicationUserIdentifier => {
   return typeof (identifier as any).communicationUserId === "string";
 };
 
@@ -60,7 +60,7 @@ export const isCommunicationUser = (identifier: Identifier): identifier is Commu
  *
  * @param identifier The assumed PhoneNumber to be tested.
  */
-export const isPhoneNumber = (identifier: Identifier): identifier is PhoneNumber => {
+export const isPhoneNumberIdentifier = (identifier: CommunicationIdentifier): identifier is PhoneNumberIdentifier => {
   return typeof (identifier as any).phoneNumber === "string";
 };
 
@@ -69,7 +69,7 @@ export const isPhoneNumber = (identifier: Identifier): identifier is PhoneNumber
  *
  * @param identifier The assumed CallingApplication to be tested.
  */
-export const isCallingApplication = (identifier: Identifier): identifier is CallingApplication => {
+export const isCallingApplicationIdentifier = (identifier: CommunicationIdentifier): identifier is CallingApplicationIdentifier => {
   return typeof (identifier as any).callingApplicationId === "string";
 };
 
@@ -78,23 +78,23 @@ export const isCallingApplication = (identifier: Identifier): identifier is Call
  *
  * @param identifier The assumed UnknownIdentifier to be tested.
  */
-export const isUnknownIdentifier = (identifier: Identifier): identifier is UnknownIdentifier => {
+export const isUnknownIdentifier = (identifier: CommunicationIdentifier): identifier is UnknownIdentifier => {
   return typeof (identifier as any).id === "string";
 };
 
 /**
  * The IdentifierKind is a discriminated union that adds a property `kind` to an Identifier.
  */
-export type IdentifierKind =
-  | CommunicationUserKind
-  | PhoneNumberKind
-  | CallingApplicationKind
+export type CommunicationIdentifierKind =
+  | CommunicationUserIdentifierKind
+  | PhoneNumberIdentifierKind
+  | CallingApplicationIdentifierKind
   | UnknownIdentifierKind;
 
 /**
  * IdentifierKind for a CommunicationUser identifier.
  */
-export interface CommunicationUserKind extends CommunicationUser {
+export interface CommunicationUserIdentifierKind extends CommunicationUserIdentifier {
   /**
    * The identifier kind.
    */
@@ -104,7 +104,7 @@ export interface CommunicationUserKind extends CommunicationUser {
 /**
  * IdentifierKind for a PhoneNumber identifier.
  */
-export interface PhoneNumberKind extends PhoneNumber {
+export interface PhoneNumberIdentifierKind extends PhoneNumberIdentifier {
   /**
    * The identifier kind.
    */
@@ -114,7 +114,7 @@ export interface PhoneNumberKind extends PhoneNumber {
 /**
  * IdentifierKind for a CallingApplication identifier.
  */
-export interface CallingApplicationKind extends CallingApplication {
+export interface CallingApplicationIdentifierKind extends CallingApplicationIdentifier {
   /**
    * The identifier kind.
    */
@@ -136,14 +136,14 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
  *
  * @param identifier The identifier whose kind is to be inferred.
  */
-export const getIdentifierKind = (identifier: Identifier): IdentifierKind => {
-  if (isCommunicationUser(identifier)) {
+export const getIdentifierKind = (identifier: CommunicationIdentifier): CommunicationIdentifierKind => {
+  if (isCommunicationUserIdentifier(identifier)) {
     return { ...identifier, kind: "CommunicationUser" };
   }
-  if (isPhoneNumber(identifier)) {
+  if (isPhoneNumberIdentifier(identifier)) {
     return { ...identifier, kind: "PhoneNumber" };
   }
-  if (isCallingApplication(identifier)) {
+  if (isCallingApplicationIdentifier(identifier)) {
     return { ...identifier, kind: "CallingApplication" };
   }
   return { ...identifier, kind: "Unknown" };

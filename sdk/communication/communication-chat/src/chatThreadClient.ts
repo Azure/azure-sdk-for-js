@@ -3,7 +3,7 @@
 
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
-import { CommunicationUser, CommunicationUserCredential } from "@azure/communication-common";
+import { CommunicationUserIdentifier, CommunicationUserCredential } from "@azure/communication-common";
 import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
 import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
@@ -421,7 +421,7 @@ export class ChatThreadClient {
    * @param options Operation options.
    */
   public async removeMember(
-    member: CommunicationUser,
+    member: CommunicationUserIdentifier,
     options: RemoveMemberOptions = {}
   ): Promise<OperationResponse> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveMembers", options);

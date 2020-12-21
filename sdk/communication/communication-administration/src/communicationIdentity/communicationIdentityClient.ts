@@ -5,7 +5,7 @@ import {
   createCommunicationAccessKeyCredentialPolicy,
   parseClientArguments,
   isKeyCredential,
-  CommunicationUser
+  CommunicationUserIdentifier
 } from "@azure/communication-common";
 import { KeyCredential } from "@azure/core-auth";
 import {
@@ -107,12 +107,12 @@ export class CommunicationIdentityClient {
   /**
    * Creates a scoped user token.
    *
-   * @param {CommunicationUser} user The user whose tokens are being revoked.
+   * @param {CommunicationUserIdentifier} user The user whose tokens are being revoked.
    * @param {TokenScope[]} scopes Scopes to include in the token.
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async issueToken(
-    user: CommunicationUser,
+    user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<IssueTokenResponse> {
@@ -148,7 +148,7 @@ export class CommunicationIdentityClient {
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async revokeTokens(
-    user: CommunicationUser,
+    user: CommunicationUserIdentifier,
     tokensValidFrom: Date = new Date(),
     options: OperationOptions = {}
   ): Promise<VoidResponse> {
@@ -184,7 +184,7 @@ export class CommunicationIdentityClient {
       const { id, _response } = await this.client.create(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const user: CommunicationUser = { communicationUserId: id };
+      const user: CommunicationUserIdentifier = { communicationUserId: id };
       return attachHttpResponse(user, _response);
     } catch (e) {
       span.setStatus({
@@ -200,11 +200,11 @@ export class CommunicationIdentityClient {
   /**
    * Triggers revocation event for user and deletes all its data.
    *
-   * @param {CommunicationUser} user The user being deleted.
+   * @param {CommunicationUserIdentifier} user The user being deleted.
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async deleteUser(
-    user: CommunicationUser,
+    user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
