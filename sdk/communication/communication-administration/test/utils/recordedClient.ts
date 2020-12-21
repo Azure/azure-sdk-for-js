@@ -81,11 +81,11 @@ export function createRecordedComminicationIdentityClientWithToken(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   const credential = new DefaultAzureCredential();
-  
+
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
     recorder
-  }
+  };
 }
 
 export function createRecordedPhoneNumberAdministrationClient(

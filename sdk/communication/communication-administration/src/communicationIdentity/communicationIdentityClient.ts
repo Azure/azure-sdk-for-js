@@ -85,7 +85,7 @@ export class CommunicationIdentityClient {
     credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
     maybeOptions: CommunicationIdentityOptions = {}
   ) {
-    const { url, credential} = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
+    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isCommunicationIdentityOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;

@@ -36,7 +36,7 @@ export const isKeyCredential = (credential: any): credential is KeyCredential =>
  */
 export type UrlWithCredential = {
   url: string;
-  credential: TokenCredential | KeyCredential
+  credential: TokenCredential | KeyCredential;
 };
 
 /**
@@ -49,7 +49,7 @@ export const parseClientArguments = (
   connectionStringOrUrl: string,
   credentialOrOptions?: any
 ): UrlWithCredential => {
- if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
+  if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
     assertValidEndpoint(connectionStringOrUrl);
     return { url: connectionStringOrUrl, credential: credentialOrOptions };
   } else {
