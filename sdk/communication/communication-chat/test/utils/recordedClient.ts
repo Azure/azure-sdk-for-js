@@ -9,7 +9,7 @@ import { isNode } from "@azure/core-http";
 import { ChatClient } from "../../src";
 import {
   CommunicationUser,
-  AzureCommunicationUserCredential,
+  AzureCommunicationTokenCredential,
   parseClientArguments
 } from "@azure/communication-common";
 import {
@@ -64,5 +64,5 @@ export function createChatClient(userToken: string): ChatClient {
     userToken = generateToken();
   }
   const { url } = parseClientArguments(env.COMMUNICATION_CONNECTION_STRING);
-  return new ChatClient(url, new AzureCommunicationUserCredential(userToken));
+  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken));
 }

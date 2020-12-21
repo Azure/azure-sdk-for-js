@@ -10,7 +10,7 @@ import { KeyCredential } from '@azure/core-auth';
 import { RequestPolicyFactory } from '@azure/core-http';
 
 // @public
-export class AzureCommunicationUserCredential implements CommunicationUserCredential {
+export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
     constructor(refreshOptions: RefreshOptions);
     dispose(): void;
@@ -28,14 +28,14 @@ export interface CallingApplicationKind extends CallingApplication {
 }
 
 // @public
-export interface CommunicationUser {
-    communicationUserId: string;
+export interface CommunicationTokenCredential {
+    dispose(): void;
+    getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
 }
 
 // @public
-export interface CommunicationUserCredential {
-    dispose(): void;
-    getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
+export interface CommunicationUser {
+    communicationUserId: string;
 }
 
 // @public
@@ -85,8 +85,8 @@ export interface PhoneNumberKind extends PhoneNumber {
 
 // @public
 export interface RefreshOptions {
-    initialToken?: string;
     refreshProactively?: boolean;
+    token?: string;
     tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 }
 
