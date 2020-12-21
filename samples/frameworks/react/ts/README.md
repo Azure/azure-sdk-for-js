@@ -5,7 +5,6 @@ This sample application shows how to use the TypeScript client libraries for Azu
 In this sample, we build a simple Todo application in React using [create-react-app][react] and integrating with various Azure services.
 
 - Integration with Azure EventHubs showcases a mechanism for multiple instances to consume EventHub messages produced by any one of them.
-- Integration with Azure ServiceBus showcases a mechanism for any single instance to consume ServiceBus messages. When multiple windows are open, only one of them will receive any given message.
 - Integration with Azure Storage Blob showcases a mechanism for fetching Azure blobs and displaying them in the browser.
 
 ## Prerequisites
@@ -16,9 +15,27 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
-- An Azure EventHubs namespace. Please refer to the [EventHubs documentation][eventhubs] for additional information on EventHubs
+- An Azure EventHubs namespace. Please refer to the [EventHubs documentation][eventhubs] for additional information on EventHubs.
 - An Azure Storage Blob container, with a single text file uploaded called "todo.txt" to support the sample. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
 - Finally, you'll need a way to authenticate the application with Azure. This requires some additional setup configuring the correct access permissions to the above resources using either a service principal or a role-based-authentication. Please refer to the [@azure/identity][identity] package for information on authentication.
+
+To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fd2e22e77fcb80fa04f526df020c7d1016365539d%2Fsamples%2Fframeworks%2Freact%2Fts%2Farm-template.json)
+
+The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. Authentication will still need to be set-up manually using the following instructions:
+
+### Register a new application in AAD and assign the "Azure Event Hubs Data Owner" and "Azure Storage Blob Data Contributor" role to it.
+
+- See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+  to register a new application in the Azure Active Directory.
+- Note down the client id and tenant id from the above step.
+  You will need to set these in the .env file below.
+
+Ensure your app registration has been configured properly to allow the [implicit grant flow][implicitgrantflow]
+and allow both `Access tokens` and `ID tokens` to be issued by the authorization endpoint.
+In your app registration, you will also need to add a permission for the `Microsoft.EventHubs` and `Azure Storage` apps.
+When adding permission for `Microsoft.EventHubs` and `Azure Storage`, the type should be `delegated permissions` and the permission should be `user_impersonation`.
 
 ## Running the sample
 
@@ -36,7 +53,7 @@ Run the sample app:
 npm start
 ```
 
-A new browser window will open containing a sample set of Todos that have been created. Since this is a contrived example, you can only create new Todos and complete existing Todos. As you interact with the application, you'll notice EventHubs and ServiceBus messages get written out to the console in the browser's developer tools.
+Since this is a contrived example, you can only create new Todos and complete existing Todos. As you interact with the application, you'll notice EventHubs messages get written out to the console in the browser's developer tools. You may attach a note which will get uploaded as Blobs or fetch an existing note to display it on the screen.
 
 Additionally, you may open multiple instances of this sample application and watch as Todos synchronize in real-time.
 
