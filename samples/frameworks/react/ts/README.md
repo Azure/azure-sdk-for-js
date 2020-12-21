@@ -23,9 +23,11 @@ To quickly create the needed resources in Azure and to receive the necessary env
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2F6e519929f154b919e8a47245715076e73cd7915c%2Fsamples%2Fframeworks%2Freact%2Farm-template.json)
 
-The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. Authentication will still need to be set-up manually using the following instructions:
+The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
 
 ### Register a new application in AAD and assign the "Azure Event Hubs Data Owner" and "Azure Storage Blob Data Contributor" role to it.
+
+Authentication will still need to be set-up manually using the following instructions:
 
 - See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
   to register a new application in the Azure Active Directory.
@@ -39,7 +41,7 @@ When adding permission for `Microsoft.EventHubs` and `Azure Storage`, the type s
 
 ## Running the sample
 
-Once the above created you'll want to ensure React has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application.
+Once the above created you'll want to ensure React has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application. You can get most values from the output tab of the deployment, and the client and tenant ID from the App registration step. Please note that environment variables should be upper case. For example: REACT_APP_TENANT_ID and REACT_APP_EVENT_HUBS_NAME.
 
 Install the various packages as well as the TypeScript compiler using:
 
