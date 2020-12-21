@@ -134,21 +134,21 @@
     }
   ],
   "outputs": {
-    "REACT_APP_BLOB_URI": {
-      "type": "string",
-      "value": "[reference(variables('storageAccount')).primaryEndpoints.blob]"
-    },
-    "REACT_APP_BLOB_CONTAINER": {
-      "type": "string",
-      "value": "[last(split(variables('storageContainer'), '/'))]"
-    },
-    "REACT_APP_EVENT_HUBS_NAMESPACE": {
+    "react_app_event_hubs_namespace": {
       "type": "string",
       "value": "[concat(variables('eventHubsNamespace'), '.servicebus.windows.net')]"
     },
-    "REACT_APP_EVENT_HUBS_NAME": {
+    "react_app_event_hubs_name": {
       "type": "string",
       "value": "[variables('eventHubsName')]"
+    },
+    "react_app_blob_uri": {
+      "type": "string",
+      "value": "[reference(variables('storageAccount')).primaryEndpoints.blob]"
+    },
+    "react_app_blob_container": {
+      "type": "string",
+      "value": "[last(split(variables('storageContainer'), '/'))]"
     }
   }
 }
