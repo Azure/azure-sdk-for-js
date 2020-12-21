@@ -92,7 +92,7 @@ import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
-  getURLQueryString,
+  getURLPathAndQuery,
   setURLPath,
   setURLQueries
 } from "./utils/utils.common";
@@ -933,16 +933,7 @@ export class DataLakePathClient extends StorageClient {
 
     const { span, spanOptions } = createSpan("DataLakePathClient-move", options.tracingOptions);
 
-    // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
-    // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
-    const sourceQueryString = getURLQueryString(this.dfsEndpointUrl);
-    const encodedPathName = this.name
-      .split("/")
-      .map((segment) => encodeURIComponent(segment))
-      .join("/");
-    const renameSource = !!sourceQueryString
-      ? `/${this.fileSystemName}/${encodedPathName}?${sourceQueryString}`
-      : `/${this.fileSystemName}/${encodedPathName}`;
+    const renameSource = getURLPathAndQuery(this.dfsEndpointUrl);
 
     const split: string[] = destinationPath.split("?");
     let destinationUrl: string;
@@ -954,7 +945,7 @@ export class DataLakePathClient extends StorageClient {
       const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
       destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
     } else {
-      throw new RangeError("Source path should not contain more than one query string");
+      throw new RangeError("Destination path should not contain more than one query string");
     }
 
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
