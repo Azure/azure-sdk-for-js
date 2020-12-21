@@ -67,7 +67,7 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o service-bus-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "perfstress-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/perfstress/track-2/index.spec.ts",
+    "perfstress-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/perf-with-framework/track-2/index.spec.ts",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test:node && npm run integration-test:node",
