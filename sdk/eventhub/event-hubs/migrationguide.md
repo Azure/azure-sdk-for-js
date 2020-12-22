@@ -11,6 +11,7 @@ and [Event Hubs samples](https://github.com/Azure/azure-sdk-for-js/tree/master/s
 
 - [Migration benefits](#migration-benefits)
   - [Cross Service SDK improvements](#cross-service-sdk-improvements)
+  - [New features](#new-features)
 - [Important changes](#important-changes)
 
   - [Client hierarchy](#client-hierarchy)
@@ -42,6 +43,18 @@ The new version of the Event Hubs library also shares some of the cross-service 
 
 - Using the new `@azure/identity` library to share a single authentication between clients.
 - A unified diagnostics pipeline that offers a common view of the activities across each of the client libraries.
+
+### New features
+
+We have a variety of new features in version 5 of the Event Hubs library.
+
+- Ability to create a batch of messages with the `EventHubProducerClient.createBatch()` and `EventDataBatch.tryAdd()` APIs.
+  This will help you manage events to be sent in the most optimal way.
+- Ability to configure the retry policy used by operations on the clients.
+- Ability to cancel async operations on the clients using the abort signal from `@azure/abort-controller`.
+- Authentication with AAD credentials using `@azure/identity`.
+
+Refer to the [changelog](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/CHANGELOG.md) for more new features, changes and bug fixes.
 
 ## Important changes
 
@@ -157,7 +170,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -172,7 +185,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     initContext.setStartingPosition(earliestEventPosition);
   },
   processEvents: onMessageHandler,
-  processError: onErrorHandler
+  processError: onErrorHandler,
 });
 
 await subscription.close();
@@ -272,7 +285,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
@@ -325,7 +338,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
