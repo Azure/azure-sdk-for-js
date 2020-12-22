@@ -7,8 +7,8 @@
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
+import { CommunicationTokenCredential } from '@azure/communication-common';
 import { CommunicationUser } from '@azure/communication-common';
-import { CommunicationUserCredential } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
@@ -27,7 +27,7 @@ export interface AddMembersRequest extends Omit<RestAddMembersRequest, "members"
 
 // @public
 export class ChatClient {
-    constructor(url: string, credential: CommunicationUserCredential, options?: ChatClientOptions);
+    constructor(url: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
     createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<ChatThreadClient>;
     deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<OperationResponse>;
     getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<GetChatThreadResponse>;
@@ -67,7 +67,7 @@ export interface ChatThread extends Omit<RestChatThread, "createdBy" | "members"
 
 // @public
 export class ChatThreadClient {
-    constructor(threadId: string, url: string, credential: CommunicationUserCredential, options?: ChatThreadClientOptions);
+    constructor(threadId: string, url: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addMembers(request: AddMembersRequest, options?: AddMembersOptions): Promise<OperationResponse>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<OperationResponse>;
     dispose(): void;

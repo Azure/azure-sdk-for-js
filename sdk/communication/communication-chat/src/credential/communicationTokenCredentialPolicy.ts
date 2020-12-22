@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUserCredential } from "@azure/communication-common";
+import { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   Constants,
   HttpOperationResponse,
@@ -13,38 +13,38 @@ import {
 } from "@azure/core-http";
 
 /**
- * Creates a new CommunicationUserCredentialPolicy factory.
+ * Creates a new CommunicationTokenCredentialPolicy factory.
  *
- * @param credential The CommunicationUserCredential implementation that can supply the user credential.
+ * @param credential The CommunicationTokenCredential implementation that can supply the user credential.
  */
-export const createCommunicationUserCredentialPolicy = (
-  credential: CommunicationUserCredential
+export const createCommunicationTokenCredentialPolicy = (
+  credential: CommunicationTokenCredential
 ): RequestPolicyFactory => ({
   create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-    return new CommunicationUserCredentialPolicy(nextPolicy, options, credential);
+    return new CommunicationTokenCredentialPolicy(nextPolicy, options, credential);
   }
 });
 
 /**
  *
- * Provides a RequestPolicy that can request a token from a CommunicationUserCredential
+ * Provides a RequestPolicy that can request a token from a CommunicationTokenCredential
  * implementation and then apply it to the Authorization header of a request.
  *
  * @internal
  */
-export class CommunicationUserCredentialPolicy extends BaseRequestPolicy {
+export class CommunicationTokenCredentialPolicy extends BaseRequestPolicy {
   /**
-   * Creates a new CommunicationUserCredentialPolicy object.
+   * Creates a new CommunicationTokenCredentialPolicy object.
    *
    * @param nextPolicy The next RequestPolicy in the request pipeline.
    * @param options Options for this RequestPolicy.
-   * @param credential The CommunicationUserCredential implementation that can supply the user credential.
-   * @param tokenCache The cache for the most recent AccessToken returned from the CommunicationUserCredential.
+   * @param credential The CommunicationTokenCredential implementation that can supply the user credential.
+   * @param tokenCache The cache for the most recent AccessToken returned from the CommunicationTokenCredential.
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private readonly credential: CommunicationUserCredential
+    private readonly credential: CommunicationTokenCredential
   ) {
     super(nextPolicy, options);
   }

@@ -3,24 +3,24 @@
 
 import { AbortSignalLike, AccessToken } from "@azure/core-http";
 import { parseToken } from "./tokenParser";
-import { UserCredential } from "./communicationUserCredential";
+import { TokenCredential } from "./communicationTokenCredential";
 
 /**
- * Options for auto-refreshing a Communication user credential.
+ * Options for auto-refreshing a Communication Token credential.
  */
 export interface RefreshOptions {
   /**
-   * Function that returns a user token acquired from the Communication configuration SDK.
+   * Function that returns a token acquired from the Communication configuration SDK.
    */
   tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 
   /**
-   * Optional user token to initialize.
+   * Optional token to initialize.
    */
-  initialToken?: string;
+  token?: string;
 
   /**
-   * Indicates whether the user token should be proactively renewed prior to expiry or only renew on demand.
+   * Indicates whether the token should be proactively renewed prior to expiry or only renew on demand.
    * By default false.
    */
   refreshProactively?: boolean;
@@ -30,7 +30,7 @@ const expiredToken = { token: "", expiresOnTimestamp: -10 };
 const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
 const defaultRefreshingInterval = minutesToMs(10);
 
-export class AutoRefreshUserCredential implements UserCredential {
+export class AutoRefreshTokenCredential implements TokenCredential {
   private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string>;
   private readonly refreshProactively: boolean;
   private readonly refreshingIntervalInMs: number = defaultRefreshingInterval;
@@ -42,10 +42,10 @@ export class AutoRefreshUserCredential implements UserCredential {
   private disposed = false;
 
   constructor(refreshArgs: RefreshOptions) {
-    const { tokenRefresher, initialToken, refreshProactively } = refreshArgs;
+    const { tokenRefresher, token, refreshProactively } = refreshArgs;
 
     this.refresh = tokenRefresher;
-    this.currentToken = initialToken ? parseToken(initialToken) : expiredToken;
+    this.currentToken = token ? parseToken(token) : expiredToken;
     this.refreshProactively = refreshProactively ?? false;
 
     if (this.refreshProactively) {
