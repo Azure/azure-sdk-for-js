@@ -171,7 +171,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -179,15 +179,23 @@ await rcvHandler.stop();
 Becomes this in V5:
 
 ```typescript
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+
 const eventHubConsumerClient = new EventHubConsumerClient(consumerGroupName, connectionString);
 
-const subscription = eventHubConsumerClient.subscribe(partitionId, {
-  processInitialize: (initContext) => {
-    initContext.setStartingPosition(earliestEventPosition);
+const subscription = eventHubConsumerClient.subscribe(
+  partitionId,
+  {
+    processInitialize: (initContext) => {
+      initContext.setStartingPosition(earliestEventPosition);
+    },
+    processEvents: onMessageHandler,
+    processError: onErrorHandler,
   },
-  processEvents: onMessageHandler,
-  processError: onErrorHandler
-});
+  {
+    startPosition: earliestEventPosition,
+  }
+);
 
 await subscription.close();
 ```
@@ -286,7 +294,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
@@ -339,7 +347,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
