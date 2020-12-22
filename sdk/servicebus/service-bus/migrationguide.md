@@ -177,7 +177,7 @@ In version 7 of this library, we simplified this as below:
   - `label` has been renamed to `subject`
   - `userProperties` has been renamed to `applicationProperties`
 - `ServiceBusReceivedMessage` is the name of the interface representing the message when you get it from the service, regardless of whether you used the peek operation or receivied it using the receiver.
-- The methods to settle the message have been moved from the message to the recevier to better represent the nature of the message settlement feature which is an attribute of the receiver.
+- The methods to settle the message have been moved from the message to the receiver to better represent the nature of the message settlement feature which is an attribute of the receiver.
 
 ### Receiving messages
 
