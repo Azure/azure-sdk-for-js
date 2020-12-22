@@ -171,7 +171,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -190,10 +190,10 @@ const subscription = eventHubConsumerClient.subscribe(
       initContext.setStartingPosition(earliestEventPosition);
     },
     processEvents: onMessageHandler,
-    processError: onErrorHandler
+    processError: onErrorHandler,
   },
   {
-    startPosition: earliestEventPosition
+    startPosition: earliestEventPosition,
   }
 );
 
@@ -210,6 +210,10 @@ In V2, there were multiple options on how to send data.
 In V5, this has been consolidated into a more efficient `sendBatch` method.
 Batching merges information from multiple messages into a single send, reducing
 the amount of network communication needed vs sending messages one at a time.
+
+Note: As of version 5.2.0, `sendBatch` also accepts an array of events to send.
+This can be used if you're sure that the events you're sending can fit within a single batch.
+Creating a batch using `createBatch` and adding events using `batch.tryAdd()` is the safest way to send events since you can be sure the batch size won't exceed service limits.
 
 So in V2:
 
@@ -294,7 +298,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
@@ -347,7 +351,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
