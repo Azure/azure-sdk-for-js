@@ -5,7 +5,9 @@
 
 import { getEnvironmentVariable } from "./utils";
 
-// Every message that is sent between the main and renderer process.
+/**
+ * Constants for every message that is sent between the main and renderer process.
+ */
 export const IPC_MESSAGES = {
   LOGIN: "LOGIN",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
@@ -15,8 +17,9 @@ export const IPC_MESSAGES = {
 const tenantId = getEnvironmentVariable("TENANT_ID");
 const clientId = getEnvironmentVariable("CLIENT_ID");
 
-// The MSAL configuration, used for authentication.
-// For more information about MSAL please see https://www.npmjs.com/package/msal
+/**
+ * The MSAL configuration data, used by both the main and renderer processes.
+ */
 export const MSAL_CONFIG = {
   clientId,
   tenantId,

@@ -1,45 +1,55 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-service-bus
-  - azure-storage
-urlFragment: electron-typescript
----
-
 # Azure SDK samples for Electron (TypeScript)
 
 This sample application shows how to use the TypeScript client libraries for Azure in some common scenarios.
 
-In this sample, we build a simple [Electron][electron] application and integrating with various
-Azure services.
+In this sample, we build a simple [Electron][electron] application and integrating with various Azure services.
 
-- Integration with Azure ServiceBus showcases a mechanism for any single instance to consume ServiceBus messages.
-- Integration with Azure Storage Blob showcases a mechanism for fetching Azure blobs and displaying them in the renderer.
+- Integration with Azure Service Bus to support a single instance publishing and receiving Service Bus messages.
+- Integration with Azure Storage Blob for persisting notes.
 
 ## Prerequisites
 
 The samples are compatible with Node.js >= 8.0.0.
 
-Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
-
-```bash
-npm install -g typescript
-```
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
 - An Azure ServiceBus namespace and queue. Please refer to the [ServiceBus documentation][servicebus] for additional information on ServiceBus.
-- An Azure Storage Blob container, with a single text file uploaded to it to support the sample. You'll want to Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
-- Finally, you'll need a way to authenticate the application with Azure. This requires some additional setup configuring the correct access permissions to the above resources using either a service principal or a role-based-authentication. Please refer to the [@azure/identity][identity] package for information on authentication.
+- An Azure Storage Blob container. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
+- Finally, you'll need a way to authenticate the application with Azure. Please refer to the [@azure/identity][identity] package for information on authentication. The instructions below will walk you through the necessary steps.
+
+To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fframeworks%2Felectron%2Farm-template.json)
+
+The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
+
+### Register a new application in AAD and assign the "Azure Service Bus Data Owner" and "Azure Storage Blob Data Contributor" role to it.
+
+Authentication will still need to be set-up manually using the following instructions:
+
+- See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+  to register a new application in the Azure Active Directory.
+- Note down the client id and tenant id from the above step.
+  You will need to set these in the .env file below.
+
+For Electron we also need to configure platform settings correctly, and we will use `msal://` as the custom scheme. To set that up in your app registration:
+
+1. Click on Authentication in the app registration side bar
+2. Select "Add a platform"
+3. Select "Mobile and Desktop Application"
+4. In the "Custom redirect URIs" field please enter: msal://redirect
+5. Click "Configure"
+
+In your app registration, you will also need to add a permission for the `Microsoft.ServiceBus` and `Azure Storage` apps.
+When adding permission for `Microsoft.ServiceBus` and `Azure Storage`, the type should be `delegated permissions` and the permission should be `user_impersonation`.
 
 ## Running the sample
 
 Once the above created you'll want to ensure Electron has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application.
 
-Install the dependencies:
+Install the various packages as well as the TypeScript compiler using:
 
 ```bash
 npm install
@@ -51,8 +61,7 @@ Run the sample app:
 npm start
 ```
 
-A new electron window will open containing a single Log In button. Once you login you'll be able to send
-and receive Service Bus messages as well as fetch and display a text file from Azure Blob Storage.
+A new electron window will open containing a single Log In button. Once you login you'll be able to send and receive Service Bus messages as well as fetch and display a text file from Azure Blob Storage.
 
 ## Next Steps
 
@@ -65,3 +74,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
 [identity]: https://docs.microsoft.com/javascript/api/@azure/identity
 [apiref]: https://docs.microsoft.com/javascript/api/
+[implicitgrantflow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow

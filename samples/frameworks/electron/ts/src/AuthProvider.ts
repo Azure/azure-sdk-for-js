@@ -16,6 +16,9 @@
 
   For more information on the Authorization code credential strategy please
   see https://docs.microsoft.com/en-us/javascript/api/@azure/identity/authorizationcodecredential
+
+  Finally, you may visit https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
+  to learn more about the OAuth 2.0 authorization code flow.
 */
 import { BrowserWindow, protocol, session } from "electron";
 import qs from "qs";
@@ -28,8 +31,8 @@ export default class AuthProvider {
   constructor() {
     // Register a custom handler for `msal://` scheme
     // which is needed to get an authentication callback
-    // handler (otherwise `file://` is used as the default in
-    // most cases by electron).
+    // By default Electron will serve and handle files, and
+    // file:// is not a valid scheme for OAuth callback URIs.
     protocol.registerHttpProtocol("msal", async (req) => {
       const parsedUrl = new URL(req.url);
       const authCode = parsedUrl.searchParams.get("code");
@@ -43,22 +46,14 @@ export default class AuthProvider {
     });
   }
 
-  getAuthorizeUrl(scopes: string[]): string {
-    const queryParams = qs.stringify({
-      client_id: MSAL_CONFIG.clientId,
-      response_type: "code",
-      redirect_uri: MSAL_CONFIG.redirectUri,
-      scope: scopes.join(" ")
-    });
-
-    const authority = `https://login.microsoftonline.com/${tenantId}`;
-    let url = `${authority}/oauth2/v2.0/authorize?${queryParams}`;
-    return url;
-  }
-
-  // Login in this scenario means creating a new browser window and navigating
-  // to the Authorization URL, allowing the user to provide their credentials
-  // and allow the application access to the necessary scopes.
+  /**
+   * Initiate the login flow to fetch an authorization token.
+   *
+   * @remarks
+   * Login in this scenario means creating a new browser window and navigating
+   * to the Authorization URL, allowing the user to provide their credentials
+   * and allow the application access to the necessary scopes.
+   */
   login(): void {
     const authCodeUrl = this.getAuthorizeUrl(["openid", "profile", "User.Read"]);
     this.loginWindow = new BrowserWindow({
@@ -71,8 +66,29 @@ export default class AuthProvider {
     this.loginWindow.loadURL(authCodeUrl);
   }
 
+  /**
+   * Logout a user and reload the main application.
+   *
+   * @remarks
+   * For this example it's sufficient to clear all storage data
+   * as a way to logout a user.
+   */
   logout(): void {
     session.defaultSession.clearStorageData();
     Main.main();
+  }
+
+  private getAuthorizeUrl(scopes: string[]): string {
+    // Construct the proper authorization URI for the authorization code flow.
+    const queryParams = qs.stringify({
+      client_id: MSAL_CONFIG.clientId,
+      response_type: "code",
+      redirect_uri: MSAL_CONFIG.redirectUri,
+      scope: scopes.join(" ")
+    });
+
+    const authority = `https://login.microsoftonline.com/${MSAL_CONFIG.tenantId}`;
+    let url = `${authority}/oauth2/v2.0/authorize?${queryParams}`;
+    return url;
   }
 }

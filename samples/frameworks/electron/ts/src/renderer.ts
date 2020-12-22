@@ -9,16 +9,16 @@ import { ipcRenderer } from "electron";
 import { UIManager } from "./UIManager";
 
 import { IPC_MESSAGES, MSAL_CONFIG } from "./Constants";
-import { BlobServiceClient } from "@azure/storage-blob";
 import { ServiceBusClient } from "@azure/service-bus";
 import { AuthorizationCodeCredential } from "@azure/identity";
 import { getEnvironmentVariable } from "./utils";
 import dotenv from "dotenv";
+import { BlobHandler } from "./blobHandler";
 
 dotenv.config();
 
 const uiManager = new UIManager();
-
+let blobHandler: BlobHandler | undefined;
 let authCredential: AuthorizationCodeCredential;
 
 // The main process will publish an authorization code to be used with the
@@ -34,28 +34,24 @@ const onLoginSuccess = (_e: Electron.IpcRendererEvent, authCode: string) => {
     authCode,
     MSAL_CONFIG.redirectUri
   );
+  blobHandler = new BlobHandler(authCredential);
   uiManager.showLoggedIn();
 };
 
-// Handle the Fetch Blob click event by creating a new Azure Blob Storage
-// client and fetching a given Blob.
+// Handle the Upload Blob click event by creating a new Blob and
+// uploading it to Azure Blob Storage
+const onUploadBlobClick = async () => {
+  let blobName = getEnvironmentVariable("BLOB_NAME");
+  await blobHandler.uploadFile(blobName, `File uploaded at ${new Date()}`);
+  uiManager.showBlobContents("Uploaded!");
+};
+
+// Handle the Fetch Blob click event by fetching a given Blob.
 const onFetchBlobClick = async () => {
   uiManager.showBlobContents("Fetch blob...");
-  if (!authCredential) {
-    throw new Error("Auth service never completed!");
-  }
-  const blobUri = getEnvironmentVariable("BLOB_URI");
-  const blobContainer = getEnvironmentVariable("BLOB_CONTAINER");
-  const blobName = getEnvironmentVariable("BLOB_NAME");
-
-  // We can pass our existing AuthorizationCodeCredential to have
-  // the BlobServiceClient automatically convert it to tokens when
-  // making requests.
-  let client = new BlobServiceClient(blobUri, authCredential);
-  let container = client.getContainerClient(blobContainer);
-  let blob = container.getBlobClient(blobName);
-  let bits = await blob.downloadToBuffer();
-  uiManager.showBlobContents(bits.toString());
+  let blobName = getEnvironmentVariable("BLOB_NAME");
+  const text = await blobHandler.downloadFileContents(blobName);
+  uiManager.showBlobContents(text || "No blob has been uploaded!");
 };
 
 // Handle the Send Service Bus Message click event by creating a new
@@ -103,6 +99,8 @@ document.querySelector("#sign-out").addEventListener("click", () => {
   ipcRenderer.send(IPC_MESSAGES.LOGOUT);
   uiManager.showLoggedOut();
 });
+
+document.querySelector("#upload-blob").addEventListener("click", onUploadBlobClick);
 
 document.querySelector("#fetch-blob").addEventListener("click", onFetchBlobClick);
 
