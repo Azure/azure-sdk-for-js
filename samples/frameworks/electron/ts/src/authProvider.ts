@@ -22,8 +22,8 @@
 */
 import { BrowserWindow, protocol, session } from "electron";
 import qs from "qs";
-import { IPC_MESSAGES, MSAL_CONFIG } from "./Constants";
-import Main from "./Main";
+import { IPC_MESSAGES, MSAL_CONFIG } from "./constants";
+import Main from "./main";
 
 export default class AuthProvider {
   private loginWindow: BrowserWindow;

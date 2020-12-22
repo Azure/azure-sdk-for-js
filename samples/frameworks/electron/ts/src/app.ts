@@ -9,6 +9,6 @@
 // our environment variables before importing
 // any app code.
 import "./config";
-import Main from "./Main";
+import Main from "./main";
 
 Main.main();

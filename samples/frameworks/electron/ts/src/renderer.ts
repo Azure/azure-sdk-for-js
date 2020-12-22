@@ -6,9 +6,9 @@
   various Azure SDKs in an electron application.
 */
 import { ipcRenderer } from "electron";
-import { UIManager } from "./UIManager";
+import { UIManager } from "./uiManager";
 
-import { IPC_MESSAGES, MSAL_CONFIG } from "./Constants";
+import { IPC_MESSAGES, MSAL_CONFIG } from "./constants";
 import { ServiceBusClient } from "@azure/service-bus";
 import { AuthorizationCodeCredential } from "@azure/identity";
 import { getEnvironmentVariable } from "./utils";

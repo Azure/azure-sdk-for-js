@@ -6,8 +6,8 @@
   as well as integration between a renderer and the authentication provider.
 */
 import { app, BrowserWindow, ipcMain } from "electron";
-import { IPC_MESSAGES } from "./Constants";
-import AuthProvider from "./AuthProvider";
+import { IPC_MESSAGES } from "./constants";
+import AuthProvider from "./authProvider";
 import * as path from "path";
 
 export default class Main {
