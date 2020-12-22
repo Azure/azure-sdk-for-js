@@ -28,21 +28,15 @@ export interface CallingApplicationKind extends CallingApplicationIdentifier {
 }
 
 // @public
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
+
+// @public
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
+
+// @public
 export interface CommunicationTokenCredential {
     dispose(): void;
     getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
-}
-
-// @public
-export interface CommunicationTokenRefreshOptions {
-    refreshProactively?: boolean;
-    token?: string;
-    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
-}
-
-// @public
-export interface CommunicationUser {
-    communicationUserId: string;
 }
 
 // @public
