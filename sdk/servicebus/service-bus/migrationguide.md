@@ -5,19 +5,20 @@ This guide is intended to assist in the migration from version 1 of the Service 
 Familiarity with the version 1 of the `@azure/service-bus` library is assumed. For those new to the Service Bus client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/README.md) and [Service Bus samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples) for the `@azure/service-bus` library rather than this guide.
 
 ## Table of contents
-* [Migration benefits](#migration-benefits)
-  * [Cross Service SDK improvements](#cross-service-sdk-improvements)
-  * [New features](#new-features)
-  * [Performance improvements](#performance-improvements)
-* [Important changes](#important-changes)
-  * [Client hierarchy](#client-hierarchy)
-  * [Client constructors](#client-constructors)
-  * [Creating senders and receivers](#creating-senders-and-receivers)
-  * [Message format changes](#message-format-changes)
-  * [Receiving messages](#receiving-messages)
-  * [Rule management](#rule-management)
-* [Upcoming features](#upcoming-features)
-* [Additional samples](#additional-samples)
+
+- [Migration benefits](#migration-benefits)
+  - [Cross Service SDK improvements](#cross-service-sdk-improvements)
+  - [New features](#new-features)
+  - [Performance improvements](#performance-improvements)
+- [Important changes](#important-changes)
+  - [Client hierarchy](#client-hierarchy)
+  - [Client constructors](#client-constructors)
+  - [Creating senders and receivers](#creating-senders-and-receivers)
+  - [Message format changes](#message-format-changes)
+  - [Receiving messages](#receiving-messages)
+  - [Rule management](#rule-management)
+- [Upcoming features](#upcoming-features)
+- [Additional samples](#additional-samples)
 
 ## Migration benefits
 
@@ -30,6 +31,7 @@ To try and improve the development experience across Azure services, a set of un
 ### Cross Service SDK improvements
 
 The new version of the Service Bus library also shares some of the cross-service improvements made to the Azure development experience, such as:
+
 - Using the new `@azure/identity` library to share a single authentication approach between clients.
 - A unified logging and diagnostics pipeline that offers a common view of the activities across each of the client libraries.
 - The use of promises rather than callbacks for a simplified programming experience.
@@ -164,11 +166,13 @@ const serviceBusClient = new ServiceBusClient("my-namespace.servicebus.windows.n
 ### Message format changes
 
 In version 1 of this library, we had the below to represent a Service Bus message
-- `SendableMessageInfo` - An interface representing the message when you need to send it. 
+
+- `SendableMessageInfo` - An interface representing the message when you need to send it.
 - `ReceivedMessageInfo` - An interface representing the message when you use the peek operation. This extends the `SendableMessageInfo` with data set by the service.
 - `ServiceBusMessage` - A class representing the message when receive it using the receiver. This extends the `ReceivedMessageInfo` with methods on it to settle the message.
 
 In version 7 of this library, we simplified this as below:
+
 - `ServiceBusMessage` is now the name of the interface representing the message when you need to send it with the below changes to better align with the [AMQP spec](https://www.amqp.org/sites/amqp.org/files/amqp.pdf):
   - `label` has been renamed to `subject`
   - `userProperties` has been renamed to `applicationProperties`
@@ -219,7 +223,7 @@ These have been moved to the receiver in the new version, take the message as in
 
 ```typescript
 // current
-const serviceBusReceivedMessage: ServiceBusReceivedMessage
+const serviceBusReceivedMessage: ServiceBusReceivedMessage;
 const serviceBusReceiver: ServiceBusReceiver;
 
 serviceBusReceiver.completeMessage(serviceBusReceivedMessage);
