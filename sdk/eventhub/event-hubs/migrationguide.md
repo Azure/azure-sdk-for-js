@@ -1,9 +1,32 @@
 # Guide to migrate from @azure/event-hubs v2 to v5
 
-This document is intended for users that are familiar with V2 of the JavaScript SDK for Event Hubs library (`@azure/event-hubs@2.x.x` & `@azure/event-processor-host@2.x.x`) and wish
-to migrate their application to V5 of the same library.
+This guide is intended to assist in the migration from version 2 of the Event Hubs client library `@azure/event-hubs` and version 2 of the Event Processor Host library `@azure/event-processor-host` to version 5 of the `@azure/event-hubs` library.
+It will focus on side-by-side comparisons for similar operations between the two packages.
 
-For users new to the JavaScript SDK for Event Hubs, please see the [readme file for the @azure/event-hubs package](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md).
+Familiarity with the version 2 of the `@azure/event-hubs` and `@azure/event-processor-host` libraries are assumed.
+For those new to the Event Hubs client library, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md).
+and [Event Hubs samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples) for the `@azure/event-hubs` library rather than this guide.
+
+## Table of contents
+
+- [Migration benefits](#migration-benefits)
+  - [Cross Service SDK improvements](#cross-service-sdk-improvements)
+- [Important changes](#important-changes)
+
+  - [Client hierarchy](#client-hierarchy)
+  - [Client constructors](#client-constructors)
+  - [Sending events](#sending-events)
+  - [Receiving messages](#receiving-messages)
+  - [Handling backpressure](#handling-backpressure)
+  - [Creating EventPosition](#creating-eventposition)
+  - [Granular control over retries](#granular-control-over-retries)
+  - [Handling errors](#handling-errors)
+
+- [Migration samples](#migration-samples)
+  - [Migrating from EventHubClient to EventHubConsumerClient for receiving events](#migrating-from-eventhubclient-to-eventhubconsumerclient-for-receiving-events)
+  - [Migrating from EventHubClient to EventHubProducerClient for sending events](#migrating-from-eventhubclient-to-eventhubproducerclient-for-sending-events)
+  - [Migrating from EventProcessorHost to EventHubConsumerClient for receiving events](#migrating-from-eventprocessorhost-to-eventhubconsumerclient-for-receiving-events)
+- [Additional samples](#additional-samples)
 
 ## Migration benefits
 
@@ -13,60 +36,21 @@ There were several areas of consistent feedback expressed across the Azure clien
 
 To try and improve the development experience across Azure services, including Event Hubs, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript & JavaScript specific guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) was also introduced to ensure that these libraries have a natural and idiomatic feel. Further details are available in the guidelines for those interested.
 
-The new version 5 of the Event Hubs library provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as using the new `@azure/identity` library to share a single authentication between clients and a unified diagnostics pipeline offering a common view of the activities across each of the client libraries.
+### Cross Service SDK improvements
 
-## General changes
+The new version of the Event Hubs library also shares some of the cross-service improvements made to the Azure development experience, such as:
 
-Version 5 of the `@azure/event-hubs` package is a result of our efforts to
-create a client library that is user-friendly and idiomatic to the JavaScript
-ecosystem.
+- Using the new `@azure/identity` library to share a single authentication between clients.
+- A unified diagnostics pipeline that offers a common view of the activities across each of the client libraries.
 
-Apart from redesigns resulting from the new [Azure SDK Design Guidelines for Typescript](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles),
-the latest version improves on several areas from V2:
+## Important changes
 
-### Handling backpressure
+### Client hierarchy
 
-Prior to V5, events were delivered as they were received with no ability
-for the user to control the pace. This could result in flooding of downstream
-dependencies as well as confusion about which events had been consumed in
-what order, making checkpointing difficult to do correctly.
-
-In V5 the model has been simplified so new events are not delivered until the
-previous batch has been consumed by your event handler. You can see a sample
-demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
-
-### Specific clients for sending vs receiving
-
-In V5 we've simplified the API surface, making two distinct clients, rather
-than having a single `EventHubClient`:
-
-- [EventHubProducerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient)
-  for sending messages.
-- [EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient)
-  for receiving messages.
-
-We've also merged the functionality from `EventProcessorHost` from the `@azure/event-processor-host` package into
-`EventHubConsumerClient` in the `@azure/event-hubs` package, allowing `EventHubConsumerClient` to be the single
-point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
-
-Important note on checkpoints: `EventHubConsumerClient` does not support legacy checkpoint data.
-i.e. the checkpoints made using the package `@azure/event-processor-host`.
-In order to support interopability between different programming languages, a unifying checkpoint format was needed.
-This and the need to support improvements to the algorithm used for managing partition ownership made breaking changes necessary.
-
-### Granular control over retries
-
-Retry logic and tuning has been externalized, allowing for better configuration
-to better suit your network configuration and reliability.
-
-More information about configuring and tuning retries can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#guidance-around-retries).
-
-### Unified logging and diagnostics
-
-With V5 we've unified the Azure SDK logging to work in a uniform way, making
-troubleshooting simpler.
-
-Documentation for enabling logging in EventHubs is [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#enable-logs).
+In the interest of simplifying the API surface, we have two distinct clients: the `EventHubProducerClient` for sending events and the `EventHubConsumerClient` for receiving events.
+This is in contrast the the single `EventHubClient` that was used to create senders and receivers.
+We've also merged the functionality from `EventProcessorHost` from the `@azure/event-processor-host` library into `EventHubConsumerClient`,
+allowing the `EventHubConsumerClient` to be the single point of entry for receiving of any type (from single partition, all partitions, or with load balancing and checkpointing features) within Event Hubs.
 
 ### Client constructors
 
@@ -83,18 +67,10 @@ Other noteworthy changes:
 - For a checkpoint store implementation using Azure Storage Blobs, use the
   [@azure/eventhubs-checkpointstore-blob](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-blob) package.
 
-### Receiving events
-
-| In v2                                                          | Equivalent in v5                     | Sample                                                                                                                                 |
-| -------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `EventHubClient.receive()` and `EventHubClient.receiveBatch()` | `EventHubConsumerClient.subscribe()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
-
-Other noteworthy changes:
-
-- Use the `options` parameter to the `subscribe()` method to specify starting position to receive events from.
-- The `subscribe()` method allows you to receive events in batches whose size can be configured using the `options` parameter.
-- The user provided `processEvents` function to process events will be invoked only after the previous invocation completes.
-  This is different from v2 where the function was invoked for each event without waiting for the previous call to complete.
+Important note on checkpoints: `EventHubConsumerClient` does not support legacy checkpoint data.
+i.e. the checkpoints made using the package `@azure/event-processor-host`.
+In order to support interopability between different programming languages, a unifying checkpoint format was needed.
+This and the need to support improvements to the algorithm used for managing partition ownership made breaking changes necessary.
 
 ### Sending events
 
@@ -109,6 +85,30 @@ Other noteworthy changes:
 - The `sendBatch` method on the client takes a object of type `EventDataBatch` that should be created
   using the `createBatch` method on the client.
 
+### Receiving events
+
+| In v2                                                          | Equivalent in v5                     | Sample                                                                                                                                 |
+| -------------------------------------------------------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `EventHubClient.receive()` and `EventHubClient.receiveBatch()` | `EventHubConsumerClient.subscribe()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts) |
+
+Other noteworthy changes:
+
+- Use the `options` parameter to the `subscribe()` method to specify starting position to receive events from.
+- The `subscribe()` method allows you to receive events in batches whose size can be configured using the `options` parameter.
+- The user provided `processEvents` function to process events will be invoked only after the previous invocation completes.
+  This is different from v2 where the function was invoked for each event without waiting for the previous call to complete.
+
+### Handling backpressure
+
+Prior to V5, events were delivered as they were received with no ability
+for the user to control the pace. This could result in flooding of downstream
+dependencies as well as confusion about which events had been consumed in
+what order, making checkpointing difficult to do correctly.
+
+In V5 the model has been simplified so new events are not delivered until the
+previous batch has been consumed by your event handler. You can see a sample
+demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
+
 ### Creating EventPosition
 
 | In v2                                     | Equivalent in v5            |
@@ -118,6 +118,13 @@ Other noteworthy changes:
 | `EventPosition.fromOffset(value)`         | `{ offset: value }`         |
 | `EventPosition.fromSequenceNumber(value)` | `{ sequenceNumber: value }` |
 | `EventPosition.fromEnqueuedTime(value)`   | `{ enqueuedOn: value }`     |
+
+### Granular control over retries
+
+Retry logic and tuning has been externalized, allowing for better configuration
+to better suit your network configuration and reliability.
+
+More information about configuring and tuning retries can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs#guidance-around-retries).
 
 ### Handling errors
 
@@ -138,7 +145,7 @@ Other noteworthy changes:
 - [Receiving events with checkpointing](#migrating-code-from-eventprocessorhost-to-eventhubconsumerclient-for-receiving-events)
 - [Sending events](#migrating-code-from-eventhubclient-to-eventhubproducerclient-for-sending-events)
 
-### Migrating code from `EventHubClient` to `EventHubConsumerClient` for receiving events
+### Migrating from `EventHubClient` to `EventHubConsumerClient` for receiving events
 
 In V2, event handlers were passed as positional arguments to `receive`.
 
@@ -150,7 +157,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -165,7 +172,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     initContext.setStartingPosition(earliestEventPosition);
   },
   processEvents: onMessageHandler,
-  processError: onErrorHandler
+  processError: onErrorHandler,
 });
 
 await subscription.close();
@@ -174,7 +181,7 @@ await subscription.close();
 See [`receiveEvents.ts`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/typescript/src/receiveEvents.ts)
 for a sample program demonstrating this.
 
-### Migrating code from `EventHubClient` to `EventHubProducerClient` for sending events
+### Migrating from `EventHubClient` to `EventHubProducerClient` for sending events
 
 In V2, there were multiple options on how to send data.
 
@@ -244,7 +251,7 @@ if (batch.count > 0) {
 }
 ```
 
-### Migrating code from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
+### Migrating from `EventProcessorHost` to `EventHubConsumerClient` for receiving events
 
 In V2, `EventProcessorHost` allowed you to balance the load between multiple instances of
 your program when receiving events.
@@ -265,7 +272,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
@@ -318,10 +325,14 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
 ```
+
+## Additional samples
+
+More examples can be found at [samples for @azure/event-hubs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples).
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FMIGRATIONGUIDE.png)
