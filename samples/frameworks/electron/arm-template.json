@@ -13,8 +13,8 @@
   "variables": {
     "serviceBusQueue": "events",
     "serviceBusNamespace": "[concat(parameters('baseName'), 'servicebus')]",
-    "storageAccount": "[concat(parameters('baseName'), 'storage')]",
-    "storageContainer": "[concat(parameters('baseName'), 'storage', '/default/blobs')]",
+    "storageAccount": "[concat(replace(parameters('baseName'), '-', ''), 'storage')]",
+    "storageContainer": "[concat(replace(parameters('baseName'), '-', ''), 'storage', '/default/blobs')]",
     "location": "[resourceGroup().location]"
   },
   "resources": [
