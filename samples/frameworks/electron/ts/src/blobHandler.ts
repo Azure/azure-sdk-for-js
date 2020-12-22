@@ -52,10 +52,10 @@ export class BlobHandler {
       throw new Error("[blobHandler]: Client never initialized!");
     }
 
-    let blobClient = this.client.getBlobClient(name);
+    const blobClient = this.client.getBlobClient(name);
 
     try {
-      let buffer = await blobClient.downloadToBuffer();
+      const buffer = await blobClient.downloadToBuffer();
       return buffer.toString();
     } catch (error) {
       // It's possible the blob doesn't exist, which is fine.

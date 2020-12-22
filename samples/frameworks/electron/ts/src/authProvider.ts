@@ -88,7 +88,6 @@ export default class AuthProvider {
     });
 
     const authority = `https://login.microsoftonline.com/${MSAL_CONFIG.tenantId}`;
-    let url = `${authority}/oauth2/v2.0/authorize?${queryParams}`;
-    return url;
+    return `${authority}/oauth2/v2.0/authorize?${queryParams}`;
   }
 }
