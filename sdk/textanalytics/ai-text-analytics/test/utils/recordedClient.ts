@@ -7,6 +7,7 @@ import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-uti
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
 import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../src/";
+import "./env";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",

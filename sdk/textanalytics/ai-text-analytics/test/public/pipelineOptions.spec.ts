@@ -2,16 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 
 import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
-
-import { WebResource, HttpOperationResponse, HttpHeaders, isNode } from "@azure/core-http";
 import { createClient } from "../utils/recordedClient";
 
-if (isNode) {
-  dotenv.config();
-}
+import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
   it("use custom HTTPClient", async () => {
