@@ -4,7 +4,10 @@
 import { AbortSignalLike, AccessToken } from "@azure/core-http";
 import { parseToken } from "./tokenParser";
 import { StaticTokenCredential } from "./staticTokenCredential";
-import { AutoRefreshTokenCredential, CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential";
+import {
+  AutoRefreshTokenCredential,
+  CommunicationTokenRefreshOptions
+} from "./autoRefreshTokenCredential";
 
 export type TokenCredential = Pick<AzureCommunicationTokenCredential, "getToken" | "dispose">;
 
