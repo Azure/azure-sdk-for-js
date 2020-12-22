@@ -2,10 +2,22 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### Added
+
+- Added `MicrosoftTeamsUserIdentifier` and `isMicrosoftTeamsUserIdentifier`.
+
 ### Breaking Changes
 
-- Renamed `communicationUserCredential` to `communicationTokenCredential`.
+- Renamed `CommunicationUserCredential` to `CommunicationTokenCredential`.
 - Renamed `RefreshOptions` to `CommunicationTokenRefreshOptions`.
+- Renamed `Identifier` to `CommunicationIdentifier`.
+- Renamed `IdentifierKind` to `CommunicationIdentifierKind`.
+- Renamed `PhoneNumber` to `PhoneNumberIdentifier`.
+- Renamed `isPhoneNumber` to `isPhoneNumberIdentifier`.
+- Renamed `CommunicationUser` to `CommunicationUserIdentifier`.
+- Renamed `isCommunicationUser` to `isCommunicationUserIdentifier`.
+- Renamed `CallingApplication` to `CallingApplicationIdentifier`.
+- Renamed `isCallingApplication` to `isCallingApplicationIdentifier`.
 
 ## 1.0.0-beta.3 (2020-11-16)
 
