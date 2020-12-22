@@ -62,6 +62,11 @@ export function createClient(
   return new TextAnalyticsClient(env.ENDPOINT, credential, options);
 }
 
+/**
+ * creates the recorder and reads the environment variables from the `.env` file.
+ * Should be called first in the test suite to make sure environment variables are
+ * read before they are being used.
+ */
 export function createRecorder(context: Context): Recorder {
   return record(context, environmentSetup);
 }
