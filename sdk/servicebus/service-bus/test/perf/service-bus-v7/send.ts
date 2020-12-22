@@ -10,7 +10,7 @@ Measures the maximum throughput of `sender.send()` in package `@azure/service-bu
 5. Example: `ts-node app.ts 1000 1000000 true`
  */
 
-import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusSender } from "../../../src";
 import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists
@@ -71,8 +71,11 @@ async function ExecuteSendsAsync(
 ): Promise<void> {
   while (_messages <= messages) {
     if (batchAPI) {
-      const currentBatch = await sender.createBatch();
-      while (currentBatch.tryAdd({ body: _payload }) && _messages + currentBatch.count <= messages);
+      const currentBatch = await sender.createMessageBatch();
+      while (
+        currentBatch.tryAddMessage({ body: _payload }) &&
+        _messages + currentBatch.count <= messages
+      );
       await sender.sendMessages(currentBatch);
       _messages = _messages + currentBatch.count;
     } else {

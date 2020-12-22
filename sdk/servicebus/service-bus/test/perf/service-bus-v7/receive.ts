@@ -11,7 +11,7 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 5. Example: `ts-node receive.ts 1000 1000000 false`
  */
 
-import { ServiceBusClient, ServiceBusReceivedMessageWithLock } from "@azure/service-bus";
+import { ProcessErrorArgs, ServiceBusClient, ServiceBusReceivedMessage } from "../../../src";
 import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists
@@ -53,22 +53,22 @@ async function RunTest(
     isReceiveAndDelete ? { receiveMode: "receiveAndDelete" } : {}
   );
 
-  const processMessage = async (msg: ServiceBusReceivedMessageWithLock) => {
+  const processMessage = async (msg: ServiceBusReceivedMessage) => {
     _messages++;
-    if (!isReceiveAndDelete) await msg.complete();
+    if (!isReceiveAndDelete) await receiver.completeMessage(msg);
     if (_messages === messages) {
       await receiver.close();
       await ns.close();
     }
   };
-  const processError = async (err: Error) => {
-    console.log("Error occurred: ", err);
+  const processError = async (args: ProcessErrorArgs) => {
+    console.log("Error occurred: ", args.error);
   };
 
   receiver.subscribe(
     { processMessage, processError },
     {
-      autoComplete: false,
+      autoCompleteMessages: false,
       maxConcurrentCalls
     }
   );

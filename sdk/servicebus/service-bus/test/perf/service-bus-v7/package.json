@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/service-bus": "^7.0.0-preview.7"
+    "@azure/service-bus": "^7.0.0"
   }
 }

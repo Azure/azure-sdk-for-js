@@ -11,7 +11,7 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 5. Example: `ts-node receive.ts 10 1000000 false`
  */
 
-import { ServiceBusClient, ServiceBusReceivedMessageWithLock } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusReceivedMessage } from "../../../src";
 import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists
@@ -58,7 +58,7 @@ async function RunTest(
     _messages += msgs.length;
     if (!isReceiveAndDelete) {
       for (const msg of msgs) {
-        await (msg as ServiceBusReceivedMessageWithLock).complete();
+        await receiver.completeMessage(msg);
       }
     }
   }
