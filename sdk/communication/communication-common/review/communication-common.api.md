@@ -40,6 +40,13 @@ export interface CommunicationTokenCredential {
 }
 
 // @public
+export interface CommunicationTokenRefreshOptions {
+    refreshProactively?: boolean;
+    token?: string;
+    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
+}
+
+// @public
 export interface CommunicationUserIdentifier {
     communicationUserId: string;
 }
