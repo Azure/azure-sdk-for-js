@@ -20,8 +20,8 @@
   "variables": {
     "eventHubsName": "events",
     "eventHubsNamespace": "[concat(parameters('baseName'), 'reactevents')]",
-    "storageAccount": "[concat(replace(parameters('baseName'), '-', ''), 'storage')]",
-    "storageContainer": "[concat(replace(parameters('baseName'), '-', ''), 'storage', '/default/blobs')]",
+    "storageAccount": "[concat(replace(parameters('baseName'), '-', ''), 'reactstorage')]",
+    "storageContainer": "[concat(replace(parameters('baseName'), '-', ''), 'reactstorage', '/default/blobs')]",
     "location": "[resourceGroup().location]"
   },
   "resources": [
