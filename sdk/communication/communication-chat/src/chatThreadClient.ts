@@ -3,7 +3,10 @@
 
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
-import { CommunicationUserIdentifier, CommunicationUserCredential } from "@azure/communication-common";
+import {
+  CommunicationUserIdentifier,
+  CommunicationUserCredential
+} from "@azure/communication-common";
 import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
 import { ChatApiClient } from "./generated/src/chatApiClient";
 import {

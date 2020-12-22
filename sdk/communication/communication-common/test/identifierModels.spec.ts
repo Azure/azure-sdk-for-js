@@ -24,6 +24,9 @@ describe("Identifier models", () => {
     const phoneNumber = { phoneNumber: "123" };
     const identifierKind = getIdentifierKind(phoneNumber);
     assert.strictEqual(identifierKind.kind, "PhoneNumber");
-    assert.strictEqual((identifierKind as PhoneNumberIdentifier).phoneNumber, phoneNumber.phoneNumber);
+    assert.strictEqual(
+      (identifierKind as PhoneNumberIdentifier).phoneNumber,
+      phoneNumber.phoneNumber
+    );
   });
 });

@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-http";
-import { CommunicationUserIdentifier, isCommunicationUserIdentifier } from "@azure/communication-common";
+import {
+  CommunicationUserIdentifier,
+  isCommunicationUserIdentifier
+} from "@azure/communication-common";
 import { assert } from "chai";
 import sinon from "sinon";
 import { CommunicationIdentityClient } from "../src";

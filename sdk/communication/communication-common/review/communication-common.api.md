@@ -31,6 +31,9 @@ export interface CallingApplicationIdentifierKind extends CallingApplicationIden
 export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | UnknownIdentifier;
 
 // @public
+export type CommunicationIdentifierKind = CommunicationUserIdentifierKind | PhoneNumberIdentifierKind | CallingApplicationIdentifierKind | UnknownIdentifierKind;
+
+// @public
 export interface CommunicationUserCredential {
     dispose(): void;
     getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
@@ -50,10 +53,7 @@ export interface CommunicationUserIdentifierKind extends CommunicationUserIdenti
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
-export const getIdentifierKind: (identifier: CommunicationIdentifier) => IdentifierKind;
-
-// @public
-export type IdentifierKind = CommunicationUserIdentifierKind | PhoneNumberIdentifierKind | CallingApplicationIdentifierKind | UnknownIdentifierKind;
+export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
 export const isCallingApplicationIdentifier: (identifier: CommunicationIdentifier) => identifier is CallingApplicationIdentifier;

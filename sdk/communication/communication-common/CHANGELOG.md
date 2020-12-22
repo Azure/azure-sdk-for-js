@@ -19,7 +19,6 @@
 - Renamed `CallingApplicationKind` to `CallingApplicationIdentifierKind`.
 - Renamed `isCallingApplication` to `isCallingApplicationIdentifier`.
 
-
 ## 1.0.0-beta.3 (2020-11-16)
 
 Updated `@azure/communication-common` version.

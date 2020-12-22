@@ -4,7 +4,11 @@
 /**
  * Identifies a communication user.
  */
-export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | UnknownIdentifier;
+export type CommunicationIdentifier =
+  | CommunicationUserIdentifier
+  | PhoneNumberIdentifier
+  | CallingApplicationIdentifier
+  | UnknownIdentifier;
 
 /**
  * An Azure Communication user.
@@ -51,7 +55,9 @@ export interface UnknownIdentifier {
  *
  * @param identifier The assumed CommunicationUser to be tested.
  */
-export const isCommunicationUserIdentifier = (identifier: CommunicationIdentifier): identifier is CommunicationUserIdentifier => {
+export const isCommunicationUserIdentifier = (
+  identifier: CommunicationIdentifier
+): identifier is CommunicationUserIdentifier => {
   return typeof (identifier as any).communicationUserId === "string";
 };
 
@@ -60,7 +66,9 @@ export const isCommunicationUserIdentifier = (identifier: CommunicationIdentifie
  *
  * @param identifier The assumed PhoneNumber to be tested.
  */
-export const isPhoneNumberIdentifier = (identifier: CommunicationIdentifier): identifier is PhoneNumberIdentifier => {
+export const isPhoneNumberIdentifier = (
+  identifier: CommunicationIdentifier
+): identifier is PhoneNumberIdentifier => {
   return typeof (identifier as any).phoneNumber === "string";
 };
 
@@ -69,7 +77,9 @@ export const isPhoneNumberIdentifier = (identifier: CommunicationIdentifier): id
  *
  * @param identifier The assumed CallingApplication to be tested.
  */
-export const isCallingApplicationIdentifier = (identifier: CommunicationIdentifier): identifier is CallingApplicationIdentifier => {
+export const isCallingApplicationIdentifier = (
+  identifier: CommunicationIdentifier
+): identifier is CallingApplicationIdentifier => {
   return typeof (identifier as any).callingApplicationId === "string";
 };
 
@@ -78,7 +88,9 @@ export const isCallingApplicationIdentifier = (identifier: CommunicationIdentifi
  *
  * @param identifier The assumed UnknownIdentifier to be tested.
  */
-export const isUnknownIdentifier = (identifier: CommunicationIdentifier): identifier is UnknownIdentifier => {
+export const isUnknownIdentifier = (
+  identifier: CommunicationIdentifier
+): identifier is UnknownIdentifier => {
   return typeof (identifier as any).id === "string";
 };
 
@@ -136,7 +148,9 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
  *
  * @param identifier The identifier whose kind is to be inferred.
  */
-export const getIdentifierKind = (identifier: CommunicationIdentifier): CommunicationIdentifierKind => {
+export const getIdentifierKind = (
+  identifier: CommunicationIdentifier
+): CommunicationIdentifierKind => {
   if (isCommunicationUserIdentifier(identifier)) {
     return { ...identifier, kind: "CommunicationUser" };
   }
