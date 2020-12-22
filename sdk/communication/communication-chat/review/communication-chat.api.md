@@ -8,7 +8,7 @@ import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
 import { CommunicationTokenCredential } from '@azure/communication-common';
-import { CommunicationUser } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
@@ -53,7 +53,7 @@ export interface ChatClientOptions extends PipelineOptions {
 
 // @public
 export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
-    sender?: CommunicationUser;
+    sender?: CommunicationUserIdentifier;
 }
 
 // @public
@@ -61,7 +61,7 @@ export type ChatMessagePriority = "Normal" | "High";
 
 // @public
 export interface ChatThread extends Omit<RestChatThread, "createdBy" | "members"> {
-    readonly createdBy?: CommunicationUser;
+    readonly createdBy?: CommunicationUserIdentifier;
     members?: ChatThreadMember[];
 }
 
@@ -75,7 +75,7 @@ export class ChatThreadClient {
     listMembers(options?: ListMembersOptions): PagedAsyncIterableIterator<ChatThreadMember>;
     listMessages(options?: ListMessagesOptions): PagedAsyncIterableIterator<ChatMessage>;
     listReadReceipts(options?: ListReadReceiptsOptions): PagedAsyncIterableIterator<ReadReceipt>;
-    removeMember(member: CommunicationUser, options?: RemoveMemberOptions): Promise<OperationResponse>;
+    removeMember(member: CommunicationUserIdentifier, options?: RemoveMemberOptions): Promise<OperationResponse>;
     sendMessage(request: SendMessageRequest, options?: SendMessageOptions): Promise<SendChatMessageResponse>;
     sendReadReceipt(request: SendReadReceiptRequest, options?: SendReadReceiptOptions): Promise<OperationResponse>;
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;
@@ -98,7 +98,7 @@ export interface ChatThreadInfo {
 
 // @public
 export interface ChatThreadMember extends Omit<RestChatThreadMember, "id"> {
-    user: CommunicationUser;
+    user: CommunicationUserIdentifier;
 }
 
 // @public
@@ -151,7 +151,7 @@ export interface OperationResponse {
 
 // @public
 export interface ReadReceipt extends Omit<RestReadReceipt, "senderId"> {
-    readonly sender?: CommunicationUser;
+    readonly sender?: CommunicationUserIdentifier;
 }
 
 // @public

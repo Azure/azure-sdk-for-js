@@ -18,14 +18,20 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     }
 
 // @public
-export interface CallingApplication {
+export interface CallingApplicationIdentifier {
     callingApplicationId: string;
 }
 
 // @public
-export interface CallingApplicationKind extends CallingApplication {
+export interface CallingApplicationKind extends CallingApplicationIdentifier {
     kind: "CallingApplication";
 }
+
+// @public
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
+
+// @public
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
 
 // @public
 export interface CommunicationTokenCredential {
@@ -41,12 +47,12 @@ export interface CommunicationTokenRefreshOptions {
 }
 
 // @public
-export interface CommunicationUser {
+export interface CommunicationUserIdentifier {
     communicationUserId: string;
 }
 
 // @public
-export interface CommunicationUserKind extends CommunicationUser {
+export interface CommunicationUserKind extends CommunicationUserIdentifier {
     kind: "CommunicationUser";
 }
 
@@ -54,39 +60,47 @@ export interface CommunicationUserKind extends CommunicationUser {
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
-export const getIdentifierKind: (identifier: Identifier) => IdentifierKind;
+export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
-export type Identifier = CommunicationUser | PhoneNumber | CallingApplication | UnknownIdentifier;
+export const isCallingApplicationIdentifier: (identifier: CommunicationIdentifier) => identifier is CallingApplicationIdentifier;
 
 // @public
-export type IdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | UnknownIdentifierKind;
-
-// @public
-export const isCallingApplication: (identifier: Identifier) => identifier is CallingApplication;
-
-// @public
-export const isCommunicationUser: (identifier: Identifier) => identifier is CommunicationUser;
+export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
 
 // @public
 export const isKeyCredential: (credential: any) => credential is KeyCredential;
 
 // @public
-export const isPhoneNumber: (identifier: Identifier) => identifier is PhoneNumber;
+export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
 
 // @public
-export const isUnknownIdentifier: (identifier: Identifier) => identifier is UnknownIdentifier;
+export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => identifier is PhoneNumberIdentifier;
+
+// @public
+export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
+
+// @public
+export interface MicrosoftTeamsUserIdentifier {
+    isAnonymous: boolean | undefined;
+    microsoftTeamsUserId: string;
+}
+
+// @public
+export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
+    kind: "MicrosoftTeamsUser";
+}
 
 // @public
 export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
 
 // @public
-export interface PhoneNumber {
+export interface PhoneNumberIdentifier {
     phoneNumber: string;
 }
 
 // @public
-export interface PhoneNumberKind extends PhoneNumber {
+export interface PhoneNumberKind extends PhoneNumberIdentifier {
     kind: "PhoneNumber";
 }
 
