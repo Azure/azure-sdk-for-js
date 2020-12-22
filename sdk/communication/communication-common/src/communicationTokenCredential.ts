@@ -4,7 +4,10 @@
 import { AbortSignalLike, AccessToken } from "@azure/core-http";
 import { parseToken } from "./tokenParser";
 import { StaticTokenCredential } from "./staticTokenCredential";
-import { AutoRefreshTokenCredential, RefreshOptions } from "./autoRefreshTokenCredential";
+import {
+  AutoRefreshTokenCredential,
+  CommunicationTokenRefreshOptions
+} from "./autoRefreshTokenCredential";
 
 export type TokenCredential = Pick<AzureCommunicationTokenCredential, "getToken" | "dispose">;
 
@@ -40,8 +43,8 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    * to configure proactive refreshing.
    * @param refreshOptions Options to configure refresh and opt-in to proactive refreshing.
    */
-  constructor(refreshOptions: RefreshOptions);
-  constructor(tokenOrRefreshOptions: string | RefreshOptions) {
+  constructor(refreshOptions: CommunicationTokenRefreshOptions);
+  constructor(tokenOrRefreshOptions: string | CommunicationTokenRefreshOptions) {
     if (typeof tokenOrRefreshOptions === "string") {
       this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptions));
     } else {

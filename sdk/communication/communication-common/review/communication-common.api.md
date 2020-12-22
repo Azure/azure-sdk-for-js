@@ -12,7 +12,7 @@ import { RequestPolicyFactory } from '@azure/core-http';
 // @public
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
     constructor(token: string);
-    constructor(refreshOptions: RefreshOptions);
+    constructor(refreshOptions: CommunicationTokenRefreshOptions);
     dispose(): void;
     getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
     }
@@ -31,6 +31,13 @@ export interface CallingApplicationKind extends CallingApplication {
 export interface CommunicationTokenCredential {
     dispose(): void;
     getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
+}
+
+// @public
+export interface CommunicationTokenRefreshOptions {
+    refreshProactively?: boolean;
+    token?: string;
+    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 }
 
 // @public
@@ -81,13 +88,6 @@ export interface PhoneNumber {
 // @public
 export interface PhoneNumberKind extends PhoneNumber {
     kind: "PhoneNumber";
-}
-
-// @public
-export interface RefreshOptions {
-    refreshProactively?: boolean;
-    token?: string;
-    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 }
 
 // @public
