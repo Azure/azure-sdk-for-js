@@ -7,9 +7,8 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "removeComments": false,
+    "rootDir": "src",
     "outDir": "dist",
     "noImplicitReturns": true
-  },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"]
+  }
 }
