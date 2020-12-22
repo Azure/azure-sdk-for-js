@@ -16,6 +16,7 @@ import {
   DirectoryCreateIfNotExistsResponse,
   DirectoryCreateOptions,
   DirectoryCreateResponse,
+  DirectoryGenerateSasUrlOptions,
   FileAppendOptions,
   FileAppendResponse,
   FileCreateIfNotExistsOptions,
@@ -25,6 +26,7 @@ import {
   FileExpiryMode,
   FileFlushOptions,
   FileFlushResponse,
+  FileGenerateSasUrlOptions,
   FileParallelUploadOptions,
   FileQueryOptions,
   FileReadOptions,
@@ -66,6 +68,7 @@ import {
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 import { StorageClient } from "./StorageClient";
 import {
   toAccessControlChangeFailureArray,
@@ -86,7 +89,7 @@ import {
 } from "./utils/constants";
 import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
 import { createSpan } from "./utils/tracing";
-import { appendToURLPath, setURLPath } from "./utils/utils.common";
+import { appendToURLPath, appendToURLQuery, setURLPath } from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 
 /**
@@ -922,8 +925,10 @@ export class DataLakePathClient extends StorageClient {
 
     const { span, spanOptions } = createSpan("DataLakePathClient-move", options.tracingOptions);
 
-    const renameSource = `/${this.fileSystemName}/${this.name}`; // TODO: Confirm number of /
-    const renameDestination = `/${destinationFileSystem}/${destinationPath}`; // TODO: Confirm encoding
+    // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
+    // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
+    const renameSource = `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
+    const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
 
     const destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
@@ -1121,6 +1126,40 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       appendToURLPath(this.url, encodeURIComponent(fileName)),
       this.pipeline
     );
+  }
+
+  /**
+   * Only available for clients constructed with a shared key credential.
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {DirectoryGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof DataLakeDirectoryClient
+   */
+  public generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          isDirectory: true,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }
 
@@ -1537,7 +1576,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     );
     try {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadData(
+      return await this.uploadSeekableInternal(
         (offset: number, size: number) => {
           return () =>
             fsCreateReadStream(filePath, {
@@ -1574,20 +1613,29 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileUploadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-upload", options.tracingOptions);
     try {
-      if (isNode && data instanceof Buffer) {
-        return this.uploadData(
-          (offset: number, size: number): Buffer => {
-            return data.slice(offset, offset + size);
-          },
-          data.length,
-          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+      if (isNode) {
+        let buffer: Buffer;
+        if (data instanceof Buffer) {
+          buffer = data;
+        } else if (data instanceof ArrayBuffer) {
+          buffer = Buffer.from(data);
+        } else {
+          data = data as ArrayBufferView;
+          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+        }
+
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
+          buffer.length,
+          {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
         );
       } else {
         const browserBlob = new Blob([data]);
-        return this.uploadData(
-          (offset: number, size: number): Blob => {
-            return browserBlob.slice(offset, offset + size);
-          },
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
           browserBlob.size,
           { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
         );
@@ -1603,11 +1651,8 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
   }
 
-  private async uploadData(
-    contentFactory:
-      | ((offset: number, size: number) => Buffer)
-      | ((offset: number, size: number) => Blob)
-      | ((offset: number, size: number) => () => NodeJS.ReadableStream),
+  private async uploadSeekableInternal(
+    bodyFactory: (offset: number, count: number) => HttpRequestBody,
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
@@ -1671,7 +1716,7 @@ export class DataLakeFileClient extends DataLakePathClient {
 
       // When buffer length <= singleUploadThreshold, this method will use one append/flush call to finish the upload.
       if (size <= options.singleUploadThreshold) {
-        await this.append(contentFactory(0, size), 0, size, {
+        await this.append(bodyFactory(0, size), 0, size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           onProgress: options.onProgress,
@@ -1704,7 +1749,7 @@ export class DataLakeFileClient extends DataLakePathClient {
             const start = options.chunkSize! * i;
             const end = i === numBlocks - 1 ? size : start + options.chunkSize!;
             const contentLength = end - start;
-            await this.append(contentFactory(start, contentLength), start, contentLength, {
+            await this.append(bodyFactory(start, contentLength), start, contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
               tracingOptions: { ...options!.tracingOptions, spanOptions }
@@ -2085,5 +2130,38 @@ export class DataLakeFileClient extends DataLakePathClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for clients constructed with a shared key credential.
+   *
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {FileGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof DataLakeFileClient
+   */
+  public generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }

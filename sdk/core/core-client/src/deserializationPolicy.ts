@@ -8,7 +8,16 @@ import {
   PipelinePolicy,
   RestError
 } from "@azure/core-https";
-import { OperationRequest, OperationResponseMap, FullOperationResponse } from "./interfaces";
+import {
+  OperationRequest,
+  OperationResponseMap,
+  FullOperationResponse,
+  OperationSpec,
+  SerializerOptions,
+  XmlOptions,
+  XML_CHARKEY,
+  RequiredSerializerOptions
+} from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { isStreamOperation } from "./interfaceHelpers";
 
@@ -33,7 +42,12 @@ export interface DeserializationPolicyOptions {
   /**
    * A function that is able to parse XML. Required for XML support.
    */
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>;
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
+
+  /**
+   * Configures behavior of xml parser and builder.
+   */
+  serializerOptions?: SerializerOptions;
 }
 
 /**
@@ -61,12 +75,26 @@ export function deserializationPolicy(options: DeserializationPolicyOptions = {}
   const jsonContentTypes = options.expectedContentTypes?.json ?? defaultJsonContentTypes;
   const xmlContentTypes = options.expectedContentTypes?.xml ?? defaultXmlContentTypes;
   const parseXML = options.parseXML;
+  const serializerOptions = options.serializerOptions;
+  const updatedOptions: RequiredSerializerOptions = {
+    xml: {
+      rootName: serializerOptions?.xml.rootName ?? "",
+      includeRoot: serializerOptions?.xml.includeRoot ?? false,
+      xmlCharKey: serializerOptions?.xml.xmlCharKey ?? XML_CHARKEY
+    }
+  };
 
   return {
     name: deserializationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
-      return deserializeResponseBody(jsonContentTypes, xmlContentTypes, response, parseXML);
+      return deserializeResponseBody(
+        jsonContentTypes,
+        xmlContentTypes,
+        response,
+        updatedOptions,
+        parseXML
+      );
     }
   };
 }
@@ -105,9 +133,16 @@ async function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: PipelineResponse,
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>
+  options: RequiredSerializerOptions,
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
 ): Promise<PipelineResponse> {
-  const parsedResponse = await parse(jsonContentTypes, xmlContentTypes, response, parseXML);
+  const parsedResponse = await parse(
+    jsonContentTypes,
+    xmlContentTypes,
+    response,
+    options,
+    parseXML
+  );
   if (!shouldDeserializeResponse(parsedResponse)) {
     return parsedResponse;
   }
@@ -118,79 +153,15 @@ async function deserializeResponseBody(
   }
 
   const responseSpec = getOperationResponseMap(parsedResponse);
-  const expectedStatusCodes = Object.keys(operationSpec.responses);
-  const hasNoExpectedStatusCodes =
-    expectedStatusCodes.length === 0 ||
-    (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default");
-  const isExpectedStatusCode: boolean = hasNoExpectedStatusCodes
-    ? 200 <= parsedResponse.status && parsedResponse.status < 300
-    : !!responseSpec;
-
-  // There is no operation response spec for current status code.
-  // So, treat it as an error case and use the default response spec to deserialize the response.
-  if (!isExpectedStatusCode) {
-    const defaultResponseSpec = operationSpec.responses.default;
-    if (!defaultResponseSpec) {
-      return parsedResponse;
-    }
-
-    const defaultBodyMapper = defaultResponseSpec.bodyMapper;
-    const defaultHeadersMapper = defaultResponseSpec.headersMapper;
-
-    const initialErrorMessage = isStreamOperation(operationSpec)
-      ? `Unexpected status code: ${parsedResponse.status}`
-      : (parsedResponse.bodyAsText as string);
-
-    const error = new RestError(initialErrorMessage, {
-      statusCode: parsedResponse.status,
-      request: parsedResponse.request,
-      response: parsedResponse
-    });
-
-    try {
-      // If error response has a body, try to extract error code & message from it
-      // Then try to deserialize it using default body mapper
-      if (parsedResponse.parsedBody) {
-        const parsedBody = parsedResponse.parsedBody;
-        const internalError: any = parsedBody.error || parsedBody;
-        error.code = internalError.code;
-        if (internalError.message) {
-          error.message = internalError.message;
-        }
-
-        if (defaultBodyMapper) {
-          let valueToDeserialize: any = parsedBody;
-          if (operationSpec.isXML && defaultBodyMapper.type.name === MapperTypeNames.Sequence) {
-            valueToDeserialize = [];
-            const elementName = defaultBodyMapper.xmlElementName;
-            if (typeof parsedBody === "object" && elementName) {
-              valueToDeserialize = parsedBody[elementName];
-            }
-          }
-          if (error.response) {
-            const errorResponse: FullOperationResponse = error.response;
-            errorResponse.parsedBody = operationSpec.serializer.deserialize(
-              defaultBodyMapper,
-              valueToDeserialize,
-              "error.response.parsedBody"
-            );
-          }
-        }
-      }
-
-      // If error response has headers, try to deserialize it using default header mapper
-      if (parsedResponse.headers && defaultHeadersMapper && error.response) {
-        const errorResponse: FullOperationResponse = error.response;
-        errorResponse.parsedHeaders = operationSpec.serializer.deserialize(
-          defaultHeadersMapper,
-          parsedResponse.headers.toJSON(),
-          "operationRes.parsedHeaders"
-        );
-      }
-    } catch (defaultError) {
-      error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
-    }
+  const { error, shouldReturnResponse } = handleErrorResponse(
+    parsedResponse,
+    operationSpec,
+    responseSpec
+  );
+  if (error) {
     throw error;
+  } else if (shouldReturnResponse) {
+    return parsedResponse;
   }
 
   // An operation response spec does exist for current status code, so
@@ -238,11 +209,110 @@ async function deserializeResponseBody(
   return parsedResponse;
 }
 
+function isOperationSpecEmpty(operationSpec: OperationSpec): boolean {
+  const expectedStatusCodes = Object.keys(operationSpec.responses);
+  return (
+    expectedStatusCodes.length === 0 ||
+    (expectedStatusCodes.length === 1 && expectedStatusCodes[0] === "default")
+  );
+}
+
+function handleErrorResponse(
+  parsedResponse: FullOperationResponse,
+  operationSpec: OperationSpec,
+  responseSpec: OperationResponseMap | undefined
+): { error: RestError | null; shouldReturnResponse: boolean } {
+  const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
+  const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
+    ? isSuccessByStatus
+    : !!responseSpec;
+
+  if (isExpectedStatusCode) {
+    if (responseSpec) {
+      if (!responseSpec.isError) {
+        return { error: null, shouldReturnResponse: false };
+      }
+    } else {
+      return { error: null, shouldReturnResponse: false };
+    }
+  }
+
+  const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
+
+  const initialErrorMessage = isStreamOperation(operationSpec)
+    ? `Unexpected status code: ${parsedResponse.status}`
+    : (parsedResponse.bodyAsText as string);
+
+  const error = new RestError(initialErrorMessage, {
+    statusCode: parsedResponse.status,
+    request: parsedResponse.request,
+    response: parsedResponse
+  });
+
+  // If the item failed but there's no error spec or default spec to deserialize the error,
+  // we should fail so we just throw the parsed response
+  if (!errorResponseSpec) {
+    throw error;
+  }
+
+  const defaultBodyMapper = errorResponseSpec.bodyMapper;
+  const defaultHeadersMapper = errorResponseSpec.headersMapper;
+
+  try {
+    // If error response has a body, try to deserialize it using default body mapper.
+    // Then try to extract error code & message from it
+    if (parsedResponse.parsedBody) {
+      const parsedBody = parsedResponse.parsedBody;
+      let deserializedError;
+
+      if (defaultBodyMapper) {
+        let valueToDeserialize: any = parsedBody;
+        if (operationSpec.isXML && defaultBodyMapper.type.name === MapperTypeNames.Sequence) {
+          valueToDeserialize = [];
+          const elementName = defaultBodyMapper.xmlElementName;
+          if (typeof parsedBody === "object" && elementName) {
+            valueToDeserialize = parsedBody[elementName];
+          }
+        }
+        deserializedError = operationSpec.serializer.deserialize(
+          defaultBodyMapper,
+          valueToDeserialize,
+          "error.response.parsedBody"
+        );
+      }
+
+      const internalError: any = parsedBody.error || deserializedError || parsedBody;
+      error.code = internalError.code;
+      if (internalError.message) {
+        error.message = internalError.message;
+      }
+
+      if (defaultBodyMapper) {
+        (error.response! as FullOperationResponse).parsedBody = deserializedError;
+      }
+    }
+
+    // If error response has headers, try to deserialize it using default header mapper
+    if (parsedResponse.headers && defaultHeadersMapper) {
+      (error.response! as FullOperationResponse).parsedHeaders = operationSpec.serializer.deserialize(
+        defaultHeadersMapper,
+        parsedResponse.headers.toJSON(),
+        "operationRes.parsedHeaders"
+      );
+    }
+  } catch (defaultError) {
+    error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
+  }
+
+  return { error, shouldReturnResponse: false };
+}
+
 async function parse(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   operationResponse: FullOperationResponse,
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>
+  opts: RequiredSerializerOptions,
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
 ): Promise<FullOperationResponse> {
   if (!operationResponse.request.streamResponseBody && operationResponse.bodyAsText) {
     const text = operationResponse.bodyAsText;
@@ -262,7 +332,7 @@ async function parse(
         if (!parseXML) {
           throw new Error("Parsing XML not supported.");
         }
-        const body = await parseXML(text);
+        const body = await parseXML(text, opts.xml);
         operationResponse.parsedBody = body;
         return operationResponse;
       }

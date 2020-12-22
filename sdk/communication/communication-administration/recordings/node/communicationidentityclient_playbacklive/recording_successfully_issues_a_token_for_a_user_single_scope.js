@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "1c880cc35f2f3b240445a35a012e7bab";
+module.exports.hash = "78fab66978e4b347f8a42dfe6862533f";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -9,25 +9,25 @@ nock("https://endpoint", { encodedQueryParams: true })
   .query(true)
   .reply(
     200,
-    { id: "sanitized", token: "sanitized", expiresOn: "2020-10-06T11:24:08.9389962+00:00" },
+    { id: "sanitized", token: "sanitized", expiresOn: "2020-11-22T03:42:39.8417903+00:00" },
     [
       "Transfer-Encoding",
       "chunked",
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "/roQfp84i0KcvGGMdn+pLw.0",
+      "hRFNDyxHBUOpr6Ykeda0mA.0",
       "Strict-Transport-Security",
       "max-age=2592000",
       "x-ms-client-request-id",
       "sanitized",
       "api-supported-versions",
-      "2020-07-20-preview1, 2020-07-20-preview2",
+      "2020-01-15-preview3, 2020-07-20-preview1, 2020-07-20-preview2",
       "X-Processing-Time",
-      "30ms",
+      "25ms",
       "X-Azure-Ref",
-      "0WQJ7XwAAAAB5UyEqtKEpRY4HQnMmDarNWVZSMzBFREdFMDQxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0sIy4XwAAAAA+D9dnkmkBS6A4EH+M7XqeWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Mon, 05 Oct 2020 11:24:09 GMT"
+      "Sat, 21 Nov 2020 03:42:40 GMT"
     ]
   );

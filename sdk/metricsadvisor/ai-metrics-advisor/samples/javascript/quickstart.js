@@ -30,8 +30,8 @@ async function main() {
 
   const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
   console.log(`Data feed created: ${created.id}`);
-  console.log("  metric ids: ");
-  console.log(created.metricIds);
+  console.log("  metrics: ");
+  console.log(created.schema.metrics);
 
   console.log("Waiting for a minute before checking ingestion status...");
   await delay(60 * 1000);
@@ -44,7 +44,7 @@ async function main() {
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    const metricId = created.metricIds[0];
+    const metricId = created.schema.metrics[0].id;
     const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
     console.log(`Detection configuration created: ${detectionConfig.id}`);
 
@@ -57,16 +57,16 @@ async function main() {
     console.log(`Alert configuration created: ${alertConfig.id}`);
 
     // you can use alert configuration created in above step to query the alert.
-    const alertIds = await queryAlerts(
+    const alerts = await queryAlerts(
       client,
       alertConfig.id,
       new Date(Date.UTC(2020, 8, 1)),
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    if (alertIds.length > 1) {
+    if (alerts.length > 1) {
       // query anomalies using an alert id.
-      await queryAnomaliesByAlert(client, alertConfig.id, alertIds[0]);
+      await queryAnomaliesByAlert(client, alerts[0]);
     } else {
       console.log("No alerts during the time period");
     }
@@ -77,85 +77,72 @@ async function main() {
 }
 
 async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery) {
-  const metric = [
-    {
-      name: "revenue",
-      displayName: "revenue",
-      description: "Metric1 description"
+  console.log("Creating Datafeed...");
+  const dataFeed = {
+    name: "test_datafeed_" + new Date().getTime().toString(),
+    source: {
+      dataSourceType: "SqlServer",
+      dataSourceParameter: {
+        connectionString: sqlServerConnectionString,
+        query: sqlServerQuery
+      }
     },
-    {
-      name: "cost",
-      displayName: "cost",
-      description: "Metric2 description"
-    }
-  ];
-  const dimension = [
-    { name: "city", displayName: "city display" },
-    { name: "category", displayName: "category display" }
-  ];
-  const dataFeedSchema = {
-    metrics: metric,
-    dimensions: dimension,
-    timestampColumn: null
-  };
-  const dataFeedIngestion = {
-    ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
-    ingestionStartOffsetInSeconds: 0,
-    dataSourceRequestConcurrency: -1,
-    ingestionRetryDelayInSeconds: -1,
-    stopRetryAfterInSeconds: -1
-  };
-  const granularity = {
-    granularityType: "Daily"
-  };
-  const source = {
-    dataSourceType: "SqlServer",
-    dataSourceParameter: {
-      connectionString: sqlServerConnectionString,
-      query: sqlServerQuery
-    }
-  };
-  const options = {
+    granularity: {
+      granularityType: "Daily"
+    },
+    schema: {
+      metrics: [
+        {
+          name: "revenue",
+          displayName: "revenue",
+          description: "Metric1 description"
+        },
+        {
+          name: "cost",
+          displayName: "cost",
+          description: "Metric2 description"
+        }
+      ],
+      dimensions: [
+        { name: "city", displayName: "city display" },
+        { name: "category", displayName: "category display" }
+      ],
+      timestampColumn: null
+    },
+    ingestionSettings: {
+      ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
+      ingestionStartOffsetInSeconds: 0,
+      dataSourceRequestConcurrency: -1,
+      ingestionRetryDelayInSeconds: -1,
+      stopRetryAfterInSeconds: -1
+    },
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__CUSTOM_SUM__"
+      rollupIdentificationValue: "__SUM__"
     },
     missingDataPointFillSettings: {
       fillType: "SmartFilling"
     },
     accessMode: "Private",
-    admins: ["xyz@microsoft.com"]
+    adminEmails: ["xyz@microsoft.com"]
   };
-
-  console.log("Creating Datafeed...");
-  const result = await adminClient.createDataFeed({
-    name: "test_datafeed_" + new Date().getTime().toFixed(),
-    source,
-    granularity,
-    schema: dataFeedSchema,
-    ingestionSettings: dataFeedIngestion,
-    options
-  });
-
+  const result = await adminClient.createDataFeed(dataFeed);
   return result;
 }
 
 async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
-  for await (const status of adminClient.listDataFeedIngestionStatus(
-    datafeedId,
-    startTime,
-    endTime
-  )) {
+  const listIterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
+  for await (const status of listIterator) {
     console.log(`  [${status.timestamp}] ${status.status} - ${status.message}`);
   }
 }
 
 async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
-  return await adminClient.createMetricAnomalyDetectionConfiguration({
+  const dataFeed = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
     metricId,
     wholeSeriesDetectionCondition: {
@@ -169,14 +156,15 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
       }
     },
     description: "Detection configuration description"
-  });
+  };
+  return await adminClient.createDetectionConfig(dataFeed);
 }
 
 async function createWebhookHook(adminClient) {
   console.log("Creating a webhook hook");
   const hook = {
     hookType: "Webhook",
-    name: "web hook " + new Date().getTime().toFixed(),
+    name: "web hook " + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -192,44 +180,42 @@ async function createWebhookHook(adminClient) {
 
 async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
-  const metricAlertingConfig = {
-    detectionConfigurationId: detectionConfigId,
-    alertScope: {
-      scopeType: "All"
-    },
-    alertConditions: {
-      severityCondition: {
-        minAlertSeverity: "Medium",
-        maxAlertSeverity: "High"
-      }
-    },
-    snoozeCondition: {
-      autoSnooze: 0,
-      snoozeScope: "Metric",
-      onlyForSuccessive: true
-    }
-  };
-  return await adminClient.createAnomalyAlertConfiguration({
+  const anomalyAlert = {
     name: "test_alert_config_" + new Date().getTime().toString(),
     crossMetricsOperator: "AND",
-    metricAlertConfigurations: [metricAlertingConfig],
+    metricAlertConfigurations: [
+      {
+        detectionConfigurationId: detectionConfigId,
+        alertScope: {
+          scopeType: "All"
+        },
+        alertConditions: {
+          severityCondition: {
+            minAlertSeverity: "Medium",
+            maxAlertSeverity: "High"
+          }
+        },
+        snoozeCondition: {
+          autoSnooze: 0,
+          snoozeScope: "Metric",
+          onlyForSuccessive: true
+        }
+      }
+    ],
     hookIds,
     description: "Alerting config description"
-  });
+  };
+  return await adminClient.createAlertConfig(anomalyAlert);
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
-  let alertIds = [];
-  for await (const alert of client.listAlertsForAlertConfiguration(
-    alertConfigId,
-    startTime,
-    endTime,
-    "AnomalyTime"
-  )) {
-    alertIds.push(alert.id);
+  let alerts = [];
+  const listIterator = client.listAlerts(alertConfigId, startTime, endTime, "AnomalyTime");
+  for await (const alert of listIterator) {
+    alerts.push(alert);
     console.log("    Alert");
     console.log(`      id: ${alert.id}`);
     console.log(`      timestamp: ${alert.timestamp}`);
@@ -238,26 +224,27 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   // alternatively we could list results by pages
   console.log(`  by pages`);
   const iterator = client
-    .listAlertsForAlertConfiguration(alertConfigId, startTime, endTime, "AnomalyTime")
+    .listAlerts(alertConfigId, startTime, endTime, "AnomalyTime")
     .byPage({ maxPageSize: 2 });
 
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page -- ");
-    console.table(result.value.alerts);
+    console.table(result.value);
     result = await iterator.next();
   }
 
-  return alertIds;
+  return alerts;
 }
 
-async function queryAnomaliesByAlert(client, alertConfigId, alertId) {
+async function queryAnomaliesByAlert(client, alert) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
-  for await (const anomaly of client.listAnomaliesForAlert(alertConfigId, alertId)) {
+  const listIterator = client.listAnomalies(alert);
+  for await (const anomaly of listIterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
     );
   }
 }

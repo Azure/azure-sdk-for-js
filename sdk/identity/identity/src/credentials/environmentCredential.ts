@@ -14,6 +14,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
+import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -53,7 +54,7 @@ export class EnvironmentCredential implements TokenCredential {
    * environment variables are not found at this time, the getToken method
    * will return null when invoked.
    *
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: TokenCredentialOptions) {
     // Keep track of any missing environment variables for error details
@@ -64,6 +65,10 @@ export class EnvironmentCredential implements TokenCredential {
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
       clientSecret = process.env.AZURE_CLIENT_SECRET;
+
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
@@ -109,8 +114,8 @@ export class EnvironmentCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   async getToken(
@@ -139,7 +144,7 @@ export class EnvironmentCredential implements TokenCredential {
             .split("More details:")
             .join("")
         });
-        logger.getToken.info(formatError(authenticationError));
+        logger.getToken.info(formatError(scopes, authenticationError));
         throw authenticationError;
       } finally {
         span.end();
@@ -153,7 +158,7 @@ export class EnvironmentCredential implements TokenCredential {
     const error = new CredentialUnavailable(
       "EnvironmentCredential is unavailable. Environment variables are not fully configured."
     );
-    logger.getToken.info(formatError(error));
+    logger.getToken.info(formatError(scopes, error));
     throw error;
   }
 }

@@ -7,7 +7,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/service-bus",
-  version: "7.0.0-preview.8"
+  version: "7.0.1"
 };
 
 /**
@@ -119,14 +119,6 @@ export const ENABLE_SUBSCRIPTION_PARTITIONING = "EnableSubscriptionPartitioning"
  * @ignore
  */
 export const FILTER_MESSAGES_BEFORE_PUBLISHING = "FilteringMessagesBeforePublishing";
-
-/**
- * Indicates the default rule description.
- *
- * @internal
- * @ignore
- */
-export const DEFAULT_RULE_DESCRIPTION = "DefaultRuleDescription";
 
 /**
  * The entity's size in bytes.

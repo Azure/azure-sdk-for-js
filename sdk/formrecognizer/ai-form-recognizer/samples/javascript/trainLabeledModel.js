@@ -26,6 +26,8 @@ async function main() {
   // not the training process should look for label data in the training
   // container
   const poller = await trainingClient.beginTraining(containerSasUrl, true, {
+    // Model name is optional, but recommended
+    modelName: "trainLabeledModel.ts test model",
     onProgress: (state) => {
       console.log(`training status: ${state.status}`);
     }

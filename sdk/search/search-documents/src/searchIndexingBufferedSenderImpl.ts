@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SearchClient } from "./searchClient";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
@@ -15,19 +18,29 @@ import EventEmitter from "events";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
+import { delay } from "@azure/core-http";
+import { getRandomIntegerInclusive } from "./serviceUtils";
 
 /**
  * Default Batch Size
  */
-export const DEFAULT_BATCH_SIZE: number = 1000;
+export const DEFAULT_BATCH_SIZE: number = 512;
 /**
  * Default window flush interval
  */
 export const DEFAULT_FLUSH_WINDOW: number = 60000;
 /**
- * Default number of times to retry
+ * Default number of times to retry.
  */
 export const DEFAULT_RETRY_COUNT: number = 3;
+/**
+ * Default retry delay.
+ */
+export const DEFAULT_RETRY_DELAY: number = 800;
+/**
+ * Default Max Delay between retries.
+ */
+export const DEFAULT_MAX_RETRY_DELAY: number = 60000;
 
 /**
  * Class used to perform buffered operations against a search index,
@@ -47,9 +60,21 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
    */
   private flushWindowInMs: number;
   /**
+   * Delay between retries
+   */
+  private retryDelayInMs: number;
+  /**
+   * Maximum number of Retries
+   */
+  private maxRetries: number;
+  /**
+   * Max Delay between retries
+   */
+  private maxRetryDelayInMs: number;
+  /**
    * Size of the batch.
    */
-  private batchSize: number;
+  private initialBatchActionCount: number;
   /**
    * Batch object used to complete the service call.
    */
@@ -72,9 +97,15 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
    */
   constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
     this.client = client;
+    // General Configuration properties
     this.autoFlush = options.autoFlush ?? false;
-    this.flushWindowInMs = DEFAULT_FLUSH_WINDOW;
-    this.batchSize = DEFAULT_BATCH_SIZE;
+    this.initialBatchActionCount = options.initialBatchActionCount ?? DEFAULT_BATCH_SIZE;
+    this.flushWindowInMs = options.flushWindowInMs ?? DEFAULT_FLUSH_WINDOW;
+    // Retry specific configuration properties
+    this.retryDelayInMs = options.retryDelayInMs ?? DEFAULT_FLUSH_WINDOW;
+    this.maxRetries = options.maxRetries ?? DEFAULT_RETRY_COUNT;
+    this.maxRetryDelayInMs = options.maxRetryDelayInMs ?? DEFAULT_MAX_RETRY_DELAY;
+
     this.batchObject = new IndexDocumentsBatch<T>();
     if (this.autoFlush) {
       const interval = setInterval(() => this.flush(), this.flushWindowInMs);
@@ -244,7 +275,9 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
     if (this.batchObject.actions.length > 0) {
       await this.internalFlush(true);
     }
-    this.cleanupTimer && this.cleanupTimer();
+    if (this.cleanupTimer) {
+      this.cleanupTimer();
+    }
   }
 
   /**
@@ -318,7 +351,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   }
 
   private isBatchReady(): boolean {
-    return this.batchObject.actions.length >= this.batchSize;
+    return this.batchObject.actions.length >= this.initialBatchActionCount;
   }
 
   private async internalFlush(force: boolean, options: OperationOptions = {}): Promise<void> {
@@ -327,7 +360,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       const actions: IndexDocumentsAction<T>[] = this.batchObject.actions;
       this.batchObject = new IndexDocumentsBatch<T>();
       while (actions.length > 0) {
-        const actionsToSend = actions.splice(0, this.batchSize);
+        const actionsToSend = actions.splice(0, this.initialBatchActionCount);
         await this.submitDocuments(actionsToSend, options);
       }
     }
@@ -336,7 +369,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   private async submitDocuments(
     actionsToSend: IndexDocumentsAction<T>[],
     options: OperationOptions,
-    retryAttempt: number = 0
+    retryAttempt: number = 1
   ): Promise<void> {
     try {
       for (const action of actionsToSend) {
@@ -349,7 +382,16 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
       // raise success event
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
-      if (this.isRetryAbleError(e) && retryAttempt < DEFAULT_RETRY_COUNT) {
+      if (this.isRetryAbleError(e) && retryAttempt <= this.maxRetries) {
+        // Exponentially increase the delay each time
+        const exponentialDelay = this.retryDelayInMs * Math.pow(2, retryAttempt);
+        // Don't let the delay exceed the maximum
+        const clampedExponentialDelay = Math.min(this.maxRetryDelayInMs, exponentialDelay);
+        // Allow the final value to have some "jitter" (within 50% of the delay size) so
+        // that retries across multiple clients don't occur simultaneously.
+        const delayWithJitter =
+          clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
+        await delay(delayWithJitter);
         this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
         this.emitter.emit("batchFailed", e);

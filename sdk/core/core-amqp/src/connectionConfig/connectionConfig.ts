@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusConnectionStringModel, parseConnectionString } from "../util/utils";
+import { parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 
 /**
@@ -26,9 +26,22 @@ export interface ConnectionConfig {
    */
   endpoint: string;
   /**
-   * @property {string} host - The host "<yournamespace>.servicebus.windows.net".
+   * The DNS hostname or IP address of the service.
+   * Typically of the form "<yournamespace>.servicebus.windows.net" unless connecting
+   * to the service through an intermediary.
    */
   host: string;
+  /**
+   * The fully qualified name of the host to connect to.
+   * This field can be used by AMQP proxies to determine the correct back-end service to
+   * connect the client to.
+   * Typically of the form "<yournamespace>.servicebus.windows.net".
+   */
+  amqpHostname?: string;
+  /**
+   * The port number.
+   */
+  port?: number;
   /**
    * @property {string} connectionString - The connection string.
    */
@@ -83,7 +96,12 @@ export const ConnectionConfig = {
   create(connectionString: string, path?: string): ConnectionConfig {
     connectionString = String(connectionString);
 
-    const parsedCS = parseConnectionString<ServiceBusConnectionStringModel>(connectionString);
+    const parsedCS = parseConnectionString<{
+      Endpoint: string;
+      SharedAccessKeyName: string;
+      SharedAccessKey: string;
+      EntityPath?: string;
+    }>(connectionString);
     if (!parsedCS.Endpoint) {
       throw new TypeError("Missing Endpoint in Connection String.");
     }
@@ -129,7 +147,9 @@ export const ConnectionConfig = {
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
-    config.entityPath = String(config.entityPath);
+    if (config.entityPath != undefined) {
+      config.entityPath = String(config.entityPath);
+    }
 
     if (!isSharedAccessSignature(config.connectionString)) {
       if (!config.sharedAccessKeyName) {

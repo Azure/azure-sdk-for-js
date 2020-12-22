@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "e96a3b7844be3e24fcea1b314a74af26";
+module.exports.hash = "22e9fb912ef0136afe8864c65278265b";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -38,12 +38,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "b/JqQzpvV0WHoBBD3kx44A.0",
+      "wCImS1n9/0mQ4MoQypThCg.0",
       "X-Processing-Time",
-      "774ms",
+      "549ms",
       "X-Azure-Ref",
-      "0XgJ7XwAAAAC6BT1pHHoCRIKcxgtl/O8UWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0tYy4XwAAAACMkD4EM4v+QJghWEr2P196WVZSMzBFREdFMDMxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Mon, 05 Oct 2020 11:24:15 GMT"
+      "Sat, 21 Nov 2020 03:42:44 GMT"
     ]
   );

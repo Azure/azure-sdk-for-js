@@ -9,6 +9,7 @@ import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -37,18 +38,18 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID or name.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param clientSecret A client secret that was generated for the App Registration
-   * @param authorizationCode An authorization code that was received from following the
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param clientSecret - A client secret that was generated for the App Registration
+   * @param authorizationCode - An authorization code that was received from following the
                               authorization code flow.  This authorization code must not
                               have already been used to obtain an access token.
-   * @param redirectUri The redirect URI that was used to request the authorization code.
+   * @param redirectUri - The redirect URI that was used to request the authorization code.
                         Must be the same URI that is configured for the App Registration.
-   * @param options Options for configuring the client which makes the access token request.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(
     tenantId: string | "common",
@@ -67,17 +68,17 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID or name.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param authorizationCode An authorization code that was received from following the
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param authorizationCode - An authorization code that was received from following the
                               authorization code flow.  This authorization code must not
                               have already been used to obtain an access token.
-   * @param redirectUri The redirect URI that was used to request the authorization code.
+   * @param redirectUri - The redirect URI that was used to request the authorization code.
                         Must be the same URI that is configured for the App Registration.
-   * @param options Options for configuring the client which makes the access token request.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(
     tenantId: string | "common",
@@ -87,7 +88,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   );
   /**
-   * @ignore
+   * @hidden
    * @internal
    */
   constructor(
@@ -98,6 +99,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
     redirectUriOrOptions: string | TokenCredentialOptions | undefined,
     options?: TokenCredentialOptions
   ) {
+    checkTenantId(logger, tenantId);
+
     this.clientId = clientId;
     this.tenantId = tenantId;
 
@@ -124,8 +127,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -194,7 +197,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

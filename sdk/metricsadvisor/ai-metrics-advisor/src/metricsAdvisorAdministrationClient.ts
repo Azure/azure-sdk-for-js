@@ -25,37 +25,40 @@ import {
   DataFeedOptions,
   DataFeed,
   DataFeedPatch,
-  WebhookHook,
-  EmailHook,
-  WebhookHookPatch,
-  EmailHookPatch,
+  WebNotificationHook,
+  EmailNotificationHook,
+  WebNotificationHookPatch,
+  EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
-  AnomalyAlertConfiguration,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
   GetHookResponse,
-  HookUnion,
+  NotificationHookUnion,
   DataFeedRollupMethod,
-  ListDataFeedsPageResponse,
-  ListDataFeedIngestionStatusPageResponse,
-  ListAnomalyAlertConfigurationsPageResponse,
-  ListAnomalyDetectionConfigurationsPageResponse,
-  ListHooksPageResponse
+  DataFeedsPageResponse,
+  IngestionStatusPageResponse,
+  AlertConfigurationsPageResponse,
+  DetectionConfigurationsPageResponse,
+  HooksPageResponse,
+  DataFeedStatus,
+  GetIngestionProgressResponse,
+  AnomalyAlertConfiguration
 } from "./models";
-import {
-  DataSourceType,
-  EntityStatus,
-  GeneratedClientGetIngestionProgressResponse,
-  NeedRollupEnum
-} from "./generated/models";
+import { DataSourceType, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
   fromServiceHookInfoUnion,
   fromServiceAlertConfiguration,
-  toServiceRollupSettings
+  toServiceRollupSettings,
+  toServiceAnomalyDetectionConfiguration,
+  toServiceAnomalyDetectionConfigurationPatch,
+  toServiceAlertConfiguration,
+  toServiceAlertConfigurationPatch,
+  toServiceGranularity
 } from "./transforms";
+
 /**
  * Client options used to configure API requests.
  */
@@ -100,13 +103,21 @@ export type ListDataFeedsOptions = {
     /**
      * filter data feed by its status
      */
-    status?: EntityStatus;
+    status?: DataFeedStatus;
     /**
      * filter data feed by its creator
      */
     creator?: string;
   };
 } & OperationOptions;
+
+/**
+ * describes the input to Create Data Feed operation
+ */
+export type DataFeedDescriptor = Omit<
+  DataFeed,
+  "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn"
+>;
 
 /**
  * Options for creating data feed
@@ -124,14 +135,14 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -148,9 +159,9 @@ export class MetricsAdvisorAdministrationClient {
    *    new MetricsAdvisorKeyCredential("<subscription key>", "<api key>")
    * );
    * ```
-   * @param {string} endpointUrl Url to an Azure Metrics Advisor service endpoint
-   * @param {MetricsAdvisorKeyCredential} credential Used to authenticate requests to the service.
-   * @param {MetricsAdvisorAdministrationClientOptions} [options] Used to configure the Metrics Advisor client.
+   * @param endpointUrl - Url to an Azure Metrics Advisor service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Metrics Advisor client.
    */
   constructor(
     endpointUrl: string,
@@ -163,54 +174,65 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * Adds a new data feed for a specifc data source and provided settings
-   * @param feed the data feed object to create
-   * @param options The options parameter.
+   * Adds a new data feed for a specific data source and provided settings
+   * @param feed - the data feed object to create
+   * @param options - The options parameter.
    */
 
   public async createDataFeed(
-    feed: Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdTime">,
+    feed: DataFeedDescriptor,
     operationOptions: OperationOptions = {}
   ): Promise<GetDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
       operationOptions
     );
-    const { name, granularity, source, schema, ingestionSettings, options } = feed;
+    const {
+      name,
+      granularity,
+      source,
+      schema,
+      ingestionSettings,
+      rollupSettings,
+      missingDataPointFillSettings,
+      accessMode,
+      adminEmails,
+      viewerEmails,
+      description
+    } = feed;
+
+    if (source.dataSourceType === "Unknown") {
+      throw new Error("Cannot create a data feed with the Unknown source type.");
+    }
 
     const needRollup: NeedRollupEnum | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup"
+      rollupSettings?.rollupType === "AutoRollup"
         ? "NeedRollup"
-        : options?.rollupSettings?.rollupType === "AlreadyRollup"
+        : rollupSettings?.rollupType === "AlreadyRollup"
         ? "AlreadyRollup"
-        : options?.rollupSettings?.rollupType === "NoRollup"
+        : rollupSettings?.rollupType === "NoRollup"
         ? "NoRollup"
         : undefined;
     const rollUpColumns: string[] | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup"
-        ? options?.rollupSettings.autoRollupGroupByColumnNames
+      rollupSettings?.rollupType === "AutoRollup"
+        ? rollupSettings.autoRollupGroupByColumnNames
         : undefined;
     const allUpIdentification: string | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup" ||
-      options?.rollupSettings?.rollupType === "AlreadyRollup"
-        ? options?.rollupSettings.rollupIdentificationValue
+      rollupSettings?.rollupType === "AutoRollup" || rollupSettings?.rollupType === "AlreadyRollup"
+        ? rollupSettings.rollupIdentificationValue
         : undefined;
     const rollUpMethod: DataFeedRollupMethod | undefined =
-      options?.rollupSettings?.rollupType === "AutoRollup"
-        ? options?.rollupSettings.rollupMethod
-        : undefined;
-    const fillMissingPointType = options?.missingDataPointFillSettings?.fillType;
+      rollupSettings?.rollupType === "AutoRollup" ? rollupSettings.rollupMethod : undefined;
+    const fillMissingPointType = missingDataPointFillSettings?.fillType;
     const fillMissingPointValue =
-      options?.missingDataPointFillSettings?.fillType === "CustomValue"
-        ? options?.missingDataPointFillSettings.customFillValue
+      missingDataPointFillSettings?.fillType === "CustomValue"
+        ? missingDataPointFillSettings.customFillValue
         : undefined;
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const body = {
         dataFeedName: name,
-        granularityName: granularity.granularityType,
-        granularityAmount:
-          granularity.granularityType === "Custom" ? granularity.customGranularityValue : undefined,
+        ...toServiceGranularity(granularity),
         ...source,
         metrics: schema.metrics,
         dimension: schema.dimensions,
@@ -226,7 +248,10 @@ export class MetricsAdvisorAdministrationClient {
         rollUpMethod,
         fillMissingPointType,
         fillMissingPointValue,
-        viewMode: options?.accessMode,
+        viewMode: accessMode,
+        admins: adminEmails,
+        viewers: viewerEmails,
+        dataFeedDescription: description,
         ...finalOptions
       };
       const result = await this.client.createDataFeed(body, requestOptions);
@@ -249,8 +274,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves data feed for the given data feed id
-   * @param id id for the data feed to retrieve
-   * @param options The options parameter.
+   * @param id - id for the data feed to retrieve
+   * @param options - The options parameter.
    */
 
   public async getDataFeed(
@@ -318,9 +343,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.dataFeeds) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const feed of page.value.dataFeeds) {
+   *    for (const feed of page.value) {
    *      console.log(`  ${feed.id} - ${feed.name}`);
    *    }
    *  }
@@ -328,22 +353,22 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param options The options parameter.
+   * @param options - The options parameter.
    */
 
   public listDataFeeds(
     options: ListDataFeedsOptions = {}
-  ): PagedAsyncIterableIterator<DataFeed, ListDataFeedsPageResponse> {
+  ): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse> {
     const iter = this.listItemsOfDataFeeds(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
@@ -361,25 +386,27 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
   ): AsyncIterableIterator<DataFeed> {
     for await (const segment of this.listSegmentsOfDataFeeds(options)) {
-      if (segment?.dataFeeds) {
-        yield* segment.dataFeeds;
+      if (segment) {
+        yield* segment;
       }
     }
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
-  ): AsyncIterableIterator<ListDataFeedsPageResponse> {
+  ): AsyncIterableIterator<DataFeedsPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listDataFeeds({
@@ -390,10 +417,15 @@ export class MetricsAdvisorAdministrationClient {
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
-      yield {
-        dataFeeds,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -408,19 +440,24 @@ export class MetricsAdvisorAdministrationClient {
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
-      yield {
-        dataFeeds,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
   }
 
   /**
    * Updates a data feed given its id
-   * @param dataFeedId id of the data feed to update
-   * @param patch Input to the update data feed operation {@link DataFeedPatch}
-   * @param options The options parameter.
+   * @param dataFeedId - id of the data feed to update
+   * @param patch - Input to the update data feed operation {@link DataFeedPatch}
+   * @param options - The options parameter.
    */
 
   public async updateDataFeed(
@@ -432,7 +469,9 @@ export class MetricsAdvisorAdministrationClient {
       "MetricsAdvisorAdministrationClient-updateDataFeed",
       options
     );
-
+    if (patch.source.dataSourceType === "Unknown") {
+      throw new Error("Cannot update a data feed to have the Unknown source type.");
+    }
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
@@ -441,7 +480,7 @@ export class MetricsAdvisorAdministrationClient {
         dataSourceParameter: patch.source.dataSourceParameter,
         // name and description
         dataFeedName: patch.name,
-        dataFeedDescription: patch.options?.dataFeedDescription,
+        dataFeedDescription: patch.description,
         // schema
         timestampColumn: patch.schema?.timestampColumn,
         // ingestion settings
@@ -451,19 +490,19 @@ export class MetricsAdvisorAdministrationClient {
         minRetryIntervalInSeconds: patch.ingestionSettings?.ingestionRetryDelayInSeconds,
         stopRetryAfterInSeconds: patch.ingestionSettings?.stopRetryAfterInSeconds,
         // rollup settings
-        ...toServiceRollupSettings(patch.options?.rollupSettings),
+        ...toServiceRollupSettings(patch.rollupSettings),
         // missing point filling settings
-        fillMissingPointType: patch.options?.missingDataPointFillSettings?.fillType,
+        fillMissingPointType: patch.missingDataPointFillSettings?.fillType,
         fillMissingPointValue:
-          patch.options?.missingDataPointFillSettings?.fillType === "CustomValue"
-            ? patch.options.missingDataPointFillSettings.customFillValue
+          patch.missingDataPointFillSettings?.fillType === "CustomValue"
+            ? patch.missingDataPointFillSettings.customFillValue
             : undefined,
         // other options
-        viewMode: patch.options?.accessMode,
-        admins: patch.options?.admins,
-        viewers: patch.options?.viewers,
-        status: patch.options?.status,
-        actionLinkTemplate: patch.options?.actionLinkTemplate
+        viewMode: patch.accessMode,
+        admins: patch.adminEmails,
+        viewers: patch.viewerEmails,
+        status: patch.status,
+        actionLinkTemplate: patch.actionLinkTemplate
       };
       await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
       return this.getDataFeed(dataFeedId);
@@ -480,8 +519,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes a data feed for the given data feed id
-   * @param id id of the data feed to delete
-   * @param options The options parameter.
+   * @param id - id of the data feed to delete
+   * @param options - The options parameter.
    */
 
   public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<RestResponse> {
@@ -506,43 +545,30 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Creates an anomaly detection configuration for a given metric
-   * @param config The detection configuration object to create
-   * @param options The options parameter
+   * @param config - The detection configuration object to create
+   * @param options - The options parameter
    */
-  public async createMetricAnomalyDetectionConfiguration(
+  public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<GetAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createMetricAnomalyDetectionConfiguration",
+      "MetricsAdvisorAdministrationClient-createDetectionConfig",
       options
     );
-    const {
-      name,
-      description,
-      metricId,
-      wholeSeriesDetectionCondition,
-      seriesDetectionConditions,
-      seriesGroupDetectionConditions
-    } = config;
-
     try {
-      const body = {
-        name,
-        description,
-        metricId,
-        wholeMetricConfiguration: wholeSeriesDetectionCondition,
-        dimensionGroupOverrideConfigurations: seriesGroupDetectionConditions,
-        seriesOverrideConfigurations: seriesDetectionConditions
-      };
+      const transformed = toServiceAnomalyDetectionConfiguration(config);
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.createAnomalyDetectionConfiguration(body, requestOptions);
+      const result = await this.client.createAnomalyDetectionConfiguration(
+        transformed,
+        requestOptions
+      );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getMetricAnomalyDetectionConfiguration(configId);
+      return this.getDetectionConfig(configId);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -556,16 +582,16 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves metric anomaly detection configuration for the given configuration id
-   * @param id id of the detection configuration to retrieve
-   * @param options The options parameter.
+   * @param id - id of the detection configuration to retrieve
+   * @param options - The options parameter.
    */
 
-  public async getMetricAnomalyDetectionConfiguration(
+  public async getDetectionConfig(
     id: string,
     options: OperationOptions = {}
   ): Promise<GetAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getMetricAnomalyDetectionConfiguration",
+      "MetricsAdvisorAdministrationClient-getDetectionConfig",
       options
     );
 
@@ -589,34 +615,26 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates a metric anomaly detection configuration for the given configuration id
-   * @param id id of the detection configuration for metric anomaly to update
-   * @param patch Input to the update anomaly detection configuration operation {@link AnomalyDetectionConfigurationPatch}
-   * @param options The options parameter.
+   * @param id - id of the detection configuration for metric anomaly to update
+   * @param patch - Input to the update anomaly detection configuration operation {@link AnomalyDetectionConfigurationPatch}
+   * @param options - The options parameter.
    */
 
-  public async updateMetricAnomalyDetectionConfiguration(
+  public async updateDetectionConfig(
     id: string,
     patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>,
     options: OperationOptions = {}
   ): Promise<GetAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-updateMetricAnomalyDetectionConfiguration",
+      "MetricsAdvisorAdministrationClient-updateDetectionConfig",
       options
     );
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      await this.client.updateAnomalyDetectionConfiguration(
-        id,
-        {
-          wholeMetricConfiguration: patch.wholeSeriesDetectionCondition,
-          dimensionGroupOverrideConfigurations: patch.seriesGroupDetectionConditions,
-          seriesOverrideConfigurations: patch.seriesDetectionConditions,
-          ...patch
-        },
-        requestOptions
-      );
-      return this.getMetricAnomalyDetectionConfiguration(id);
+      const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
+      await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
+      return this.getDetectionConfig(id);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -630,16 +648,16 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes a metric anomaly detection configuration for the given configuration id
-   * @param id id of the detection configuration to delete
-   * @param options The options parameter.
+   * @param id - id of the detection configuration to delete
+   * @param options - The options parameter.
    */
 
-  public async deleteMetricAnomalyDetectionConfiguration(
+  public async deleteDetectionConfig(
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-deleteMetricAnomalyDetectionConfiguration",
+      "MetricsAdvisorAdministrationClient-deleteDetectionConfig",
       options
     );
 
@@ -659,44 +677,29 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Creates anomaly alerting configuration for a given metric
-   * @param config the alert configuration object to create
+   * @param config - The alert configuration object to create
    */
-  public async createAnomalyAlertConfiguration(
+  public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createAnomalyAlertConfiguration",
+      "MetricsAdvisorAdministrationClient-createAlertConfig",
       options
     );
-    const { name, description, crossMetricsOperator, hookIds, metricAlertConfigurations } = config;
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const transformedConfigurations = metricAlertConfigurations.map((c) => {
-        return {
-          anomalyDetectionConfigurationId: c.detectionConfigurationId,
-          anomalyScopeType: c.alertScope.scopeType,
-          ...c.alertScope,
-          negationOperation: c.negationOperation,
-          severityFilter: c.alertConditions?.severityCondition,
-          snoozeFilter: c.snoozeCondition,
-          valueFilter: c.alertConditions?.metricBoundaryCondition
-        };
-      });
-      const body = {
-        name,
-        crossMetricsOperator,
-        metricAlertingConfigurations: transformedConfigurations,
-        hookIds,
-        description
-      };
-      const result = await this.client.createAnomalyAlertingConfiguration(body, requestOptions);
+      const transformed = toServiceAlertConfiguration(config);
+      const result = await this.client.createAnomalyAlertingConfiguration(
+        transformed,
+        requestOptions
+      );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getAnomalyAlertConfiguration(configId);
+      return this.getAlertConfig(configId);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -710,45 +713,25 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Updates an anomaly alert configuration for the given configuration id
-   * @param id id of the anomaly alert configuration to update
-   * @param patch Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
-   * @param options The options parameter
+   * @param id - id of the anomaly alert configuration to update
+   * @param patch - Input to the update anomaly alert configuration operation {@link AnomalyAlertConfigurationPatch}
+   * @param options - The options parameter
    */
-  public async updateAnomalyAlertConfiguration(
+  public async updateAlertConfig(
     id: string,
     patch: Partial<Omit<AnomalyAlertConfiguration, "id">>,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-updateAnomalyAlertConfiguration",
+      "MetricsAdvisorAdministrationClient-updateAlertConfig",
       options
     );
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const serviceMetricAlertingConfigs = patch.metricAlertConfigurations?.map((c) => {
-        return {
-          anomalyDetectionConfigurationId: c.detectionConfigurationId,
-          anomalyScopeType: c.alertScope.scopeType,
-          ...c.alertScope,
-          negationOperation: c.negationOperation,
-          severityFilter: c.alertConditions?.severityCondition,
-          snoozeFilter: c.snoozeCondition,
-          valueFilter: c.alertConditions?.metricBoundaryCondition
-        };
-      });
-      await this.client.updateAnomalyAlertingConfiguration(
-        id,
-        {
-          name: patch.name,
-          description: patch.description,
-          crossMetricsOperator: patch.crossMetricsOperator,
-          hookIds: patch.hookIds,
-          metricAlertingConfigurations: serviceMetricAlertingConfigs
-        },
-        requestOptions
-      );
-      return this.getAnomalyAlertConfiguration(id);
+      const transformed = toServiceAlertConfigurationPatch(patch);
+      await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
+      return this.getAlertConfig(id);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -762,16 +745,16 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves metric anomaly alert configuration for the given configuration id
-   * @param id id of the anomaly alert configuration to retrieve
-   * @param options The options parameter.
+   * @param id - id of the anomaly alert configuration to retrieve
+   * @param options - The options parameter.
    */
 
-  public async getAnomalyAlertConfiguration(
+  public async getAlertConfig(
     id: string,
     options: OperationOptions = {}
   ): Promise<GetAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getAnomalyAlertConfiguration",
+      "MetricsAdvisorAdministrationClient-getAlertConfig",
       options
     );
 
@@ -792,16 +775,16 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes metric anomaly alert configuration for the given configuration id
-   * @param id id of the anomaly alert configuration to delete
-   * @param options The options parameter.
+   * @param id - id of the anomaly alert configuration to delete
+   * @param options - The options parameter.
    */
 
-  public async deleteAnomalyAlertConfiguration(
+  public async deleteAlertConfig(
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-deleteAnomalyAlertConfiguration",
+      "MetricsAdvisorAdministrationClient-deleteAlertConfig",
       options
     );
 
@@ -820,26 +803,30 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
 
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListAnomalyAlertConfigurationsPageResponse> {
+  ): AsyncIterableIterator<AlertConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
       detectionConfigId,
       options
     );
-    yield {
-      alertConfigurations: segment.value.map((c) => fromServiceAlertConfiguration(c)),
-      _response: segment._response
-    };
+
+    const alertConfigurations = segment.value.map((c) => fromServiceAlertConfiguration(c));
+    yield Object.defineProperty(alertConfigurations, "_response", {
+      enumerable: false,
+      value: segment._response
+    });
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
 
   private async *listItemsOfAlertingConfigurations(
@@ -850,8 +837,8 @@ export class MetricsAdvisorAdministrationClient {
       detectionConfigId,
       options
     )) {
-      if (segment.alertConfigurations) {
-        yield* segment.alertConfigurations;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -866,7 +853,7 @@ export class MetricsAdvisorAdministrationClient {
    * ```js
    * const client = new MetricsAdvisorAdministrationClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const alertConfigurations = client.listAnomalyAlertConfigurations(detectionConfigurationId);
+   * const alertConfigurations = client.listAlertConfigs(detectionConfigurationId);
    * let i = 1;
    * for await (const alertConfiguration of alertConfigurations){
    *  console.log(`alertConfiguration ${i++}:`);
@@ -877,7 +864,7 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listAnomalyAlertConfigurations(detectionConfigurationId);
+   * let iter = client.listAlertConfigs(detectionConfigurationId);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` alert - ${result.value.id}, ${result.value.name}`);
@@ -888,14 +875,14 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listAnomalyAlertConfigurations(detectionConfigurationId)
+   * const pages = client.listAlertConfigs(detectionConfigurationId)
    *   .byPage();
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
    *  if (page.value.alertConfigurations) {
    *    console.log(`-- page ${i++}`);
-   *    for (const alert of page.value.alertConfigurations) {
+   *    for (const alert of page.value) {
    *      console.log(`${alert}`);
    *    }
    *  }
@@ -903,34 +890,34 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param detectionConfigId  anomaly detection configuration unique id
-   * @param options The options parameter.
+   * @param detectionConfigId - anomaly detection configuration unique id
+   * @param options - The options parameter.
    */
 
-  public listAnomalyAlertConfigurations(
+  public listAlertConfigs(
     detectionConfigId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
     AnomalyAlertConfiguration,
-    ListAnomalyAlertConfigurationsPageResponse,
+    AlertConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {
     const iter = this.listItemsOfAlertingConfigurations(detectionConfigId, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Returns an AsyncIterableIterator that works a page at a time
        */
       byPage: () => {
         return this.listSegmentsOfAlertingConfigurations(detectionConfigId, {
@@ -943,11 +930,11 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Adds a new hook
-   * @param hookInfo Information for the new hook consists of the hook type, name, description, external link and hook parameter
-   * @param options The options parameter.
+   * @param hookInfo - Information for the new hook consists of the hook type, name, description, external link and hook parameter
+   * @param options - The options parameter.
    */
   public async createHook(
-    hookInfo: EmailHook | WebhookHook,
+    hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -987,8 +974,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves hook for the given hook id
-   * @param id id for the hook to retrieve
-   * @param options The options parameter.
+   * @param id - id for the hook to retrieve
+   * @param options - The options parameter.
    */
 
   public async getHook(id: string, options: OperationOptions = {}): Promise<GetHookResponse> {
@@ -999,7 +986,9 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getHook(id, requestOptions);
-      const resultHookResponse: HookUnion = fromServiceHookInfoUnion(result._response.parsedBody);
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
+        result._response.parsedBody
+      );
       return { ...resultHookResponse, _response: result._response };
     } catch (e) {
       span.setStatus({
@@ -1013,23 +1002,30 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
 
   private async *listSegmentOfHooks(
     continuationToken?: string,
-    options: ListHooksOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListHooksPageResponse> {
+    maxPageSize?: number,
+    options: ListHooksOptions = {}
+  ): AsyncIterableIterator<HooksPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listHooks({
         ...options,
-        top: options?.maxPageSize
+        top: maxPageSize
       });
-      yield {
-        hooks: segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)),
-        _response: segmentResponse._response
-      };
+      const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
+      const resultArray = Object.defineProperty(hooks, "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -1037,25 +1033,29 @@ export class MetricsAdvisorAdministrationClient {
     delete options.skip;
     while (continuationToken) {
       segmentResponse = await this.client.listHooksNext(continuationToken, options);
-      yield {
-        hooks: segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)),
-        _response: segmentResponse._response
-      };
+      const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
+      const resultArray = Object.defineProperty(hooks, "continuationToken", {
+        enumerable: true,
+        value: segmentResponse.nextLink
+      });
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
       continuationToken = segmentResponse.nextLink;
     }
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
-  ): AsyncIterableIterator<HookUnion> {
-    for await (const segment of this.listSegmentOfHooks(undefined, options)) {
-      if (segment?.hooks) {
-        yield* segment.hooks;
-      }
+  ): AsyncIterableIterator<NotificationHookUnion> {
+    for await (const segment of this.listSegmentOfHooks(undefined, undefined, options)) {
+      yield* segment;
     }
   }
 
@@ -1095,9 +1095,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.hooks) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const hook of page.value.hooks) {
+   *    for (const hook of page.value) {
    *      console.log("hook-");
    *      console.dir(hook);
    *    }
@@ -1106,47 +1106,44 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param options The options parameter.
+   * @param options - The options parameter.
    */
 
   public listHooks(
     options: ListHooksOptions = {}
-  ): PagedAsyncIterableIterator<HookUnion, ListHooksPageResponse> {
+  ): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse> {
     const iter = this.listItemsOfHooks(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @returns An AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentOfHooks(settings.continuationToken, {
-          ...options,
-          maxPageSize: settings.maxPageSize
-        });
+        return this.listSegmentOfHooks(settings.continuationToken, settings.maxPageSize, options);
       }
     };
   }
 
   /**
    * Updates hook for the given hook id
-   * @param id id of the hook to update
-   * @param patch Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
-   * @param options The options parameter
+   * @param id - id of the hook to update
+   * @param patch - Input to the update hook of type Email {@link EmailHookPatch} or WebHook {@link WebhookHookPatch}
+   * @param options - The options parameter
    */
   public async updateHook(
     id: string,
-    patch: EmailHookPatch | WebhookHookPatch,
+    patch: EmailNotificationHookPatch | WebNotificationHookPatch,
     options: OperationOptions = {}
   ): Promise<GetHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1170,8 +1167,8 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Deletes hook for the given hook id
-   * @param id id of the hook to delete
-   * @param options The options parameter
+   * @param id - id of the hook to delete
+   * @param options - The options parameter
    */
   public async deleteHook(id: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1194,25 +1191,27 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
 
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
     options: OperationOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListAnomalyDetectionConfigurationsPageResponse> {
+  ): AsyncIterableIterator<DetectionConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
     const segment = await this.client.getAnomalyDetectionConfigurationsByMetric(metricId, options);
-    yield {
-      detectionConfigurations: segment.value.map((c) =>
-        fromServiceAnomalyDetectionConfiguration(c)
-      ),
-      _response: segment._response
-    };
+    const configs = segment.value.map((c) => fromServiceAnomalyDetectionConfiguration(c));
+    const resultArray = Object.defineProperty(configs, "_response", {
+      enumerable: false,
+      value: segment._response
+    });
+    yield resultArray;
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
 
   private async *listItemsOfDetectionConfigurations(
@@ -1223,8 +1222,8 @@ export class MetricsAdvisorAdministrationClient {
       detectionConfigId,
       options
     )) {
-      if (segment.detectionConfigurations) {
-        yield* segment.detectionConfigurations;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -1239,7 +1238,7 @@ export class MetricsAdvisorAdministrationClient {
    * ```js
    * const client = new MetricsAdvisorAdministrationClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
-   * const anomalyDetectionList = client.listMetricAnomalyDetectionConfigurations(metricId);
+   * const anomalyDetectionList = client.listDetectionConfigs(metricId);
    * let i = 1;
    * for await (const anomaly of anomalyDetectionList){
    *  console.log(`anomaly ${i++}:`);
@@ -1250,7 +1249,7 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = client.listMetricAnomalyDetectionConfigurations(metricId);
+   * let iter = client.listDetectionConfigs(metricId);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` anomaly - ${result.value.id}, ${result.value.name}`);
@@ -1261,14 +1260,14 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `byPage()`:
    *
    * ```js
-   * const pages = client.listMetricAnomalyDetectionConfigurations(metricId)
+   * const pages = client.listDetectionConfigs(metricId)
    *   .byPage();
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.detectionConfigurations) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const detectionConfiguration of page.value.detectionConfigurations) {
+   *    for (const detectionConfiguration of page.value) {
    *      console.log("detection configuration-");
    *      console.dir(detectionConfiguration);
    *    }
@@ -1277,34 +1276,34 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param metricId metric id for list of anomaly detection configurations
-   * @param options The options parameter.
+   * @param metricId - metric id for list of anomaly detection configurations
+   * @param options - The options parameter.
    */
 
-  public listMetricAnomalyDetectionConfigurations(
+  public listDetectionConfigs(
     metricId: string,
     options: OperationOptions = {}
   ): PagedAsyncIterableIterator<
     AnomalyDetectionConfiguration,
-    ListAnomalyDetectionConfigurationsPageResponse,
+    DetectionConfigurationsPageResponse,
     undefined // service does not support server-side paging
   > {
     const iter = this.listItemsOfDetectionConfigurations(metricId, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @returns An AsyncIterableIterator that works a page at a time
        */
       byPage: () => {
         return this.listSegmentsOfDetectionConfigurations(metricId, {
@@ -1317,14 +1316,14 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Retrieves data feed ingestion progress for the given data feed id
-   * @param dataFeedId data feed id for the ingestion progress to retrieve
-   * @param options The options parameter.
+   * @param dataFeedId - data feed id for the ingestion progress to retrieve
+   * @param options - The options parameter.
    */
 
   public async getDataFeedIngestionProgress(
     dataFeedId: string,
     options = {}
-  ): Promise<GeneratedClientGetIngestionProgressResponse> {
+  ): Promise<GetIngestionProgressResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDataFeedIngestionProgress",
       options
@@ -1332,7 +1331,12 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      return {
+        latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
+        _response: response._response
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1345,7 +1349,8 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
@@ -1353,7 +1358,7 @@ export class MetricsAdvisorAdministrationClient {
     endTime: Date,
     continuationToken?: string,
     options: ListDataFeedIngestionStatusOptions & { maxPageSize?: number } = {}
-  ): AsyncIterableIterator<ListDataFeedIngestionStatusPageResponse> {
+  ): AsyncIterableIterator<IngestionStatusPageResponse> {
     let segmentResponse;
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getDataFeedIngestionStatus(
@@ -1367,10 +1372,25 @@ export class MetricsAdvisorAdministrationClient {
           top: options?.maxPageSize
         }
       );
-      yield {
-        statusList: segmentResponse.value,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
 
@@ -1386,16 +1406,32 @@ export class MetricsAdvisorAdministrationClient {
         options
       );
 
-      yield {
-        statusList: segmentResponse.value,
-        _response: segmentResponse._response
-      };
+      const resultArray = Object.defineProperty(
+        segmentResponse.value?.map((s) => {
+          return {
+            timestamp: s.timestamp?.getTime(),
+            status: s.status,
+            message: s.message
+          };
+        }) || [],
+        "continuationToken",
+        {
+          enumerable: true,
+          value: segmentResponse.nextLink
+        }
+      );
+      yield Object.defineProperty(resultArray, "_response", {
+        enumerable: false,
+        value: segmentResponse._response
+      });
+
       continuationToken = segmentResponse.nextLink;
     }
   }
 
   /**
-   * @private
+   * @internal
+   * @hidden
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
@@ -1410,8 +1446,8 @@ export class MetricsAdvisorAdministrationClient {
       undefined,
       options
     )) {
-      if (segment?.statusList) {
-        yield* segment.statusList;
+      if (segment) {
+        yield* segment;
       }
     }
   }
@@ -1452,9 +1488,9 @@ export class MetricsAdvisorAdministrationClient {
    * let page = await pages.next();
    * let i = 1;
    * while (!page.done) {
-   *  if (page.value.statusList) {
+   *  if (page.value) {
    *    console.log(`-- page ${i++}`);
-   *    for (const status of page.value.statusList) {
+   *    for (const status of page.value) {
    *      console.log("ingestion status-");
    *      console.dir(status);
    *    }
@@ -1463,40 +1499,45 @@ export class MetricsAdvisorAdministrationClient {
    * }
    *
    * ```
-   * @param dataFeedId data feed id for list of data feed ingestion status
-   * @param startTime The start point of time range to query data ingestion status
-   * @param endTime The end point of time range to query data ingestion status
-   * @param options The options parameter.
+   * @param dataFeedId - data feed id for list of data feed ingestion status
+   * @param startTime - The start point of time range to query data ingestion status
+   * @param endTime - The end point of time range to query data ingestion status
+   * @param options - The options parameter.
    */
 
   public listDataFeedIngestionStatus(
     dataFeedId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: ListDataFeedIngestionStatusOptions = {}
-  ): PagedAsyncIterableIterator<IngestionStatus, ListDataFeedIngestionStatusPageResponse> {
-    const iter = this.listItemsOfIngestionStatus(dataFeedId, startTime, endTime, options);
+  ): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse> {
+    const iter = this.listItemsOfIngestionStatus(
+      dataFeedId,
+      typeof startTime === "string" ? new Date(startTime) : startTime,
+      typeof endTime === "string" ? new Date(endTime) : endTime,
+      options
+    );
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * @returns an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfIngestionStatus(
           dataFeedId,
-          startTime,
-          endTime,
+          typeof startTime === "string" ? new Date(startTime) : startTime,
+          typeof endTime === "string" ? new Date(endTime) : endTime,
           settings.continuationToken,
           {
             ...options,
@@ -1509,16 +1550,16 @@ export class MetricsAdvisorAdministrationClient {
 
   /**
    * Refreshes or resets data feed ingestion progress for the given data feed id
-   * @param dataFeedId The data feed id for the ingestion progress to refresh or reset
-   * @param startTime The start point of time range to query data ingestion status
-   * @param endTime The end point of time range to query data ingestion status
-   * @param options The options parameter.
+   * @param dataFeedId - The data feed id for the ingestion progress to refresh or reset
+   * @param startTime - The start point of time range to query data ingestion status
+   * @param endTime - The end point of time range to query data ingestion status
+   * @param options - The options parameter.
    */
 
   public async refreshDataFeedIngestion(
     dataFeedId: string,
-    startTime: Date,
-    endTime: Date,
+    startTime: Date | string,
+    endTime: Date | string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1531,8 +1572,8 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.resetDataFeedIngestionStatus(
         dataFeedId,
         {
-          startTime,
-          endTime
+          startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+          endTime: typeof endTime === "string" ? new Date(endTime) : endTime
         },
         requestOptions
       );

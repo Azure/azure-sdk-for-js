@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-cognitive-services
-urlFragment: ai-form-recognizer-javascript
----
-
 # Azure Form Recognizer client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Form Recognizer in some common scenarios.
@@ -17,15 +7,19 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [recognizeContent.js][recognizecontent]                           | Recognize text and table structures of a document                                                                     |
 | [recognizeReceipt.js][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                               |
 | [recognizeReceiptFromUrl.js][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                |
+| [recognizeBusinessCard.js][recognizebusinesscard]                 | Recognize data from a file of a business card using a prebuilt model                                                  |
+| [recognizeInvoice.js][recognizeinvoice]                           | Recognize data from a file of an invoice using a prebuilt model                                                       |
 | [recognizeCustomForm.js][recognizecustomform]                     | Recognize forms with your custom model                                                                                |
 | [trainLabeledModel.js][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                |
 | [trainUnlabeledModel.js][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                              |
+| [createComposedModel.js][createcomposedmodel]                     | Create a composed model from several individual labeled models.                                                       |
 | [customModelManagement.js][custommodelmanagement]                 | Manage the custom models in your account                                                                              |
 | [iteratorModels.js][iteratormodels]                               | List custom models using different ways                                                                               |
 | [getBoundingBoxes.js][getboundingboxes]                           | Get information to to visualize outlines of form content and field.                                                   |
 | [differentiateLabeledUnlabeled.js][differentiatelabeledunlabeled] | See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data |
 | [copyModel.js][copymodel]                                         | Copy a custom model from one Form Recognizer resource to another                                                      |
 | [authenticationMethods.js][authenticationmethods]                 | authenticates a service client using both Azure Active Directory and an API key                                       |
+| [deleteAllModels.js][deleteallmodels]                             | Delete all models in a Form Recognizer account                                                                        |
 
 ## Prerequisites
 
@@ -59,16 +53,19 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeReceipt.js
 [recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeReceiptFromUrl.js
+[recognizebusinesscard]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeBusinessCard.js
 [recognizecontent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeContent.js
 [recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeCustomForm.js
 [trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainLabeledModel.js
 [trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainUnlabeledModel.js
+[createcomposedmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/createComposedModel.js
 [custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/customModelManagement.js
 [iteratormodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
 [getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js
 [differentiatelabeledunlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
 [copymodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/copyModel.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/authenticationMethods.js
+[deleteallmodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/deleteAllModels.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

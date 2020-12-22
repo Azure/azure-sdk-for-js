@@ -15,7 +15,7 @@ interface EnvironmentAccumulator {
 
 /**
  * Separates a list of environment variable names into a plain object with two arrays: an array of missing environment variables and another array with assigned environment variables.
- * @param supportedEnvVars List of environment variable names
+ * @param supportedEnvVars - List of environment variable names
  */
 export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulator {
   return supportedEnvVars.reduce(
@@ -34,8 +34,8 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
 /**
  * Based on a given list of environment variable names,
  * logs the environment variables currently assigned during the usage of a credential that goes by the given name.
- * @param credentialName Name of the credential in use
- * @param supportedEnvVars List of environment variables supported by that credential
+ * @param credentialName - Name of the credential in use
+ * @param supportedEnvVars - List of environment variables supported by that credential
  */
 export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void {
   const { assigned } = processEnvVars(supportedEnvVars);
@@ -48,14 +48,18 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
  * Formatting the success event on the credentials
  */
 export function formatSuccess(scope: string | string[]): string {
-  return `SUCCESS: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
+  return `SUCCESS. Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
 }
 
 /**
  * Formatting the success event on the credentials
  */
-export function formatError(error: Error | string): string {
-  return `ERROR: ${typeof error === "string" ? error : error.message}`;
+export function formatError(scope: string | string[] | undefined, error: Error | string): string {
+  let message = "ERROR.";
+  if (scope?.length) {
+    message += ` Scopes: ${Array.isArray(scope) ? scope.join(", ") : scope}.`;
+  }
+  return `${message} Error message: ${typeof error === "string" ? error : error.message}.`;
 }
 
 /**
@@ -79,7 +83,7 @@ export interface CredentialLoggerInstance {
  *
  * It logs with the format:
  *
- *   [title] => [message]
+ *   `[title] => [message]`
  *
  */
 export function credentialLoggerInstance(
@@ -114,14 +118,14 @@ export interface CredentialLogger extends CredentialLoggerInstance {
  *
  * It logs with the format:
  *
- *   [title] => [message]
- *   [title] => getToken() => [message]
+ *   `[title] => [message]`
+ *   `[title] => getToken() => [message]`
  *
  */
 export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
-  const logger = credentialLoggerInstance(title, undefined, log);
+  const credLogger = credentialLoggerInstance(title, undefined, log);
   return {
-    ...logger,
-    getToken: credentialLoggerInstance("=> getToken()", logger, log)
+    ...credLogger,
+    getToken: credentialLoggerInstance("=> getToken()", credLogger, log)
   };
 }

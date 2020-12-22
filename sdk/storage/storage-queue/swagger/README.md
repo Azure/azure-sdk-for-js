@@ -107,6 +107,10 @@ directive:
     where: $.parameters.VisibilityTimeoutRequired
     transform: >
       $["x-ms-client-name"] = "visibilityTimeout";
+  - from: swagger-document
+    where: $.parameters.VisibilityTimeoutForEnqueue
+    transform: >
+      $["x-ms-client-name"] = "visibilityTimeout";
 ```
 
 ### Rename permission -> permissions
@@ -196,13 +200,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2020-02-10"
+### Update service version from "2018-03-28" to "2020-04-08"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2020-02-10" ];
+    transform: $.enum = [ "2020-04-08" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn
@@ -229,6 +233,16 @@ directive:
         $["x-ms-client-request-id"].type = "string";
         $["x-ms-client-request-id"].description = "If a client request id header is sent in the request, this header will be present in the response with the same value.";
       }
+```
+
+### Add Code to StorageError properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $.properties.Code = { "type": "string" };
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)

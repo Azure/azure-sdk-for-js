@@ -29,13 +29,10 @@ export async function main() {
 async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing metric series definitions...");
   console.log("  with for-await-of loop");
-  for await (const definition of client.listMetricSeriesDefinitions(
-    metricId,
-    new Date("08/05/2020")
-  )) {
+  const listIterator = client.listMetricSeriesDefinitions(metricId, new Date("08/05/2020"));
+  for await (const definition of listIterator) {
     console.log(definition);
   }
-
   console.log("  first two pages using byPage()");
   const iterator = client
     .listMetricSeriesDefinitions(metricId, new Date("08/05/2020"))
@@ -44,13 +41,13 @@ async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricI
   let result = await iterator.next();
   if (!result.done) {
     console.log("    -- Page --");
-    for (const definition of result.value.definitions || []) {
+    for (const definition of result.value) {
       console.log(definition);
     }
     result = await iterator.next();
     if (!result.done) {
       console.log("    -- Page --");
-      for (const definition of result.value.definitions || []) {
+      for (const definition of result.value) {
         console.log(definition);
       }
     }
@@ -59,11 +56,12 @@ async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricI
 
 async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing metric enrichment status...");
-  for await (const status of client.listMetricEnrichmentStatus(
+  const listIterator = client.listMetricEnrichmentStatus(
     metricId,
-    new Date("09/01/2020"),
-    new Date("09/09/2020")
-  )) {
+    new Date("10/22/2020"),
+    new Date("10/24/2020")
+  );
+  for await (const status of listIterator) {
     console.log("  Enrichment status");
     console.log(status.timestamp);
     console.log(status.status);
@@ -73,7 +71,8 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
 
 async function listMetricDimensionValues(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing metric dimension values...");
-  for await (const dv of client.listMetricDimensionValues(metricId, "Dim1")) {
+  const listIterator = client.listMetricDimensionValues(metricId, "city");
+  for await (const dv of listIterator) {
     console.log(`  ${dv}`);
   }
 }

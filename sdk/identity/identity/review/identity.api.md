@@ -36,6 +36,7 @@ export interface AuthenticationRecord {
     authority?: string;
     environment: string;
     homeAccountId: string;
+    localAccountId: string;
     tenantId: string;
     username: string;
 }
@@ -83,7 +84,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
 // @public
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
-    includeX5c?: boolean;
+    sendCertificateChain?: boolean;
 }
 
 // @public
@@ -109,7 +110,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: TokenCredentialOptions);
+    constructor(tenantId?: string, clientId?: string, userPromptCallback?: DeviceCodePromptCallback, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
@@ -152,13 +153,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
-    authenticationRecord?: AuthenticationRecord;
-    cacheOptions?: {
-        cachePlugin?: {
-            readFromStorage: () => Promise<string>;
-            writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
-        };
-    };
     clientId?: string;
     loginStyle?: BrowserLoginStyle;
     postLogoutRedirectUri?: string | (() => string);

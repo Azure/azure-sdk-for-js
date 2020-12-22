@@ -1,5 +1,6 @@
 parameters:
   Artifacts: []
+  TestPipeline: false
   ServiceDirectory: not-specified
   Matrix:
     Linux_Node8:
@@ -16,8 +17,12 @@ parameters:
       TestType: "node"
     Browser_Linux_Node12:
       OSVmImage: "ubuntu-18.04"
-      NodeTestVersion: "12.x"
+      NodeTestVersion: "$(NodeVersion)"
       TestType: "browser"
+    Linux_Node14:
+      OSVmImage: "ubuntu-18.04"
+      NodeTestVersion: "14.x"
+      TestType: "node"
 
 jobs:
   - job: "Build"
@@ -37,8 +42,14 @@ jobs:
 
       - template: ../steps/build.yml
         parameters:
-          Artifacts: ${{parameters.Artifacts}}
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestPipeline: ${{ parameters.TestPipeline }}
+
+      - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+        parameters:
+          Artifacts: ${{ parameters.Artifacts }}
+          ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
   - job: "Analyze"
     dependsOn: "Build"
@@ -53,8 +64,8 @@ jobs:
 
       - template: ../steps/analyze.yml
         parameters:
-          Artifacts: ${{parameters.Artifacts}}
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:

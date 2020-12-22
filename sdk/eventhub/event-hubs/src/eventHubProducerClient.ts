@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
@@ -69,7 +69,6 @@ export class EventHubProducerClient {
   }
 
   /**
-   * @constructor
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
@@ -83,7 +82,6 @@ export class EventHubProducerClient {
    */
   constructor(connectionString: string, options?: EventHubClientOptions);
   /**
-   * @constructor
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
@@ -98,7 +96,6 @@ export class EventHubProducerClient {
    */
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
   /**
-   * @constructor
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to

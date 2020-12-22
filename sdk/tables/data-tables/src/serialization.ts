@@ -5,7 +5,9 @@ import { EdmTypes } from "./models";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
-  ["RowKey", "rowKey"]
+  ["RowKey", "rowKey"],
+  ["odata.etag", "etag"],
+  ["Timestamp", "timestamp"]
 ]);
 
 const Edm = {
@@ -111,7 +113,7 @@ function getTypedObject(value: any, type: string): any {
     case Edm.String:
       return value;
     case Edm.DateTime:
-      return new Date(value);
+      return { value, type: "DateTime" };
     case Edm.Int64:
       return { value, type: "Int64" };
     case Edm.Guid:

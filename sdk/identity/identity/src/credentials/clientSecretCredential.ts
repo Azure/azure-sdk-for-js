@@ -7,7 +7,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const logger = credentialLogger("ClientSecretCredential");
@@ -31,10 +31,10 @@ export class ClientSecretCredential implements TokenCredential {
    * needed to authenticate against Azure Active Directory with a client
    * secret.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param clientSecret A client secret that was generated for the App Registration.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param clientSecret - A client secret that was generated for the App Registration.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string,
@@ -54,8 +54,8 @@ export class ClientSecretCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -97,7 +97,7 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.info(err);
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

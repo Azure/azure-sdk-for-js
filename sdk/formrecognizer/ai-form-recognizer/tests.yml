@@ -1,3 +1,13 @@
+# Parameterize Location to the test resources deployment script. This allows
+# specifying a different Azure region to use when manually triggering the live
+# tests pipeline. This is useful for when we want to test in different
+# environments: Prod, Canary, etc.
+parameters:
+- name: Location
+  displayName: Location
+  type: string
+  default: canadacentral
+
 trigger: none
 
 extends:
@@ -6,7 +16,8 @@ extends:
     PackageName: "@azure/ai-form-recognizer"
     ResourceServiceDirectory: formrecognizer
     TestSamples: false
-    ResourceGroupLocation: westus2
+    ResourceGroupLocation: "${{ parameters.Location }}"
+    TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

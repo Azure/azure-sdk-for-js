@@ -1,5 +1,6 @@
 parameters:
   Artifacts: []
+  TestPipeline: false
   ArtifactName: 'not-specified'
   DependsOn: Build
   Registry: 'https://registry.npmjs.org/'
@@ -29,13 +30,15 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    - task: PowerShell@2
-                      displayName: Prep template pipeline for release
-                      condition: and(succeeded(),eq(variables['TestPipeline'],'true'))
-                      inputs:
-                        pwsh: true
-                        workingDirectory: $(Build.SourcesDirectory)
-                        filePath: eng/scripts/SetTestPipelineVersion.ps1
+                    - ${{if eq(parameters.TestPipeline, 'true')}}:
+                      - task: PowerShell@2
+                        displayName: Prep template pipeline for release
+                        condition: succeeded()
+                        inputs:
+                          pwsh: true
+                          workingDirectory: $(Build.SourcesDirectory)
+                          filePath: eng/scripts/SetTestPipelineVersion.ps1
+                          arguments: '-BuildID $(Build.BuildId)'
                     - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                       parameters:
                         PackageName: ${{artifact.name}}
@@ -45,7 +48,7 @@ stages:
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                        PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -74,7 +77,7 @@ stages:
                     steps:
                       - checkout: self
                       - script: |
-                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*[0-9]*.[0-9]*.*.tgz`
+                          export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-[0-9]*[0-9]*.[0-9]*.tgz`
                           echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
                         displayName: Detecting package archive
 
@@ -96,7 +99,7 @@ stages:
               pool:
                 vmImage: windows-2019
               variables:
-                CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest'}]}"
+                CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest'}]}"
 
               strategy:
                 runOnce:
@@ -107,7 +110,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -131,6 +134,7 @@ stages:
                           DocRepoDestinationPath: 'docs-ref-services/' 
                           GHReviewersVariable: 'OwningGHUser'
                           CIConfigs: $(CIConfigs)
+                          CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -155,7 +159,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.*.tgz
+                          PackageName: ${{artifact.name}}-[0-9]*.[0-9]*.[0-9]*.tgz
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
@@ -205,6 +209,7 @@ stages:
                           PRBranchName: increment-package-version-${{ parameters.ServiceDirectory }}-$(Build.BuildId)
                           CommitMsg: "Increment package version after release of ${{ artifact.name }}"
                           PRTitle: "Increment version for ${{ parameters.ServiceDirectory }} releases"
+                          CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}

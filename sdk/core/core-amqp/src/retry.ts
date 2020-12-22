@@ -175,7 +175,12 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let success = false;
   const totalNumberOfAttempts = config.retryOptions.maxRetries + 1;
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
-    logger.verbose("[%s] Attempt number: %d", config.connectionId, config.operationType, i);
+    logger.verbose(
+      "[%s] Attempt number for '%s': %d.",
+      config.connectionId,
+      config.operationType,
+      i
+    );
     try {
       result = await config.operation();
       success = true;
@@ -229,7 +234,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
       }
 
-      if (lastError && lastError.retryable) {
+      if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,

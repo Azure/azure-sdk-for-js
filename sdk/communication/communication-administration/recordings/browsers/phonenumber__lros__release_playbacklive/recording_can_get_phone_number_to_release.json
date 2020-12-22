@@ -1,0 +1,24 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/phonenumbers",
+      "query": {
+        "locale": "en-US",
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phoneNumbers\":[{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"InboundCalling\",\"UserAssignment\",\"Geographic\",\"OutboundCalling\"],\"availableCapabilities\":[\"UserAssignment\",\"InboundCalling\",\"OutboundCalling\",\"Geographic\",\"Office365\",\"Azure\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Birmingham, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"InboundA2PSms\",\"OutboundA2PSms\",\"TollFree\"],\"availableCapabilities\":[\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"ConferenceAssignment\",\"FirstPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"InboundA2PSms\",\"OutboundA2PSms\",\"TollFree\"],\"availableCapabilities\":[\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"ConferenceAssignment\",\"FirstPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "555a50270925ae99f8dda47aa3d1fd3f"
+}

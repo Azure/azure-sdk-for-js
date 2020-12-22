@@ -1,0 +1,45 @@
+{
+  "name": "azure-event-hubs-samples-express",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Event Hubs client library samples with Express",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/",
+    "start": "node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Event Hubs",
+    "Node.js",
+    "TypeScript",
+    "Express"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/event-hubs": "^5.3.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.0",
+    "@types/express": "^4.17.9",
+    "@types/node": "^12.12.17",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.2"
+  }
+}

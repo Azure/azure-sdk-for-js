@@ -9,10 +9,10 @@ import {
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message
+  message,
+  Message as RheaMessage
 } from "rhea-promise";
 import {
-  AmqpMessage,
   Constants,
   ErrorNameConditionMapper,
   RetryConfig,
@@ -22,7 +22,7 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
-import { EventData, toAmqpMessage } from "./eventData";
+import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
@@ -31,6 +31,7 @@ import { SendOptions } from "./models/public";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
@@ -318,15 +319,15 @@ export class EventHubSender extends LinkEntity {
           return;
         }
         const partitionKey = (options && options.partitionKey) || undefined;
-        const messages: AmqpMessage[] = [];
-        // Convert EventData to AmqpMessage.
+        const messages: RheaMessage[] = [];
+        // Convert EventData to RheaMessage.
         for (let i = 0; i < events.length; i++) {
-          const message = toAmqpMessage(events[i], partitionKey);
-          message.body = this._context.dataTransformer.encode(events[i].body);
+          const message = toRheaMessage(events[i], partitionKey);
+          message.body = defaultDataTransformer.encode(events[i].body);
           messages[i] = message;
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
-        const batchMessage: AmqpMessage = {
+        const batchMessage: RheaMessage = {
           body: message.data_sections(messages.map(message.encode))
         };
 
@@ -394,7 +395,7 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   private _trySendBatch(
-    message: AmqpMessage | Buffer,
+    message: RheaMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
@@ -542,7 +543,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    * @ignore
-   * @returns
    */
   private async _init(options: AwaitableSenderOptions): Promise<void> {
     try {
@@ -604,7 +604,6 @@ export class EventHubSender extends LinkEntity {
    * @ignore
    * @static
    * @param [partitionId] Partition ID to which it will send event data.
-   * @returns
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);

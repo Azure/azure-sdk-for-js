@@ -14,10 +14,10 @@ dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
-  process.env["CONNECTION_STRING"] || "<communication service connection string>";
+  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export const main = async () => {
-  console.log("== Issue Token Sample ==");
+  console.log("\n== Issue Token Typescript Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
 

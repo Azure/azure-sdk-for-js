@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   getGenericBSU
 } from "./utils";
-import { record, delay, isLiveMode } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -33,7 +33,7 @@ describe("BlobClient", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -52,6 +52,46 @@ describe("BlobClient", () => {
       await containerClient.delete();
       await recorder.stop();
     }
+  });
+
+  it("Set and get blob tags should work with lease condition", async function() {
+    const guid = "ca761232ed4211cebacd00aa0057b223";
+    const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
+    await leaseClient.acquireLease(-1);
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags, { conditions: { leaseId: leaseClient.leaseId } });
+    const response = await blockBlobClient.getTags({
+      conditions: { leaseId: leaseClient.leaseId }
+    });
+    assert.deepStrictEqual(response.tags, tags);
+
+    const tags1 = {
+      tag1: "val"
+    };
+    try {
+      await blockBlobClient.setTags(tags1);
+      assert.fail(
+        "Should have failed when setting tags without the right lease condition of a leased blob"
+      );
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "LeaseIdMissing", err.msg);
+    }
+
+    try {
+      const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
+      await blockBlobClient.getTags({ conditions: { leaseId: newGuid } });
+      assert.fail(
+        "Should have failed when setting tags without the right lease condition of a leased blob"
+      );
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "LeaseIdMismatchWithBlobOperation");
+    }
+
+    await leaseClient.releaseLease();
   });
 
   it("Set blob tags should work", async function() {
@@ -1273,7 +1313,7 @@ describe("BlobClient - Object Replication", () => {
   let destContainerClient: ContainerClient;
   let srcBlobClient: BlobClient;
   let destBlobClient: BlobClient;
-  let recorder: any;
+  let recorder: Recorder;
 
   const expectedObjectReplicateSourceProperties = [
     {

@@ -1124,6 +1124,7 @@ export type SearchIndexClientOptions = PipelineOptions;
 export interface SearchIndexer {
     dataSourceName: string;
     description?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     fieldMappings?: FieldMapping[];
     isDisabled?: boolean;
@@ -1179,6 +1180,7 @@ export interface SearchIndexerDataSourceConnection {
     dataChangeDetectionPolicy?: DataChangeDetectionPolicy;
     dataDeletionDetectionPolicy?: DataDeletionDetectionPolicy;
     description?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     name: string;
     type: SearchIndexerDataSourceType;
@@ -1211,6 +1213,7 @@ export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | O
 export interface SearchIndexerSkillset {
     cognitiveServicesAccount?: CognitiveServicesAccount;
     description?: string;
+    encryptionKey?: SearchResourceEncryptionKey;
     etag?: string;
     name: string;
     skills: SearchIndexerSkill[];
@@ -1272,6 +1275,11 @@ export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = Operatio
 // @public
 export interface SearchIndexingBufferedSenderOptions {
     autoFlush?: boolean;
+    flushWindowInMs?: number;
+    initialBatchActionCount?: number;
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
 }
 
 // @public

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { receiverLogger as logger } from "../log";
-import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -21,6 +20,7 @@ import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { ReceiveMode } from "../models";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -252,8 +252,6 @@ export class BatchingReceiverLite {
 
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        _connectionContext,
-        entityPath,
         context.message!,
         context.delivery!,
         true,
@@ -331,30 +329,31 @@ export class BatchingReceiverLite {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
       // eslint-disable-next-line prefer-const
-      let cleanupBeforeResolveOrReject: (
-        shouldRemoveDrain: "removeDrainHandler" | "leaveDrainHandler"
-      ) => void;
+      let cleanupBeforeResolveOrReject: () => void;
 
       const onError: OnAmqpEvent = (context: EventContext) => {
-        cleanupBeforeResolveOrReject("removeDrainHandler");
+        cleanupBeforeResolveOrReject();
 
         const eventType = context.session?.error != null ? "session_error" : "receiver_error";
         let error = context.session?.error || context.receiver?.error;
 
         if (error) {
-          error = translate(error);
+          error = translateServiceBusError(error);
           logger.logError(
             error,
             `${loggingPrefix} '${eventType}' event occurred. Received an error`
           );
         } else {
-          error = new MessagingError("An error occurred while receiving messages.");
+          error = new ServiceBusError(
+            "An error occurred while receiving messages.",
+            "GeneralError"
+          );
         }
         reject(error);
       };
 
       this._closeHandler = (error?: AmqpError | Error): void => {
-        cleanupBeforeResolveOrReject("removeDrainHandler");
+        cleanupBeforeResolveOrReject();
 
         if (
           // no error, just closing. Go ahead and return what we have.
@@ -368,7 +367,7 @@ export class BatchingReceiverLite {
           return resolve(brokeredMessages);
         }
 
-        reject(translate(error));
+        reject(translateServiceBusError(error));
       };
 
       let abortSignalCleanupFunction: (() => void) | undefined = undefined;
@@ -378,8 +377,6 @@ export class BatchingReceiverLite {
       // - maxWaitTime is passed or
       // - newMessageWaitTimeoutInSeconds is passed since the last message was received
       const finalAction = (): void => {
-        cleanupBeforeResolveOrReject("leaveDrainHandler");
-
         // Drain any pending credits.
         if (receiver.isOpen() && receiver.credit > 0) {
           logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
@@ -388,7 +385,7 @@ export class BatchingReceiverLite {
           receiver.drain = true;
           receiver.addCredit(1);
         } else {
-          receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          cleanupBeforeResolveOrReject();
 
           logger.verbose(
             `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
@@ -411,8 +408,13 @@ export class BatchingReceiverLite {
             // a chance to have fewer messages internally that could get lost if the user's
             // app crashes in receiveAndDelete mode.
             if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
+            const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
+            totalWaitTimer = setTimeout(() => {
+              logger.verbose(
+                `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
+              );
+              finalAction();
+            }, remainingWaitTimeInMs);
           }
         }
 
@@ -452,24 +454,26 @@ export class BatchingReceiverLite {
           `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
         );
 
-        resolve(brokeredMessages);
+        // NOTE: through rhea-promise most of our event handlers are made asynchronous by calling setTimeout(emit).
+        // However, a small set (*error and drain) execute immediately. This can lead to a situation where the logical
+        // ordering of events is correct but the execution order is incorrect because the events are not all getting
+        // put into the task queue the same way.
+        // So this call, while odd, just ensures that we resolve _after_ any already-queued onMessage handlers that may
+        // be waiting in the task queue.
+        setTimeout(() => {
+          cleanupBeforeResolveOrReject();
+          resolve(brokeredMessages);
+        });
       };
 
-      cleanupBeforeResolveOrReject = (
-        shouldRemoveDrain:
-          | "removeDrainHandler" // remove drain handler (not waiting or initiating a drain)
-          | "leaveDrainHandler" // listener for drain is removed when it is determined we dont need to drain or when drain is completed
-      ): void => {
+      cleanupBeforeResolveOrReject = (): void => {
         if (receiver != null) {
           receiver.removeListener(ReceiverEvents.receiverError, onError);
           receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           receiver.session.removeListener(SessionEvents.sessionError, onError);
           receiver.removeListener(ReceiverEvents.receiverClose, onClose);
           receiver.session.removeListener(SessionEvents.sessionClose, onClose);
-
-          if (shouldRemoveDrain === "removeDrainHandler") {
-            receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
+          receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         }
 
         if (totalWaitTimer) {
@@ -483,17 +487,9 @@ export class BatchingReceiverLite {
       };
 
       abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
-        cleanupBeforeResolveOrReject("removeDrainHandler");
+        cleanupBeforeResolveOrReject();
         reject(err);
       }, args.abortSignal);
-
-      // Action to be performed after the max wait time is over.
-      const actionAfterWaitTimeout = (): void => {
-        logger.verbose(
-          `${loggingPrefix}  Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
-        );
-        return finalAction();
-      };
 
       logger.verbose(
         `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
@@ -509,7 +505,12 @@ export class BatchingReceiverLite {
         `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
       );
 
-      totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
+      totalWaitTimer = setTimeout(() => {
+        logger.verbose(
+          `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
+        );
+        finalAction();
+      }, args.maxWaitTimeInMs);
 
       receiver.on(ReceiverEvents.message, onReceiveMessage);
       receiver.on(ReceiverEvents.receiverError, onError);

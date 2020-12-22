@@ -46,18 +46,39 @@ async function main() {
 
 async function getDetectionConfig(adminClient, detectionConfigId) {
   console.log("Retrieving an existing detection configuration...");
-  const result = await adminClient.getMetricAnomalyDetectionConfiguration(detectionConfigId);
+  const result = await adminClient.getDetectionConfig(detectionConfigId);
   console.log(result);
   return result;
 }
 
 // create a new detection configuration
 async function createDetectionConfig(adminClient, metricId) {
-  const config = {
-    name: "fresh detection" + new Date().getTime().toString(),
-    description: "fresh detection",
-    metricId,
-    wholeSeriesDetectionCondition: {
+  const wholeSeriesDetectionCondition = {
+    conditionOperator: "AND",
+    smartDetectionCondition: {
+      sensitivity: 50,
+      anomalyDetectorDirection: "Both",
+      suppressCondition: {
+        minNumber: 50,
+        minRatio: 50
+      }
+    },
+    changeThresholdCondition: {
+      anomalyDetectorDirection: "Both",
+      shiftPoint: 1,
+      changePercentage: 33,
+      withinRange: true,
+      suppressCondition: { minNumber: 2, minRatio: 2 }
+    },
+    hardThresholdCondition: {
+      anomalyDetectorDirection: "Up",
+      upperBound: 400,
+      suppressCondition: { minNumber: 2, minRatio: 2 }
+    }
+  };
+  const seriesGroupDetectionConditions = [
+    {
+      group: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -65,16 +86,31 @@ async function createDetectionConfig(adminClient, metricId) {
         changePercentage: 33,
         withinRange: true,
         suppressCondition: { minNumber: 2, minRatio: 2 }
-      },
+      }
+    }
+  ];
+  const seriesDetectionConditions = [
+    {
+      series: { city: "Manila", category: "Handmade" },
+      conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 400,
         suppressCondition: { minNumber: 2, minRatio: 2 }
       }
     }
+  ];
+
+  const config = {
+    name: "fresh detection" + new Date().getTime().toString(),
+    description: "fresh detection",
+    metricId,
+    wholeSeriesDetectionCondition,
+    seriesGroupDetectionConditions,
+    seriesDetectionConditions
   };
   console.log("Creating a new anomaly detection configuration...");
-  return await adminClient.createMetricAnomalyDetectionConfiguration(config);
+  return await adminClient.createDetectionConfig(config);
 }
 
 // updating an detection configuration
@@ -99,7 +135,7 @@ async function updateDetectionConfig(adminClient, configId) {
     },
     seriesGroupDetectionConditions: [
       {
-        group: { dimension: { Dim1: "Common Lime" } },
+        group: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -110,7 +146,7 @@ async function updateDetectionConfig(adminClient, configId) {
     ],
     seriesDetectionConditions: [
       {
-        series: { dimension: { Dim1: "Common Beech", Dim2: "Ant" } },
+        series: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",
@@ -124,20 +160,21 @@ async function updateDetectionConfig(adminClient, configId) {
   };
 
   console.log(`Updating existing detection configuration '${configId}'`);
-  const result = await adminClient.updateMetricAnomalyDetectionConfiguration(configId, patch);
+  const result = await adminClient.updateDetectionConfig(configId, patch);
   console.log(result);
   return result;
 }
 
 async function deleteDetectionConfig(adminClient, detectionConfigId) {
   console.log(`Deleting detection configuration '${detectionConfigId}'`);
-  await adminClient.deleteMetricAnomalyDetectionConfiguration(detectionConfigId);
+  await adminClient.deleteDetectionConfig(detectionConfigId);
 }
 
 async function listDetectionConfig(adminClient, metricId) {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
-  for await (const config of adminClient.listMetricAnomalyDetectionConfigurations(metricId)) {
+  const iterator = adminClient.listDetectionConfigs(metricId);
+  for await (const config of iterator) {
     console.log(`  detection configuration ${i++}`);
     console.log(config);
   }

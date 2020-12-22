@@ -9,7 +9,6 @@ import {
   RetryOperationType,
   RetryOptions,
   SendRequestOptions,
-  SharedKeyCredential,
   defaultLock,
   retry,
   translate
@@ -33,6 +32,8 @@ import { OperationNames } from "./models/private";
 import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
+import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+
 /**
  * Describes the runtime information of an Event Hub.
  */
@@ -287,7 +288,6 @@ export class ManagementClient extends LinkEntity {
    * Closes the AMQP management session to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
    * @ignore
-   * @returns
    */
   async close(): Promise<void> {
     try {

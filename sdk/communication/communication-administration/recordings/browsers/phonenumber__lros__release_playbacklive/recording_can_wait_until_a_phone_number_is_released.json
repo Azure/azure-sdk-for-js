@@ -1,0 +1,165 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/administration/phonenumbers/releases",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": "{\"phoneNumbers\":[\"+18005551234\"]}",
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/releases/sanitized",
+      "query": {
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Complete\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Success\"}}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "725ad0383f3fdf95d9c9fa77eee48f10"
+}

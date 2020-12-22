@@ -32,7 +32,7 @@ const logger = credentialLogger("AzureCliCredential");
 export class AzureCliCredential implements TokenCredential {
   /**
    * Gets the access token from Azure CLI
-   * @param resource The resource to use when getting the token
+   * @param resource - The resource to use when getting the token
    */
   protected async getAzureCliAccessToken(
     resource: string
@@ -58,8 +58,8 @@ export class AzureCliCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -75,7 +75,7 @@ export class AzureCliCredential implements TokenCredential {
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
         const error = new Error("Invalid scope was specified by the user or calling client");
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
 
@@ -93,17 +93,17 @@ export class AzureCliCredential implements TokenCredential {
               const error = new CredentialUnavailable(
                 "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               );
-              logger.getToken.info(formatError(error));
+              logger.getToken.info(formatError(scopes, error));
               throw error;
             } else if (isLoginError) {
               const error = new CredentialUnavailable(
                 "Please run 'az login' from a command prompt to authenticate before using this credential."
               );
-              logger.getToken.info(formatError(error));
+              logger.getToken.info(formatError(scopes, error));
               throw error;
             }
             const error = new CredentialUnavailable(obj.stderr);
-            logger.getToken.info(formatError(error));
+            logger.getToken.info(formatError(scopes, error));
             throw error;
           } else {
             responseData = obj.stdout;
@@ -126,7 +126,7 @@ export class AzureCliCredential implements TokenCredential {
             code,
             message: err.message
           });
-          logger.getToken.info(formatError(err));
+          logger.getToken.info(formatError(scopes, err));
           reject(err);
         });
     });

@@ -115,6 +115,15 @@ describe("XML serializer", function() {
         }
       });
     });
+
+    it("with underscore element", async function() {
+      const str = "<Metadata><h>v</h><_>underscore</_></Metadata>";
+      const parsed = await parseXML(str, { xmlCharKey: "#" });
+      assert.deepStrictEqual(parsed, {
+        h: "v",
+        _: "underscore"
+      });
+    });
   });
 
   describe("parseXML(string) with root", function() {

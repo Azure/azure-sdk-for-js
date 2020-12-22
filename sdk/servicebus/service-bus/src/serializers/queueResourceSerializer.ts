@@ -139,7 +139,9 @@ export interface CreateQueueOptions extends OperationOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available
-   * for consumption by the next receiver. Settable only at queue creation time.
+   * for consumption by the next receiver.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -282,7 +284,9 @@ export interface QueueProperties {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available
-   * for consumption by the next receiver. Settable only at queue creation time.
+   * for consumption by the next receiver.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -419,7 +423,8 @@ export interface InternalQueueOptions {
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
    * can be consumed by the next receiver.
-   * Settable only at queue creation time.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *

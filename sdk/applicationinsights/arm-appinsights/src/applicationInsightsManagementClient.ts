@@ -26,18 +26,21 @@ class ApplicationInsightsManagementClient extends ApplicationInsightsManagementC
   componentFeatureCapabilities: operations.ComponentFeatureCapabilities;
   componentAvailableFeatures: operations.ComponentAvailableFeatures;
   proactiveDetectionConfigurations: operations.ProactiveDetectionConfigurations;
-  components: operations.Components;
   workItemConfigurations: operations.WorkItemConfigurations;
   favorites: operations.Favorites;
   webTestLocations: operations.WebTestLocations;
   webTests: operations.WebTests;
   analyticsItems: operations.AnalyticsItems;
   workbooks: operations.Workbooks;
+  myWorkbooks: operations.MyWorkbooks;
+  components: operations.Components;
+  componentLinkedStorageAccounts: operations.ComponentLinkedStorageAccountsOperations;
+  liveToken: operations.LiveToken;
 
   /**
    * Initializes a new instance of the ApplicationInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.ApplicationInsightsManagementClientOptions) {
@@ -51,13 +54,16 @@ class ApplicationInsightsManagementClient extends ApplicationInsightsManagementC
     this.componentFeatureCapabilities = new operations.ComponentFeatureCapabilities(this);
     this.componentAvailableFeatures = new operations.ComponentAvailableFeatures(this);
     this.proactiveDetectionConfigurations = new operations.ProactiveDetectionConfigurations(this);
-    this.components = new operations.Components(this);
     this.workItemConfigurations = new operations.WorkItemConfigurations(this);
     this.favorites = new operations.Favorites(this);
     this.webTestLocations = new operations.WebTestLocations(this);
     this.webTests = new operations.WebTests(this);
     this.analyticsItems = new operations.AnalyticsItems(this);
     this.workbooks = new operations.Workbooks(this);
+    this.myWorkbooks = new operations.MyWorkbooks(this);
+    this.components = new operations.Components(this);
+    this.componentLinkedStorageAccounts = new operations.ComponentLinkedStorageAccountsOperations(this);
+    this.liveToken = new operations.LiveToken(this);
   }
 }
 

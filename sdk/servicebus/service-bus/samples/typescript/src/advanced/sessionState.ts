@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
-  For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-  
   This sample demonstrates usage of SessionState.
 
   We take for example the context of an online shopping app and see how we can use Session State
@@ -23,14 +19,14 @@
   to learn about session state.
 */
 
-import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
@@ -102,10 +98,10 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
   const sender = sbClient.createSender(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
-    const message = {
+    const message: ServiceBusMessage = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      label: "Shopping Step"
+      subject: "Shopping Step"
     };
     await sender.sendMessages(message);
   }
@@ -140,7 +136,7 @@ async function processMessageFromSession(sessionId: string) {
     console.log(
       `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
     );
-    await messages[0].complete();
+    await sessionReceiver.completeMessage(messages[0]);
   } else {
     console.log(`No events were received for Customer: ${sessionId}\n`);
   }

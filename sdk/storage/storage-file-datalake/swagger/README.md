@@ -122,3 +122,22 @@ directive:
     transform: >
       $["x-ms-parameter-location"] = "method";
 ```
+
+### Add Code to StorageError properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StorageError
+    transform: >
+      $.properties.Code = { "type": "string" };
+```
+
+### Update service version from "2020-02-10" to "2020-04-08"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-04-08" ];
+```

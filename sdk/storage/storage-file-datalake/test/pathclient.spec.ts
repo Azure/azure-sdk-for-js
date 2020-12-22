@@ -1,7 +1,7 @@
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { record } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -18,7 +18,7 @@ describe("DataLakePathClient", () => {
   let fileClient: DataLakeFileClient;
   const content = "Hello World";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -360,6 +360,15 @@ describe("DataLakePathClient", () => {
     await directoryClient.create();
     const res2 = await directoryClient.deleteIfExists();
     assert.ok(res2.succeeded);
+  });
+
+  it("DataLakePathClient-deleteIfExists when parent not exists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const newFileClient = directoryClient.getFileClient(fileName);
+    const res2 = await newFileClient.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.deepStrictEqual(res2.errorCode, "PathNotFound");
   });
 
   it("set expiry - NeverExpire", async () => {

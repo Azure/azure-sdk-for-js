@@ -7,18 +7,18 @@ import {
   InternalPipelineOptions,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase,
-  OperationOptions,
-  RestError
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
+  JobManifestTasks as GeneratedJobManifestTasks,
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
+  PiiTaskParametersDomain,
   TextDocumentInput
 } from "./generated/models";
 import {
@@ -48,7 +48,38 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { addStrEncodingParam } from "./util";
+import {
+  addEncodingParamToTask,
+  AddParamsToTask,
+  addStrEncodingParam,
+  handleInvalidDocumentBatch
+} from "./util";
+import {
+  BeginAnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcarePoller,
+  HealthPollerLike
+} from "./lro/health/poller";
+import { BeginAnalyzeHealthcareOptions, HealthcareJobOptions } from "./lro/health/operation";
+import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import {
+  AnalyzePollerLike,
+  BeginAnalyzeOperationState,
+  BeginAnalyzePoller
+} from "./lro/analyze/poller";
+import { AnalyzeJobOptions, BeginAnalyzeOptions } from "./lro/analyze/operation";
+import { PollingOptions } from "./lro/poller";
+
+export {
+  BeginAnalyzeOptions,
+  AnalyzePollerLike,
+  BeginAnalyzeOperationState,
+  BeginAnalyzeHealthcareOptions,
+  HealthPollerLike,
+  AnalyzeJobOptions,
+  PollingOptions,
+  HealthcareJobOptions,
+  BeginAnalyzeHealthcareOperationState
+};
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -65,23 +96,6 @@ export interface TextAnalyticsClientOptions extends PipelineOptions {
    * The default language to use. Defaults to "en".
    */
   defaultLanguage?: string;
-}
-
-/**
- * Options common to all text analytics operations.
- */
-export interface TextAnalyticsOperationOptions extends OperationOptions {
-  /**
-   * This value indicates which model will be used for scoring. If a model-version is
-   * not specified, the API should default to the latest, non-preview version.
-   * For supported model versions, see operation-specific documentation, for example:
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
-   */
-  modelVersion?: string;
-  /**
-   * If set to true, response will contain input and document level statistics.
-   */
-  includeStatistics?: boolean;
 }
 
 /**
@@ -104,7 +118,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `mined_opinions` containing
    * the result of this analysis.
-   * More information about the feature can be found here: https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
+   * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
 }
@@ -114,7 +128,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
  */
 export enum PiiEntityDomainType {
   /**
-   * See https://aka.ms/tanerpii for more information.
+   * @see {@link https://aka.ms/tanerpii} for more information.
    */
   PROTECTED_HEALTH_INFORMATION = "PHI"
 }
@@ -126,7 +140,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
-   * only be returned). See https://aka.ms/tanerpii for more information.
+   * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
   domainFilter?: PiiEntityDomainType;
 }
@@ -141,6 +155,62 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
  */
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
+/**
+ * Options for an entities recognition task.
+ */
+export type EntitiesTask = {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+};
+
+/**
+ * Options for a Pii entities recognition task.
+ */
+export type PiiTask = {
+  /**
+   * Filters entities to ones only included in the specified domain (e.g., if
+   * set to 'PHI', entities in the Protected Healthcare Information domain will
+   * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
+   */
+  domain?: PiiTaskParametersDomain;
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+};
+
+/**
+ * Options for a key phrases recognition task.
+ */
+export interface KeyPhrasesTask {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+}
+
+/**
+ * Description of collection of tasks for the analyze API to perform on input documents
+ */
+export interface JobManifestTasks {
+  /**
+   * A collection of descriptions of entities recognition tasks.
+   */
+  entityRecognitionTasks?: EntitiesTask[];
+  /**
+   * A collection of descriptions of Pii entities recognition tasks.
+   */
+  entityRecognitionPiiTasks?: PiiTask[];
+  /**
+   * A collection of descriptions of key phrases recognition tasks.
+   */
+  keyPhraseExtractionTasks?: KeyPhrasesTask[];
+}
 /**
  * Client class for interacting with Azure Text Analytics.
  */
@@ -162,7 +232,6 @@ export class TextAnalyticsClient {
 
   /**
    * @internal
-   * @ignore
    * A reference to the auto-generated TextAnalytics HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -179,9 +248,9 @@ export class TextAnalyticsClient {
    *    new AzureKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl The URL to the TextAnalytics endpoint
-   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
-   * @param {TextAnalyticsClientOptions} [options] Used to configure the TextAnalytics client.
+   * @param endpointUrl - The URL to the TextAnalytics endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the TextAnalytics client.
    */
   constructor(
     endpointUrl: string,
@@ -228,15 +297,15 @@ export class TextAnalyticsClient {
    * language as well as a score indicating the model's confidence that the
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
-   * @param documents A collection of input strings to analyze.
-   * @param countryHint Indicates the country of origin for all of
+   * @param documents - A collection of input strings to analyze.
+   * @param countryHint - Indicates the country of origin for all of
    *   the input strings to assist the text analytics model in predicting
    *   the language they are written in.  If unspecified, this value will be
    *   set to the default country hint in `TextAnalyticsClientOptions`.
    *   If set to an empty string, or the string "none", the service will apply a
    *   model where the country is explicitly unset.
    *   The same country hint is applied to all strings in the input collection.
-   * @param options Optional parameters for the operation.
+   * @param options - Optional parameters for the operation.
    */
   public async detectLanguage(
     documents: string[],
@@ -249,8 +318,8 @@ export class TextAnalyticsClient {
    * language as well as a score indicating the model's confidence that the
    * inferred language is correct.  Scores close to 1 indicate high certainty in
    * the result.  120 languages are supported.
-   * @param documents A collection of input documents to analyze.
-   * @param options Optional parameters for the operation.
+   * @param documents - A collection of input documents to analyze.
+   * @param options - Optional parameters for the operation.
    */
   public async detectLanguage(
     documents: DetectLanguageInput[],
@@ -316,17 +385,17 @@ export class TextAnalyticsClient {
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input strings, and categorize those entities into types
    * such as person, location, or organization.  For more information on 
-   * available categories, see
-   * https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input strings to analyze.
-   * @param language The language that all the input strings are
+   * available categories, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input strings to analyze.
+   * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
-        where the lanuage is explicitly set to "None".
-   * @param options Optional parameters for the operation.
+        where the language is explicitly set to "None".
+   * @param options - Optional parameters for the operation.
    */
   public async recognizeEntities(
     documents: string[],
@@ -338,12 +407,12 @@ export class TextAnalyticsClient {
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input documents, and categorize those entities into types
    * such as person, location, or organization.  For more information on
-   * available categories, see
-   * https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input documents to analyze.
-   * @param options Optional parameters for the operation.
+   * available categories, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input documents to analyze.
+   * @param options - Optional parameters for the operation.
    */
   public async recognizeEntities(
     documents: TextDocumentInput[],
@@ -393,7 +462,6 @@ export class TextAnalyticsClient {
         result.statistics
       );
     } catch (e) {
-      let backwardCompatibleException;
       /**
        * This special logic handles REST exception with code
        * InvalidDocumentBatch and is needed to maintain backward compatability
@@ -402,13 +470,7 @@ export class TextAnalyticsClient {
        * earlier versions were throwing an exception that included the inner
        * code only.
        */
-      const innerCode = e.response?.parsedBody?.error?.innererror?.code;
-      const innerMessage = e.response?.parsedBody?.error?.innererror?.message;
-      if (innerCode === "InvalidDocumentBatch") {
-        backwardCompatibleException = new RestError(innerMessage, innerCode, e.statusCode);
-      } else {
-        backwardCompatibleException = e;
-      }
+      const backwardCompatibleException = handleInvalidDocumentBatch(e);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: backwardCompatibleException.message
@@ -423,15 +485,15 @@ export class TextAnalyticsClient {
    * Runs a predictive model to identify the positive, negative, neutral, or mixed
    * sentiment contained in the input strings, as well as scores indicating
    * the model's confidence in each of the predicted sentiments.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input strings to analyze.
-   * @param language The language that all the input strings are
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input strings to analyze.
+   * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
         where the lanuage is explicitly set to "None".
-   * @param options Optional parameters for the operation.
+   * @param options - Optional parameters for the operation.
    */
   public async analyzeSentiment(
     documents: string[],
@@ -442,10 +504,10 @@ export class TextAnalyticsClient {
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
    * the model's confidence in each of the predicted sentiments.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input documents to analyze.
-   * @param options Optional parameters for the operation.
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input documents to analyze.
+   * @param options - Options for the operation.
    */
   public async analyzeSentiment(
     documents: TextDocumentInput[],
@@ -508,15 +570,15 @@ export class TextAnalyticsClient {
   /**
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input strings.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input strings to analyze.
-   * @param language The language that all the input strings are
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input strings to analyze.
+   * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
-        where the lanuage is explicitly set to "None".
-   * @param options Optional parameters for the operation.
+        where the language is explicitly set to "None".
+   * @param options - Options for the operation.
    */
   public async extractKeyPhrases(
     documents: string[],
@@ -526,10 +588,10 @@ export class TextAnalyticsClient {
   /**
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input documents.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input documents to analyze.
-   * @param options Optional parameters for the operation.
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input documents to analyze.
+   * @param options - Options for the operation.
    */
   public async extractKeyPhrases(
     documents: TextDocumentInput[],
@@ -592,15 +654,15 @@ export class TextAnalyticsClient {
    * personally identifiable information found in the passed-in input strings,
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input strings to analyze.
-   * @param language The language that all the input strings are
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * @param inputs - The input strings to analyze.
+   * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
-        where the lanuage is explicitly set to "None".
-   * @param options Optional parameters for the operation.
+        where the language is explicitly set to "None".
+   * @param options - Options for the operation.
    */
   public async recognizePiiEntities(
     inputs: string[],
@@ -612,10 +674,10 @@ export class TextAnalyticsClient {
    * personally identifiable information found in the passed-in input documents,
    * and categorize those entities into types such as US social security
    * number, drivers license number, or credit card number.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
-   * @param inputs The input documents to analyze.
-   * @param options Optional parameters for the operation.
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support}.
+   * @param inputs - The input documents to analyze.
+   * @param options - Optional parameters for the operation.
    */
   public async recognizePiiEntities(
     inputs: TextDocumentInput[],
@@ -669,15 +731,15 @@ export class TextAnalyticsClient {
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input strings, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input strings to analyze.
-   * @param language The language that all the input strings are
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input strings to analyze.
+   * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.  
         If set to an empty string, the service will apply a model
-        where the lanuage is explicitly set to "None".
-   * @param options Optional parameters for the operation.
+        where the language is explicitly set to "None".
+   * @param options - Options for the operation.
    */
   public async recognizeLinkedEntities(
     documents: string[],
@@ -688,10 +750,10 @@ export class TextAnalyticsClient {
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input documents, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
-   * For a list of languages supported by this operation, see
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support.
-   * @param documents The input documents to analyze.
-   * @param options Optional parameters for the operation.
+   * For a list of languages supported by this operation, @see
+   * {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/language-support}.
+   * @param documents - The input documents to analyze.
+   * @param options - Options for the operation.
    */
   public async recognizeLinkedEntities(
     documents: TextDocumentInput[],
@@ -748,6 +810,134 @@ export class TextAnalyticsClient {
       span.end();
     }
   }
+
+  /**
+   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param documents - Collection of documents to analyze.
+   * @param language - The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.
+        If set to an empty string, the service will apply a model
+        where the language is explicitly set to "None".
+   * @param options - Options for the operation.
+   */
+  async beginAnalyzeHealthcare(
+    documents: string[],
+    language?: string,
+    options?: BeginAnalyzeHealthcareOptions
+  ): Promise<HealthPollerLike>;
+  /**
+   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * symptoms, etc) and their relations.
+   * @param documents - Collection of documents to analyze.
+   * @param options - Options for the operation.
+   */
+  async beginAnalyzeHealthcare(
+    documents: TextDocumentInput[],
+    options?: BeginAnalyzeHealthcareOptions
+  ): Promise<HealthPollerLike>;
+
+  async beginAnalyzeHealthcare(
+    documents: string[] | TextDocumentInput[],
+    languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
+    options?: BeginAnalyzeHealthcareOptions
+  ): Promise<HealthPollerLike> {
+    let realOptions: BeginAnalyzeHealthcareOptions;
+    let realInputs: TextDocumentInput[];
+    if (isStringArray(documents)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, language);
+      realOptions = options || {};
+    } else {
+      realInputs = documents;
+      realOptions = (languageOrOptions as BeginAnalyzeHealthcareOptions) || {};
+    }
+
+    const poller = new BeginAnalyzeHealthcarePoller({
+      client: this.client,
+      documents: realInputs,
+      analysisOptions: realOptions.health,
+      ...realOptions.polling
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * @param documents - Collection of documents to analyze
+   * @param tasks - Tasks to execute.
+   * @param language - The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.
+        If set to an empty string, the service will apply a model
+        where the language is explicitly set to "None".
+   * @param options - Options for the operation.
+   */
+  public async beginAnalyze(
+    documents: string[],
+    tasks: JobManifestTasks,
+    language?: string,
+    options?: BeginAnalyzeOptions
+  ): Promise<AnalyzePollerLike>;
+  /**
+   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * @param documents - Collection of documents to analyze
+   * @param tasks - Tasks to execute.
+   * @param options - Options for the operation.
+   */
+  public async beginAnalyze(
+    documents: TextDocumentInput[],
+    tasks: JobManifestTasks,
+    options?: BeginAnalyzeOptions
+  ): Promise<AnalyzePollerLike>;
+  public async beginAnalyze(
+    documents: string[] | TextDocumentInput[],
+    tasks: JobManifestTasks,
+    languageOrOptions?: string | BeginAnalyzeOptions,
+    options?: BeginAnalyzeOptions
+  ): Promise<AnalyzePollerLike> {
+    let realOptions: BeginAnalyzeOptions;
+    let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, language);
+      realOptions = options || {};
+    } else {
+      realInputs = documents;
+      realOptions = (languageOrOptions as BeginAnalyzeOptions) || {};
+    }
+    const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
+    const poller = new BeginAnalyzePoller({
+      client: this.client,
+      documents: realInputs,
+      tasks: compiledTasks,
+      analysisOptions: realOptions.analyze,
+      ...realOptions.polling
+    });
+
+    await poller.poll();
+    return poller;
+  }
+}
+
+function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
+  return {
+    entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
+      ?.map(addEncodingParamToTask)
+      .map(AddParamsToTask),
+    entityRecognitionTasks: tasks.entityRecognitionTasks
+      ?.map(addEncodingParamToTask)
+      .map(AddParamsToTask),
+    keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
+  };
 }
 
 function isStringArray(documents: any[]): documents is string[] {

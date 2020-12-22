@@ -31,7 +31,7 @@ async function createWebHook(client) {
   console.log("Creating a new web hook...");
   const hook = {
     hookType: "Webhook",
-    name: "js web hook example" + new Date().getTime().toFixed(),
+    name: "js web hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: {
       endpoint: "https://httpbin.org/post",
@@ -54,7 +54,7 @@ async function createEmailHook(client) {
   console.log("Creating a new email hook...");
   const hook = {
     hookType: "Email",
-    name: "js email hook example" + new Date().getTime().toFixed(),
+    name: "js email hook example" + new Date().getTime().toString(),
     description: "description",
     hookParameter: { toList: ["test@example.com"] }
   };
@@ -66,9 +66,9 @@ async function createEmailHook(client) {
 async function getHook(client, hookId) {
   console.log(`Retrieving an existing hook for id ${hookId}...`);
   const result = await client.getHook(hookId);
-  console.log(result.hookName);
+  console.log(result.name);
   console.log(result.description);
-  console.log(result.admins);
+  console.log(result.adminEmails);
 }
 
 async function updateEmailHook(client, hookId) {
@@ -86,10 +86,12 @@ async function updateEmailHook(client, hookId) {
 
 async function listHooks(client) {
   console.log("Listing existing hooks");
+  console.log("  using for-await-of syntax");
   let i = 1;
-  for await (const hook of client.listHooks({
+  const iterator = client.listHooks({
     hookName: "js "
-  })) {
+  });
+  for await (const hook of iterator) {
     console.log(`hook ${i++} - type ${hook.hookType}`);
     console.log(`  description: ${hook.description}`);
     if (hook.hookType === "Email") {
@@ -104,6 +106,45 @@ async function listHooks(client) {
         }
       }
       console.log(`  certificate key: ${hook.hookParameter.certificateKey}`);
+    }
+  }
+  console.log("  by pages");
+  i = 1;
+  const pages = client.listHooks({ hookName: "js " }).byPage({ maxPageSize: 5 });
+  let page = await pages.next();
+  while (!(page.done === true)) {
+    for (const hook of page.value) {
+      console.log(`    hook ${i++} - type ${hook.hookType}`);
+      console.log(`      id: ${hook.id}`);
+      console.log(`      description: ${hook.description}`);
+      if (hook.hookType === "Email") {
+        console.log(`      TO: list ${hook.hookParameter.toList}`);
+      } else {
+        console.log(`      endpoint: ${hook.hookParameter.endpoint}`);
+        console.log(`      username: ${hook.hookParameter.username}`);
+        if (hook.hookParameter.headers) {
+          console.log(`      headers:`);
+          for (const key of Object.keys(hook.hookParameter.headers)) {
+            console.log(`        ${key}: ${hook.hookParameter.headers[key]}`);
+          }
+        }
+        console.log(`      certificate key: ${hook.hookParameter.certificateKey}`);
+      }
+    }
+    console.log(`    next: ${page.value.continuationToken}`);
+    page = await pages.next();
+  }
+  console.log("  resume paging using continuation token");
+  const pageIterator = client.listHooks({ hookName: "js " }).byPage({ maxPageSize: 5 });
+  const firstPage = await pageIterator.next();
+  if (firstPage.done !== true) {
+    const newIterator = client
+      .listHooks({ hookName: "js " })
+      .byPage({ continuationToken: firstPage.value.continuationToken });
+    const secondPage = await newIterator.next();
+    console.log("    Second page:");
+    for (const hook of secondPage.value) {
+      console.log(`    id: ${hook.id}`);
     }
   }
 }

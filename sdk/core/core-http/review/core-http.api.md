@@ -10,6 +10,7 @@ import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { Span } from '@opentelemetry/api';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -47,10 +48,10 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 }
 
 // @public
-export function applyMixins(targetCtor: any, sourceCtors: any[]): void;
+export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
 // @public (undocumented)
-export type Authenticator = (challenge: object) => Promise<string>;
+export type Authenticator = (challenge: unknown) => Promise<string>;
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -156,6 +157,12 @@ export const Constants: {
 // @public (undocumented)
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
+// @public
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+    span: Span;
+    updatedOptions: T;
+};
+
 // Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
 //
 // @public (undocumented)
@@ -173,7 +180,7 @@ export class DefaultHttpClient extends FetchHttpClient {
     }
 
 // @public
-export function delay<T>(t: number, value?: T): Promise<T>;
+export function delay<T>(t: number, value?: T): Promise<T | void>;
 
 // @public
 export interface DeserializationContentTypes {
@@ -187,10 +194,10 @@ export interface DeserializationOptions {
 }
 
 // @public
-export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes): RequestPolicyFactory;
+export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes, parsingOptions?: SerializerOptions): RequestPolicyFactory;
 
 // @public (undocumented)
-export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse): Promise<HttpOperationResponse>;
+export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse, options?: SerializerOptions): Promise<HttpOperationResponse>;
 
 // @public (undocumented)
 export interface DictionaryMapper extends BaseMapper {
@@ -229,7 +236,7 @@ export interface EnumMapperType {
 }
 
 // @public
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): Promise<any>;
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: unknown): Promise<any>;
 
 // @public
 export class ExpiringAccessTokenCache implements AccessTokenCache {
@@ -471,6 +478,7 @@ export interface OperationRequestOptions {
 export interface OperationResponse {
     bodyMapper?: Mapper;
     headersMapper?: Mapper;
+    isError?: boolean;
 }
 
 // @public
@@ -513,9 +521,7 @@ export interface ParameterValue {
 }
 
 // @public
-export function parseXML(str: string, opts?: {
-    includeRoot?: boolean;
-}): Promise<any>;
+export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
 
 // @public
 export interface PipelineOptions {
@@ -539,10 +545,10 @@ export interface PolymorphicDiscriminator {
 }
 
 // @public @deprecated
-export function promiseToCallback(promise: Promise<any>): Function;
+export function promiseToCallback(promise: Promise<any>): (cb: Function) => void;
 
 // @public
-export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): Function;
+export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): (cb: ServiceCallback<T>) => void;
 
 // @public (undocumented)
 export type ProxyOptions = ProxySettings;
@@ -598,6 +604,7 @@ export interface RequestOptionsBase {
     };
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
+    serializerOptions?: SerializerOptions;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
     timeout?: number;
@@ -634,7 +641,7 @@ export interface RequestPrepareOptions {
     baseUrl?: string;
     body?: any;
     bodyIsStream?: boolean;
-    deserializationMapper?: object;
+    deserializationMapper?: Record<string, unknown>;
     disableClientRequestId?: boolean;
     disableJsonStringifyOnBody?: boolean;
     // (undocumented)
@@ -720,23 +727,30 @@ export interface SequenceMapperType {
 }
 
 // @public (undocumented)
-export function serializeObject(toSerialize: any): any;
+export function serializeObject(toSerialize: unknown): any;
 
 // @public (undocumented)
 export class Serializer {
     constructor(modelMappers?: {
         [key: string]: any;
     }, isXML?: boolean | undefined);
-    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    deserialize(mapper: Mapper, responseBody: unknown, objectName: string, options?: SerializerOptions): any;
     // (undocumented)
     readonly isXML?: boolean | undefined;
     // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    serialize(mapper: Mapper, object: unknown, objectName?: string, options?: SerializerOptions): any;
     // (undocumented)
-    validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+    validateConstraints(mapper: Mapper, value: unknown, objectName: string): void;
+}
+
+// @public
+export interface SerializerOptions {
+    includeRoot?: boolean;
+    rootName?: string;
+    xmlCharKey?: string;
 }
 
 // @public
@@ -761,6 +775,7 @@ export interface ServiceClientCredentials {
 // @public
 export interface ServiceClientOptions {
     clientRequestIdHeaderName?: string;
+    credentialScopes?: string | string[];
     deserializationContentTypes?: DeserializationContentTypes;
     generateClientRequestIdHeader?: boolean;
     httpClient?: HttpClient;
@@ -784,9 +799,13 @@ export interface SimpleMapperType {
 }
 
 // @public
-export function stringifyXML(obj: any, opts?: {
-    rootName?: string;
-}): string;
+export interface SpanConfig {
+    namespace: string;
+    packagePrefix: string;
+}
+
+// @public
+export function stringifyXML(obj: unknown, opts?: SerializerOptions): string;
 
 // @public
 export function stripRequest(request: WebResourceLike): WebResourceLike;
@@ -843,7 +862,7 @@ export class URLBuilder {
     setPath(path: string | undefined): void;
     setPort(port: number | string | undefined): void;
     setQuery(query: string | undefined): void;
-    setQueryParameter(queryParameterName: string, queryParameterValue: any): void;
+    setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void;
     setScheme(scheme: string | undefined): void;
     // (undocumented)
     toString(): string;
@@ -863,7 +882,7 @@ export class URLQuery {
     get(parameterName: string): string | string[] | undefined;
     keys(): string[];
     static parse(text: string): URLQuery;
-    set(parameterName: string, parameterValue: any): void;
+    set(parameterName: string, parameterValue: unknown): void;
     toString(): string;
 }
 
@@ -878,7 +897,7 @@ export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFac
 
 // @public
 export class WebResource implements WebResourceLike {
-    constructor(url?: string, method?: HttpMethods, body?: any, query?: {
+    constructor(url?: string, method?: HttpMethods, body?: unknown, query?: {
         [key: string]: any;
     }, headers?: {
         [key: string]: any;
@@ -952,6 +971,12 @@ export interface WebResourceLike {
     validateRequestProperties(): void;
     withCredentials: boolean;
 }
+
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "_";
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { AuthenticationRequired, MsalClient } from "../client/msalClient";
 import { createSpan } from "../util/tracing";
-import { credentialLogger } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { TokenCredentialOptions } from "../client/identityClient";
 
-import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
+import { DeviceCodeRequest } from "@azure/msal-node";
+import { checkTenantId } from "../util/checkTenantId";
+import { DeveloperSignOnClientId } from "../constants";
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -44,7 +47,7 @@ const logger = credentialLogger("DeviceCodeCredential");
 
 /**
  * Method that logs the user code from the DeviceCodeCredential.
- * @param deviceCodeInfo The device code.
+ * @param deviceCodeInfo - The device code.
  */
 export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo): void {
   console.log(deviceCodeInfo.message);
@@ -55,56 +58,49 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
-  private pca: PublicClientApplication;
-  private tenantId: string;
-  private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
-  private authorityHost: string;
+  private msalClient: MsalClient;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID or name. 
-   *                 'organizations' may be used when dealing with multi-tenant scenarios.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param userPromptCallback A callback function that will be invoked to show
+   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
+   *                   The default value is 'organizations'.
+   *                   'organizations' may be used when dealing with multi-tenant scenarios.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   *                   By default we will try to use the Azure CLI's client ID to authenticate.
+   * @param userPromptCallback - A callback function that will be invoked to show
                                {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
-    tenantId: string | "organizations",
-    clientId: string,
+    tenantId: string = "organizations",
+    clientId: string = DeveloperSignOnClientId,
     userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
-    this.tenantId = tenantId;
-    this.clientId = clientId;
+    checkTenantId(logger, tenantId);
+
     this.userPromptCallback = userPromptCallback;
+
+    let authorityHost;
     if (options && options.authorityHost) {
       if (options.authorityHost.endsWith("/")) {
-        this.authorityHost = options.authorityHost + this.tenantId;
+        authorityHost = options.authorityHost + tenantId;
       } else {
-        this.authorityHost = options.authorityHost + "/" + this.tenantId;
+        authorityHost = options.authorityHost + "/" + tenantId;
       }
     } else {
-      this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
+      authorityHost = "https://login.microsoftonline.com/" + tenantId;
     }
 
-    const knownAuthorities = this.tenantId === "adfs" ? [this.authorityHost] : [];
-
-    const publicClientConfig = {
-      auth: {
-        clientId: this.clientId,
-        authority: this.authorityHost,
-        knownAuthorities: knownAuthorities
-      },
-      cache: {
-        cachePlugin: undefined
-      }
-    };
-
-    this.pca = new PublicClientApplication(publicClientConfig);
+    this.msalClient = new MsalClient(
+      { clientId: clientId, authority: authorityHost },
+      false,
+      undefined,
+      options
+    );
   }
 
   /**
@@ -113,11 +109,14 @@ export class DeviceCodeCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  async getToken(
+    scopes: string | string[],
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     const { span } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
@@ -127,33 +126,44 @@ export class DeviceCodeCredential implements TokenCredential {
       scopes: scopeArray
     };
 
-    logger.info("Sending devicecode request");
+    logger.info(`DeviceCodeCredential invoked. Scopes: ${scopeArray.join(", ")}`);
 
-    try {
-      return this.acquireTokenByDeviceCode(deviceCodeRequest);
-    } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
-      span.setStatus({
-        code,
-        message: err.message
-      });
-      logger.getToken.info(err);
-      throw err;
-    } finally {
-      span.end();
-    }
+    return this.msalClient.acquireTokenFromCache(scopeArray).catch(async (e) => {
+      if (e instanceof AuthenticationRequired) {
+        try {
+          const token = await this.acquireTokenByDeviceCode(deviceCodeRequest, scopeArray);
+          logger.getToken.info(formatSuccess(scopeArray));
+          return token;
+        } catch (err) {
+          const code =
+            err.name === AuthenticationErrorName
+              ? CanonicalCode.UNAUTHENTICATED
+              : CanonicalCode.UNKNOWN;
+          span.setStatus({
+            code,
+            message: err.message
+          });
+          logger.getToken.info(formatError(scopeArray, err));
+          throw err;
+        } finally {
+          span.end();
+        }
+      } else {
+        throw e;
+      }
+    });
   }
 
   private async acquireTokenByDeviceCode(
-    deviceCodeRequest: DeviceCodeRequest
+    deviceCodeRequest: DeviceCodeRequest,
+    scopes: string[]
   ): Promise<AccessToken | null> {
     try {
-      const deviceResponse = await this.pca.acquireTokenByDeviceCode(deviceCodeRequest);
+      const deviceResponse = await this.msalClient.acquireTokenByDeviceCode(deviceCodeRequest);
+      const expiresOnTimestamp = deviceResponse.expiresOn.getTime();
+      logger.getToken.info(formatSuccess(scopes));
       return {
-        expiresOnTimestamp: deviceResponse.expiresOn.getTime(),
+        expiresOnTimestamp,
         token: deviceResponse.accessToken
       };
     } catch (error) {

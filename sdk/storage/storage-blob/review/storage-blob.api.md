@@ -394,6 +394,7 @@ export class BlobClient extends StorageClient {
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
+    generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(): BlockBlobClient;
@@ -619,6 +620,11 @@ export interface BlobFlatListSegmentModel {
 }
 
 // @public
+export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: BlobSASPermissions;
+}
+
+// @public
 export interface BlobGetPropertiesHeaders {
     acceptRanges?: string;
     accessTier?: string;
@@ -709,7 +715,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions;
+    conditions?: TagConditions & LeaseAccessConditions;
 }
 
 // @public
@@ -999,6 +1005,8 @@ export class BlobSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    execute: boolean;
+    move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     tag: boolean;
@@ -1015,10 +1023,12 @@ export interface BlobSASSignatureValues {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    correlationId?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
+    preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
@@ -1037,6 +1047,7 @@ export class BlobServiceClient extends StorageClient {
     deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
     getBlobBatchClient(): BlobBatchClient;
     getContainerClient(containerName: string): ContainerClient;
@@ -1144,7 +1155,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: TagConditions;
+    conditions?: TagConditions & LeaseAccessConditions;
 }
 
 // @public
@@ -1282,8 +1293,11 @@ export class BlockBlobClient extends BlobClient {
     query(query: string, options?: BlockBlobQueryOptions): Promise<BlobDownloadResponseModel>;
     stageBlock(blockId: string, body: HttpRequestBody, contentLength: number, options?: BlockBlobStageBlockOptions): Promise<BlockBlobStageBlockResponse>;
     stageBlockFromURL(blockId: string, sourceURL: string, offset?: number, count?: number, options?: BlockBlobStageBlockFromURLOptions): Promise<BlockBlobStageBlockFromURLResponse>;
+    syncUploadFromURL(sourceURL: string, options?: BlockBlobSyncUploadFromURLOptions): Promise<BlockBlobPutBlobFromUrlResponse>;
     upload(body: HttpRequestBody, contentLength: number, options?: BlockBlobUploadOptions): Promise<BlockBlobUploadResponse>;
+    // @deprecated
     uploadBrowserData(browserData: Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
+    uploadData(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadFile(filePath: string, options?: BlockBlobParallelUploadOptions): Promise<BlobUploadCommonResponse>;
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
@@ -1373,6 +1387,30 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
 }
 
 // @public
+export interface BlockBlobPutBlobFromUrlHeaders {
+    clientRequestId?: string;
+    contentMD5?: Uint8Array;
+    date?: Date;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+    versionId?: string;
+}
+
+// @public
+export type BlockBlobPutBlobFromUrlResponse = BlockBlobPutBlobFromUrlHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlockBlobPutBlobFromUrlHeaders;
+    };
+};
+
+// @public
 export interface BlockBlobQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
@@ -1450,6 +1488,22 @@ export type BlockBlobStageBlockResponse = BlockBlobStageBlockHeaders & {
 };
 
 // @public
+export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    blobHTTPHeaders?: BlobHTTPHeaders;
+    conditions?: BlobRequestConditions;
+    copySourceBlobProperties?: boolean;
+    customerProvidedKey?: CpkInfo;
+    encryptionScope?: string;
+    metadata?: Metadata;
+    sourceConditions?: ModifiedAccessConditions;
+    sourceContentMD5?: Uint8Array;
+    tags?: Tags;
+    tier?: BlockBlobTier | string;
+    timeoutInSeconds?: number;
+}
+
+// @public
 export enum BlockBlobTier {
     Archive = "Archive",
     Cool = "Cool",
@@ -1519,6 +1573,21 @@ export interface BlockList {
 export type BlockListType = 'committed' | 'uncommitted' | 'all';
 
 // @public
+export interface CommonGenerateSasUrlOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface CommonOptions {
     tracingOptions?: OperationTracingOptions;
 }
@@ -1561,6 +1630,7 @@ export class ContainerClient extends StorageClient {
     deleteBlob(blobName: string, options?: ContainerDeleteBlobOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
+    generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
     getBlobClient(blobName: string): BlobClient;
@@ -1656,6 +1726,11 @@ export interface ContainerEncryptionScope {
 // @public
 export interface ContainerExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+}
+
+// @public
+export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    permissions?: ContainerSASPermissions;
 }
 
 // @public
@@ -1840,7 +1915,9 @@ export class ContainerSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    execute: boolean;
     list: boolean;
+    move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
     read: boolean;
     tag: boolean;
@@ -1963,18 +2040,27 @@ export type EncryptionAlgorithmType = 'AES256';
 
 // @public
 export interface FilterBlobItem {
+    containerName: string;
+    name: string;
+    tags?: Tags;
+    // @deprecated
+    tagValue?: string;
+}
+
+// @public
+export interface FilterBlobItemModel {
     // (undocumented)
     containerName: string;
     // (undocumented)
     name: string;
     // (undocumented)
-    tagValue: string;
+    tags?: BlobTags;
 }
 
 // @public
 export interface FilterBlobSegment {
     // (undocumented)
-    blobs: FilterBlobItem[];
+    blobs: FilterBlobItemModel[];
     // (undocumented)
     continuationToken?: string;
     // (undocumented)
@@ -2597,6 +2683,7 @@ export { RestError }
 
 // @public
 export interface RetentionPolicy {
+    allowPermanentDelete?: boolean;
     days?: number;
     enabled: boolean;
 }
@@ -2615,16 +2702,19 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;
     readonly contentLanguage?: string;
     readonly contentType?: string;
+    readonly correlationId?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
     readonly permissions?: string;
+    readonly preauthorizedAgentObjectId?: string;
     readonly protocol?: SASProtocol;
     readonly resource?: string;
     readonly resourceTypes?: string;
@@ -2633,6 +2723,27 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
+}
+
+// @public
+export interface SASQueryParametersOptions {
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentType?: string;
+    correlationId?: string;
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: string;
+    preauthorizedAgentObjectId?: string;
+    protocol?: SASProtocol;
+    resource?: string;
+    resourceTypes?: string;
+    services?: string;
+    startsOn?: Date;
+    userDelegationKey?: UserDelegationKey;
 }
 
 // @public
@@ -2656,12 +2767,7 @@ export interface ServiceFilterBlobsHeaders {
 }
 
 // @public
-export interface ServiceFindBlobByTagsOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
+export type ServiceFilterBlobsResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ServiceFilterBlobsHeaders;
         bodyAsText: string;
@@ -2670,12 +2776,31 @@ export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceF
 };
 
 // @public
+export interface ServiceFindBlobByTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type ServiceFindBlobsByTagsSegmentResponse = Omit<ServiceFilterBlobsResponse, "blobs"> & {
+    blobs: FilterBlobItem[];
+};
+
+// @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetAccountInfoHeaders {
     accountKind?: AccountKind;
     clientRequestId?: string;
     date?: Date;
     // (undocumented)
     errorCode?: string;
+    isHierarchicalNamespaceEnabled?: boolean;
     requestId?: string;
     skuName?: SkuName;
     version?: string;

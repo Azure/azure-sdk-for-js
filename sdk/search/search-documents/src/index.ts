@@ -109,7 +109,8 @@ export {
   AnalyzeRequest,
   SearchResourceEncryptionKey,
   SearchIndexStatistics,
-  SearchServiceStatistics
+  SearchServiceStatistics,
+  SearchIndexer
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -212,7 +213,6 @@ export {
   VisualFeature,
   KeyPhraseExtractionSkillLanguage,
   OcrSkillLanguage,
-  SearchIndexer,
   FieldMapping,
   IndexingParameters,
   IndexingSchedule,

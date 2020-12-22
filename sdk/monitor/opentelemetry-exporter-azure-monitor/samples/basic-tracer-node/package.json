@@ -1,0 +1,36 @@
+{
+  "name": "example-basic-tracer-node",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Example of using @opentelemetry/tracing in Node.js",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'nothing to build'",
+    "test": "echo 'nothing to test'",
+    "lint": "echo 'nothing to lint'",
+    "start": "node --inspect ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/open-telemetry/opentelemetry-js.git"
+  },
+  "keywords": [
+    "opentelemetry",
+    "tracing"
+  ],
+  "engines": {
+    "node": ">=8"
+  },
+  "author": "OpenTelemetry Authors",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/open-telemetry/opentelemetry-js/issues"
+  },
+  "dependencies": {
+    "@azure/opentelemetry-exporter-azure-monitor": "latest",
+    "@opentelemetry/api": "latest",
+    "@opentelemetry/tracing": "latest",
+    "dotenv": "^8.2.0"
+  },
+  "homepage": "https://github.com/open-telemetry/opentelemetry-js#readme"
+}

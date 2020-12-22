@@ -232,6 +232,29 @@ export type ListTableItemsOptions = OperationOptions & {
 };
 
 /**
+ * Output type for query operations
+ */
+export type TableEntityResult<T> = T & {
+  /**
+   * etag property. Always returned by the service
+   */
+  etag: string;
+  /**
+   * Partition key property. Ommited if a select filter is set and this property is not requested
+   */
+  partitionKey?: string;
+  /**
+   * Row key property. Ommited if a select filter is set and this property is not requested
+   */
+  rowKey?: string;
+  /**
+   * Timestamp property. This property is assinged by the service on entity creation
+   * Ommited if a select filter is set and this property is not requested
+   */
+  timestamp?: string;
+};
+
+/**
  * List entities optional parameters.
  */
 export type ListTableEntitiesOptions = OperationOptions & {
@@ -375,8 +398,6 @@ export interface Edm<T extends EdmTypes> {
     ? Uint8Array
     : T extends "Boolean"
     ? boolean
-    : T extends "DateTime"
-    ? Date
     : T extends "Double"
     ? number
     : T extends "Int32"
@@ -405,26 +426,26 @@ export interface TableBatch {
   partitionKey: string;
   /**
    * Adds a createEntity operation to the batch per each entity in the entities array
-   * @param entitites Array of entities to create
+   * @param entities - Array of entities to create
    */
   createEntities: <T extends object>(entitites: TableEntity<T>[]) => void;
   /**
    * Adds a createEntity operation to the batch
-   * @param entity Entity to create
+   * @param entity - Entity to create
    */
   createEntity: <T extends object>(entity: TableEntity<T>) => void;
   /**
    * Adds a deleteEntity operation to the batch
-   * @param partitionKey partition key of the entity to delete
-   * @param rowKey row key of the entity to delete
-   * @param options options for the delete operation
+   * @param partitionKey - Partition key of the entity to delete
+   * @param rowKey - Row key of the entity to delete
+   * @param options - Options for the delete operation
    */
   deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => void;
   /**
    * Adds an updateEntity operation to the batch
-   * @param entity entity to update
-   * @param mode update mode (Merge or Replace)
-   * @param options options for the update operation
+   * @param entity - Entity to update
+   * @param mode - Update mode (Merge or Replace)
+   * @param options - Options for the update operation
    */
   updateEntity: <T extends object>(
     entity: TableEntity<T>,

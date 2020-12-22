@@ -9,12 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
+  QueryCollectionFormat
 } from "@azure/core-http";
 import {
   TrainRequest as TrainRequestMapper,
   SourcePath as SourcePathMapper,
-  CopyRequest as CopyRequestMapper
+  CopyRequest as CopyRequestMapper,
+  ComposeRequest as ComposeRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -32,6 +34,18 @@ export const contentType: OperationParameter = {
 export const trainRequest: OperationParameter = {
   parameterPath: "trainRequest",
   mapper: TrainRequestMapper
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const endpoint: OperationURLParameter = {
@@ -76,6 +90,7 @@ export const contentType1: OperationParameter = {
       name: "Enum",
       allowedValues: [
         "application/pdf",
+        "image/bmp",
         "image/jpeg",
         "image/png",
         "image/tiff"
@@ -91,6 +106,18 @@ export const fileStream: OperationParameter = {
     required: true,
     type: {
       name: "Stream"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
     }
   }
 };
@@ -136,6 +163,62 @@ export const resultId: OperationURLParameter = {
 export const copyRequest: OperationParameter = {
   parameterPath: "copyRequest",
   mapper: CopyRequestMapper
+};
+
+export const composeRequest: OperationParameter = {
+  parameterPath: "composeRequest",
+  mapper: ComposeRequestMapper
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json, text/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const locale: OperationQueryParameter = {
+  parameterPath: ["options", "locale"],
+  mapper: {
+    serializedName: "locale",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const language: OperationQueryParameter = {
+  parameterPath: ["options", "language"],
+  mapper: {
+    serializedName: "language",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const pages: OperationQueryParameter = {
+  parameterPath: ["options", "pages"],
+  mapper: {
+    serializedName: "Pages",
+    type: {
+      name: "Sequence",
+      element: {
+        constraints: {
+          Pattern: new RegExp("(^[0-9]+-[0-9]+$)|(^[0-9]+$)")
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: QueryCollectionFormat.Csv
 };
 
 export const op: OperationQueryParameter = {

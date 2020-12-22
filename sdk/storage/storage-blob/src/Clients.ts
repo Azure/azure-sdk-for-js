@@ -84,7 +84,8 @@ import {
   PublicAccessType,
   RehydratePriority,
   SequenceNumberActionType,
-  SignedIdentifierModel
+  SignedIdentifierModel,
+  BlockBlobPutBlobFromUrlResponse
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -134,8 +135,10 @@ import {
 import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
+  appendToURLQuery,
   extractConnectionStringParts,
   generateBlockID,
+  getURLParameter,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
   setURLParameter,
@@ -151,6 +154,11 @@ import {
   readStreamToLocalFile,
   streamToBuffer
 } from "./utils/utils.node";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
+import { SasIPRange } from "./sas/SasIPRange";
+import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
+import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -493,10 +501,10 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobSetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
@@ -517,14 +525,14 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobGetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
- * Contains response data for the {@link ContainerClient.getTags} operation.
+ * Contains response data for the {@link BlobClient.getTags} operation.
  */
 export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
     /**
@@ -1011,6 +1019,121 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
 }
 
 /**
+ * Common options of {@link BlobGenerateSasUrlOptions} and {@link ContainerGenerateSasUrlOptions}.
+ *
+ * @export
+ * @interface CommonGenerateSasUrlOptions
+ */
+export interface CommonGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
+/**
+ * Options to configure {@link BlobClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface BlobGenerateSasUrlOptions
+ */
+export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {BlobSASPermissions}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  permissions?: BlobSASPermissions;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1029,6 +1152,9 @@ export class BlobClient extends StorageClient {
 
   private _name: string;
   private _containerName: string;
+
+  private _versionId?: string;
+  private _snapshot?: string;
 
   /**
    * The name of the blob.
@@ -1188,6 +1314,9 @@ export class BlobClient extends StorageClient {
       containerName: this._containerName
     } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new StorageBlob(this.storageClientContext);
+
+    this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
+    this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
   }
 
   /**
@@ -1737,6 +1866,7 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -1767,6 +1897,7 @@ export class BlobClient extends StorageClient {
     try {
       const response = await this.blobContext.getTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -2386,6 +2517,41 @@ export class BlobClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates a Blob Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {BlobGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof BlobClient
+   */
+  public generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw new RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          blobName: this._name,
+          snapshotTime: this._snapshot,
+          versionId: this._versionId,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }
 
@@ -3198,6 +3364,109 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link BlockBlobClient.syncUploadFromURL} operation.
+ *
+ * @export
+ * @interface BlockBlobSyncUploadFromURLOptions
+ */
+export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
+  /**
+   * Server timeout in seconds.
+   * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
+   * @type {number}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  timeoutInSeconds?: number;
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
+   * pairs are specified, the operation will copy the metadata from the source blob or file to the
+   * destination blob. If one or more name-value pairs are specified, the destination blob is
+   * created with the specified metadata, and metadata is not copied from the source blob or file.
+   * Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules
+   * for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more
+   * information.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  encryptionScope?: string;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  tier?: BlockBlobTier | string;
+  /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   * @type {Uint8Array}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
+  /**
+   * Blob tags.
+   *
+   * @type {Tags}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  tags?: Tags;
+  /**
+   * Optional, default is true.  Indicates if properties from the source blob should be copied.
+   *
+   * @type {boolean}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  copySourceBlobProperties?: boolean;
+  /**
+   * HTTP headers to set when uploading to a block blob.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * Conditions to meet for the destination Azure Blob.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Conditions to meet for the source Azure Blob.
+   *
+   * @type {ModifiedAccessConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceConditions?: ModifiedAccessConditions;
+}
+
+/**
  * Blob query error type.
  *
  * @export
@@ -3344,7 +3613,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3368,7 +3637,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Callback to receive events on the progress of query operation.
    *
    * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
@@ -3381,14 +3650,14 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Conditions to meet when uploading to the block blob.
    *
    * @type {BlobRequestConditions}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -4163,6 +4432,68 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
+   * Creates a new Block Blob where the contents of the blob are read from a given URL.
+   * This API is supported beginning with the 2020-04-08 version. Partial updates
+   * are not supported with Put Blob from URL; the content of an existing blob is overwritten with
+   * the content of the new blob.  To perform partial updates to a block blob’s contents using a
+   * source URL, use {@link stageBlockFromURL} and {@link commitBlockList}.
+   *
+   * @param {string} sourceURL Specifies the URL of the blob. The value
+   *                           may be a URL of up to 2 KB in length that specifies a blob.
+   *                           The value should be URL-encoded as it would appear
+   *                           in a request URI. The source blob must either be public
+   *                           or must be authenticated via a shared access signature.
+   *                           If the source blob is public, no authentication is required
+   *                           to perform the operation. Here are some examples of source object URLs:
+   *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
+   *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
+   * @param {BlockBlobSyncUploadFromURLOptions} [options={}] Optional parameters.
+   * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
+   * @memberof BlockBlobClient
+   */
+
+  public async syncUploadFromURL(
+    sourceURL: string,
+    options: BlockBlobSyncUploadFromURLOptions = {}
+  ): Promise<BlockBlobPutBlobFromUrlResponse> {
+    options.conditions = options.conditions || {};
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-syncUploadFromURL",
+      options.tracingOptions
+    );
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
+        ...options,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions.tagConditions
+        },
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceConditions?.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+          sourceIfTags: options.sourceConditions?.tagConditions
+        },
+        cpkInfo: options.customerProvidedKey,
+        tier: toAccessTier(options.tier),
+        blobTagsString: toBlobTagsString(options.tags),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Uploads the specified block to the block blob's "staging area" to be later
    * committed by a call to commitBlockList.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
@@ -4366,6 +4697,64 @@ export class BlockBlobClient extends BlobClient {
   // High level functions
 
   /**
+   * Uploads a Buffer(Node.js)/Blob(browsers)/ArrayBuffer/ArrayBufferView object to a BlockBlob.
+   *
+   * When data length is no more than the specifiled {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
+   * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
+   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
+   * to commit the block list.
+   *
+   * @export
+   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
+   * @param {BlockBlobParallelUploadOptions} [options]
+   * @returns {Promise<BlobUploadCommonResponse>}
+   * @memberof BlockBlobClient
+   */
+  public async uploadData(
+    data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
+    options: BlockBlobParallelUploadOptions = {}
+  ): Promise<BlobUploadCommonResponse> {
+    const { span, spanOptions } = createSpan("BlockBlobClient-uploadData", options.tracingOptions);
+    try {
+      if (isNode) {
+        let buffer: Buffer;
+        if (data instanceof Buffer) {
+          buffer = data;
+        } else if (data instanceof ArrayBuffer) {
+          buffer = Buffer.from(data);
+        } else {
+          data = data as ArrayBufferView;
+          buffer = Buffer.from(data.buffer, data.byteOffset, data.byteLength);
+        }
+
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Buffer => buffer.slice(offset, offset + size),
+          buffer.byteLength,
+          {
+            ...options,
+            tracingOptions: { ...options!.tracingOptions, spanOptions }
+          }
+        );
+      } else {
+        const browserBlob = new Blob([data]);
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
+          browserBlob.size,
+          { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
+        );
+      }
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * ONLY AVAILABLE IN BROWSERS.
    *
    * Uploads a browser Blob/File/ArrayBuffer/ArrayBufferView object to block blob.
@@ -4373,6 +4762,8 @@ export class BlockBlobClient extends BlobClient {
    * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call
    * {@link commitBlockList} to commit the block list.
+   *
+   * @deprecated Use {@link uploadData} instead.
    *
    * @export
    * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
@@ -4390,10 +4781,8 @@ export class BlockBlobClient extends BlobClient {
     );
     try {
       const browserBlob = new Blob([browserData]);
-      return await this.uploadSeekableBlob(
-        (offset: number, size: number): Blob => {
-          return browserBlob.slice(offset, offset + size);
-        },
+      return await this.uploadSeekableInternal(
+        (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
         browserBlob.size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
@@ -4409,23 +4798,23 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
-   * ONLY AVAILABLE IN BROWSERS.
    *
-   * Uploads a browser {@link Blob} object to block blob. Requires a blobFactory as the data source,
-   * which need to return a {@link Blob} object with the offset and size provided.
+   * Uploads data to block blob. Requires a bodyFactory as the data source,
+   * which need to return a {@link HttpRequestBody} object with the offset and size provided.
    *
-   * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
-   * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
+   * When data length is no more than the specifiled {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
+   * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
+   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
-   * @param {(offset: number, size: number) => Blob} blobFactory
+   * @param {(offset: number, size: number) => HttpRequestBody} bodyFactory
    * @param {number} size size of the data to upload.
    * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
    * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
-  private async uploadSeekableBlob(
-    blobFactory: (offset: number, size: number) => Blob,
+  private async uploadSeekableInternal(
+    bodyFactory: (offset: number, size: number) => HttpRequestBody,
     size: number,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
@@ -4469,13 +4858,13 @@ export class BlockBlobClient extends BlobClient {
     }
 
     const { span, spanOptions } = createSpan(
-      "BlockBlobClient-UploadSeekableBlob",
+      "BlockBlobClient-uploadSeekableInternal",
       options.tracingOptions
     );
 
     try {
       if (size <= options.maxSingleShotSize) {
-        return await this.upload(blobFactory(0, size), size, {
+        return await this.upload(bodyFactory(0, size), size, {
           ...options,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
@@ -4502,7 +4891,7 @@ export class BlockBlobClient extends BlobClient {
             const end = i === numBlocks - 1 ? size : start + options.blockSize!;
             const contentLength = end - start;
             blockList.push(blockID);
-            await this.stageBlock(blockID, blobFactory(start, contentLength), contentLength, {
+            await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
               abortSignal: options.abortSignal,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
@@ -4557,13 +4946,15 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-uploadFile", options.tracingOptions);
     try {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadResetableStream(
-        (offset, count) =>
-          fsCreateReadStream(filePath, {
-            autoClose: true,
-            end: count ? offset + count - 1 : Infinity,
-            start: offset
-          }),
+      return await this.uploadSeekableInternal(
+        (offset, count) => {
+          return () =>
+            fsCreateReadStream(filePath, {
+              autoClose: true,
+              end: count ? offset + count - 1 : Infinity,
+              start: offset
+            });
+        },
         size,
         { ...options, tracingOptions: { ...options!.tracingOptions, spanOptions } }
       );
@@ -4647,139 +5038,6 @@ export class BlockBlobClient extends BlobClient {
         Math.ceil((maxConcurrency / 4) * 3)
       );
       await scheduler.do();
-
-      return await this.commitBlockList(blockList, {
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * ONLY AVAILABLE IN NODE.JS RUNTIME.
-   *
-   * Accepts a Node.js Readable stream factory, and uploads in blocks to a block blob.
-   * The Readable stream factory must returns a Node.js Readable stream starting from the offset defined. The offset
-   * is the offset in the block blob to be uploaded.
-   *
-   * When buffer length <= 256MB, this method will use 1 upload call to finish the upload.
-   * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
-   * to commit the block list.
-   *
-   * @export
-   * @param {(offset: number) => NodeJS.ReadableStream} streamFactory Returns a Node.js Readable stream starting
-   *                                                                  from the offset defined
-   * @param {number} size Size of the block blob
-   * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
-   * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
-   * @memberof BlockBlobClient
-   */
-  private async uploadResetableStream(
-    streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream,
-    size: number,
-    options: BlockBlobParallelUploadOptions = {}
-  ): Promise<BlobUploadCommonResponse> {
-    if (!options.blockSize) {
-      options.blockSize = 0;
-    }
-    if (options.blockSize < 0 || options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
-      throw new RangeError(
-        `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`
-      );
-    }
-
-    if (options.maxSingleShotSize !== 0 && !options.maxSingleShotSize) {
-      options.maxSingleShotSize = BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
-    }
-    if (
-      options.maxSingleShotSize < 0 ||
-      options.maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
-    ) {
-      throw new RangeError(
-        `maxSingleShotSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
-      );
-    }
-
-    if (options.blockSize === 0) {
-      if (size > BLOCK_BLOB_MAX_BLOCKS * BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
-        throw new RangeError(`${size} is too larger to upload to a block blob.`);
-      }
-      if (size > options.maxSingleShotSize) {
-        options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-        if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
-          options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
-        }
-      }
-    }
-    if (!options.blobHTTPHeaders) {
-      options.blobHTTPHeaders = {};
-    }
-    if (!options.conditions) {
-      options.conditions = {};
-    }
-
-    const { span, spanOptions } = createSpan(
-      "BlockBlobClient-uploadResetableStream",
-      options.tracingOptions
-    );
-
-    try {
-      if (size <= options.maxSingleShotSize) {
-        return await this.upload(() => streamFactory(0), size, {
-          ...options,
-          tracingOptions: { ...options!.tracingOptions, spanOptions }
-        });
-      }
-
-      const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
-      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-        throw new RangeError(
-          `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
-        );
-      }
-
-      const blockList: string[] = [];
-      const blockIDPrefix = generateUuid();
-      let transferProgress: number = 0;
-
-      const batch = new Batch(options.concurrency);
-      for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const blockID = generateBlockID(blockIDPrefix, i);
-            const start = options.blockSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.blockSize!;
-            const contentLength = end - start;
-            blockList.push(blockID);
-            await this.stageBlock(
-              blockID,
-              () => streamFactory(start, contentLength),
-              contentLength,
-              {
-                abortSignal: options.abortSignal,
-                conditions: options.conditions,
-                encryptionScope: options.encryptionScope,
-                tracingOptions: { ...options!.tracingOptions, spanOptions }
-              }
-            );
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress({ loadedBytes: transferProgress });
-            }
-          }
-        );
-      }
-      await batch.do();
 
       return await this.commitBlockList(blockList, {
         ...options,
@@ -6981,6 +7239,22 @@ export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse
 }
 
 /**
+ * Options to configure {@link ContainerClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface ContainerGenerateSasUrlOptions
+ */
+export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {ContainerSASPermissions}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  permissions?: ContainerSASPermissions;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  *
  * @export
@@ -8128,7 +8402,7 @@ export class ContainerClient extends StorageClient {
    *   }
    *   entity = await iter.next();
    * }
-   * ```js
+   * ```
    *
    * Example using `byPage()`:
    *
@@ -8173,8 +8447,7 @@ export class ContainerClient extends StorageClient {
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
    * @returns {(PagedAsyncIterableIterator<
    *   { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
-   *     ContainerListBlobHierarchySegmentResponse
-   *   >)}
+   *     ContainerListBlobHierarchySegmentResponse>)}
    * @memberof ContainerClient
    */
   public listBlobsByHierarchy(
@@ -8283,5 +8556,37 @@ export class ContainerClient extends StorageClient {
     } catch (error) {
       throw new Error("Unable to extract containerName with provided information.");
     }
+  }
+
+  /**
+   * Only available for ContainerClient constructed with a shared key credential.
+   *
+   * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {ContainerGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ContainerClient
+   */
+  public generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw new RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }

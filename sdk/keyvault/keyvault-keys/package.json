@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.2",
+  "version": "4.2.0-beta.3",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md",
@@ -28,7 +28,6 @@
   "files": [
     "types/keyvault-keys.d.ts",
     "dist/",
-    "dist-browser/",
     "dist-esm/keyvault-keys/src",
     "dist-esm/keyvault-common/src",
     "README.md",
@@ -68,7 +67,8 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
     "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "//metadata": {
@@ -78,13 +78,13 @@
         "prefix": "packageVersion"
       },
       {
-        "path": "src/generated/utils/constants.ts",
+        "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
       }
     ]
   },
   "dependencies": {
-    "@azure/core-http": "^1.1.6",
+    "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",
@@ -114,7 +114,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "fs-extra": "^8.1.0",
     "karma": "^5.1.0",
@@ -144,7 +144,8 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.9.3",
-    "url": "^0.11.0"
+    "typescript": "4.1.2",
+    "url": "^0.11.0",
+    "typedoc": "0.15.0"
   }
 }

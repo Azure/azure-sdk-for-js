@@ -11,9 +11,9 @@
 import {
   ServiceBusClient,
   delay,
-  ServiceBusReceivedMessageWithLock,
   ServiceBusSessionReceiver,
-  MessagingError
+  ServiceBusReceivedMessage,
+  isServiceBusError
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
@@ -21,7 +21,7 @@ import { AbortController } from "@azure/abort-controller";
 dotenv.config();
 
 const serviceBusConnectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+  process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
@@ -42,12 +42,12 @@ async function sessionAccepted(sessionId: string) {
 
 // Called by the ServiceBusSessionReceiver when a message is received.
 // This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
-async function processMessage(msg: ServiceBusReceivedMessageWithLock) {
+async function processMessage(msg: ServiceBusReceivedMessage) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
 // Called by the ServiceBusSessionReceiver when an error occurs.
-// This will be called in the handlers we pass in `SessionReceiver.subscribe()`
+// This will be called in the handlers we pass in `ServiceBusSessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
 async function processError(err: Error, sessionId?: string) {
   if (sessionId) {
@@ -80,16 +80,16 @@ function createRefreshableTimer(timeoutMs: number, resolve: Function): () => voi
 
 // Queries Service Bus for the next available session and processes it.
 async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
-  let sessionReceiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+  let sessionReceiver: ServiceBusSessionReceiver;
 
   try {
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
-      maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
+      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
     if (
-      (err as MessagingError).code === "SessionCannotBeLockedError" ||
-      (err as MessagingError).code === "OperationTimeoutError"
+      isServiceBusError(err) &&
+      (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
     ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
@@ -112,8 +112,8 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
           refreshTimer();
           await processMessage(msg);
         },
-        async processError(err) {
-          rejectSessionWithError(err);
+        async processError(args) {
+          rejectSessionWithError(args.error);
         }
       },
       {

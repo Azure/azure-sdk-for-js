@@ -4,9 +4,6 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  IngestionStatus,
-  Metric,
-  Dimension,
   SqlSourceParameter,
   SuppressCondition,
   SmartDetectionCondition,
@@ -24,19 +21,15 @@ import {
   TopNGroupScope,
   SeverityCondition,
   AlertSnoozeCondition,
-  EnrichmentStatus,
-  DataFeedDetailStatus
+  DataFeedDetailStatus,
+  IngestionStatusType
 } from "./generated/models";
 
 export {
-  Dimension,
-  Metric,
   SeverityCondition,
   AlertSnoozeCondition,
   SmartDetectionCondition,
   TopNGroupScope,
-  EnrichmentStatus,
-  IngestionStatus,
   AzureApplicationInsightsParameter,
   AzureBlobParameter,
   AzureCosmosDBParameter,
@@ -57,18 +50,50 @@ export {
 export {
   AnomalyValue,
   DataFeedIngestionProgress,
-  GeneratedClientGetIngestionProgressResponse,
   IngestionStatusType,
   DataSourceType,
-  EntityStatus,
   SeverityFilterCondition,
   SnoozeScope,
-  Severity,
   AnomalyDetectorDirection,
-  TimeMode,
   FeedbackType,
   FeedbackQueryTimeMode
 } from "./generated/models";
+
+/**
+ * Represents a metric of an ingested data feed
+ */
+export interface DataFeedMetric {
+  /**
+   * metric id
+   */
+  readonly id?: string;
+  /**
+   * metric name
+   */
+  name: string;
+  /**
+   * metric display name
+   */
+  displayName?: string;
+  /**
+   * metric description
+   */
+  description?: string;
+}
+
+/**
+ * Represents a dimension of an ingested data feed
+ */
+export interface DataFeedDimension {
+  /**
+   * dimension name
+   */
+  name: string;
+  /**
+   * dimension display name
+   */
+  displayName?: string;
+}
 
 /**
  * Specifies metrics, dimensions, and timestamp columns of a data feed.
@@ -77,11 +102,11 @@ export interface DataFeedSchema {
   /**
    * measure list
    */
-  metrics: Metric[];
+  metrics: DataFeedMetric[];
   /**
    * dimension list
    */
-  dimensions?: Dimension[];
+  dimensions?: DataFeedDimension[];
   /**
    * user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value.
    */
@@ -176,7 +201,7 @@ export interface DataFeedOptions {
   /**
    * data feed description
    */
-  dataFeedDescription?: string;
+  description?: string;
 
   /**
    * settings on data rollup
@@ -184,7 +209,7 @@ export interface DataFeedOptions {
   rollupSettings?: DataFeedRollupSettings;
 
   /**
-   * settings to control how missing data apoints are filled
+   * settings to control how missing data points are filled
    */
   missingDataPointFillSettings?: DataFeedMissingDataPointFillSettings;
 
@@ -194,14 +219,14 @@ export interface DataFeedOptions {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * data feed administrators
+   * email addresses of data feed administrators
    */
-  admins?: string[];
+  adminEmails?: string[];
 
   /**
-   * data feed viewers
+   * email addresses of data feed viewers
    */
-  viewers?: string[];
+  viewerEmails?: string[];
 
   /**
    * action link template for alert
@@ -220,18 +245,20 @@ export type DataFeedGranularity =
         | "Weekly"
         | "Daily"
         | "Hourly"
-        | "Minutely"
-        | "Secondly";
+        | "PerMinute"
+        | "PerSecond";
     }
   | {
       granularityType: "Custom";
       customGranularityValue: number;
     };
 
+export type DataFeedStatus = "Paused" | "Active";
+
 /**
  * Represents a Metrics Advisor data feed.
  */
-export interface DataFeed {
+export type DataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -241,19 +268,15 @@ export interface DataFeed {
    */
   name: string;
   /**
-   * Ids of the metrics in the data feed.
-   */
-  metricIds: string[];
-  /**
    * Time when the data feed is created
    */
-  createdTime: Date;
+  createdOn: Date;
   /**
    * Status of the data feed.
    */
-  status: "Paused" | "Active";
+  status: DataFeedStatus;
   /**
-   * Indicates whether the current user is an aministrator of the data feed.
+   * Indicates whether the current user is an administrator of the data feed.
    */
   isAdmin: boolean;
   /**
@@ -276,11 +299,7 @@ export interface DataFeed {
    * Ingestion settings for the data feed.
    */
   ingestionSettings: DataFeedIngestionSettings;
-  /**
-   * Optional configurations for the data feed.
-   */
-  options?: DataFeedOptions;
-}
+} & DataFeedOptions;
 
 /**
  * Represents an Azure Application Insights data source.
@@ -379,6 +398,14 @@ export type MongoDBDataFeedSource = {
 };
 
 /**
+ * Represents an Unknown data source.
+ */
+export type UnknownDataFeedSource = {
+  dataSourceType: "Unknown";
+  dataSourceParameter: unknown;
+};
+
+/**
  * Represents a SQL Server data source.
  */
 export type SQLServerDataFeedSource = {
@@ -402,12 +429,13 @@ export type DataFeedSource =
   | MySqlDataFeedSource
   | PostgreSqlDataFeedSource
   | SQLServerDataFeedSource
-  | MongoDBDataFeedSource;
+  | MongoDBDataFeedSource
+  | UnknownDataFeedSource;
 
 /**
  * Represents the input type to the Update Data Feed operation.
  */
-export interface DataFeedPatch {
+export type DataFeedPatch = {
   /**
    * Name of the data feed
    */
@@ -429,16 +457,12 @@ export interface DataFeedPatch {
    * Ingestion settings for the data feed.
    */
   ingestionSettings?: DataFeedIngestionSettings;
-  /**
-   * Optional configurations for the data feed.
-   */
-  options?: DataFeedOptions & {
+} & DataFeedOptions & {
     /**
      * Status of the data feed.
      */
     status?: DataFeedDetailStatus;
   };
-}
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
@@ -486,26 +510,10 @@ export interface DetectionConditionsCommon {
  *
  * For a metric with two dimensions: city and category, Examples include
  *
- *   { dimension: { city: "Tokyo", category: "Handmade" } } - identifies one time series
- *   { dimension: { city: "Karachi" } }                     - identifies all time series with city === "Karachi"
+ *   `{ { city: "Tokyo", category: "Handmade" } }` - identifies one time series
+ *   `{ { city: "Karachi" } }`                     - identifies all time series with city === "Karachi"
  */
-export type DimensionKey = {
-  dimension: Record<string, string>;
-};
-
-/*
-export type SeriesIdentity = {
-  dimension: Record<string, string>;
-};
-
-export type DimensionGroupIdentity = {
-  dimension: Record<string, string>;
-};
-
-export type FeedbackDimensionFilter = {
-  dimension: Record<string, string>;
-};
-*/
+export type DimensionKey = Record<string, string>;
 
 /**
  * Detection condition for all time series of a metric.
@@ -523,7 +531,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
 };
 
 /**
- * Detection condidtion for a specific time series.
+ * Detection condition for a specific time series.
  */
 export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
@@ -567,7 +575,7 @@ export type HardThresholdConditionUnion =
        */
       anomalyDetectorDirection: "Both";
       /**
-       * supress condition
+       * suppress condition
        */
       suppressCondition: SuppressCondition;
     };
@@ -600,7 +608,7 @@ export type ChangeThresholdConditionUnion =
       /**
        * detection direction
        */
-      anomalyDetectorDirection: "Up" | "Down";
+      anomalyDetectorDirection: "Up" | "Down" | "Both";
 
       /**
        * suppress condition
@@ -628,7 +636,7 @@ export interface MetricFeedbackCommon {
   /**
    * feedback created time
    */
-  readonly createdTime?: Date;
+  readonly createdOn?: Date;
   /**
    * user who gives this feedback
    */
@@ -640,7 +648,7 @@ export interface MetricFeedbackCommon {
   /**
    * The dimension key of the time series to which this feedback is made.
    */
-  dimensionFilter: DimensionKey;
+  dimensionKey: DimensionKey;
 }
 
 /**
@@ -669,13 +677,13 @@ export type MetricAnomalyFeedback = {
    *
    * May be available when retrieving feedback from the Metrics Advisor service.
    */
-  anomalyDetectionConfigurationId?: string;
+  readonly anomalyDetectionConfigurationId?: string;
   /**
    * The snapshot of the anomaly detection configuration when feedback was created.
    *
    * May be vailable when retrieving feedback from the Metrics Advisor service.
    */
-  anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
+  readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
 } & MetricFeedbackCommon;
 
 /**
@@ -739,7 +747,7 @@ export type MetricPeriodFeedback = {
 /**
  * Represents properties common to hooks.
  */
-export interface HookCommon {
+export interface NotificationHook {
   /**
    * Hook unique id
    */
@@ -757,36 +765,36 @@ export interface HookCommon {
    */
   externalLink?: string;
   /**
-   * hook administrators
+   * email addresses of hook administrators
    */
-  readonly admins?: string[];
+  readonly adminEmails?: string[];
 }
 
 /**
  * Represents Email hook
  */
-export type EmailHook = {
+export type EmailNotificationHook = {
   hookType: "Email";
   hookParameter: EmailHookParameter;
-} & HookCommon;
+} & NotificationHook;
 
 /**
  * Represents Webhook hook
  */
-export type WebhookHook = {
+export type WebNotificationHook = {
   hookType: "Webhook";
   hookParameter: WebhookHookParameter;
-} & HookCommon;
+} & NotificationHook;
 
 /**
  * A union type of all supported hooks
  */
-export type HookUnion = EmailHook | WebhookHook;
+export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
 
 /**
  * Represents properties common to the patch input to the Update Hook operation.
  */
-export type HookPatchCommon = {
+export type NotificationHookPatch = {
   /**
    * new hook name
    */
@@ -804,23 +812,33 @@ export type HookPatchCommon = {
 /**
  * Represents Email hook specific patch input to the Update Hook operation.
  */
-export type EmailHookPatch = {
+export type EmailNotificationHookPatch = {
   hookType: "Email";
   hookParameter?: EmailHookParameter;
-} & HookPatchCommon;
+} & NotificationHookPatch;
 
 /**
  * Represents Webhook specific patch input to the Update Hook operation.
  */
-export type WebhookHookPatch = {
+export type WebNotificationHookPatch = {
   hookType: "Webhook";
   hookParameter?: WebhookHookParameter;
-} & HookPatchCommon;
+} & NotificationHookPatch;
+
+/**
+ * Severity of an anomaly or incident.
+ */
+export type AnomalySeverity = "Low" | "Medium" | "High";
+
+/**
+ * Status of an anomaly or incident.
+ */
+export type AnomalyStatus = "Active" | "Resolved";
 
 /**
  * Represents an incident reported by Metrics Advisor service.
  */
-export interface Incident {
+export interface AnomalyIncident {
   /**
    * incident id
    */
@@ -828,7 +846,7 @@ export interface Incident {
   /**
    * identifies the time series or time series group
    */
-  dimensionKey: DimensionKey;
+  rootDimensionKey: DimensionKey;
   /**
    * metric unique id
    *
@@ -846,23 +864,23 @@ export interface Incident {
   /**
    * incident last time
    */
-  lastOccuredTime: Date;
+  lastOccurredTime: Date;
 
   /**
    * incident status
    */
-  status?: "Active" | "Resolved";
+  status?: AnomalyStatus;
 
   /**
    * severity of the incident
    */
-  severity: "Low" | "Medium" | "High";
+  severity: AnomalySeverity;
 }
 
 /**
  * Represents an anomaly point detected by Metrics Advisor service.
  */
-export interface Anomaly {
+export interface DataPointAnomaly {
   /**
    * metric unique id
    *
@@ -876,7 +894,7 @@ export interface Anomaly {
   /**
    * anomaly time
    */
-  timestamp: Date;
+  timestamp: number;
   /**
    * created time
    *
@@ -892,31 +910,35 @@ export interface Anomaly {
   /**
    * dimension specified for series
    */
-  dimension: Record<string, string>;
+  seriesKey: DimensionKey;
   /**
    * anomaly severity
    */
-  severity: "Low" | "Medium" | "High";
+  severity: AnomalySeverity;
   /**
    * anomaly status
    *
    * only return for alerting anomaly result
    */
-  status?: "Active" | "Resolved";
+  status?: AnomalyStatus;
 }
 
 /**
  * Represents an alert reported by Metrics Advisor service.
  */
-export interface Alert {
+export interface AnomalyAlert {
   /**
    * alert id
    */
   id: string;
   /**
+   * id of the alert configuration that triggered this alert
+   */
+  alertConfigId: string;
+  /**
    * anomaly time
    */
-  timestamp?: Date; // TODO: why optional?
+  timestamp?: number; // TODO: why optional?
   /**
    * created time
    */
@@ -926,6 +948,11 @@ export interface Alert {
    */
   modifiedOn?: Date; // TODO: why optional?
 }
+
+/**
+ * Mode to use when querying alerts by time.
+ */
+export type AlertQueryTimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
 
 /**
  * Defines the anomaly alert scope.
@@ -1129,7 +1156,7 @@ export interface IncidentRootCause {
   /**
    * identifies the contributing time series.
    */
-  dimensionKey: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * drilling down path from query anomaly to root cause
    */
@@ -1169,11 +1196,11 @@ export interface MetricSeriesData {
   /**
    * timestamp list
    */
-  timestampList?: Date[];
+  timestamps?: Date[];
   /**
    * value list
    */
-  valueList?: number[];
+  values?: number[];
 }
 
 /**
@@ -1187,59 +1214,34 @@ export interface MetricEnrichedSeriesData {
   /**
    * timestamp list
    */
-  timestampList?: Date[];
+  timestamps?: Date[];
   /**
    * value list
    */
-  valueList?: number[];
+  values?: number[];
   /**
    * list of booleans incidating whether a data point is anomaly or not
    */
-  isAnomalyList?: boolean[];
+  isAnomaly?: boolean[];
   /**
    * list of expected values
    */
-  expectedValueList?: number[];
+  expectedValues?: number[];
   /**
    * list of lower bounds
    */
-  lowerBoundaryList?: number[];
+  lowerBounds?: number[];
   /**
    * list of upper bounds
    */
-  upperBoundaryList?: number[];
+  upperBounds?: number[];
   /**
    * list of period values
    */
-  periodList?: number[];
+  periods?: number[];
 }
 
 // Response types
-
-/**
- * Contains response data for the getMetricFeedback operation.
- */
-export type GetMetricFeedbackResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: MetricFeedbackUnion;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: MetricFeedbackUnion;
-  };
-};
 
 /**
  * Contains response data for the getDataFeed operation.
@@ -1304,7 +1306,7 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
 /**
  * Contains response data for the getHook operation.
  */
-export type GetHookResponse = HookUnion & {
+export type GetHookResponse = NotificationHookUnion & {
   /**
    * The underlying HTTP response.
    */
@@ -1324,8 +1326,7 @@ export type GetHookResponse = HookUnion & {
 /**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
-export type GetMetricEnrichedSeriesDataResponse = {
-  results?: MetricEnrichedSeriesData[];
+export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
   /**
    * The underlying HTTP response.
    */
@@ -1340,7 +1341,7 @@ export type GetMetricEnrichedSeriesDataResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the getIncidentRootCause operation.
@@ -1386,8 +1387,11 @@ export type GetFeedbackResponse = MetricFeedbackUnion & {
 /**
  * Contains response data for the listAlertsForAlertConfiguration operation.
  */
-export type ListAlertsForAlertConfigurationPageResponse = {
-  alerts?: Alert[];
+export interface AlertsPageResponse extends Array<AnomalyAlert> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1402,13 +1406,16 @@ export type ListAlertsForAlertConfigurationPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listAnomaliesForAlert operation.
+ * Contains response data for the listAnomalies operation.
  */
-export type ListAnomaliesForAlertPageResponse = {
-  anomalies?: Anomaly[];
+export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1423,13 +1430,16 @@ export type ListAnomaliesForAlertPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listIncidentsForAlert operation.
+ * Contains response data for the listDimensionValues operation.
  */
-export type ListIncidentsForAlertPageResponse = {
-  incidents?: Incident[];
+export interface DimensionValuesPageResponse extends Array<string> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1444,13 +1454,16 @@ export type ListIncidentsForAlertPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listAnomaliesForDetectionConfiguration operation.
+ * Contains response data for the listIncidents operation.
  */
-export type ListAnomaliesForDetectionConfigurationPageResponse = {
-  anomalies?: Anomaly[];
+export interface IncidentsPageResponse extends Array<AnomalyIncident> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1465,55 +1478,16 @@ export type ListAnomaliesForDetectionConfigurationPageResponse = {
      */
     parsedBody: any;
   };
-};
-
-/**
- * Contains response data for the listDimensionValuesForDetectionConfiguration operation.
- */
-export type ListDimensionValuesForDetectionConfigurationPageResponse = {
-  dimensionValues?: string[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the listIncidentsByDetectionConfiguration operation.
- */
-export type ListIncidentsByDetectionConfigurationPageResponse = {
-  incidents?: Incident[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+}
 
 /**
  * Contains response data for the listMetricSeries operation.
  */
-export type ListMetricSeriesPageResponse = {
-  definitions?: MetricSeriesDefinition[];
+export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1528,34 +1502,31 @@ export type ListMetricSeriesPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
-/**
- * Contains response data for the listMetricDimensionValues operation.
- */
-export type ListMetricDimensionValuesPageResponse = {
-  dimensionValues?: string[];
+export interface EnrichmentStatus {
   /**
-   * The underlying HTTP response.
+   * data slice timestamp.
    */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
+  readonly timestamp?: number;
+  /**
+   * latest enrichment status for this data slice.
+   */
+  readonly status?: string;
+  /**
+   * the trimmed message describes details of the enrichment status.
+   */
+  readonly message?: string;
+}
 
 /**
  * Contains response data for the listMetricEnrichmentStatus operation.
  */
-export type ListMetricEnrichmentStatusPageResponse = {
-  statusList?: EnrichmentStatus[];
+export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStatus> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1570,13 +1541,16 @@ export type ListMetricEnrichmentStatusPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listDataFeeds operation.
  */
-export type ListDataFeedsPageResponse = {
-  dataFeeds?: DataFeed[];
+export interface DataFeedsPageResponse extends Array<DataFeed> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1591,13 +1565,16 @@ export type ListDataFeedsPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the getMetricSeriesData operation.
  */
-export type GetMetricSeriesDataResponse = {
-  metricSeriesDataList?: MetricSeriesData[];
+export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1612,13 +1589,30 @@ export type GetMetricSeriesDataResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
+export interface IngestionStatus {
+  /**
+   * data slice timestamp.
+   */
+  readonly timestamp?: number;
+  /**
+   * latest ingestion task status for this data slice.
+   */
+  readonly status?: IngestionStatusType;
+  /**
+   * the trimmed message of last ingestion job.
+   */
+  readonly message?: string;
+}
 /**
  * Contains response data for the ListDataFeedIngestionStatus operation.
  */
-export type ListDataFeedIngestionStatusPageResponse = {
-  statusList?: IngestionStatus[];
+export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1633,13 +1627,16 @@ export type ListDataFeedIngestionStatusPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listMetricFeedbacks operation.
  */
-export type ListMetricFeedbackPageResponse = {
-  feedbacks?: MetricFeedbackUnion[];
+export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
   /**
    * The underlying HTTP response.
    */
@@ -1654,13 +1651,12 @@ export type ListMetricFeedbackPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
- * Contains response data for the listAnomalyAlertConfigurations operation.
+ * Contains response data for the listAlertConfigs operation.
  */
-export type ListAnomalyAlertConfigurationsPageResponse = {
-  alertConfigurations?: AnomalyAlertConfiguration[];
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
   /**
    * The underlying HTTP response.
    */
@@ -1675,12 +1671,11 @@ export type ListAnomalyAlertConfigurationsPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 /**
  * Contains response data for the listAnomalyDetectionConfigurations operation.
  */
-export type ListAnomalyDetectionConfigurationsPageResponse = {
-  detectionConfigurations?: AnomalyDetectionConfiguration[];
+export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
   /**
    * The underlying HTTP response.
    */
@@ -1695,13 +1690,47 @@ export type ListAnomalyDetectionConfigurationsPageResponse = {
      */
     parsedBody: any;
   };
-};
+}
 
 /**
  * Contains response data for the listHooks operation.
  */
-export type ListHooksPageResponse = {
-  hooks?: HookUnion[];
+export interface HooksPageResponse extends Array<NotificationHookUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+}
+
+/**
+ * Contains response data for the getDataFeedIngestionProgress operation.
+ */
+export type GetIngestionProgressResponse = {
+  /**
+   * the timestamp of lastest success ingestion job.
+   * null indicates not available
+   */
+  readonly latestSuccessTimestamp?: number;
+  /**
+   * the timestamp of lastest ingestion job with status update.
+   * null indicates not available
+   */
+  readonly latestActiveTimestamp?: number;
+} & {
   /**
    * The underlying HTTP response.
    */

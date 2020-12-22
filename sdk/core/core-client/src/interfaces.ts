@@ -11,6 +11,45 @@ import {
 } from "@azure/core-https";
 
 /**
+ * Default key used to access the XML attributes.
+ */
+export const XML_ATTRKEY = "$";
+/**
+ * Default key used to access the XML value content.
+ */
+export const XML_CHARKEY = "_";
+/**
+ * Options to govern behavior of xml parser and builder.
+ */
+export interface XmlOptions {
+  /**
+   * indicates the name of the root element in the resulting XML when building XML.
+   */
+  rootName?: string;
+  /**
+   * indicates whether the root element is to be included or not in the output when parsing XML.
+   */
+  includeRoot?: boolean;
+  /**
+   * key used to access the XML value content when parsing XML.
+   */
+  xmlCharKey?: string;
+}
+/**
+ * Options to configure serialization/de-serialization behavior.
+ */
+export interface SerializerOptions {
+  /**
+   * Options to configure xml parser/builder behavior.
+   */
+  xml: XmlOptions;
+}
+
+export type RequiredSerializerOptions = {
+  [K in keyof SerializerOptions]: Required<SerializerOptions[K]>;
+};
+
+/**
  * This interface extends a generic `PipelineRequest` to include
  * additional metadata about the request.
  */
@@ -24,6 +63,11 @@ export interface OperationRequestInfo {
    * Used to parse the response.
    */
   operationSpec?: OperationSpec;
+
+  /**
+   * Used to encode the request.
+   */
+  operationArguments?: OperationArguments;
 
   /**
    * A function that returns the proper OperationResponseMap for the given OperationSpec and
@@ -57,6 +101,10 @@ export interface OperationOptions {
    * Options used when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
+  /**
+   * Options to override serialization/de-serialization behavior.
+   */
+  serializerOptions?: SerializerOptions;
 }
 
 /**
@@ -100,7 +148,7 @@ export interface OperationArguments {
   [parameterName: string]: unknown;
 
   /**
-   * The optional arugments that are provided to an operation.
+   * The optional arguments that are provided to an operation.
    */
   options?: OperationOptions;
 }
@@ -171,6 +219,11 @@ export interface OperationResponseMap {
    * The mapper that will be used to deserialize the response body.
    */
   bodyMapper?: Mapper;
+
+  /**
+   * Indicates if this is an error response
+   */
+  isError?: boolean;
 }
 
 /**
@@ -301,8 +354,13 @@ export interface Serializer {
   readonly modelMappers: { [key: string]: any };
   readonly isXML: boolean;
   validateConstraints(mapper: Mapper, value: any, objectName: string): void;
-  serialize(mapper: Mapper, object: any, objectName?: string): any;
-  deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+  serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+  deserialize(
+    mapper: Mapper,
+    responseBody: any,
+    objectName: string,
+    options?: SerializerOptions
+  ): any;
 }
 
 export interface MapperConstraints {
@@ -396,23 +454,23 @@ export interface BaseMapper {
    */
   xmlElementName?: string;
   /**
-   * Whether or not the current propery should have a wrapping XML element
+   * Whether or not the current property should have a wrapping XML element
    */
   xmlIsWrapped?: boolean;
   /**
-   * Whether or not the current propery is readonly
+   * Whether or not the current property is readonly
    */
   readOnly?: boolean;
   /**
-   * Whether or not the current propery is a constant
+   * Whether or not the current property is a constant
    */
   isConstant?: boolean;
   /**
-   * Whether or not the current propery is required
+   * Whether or not the current property is required
    */
   required?: boolean;
   /**
-   * Whether or not the current propery allows mull as a value
+   * Whether or not the current property allows mull as a value
    */
   nullable?: boolean;
   /**
@@ -461,4 +519,18 @@ export interface EnumMapper extends BaseMapper {
 export interface UrlParameterValue {
   value: string;
   skipUrlEncoding: boolean;
+}
+
+/**
+ * Configuration for creating a new Tracing Span
+ */
+export interface SpanConfig {
+  /**
+   * Package name prefix
+   */
+  packagePrefix: string;
+  /**
+   * Service namespace
+   */
+  namespace: string;
 }

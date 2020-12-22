@@ -8,14 +8,14 @@
   Run the sendMessages sample with different session ids before running this sample.
 */
 
-const { ServiceBusClient, delay } = require("@azure/service-bus");
+const { ServiceBusClient, delay, isServiceBusError } = require("@azure/service-bus");
 const dotenv = require("dotenv");
 const { AbortController } = require("@azure/abort-controller");
 
 dotenv.config();
 
 const serviceBusConnectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+  process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 // NOTE: this sample uses a session enabled queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
@@ -78,10 +78,13 @@ async function receiveFromNextSession(serviceBusClient) {
 
   try {
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
-      maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
+      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
-    if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {
+    if (
+      isServiceBusError(err) &&
+      (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
+    ) {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);
     } else {
       await processError(err, undefined);
@@ -103,8 +106,8 @@ async function receiveFromNextSession(serviceBusClient) {
           refreshTimer();
           await processMessage(msg);
         },
-        async processError(err) {
-          rejectSessionWithError(err);
+        async processError(args) {
+          rejectSessionWithError(args.error);
         }
       },
       {

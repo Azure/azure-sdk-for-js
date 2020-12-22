@@ -4,7 +4,13 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isPlaybackMode
+} from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 
@@ -19,7 +25,7 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  INCLUDE_PHONENUMBER_TESTS: "false"
+  INCLUDE_PHONENUMBER_LIVE_TESTS: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -47,8 +53,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     },
     (recording: string): string =>
       recording.replace(/\/identities\/[^\/'",]*/, "/identities/sanitized"),
-    (recording: string): string =>
-      recording.replace(/"phoneNumber"\s?:\s?"[^"]*"/g, `"phoneNumber":"+18005551234"`),
+    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
     (recording: string): string =>
       recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
   ],
@@ -69,13 +74,17 @@ export function createRecordedCommunicationIdentityClient(
 export function createRecordedPhoneNumberAdministrationClient(
   context: Context
 ): RecordedClient<PhoneNumberAdministrationClient> & {
-  includePhoneNumberTests: boolean;
+  includePhoneNumberLiveTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
   return {
     client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
     recorder,
-    includePhoneNumberTests: env.INCLUDE_PHONENUMBER_TESTS == "true"
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
 }
+
+export const testPollerOptions = {
+  pollInterval: isPlaybackMode() ? 0 : undefined
+};

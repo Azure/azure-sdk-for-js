@@ -10,7 +10,7 @@ import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryOptions } from '@azure/core-amqp';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
-import { TokenCredential } from '@azure/core-amqp';
+import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -74,6 +74,7 @@ export interface EventDataBatch {
 
 // @public
 export interface EventHubClientOptions {
+    customEndpointAddress?: string;
     retryOptions?: RetryOptions;
     userAgent?: string;
     webSocketOptions?: WebSocketOptions;

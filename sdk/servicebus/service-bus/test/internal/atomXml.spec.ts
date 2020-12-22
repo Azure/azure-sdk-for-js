@@ -204,7 +204,6 @@ describe("ATOM Serializers", () => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -214,7 +213,6 @@ describe("ATOM Serializers", () => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -263,7 +261,6 @@ describe("ATOM Serializers", () => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -273,7 +270,6 @@ describe("ATOM Serializers", () => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             rights: {
               accessRights: ["Manage", "Send", "Listen"]
             },
@@ -565,13 +561,13 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {
+          applicationProperties: {
             message: ["hello"]
           }
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
+        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -581,13 +577,13 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {
+          applicationProperties: {
             message: {}
           }
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
+        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -597,13 +593,13 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {
+          applicationProperties: {
             message: undefined
           }
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
+        testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -613,11 +609,11 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: 123
+          applicationProperties: 123
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties 123, expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -627,11 +623,11 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: "abcd"
+          applicationProperties: "abcd"
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties "abcd", expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -641,11 +637,11 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: ["abcd"]
+          applicationProperties: ["abcd"]
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties ["abcd"], expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -655,11 +651,11 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          properties: {}
+          applicationProperties: {}
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the applicationProperties {}, expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     }
