@@ -8,7 +8,7 @@ import { TokenCredential } from "./communicationTokenCredential";
 /**
  * Options for auto-refreshing a Communication Token credential.
  */
-export interface RefreshOptions {
+export interface CommunicationTokenRefreshOptions {
   /**
    * Function that returns a token acquired from the Communication configuration SDK.
    */
@@ -41,7 +41,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   private activeTokenUpdating: Promise<void> | null = null;
   private disposed = false;
 
-  constructor(refreshArgs: RefreshOptions) {
+  constructor(refreshArgs: CommunicationTokenRefreshOptions) {
     const { tokenRefresher, token, refreshProactively } = refreshArgs;
 
     this.refresh = tokenRefresher;
