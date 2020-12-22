@@ -198,7 +198,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName,
+  consumerGroup: consumerGroupName
 });
 await rcvHandler.stop();
 ```
@@ -217,10 +217,10 @@ const subscription = eventHubConsumerClient.subscribe(
       initContext.setStartingPosition(earliestEventPosition);
     },
     processEvents: onMessageHandler,
-    processError: onErrorHandler,
+    processError: onErrorHandler
   },
   {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   }
 );
 
@@ -251,7 +251,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    },
+    }
   }
 );
 
@@ -304,7 +304,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  },
+  }
 });
 
 await subscription.close();
