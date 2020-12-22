@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 - Renamed `communicationUserCredential` to `communicationTokenCredential`.
+- Renamed `RefreshOptions` to `CommunicationTokenRefreshOptions`.
 
 ## 1.0.0-beta.3 (2020-11-16)
 
