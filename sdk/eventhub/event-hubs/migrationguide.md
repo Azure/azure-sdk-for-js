@@ -93,10 +93,11 @@ This and the need to support improvements to the algorithm used for managing par
 
 Other noteworthy changes:
 
-- The `send` method on the client is deprecated in favor of the `sendBatch` to encourage sending
+- The `send` method on the client is removed in favor of the `sendBatch` to encourage sending
   events in batches for better throughput.
 - The `sendBatch` method on the client takes a object of type `EventDataBatch` that should be created
   using the `createBatch` method on the client.
+  An array of events can be passed to `sendBatch` instead of an `EventDataBatch` similarly to the removed `send` method.
 
 ### Receiving events
 
@@ -170,7 +171,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -185,7 +186,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     initContext.setStartingPosition(earliestEventPosition);
   },
   processEvents: onMessageHandler,
-  processError: onErrorHandler
+  processError: onErrorHandler,
 });
 
 await subscription.close();
@@ -285,7 +286,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
@@ -338,7 +339,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
