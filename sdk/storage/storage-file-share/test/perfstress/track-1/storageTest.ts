@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 
 import {
   ServiceURL,
@@ -50,14 +50,6 @@ export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOpt
 
   public async globalCleanup() {
     await this.shareClient.delete(Aborter.none);
-  }
-
-  static getEnvVar(name: string) {
-    const val = process.env[name];
-    if (!val) {
-      throw `Environment variable ${name} is not defined.`;
-    }
-    return val;
   }
 }
 

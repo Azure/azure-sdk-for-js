@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 
 import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "../../../src";
 
@@ -19,7 +19,7 @@ export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOpt
   constructor() {
     super();
     this.shareServiceClient = ShareServiceClient.fromConnectionString(
-      StorageFileShareTest.getEnvVar("STORAGE_CONNECTION_STRING")
+      getEnvVar("STORAGE_CONNECTION_STRING")
     );
     this.shareClient = this.shareServiceClient.getShareClient(StorageFileShareTest.shareName);
     this.directoryClient = this.shareClient.getDirectoryClient(StorageFileShareTest.dirName);
@@ -32,14 +32,6 @@ export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOpt
 
   public async globalCleanup() {
     await this.shareClient.delete();
-  }
-
-  static getEnvVar(name: string) {
-    const val = process.env[name];
-    if (!val) {
-      throw `Environment variable ${name} is not defined.`;
-    }
-    return val;
   }
 }
 
