@@ -29,9 +29,7 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
 
   async runAsync(): Promise<void> {
     // ${Math.floor(Math.random() * 1000)} - so that the concurrent modifications on the same blob would not happen
-    const blockBlobClient = this.containerClient.getBlockBlobClient(
-      `newblob${new Date().getTime()}-${Math.floor(Math.random() * 1000)}`
-    );
+    const blockBlobClient = this.containerClient.getBlockBlobClient(this.blobName);
     await blockBlobClient.uploadFile(fileName);
   }
 }
