@@ -21,10 +21,10 @@ export function getEnvVar(name: string) {
  * @export
  * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
  */
-export async function streamToBuffer(readableStream: NodeJS.ReadableStream) {
+export async function readStream(stream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    readableStream.on("data", () => {});
-    readableStream.on("end", resolve);
-    readableStream.on("error", reject);
+    stream.on("data", () => {});
+    stream.on("end", resolve);
+    stream.on("error", reject);
   });
 }

@@ -6,4 +6,4 @@ export * from "./options";
 export * from "./policy";
 export * from "./parallel";
 export * from "./program";
-export { getEnvVar, streamToBuffer } from "./utils";
+export { getEnvVar, readStream } from "./utils";
