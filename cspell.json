@@ -1,0 +1,14 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "dictionaries": ["typescript", "node"],
+  "ignorePaths": ["node_modules/**", "**/recordings/**", "**/pnpm-lock.yaml"],
+  "words": [
+    "azsdk",
+    "perfstress",
+    "pwsh",
+    "azuretestutilsrecorder",
+    "rollup"
+  ],
+  "allowCompoundWords": true
+}
