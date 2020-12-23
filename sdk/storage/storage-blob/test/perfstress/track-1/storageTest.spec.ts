@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import {
   Aborter,
   ContainerURL,
@@ -17,7 +18,7 @@ dotenv.config({ path: "../../../.env" });
 export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
   blobServiceClient: ServiceURL;
   containerClient: ContainerURL;
-  static containerName = `newcontainer${new Date().getTime()}`;
+  static containerName = generateUuid();
 
   constructor() {
     super();

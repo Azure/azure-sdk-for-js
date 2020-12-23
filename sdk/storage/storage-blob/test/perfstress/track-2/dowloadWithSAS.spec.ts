@@ -3,9 +3,6 @@
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import {
   BlockBlobClient,
   generateBlobSASQueryParameters,
@@ -14,7 +11,7 @@ import {
 } from "../../../src";
 import { streamToBuffer3 } from "../../../src/utils/utils.node";
 import { getValueInConnString } from "../../../src/utils/utils.common";
-dotenv.config();
+import { generateUuid } from "@azure/core-http";
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -33,7 +30,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     }
   };
 
-  static blobName = `newblob${new Date().getTime()}`;
+  static blobName = generateUuid();
   blockBlobClient: BlockBlobClient;
   blobClientFromSAS: BlobClient;
   sasUrl: string;

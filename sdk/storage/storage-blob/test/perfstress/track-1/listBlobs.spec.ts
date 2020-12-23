@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { generateUuid } from "@azure/core-http";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
 import { executeParallel, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import { StorageBlobTest } from "./storageTest.spec";
-dotenv.config({ path: "../../../.env" });
 
 interface StorageBlobListTestOptions {
   count: number;
@@ -26,10 +23,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     await super.globalSetup();
     await executeParallel(
       async (count: number, parallelIndex: number) => {
-        const blockBlobClient = BlockBlobURL.fromContainerURL(
-          this.containerClient,
-          `blob-${count}`
-        );
+        const blockBlobClient = BlockBlobURL.fromContainerURL(this.containerClient, generateUuid());
         blockBlobClient.upload(Aborter.none, Buffer.alloc(0), 0);
         console.log(`[` + parallelIndex + `] ` + count);
       },

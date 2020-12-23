@@ -7,10 +7,7 @@ const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import { StorageBlobUploadTest } from "./upload.spec";
-dotenv.config();
 
 const dirName = "temp";
 const fileName = `${dirName}/upload-from-test-temp-file.txt`;

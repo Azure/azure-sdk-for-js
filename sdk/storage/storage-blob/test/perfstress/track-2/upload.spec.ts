@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
-dotenv.config();
 
 interface StorageBlobUploadTestOptions {
   size: number;
@@ -26,7 +23,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
   };
 
   async setup() {
-    this.blobName = `newblob${new Date().getTime()}`;
+    this.blobName = generateUuid();
   }
 
   async runAsync(): Promise<void> {
