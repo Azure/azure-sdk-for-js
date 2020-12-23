@@ -26,7 +26,7 @@ import { IPC_MESSAGES, MSAL_CONFIG } from "./constants";
 import Main from "./main";
 
 export default class AuthProvider {
-  private loginWindow: BrowserWindow;
+  private loginWindow?: BrowserWindow;
 
   constructor() {
     // Register a custom handler for `msal://` scheme

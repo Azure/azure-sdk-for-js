@@ -7,7 +7,7 @@
 */
 
 import { TokenCredential } from "@azure/identity";
-import { BlobServiceClient, ContainerClient, RestError } from "@azure/storage-blob";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { BLOB_CONTAINER, BLOB_URI } from "./constants";
 
 /**

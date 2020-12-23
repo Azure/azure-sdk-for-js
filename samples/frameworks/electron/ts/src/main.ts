@@ -12,7 +12,7 @@ import * as path from "path";
 
 export default class Main {
   static application: Electron.App;
-  static mainWindow: Electron.BrowserWindow;
+  static mainWindow?: Electron.BrowserWindow;
   static authProvider: AuthProvider;
 
   static main(): void {
@@ -26,13 +26,13 @@ export default class Main {
   }
 
   private static onClose(): void {
-    Main.mainWindow = null;
+    Main.mainWindow = undefined;
   }
 
   private static onReady(): void {
     Main.createMainWindow();
     Main.render();
-    Main.mainWindow.on("closed", Main.onClose);
+    Main.mainWindow?.on("closed", Main.onClose);
     Main.authProvider = new AuthProvider();
     Main.registerSubscriptions();
   }
@@ -48,11 +48,11 @@ export default class Main {
   }
 
   public static publish(message: string, payload: any): void {
-    Main.mainWindow.webContents.send(message, payload);
+    Main.mainWindow?.webContents.send(message, payload);
   }
 
   public static async render(): Promise<void> {
-    Main.mainWindow.loadFile(path.join(__dirname, "../index.html"));
+    Main.mainWindow?.loadFile(path.join(__dirname, "../index.html"));
   }
 
   private static async login(): Promise<void> {
