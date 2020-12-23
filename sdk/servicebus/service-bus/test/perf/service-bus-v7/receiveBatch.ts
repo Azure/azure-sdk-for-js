@@ -11,7 +11,7 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 5. Example: `ts-node receive.ts 10 1000000 false`
  */
 
-import { ServiceBusClient, ServiceBusReceivedMessage } from "../../../src";
+import { ServiceBusClient } from "@azure/service-bus";
 import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists

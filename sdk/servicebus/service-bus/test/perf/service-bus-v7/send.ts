@@ -10,7 +10,7 @@ Measures the maximum throughput of `sender.send()` in package `@azure/service-bu
 5. Example: `ts-node app.ts 1000 1000000 true`
  */
 
-import { ServiceBusClient, ServiceBusSender } from "../../../src";
+import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
 import delay from "delay";
 import moment from "moment";
 // Load the .env file if it exists
