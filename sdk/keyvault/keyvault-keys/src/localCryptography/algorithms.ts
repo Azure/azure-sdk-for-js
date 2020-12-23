@@ -117,7 +117,6 @@ export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
  * Since sign algorithms behave almost the same, we're making a generator to save up code.
  * We receive the sign algorithm, from the list of names in `SignAlgorithmName`,
  * then we generate a `LocalSupportedAlgorithm` that only create hashes and verifies signatures.
- * @param signAlgorithm -
  */
 const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm => {
   return {

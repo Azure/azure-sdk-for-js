@@ -246,7 +246,6 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
 /**
  * Prepares the operation url to be added to the body, removing the SAS token if present
  * @param url - Source URL string
- * @returns
  */
 function getSubRequestUrl(url: string): string {
   const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];

@@ -8,7 +8,7 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
+import { HttpOperationResponse, HttpResponse, isNode } from "@azure/core-http";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -24,13 +24,6 @@ interface Navigator {
  * @internal
  */
 declare const navigator: Navigator;
-
-/**
- * @internal
- * @ignore
- * A constant that indicates whether the environment is node.js or browser based.
- */
-export const isNode = typeof navigator === "undefined" && typeof process !== "undefined";
 
 /**
  * @internal
