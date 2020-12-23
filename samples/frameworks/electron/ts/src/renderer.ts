@@ -8,14 +8,16 @@
 import { ipcRenderer } from "electron";
 import { UIManager } from "./uiManager";
 
-import { IPC_MESSAGES, MSAL_CONFIG } from "./constants";
+import {
+  BLOB_NAME,
+  IPC_MESSAGES,
+  MSAL_CONFIG,
+  SERVICE_BUS_NAMESPACE,
+  SERVICE_BUS_QUEUE
+} from "./constants";
 import { ServiceBusClient } from "@azure/service-bus";
 import { AuthorizationCodeCredential } from "@azure/identity";
-import { getEnvironmentVariable } from "./utils";
-import dotenv from "dotenv";
 import { BlobHandler } from "./blobHandler";
-
-dotenv.config();
 
 const uiManager = new UIManager();
 let blobHandler: BlobHandler | undefined;
@@ -41,16 +43,14 @@ const onLoginSuccess = (_e: Electron.IpcRendererEvent, authCode: string) => {
 // Handle the Upload Blob click event by creating a new Blob and
 // uploading it to Azure Blob Storage
 const onUploadBlobClick = async () => {
-  let blobName = getEnvironmentVariable("BLOB_NAME");
-  await blobHandler.uploadFile(blobName, `File uploaded at ${new Date()}`);
+  await blobHandler.uploadFile(BLOB_NAME, `File uploaded at ${new Date()}`);
   uiManager.showBlobContents("Uploaded!");
 };
 
 // Handle the Fetch Blob click event by fetching a given Blob.
 const onFetchBlobClick = async () => {
   uiManager.showBlobContents("Fetch blob...");
-  let blobName = getEnvironmentVariable("BLOB_NAME");
-  const text = await blobHandler.downloadFileContents(blobName);
+  const text = await blobHandler.downloadFileContents(BLOB_NAME);
   uiManager.showBlobContents(text || "No blob has been uploaded!");
 };
 
@@ -61,8 +61,8 @@ const onServiceBusClick = async () => {
   if (!authCredential) {
     throw new Error("Auth service never completed!");
   }
-  let serviceBusNamespace = getEnvironmentVariable("SERVICE_BUS_NAMESPACE");
-  let serviceBusQueue = getEnvironmentVariable("SERVICE_BUS_QUEUE");
+  let serviceBusNamespace = SERVICE_BUS_NAMESPACE;
+  let serviceBusQueue = SERVICE_BUS_QUEUE;
 
   uiManager.showServicebusMessage("Sending...");
 

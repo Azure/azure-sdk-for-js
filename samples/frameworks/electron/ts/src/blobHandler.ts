@@ -8,7 +8,7 @@
 
 import { TokenCredential } from "@azure/identity";
 import { BlobServiceClient, ContainerClient, RestError } from "@azure/storage-blob";
-import { getEnvironmentVariable } from "./utils";
+import { BLOB_CONTAINER, BLOB_URI } from "./constants";
 
 /**
  * Represents a handler for Azure Storage Blob.
@@ -22,8 +22,8 @@ export class BlobHandler {
    * @param credential A valid credential to authenticate requests.
    */
   constructor(credential: TokenCredential) {
-    const blobUri = getEnvironmentVariable("BLOB_URI");
-    const blobContainer = getEnvironmentVariable("BLOB_CONTAINER");
+    const blobUri = BLOB_URI;
+    const blobContainer = BLOB_CONTAINER;
     const serviceClient = new BlobServiceClient(blobUri, credential);
     this.client = serviceClient.getContainerClient(blobContainer);
   }

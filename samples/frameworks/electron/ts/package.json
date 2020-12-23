@@ -28,7 +28,6 @@
     "@azure/service-bus": "^7.0.0",
     "@azure/storage-blob": "^12.3.0",
     "axios": "^0.21.0",
-    "dotenv": "^8.2.0",
     "qs": "^6.9.4",
     "url": "^0.11.0"
   }
