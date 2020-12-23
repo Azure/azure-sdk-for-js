@@ -14,3 +14,17 @@ export function getEnvVar(name: string) {
   }
   return val;
 }
+
+/**
+ * Reads a readable stream. Doesn't save to a buffer.
+ *
+ * @export
+ * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
+ */
+export async function streamToBuffer(readableStream: NodeJS.ReadableStream) {
+  return new Promise((resolve, reject) => {
+    readableStream.on("data", () => {});
+    readableStream.on("end", resolve);
+    readableStream.on("error", reject);
+  });
+}
