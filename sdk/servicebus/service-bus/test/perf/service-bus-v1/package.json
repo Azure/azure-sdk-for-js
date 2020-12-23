@@ -1,6 +1,7 @@
 {
   "name": "service-bus-v1",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
