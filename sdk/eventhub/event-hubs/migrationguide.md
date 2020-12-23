@@ -94,9 +94,9 @@ This and the need to support improvements to the algorithm used for managing par
 Other noteworthy changes:
 
 - The `send` method on the client that allowed sending single events in each call is removed
- in favor of the `sendBatch` to encourage sending events in batches for better throughput.
+  in favor of the `sendBatch` to encourage sending events in batches for better throughput.
 - The `sendBatch` method on the client has two overloads. One takes an array of events. The other takes an
- object of type `EventDataBatch` that should be created using the `createBatch` method on the client. This object represents the batch and can be safely filled until the maximum size allowed.
+  object of type `EventDataBatch` that should be created using the `createBatch` method on the client. This object represents the batch and can be safely filled until the maximum size allowed.
 
 #### Migrating from `EventHubClient` to `EventHubProducerClient` for sending events
 
@@ -197,7 +197,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -216,10 +216,10 @@ const subscription = eventHubConsumerClient.subscribe(
       initContext.setStartingPosition(earliestEventPosition);
     },
     processEvents: onMessageHandler,
-    processError: onErrorHandler
+    processError: onErrorHandler,
   },
   {
-    startPosition: earliestEventPosition
+    startPosition: earliestEventPosition,
   }
 );
 
@@ -250,14 +250,21 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
 // In V2, you get a single event passed to your callback. If you had asynchronous code running in your callback,
 // it is not awaited before the callback is called for the next event.
 const onMessage = (context, event) => {
-  /** your code here **/
+  /** Your code to process the event here **/
+
+  try {
+    await context.checkpointFromEventData(event);
+  } catch (err) {
+    console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
+    throw err;
+  }
 };
 
 // This is your error handler for errors occuring when receiving events.
@@ -290,7 +297,18 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
   // If your callback is an async function or returns a promise, it will be awaited before the
   // callback is called for the next batch of events.
   processEvents: (events, context) => {
-    /** your code here **/
+    /** Your code to process events here **/
+
+    try {
+      // The events array could be empty, so only checkpoint if it contained events.
+      if (events.length) {
+        // save a checkpoint for the last event now that we've processed this batch.
+        await context.updateCheckpoint(events[events.length - 1]);
+      }
+    } catch (err) {
+      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
+      throw err;
+    }
   },
 
   // Prior to V5, errors were handled by separate callbacks depending
@@ -303,7 +321,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
