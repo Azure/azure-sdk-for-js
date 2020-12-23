@@ -7,14 +7,23 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICEBUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
 4. This test presumes that there are messages in the queue.
-4. `ts-node receive.ts [totalMessages]`
-5. Example: `ts-node receive.ts 1000000`
+5. `ts-node receive.ts [maxConcurrentCalls] [totalMessages] [isReceiveAndDelete]`
+6. Example: `ts-node receive.ts 1000 1000000 false`
  */
 
-import { ReceiveMode, OnError, OnMessage } from "../../../src";
-import { ServiceBusClient } from "../../../src/old/serviceBusClient";
+import {
+  ServiceBusClient,
+  ReceiveMode,
+  OnError,
+  OnMessage,
+  ServiceBusMessage
+} from "@azure/service-bus";
 import delay from "delay";
 import moment from "moment";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const _start = moment();
 
@@ -23,16 +32,18 @@ let _messages = 0;
 async function main(): Promise<void> {
   // Endpoint=sb://<your-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<shared-access-key>
   const connectionString = process.env.SERVICEBUS_CONNECTION_STRING as string;
-  const entityPath = process.env.SERVICE_BUS_QUEUE_NAME as string;
+  const entityPath = process.env.SERVICEBUS_QUEUE_NAME as string;
 
   const maxConcurrentCalls = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
   const messages = process.argv.length > 3 ? parseInt(process.argv[3]) : 100;
+  const isReceiveAndDelete = process.argv.length > 4 ? !(process.argv[4] === "false") : true;
   log(`Maximum Concurrent Calls: ${maxConcurrentCalls}`);
   log(`Total messages: ${messages}`);
+  log(`isReceiveAndDelete: ${isReceiveAndDelete}`);
 
   const writeResultsPromise = WriteResults(messages);
 
-  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages);
+  await RunTest(connectionString, entityPath, maxConcurrentCalls, messages, isReceiveAndDelete);
   await writeResultsPromise;
 }
 
@@ -40,15 +51,19 @@ async function RunTest(
   connectionString: string,
   entityPath: string,
   maxConcurrentCalls: number,
-  messages: number
+  messages: number,
+  isReceiveAndDelete: boolean
 ): Promise<void> {
-  const ns = new ServiceBusClient(connectionString);
+  const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
   const client = ns.createQueueClient(entityPath);
-  const receiver = client.createReceiver(ReceiveMode.receiveAndDelete);
+  const receiver = client.createReceiver(
+    isReceiveAndDelete ? ReceiveMode.receiveAndDelete : ReceiveMode.peekLock
+  );
 
-  const onMessageHandler: OnMessage = async () => {
+  const onMessageHandler: OnMessage = async (msg: ServiceBusMessage) => {
     _messages++;
+    if (!isReceiveAndDelete) await msg.complete();
     if (_messages === messages) {
       await receiver.close();
       await client.close();
@@ -106,11 +121,14 @@ function WriteResult(
   maxMessages: number,
   maxElapsed: number
 ): void {
+  const memoryUsage = process.memoryUsage();
   log(
     `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
+      `\tRSS\t${memoryUsage.rss}` +
+      `\tHeapUsed\t${memoryUsage.heapUsed}`
   );
 }
 

@@ -16,6 +16,7 @@ omitted_paths:
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
   - sdk/servicebus/README.md
+  - sdk/servicebus/service-bus/test/perf/service-bus-*
   - sdk/servicebus/service-bus/test/stress/*
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
