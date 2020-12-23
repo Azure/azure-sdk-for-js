@@ -47,7 +47,7 @@ When adding permission for `Microsoft.ServiceBus` and `Azure Storage`, the type 
 
 ## Running the sample
 
-Once the above created you'll want to ensure Electron has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application.
+Once the above steps are completed you'll want to ensure Electron has the necessary constants defined. To do this, open `src/constants.ts` and provide the necessary values to configre the application. Only empty strings need to be replaced with actual values.
 
 Install the various packages as well as the TypeScript compiler using:
 
