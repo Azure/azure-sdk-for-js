@@ -75,7 +75,7 @@ steps:
   - script: |
       npm i -g cspell
       cspell --no-progress --config ./cspell.json sdk/${{ parameters.ServiceDirectory }}/**/*
-    errorActionPreference: continue
+    continueOnError: true
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
     # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
