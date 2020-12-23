@@ -34,7 +34,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
         console.log(`[` + parallelIndex + `] ` + count);
       },
       this.parsedOptions.count.value!,
-      1000
+      32
     );
   }
 
