@@ -7,8 +7,8 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/servi
 2. Create a queue inside the namespace.
 3. Set env vars `SERVICEBUS_CONNECTION_STRING` and `SERVICE_BUS_QUEUE_NAME`.
 4. This test presumes that there are messages in the queue.
-4. `ts-node receive.ts [totalMessages]`
-5. Example: `ts-node receive.ts 1000 1000000`
+5. `ts-node receive.ts [maxConcurrentCalls] [totalMessages] [isReceiveAndDelete]`
+6. Example: `ts-node receive.ts 1000 1000000 false`
  */
 
 import {
