@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 import {
   BlockBlobClient,
@@ -52,7 +52,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     ).toString();
 
     this.sasUrl = `https://${getValueInConnString(
-      StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING"),
+      getEnvVar("STORAGE_CONNECTION_STRING"),
       "AccountName"
     )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${
       StorageBlobDownloadWithSASTest.blobName
