@@ -16,6 +16,7 @@ const packageVersion = "4.0.0";
 
 export class EventHubManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
+  apiVersion?: string;
   subscriptionId: string;
 
   /**
@@ -43,6 +44,7 @@ export class EventHubManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
+    this.apiVersion = '2018-01-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
