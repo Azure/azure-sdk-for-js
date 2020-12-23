@@ -93,11 +93,10 @@ This and the need to support improvements to the algorithm used for managing par
 
 Other noteworthy changes:
 
-- The `send` method on the client is removed in favor of the `sendBatch` to encourage sending
-  events in batches for better throughput.
-- The `sendBatch` method on the client takes a object of type `EventDataBatch` that should be created
-  using the `createBatch` method on the client.
-  An array of events can be passed to `sendBatch` instead of an `EventDataBatch` similarly to the removed `send` method.
+- The `send` method on the client that allowed sending single events in each call is removed
+ in favor of the `sendBatch` to encourage sending events in batches for better throughput.
+- The `sendBatch` method on the client has two overloads. One takes an array of events. The other takes an
+ object of type `EventDataBatch` that should be created using the `createBatch` method on the client. This object represents the batch and can be safely filled until the maximum size allowed.
 
 #### Migrating from `EventHubClient` to `EventHubProducerClient` for sending events
 
