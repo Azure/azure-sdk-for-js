@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 
@@ -27,7 +28,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
   };
 
   async setup() {
-    this.blobName = `newblob${new Date().getTime()}`;
+    this.blobName = generateUuid();
   }
 
   async runAsync(): Promise<void> {

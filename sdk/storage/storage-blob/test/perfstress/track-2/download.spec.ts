@@ -3,12 +3,9 @@
 
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import { BlockBlobClient } from "../../../src";
 import { streamToBuffer3 } from "../../../src/utils/utils.node";
-dotenv.config();
+import { generateUuid } from "@azure/core-http";
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -25,7 +22,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     }
   };
 
-  static blobName = `newblob${new Date().getTime()}`;
+  static blobName = generateUuid();
   blockBlobClient: BlockBlobClient;
 
   constructor() {

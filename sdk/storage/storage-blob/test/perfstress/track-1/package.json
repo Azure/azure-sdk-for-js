@@ -8,7 +8,9 @@
   "license": "ISC",
   "dependencies": {
     "@azure/storage-blob": "^10.5.0",
-    "@azure/test-utils-perfstress": "file:../../../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz"
+    "@azure/test-utils-perfstress": "file:../../../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
+    "@types/uuid": "^8.3.0",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "perfstress-test:node": "ts-node index.spec.ts"

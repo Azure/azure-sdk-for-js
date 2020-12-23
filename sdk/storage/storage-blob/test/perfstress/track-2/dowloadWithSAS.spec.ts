@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import {
   BlockBlobClient,
   generateBlobSASQueryParameters,
@@ -14,7 +11,7 @@ import {
 } from "../../../src";
 import { streamToBuffer3 } from "../../../src/utils/utils.node";
 import { getValueInConnString } from "../../../src/utils/utils.common";
-dotenv.config();
+import { generateUuid } from "@azure/core-http";
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -33,7 +30,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     }
   };
 
-  static blobName = `newblob${new Date().getTime()}`;
+  static blobName = generateUuid();
   blockBlobClient: BlockBlobClient;
   blobClientFromSAS: BlobClient;
   sasUrl: string;
@@ -55,7 +52,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     ).toString();
 
     this.sasUrl = `https://${getValueInConnString(
-      StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING"),
+      getEnvVar("STORAGE_CONNECTION_STRING"),
       "AccountName"
     )}.blob.core.windows.net/${StorageBlobDownloadWithSASTest.containerName}/${
       StorageBlobDownloadWithSASTest.blobName

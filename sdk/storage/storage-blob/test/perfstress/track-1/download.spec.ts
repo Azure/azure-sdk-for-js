@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import { Aborter, BlobURL, BlockBlobURL } from "@azure/storage-blob";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
-
-// Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
 import { StorageBlobTest } from "./storageTest.spec";
-dotenv.config({ path: "../../../.env" });
 
 interface StorageBlobDownloadTestOptions {
   size: number;
@@ -24,7 +21,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     }
   };
 
-  static blobName = `newblob${new Date().getTime()}`;
+  static blobName = generateUuid();
   blockBlobClient: BlockBlobURL;
 
   constructor() {

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import {
   Aborter,
   ContainerURL,
@@ -8,7 +9,7 @@ import {
   SharedKeyCredential,
   StorageURL
 } from "@azure/storage-blob";
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
@@ -17,11 +18,11 @@ dotenv.config({ path: "../../../.env" });
 export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
   blobServiceClient: ServiceURL;
   containerClient: ContainerURL;
-  static containerName = `newcontainer${new Date().getTime()}`;
+  static containerName = generateUuid();
 
   constructor() {
     super();
-    const connectionString = StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING");
+    const connectionString = getEnvVar("STORAGE_CONNECTION_STRING");
     const accountName = getValueInConnString(connectionString, "AccountName");
     const accountKey = getValueInConnString(connectionString, "AccountKey");
 
@@ -42,14 +43,6 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
 
   public async globalCleanup() {
     await this.containerClient.delete(Aborter.none);
-  }
-
-  static getEnvVar(name: string) {
-    const val = process.env[name];
-    if (!val) {
-      throw `Environment variable ${name} is not defined.`;
-    }
-    return val;
   }
 }
 
