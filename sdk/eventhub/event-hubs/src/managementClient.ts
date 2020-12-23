@@ -33,7 +33,7 @@ import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
-import { AccessToken } from '@azure/core-auth';
+import { AccessToken } from "@azure/core-auth";
 
 /**
  * Describes the runtime information of an Event Hub.

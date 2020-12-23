@@ -110,7 +110,8 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
 
-    while (true) { // eslint-disable-line no-constant-condition
+    while (true) {
+      // eslint-disable-line no-constant-condition
       loggerForTest(`Received ${this.events.length} messages (need ${countOfExpectedEvents})`);
 
       if (this.events.length !== countOfExpectedEvents && !this.hasErrors(partitionIds)) {

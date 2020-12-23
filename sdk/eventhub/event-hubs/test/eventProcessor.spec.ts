@@ -91,8 +91,12 @@ describe("Event Processor", function(): void {
           EventHubConsumerClient.defaultConsumerGroupName,
           consumerClient["_context"],
           {
-            processEvents: async () => { /* no-op */ },
-            processError: async () => { /* no-op */ }
+            processEvents: async () => {
+              /* no-op */
+            },
+            processError: async () => {
+              /* no-op */
+            }
           },
           checkpointStore,
           {
@@ -129,7 +133,9 @@ describe("Event Processor", function(): void {
           listOwnership: async () => {
             return [];
           },
-          updateCheckpoint: async () => { /* no-op */ }
+          updateCheckpoint: async () => {
+            /* no-op */
+          }
         };
       }
 
@@ -229,7 +235,9 @@ describe("Event Processor", function(): void {
           EventHubConsumerClient.defaultConsumerGroupName,
           consumerClient["_context"],
           {
-            processEvents: async () => { /* no-op */ },
+            processEvents: async () => {
+              /* no-op */
+            },
             processError: async (err, context) => {
               // simulate the user messing up and accidentally throwing an error
               // we should just log it and not kill anything.
@@ -284,7 +292,9 @@ describe("Event Processor", function(): void {
         async listOwnership(): Promise<PartitionOwnership[]> {
           return [];
         },
-        async updateCheckpoint(): Promise<void> { /* no-op */ },
+        async updateCheckpoint(): Promise<void> {
+          /* no-op */
+        },
         async listCheckpoints(): Promise<Checkpoint[]> {
           return [];
         }
@@ -297,7 +307,9 @@ describe("Event Processor", function(): void {
           pumpManager.createPumpCalled = true;
         },
 
-        async removeAllPumps() { /* no-op */ },
+        async removeAllPumps() {
+          /* no-op */
+        },
 
         isReceivingFromPartition() {
           return false;
@@ -312,8 +324,12 @@ describe("Event Processor", function(): void {
         EventHubConsumerClient.defaultConsumerGroupName,
         consumerClient["_context"],
         {
-          processEvents: async () => { /* no-op */ },
-          processError: async () => { /* no-op */ }
+          processEvents: async () => {
+            /* no-op */
+          },
+          processError: async () => {
+            /* no-op */
+          }
         },
         checkpointStore,
         {
@@ -335,7 +351,7 @@ describe("Event Processor", function(): void {
 
       // when we fail to claim a partition we should _definitely_
       // not attempt to start a pump.
-      should.equal(pumpManager.createPumpCalled, false)
+      should.equal(pumpManager.createPumpCalled, false);
 
       // we'll attempt to claim a partition (but won't succeed)
       should.equal(checkpointStore.claimOwnershipCalled, true);
@@ -387,8 +403,12 @@ describe("Event Processor", function(): void {
           loopIntervalInMs: 1,
           maxWaitTimeInSeconds: 1,
           pumpManager: {
-            async createPump() { /* no-op */ },
-            async removeAllPumps(): Promise<void> { /* no-op */ },
+            async createPump() {
+              /* no-op */
+            },
+            async removeAllPumps(): Promise<void> {
+              /* no-op */
+            },
             isReceivingFromPartition() {
               return false;
             }
@@ -505,7 +525,9 @@ describe("Event Processor", function(): void {
       claimOwnership: async () => {
         throw new Error("Some random failure!");
       },
-      updateCheckpoint: async () => { /* no-op */ },
+      updateCheckpoint: async () => {
+        /* no-op */
+      },
       listCheckpoints: async () => []
     };
 
@@ -513,7 +535,9 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
-        processEvents: async () => { /* no-op */ },
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err, _) => {
           errors.push(err);
         }
@@ -617,8 +641,12 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
-        processEvents: async () => { /* no-op */ },
-        processError: async () => { /* no-op */ }
+        processEvents: async () => {
+          /* no-op */
+        },
+        processError: async () => {
+          /* no-op */
+        }
       },
       new InMemoryCheckpointStore(),
       {
@@ -636,8 +664,12 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
-        processEvents: async () => { /* no-op */ },
-        processError: async () => { /* no-op */ }
+        processEvents: async () => {
+          /* no-op */
+        },
+        processError: async () => {
+          /* no-op */
+        }
       },
       new InMemoryCheckpointStore(),
       { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition }
@@ -694,8 +726,12 @@ describe("Event Processor", function(): void {
         processInitialize: async () => {
           didPartitionProcessorStart = true;
         },
-        processEvents: async () => { /* no-op */ },
-        processError: async () => { /* no-op */ }
+        processEvents: async () => {
+          /* no-op */
+        },
+        processError: async () => {
+          /* no-op */
+        }
       },
       new InMemoryCheckpointStore(),
       {
@@ -760,7 +796,7 @@ describe("Event Processor", function(): void {
     await processor.stop();
 
     subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
-    subscriptionEventHandler.allShutdown(partitionIds).should.equal(true)
+    subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
   });
 
   describe("Partition processor", function(): void {
@@ -875,7 +911,7 @@ describe("Event Processor", function(): void {
           processedAtLeastOneEvent.add(context.partitionId);
 
           if (!partionCount[context.partitionId]) {
-            partionCount[context.partitionId] = 0
+            partionCount[context.partitionId] = 0;
           }
           partionCount[context.partitionId]++;
 
@@ -1491,7 +1527,9 @@ describe("Event Processor", function(): void {
         async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
         }
-        async processError() { /* no-op */ }
+        async processError() {
+          /* no-op */
+        }
       }
 
       // create messages
@@ -1583,8 +1621,12 @@ describe("Event Processor", function(): void {
           claimedPartitions.add(partitionId);
           claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
-        async processEvents() { /* no-op */ },
-        async processError() { /* no-op */ },
+        async processEvents() {
+          /* no-op */
+        },
+        async processError() {
+          /* no-op */
+        },
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
@@ -1745,8 +1787,12 @@ describe("Event Processor", function(): void {
           claimedPartitions.add(partitionId);
           claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
-        async processEvents() { /* no-op */ },
-        async processError() { /* no-op */ },
+        async processEvents() {
+          /* no-op */
+        },
+        async processError() {
+          /* no-op */
+        },
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
@@ -1910,9 +1956,15 @@ function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
 
       return false;
     },
-    addEventListener: () => { /* no-op */ },
-    removeEventListener: () => { /* no-op */ },
-    onabort: () => { /* no-op */ },
+    addEventListener: () => {
+      /* no-op */
+    },
+    removeEventListener: () => {
+      /* no-op */
+    },
+    onabort: () => {
+      /* no-op */
+    },
     dispatchEvent: () => true
   };
 

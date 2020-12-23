@@ -525,7 +525,9 @@ export class EventProcessor {
           eventHubName: this._eventHubName,
           consumerGroup: this._consumerGroup,
           partitionId: "",
-          updateCheckpoint: async () => { /* no-op */ }
+          updateCheckpoint: async () => {
+            /* no-op */
+          }
         });
       } catch (errorFromUser) {
         logger.verbose(

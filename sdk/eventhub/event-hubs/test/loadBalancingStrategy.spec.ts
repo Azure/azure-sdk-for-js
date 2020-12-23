@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from 'chai';
+import chai from "chai";
 const should = chai.should();
 import { PartitionOwnership } from "../src/eventProcessor";
 import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";

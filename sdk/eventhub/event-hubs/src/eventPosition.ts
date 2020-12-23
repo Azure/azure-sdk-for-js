@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
-import { isDefined } from './util/isDefined';
+import { isDefined } from "./util/isDefined";
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`

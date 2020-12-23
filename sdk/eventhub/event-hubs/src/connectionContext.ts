@@ -397,10 +397,7 @@ export namespace ConnectionContext {
 
     function cleanConnectionContext(context: ConnectionContext): Promise<void> {
       // Remove listeners from the connection object.
-      context.connection.removeListener(
-        ConnectionEvents.connectionOpen,
-        onConnectionOpen
-      );
+      context.connection.removeListener(ConnectionEvents.connectionOpen, onConnectionOpen);
       context.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
       context.connection.removeListener(ConnectionEvents.protocolError, protocolError);
       context.connection.removeListener(ConnectionEvents.error, error);

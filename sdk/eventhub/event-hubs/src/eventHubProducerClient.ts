@@ -21,7 +21,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isDefined } from './util/isDefined';
+import { isDefined } from "./util/isDefined";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 
 /**

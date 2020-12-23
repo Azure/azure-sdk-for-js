@@ -8,5 +8,5 @@
  * @hidden
  */
 export function isDefined<T>(thing: T | undefined | null): thing is T {
-  return typeof thing !== 'undefined' && thing !== null;
+  return typeof thing !== "undefined" && thing !== null;
 }

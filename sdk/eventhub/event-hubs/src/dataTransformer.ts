@@ -23,7 +23,8 @@ export const defaultDataTransformer = {
    * - content: The given AMQP message body as a Buffer.
    * - multiple: true | undefined.
    */
-  encode(body: any): any { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
+  encode(body: any): any {
+    // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     let result: any;
     if (isBuffer(body)) {
       result = message.data_section(body);
@@ -56,7 +57,8 @@ export const defaultDataTransformer = {
    * @param {DataSection} body The AMQP message body
    * @return {*} decoded body or the given body as-is.
    */
-  decode(body: any): any { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
+  decode(body: any): any {
+    // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     let processedBody: any = body;
     try {
       if (body.content && isBuffer(body.content)) {
