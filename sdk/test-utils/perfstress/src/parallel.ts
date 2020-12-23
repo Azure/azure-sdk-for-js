@@ -24,7 +24,7 @@ export interface PerfStressParallel {
 
 /**
  * Repeats the "async function" task for a "count" number of times by awaiting on
- * "parallel" number of while loops in which each iteration takes care of running the function task once.
+ * "parallel" number of while loops in which each iteration executes the provided function once.
  *
  * @export
  * @param {(count: number, parallelIndex: number) => Promise<void>} func "async function" task to be executed repeatedly
