@@ -7,29 +7,29 @@ import { streamToBuffer3 } from "../../../src/utils/utils.node";
 
 export class CoreHTTPDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   client: ServiceClient;
+  webResource: WebResource;
   constructor() {
     super();
     this.client = new ServiceClient();
+    this.webResource = new WebResource(
+      this.sasUrl,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      true, // streamResponseBody
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      true // keepAlive
+    );
   }
 
   async runAsync(): Promise<void> {
-    const response = await this.client.sendRequest(
-      new WebResource(
-        this.sasUrl,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        true, // streamResponseBody
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        true // keepAlive
-      )
-    );
+    const response = await this.client.sendRequest(this.webResource);
     await streamToBuffer3(response.readableStreamBody!);
   }
 }
