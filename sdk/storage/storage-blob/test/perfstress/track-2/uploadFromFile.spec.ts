@@ -23,8 +23,8 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
   }
 
   public async globalCleanup() {
-    await super.globalCleanup();
     await deleteFile(fileName);
+    await super.globalCleanup();
   }
 
   async runAsync(): Promise<void> {
