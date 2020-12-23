@@ -21,7 +21,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
+      defaultValue: 10240
     }
   };
 
