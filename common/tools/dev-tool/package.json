@@ -22,7 +22,7 @@
     "prebuild": "npm run clean",
     "unit-test": "mocha --require ts-node/register test/**/*.spec.ts",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "author": "Microsoft Corporation",

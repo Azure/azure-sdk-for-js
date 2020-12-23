@@ -8,7 +8,6 @@ import { createClient } from "../utils/recordedClient";
 
 import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 
-
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
