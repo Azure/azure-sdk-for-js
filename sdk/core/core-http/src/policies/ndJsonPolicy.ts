@@ -27,9 +27,6 @@ export function ndJsonPolicy(): RequestPolicyFactory {
 class NdJsonPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of KeepAlivePolicy.
-   *
-   * @param nextPolicy -
-   * @param options -
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
@@ -37,8 +34,6 @@ class NdJsonPolicy extends BaseRequestPolicy {
 
   /**
    * Sends a request.
-   *
-   * @param request -
    */
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     // There currently isn't a good way to bypass the serializer

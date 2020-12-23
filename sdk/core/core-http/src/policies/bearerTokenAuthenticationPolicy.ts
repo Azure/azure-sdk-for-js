@@ -74,7 +74,6 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 
   /**
    * Applies the Bearer token to the request through the Authorization header.
-   * @param webResource -
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();

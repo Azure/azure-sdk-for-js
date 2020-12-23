@@ -6,16 +6,16 @@
 import * as msRest from "../../../../src/coreHttp";
 import { Mappers } from "./models/mappers";
 
-/**
- * @param baseUri - The base URI of the service.
- * @param options - The parameter options
- */
-
 class TestClient extends msRest.ServiceClient {
   baseUri?: string;
   acceptLanguage?: string;
   models?: any;
   serializer: msRest.Serializer;
+
+  /**
+   * @param baseUri - The base URI of the service.
+   * @param options - The parameter options
+   */
   constructor(baseUri: string, options?: msRest.ServiceClientOptions) {
     if (!options) options = {};
     super(undefined, options);

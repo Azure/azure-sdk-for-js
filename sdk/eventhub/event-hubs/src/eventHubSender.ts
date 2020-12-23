@@ -543,7 +543,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    * @ignore
-   * @returns
    */
   private async _init(options: AwaitableSenderOptions): Promise<void> {
     try {
@@ -605,7 +604,6 @@ export class EventHubSender extends LinkEntity {
    * @ignore
    * @static
    * @param [partitionId] Partition ID to which it will send event data.
-   * @returns
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);

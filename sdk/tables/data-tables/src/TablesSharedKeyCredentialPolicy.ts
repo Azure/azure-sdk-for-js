@@ -24,9 +24,6 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Creates an instance of TablesSharedKeyCredentialPolicy.
-   * @param nextPolicy -
-   * @param options -
-   * @param factory -
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -39,9 +36,6 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Sends out request.
-   *
-   * @param request -
-   * @returns
    */
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(this.signRequest(request));
@@ -49,9 +43,6 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Signs request.
-   *
-   * @param request -
-   * @returns
    */
   public signRequest(request: WebResourceLike): WebResource {
     const headerValue = getAuthorizationHeader(request, this.credential);
