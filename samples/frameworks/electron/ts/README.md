@@ -32,7 +32,7 @@ Authentication will still need to be set-up manually using the following instruc
 - See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
   to register a new application in the Azure Active Directory.
 - Note down the client id and tenant id from the above step.
-  You will need to set these in the .env file below.
+  You will need to set these in the constants.ts file later.
 
 For Electron we also need to configure platform settings correctly, and we will use `msal://` as the custom scheme. To set that up in your app registration:
 
