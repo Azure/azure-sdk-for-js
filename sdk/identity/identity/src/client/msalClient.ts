@@ -161,8 +161,8 @@ export class HttpClient implements INetworkModule {
 
   /**
    * Http Get request
-   * @param url
-   * @param options
+   * @param url -
+   * @param options -
    */
   async sendGetRequestAsync<T>(
     url: string,
@@ -185,8 +185,8 @@ export class HttpClient implements INetworkModule {
 
   /**
    * Http Post request
-   * @param url
-   * @param options
+   * @param url -
+   * @param options -
    */
   async sendPostRequestAsync<T>(
     url: string,

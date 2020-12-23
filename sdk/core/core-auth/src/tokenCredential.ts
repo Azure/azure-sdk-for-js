@@ -14,8 +14,8 @@ export interface TokenCredential {
    * This method is called automatically by Azure SDK client libraries. You may call this method
    * directly, but you must also handle token caching and token refreshing.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
@@ -67,7 +67,7 @@ export interface AccessToken {
 /**
  * Tests an object to determine whether it implements TokenCredential.
  *
- * @param credential The assumed TokenCredential to be tested.
+ * @param credential - The assumed TokenCredential to be tested.
  */
 export function isTokenCredential(credential: unknown): credential is TokenCredential {
   // Check for an object with a 'getToken' function and possibly with

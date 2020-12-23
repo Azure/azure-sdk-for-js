@@ -501,6 +501,10 @@ export function createConnectionContext(
     config = EventHubConnectionConfig.create(connectionString);
   }
 
+  if (options?.customEndpointAddress) {
+    EventHubConnectionConfig.setCustomEndpointAddress(config, options.customEndpointAddress);
+  }
+
   ConnectionConfig.validate(config);
 
   return ConnectionContext.create(config, credential, options);

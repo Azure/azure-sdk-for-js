@@ -11,7 +11,7 @@ export default {
     sourceType: "module",
     extraFileExtensions: [".json"]
   },
-  plugins: ["@typescript-eslint", "no-only-tests", "promise"],
+  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc"],
   extends: [
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
@@ -111,6 +111,7 @@ export default {
     // https://github.com/Azure/azure-sdk-for-js/issues/7609
     "@azure/azure-sdk/ts-pagination-list": "off",
     // https://github.com/Azure/azure-sdk-for-js/issues/7610
-    "@azure/azure-sdk/ts-doc-internal": "off"
+    "@azure/azure-sdk/ts-doc-internal": "off",
+    "tsdoc/syntax": "error"
   }
 };

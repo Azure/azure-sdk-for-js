@@ -44,7 +44,7 @@ export interface ErrorResponse {
 /**
  * Used for internal deserialization of OAuth responses. Public model is ErrorResponse
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OAuthErrorResponse {
   error: string;

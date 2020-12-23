@@ -23,14 +23,12 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
   }
 
   public async globalCleanup() {
-    await super.globalCleanup();
     await deleteFile(fileName);
+    await super.globalCleanup();
   }
 
   async runAsync(): Promise<void> {
-    const blockBlobClient = this.containerClient.getBlockBlobClient(
-      `newblob${new Date().getTime()}`
-    );
+    const blockBlobClient = this.containerClient.getBlockBlobClient(this.blobName);
     await blockBlobClient.uploadFile(fileName);
   }
 }

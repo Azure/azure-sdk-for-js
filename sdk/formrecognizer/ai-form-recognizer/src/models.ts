@@ -42,7 +42,7 @@ export {
 };
 
 /**
- * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch' (See {link @LengthUnit}).
+ * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch', @see {@link LengthUnit}.
  */
 export interface Point2D {
   /**

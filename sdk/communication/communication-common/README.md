@@ -17,20 +17,20 @@ npm install @azure/communication-common
 
 ## Key concepts
 
-### CommunicationUserCredential and AzureCommunicationUserCredential
+### CommunicationTokenCredential and AzureCommunicationTokenCredential
 
-A `CommunicationUserCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications.
+A `CommunicationTokenCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications.
 
-It is up to you the developer to first create valid user tokens with the Azure Communication Administration library. Then you use these tokens to create a `AzureCommunicationUserCredential`.
+It is up to you the developer to first create valid user tokens with the Azure Communication Administration library. Then you use these tokens to create a `AzureCommunicationTokenCredential`.
 
-`CommunicationUserCredential` is only the interface, please always use the `AzureCommunicationUserCredential` constructor to create a credential and take advantage of the built-in refresh logic.
+`CommunicationTokenCredential` is only the interface, please always use the `AzureCommunicationTokenCredential` constructor to create a credential and take advantage of the built-in refresh logic.
 
 ## Examples
 
 ### Create a credential with a static token
 
 ```typescript
-const userCredential = new AzureCommunicationUserCredential(
+const tokenCredential = new AzureCommunicationTokenCredential(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
 );
 ```
@@ -40,7 +40,7 @@ const userCredential = new AzureCommunicationUserCredential(
 Here we assume that we have a function `fetchTokenFromMyServerForUser` that makes a network request to retrieve a token string for a user. We pass it into the credential to fetch a token for Bob from our own server. Our server would use the Azure Communication Administration library to issue tokens.
 
 ```typescript
-const userCredential = new AzureCommunicationUserCredential({
+const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com")
 });
 ```
@@ -50,7 +50,7 @@ const userCredential = new AzureCommunicationUserCredential({
 Setting `refreshProactively` to true will call your `tokenRefresher` function when the token is close to expiry.
 
 ```typescript
-const userCredential = new AzureCommunicationUserCredential({
+const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
   refreshProactively: true
 });
@@ -61,10 +61,10 @@ const userCredential = new AzureCommunicationUserCredential({
 Passing `initialToken` is an optional optimization to skip the first call to `tokenRefresher`. You can use this to separate the boot from your application from subsequent token refresh cycles.
 
 ```typescript
-const userCredential = new AzureCommunicationUserCredential({
+const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
   refreshProactively: true,
-  initialToken:
+  token:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
 });
 ```

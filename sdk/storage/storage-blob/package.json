@@ -60,7 +60,8 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
+    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
   },
   "files": [
     "BreakingChanges.md",
@@ -129,6 +130,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/core-https": "1.0.0-beta.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
@@ -140,12 +142,13 @@
     "@rollup/plugin-json": "^4.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
+    "@types/node-fetch": "^2.5.0",
     "assert": "^1.4.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",
@@ -163,6 +166,7 @@
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
+    "node-fetch": "^2.6.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^3.3.0",
@@ -177,6 +181,7 @@
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
     "typescript": "4.1.2",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "typedoc": "0.15.0"
   }
 }

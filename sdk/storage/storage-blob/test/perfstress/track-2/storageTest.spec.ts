@@ -3,22 +3,27 @@
 
 import { PerfStressTest } from "@azure/test-utils-perfstress";
 
-import { BlobServiceClient, ContainerClient } from "../../../src";
+import { BlobServiceClient, ContainerClient, StorageSharedKeyCredential } from "../../../src";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { getValueInConnString } from "../../../src/utils/utils.common";
 dotenv.config();
 
 export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
   blobServiceClient: BlobServiceClient;
   containerClient: ContainerClient;
+  sharedKeyCredential: StorageSharedKeyCredential;
   static containerName = `newcontainer${new Date().getTime()}`;
 
   constructor() {
     super();
-    this.blobServiceClient = BlobServiceClient.fromConnectionString(
-      StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING")
+    const connectionString = StorageBlobTest.getEnvVar("STORAGE_CONNECTION_STRING");
+    this.sharedKeyCredential = new StorageSharedKeyCredential(
+      getValueInConnString(connectionString, "AccountName"),
+      getValueInConnString(connectionString, "AccountKey")
     );
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 

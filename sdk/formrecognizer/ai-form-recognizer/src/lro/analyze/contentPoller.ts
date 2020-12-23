@@ -123,7 +123,8 @@ export class BeginRecognizeContentPoller extends Poller<
 }
 /**
  * Creates a poll operation given the provided state.
- * @ignore
+ * @internal
+ * @hidden
  */
 function makeBeginRecognizePollOperation(
   state: BeginRecognizeContentPollState

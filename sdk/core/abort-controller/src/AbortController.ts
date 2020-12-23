@@ -9,6 +9,7 @@ import { AbortSignal, abortSignal, AbortSignalLike } from "./AbortSignal";
  * error matches `"AbortError"`.
  *
  * @example
+ * ```ts
  * const controller = new AbortController();
  * controller.abort();
  * try {
@@ -18,6 +19,7 @@ import { AbortSignal, abortSignal, AbortSignalLike } from "./AbortSignal";
  *     // handle abort error here.
  *   }
  * }
+ * ```
  */
 export class AbortError extends Error {
   constructor(message?: string) {
@@ -31,44 +33,44 @@ export class AbortError extends Error {
  * that an asynchronous operation should be aborted.
  *
  * @example
- * // Abort an operation when another event fires
+ * Abort an operation when another event fires
+ * ```ts
  * const controller = new AbortController();
  * const signal = controller.signal;
  * doAsyncWork(signal);
  * button.addEventListener('click', () => controller.abort());
+ * ```
  *
  * @example
- * // Share aborter cross multiple operations in 30s
+ * Share aborter cross multiple operations in 30s
+ * ```ts
  * // Upload the same data to 2 different data centers at the same time,
  * // abort another when any of them is finished
  * const controller = AbortController.withTimeout(30 * 1000);
  * doAsyncWork(controller.signal).then(controller.abort);
  * doAsyncWork(controller.signal).then(controller.abort);
+ *```
  *
  * @example
- * // Cascaded aborting
+ * Cascaded aborting
+ * ```ts
  * // All operations can't take more than 30 seconds
  * const aborter = Aborter.timeout(30 * 1000);
  *
  * // Following 2 operations can't take more than 25 seconds
  * await doAsyncWork(aborter.withTimeout(25 * 1000));
  * await doAsyncWork(aborter.withTimeout(25 * 1000));
- *
- * @export
- * @class AbortController
- * @implements {AbortSignalLike}
+ * ```
  */
 export class AbortController {
   private _signal: AbortSignal;
 
   /**
-   * @param {AbortSignalLike[]} [parentSignals] The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
-   * @constructor
+   * @param parentSignals - The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
    */
   constructor(parentSignals?: AbortSignalLike[]);
   /**
-   * @param {...AbortSignalLike} parentSignals The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
-   * @constructor
+   * @param parentSignals - The AbortSignals that will signal aborted on the AbortSignal associated with this controller.
    */
   constructor(...parentSignals: AbortSignalLike[]);
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -102,8 +104,6 @@ export class AbortController {
    * when the abort method is called on this controller.
    *
    * @readonly
-   * @type {AbortSignal}
-   * @memberof AbortController
    */
   public get signal(): AbortSignal {
     return this._signal;
@@ -112,8 +112,6 @@ export class AbortController {
   /**
    * Signal that any operations passed this controller's associated abort signal
    * to cancel any remaining work and throw an `AbortError`.
-   *
-   * @memberof AbortController
    */
   abort(): void {
     abortSignal(this._signal);
@@ -121,10 +119,7 @@ export class AbortController {
 
   /**
    * Creates a new AbortSignal instance that will abort after the provided ms.
-   *
-   * @static
-   * @params {number} ms Elapsed time in milliseconds to trigger an abort.
-   * @returns {AbortSignal}
+   * @param ms - Elapsed time in milliseconds to trigger an abort.
    */
   public static timeout(ms: number): AbortSignal {
     const signal = new AbortSignal();

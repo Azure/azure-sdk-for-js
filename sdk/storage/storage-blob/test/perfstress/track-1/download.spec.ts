@@ -20,7 +20,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
+      defaultValue: 10240
     }
   };
 
@@ -37,7 +37,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   public async globalSetup() {
     await super.globalSetup();
     // Create a blob
-    const uploadBlobResponse = await this.blockBlobClient.upload(
+    await this.blockBlobClient.upload(
       Aborter.none,
       Buffer.alloc(this.parsedOptions.size.value!),
       this.parsedOptions.size.value!

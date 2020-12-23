@@ -6,7 +6,6 @@ import { CryptographyOptions } from "./keysModels";
 /**
  * Defines values for SignatureAlgorithm.
  * @readonly
- * @enum {string}
  */
 export type SignatureAlgorithm =
   | "PS256"
@@ -24,7 +23,6 @@ export type SignatureAlgorithm =
  * Defines values for EncryptionAlgorithm.
  * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC', 'A256CBC', 'A128CBCPAD', 'A192CBCPAD', 'A256CBCPAD'
  * @readonly
- * @enum {string}
  */
 export type EncryptionAlgorithm =
   | "RSA-OAEP"
@@ -47,7 +45,6 @@ export type EncryptionAlgorithm =
  * Defines values for KeyCurveName.
  * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
  * @readonly
- * @enum {string}
  */
 export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 

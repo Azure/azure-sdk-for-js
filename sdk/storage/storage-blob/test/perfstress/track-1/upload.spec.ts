@@ -14,21 +14,24 @@ interface StorageBlobUploadTestOptions {
 }
 
 export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTestOptions> {
+  blobName = "";
+  buffer = Buffer.alloc(this.parsedOptions.size.value!);
   public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10
+      defaultValue: 10240
     }
   };
 
+  async setup() {
+    this.blobName = `newblob${new Date().getTime()}`;
+  }
+
   async runAsync(): Promise<void> {
-    const blockBlobClient = BlockBlobURL.fromContainerURL(
-      this.containerClient,
-      `newblob${new Date().getTime()}`
-    );
-    await blockBlobClient.upload(Aborter.none, Buffer.alloc(0), 0);
+    const blockBlobClient = BlockBlobURL.fromContainerURL(this.containerClient, this.blobName);
+    await blockBlobClient.upload(Aborter.none, this.buffer, this.parsedOptions.size.value!);
   }
 }
