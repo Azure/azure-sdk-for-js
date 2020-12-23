@@ -15,7 +15,7 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
-- An Azure ServiceBus namespace and queue. Please refer to the [ServiceBus documentation][servicebus] for additional information on ServiceBus.
+- An Azure Service Bus namespace and queue. Please refer to the [ServiceBus documentation][servicebus] for additional information on Service Bus.
 - An Azure Storage Blob container. Please refer to the [Storage Blob documentation][storageblob] for additional information on Azure Storage Blob. This file will be fetched from Azure Storage Blob and displayed on the screen.
 - Finally, you'll need a way to authenticate the application with Azure. Please refer to the [@azure/identity][identity] package for information on authentication. The instructions below will walk you through the necessary steps.
 
@@ -44,6 +44,8 @@ For Electron we also need to configure platform settings correctly, and we will 
 
 In your app registration, you will also need to add a permission for the `Microsoft.ServiceBus` and `Azure Storage` apps.
 When adding permission for `Microsoft.ServiceBus` and `Azure Storage`, the type should be `delegated permissions` and the permission should be `user_impersonation`.
+
+Finally, as mentioned in the header you'll need to make sure your application has the "Azure Service Bus Data Owner" and the "Azure Storage Blob Data Contributor" roles assigned to it. Please refer to the [Service Bus Role Assignment][servicebusaad] and [Azure Storage Role Assignment][storageaad] for up-to-date instructions on how to configure those.
 
 ## Running the sample
 
@@ -74,4 +76,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
 [identity]: https://docs.microsoft.com/javascript/api/@azure/identity
 [apiref]: https://docs.microsoft.com/javascript/api/
-[implicitgrantflow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
+[servicebusaad]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/authenticate-application
+[storageaad]: https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal
