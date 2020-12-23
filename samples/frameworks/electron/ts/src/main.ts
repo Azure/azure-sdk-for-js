@@ -5,7 +5,6 @@
   The main process is responsible for renderer window management
   as well as integration between a renderer and the authentication provider.
 */
-import "./config";
 import { app, BrowserWindow, ipcMain } from "electron";
 import { IPC_MESSAGES } from "./constants";
 import AuthProvider from "./authProvider";
