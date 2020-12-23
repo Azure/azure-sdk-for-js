@@ -15,26 +15,26 @@ npm install @azure/arm-serialconsole
 
 ### How to use
 
-#### nodejs - Authentication, client creation and operations list as an example written in TypeScript.
+#### nodejs - client creation and listOperations  as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { MicrosoftSerialConsoleClient, MicrosoftSerialConsoleModels, MicrosoftSerialConsoleMappers } from "@azure/arm-serialconsole";
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { MicrosoftSerialConsoleClient } = require("@azure/arm-serialconsole");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new MicrosoftSerialConsoleClient(creds, subscriptionId);
-  client.list.operations().then((result) => {
+  client.listOperations().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -43,7 +43,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and operations list as an example written in JavaScript.
+#### browser - Authentication, client creation and listOperations  as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -77,7 +77,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmSerialconsole.MicrosoftSerialConsoleClient(res.creds, subscriptionId);
-        client.list.operations().then((result) => {
+        client.listOperations().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -95,5 +95,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fserialconsole%2Farm-serialconsole%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/serialconsole/arm-serialconsole/README.png)
