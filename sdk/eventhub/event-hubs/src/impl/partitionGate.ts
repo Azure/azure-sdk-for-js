@@ -21,7 +21,7 @@ export class PartitionGate {
    *
    * @param partitionId A partition ID or the constant "all"
    */
-  add(partitionId: string | "all") {
+  add(partitionId: string | "all"): void {
     if (
       (partitionId === "all" && this._partitions.size > 0) ||
       this._partitions.has(partitionId) ||
@@ -38,7 +38,7 @@ export class PartitionGate {
    *
    * @param partitionId A partition ID or the constant "all"
    */
-  remove(partitionId: string | "all") {
+  remove(partitionId: string | "all"): void {
     this._partitions.delete(partitionId);
   }
 }

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// Disable eslint rule since these functions aren't part of the public API.
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import { logErrorStackTrace, logger } from "../log";
 import { ConnectionContext } from "../connectionContext";
 

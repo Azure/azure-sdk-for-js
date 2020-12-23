@@ -203,7 +203,7 @@ export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessa
   if (data.properties) {
     msg.application_properties = data.properties;
   }
-  if (partitionKey != undefined) {
+  if (partitionKey !== null && partitionKey !== undefined) {
     msg.message_annotations[Constants.partitionKey] = partitionKey;
     // Event Hub service cannot route messages to a specific partition based on the partition key
     // if AMQP message header is an empty object. Hence we make sure that header is always present

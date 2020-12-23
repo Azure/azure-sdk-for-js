@@ -335,12 +335,6 @@ describe("Misc tests", function(): void {
   it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<
     void
   > {
-    const consumerClient = new EventHubConsumerClient(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      service.connectionString!,
-      service.path
-    );
-
     const {
       subscriptionEventHandler,
       startPosition
@@ -398,7 +392,6 @@ describe("Misc tests", function(): void {
       if (subscription) {
         await subscription.close();
       }
-      await consumerClient.close();
     }
   });
 }).timeout(60000);

@@ -33,6 +33,7 @@ import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { AccessToken } from '@azure/core-auth';
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -141,7 +142,7 @@ export class ManagementClient extends LinkEntity {
    * @ignore
    * @internal
    */
-  async getSecurityToken() {
+  async getSecurityToken(): Promise<AccessToken | null> {
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
@@ -367,12 +368,12 @@ export class ManagementClient extends LinkEntity {
         await this._ensureTokenRenewal();
       }
     } catch (err) {
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
-        `[${this._context.connectionId}] An error occured while establishing the $management links: ${err?.name}: ${err?.message}`
+        `[${this._context.connectionId}] An error occured while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 
@@ -473,16 +474,16 @@ export class ManagementClient extends LinkEntity {
             const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
             resolve(result);
           } catch (err) {
-            err = translate(err);
+            const translatedError = translate(err);
             logger.warning(
               "[%s] An error occurred during send on management request-response link with address " +
                 "'%s': %s",
               this._context.connectionId,
               this.address,
-              `${err?.name}: ${err?.message}`
+              `${translatedError?.name}: ${translatedError?.message}`
             );
-            logErrorStackTrace(err);
-            reject(err);
+            logErrorStackTrace(translatedError);
+            reject(translatedError);
           }
         });
 
@@ -495,12 +496,12 @@ export class ManagementClient extends LinkEntity {
       };
       return (await retry<Message>(config)).body;
     } catch (err) {
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
-        `An error occurred while making the request to $management endpoint: ${err?.name}: ${err?.message}`
+        `An error occurred while making the request to $management endpoint: ${translatedError?.name}: ${translatedError?.message}`
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 

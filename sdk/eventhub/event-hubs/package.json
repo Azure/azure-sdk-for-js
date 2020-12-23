@@ -5,7 +5,7 @@
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -31,7 +31,7 @@
   "browser": {
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [

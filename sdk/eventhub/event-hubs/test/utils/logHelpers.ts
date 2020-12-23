@@ -24,7 +24,7 @@ export class LogTester {
     debugModule.enable(loggers.map((logger) => logger.namespace).join(","));
   }
 
-  assert() {
+  assert(): void {
     this.close();
 
     if (this._expectedMessages.length > 0) {
@@ -32,7 +32,7 @@ export class LogTester {
     }
   }
 
-  private check(message: string) {
+  private check(message: string): void {
     for (let i = 0; i < this._expectedMessages.length; ++i) {
       const expectedMessage = this._expectedMessages[i];
       if (typeof expectedMessage === "string") {
@@ -49,7 +49,7 @@ export class LogTester {
     }
   }
 
-  private close() {
+  private close(): void {
     for (const logger of this._attachedLoggers) {
       logger.logger.enabled = logger.wasEnabled;
       logger.logger.log = logger.previousLogFunction;
@@ -59,7 +59,7 @@ export class LogTester {
     debugModule.disable();
   }
 
-  private attach(logger: debugModule.Debugger) {
+  private attach(logger: debugModule.Debugger): void {
     this._attachedLoggers.push({
       logger,
       wasEnabled: logger.enabled,

@@ -7,7 +7,7 @@ export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers 
   public events: Map<string, ReceivedEventData[]> = new Map();
   public errors: Error[] = [];
 
-  async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+  async processEvents(events: ReceivedEventData[], context: PartitionContext): Promise<void> {
     for (const event of events) {
       let receivedEvents = this.events.get(context.partitionId);
 
@@ -20,7 +20,7 @@ export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers 
     }
   }
 
-  async processError(err: Error) {
+  async processError(err: Error): Promise<void> {
     this.errors.push(err);
   }
 }

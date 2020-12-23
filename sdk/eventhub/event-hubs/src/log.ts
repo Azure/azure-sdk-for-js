@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import { createClientLogger } from "@azure/logger";
 
 /**
@@ -14,7 +16,7 @@ export const logger = createClientLogger("event-hubs");
  * @param error Error containing a stack trace.
  * @ignore
  */
-export function logErrorStackTrace(error: any) {
+export function logErrorStackTrace(error: any): void {
   if (error && error.stack) {
     logger.verbose(error.stack);
   }

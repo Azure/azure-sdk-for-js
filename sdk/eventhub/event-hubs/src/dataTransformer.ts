@@ -23,7 +23,7 @@ export const defaultDataTransformer = {
    * - content: The given AMQP message body as a Buffer.
    * - multiple: true | undefined.
    */
-  encode(body: any): any {
+  encode(body: any): any { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     let result: any;
     if (isBuffer(body)) {
       result = message.data_section(body);
@@ -31,7 +31,7 @@ export const defaultDataTransformer = {
       // string, undefined, null, boolean, array, object, number should end up here
       // coercing undefined to null as that will ensure that null value will be given to the
       // customer on receive.
-      if (body === undefined) body = null; // tslint:disable-line
+      if (body === undefined) body = null;
       try {
         const bodyStr = JSON.stringify(body);
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
@@ -56,7 +56,7 @@ export const defaultDataTransformer = {
    * @param {DataSection} body The AMQP message body
    * @return {*} decoded body or the given body as-is.
    */
-  decode(body: any): any {
+  decode(body: any): any { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     let processedBody: any = body;
     try {
       if (body.content && isBuffer(body.content)) {

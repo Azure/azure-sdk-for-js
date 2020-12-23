@@ -500,9 +500,7 @@ export class EventProcessor {
 
     const uniquePartitionsToClaim = new Set(partitionsToClaim);
     for (const partitionToClaim of uniquePartitionsToClaim) {
-      let partitionOwnershipRequest: PartitionOwnership;
-
-      partitionOwnershipRequest = this._createPartitionOwnershipRequest(
+      const partitionOwnershipRequest = this._createPartitionOwnershipRequest(
         partitionOwnershipMap,
         partitionToClaim
       );
@@ -527,11 +525,11 @@ export class EventProcessor {
           eventHubName: this._eventHubName,
           consumerGroup: this._consumerGroup,
           partitionId: "",
-          updateCheckpoint: async () => {}
+          updateCheckpoint: async () => { /* no-op */ }
         });
-      } catch (err) {
+      } catch (errorFromUser) {
         logger.verbose(
-          `[${this._id}] An error was thrown from the user's processError handler: ${err}`
+          `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`
         );
       }
     }
@@ -573,7 +571,7 @@ export class EventProcessor {
     }
   }
 
-  isRunning() {
+  isRunning(): boolean {
     return this._isRunning;
   }
 

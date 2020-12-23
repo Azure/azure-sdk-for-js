@@ -83,6 +83,56 @@ describe("Event Processor", function(): void {
 
   describe("unit tests", () => {
     describe("_getStartingPosition", () => {
+      function createEventProcessor(
+        checkpointStore: CheckpointStore,
+        startPosition?: FullEventProcessorOptions["startPosition"]
+      ) {
+        return new EventProcessor(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          consumerClient["_context"],
+          {
+            processEvents: async () => { /* no-op */ },
+            processError: async () => { /* no-op */ }
+          },
+          checkpointStore,
+          {
+            startPosition,
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1,
+            loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
+            loopIntervalInMs: defaultOptions.loopIntervalInMs
+          }
+        );
+      }
+
+      const emptyCheckpointStore = createCheckpointStore([]);
+
+      function createCheckpointStore(
+        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
+      ): CheckpointStore {
+        return {
+          claimOwnership: async () => {
+            return [];
+          },
+          listCheckpoints: async () => {
+            return checkpointsForTest.map((cp) => {
+              return {
+                fullyQualifiedNamespace: "not-used-for-this-test",
+                consumerGroup: "not-used-for-this-test",
+                eventHubName: "not-used-for-this-test",
+                offset: cp.offset,
+                sequenceNumber: cp.sequenceNumber,
+                partitionId: cp.partitionId
+              };
+            });
+          },
+          listOwnership: async () => {
+            return [];
+          },
+          updateCheckpoint: async () => { /* no-op */ }
+        };
+      }
+
       before(() => {
         consumerClient["_context"].managementSession!.getEventHubProperties = async () => {
           return Promise.resolve({
@@ -97,7 +147,7 @@ describe("Event Processor", function(): void {
         const processor = createEventProcessor(emptyCheckpointStore);
 
         const eventPosition = await processor["_getStartingPosition"]("0");
-        isLatestPosition(eventPosition).should.be.ok;
+        should.equal(isLatestPosition(eventPosition), true);
       });
 
       it("has a checkpoint", async () => {
@@ -158,58 +208,8 @@ describe("Event Processor", function(): void {
         should.not.exist(eventPositionForPartitionZero!.sequenceNumber);
 
         const eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
-        isLatestPosition(eventPositionForPartitionOne).should.be.ok;
+        should.equal(isLatestPosition(eventPositionForPartitionOne), true);
       });
-
-      function createEventProcessor(
-        checkpointStore: CheckpointStore,
-        startPosition?: FullEventProcessorOptions["startPosition"]
-      ) {
-        return new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
-          {
-            processEvents: async () => {},
-            processError: async () => {}
-          },
-          checkpointStore,
-          {
-            startPosition,
-            maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1,
-            loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
-            loopIntervalInMs: defaultOptions.loopIntervalInMs
-          }
-        );
-      }
-
-      const emptyCheckpointStore = createCheckpointStore([]);
-
-      function createCheckpointStore(
-        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
-      ): CheckpointStore {
-        return {
-          claimOwnership: async () => {
-            return [];
-          },
-          listCheckpoints: async () => {
-            return checkpointsForTest.map((cp) => {
-              return {
-                fullyQualifiedNamespace: "not-used-for-this-test",
-                consumerGroup: "not-used-for-this-test",
-                eventHubName: "not-used-for-this-test",
-                offset: cp.offset,
-                sequenceNumber: cp.sequenceNumber,
-                partitionId: cp.partitionId
-              };
-            });
-          },
-          listOwnership: async () => {
-            return [];
-          },
-          updateCheckpoint: async () => {}
-        };
-      }
     });
 
     describe("_handleSubscriptionError", () => {
@@ -229,7 +229,7 @@ describe("Event Processor", function(): void {
           EventHubConsumerClient.defaultConsumerGroupName,
           consumerClient["_context"],
           {
-            processEvents: async () => {},
+            processEvents: async () => { /* no-op */ },
             processError: async (err, context) => {
               // simulate the user messing up and accidentally throwing an error
               // we should just log it and not kill anything.
@@ -284,7 +284,7 @@ describe("Event Processor", function(): void {
         async listOwnership(): Promise<PartitionOwnership[]> {
           return [];
         },
-        async updateCheckpoint(): Promise<void> {},
+        async updateCheckpoint(): Promise<void> { /* no-op */ },
         async listCheckpoints(): Promise<Checkpoint[]> {
           return [];
         }
@@ -297,7 +297,7 @@ describe("Event Processor", function(): void {
           pumpManager.createPumpCalled = true;
         },
 
-        async removeAllPumps() {},
+        async removeAllPumps() { /* no-op */ },
 
         isReceivingFromPartition() {
           return false;
@@ -312,8 +312,8 @@ describe("Event Processor", function(): void {
         EventHubConsumerClient.defaultConsumerGroupName,
         consumerClient["_context"],
         {
-          processEvents: async () => {},
-          processError: async () => {}
+          processEvents: async () => { /* no-op */ },
+          processError: async () => { /* no-op */ }
         },
         checkpointStore,
         {
@@ -335,10 +335,10 @@ describe("Event Processor", function(): void {
 
       // when we fail to claim a partition we should _definitely_
       // not attempt to start a pump.
-      pumpManager.createPumpCalled.should.be.false;
+      should.equal(pumpManager.createPumpCalled, false)
 
       // we'll attempt to claim a partition (but won't succeed)
-      checkpointStore.claimOwnershipCalled.should.be.true;
+      should.equal(checkpointStore.claimOwnershipCalled, true);
     });
 
     it("abandoned claims are treated as unowned claims", async () => {
@@ -387,8 +387,8 @@ describe("Event Processor", function(): void {
           loopIntervalInMs: 1,
           maxWaitTimeInSeconds: 1,
           pumpManager: {
-            async createPump() {},
-            async removeAllPumps(): Promise<void> {},
+            async createPump() { /* no-op */ },
+            async removeAllPumps(): Promise<void> { /* no-op */ },
             isReceivingFromPartition() {
               return false;
             }
@@ -416,7 +416,7 @@ describe("Event Processor", function(): void {
         triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
       );
 
-      handlers.errors.should.be.empty;
+      handlers.errors.should.deep.equal([]);
 
       const currentOwnerships = await checkpointStore.listOwnership(
         commonFields.fullyQualifiedNamespace,
@@ -505,7 +505,7 @@ describe("Event Processor", function(): void {
       claimOwnership: async () => {
         throw new Error("Some random failure!");
       },
-      updateCheckpoint: async () => {},
+      updateCheckpoint: async () => { /* no-op */ },
       listCheckpoints: async () => []
     };
 
@@ -513,7 +513,7 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
-        processEvents: async () => {},
+        processEvents: async () => { /* no-op */ },
         processError: async (err, _) => {
           errors.push(err);
         }
@@ -617,8 +617,8 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
-        processEvents: async () => {},
-        processError: async () => {}
+        processEvents: async () => { /* no-op */ },
+        processError: async () => { /* no-op */ }
       },
       new InMemoryCheckpointStore(),
       {
@@ -636,8 +636,8 @@ describe("Event Processor", function(): void {
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
-        processEvents: async () => {},
-        processError: async () => {}
+        processEvents: async () => { /* no-op */ },
+        processError: async () => { /* no-op */ }
       },
       new InMemoryCheckpointStore(),
       { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition }
@@ -680,8 +680,8 @@ describe("Event Processor", function(): void {
 
     receivedEvents.should.deep.equal(expectedMessages);
 
-    subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
-    subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
+    subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
+    subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
   });
 
   it("should not throw if stop is called without start", async function(): Promise<void> {
@@ -694,8 +694,8 @@ describe("Event Processor", function(): void {
         processInitialize: async () => {
           didPartitionProcessorStart = true;
         },
-        processEvents: async () => {},
-        processError: async () => {}
+        processEvents: async () => { /* no-op */ },
+        processError: async () => { /* no-op */ }
       },
       new InMemoryCheckpointStore(),
       {
@@ -707,7 +707,7 @@ describe("Event Processor", function(): void {
     // shutdown the processor
     await processor.stop();
 
-    didPartitionProcessorStart.should.be.false;
+    didPartitionProcessorStart.should.equal(false);
   });
 
   it("should support start after stopping", async function(): Promise<void> {
@@ -743,8 +743,8 @@ describe("Event Processor", function(): void {
 
     receivedEvents.should.deep.equal(expectedMessages);
 
-    subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
-    subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
+    subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
+    subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
 
     // validate correct events captured for each partition
 
@@ -759,8 +759,8 @@ describe("Event Processor", function(): void {
     loggerForTest(`Stopping processor again`);
     await processor.stop();
 
-    subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
-    subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
+    subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
+    subscriptionEventHandler.allShutdown(partitionIds).should.equal(true)
   });
 
   describe("Partition processor", function(): void {
@@ -792,8 +792,8 @@ describe("Event Processor", function(): void {
       // shutdown the processor
       await processor.stop();
 
-      subscriptionEventHandler.hasErrors(partitionIds).should.be.false;
-      subscriptionEventHandler.allShutdown(partitionIds).should.be.true;
+      subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
+      subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
 
       receivedEvents.should.deep.equal(expectedMessages);
     });
@@ -874,9 +874,10 @@ describe("Event Processor", function(): void {
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {
           processedAtLeastOneEvent.add(context.partitionId);
 
-          !partionCount[context.partitionId]
-            ? (partionCount[context.partitionId] = 1)
-            : partionCount[context.partitionId]++;
+          if (!partionCount[context.partitionId]) {
+            partionCount[context.partitionId] = 0
+          }
+          partionCount[context.partitionId]++;
 
           const existingEvents = checkpointMap.get(context.partitionId)!;
 
@@ -983,7 +984,7 @@ describe("Event Processor", function(): void {
         firstEventsReceivedFromProcessor2[index++] = receivedEvents[0];
       }
 
-      didError.should.be.false;
+      didError.should.equal(false);
       index = 0;
       // validate correct events captured for each partition using checkpoint
       for (const partitionId of partitionIds) {
@@ -1211,7 +1212,7 @@ describe("Event Processor", function(): void {
             const n = Math.floor(partitionIds.length / 2);
             const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
               .length;
-            return numPartitions == n || numPartitions == n + 1;
+            return numPartitions === n || numPartitions === n + 1;
           };
 
           if (!isBalanced(`processor-1`) || !isBalanced(`processor-2`)) {
@@ -1234,8 +1235,8 @@ describe("Event Processor", function(): void {
       for (const partitionId of partitionIds) {
         const results = partitionResultsMap.get(partitionId)!;
         results.events.length.should.be.gte(1);
-        results.initialized.should.be.true;
-        (results.closeReason === CloseReason.Shutdown).should.be.true;
+        results.initialized.should.equal(true);
+        (results.closeReason === CloseReason.Shutdown).should.equal(true);
       }
     });
 
@@ -1368,7 +1369,7 @@ describe("Event Processor", function(): void {
             const n = Math.floor(partitionIds.length / 2);
             const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
               .length;
-            return numPartitions == n || numPartitions == n + 1;
+            return numPartitions === n || numPartitions === n + 1;
           };
 
           if (!isBalanced(`processor-1`) || !isBalanced(`processor-2`)) {
@@ -1391,8 +1392,8 @@ describe("Event Processor", function(): void {
       for (const partitionId of partitionIds) {
         const results = partitionResultsMap.get(partitionId)!;
         results.events.length.should.be.gte(1);
-        results.initialized.should.be.true;
-        (results.closeReason === CloseReason.Shutdown).should.be.true;
+        results.initialized.should.equal(true);
+        (results.closeReason === CloseReason.Shutdown).should.equal(true);
       }
     });
 
@@ -1471,7 +1472,7 @@ describe("Event Processor", function(): void {
         }
       }
 
-      didError.should.be.false;
+      didError.should.equal(false);
       const n = Math.floor(partitionIds.length / 2);
       partitionOwnershipMap.get(processorByName[`processor-0`].id)!.length.should.oneOf([n, n + 1]);
       partitionOwnershipMap.get(processorByName[`processor-1`].id)!.length.should.oneOf([n, n + 1]);
@@ -1490,7 +1491,7 @@ describe("Event Processor", function(): void {
         async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
           partitionOwnershipArr.add(context.partitionId);
         }
-        async processError() {}
+        async processError() { /* no-op */ }
       }
 
       // create messages
@@ -1582,8 +1583,8 @@ describe("Event Processor", function(): void {
           claimedPartitions.add(partitionId);
           claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
-        async processEvents() {},
-        async processError() {},
+        async processEvents() { /* no-op */ },
+        async processError() { /* no-op */ },
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
@@ -1672,7 +1673,7 @@ describe("Event Processor", function(): void {
             }
 
             // All partitions must be claimed.
-            const allPartitionsClaimed =
+            allPartitionsClaimed =
               aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
 
             if (!allPartitionsClaimed) {
@@ -1695,7 +1696,6 @@ describe("Event Processor", function(): void {
       }
 
       loggerForTest(`All partitions have been claimed.`);
-      allPartitionsClaimed = true;
 
       try {
         // loop for some time to see if thrashing occurs
@@ -1745,8 +1745,8 @@ describe("Event Processor", function(): void {
           claimedPartitions.add(partitionId);
           claimedPartitionsMap[eventProcessorId] = claimedPartitions;
         },
-        async processEvents() {},
-        async processError() {},
+        async processEvents() { /* no-op */ },
+        async processError() { /* no-op */ },
         async processClose(reason, context) {
           const eventProcessorId: string = (context as any).eventProcessorId;
           const partitionId = context.partitionId;
@@ -1835,7 +1835,7 @@ describe("Event Processor", function(): void {
             }
 
             // All partitions must be claimed.
-            const allPartitionsClaimed =
+            allPartitionsClaimed =
               aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
 
             if (!allPartitionsClaimed) {
@@ -1858,7 +1858,6 @@ describe("Event Processor", function(): void {
       }
 
       loggerForTest(`All partitions have been claimed.`);
-      allPartitionsClaimed = true;
 
       try {
         // loop for some time to see if thrashing occurs
@@ -1911,9 +1910,9 @@ function triggerAbortedSignalAfterNumCalls(maxCalls: number): AbortSignal {
 
       return false;
     },
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    onabort: () => {},
+    addEventListener: () => { /* no-op */ },
+    removeEventListener: () => { /* no-op */ },
+    onabort: () => { /* no-op */ },
     dispatchEvent: () => true
   };
 
