@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { drainStream, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 import { BlockBlobClient } from "../../../src";
-import { streamToBuffer3 } from "../../../src/utils/utils.node";
 import { generateUuid } from "@azure/core-http";
 
 interface StorageBlobDownloadTestOptions {
@@ -44,6 +43,6 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
 
   async runAsync(): Promise<void> {
     const downloadResponse = await this.blockBlobClient.download();
-    await streamToBuffer3(downloadResponse.readableStreamBody!);
+    await drainStream(downloadResponse.readableStreamBody!);
   }
 }

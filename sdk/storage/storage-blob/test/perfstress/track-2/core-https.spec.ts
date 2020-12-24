@@ -3,7 +3,7 @@
 
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import { DefaultHttpsClient, createPipelineRequest, PipelineRequest } from "@azure/core-https";
-import { streamToBuffer3 } from "../../../src/utils/utils.node";
+import { drainStream } from "@azure/test-utils-perfstress";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   client: DefaultHttpsClient;
@@ -20,6 +20,6 @@ export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest
 
   async runAsync(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
-    await streamToBuffer3(response.readableStreamBody!);
+    await drainStream(response.readableStreamBody!);
   }
 }
