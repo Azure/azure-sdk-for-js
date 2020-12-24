@@ -11,7 +11,7 @@ import {
   bulkInsertItems
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
-import { UsernamePasswordCredential } from '@azure/identity';
+import { UsernamePasswordCredential } from "@azure/identity";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -56,18 +56,18 @@ describe("NodeJS CRUD Tests", function() {
     it("fails to read databases with AAD authentication", async function() {
       try {
         const credentials = new UsernamePasswordCredential(
-          'fake-tenant-id',
-          'fake-client-id',
-          'fakeUsername',
-          'fakePassword'
-        )
+          "fake-tenant-id",
+          "fake-client-id",
+          "fakeUsername",
+          "fakePassword"
+        );
         const client = new CosmosClient({
           endpoint,
           aadCredentials: credentials
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
-        console.log(e)
+        console.log(e);
         assert.equal(e.code, 401);
       }
     });
