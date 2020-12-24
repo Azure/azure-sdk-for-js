@@ -46,9 +46,6 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
   }
   public async globalCleanup() {
     await deleteFile(`${localDirName}/${StorageFileShareDownloadToFileTest.fileName}`);
-    console.log(
-      `Deleted local file ${localDirName}/${StorageFileShareDownloadToFileTest.fileName} successfully`
-    );
   }
 
   async runAsync(): Promise<void> {
