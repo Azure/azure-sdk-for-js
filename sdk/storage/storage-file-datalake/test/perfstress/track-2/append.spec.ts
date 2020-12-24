@@ -10,6 +10,7 @@ interface StorageDFSAppendTestOptions {
 }
 
 export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOptions> {
+  initialBuffer = Buffer.alloc(0);
   buffer = Buffer.alloc(this.parsedOptions.size.value!);
   public options: PerfStressOptionDictionary<StorageDFSAppendTestOptions> = {
     size: {
@@ -28,7 +29,7 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
   }
 
   public async setup() {
-    await this.fileClient.upload(Buffer.alloc(0));
+    await this.fileClient.upload(this.initialBuffer);
   }
 
   async runAsync(): Promise<void> {
