@@ -197,7 +197,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -216,10 +216,10 @@ const subscription = eventHubConsumerClient.subscribe(
       initContext.setStartingPosition(earliestEventPosition);
     },
     processEvents: onMessageHandler,
-    processError: onErrorHandler
+    processError: onErrorHandler,
   },
   {
-    startPosition: earliestEventPosition
+    startPosition: earliestEventPosition,
   }
 );
 
@@ -250,7 +250,7 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
+    },
   }
 );
 
@@ -259,12 +259,11 @@ const eph = EventProcessorHost.createFromConnectionString(
 const onMessage = (context, event) => {
   /** Your code to process the event here **/
 
-  try {
-    await context.checkpointFromEventData(event);
-  } catch (err) {
-    console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-    throw err;
-  }
+  // Note: EventProcessorHost can invoke the onMessage handler
+  // before the previous onMessage handler invocation has completed.
+  // Special care needs to be taken to ensure that checkpointing happens
+  // on events in order.
+  context.checkpointFromEventData(event);
 };
 
 // This is your error handler for errors occuring when receiving events.
@@ -299,15 +298,13 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
   processEvents: (events, context) => {
     /** Your code to process events here **/
 
-    try {
-      // The events array could be empty, so only checkpoint if it contained events.
-      if (events.length) {
-        // save a checkpoint for the last event now that we've processed this batch.
-        await context.updateCheckpoint(events[events.length - 1]);
-      }
-    } catch (err) {
-      console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-      throw err;
+    // The events array could be empty, so only checkpoint if it contained events.
+    if (events.length) {
+      // Save a checkpoint for the last event now that we've processed this batch.
+      // Note: EventHubConsumerClient will wait for `processEvents` to return before
+      // calling it again for the same partition id.
+      // This allows you to safely update your checkpoints while receiving events.
+      await context.updateCheckpoint(events[events.length - 1]);
     }
   },
 
@@ -321,7 +318,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
