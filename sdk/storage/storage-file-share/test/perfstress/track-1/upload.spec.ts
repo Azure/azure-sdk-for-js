@@ -24,9 +24,13 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
     }
   };
 
-  async setup() {
+  constructor() {
+    super();
     const fileName = generateUuid();
     this.fileClient = FileURL.fromDirectoryURL(this.directoryClient, fileName);
+  }
+
+  async setup() {
     await this.fileClient.create(Aborter.none, this.parsedOptions.size.value!);
   }
 
