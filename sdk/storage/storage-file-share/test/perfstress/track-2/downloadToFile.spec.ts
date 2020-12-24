@@ -10,6 +10,7 @@ const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
 import { StorageFileShareTest } from "./storageTest.spec";
+import { generateUuid } from "@azure/core-http";
 interface StorageFileShareDownloadTestOptions {
   size: number;
 }
@@ -28,7 +29,7 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
       defaultValue: 1024
     }
   };
-  static fileName = `newfile${new Date().getTime()}`;
+  static fileName = generateUuid();
   fileClient: ShareFileClient;
 
   constructor() {

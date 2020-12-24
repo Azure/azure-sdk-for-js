@@ -7,14 +7,15 @@ import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "../../../
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { generateUuid } from "@azure/core-http";
 dotenv.config();
 
 export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOptions> {
   shareServiceClient: ShareServiceClient;
   shareClient: ShareClient;
   directoryClient: ShareDirectoryClient;
-  static shareName = `newshare${new Date().getTime()}`;
-  static dirName = `newdirectory${new Date().getTime()}`;
+  static shareName = generateUuid();
+  static dirName = generateUuid();
 
   constructor() {
     super();

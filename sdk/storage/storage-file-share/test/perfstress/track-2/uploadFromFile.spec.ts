@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import fs from "fs";
 import util from "util";
+import { ShareFileClient } from "../../../src";
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
@@ -20,6 +22,7 @@ const localFileName = `${localDirName}/upload-from-test-temp-file.txt`;
 export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
   StorageFileShareUploadFromFileTestOptions
 > {
+  fileClient: ShareFileClient;
   public options: PerfStressOptionDictionary<StorageFileShareUploadFromFileTestOptions> = {
     size: {
       required: true,
@@ -29,6 +32,12 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
       defaultValue: 1024
     }
   };
+
+  constructor() {
+    super();
+    const fileName = generateUuid();
+    this.fileClient = this.directoryClient.getFileClient(fileName);
+  }
 
   public async globalSetup() {
     await super.globalSetup();
@@ -42,8 +51,6 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
   }
 
   async runAsync(): Promise<void> {
-    await this.directoryClient
-      .getFileClient(`newfile${new Date().getTime()}`)
-      .uploadFile(localFileName);
+    await this.fileClient.uploadFile(localFileName);
   }
 }

@@ -4,6 +4,7 @@
 import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
 import { Aborter, FileURL } from "@azure/storage-file";
 import { StorageFileShareTest } from "./storageTest";
+import { generateUuid } from "@azure/core-http";
 
 interface StorageFileShareDownloadTestOptions {
   size: number;
@@ -12,6 +13,7 @@ interface StorageFileShareDownloadTestOptions {
 export class StorageFileShareDownloadTest extends StorageFileShareTest<
   StorageFileShareDownloadTestOptions
 > {
+  buffer = Buffer.alloc(this.parsedOptions.size.value!);
   public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
     size: {
       required: true,
@@ -22,7 +24,7 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<
     }
   };
 
-  static fileName = `newfile${new Date().getTime()}`;
+  static fileName = generateUuid();
   fileClient: FileURL;
 
   constructor() {
@@ -36,12 +38,7 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<
   public async globalSetup() {
     await super.globalSetup();
     await this.fileClient.create(Aborter.none, this.parsedOptions.size.value!);
-    await this.fileClient.uploadRange(
-      Aborter.none,
-      Buffer.alloc(this.parsedOptions.size.value!),
-      0,
-      this.parsedOptions.size.value!
-    );
+    await this.fileClient.uploadRange(Aborter.none, this.buffer, 0, this.parsedOptions.size.value!);
   }
 
   async runAsync(): Promise<void> {

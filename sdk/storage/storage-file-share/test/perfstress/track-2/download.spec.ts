@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
 import { ShareFileClient } from "../../../src";
 
@@ -21,7 +22,7 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<
       defaultValue: 1024
     }
   };
-  static fileName = `newfile${new Date().getTime()}`;
+  static fileName = generateUuid();
   fileClient: ShareFileClient;
 
   constructor() {

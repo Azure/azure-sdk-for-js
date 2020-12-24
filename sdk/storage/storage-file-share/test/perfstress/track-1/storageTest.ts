@@ -13,14 +13,15 @@ import {
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { generateUuid } from "@azure/core-http";
 dotenv.config({ path: "../../../.env" });
 
 export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOptions> {
   shareServiceClient: ServiceURL;
   shareClient: ShareURL;
   directoryClient: DirectoryURL;
-  static shareName = `newshare${new Date().getTime()}`;
-  static dirName = `newdirectory${new Date().getTime()}`;
+  static shareName = generateUuid();
+  static dirName = generateUuid();
 
   constructor() {
     super();
