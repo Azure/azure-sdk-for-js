@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-
 import {
   ServiceURL,
   ShareURL,
@@ -25,7 +24,7 @@ export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOpt
 
   constructor() {
     super();
-    const connectionString = StorageFileShareTest.getEnvVar("STORAGE_CONNECTION_STRING");
+    const connectionString = getEnvVar("STORAGE_CONNECTION_STRING");
     const accountName = getValueInConnString(connectionString, "AccountName");
     const accountKey = getValueInConnString(connectionString, "AccountKey");
     const sharedKeyCredential = new SharedKeyCredential(accountName, accountKey);
@@ -51,27 +50,6 @@ export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOpt
   public async globalCleanup() {
     await this.shareClient.delete(Aborter.none);
   }
-}
-
-/**
- * Reads a readable stream into a buffer.
- *
- * @export
- * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
- * @param {string} [encoding] Encoding of the Readable stream
- * @returns {Promise<Buffer>} with the count of bytes read.
- */
-export async function streamToBuffer3(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    readableStream.on("data", (data: Buffer | string) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
 }
 
 export function getValueInConnString(

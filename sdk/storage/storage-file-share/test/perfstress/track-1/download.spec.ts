@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
 import { Aborter, FileURL } from "@azure/storage-file";
-import { StorageFileShareTest, streamToBuffer3 } from "./storageTest";
+import { StorageFileShareTest } from "./storageTest";
 
 interface StorageFileShareDownloadTestOptions {
   size: number;
@@ -46,6 +46,6 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<
 
   async runAsync(): Promise<void> {
     const downloadResponse = await this.fileClient.download(Aborter.none, 0);
-    await streamToBuffer3(downloadResponse.readableStreamBody!);
+    await drainStream(downloadResponse.readableStreamBody!);
   }
 }
