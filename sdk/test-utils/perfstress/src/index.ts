@@ -6,4 +6,4 @@ export * from "./options";
 export * from "./policy";
 export * from "./parallel";
 export * from "./program";
-export { getEnvVar } from "./utils";
+export { getEnvVar, drainStream } from "./utils";
