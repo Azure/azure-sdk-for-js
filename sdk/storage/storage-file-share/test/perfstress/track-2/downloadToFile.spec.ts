@@ -31,12 +31,14 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
   };
   static fileName = generateUuid();
   fileClient: ShareFileClient;
+  localFileName: string;
 
   constructor() {
     super();
     this.fileClient = this.directoryClient.getFileClient(
       StorageFileShareDownloadToFileTest.fileName
     );
+    this.localFileName = generateUuid();
   }
 
   public async globalSetup() {
@@ -44,14 +46,12 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
     if (!(await fileExists(localDirName))) await mkdir(localDirName);
     await this.fileClient.uploadData(Buffer.alloc(this.parsedOptions.size.value!));
   }
-  public async globalCleanup() {
-    await deleteFile(`${localDirName}/${StorageFileShareDownloadToFileTest.fileName}`);
+
+  public async cleanup() {
+    await deleteFile(`${localDirName}/${this.localFileName}`);
   }
 
   async runAsync(): Promise<void> {
-    await this.fileClient.downloadToFile(
-      `${localDirName}/${StorageFileShareDownloadToFileTest.fileName}`,
-      0
-    );
+    await this.fileClient.downloadToFile(`${localDirName}/${this.localFileName}`, 0);
   }
 }
