@@ -158,8 +158,7 @@ export interface ServiceClientOptions {
 }
 
 /**
- * @class
- * Initializes a new instance of the ServiceClient.
+ * ServiceClient sends service requests and receives responses.
  */
 export class ServiceClient {
   /**
@@ -185,9 +184,8 @@ export class ServiceClient {
 
   /**
    * The ServiceClient constructor
-   * @constructor
-   * @param credentials The credentials used for authentication with the service.
-   * @param options The service client options that govern the behavior of the client.
+   * @param credentials - The credentials used for authentication with the service.
+   * @param options - The service client options that govern the behavior of the client.
    */
   constructor(
     credentials?: TokenCredential | ServiceClientCredentials,
@@ -307,9 +305,9 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
-   * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
-   * @param {ServiceCallback} callback The callback to call when the response is received.
+   * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
+   * @param operationSpec - The OperationSpec to use to populate the httpRequest.
+   * @param callback - The callback to call when the response is received.
    */
   async sendOperationRequest(
     operationArguments: OperationArguments,

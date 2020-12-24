@@ -88,9 +88,9 @@ export class EventGridPublisherClient {
    * );
    * ```
    *
-   * @param endpointUrl The URL to the EventGrid endpoint, e.g. https://eg-topic.westus2-1.eventgrid.azure.net/api/events
-   * @param credential Used to authenticate requests to the service.
-   * @param options Used to configure the Event Grid Client
+   * @param endpointUrl - The URL to the EventGrid endpoint, e.g. https://eg-topic.westus2-1.eventgrid.azure.net/api/events
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Event Grid Client
    */
   constructor(
     endpointUrl: string,
@@ -124,9 +124,9 @@ export class EventGridPublisherClient {
   }
 
   /**
-   * Publishes events in the Event Grid scheama. The topic must be configured to expect events in the Event Grid schema.
+   * Publishes events in the Event Grid schema. The topic must be configured to expect events in the Event Grid schema.
    *
-   * @param message One or more events to publish
+   * @param message - One or more events to publish
    */
   async sendEvents(
     events: SendEventGridEventInput<any>[],
@@ -155,7 +155,7 @@ export class EventGridPublisherClient {
   /**
    * Publishes events in the Cloud Events 1.0 schema. The topic must be configured to expect events in the Cloud Events 1.0 schema.
    *
-   * @param message One or more events to publish
+   * @param message - One or more events to publish
    */
   async sendCloudEvents(
     events: SendCloudEventInput<any>[],
@@ -184,7 +184,7 @@ export class EventGridPublisherClient {
   /**
    * Publishes events written using a custom schema. The topic must be configured to expect events in a custom schema.
    *
-   * @param message One or more events to publish
+   * @param message - One or more events to publish
    */
   async sendCustomSchemaEvents(
     events: Record<string, any>[],

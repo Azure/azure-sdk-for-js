@@ -45,7 +45,8 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "echo Skipped."
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
@@ -64,7 +65,7 @@
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",

@@ -34,7 +34,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "docs": "echo Skipped."
   },
   "files": [
     "dist/",
@@ -87,7 +88,7 @@
     "@types/mock-fs": "~4.10.0",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
