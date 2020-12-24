@@ -52,7 +52,7 @@
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "engines": {
     "node": ">=8.0.0"
