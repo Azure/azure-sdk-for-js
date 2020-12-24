@@ -6,6 +6,6 @@
 4. Run the tests as follows
 
    - simple send
-     - `npm run perfstress-test:node -- SimpleSendTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
+     - `npm run perf-test:node -- SimpleSendTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - batch send
-     - `npm run perfstress-test:node -- BatchSendTest --warmup 2 --duration 7 --parallel 2`
+     - `npm run perf-test:node -- BatchSendTest --warmup 2 --duration 7 --parallel 2`
