@@ -487,6 +487,7 @@ export class CosmosClient {
 
 // @public (undocumented)
 export interface CosmosClientOptions {
+    aadCredentials?: any;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;

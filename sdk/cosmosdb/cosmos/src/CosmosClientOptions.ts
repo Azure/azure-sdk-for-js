@@ -31,12 +31,9 @@ export interface CosmosClientOptions {
   /** AAD token from @azure/identity
    * Obtain a credential object by creating an @azure/identity credential object
    * We will then use your credential object and a scope URL (your cosmos db endpoint)
-   * e.g., https://zfoster-rbactest-1.documents.azure.com/.default
+   * to authenticate requests to Cosmos
    */
-  aadCredentials?: {
-    credentials: any;
-    scope: string;
-  };
+  aadCredentials?: any;
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.
