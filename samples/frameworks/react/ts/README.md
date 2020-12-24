@@ -5,7 +5,7 @@ This sample application shows how to use the TypeScript client libraries for Azu
 In this sample, we build a simple Todo application in React using [create-react-app][react] and integrating with various Azure services.
 
 - Integration with Azure Event Hubs to support real-time updates across multiple instances of the application.
-- Integration with Azure Storage Blob for persisting ToDo items.
+- Integration with Azure Storage Blob for persisting ToDo attachments.
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2F6e519929f154b919e8a47245715076e73cd7915c%2Fsamples%2Fframeworks%2Freact%2Farm-template.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fframeworks%2Freact%2Farm-template.json)
 
 The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
 
@@ -33,6 +33,14 @@ Authentication will still need to be set-up manually using the following instruc
   to register a new application in the Azure Active Directory.
 - Note down the client id and tenant id from the above step.
   You will need to set these in the .env file below.
+
+By default we'll be using http://localhost:3000 to serve the app and handle redirects, so please go ahead and add that configuration with the following steps:
+
+1. Click on Authentication in the app registration side bar
+2. Select "Add a platform"
+3. Select "Single-page application"
+4. In the "Redirect URIs" field please enter: http://localhost:3000
+5. Click "Configure"
 
 Ensure your app registration has been configured properly to allow the [implicit grant flow][implicitgrantflow]
 and allow both `Access tokens` and `ID tokens` to be issued by the authorization endpoint.
