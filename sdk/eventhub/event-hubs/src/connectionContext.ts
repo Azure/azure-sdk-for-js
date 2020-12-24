@@ -123,7 +123,7 @@ type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
  * Each function also has its `this` type set as `ConnectionContext`.
  */
 type ConnectionContextMethods = Omit<
-  FunctionProperties<ConnectionContextInternalMembers>,
+  FunctionProperties<Omit<ConnectionContextInternalMembers, "receivers" | "senders">>,
   FunctionPropertyNames<ConnectionContextBase>
 > &
   ThisType<ConnectionContextInternalMembers>;
