@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { ServiceBusAdministrationClient, ServiceBusClient } from "../../../src";
 
 // Expects the .env file at the same level as the "test" folder
@@ -30,12 +30,4 @@ export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> 
     await this.sbAdminClient.deleteQueue(ServiceBusTest.queueName);
     await this.sbClient.close();
   }
-}
-
-function getEnvVar(name: string) {
-  const val = process.env[name];
-  if (!val) {
-    throw `Environment variable ${name} is not defined.`;
-  }
-  return val;
 }

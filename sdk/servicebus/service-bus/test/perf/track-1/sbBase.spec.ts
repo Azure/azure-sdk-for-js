@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { ServiceBusClient } from "@azure/service-bus";
 
 // Expects the .env file at the same level as the "test" folder
@@ -23,12 +23,4 @@ export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> 
   public async globalCleanup() {
     await this.sbClient.close();
   }
-}
-
-function getEnvVar(name: string) {
-  const val = process.env[name];
-  if (!val) {
-    throw `Environment variable ${name} is not defined.`;
-  }
-  return val;
 }
