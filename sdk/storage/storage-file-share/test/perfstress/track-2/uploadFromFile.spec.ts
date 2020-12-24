@@ -46,8 +46,8 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
   }
 
   public async globalCleanup() {
-    await super.globalCleanup();
     await deleteFile(localFileName);
+    await super.globalCleanup();
   }
 
   async runAsync(): Promise<void> {
