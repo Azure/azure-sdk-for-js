@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, getEnvVar, drainStream } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 import {
   BlockBlobClient,
@@ -9,7 +9,6 @@ import {
   BlobSASPermissions,
   BlobClient
 } from "../../../src";
-import { streamToBuffer3 } from "../../../src/utils/utils.node";
 import { getValueInConnString } from "../../../src/utils/utils.common";
 import { generateUuid } from "@azure/core-http";
 
@@ -73,6 +72,6 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
 
   async runAsync(): Promise<void> {
     const downloadResponse = await this.blobClientFromSAS.download();
-    await streamToBuffer3(downloadResponse.readableStreamBody!);
+    await drainStream(downloadResponse.readableStreamBody!);
   }
 }

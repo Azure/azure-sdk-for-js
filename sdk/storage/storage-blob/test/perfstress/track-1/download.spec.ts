@@ -3,7 +3,7 @@
 
 import { generateUuid } from "@azure/core-http";
 import { Aborter, BlobURL, BlockBlobURL } from "@azure/storage-blob";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
 import { StorageBlobTest } from "./storageTest.spec";
 
 interface StorageBlobDownloadTestOptions {
@@ -43,26 +43,6 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
 
   async runAsync(): Promise<void> {
     const downloadResponse = await this.blockBlobClient.download(Aborter.none, 0);
-    await streamToBuffer3(downloadResponse.readableStreamBody!);
+    await drainStream(downloadResponse.readableStreamBody!);
   }
-}
-
-/**
- * Reads a readable stream into a buffer.
- *
- * @export
- * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
- * @returns {Promise<Buffer>} with the count of bytes read.
- */
-export async function streamToBuffer3(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    readableStream.on("data", (data: Buffer | string) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
 }

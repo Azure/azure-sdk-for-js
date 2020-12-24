@@ -3,7 +3,7 @@
 
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import { ServiceClient, WebResource } from "@azure/core-http";
-import { streamToBuffer3 } from "../../../src/utils/utils.node";
+import { drainStream } from "@azure/test-utils-perfstress";
 
 export class CoreHTTPDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   client: ServiceClient;
@@ -30,6 +30,6 @@ export class CoreHTTPDownloadWithSASTest extends StorageBlobDownloadWithSASTest 
 
   async runAsync(): Promise<void> {
     const response = await this.client.sendRequest(this.webResource);
-    await streamToBuffer3(response.readableStreamBody!);
+    await drainStream(response.readableStreamBody!);
   }
 }

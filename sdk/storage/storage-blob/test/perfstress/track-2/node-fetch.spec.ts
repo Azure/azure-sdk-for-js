@@ -3,8 +3,8 @@
 
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import node_fetch from "node-fetch";
-import { streamToBuffer3 } from "../../../src/utils/utils.node";
 import https from "https";
+import { drainStream } from "@azure/test-utils-perfstress";
 export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   agent: https.Agent;
   constructor() {
@@ -14,6 +14,6 @@ export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest
 
   async runAsync(): Promise<void> {
     const response = await node_fetch(this.sasUrl, { agent: this.agent });
-    await streamToBuffer3(response.body);
+    await drainStream(response.body);
   }
 }
