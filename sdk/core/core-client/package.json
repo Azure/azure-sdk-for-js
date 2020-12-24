@@ -49,7 +49,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register --timeout 50000 --reporter ../../../common/tools/mocha-multi-reporter.js --colors --exclude \"test/**/*.browser.ts\" \"test/**/*.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
