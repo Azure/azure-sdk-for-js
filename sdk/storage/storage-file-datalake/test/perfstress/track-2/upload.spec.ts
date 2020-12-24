@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { generateUuid } from "@azure/core-http";
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { DataLakeFileClient } from "../../../src";
 import { StorageDFSTest } from "./storageTest.spec";
 
 interface StorageFileShareUploadTestOptions {
@@ -9,6 +11,8 @@ interface StorageFileShareUploadTestOptions {
 }
 
 export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadTestOptions> {
+  buffer = Buffer.alloc(this.parsedOptions.size.value!);
+  fileClient: DataLakeFileClient;
   public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
     size: {
       required: true,
@@ -19,9 +23,13 @@ export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadT
     }
   };
 
+  constructor() {
+    super();
+    const fileName = generateUuid();
+    this.fileClient = this.directoryClient.getFileClient(fileName);
+  }
+
   async runAsync(): Promise<void> {
-    await this.directoryClient
-      .getFileClient(`newfile${new Date().getTime()}`)
-      .upload(Buffer.alloc(this.parsedOptions.size.value!));
+    await this.fileClient.upload(this.buffer);
   }
 }

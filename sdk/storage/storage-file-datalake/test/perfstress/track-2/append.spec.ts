@@ -4,11 +4,13 @@
 import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "../../../src";
+import { generateUuid } from "@azure/core-http";
 interface StorageDFSAppendTestOptions {
   size: number;
 }
 
 export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOptions> {
+  buffer = Buffer.alloc(this.parsedOptions.size.value!);
   public options: PerfStressOptionDictionary<StorageDFSAppendTestOptions> = {
     size: {
       required: true,
@@ -18,24 +20,18 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
       defaultValue: 1024
     }
   };
-  static fileName = `newfile${new Date().getTime()}`;
   fileClient: DataLakeFileClient;
 
   constructor() {
     super();
-    this.fileClient = this.directoryClient.getFileClient(StorageDFSAppendTest.fileName);
+    this.fileClient = this.directoryClient.getFileClient(generateUuid());
   }
 
-  public async globalSetup() {
-    await super.globalSetup();
+  public async setup() {
     await this.fileClient.upload(Buffer.alloc(0));
   }
 
   async runAsync(): Promise<void> {
-    await this.fileClient.append(
-      Buffer.alloc(this.parsedOptions.size.value!),
-      0,
-      this.parsedOptions.size.value!
-    );
+    await this.fileClient.append(this.buffer, 0, this.parsedOptions.size.value!);
   }
 }

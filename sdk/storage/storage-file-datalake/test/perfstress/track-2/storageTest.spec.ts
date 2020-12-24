@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { getEnvVar, PerfStressTest } from "@azure/test-utils-perfstress";
 
 import {
   DataLakeServiceClient,
@@ -12,18 +12,19 @@ import {
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
+import { generateUuid } from "@azure/core-http";
 dotenv.config();
 
 export abstract class StorageDFSTest<TOptions> extends PerfStressTest<TOptions> {
   datalakeServiceClient: DataLakeServiceClient;
   fileSystemClient: DataLakeFileSystemClient;
   directoryClient: DataLakeDirectoryClient;
-  static fileSystemName = `newfs${new Date().getTime()}`;
-  static directoryName = `newdirectory${new Date().getTime()}`;
+  static fileSystemName = generateUuid();
+  static directoryName = generateUuid();
 
   constructor() {
     super();
-    const connectionString = StorageDFSTest.getEnvVar("STORAGE_CONNECTION_STRING");
+    const connectionString = getEnvVar("STORAGE_CONNECTION_STRING");
     const accountName = getValueInConnString(connectionString, "AccountName");
     const accountKey = getValueInConnString(connectionString, "AccountKey");
     const sharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
@@ -48,38 +49,6 @@ export abstract class StorageDFSTest<TOptions> extends PerfStressTest<TOptions> 
   public async globalCleanup() {
     await this.fileSystemClient.delete();
   }
-
-  static getEnvVar(name: string) {
-    const val = process.env[name];
-    if (!val) {
-      throw `Environment variable ${name} is not defined.`;
-    }
-    return val;
-  }
-}
-
-/**
- * Reads a readable stream into a buffer.
- *
- * @export
- * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
- * @param {string} [encoding] Encoding of the Readable stream
- * @returns {Promise<Buffer>} with the count of bytes read.
- */
-export async function streamToBuffer3(
-  readableStream: NodeJS.ReadableStream,
-  encoding?: string
-): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const chunks: Buffer[] = [];
-    readableStream.on("data", (data: Buffer | string) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data, encoding));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
 }
 
 export function getValueInConnString(
