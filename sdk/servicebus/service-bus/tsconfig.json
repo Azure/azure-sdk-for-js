@@ -10,7 +10,7 @@
     "node_modules",
     "./types/**/*.d.ts",
     "./samples/**/*.ts",
-    "test/perf/*",
+    "test/perf-js-libs/*",
     "test/stress*"
   ],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
