@@ -151,6 +151,7 @@
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
+    "moment": "^2.24.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^3.3.0",
