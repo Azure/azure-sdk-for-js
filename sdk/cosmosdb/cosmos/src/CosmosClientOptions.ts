@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { TokenCredential } from '@azure/identity';
 import { TokenProvider } from "./auth";
 import { PermissionDefinition } from "./client";
 import { ConnectionPolicy, ConsistencyLevel } from "./documents";
@@ -33,7 +34,7 @@ export interface CosmosClientOptions {
    * We will then use your credential object and a scope URL (your cosmos db endpoint)
    * to authenticate requests to Cosmos
    */
-  aadCredentials?: any;
+  aadCredentials?: TokenCredential;
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.
