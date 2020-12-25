@@ -170,7 +170,7 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -188,10 +188,9 @@ export class KeyClient {
    *
    * let client = new KeyClient(vaultUrl, credentials);
    * ```
-   * @param {string} vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
-   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param {PipelineOptions} [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
-   * @memberof KeyClient
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
@@ -205,7 +204,6 @@ export class KeyClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -218,24 +216,19 @@ export class KeyClient {
 
     const internalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
 
@@ -250,10 +243,10 @@ export class KeyClient {
    * // Create an elliptic-curve key:
    * let result = await client.createKey("MyKey", "EC");
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
-   * @param {string} name The name of the key.
-   * @param {KeyType} keyType The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
-   * @param {CreateKeyOptions} [options] The optional parameters.
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
+   * @param options - The optional parameters.
    */
   public async createKey(
     name: string,
@@ -303,9 +296,9 @@ export class KeyClient {
    * let client = new KeyClient(url, credentials);
    * let result = await client.createEcKey("MyKey", { curve: "P-256" });
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
-   * @param {string} name The name of the key.
-   * @param {CreateEcKeyOptions} [options] The optional parameters.
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
     if (options) {
@@ -351,9 +344,9 @@ export class KeyClient {
    * let client = new KeyClient(url, credentials);
    * let result = await client.createRsaKey("MyKey", { keySize: 2048 });
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
-   * @param {string} name The name of the key.
-   * @param {CreateRsaKeyOptions} [options] The optional parameters.
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
     if (options) {
@@ -400,11 +393,11 @@ export class KeyClient {
    * // Key contents in myKeyContents
    * let result = await client.importKey("MyKey", myKeyContents);
    * ```
-   * @summary Imports an externally created key, stores it, and returns key parameters and properties
+   * Imports an externally created key, stores it, and returns key parameters and properties
    * to the client.
-   * @param {string} name Name for the imported key.
-   * @param {JsonWebKey} key The JSON web key.
-   * @param {ImportKeyOptions} [options] The optional parameters.
+   * @param name - Name for the imported key.
+   * @param key - The JSON web key.
+   * @param options - The optional parameters.
    */
   public async importKey(
     name: string,
@@ -474,9 +467,9 @@ export class KeyClient {
    * const deletedKey = await poller.pollUntilDone();
    * console.log(deletedKey);
    * ```
-   * @summary Deletes a key from a specified key vault.
-   * @param {string} name The name of the key.
-   * @param {BeginDeleteKeyOptions} [options] The optional parameters.
+   * Deletes a key from a specified key vault.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async beginDeleteKey(
     name: string,
@@ -510,10 +503,10 @@ export class KeyClient {
    * let key = await client.getKey(keyName);
    * let result = await client.updateKeyProperties(keyName, key.properties.version, { enabled: false });
    * ```
-   * @summary Updates the properties associated with a specified key in a given key vault.
-   * @param {string} name The name of the key.
-   * @param {string} keyVersion The version of the key.
-   * @param {UpdateKeyPropertiesOptions} [options] The optional parameters.
+   * Updates the properties associated with a specified key in a given key vault.
+   * @param name - The name of the key.
+   * @param keyVersion - The version of the key.
+   * @param options - The optional parameters.
    */
   public async updateKeyProperties(
     name: string,
@@ -563,9 +556,9 @@ export class KeyClient {
    * let client = new KeyClient(url, credentials);
    * let key = await client.getKey("MyKey");
    * ```
-   * @summary Get a specified key from a given key vault.
-   * @param {string} name The name of the key.
-   * @param {GetKeyOptions} [options] The optional parameters.
+   * Get a specified key from a given key vault.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -595,9 +588,9 @@ export class KeyClient {
    * let client = new KeyClient(url, credentials);
    * let key = await client.getDeletedKey("MyDeletedKey");
    * ```
-   * @summary Gets the specified deleted key.
-   * @param {string} name The name of the key.
-   * @param {GetDeletedKeyOptions} [options] The optional parameters.
+   * Gets the specified deleted key.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async getDeletedKey(
     name: string,
@@ -632,9 +625,9 @@ export class KeyClient {
    * await deletePoller.pollUntilDone();
    * await client.purgeDeletedKey("MyKey");
    * ```
-   * @summary Permanently deletes the specified key.
-   * @param name The name of the key.
-   * @param {PurgeDeletedKeyOptions} [options] The optional parameters.
+   * Permanently deletes the specified key.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async purgeDeletedKey(name: string, options: PurgeDeletedKeyOptions = {}): Promise<void> {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
@@ -672,9 +665,9 @@ export class KeyClient {
    * const key = await poller.pollUntilDone();
    * console.log(key);
    * ```
-   * @summary Recovers the deleted key to the latest version.
-   * @param name The name of the deleted key.
-   * @param {BeginRecoverDeletedKeyOptions} [options] The optional parameters.
+   * Recovers the deleted key to the latest version.
+   * @param name - The name of the deleted key.
+   * @param options - The optional parameters.
    */
   public async beginRecoverDeletedKey(
     name: string,
@@ -704,9 +697,9 @@ export class KeyClient {
    * let client = new KeyClient(url, credentials);
    * let backupContents = await client.backupKey("MyKey");
    * ```
-   * @summary Backs up the specified key.
-   * @param {string} name The name of the key.
-   * @param {BackupKeyOptions} [options] The optional parameters.
+   * Backs up the specified key.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
    */
   public async backupKey(
     name: string,
@@ -740,9 +733,9 @@ export class KeyClient {
    * // ...
    * let key = await client.restoreKeyBackup(backupContents);
    * ```
-   * @summary Restores a backed up key to a vault.
-   * @param {Uint8Array} backup The backup blob associated with a key bundle.
-   * @param {RestoreKeyBackupOptions} [options] The optional parameters.
+   * Restores a backed up key to a vault.
+   * @param backup - The backup blob associated with a key bundle.
+   * @param options - The optional parameters.
    */
   public async restoreKeyBackup(
     backup: Uint8Array,
@@ -767,11 +760,11 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfKeyVersions}.
-   * @param {string} name The name of the Key Vault Key.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPropertiesOfKeyVersionsOptions} [options] Common options for the iterative endpoints.
+   * @param name - The name of the Key Vault Key.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeyVersionsPage(
     name: string,
@@ -810,10 +803,10 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeyVersions}.
-   * @param {string} name The name of the Key Vault Key.
-   * @param {ListPropertiesOfKeyVersionsOptions} [options] Common options for the iterative endpoints.
+   * @param name - The name of the Key Vault Key.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeyVersionsAll(
     name: string,
@@ -840,8 +833,8 @@ export class KeyClient {
    *   console.log("key version: ", key);
    * }
    * ```
-   * @param {string} name Name of the key to fetch versions for
-   * @param {ListPropertiesOfKeyVersionsOptions} [options] The optional parameters.
+   * @param name - Name of the key to fetch versions for
+   * @param options - The optional parameters.
    */
   public listPropertiesOfKeyVersions(
     name: string,
@@ -871,10 +864,10 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfKeys}.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPropertiesOfKeysOptions} [options] Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeysPage(
     continuationState: PageSettings,
@@ -907,9 +900,9 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeys}.
-   * @param {ListPropertiesOfKeysOptions} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listPropertiesOfKeysAll(
     options?: ListPropertiesOfKeysOptions
@@ -935,8 +928,8 @@ export class KeyClient {
    *   console.log("key: ", key);
    * }
    * ```
-   * @summary List all keys in the vault
-   * @param {ListPropertiesOfKeysOptions} [options] The optional parameters.
+   * List all keys in the vault
+   * @param options - The optional parameters.
    */
   public listPropertiesOfKeys(
     options: ListPropertiesOfKeysOptions = {}
@@ -965,10 +958,10 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listDeletedKeys}.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListDeletedKeysOptions} [options] Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listDeletedKeysPage(
     continuationState: PageSettings,
@@ -1001,9 +994,9 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedKeys}.
-   * @param {ListDeletedKeysOptions} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listDeletedKeysAll(
     options?: ListDeletedKeysOptions
@@ -1028,8 +1021,8 @@ export class KeyClient {
    *   console.log("deleted key: ", deletedKey);
    * }
    * ```
-   * @summary List all keys in the vault
-   * @param {ListDeletedKeysOptions} [options] The optional parameters.
+   * List all keys in the vault
+   * @param options - The optional parameters.
    */
   public listDeletedKeys(
     options: ListDeletedKeysOptions = {}
@@ -1058,7 +1051,7 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
@@ -1071,9 +1064,20 @@ export class KeyClient {
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyItem,
-      ...keyItem.attributes,
-      ...parsedId,
+
+      kid: keyItem.kid,
+      tags: keyItem.tags,
+      managed: keyItem.managed,
+
+      recoverableDays: keyItem.attributes,
+      recoveryLevel: keyItem.attributes,
+      exportable: keyItem.attributes,
+
+      sourceId: parsedId.sourceId,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name,
+
       id: keyItem.kid
     };
 
@@ -1101,7 +1105,7 @@ export class KeyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
@@ -1112,9 +1116,19 @@ export class KeyClient {
     const resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      ...keyItem,
-      ...parsedId,
-      ...keyItem.attributes
+
+      kid: keyItem.kid,
+      tags: keyItem.tags,
+      managed: keyItem.managed,
+
+      recoverableDays: keyItem.attributes,
+      recoveryLevel: keyItem.attributes,
+      exportable: keyItem.attributes,
+
+      sourceId: parsedId.sourceId,
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name
     };
 
     delete resultObject.attributes;

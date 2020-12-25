@@ -7,8 +7,8 @@ import { Span } from "@opentelemetry/api";
 
 /**
  * Creates a span using the tracer that was set by the user
- * @param {string} methodName The name of the method creating the span.
- * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
+ * @param methodName - The name of the method creating the span.
+ * @param options - The options for the underlying HTTP request.
  */
 export function createSpan(methodName: string, requestOptions: RequestOptionsBase = {}): Span {
   const tracer = getTracer();
@@ -20,8 +20,8 @@ export function createSpan(methodName: string, requestOptions: RequestOptionsBas
 /**
  * Returns updated HTTP options with the given span as the parent of future spans,
  * if applicable.
- * @param {Span} span The span for the current operation.
- * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
+ * @param span - The span for the current operation.
+ * @param options - The options for the underlying HTTP request.
  */
 export function setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
   if (span.isRecording()) {

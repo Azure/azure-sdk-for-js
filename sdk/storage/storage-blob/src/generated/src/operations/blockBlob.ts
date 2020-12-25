@@ -63,6 +63,51 @@ export class BlockBlob {
   }
 
   /**
+   * The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read
+   * from a given URL.  This API is supported beginning with the 2020-04-08 version. Partial updates
+   * are not supported with Put Blob from URL; the content of an existing blob is overwritten with
+   * the content of the new blob.  To perform partial updates to a block blob’s contents using a
+   * source URL, use the Put Block from URL API in conjunction with Put Block List.
+   * @param contentLength The length of the request.
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
+   */
+  putBlobFromUrl(contentLength: number, copySource: string, options?: Models.BlockBlobPutBlobFromUrlOptionalParams): Promise<Models.BlockBlobPutBlobFromUrlResponse>;
+  /**
+   * @param contentLength The length of the request.
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param callback The callback
+   */
+  putBlobFromUrl(contentLength: number, copySource: string, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param contentLength The length of the request.
+   * @param copySource Specifies the name of the source page blob snapshot. This value is a URL of up
+   * to 2 KB in length that specifies a page blob snapshot. The value should be URL-encoded as it
+   * would appear in a request URI. The source blob must either be public or must be authenticated
+   * via a shared access signature.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  putBlobFromUrl(contentLength: number, copySource: string, options: Models.BlockBlobPutBlobFromUrlOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  putBlobFromUrl(contentLength: number, copySource: string, options?: Models.BlockBlobPutBlobFromUrlOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.BlockBlobPutBlobFromUrlResponse> {
+    return this.client.sendOperationRequest(
+      {
+        contentLength,
+        copySource,
+        options
+      },
+      putBlobFromUrlOperationSpec,
+      callback) as Promise<Models.BlockBlobPutBlobFromUrlResponse>;
+  }
+
+  /**
    * The Stage Block operation creates a new block to be committed as part of a blob
    * @param blockId A valid Base64 string value that identifies the block. Prior to encoding, the
    * string must be less than or equal to 64 bytes in size. For a given blob, the length of the value
@@ -272,6 +317,62 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.BlockBlobUploadHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const putBlobFromUrlOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{containerName}/{blob}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds
+  ],
+  headerParameters: [
+    Parameters.transactionalContentMD5,
+    Parameters.contentLength,
+    Parameters.metadata,
+    Parameters.encryptionScope,
+    Parameters.tier0,
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.sourceContentMD5,
+    Parameters.blobTagsString,
+    Parameters.copySource,
+    Parameters.copySourceBlobProperties,
+    Parameters.blobType2,
+    Parameters.blobContentType,
+    Parameters.blobContentEncoding,
+    Parameters.blobContentLanguage,
+    Parameters.blobContentMD5,
+    Parameters.blobCacheControl,
+    Parameters.blobContentDisposition,
+    Parameters.leaseId0,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.ifTags,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch,
+    Parameters.sourceIfTags
+  ],
+  responses: {
+    201: {
+      headersMapper: Mappers.BlockBlobPutBlobFromUrlHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlockBlobPutBlobFromUrlHeaders
     }
   },
   isXML: true,

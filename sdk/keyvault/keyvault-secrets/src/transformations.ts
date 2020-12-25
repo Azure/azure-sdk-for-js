@@ -7,7 +7,7 @@ import { DeletedSecret, KeyVaultSecret } from "./secretsModels";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Shapes the exposed {@link KeyVaultKey} based on either a received secret bundle or deleted secret bundle.
  */
 export function getSecretFromSecretBundle(
@@ -27,15 +27,22 @@ export function getSecretFromSecretBundle(
       expiresOn: (attributes as any).expires,
       createdOn: (attributes as any).created,
       updatedOn: (attributes as any).updated,
-      ...secretBundle,
-      ...parsedId,
-      ...attributes
+
+      id: secretBundle.id,
+      contentType: secretBundle.contentType,
+      tags: secretBundle.tags,
+      managed: secretBundle.managed,
+
+      vaultUrl: parsedId.vaultUrl,
+      version: parsedId.version,
+      name: parsedId.name
     }
   };
 
-  if (deletedSecretBundle.deletedDate) {
+  if (deletedSecretBundle.recoveryId) {
+    resultObject.properties.recoveryId = deletedSecretBundle.recoveryId;
+    resultObject.properties.scheduledPurgeDate = deletedSecretBundle.scheduledPurgeDate;
     resultObject.properties.deletedOn = deletedSecretBundle.deletedDate;
-    delete (resultObject.properties as any).deletedDate;
   }
 
   if (attributes) {

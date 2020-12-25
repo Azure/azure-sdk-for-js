@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureCommunicationUserCredential } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
 import { ChatClient, ChatThreadMember } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
@@ -75,7 +75,7 @@ export const generateHttpClient = (status: number, parsedBody?: any): HttpClient
 };
 
 export const createChatClient = (mockHttpClient: HttpClient): ChatClient => {
-  return new ChatClient(baseUri, new AzureCommunicationUserCredential(generateToken()), {
+  return new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()), {
     httpClient: mockHttpClient
   });
 };
@@ -87,7 +87,7 @@ export const createChatThreadClient = (
   return new ChatThreadClient(
     threadId,
     baseUri,
-    new AzureCommunicationUserCredential(generateToken()),
+    new AzureCommunicationTokenCredential(generateToken()),
     {
       httpClient: mockHttpClient
     }
