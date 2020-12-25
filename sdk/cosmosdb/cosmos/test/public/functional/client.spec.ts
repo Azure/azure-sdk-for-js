@@ -67,7 +67,6 @@ describe("NodeJS CRUD Tests", function() {
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
-        console.log(e);
         assert.equal(e.code, 401);
       }
     });
