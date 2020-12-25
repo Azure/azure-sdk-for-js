@@ -66,6 +66,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
         if (this.aggregateType) {
           const aggregateResult = extractAggregateResult(payload[0]);
+          // if aggregate result is null, we need to short circuit aggregation and return undefined
           this.aggregators.get(grouping).aggregate(aggregateResult);
         } else {
           // Queries with no aggregates pass the payload directly to the aggregator

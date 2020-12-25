@@ -128,12 +128,12 @@ describe("Queries", function() {
     describe("SUM query iterator", function() {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
-      it("returns undefined sum with undefined value in aggregator", async function() {
+      it.only("returns undefined sum with undefined value in aggregator", async function() {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,
           {
-            throughput: 11100,
+            throughput: 10100,
             partitionKey: "/id"
           }
         );
@@ -146,6 +146,7 @@ describe("Queries", function() {
 
         const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
         const { resources: sum } = await queryIterator.fetchAll();
+        console.log({ sum })
         assert.equal(sum.length, 0);
       });
     });
