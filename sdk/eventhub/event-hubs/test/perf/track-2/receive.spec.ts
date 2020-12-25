@@ -58,7 +58,7 @@ async function sendBatch(
   const _payload = Buffer.alloc(eventBodySize);
   const producer = new EventHubProducerClient(connectionString, eventHubName);
   const numberOfEventsPerPartition = Math.ceil(numberOfEvents / numberOfPartitions);
-  
+
   for (let partition = 0; partition < numberOfPartitions; partition++) {
     let batch = await producer.createBatch({ partitionId: String(partition) });
     let numberOfEventsSent = 0;
