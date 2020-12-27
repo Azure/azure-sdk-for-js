@@ -1,5 +1,9 @@
 # Release History
 
+## 3.10.0 (2020-12-27)
+
+- FEATURE: Adds AAD authentication via @azure/identity.
+
 ## 3.9.3 (2020-10-19)
 
 - BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.
