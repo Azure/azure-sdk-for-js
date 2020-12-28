@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declarationDir": "./typings",
     "outDir": "./dist-esm",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "lib": ["ES2018.AsyncIterable"]
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
