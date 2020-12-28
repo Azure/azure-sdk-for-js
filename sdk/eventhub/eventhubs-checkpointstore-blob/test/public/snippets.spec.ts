@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 // (JS compatible there)
 import { EventHubConsumerClient } from "@azure/event-hubs";
 import { ContainerClient } from "@azure/storage-blob";
-import { BlobCheckpointStore } from "../src";
+import { BlobCheckpointStore } from "../../src";
 
 describe.skip("Snippets", () => {
   // used in the eventhubs and eventhubs-checkpointstore-blob readme.
