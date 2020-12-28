@@ -4,7 +4,7 @@
 import { delay, OperationOptions } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
-import { TextDocumentInput } from "../generated/models";
+import { State, TextDocumentInput } from "../generated/models";
 import { TextAnalyticsOperationOptions } from "../textAnalyticsOperationOptions";
 
 /**
@@ -40,14 +40,37 @@ export interface AnalysisPollerOptions {
 }
 
 /**
- * An interface representing the state of an analysis poller operation.
+ * Metadata information for an analysis poller operation.
  */
-export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult> {
+export interface JobMetadata {
   /**
-   * The id of the analysis job.
+   * The date and time the job was created.
+   */
+  createdAt?: Date;
+  /**
+   * The date and time when the job results will expire on the server.
+   */
+  expiredAt?: Date;
+  /**
+   * The job id.
    */
   jobId?: string;
+  /**
+   * The time the job status was last updated.
+   */
+  updatedAt?: Date;
+  /**
+   * The current status of the job.
+   */
+  status?: State;
 }
+
+/**
+ * An interface representing the state of an analysis poller operation.
+ */
+export interface AnalysisPollOperationState<TResult>
+  extends PollOperationState<TResult>,
+    JobMetadata {}
 
 /**
  * Common properties and methods of analysis Pollers.

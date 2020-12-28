@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { delay } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 import { PaginatedHealthcareEntities } from "../../healthResult";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
@@ -12,15 +12,10 @@ import {
 } from "./operation";
 
 /**
- * The status of a health operation
- */
-export type BeginAnalyzeHealthcareOperationState = PollOperationState<PaginatedHealthcareEntities>;
-
-/**
  * Result type of the Health Long-Running-Operation (LRO)
  */
 export type HealthPollerLike = PollerLike<
-  BeginAnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcarePollState,
   PaginatedHealthcareEntities
 >;
 

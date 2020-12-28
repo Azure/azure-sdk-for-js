@@ -29,7 +29,9 @@ export {
   HealthcareJobOptions,
   PollingOptions,
   AnalyzeJobOptions,
-  BeginAnalyzeHealthcareOperationState
+  BeginAnalyzeHealthcarePollState,
+  AnalysisPollOperationState,
+  JobMetadata
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -118,5 +120,6 @@ export {
   PiiTaskParametersDomain,
   HealthcareEntity,
   HealthcareRelation,
-  HealthcareEntityLink
+  HealthcareEntityLink,
+  State
 } from "./generated/models";

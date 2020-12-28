@@ -1,0 +1,47 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"Patient does not suffer from high blood pressure.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Prescribed 100mg ibuprofen, taken twice daily.\",\"language\":\"en\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "74999ccb-b70b-44d6-9af6-6aea269885f5",
+    "date": "Mon, 28 Dec 2020 20:13:00 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/19b51ca8-2bf7-480d-9076-ec81582b5fbf",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "355"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/19b51ca8-2bf7-480d-9076-ec81582b5fbf",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19b51ca8-2bf7-480d-9076-ec81582b5fbf\",\"lastUpdateDateTime\":\"2020-12-28T20:13:01Z\",\"createdDateTime\":\"2020-12-28T20:13:00Z\",\"expirationDateTime\":\"2020-12-29T20:13:00Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "82ecd03e-8f7c-4350-b329-e8ea445940a7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 28 Dec 2020 20:13:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "454ad0de963e97c8bd01d24b121e2865"
+}

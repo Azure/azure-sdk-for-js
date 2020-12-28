@@ -602,6 +602,28 @@ describe("[API Key] TextAnalyticsClient", function() {
         await poller.cancelOperation();
         assert.ok(poller.getOperationState().isCancelled);
       });
+
+      it.only("job metadata", async function() {
+        const poller = await client.beginAnalyzeHealthcare(
+          [
+            { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
+            { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+          ],
+          {
+            polling: {
+              updateIntervalInMs: pollingInterval
+            }
+          }
+        );
+        poller.onProgress(() => {
+          assert.ok(poller.getOperationState().createdAt, "createdAt is undefined!");
+          assert.ok(poller.getOperationState().expiredAt, "expiredAt is undefined!");
+          assert.ok(poller.getOperationState().updatedAt, "updatedAt is undefined!");
+          assert.ok(poller.getOperationState().status, "status is undefined!");
+        });
+        const result = await poller.pollUntilDone();
+        assert.ok(result);
+      });
     });
   });
 });

@@ -30,6 +30,7 @@ import {
 import {
   AnalysisPollOperation,
   AnalysisPollOperationState,
+  JobMetadata,
   PollingOptions,
   TextAnalyticsStatusOperationOptions
 } from "../poller";
@@ -59,6 +60,7 @@ interface HealthcareJobStatus {
    * batch of input documents.
    */
   modelVersion?: string;
+  jobMetdata?: JobMetadata;
 }
 
 interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
@@ -228,7 +230,13 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
             return {
               done: true,
               statistics: response.results.statistics,
-              modelVersion: response.results.modelVersion
+              modelVersion: response.results.modelVersion,
+              jobMetdata: {
+                createdAt: response.createdDateTime,
+                updatedAt: response.lastUpdateDateTime,
+                expiredAt: response.expirationDateTime,
+                status: response.status
+              }
             };
           } else {
             throw new Error("Healthcare task has succeeded but the there are no results!");
@@ -307,12 +315,17 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       }
       state.jobId = getJobID(response.operationLocation);
     }
-    const status = await this.getHealthStatus(state.jobId!, {
+    const jobStatus = await this.getHealthStatus(state.jobId!, {
       ...this.statusOptions,
       abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
     });
 
-    if (!state.isCompleted && status.done) {
+    state.createdAt = jobStatus.jobMetdata?.createdAt;
+    state.expiredAt = jobStatus.jobMetdata?.expiredAt;
+    state.updatedAt = jobStatus.jobMetdata?.updatedAt;
+    state.status = jobStatus.jobMetdata?.status;
+
+    if (!state.isCompleted && jobStatus.done) {
       if (typeof options.fireProgress === "function") {
         options.fireProgress(state);
       }
@@ -321,8 +334,8 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         this.options.health || {}
       );
       state.result = Object.assign(pagedIterator, {
-        statistics: status.statistics,
-        modelVersion: status.modelVersion!
+        statistics: jobStatus.statistics,
+        modelVersion: jobStatus.modelVersion!
       });
       state.isCompleted = true;
     }

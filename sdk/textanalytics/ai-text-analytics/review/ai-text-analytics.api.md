@@ -14,6 +14,10 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, JobMetadata {
+}
+
+// @public
 export interface AnalyzeJobOptions extends OperationOptions {
     includeStatistics?: boolean;
 }
@@ -71,12 +75,13 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
-export type BeginAnalyzeHealthcareOperationState = PollOperationState<PaginatedHealthcareEntities>;
-
-// @public
 export interface BeginAnalyzeHealthcareOptions {
     health?: HealthcareJobOptions;
     polling?: PollingOptions;
+}
+
+// @public
+export interface BeginAnalyzeHealthcarePollState extends AnalysisPollOperationState<PaginatedHealthcareEntities> {
 }
 
 // @public
@@ -212,7 +217,7 @@ export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
 }
 
 // @public
-export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PaginatedHealthcareEntities>;
+export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcarePollState, PaginatedHealthcareEntities>;
 
 // @public
 export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint" | string;
@@ -222,6 +227,15 @@ export interface JobManifestTasks {
     entityRecognitionPiiTasks?: PiiTask[];
     entityRecognitionTasks?: EntitiesTask[];
     keyPhraseExtractionTasks?: KeyPhrasesTask[];
+}
+
+// @public
+export interface JobMetadata {
+    createdAt?: Date;
+    expiredAt?: Date;
+    jobId?: string;
+    status?: State;
+    updatedAt?: Date;
 }
 
 // @public
@@ -391,6 +405,9 @@ export interface SentimentConfidenceScores {
     // (undocumented)
     positive: number;
 }
+
+// @public
+export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
 
 // @public
 export class TextAnalyticsClient {
