@@ -331,7 +331,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
 
   async cancel(): Promise<BeginAnalyzeHealthcarePollerOperation> {
     const state = this.state;
-    if (state.jobId) {
+    if (state.jobId && !state.isCompleted) {
       await this.client.cancelHealthJob(state.jobId, this.options.health);
     }
     state.isCancelled = true;
