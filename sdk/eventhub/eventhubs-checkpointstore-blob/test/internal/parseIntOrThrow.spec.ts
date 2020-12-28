@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { parseIntOrThrow } from "../../src/blobCheckpointStore";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { ContainerClient } from "@azure/storage-blob";
 import { Guid } from "guid-typescript";
 import { BlobCheckpointStore } from "../../src";

@@ -10,11 +10,10 @@ chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { BlobCheckpointStore } from "../src";
+import { BlobCheckpointStore } from "../../src";
 import { ContainerClient, RestError } from "@azure/storage-blob";
 import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
 import { Guid } from "guid-typescript";
-import { parseIntOrThrow } from "../src/blobCheckpointStore";
 import { fail } from "assert";
 const env = getEnvVars();
 
