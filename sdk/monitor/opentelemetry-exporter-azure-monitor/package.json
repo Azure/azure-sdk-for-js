@@ -32,7 +32,7 @@
     "prepare": "npm run build",
     "pack": "npm pack 2>&1",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "engines": {
     "node": ">=8.3.0"
