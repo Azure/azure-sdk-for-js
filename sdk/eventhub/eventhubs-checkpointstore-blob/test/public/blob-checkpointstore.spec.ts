@@ -541,22 +541,4 @@ describe("Blob Checkpoint Store", function(): void {
       })
     );
   });
-
-  it("parseIntOrThrow", () => {
-    parseIntOrThrow("blobname", "fieldname", "1").should.equal(1);
-
-    should.throw(
-      () => parseIntOrThrow("blobname", "fieldname", ""),
-      "Failed to parse metadata property 'fieldname' on blob 'blobname' as a number"
-    );
-    should.throw(
-      () => parseIntOrThrow("blobname", "fieldname", "hello"),
-      "Failed to parse metadata property 'fieldname' on blob 'blobname' as a number"
-    );
-
-    should.throw(
-      () => parseIntOrThrow("blobname", "fieldname", undefined),
-      "Missing metadata property 'fieldname' on blob 'blobname'"
-    );
-  });
 }).timeout(90000);
