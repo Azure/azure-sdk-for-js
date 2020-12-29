@@ -119,5 +119,6 @@ export {
   TokenSentimentValue,
   TextAnalyticsWarning,
   PiiTaskParametersDomain,
-  State
+  State,
+  StringIndexType as StringEncodingUnit
 } from "./generated/models";

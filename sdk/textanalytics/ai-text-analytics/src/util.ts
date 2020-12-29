@@ -3,8 +3,8 @@
 
 import { RestError } from "@azure/core-http";
 import { URL, URLSearchParams } from "./utils/url";
-import { StringIndexType, StringIndexTypeResponse } from "./generated/models";
 import { logger } from "./logger";
+import { StringIndexType } from "./generated";
 
 export interface IdObject {
   id: string;
@@ -84,15 +84,33 @@ export function parseHealthcareEntityIndex(pointer: string): number {
 
 const jsEncodingUnit = "Utf16CodeUnit";
 
-export function addStrEncodingParam<T>(options: T): T & { stringIndexType: StringIndexType } {
-  return { ...options, stringIndexType: jsEncodingUnit };
+/**
+ * Measurement units that can used to calculate the offset and length properties.
+ */
+export type StringEncodingUnit = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+
+export function addStrEncodingParam<T>(
+  options: T & { stringEncodingUnit?: StringEncodingUnit }
+): T & { stringIndexType: StringEncodingUnit } {
+  return { ...options, stringIndexType: options.stringEncodingUnit || jsEncodingUnit };
+}
+
+/**
+ * Set the stringIndexType property with default if it does not exist in the options bag.
+ * @param options - operation options bag that has a {@link StringEncodingUnit}
+ * @internal
+ * @hidden
+ */
+export function setStrEncodingParam<T>(
+  options: T & { stringIndexType?: StringIndexType }
+): T & { stringIndexType: StringIndexType } {
+  return { ...options, stringIndexType: options.stringIndexType || jsEncodingUnit };
 }
 
 export function addEncodingParamToTask<X>(
-  task: X & { stringIndexType?: StringIndexTypeResponse }
-): X & { stringIndexType?: StringIndexTypeResponse } {
-  task.stringIndexType = jsEncodingUnit;
-  return task;
+  task: X & { stringEncodingUnit?: StringEncodingUnit }
+): X & { stringIndexType?: StringEncodingUnit } {
+  return { ...task, stringIndexType: task.stringEncodingUnit || jsEncodingUnit };
 }
 
 export function AddParamsToTask<X>(task: X): { parameters?: X } {

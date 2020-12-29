@@ -4,6 +4,7 @@
 import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 import { PagedHealthcareEntities } from "../../healthResult";
+import { StringEncodingUnit } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
@@ -14,6 +15,7 @@ import {
 export interface HealthcarePollerOptions extends AnalysisPollerOptions {
   readonly modelVersion?: string;
   readonly includeStatistics?: boolean;
+  stringEncodingUnit?: StringEncodingUnit;
 }
 
 /**
@@ -40,7 +42,8 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       includeStatistics,
       modelVersion,
       updateIntervalInMs = 5000,
-      resumeFrom
+      resumeFrom,
+      stringEncodingUnit
     } = pollerOptions;
 
     let state: BeginAnalyzeHealthcareOperationState | undefined;
@@ -56,7 +59,8 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       resumeFrom,
       tracingOptions,
       includeStatistics,
-      abortSignal
+      abortSignal,
+      stringEncodingUnit
     });
 
     super(operation);

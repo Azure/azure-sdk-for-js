@@ -26,7 +26,8 @@ import {
   addStrEncodingParam,
   getJobID,
   handleInvalidDocumentBatch,
-  nextLinkToTopAndSkip
+  nextLinkToTopAndSkip,
+  StringEncodingUnit
 } from "../../util";
 import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
@@ -66,6 +67,12 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringEncodingUnit?: StringEncodingUnit;
 }
 
 /**
@@ -80,6 +87,12 @@ export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOpt
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
   resumeFrom?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringEncodingUnit?: StringEncodingUnit;
 }
 
 /**
@@ -267,7 +280,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   ): Promise<BeginAnalyzeHealthcareResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-beginAnalyzeHealthcare",
-      addStrEncodingParam(options)
+      addStrEncodingParam(options || {})
     );
 
     try {
