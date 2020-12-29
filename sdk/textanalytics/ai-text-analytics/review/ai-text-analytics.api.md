@@ -17,13 +17,22 @@ import { TokenCredential } from '@azure/core-auth';
 export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, JobMetadata {
 }
 
+// @public (undocumented)
+export interface AnalyzeJobMetadata extends JobMetadata {
+    displayName?: string;
+    failedTasksCount?: number;
+    inProgressTasksCount?: number;
+    successfullyCompletedTasksCount?: number;
+}
+
 // @public
 export interface AnalyzeJobOptions extends OperationOptions {
+    displayName?: string;
     includeStatistics?: boolean;
 }
 
 // @public
-export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PaginatedAnalyzeResults>;
+export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PaginatedAnalyzeResults>;
 
 // @public
 export interface AnalyzeResult {
@@ -85,12 +94,13 @@ export interface BeginAnalyzeHealthcarePollState extends AnalysisPollOperationSt
 }
 
 // @public
-export type BeginAnalyzeOperationState = PollOperationState<PaginatedAnalyzeResults>;
-
-// @public
 export interface BeginAnalyzeOptions {
     analyze?: AnalyzeJobOptions;
     polling?: PollingOptions;
+}
+
+// @public
+export interface BeginAnalyzePollState extends AnalysisPollOperationState<PaginatedAnalyzeResults>, AnalyzeJobMetadata {
 }
 
 // @public

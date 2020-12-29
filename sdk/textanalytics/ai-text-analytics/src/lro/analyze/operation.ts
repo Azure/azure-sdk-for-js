@@ -30,6 +30,7 @@ import {
 import {
   AnalysisPollOperation,
   AnalysisPollOperationState,
+  JobMetadata,
   PollingOptions,
   TextAnalyticsStatusOperationOptions
 } from "../poller";
@@ -57,6 +58,25 @@ interface AnalyzeResultsWithPagination {
   skip?: number;
 }
 
+export interface AnalyzeJobMetadata extends JobMetadata {
+  /**
+   * Number of successfully completed tasks.
+   */
+  successfullyCompletedTasksCount?: number;
+  /**
+   * Number of failed tasks.
+   */
+  failedTasksCount?: number;
+  /**
+   * Number of tasks still in progress.
+   */
+  inProgressTasksCount?: number;
+  /**
+   * The job's display name.
+   */
+  displayName?: string;
+}
+
 interface AnalyzeJobStatus {
   done: boolean;
   /**
@@ -65,9 +85,12 @@ interface AnalyzeJobStatus {
    * in the client call.
    */
   statistics?: TextDocumentBatchStatistics;
+  jobMetdata?: AnalyzeJobMetadata;
 }
 
-interface BeginAnalyzeInternalOptions extends OperationOptions {}
+interface BeginAnalyzeInternalOptions extends OperationOptions {
+  displayName?: string;
+}
 
 /**
  * Options for configuring analyze jobs.
@@ -77,6 +100,10 @@ export interface AnalyzeJobOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * Optional display name for the job.
+   */
+  displayName?: string;
 }
 
 /**
@@ -97,7 +124,8 @@ export interface BeginAnalyzeOptions {
  * The state of the begin analyze polling operation.
  */
 export interface BeginAnalyzePollState
-  extends AnalysisPollOperationState<PaginatedAnalyzeResults> {}
+  extends AnalysisPollOperationState<PaginatedAnalyzeResults>,
+    AnalyzeJobMetadata {}
 
 /**
  * Class that represents a poller that waits for results of the analyze
@@ -241,7 +269,17 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         case "succeeded": {
           return {
             done: true,
-            statistics: response.statistics
+            statistics: response.statistics,
+            jobMetdata: {
+              createdAt: response.createdDateTime,
+              updatedAt: response.lastUpdateDateTime,
+              expiredAt: response.expirationDateTime,
+              status: response.status,
+              successfullyCompletedTasksCount: response.tasks.completed,
+              failedTasksCount: response.tasks.failed,
+              inProgressTasksCount: response.tasks.inProgress,
+              displayName: response.displayName
+            }
           };
         }
         case "failed": {
@@ -282,7 +320,11 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
 
     try {
       return await this.client.analyze({
-        body: { analysisInput: { documents: documents }, tasks: tasks },
+        body: {
+          analysisInput: { documents: documents },
+          tasks: tasks,
+          displayName: options?.displayName
+        },
         ...operationOptionsToRequestOptionsBase(finalOptions)
       });
     } catch (e) {
@@ -319,18 +361,27 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
       state.jobId = getJobID(response.operationLocation);
     }
 
-    const status = await this.getAnalyzeStatus(state.jobId!, {
+    const jobStatus = await this.getAnalyzeStatus(state.jobId!, {
       ...this.statusOptions,
       abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
     });
 
-    if (!state.isCompleted && status.done) {
+    state.createdAt = jobStatus.jobMetdata?.createdAt;
+    state.expiredAt = jobStatus.jobMetdata?.expiredAt;
+    state.updatedAt = jobStatus.jobMetdata?.updatedAt;
+    state.status = jobStatus.jobMetdata?.status;
+    state.successfullyCompletedTasksCount = jobStatus.jobMetdata?.successfullyCompletedTasksCount;
+    state.failedTasksCount = jobStatus.jobMetdata?.failedTasksCount;
+    state.inProgressTasksCount = jobStatus.jobMetdata?.inProgressTasksCount;
+    state.displayName = jobStatus.jobMetdata?.displayName;
+
+    if (!state.isCompleted && jobStatus.done) {
       if (typeof options.fireProgress === "function") {
         options.fireProgress(state);
       }
       const pagedIterator = this.listAnalyzeResults(state.jobId!, this.options.analyze || {});
       state.result = Object.assign(pagedIterator, {
-        statistics: status.statistics
+        statistics: jobStatus.statistics
       });
       state.isCompleted = true;
     }

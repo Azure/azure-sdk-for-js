@@ -61,18 +61,19 @@ import {
   HealthcareJobOptions
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import { AnalyzePollerLike, BeginAnalyzePoller } from "./lro/analyze/poller";
 import {
-  AnalyzePollerLike,
-  BeginAnalyzeOperationState,
-  BeginAnalyzePoller
-} from "./lro/analyze/poller";
-import { AnalyzeJobOptions, BeginAnalyzeOptions } from "./lro/analyze/operation";
+  AnalyzeJobMetadata,
+  AnalyzeJobOptions,
+  BeginAnalyzeOptions,
+  BeginAnalyzePollState
+} from "./lro/analyze/operation";
 import { AnalysisPollOperationState, JobMetadata, PollingOptions } from "./lro/poller";
 
 export {
   BeginAnalyzeOptions,
   AnalyzePollerLike,
-  BeginAnalyzeOperationState,
+  BeginAnalyzePollState,
   BeginAnalyzeHealthcareOptions,
   HealthPollerLike,
   AnalyzeJobOptions,
@@ -80,7 +81,8 @@ export {
   HealthcareJobOptions,
   BeginAnalyzeHealthcarePollState,
   AnalysisPollOperationState,
-  JobMetadata
+  JobMetadata,
+  AnalyzeJobMetadata
 };
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";

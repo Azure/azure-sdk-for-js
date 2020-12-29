@@ -1560,6 +1560,47 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         }
       });
+
+      it("job metadata", async function() {
+        const docs = [
+          { id: "1", text: "I will go to the park." },
+          { id: "2", text: "Este es un document escrito en Español." },
+          { id: "3", text: "猫は幸せ" }
+        ];
+
+        const poller = await client.beginAnalyze(
+          docs,
+          {
+            entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+          },
+          {
+            polling: {
+              updateIntervalInMs: pollingInterval
+            },
+            analyze: {
+              displayName: "testJob"
+            }
+          }
+        );
+        poller.onProgress(() => {
+          assert.ok(poller.getOperationState().createdAt, "createdAt is undefined!");
+          assert.ok(poller.getOperationState().expiredAt, "expiredAt is undefined!");
+          assert.ok(poller.getOperationState().updatedAt, "updatedAt is undefined!");
+          assert.ok(poller.getOperationState().status, "status is undefined!");
+          assert.ok(
+            poller.getOperationState().successfullyCompletedTasksCount,
+            "successfullyCompletedTasksCount is undefined!"
+          );
+          assert.equal(poller.getOperationState().failedTasksCount, 0);
+          assert.isDefined(
+            poller.getOperationState().inProgressTasksCount,
+            "inProgressTasksCount is undefined!"
+          );
+          assert.equal(poller.getOperationState().displayName, "testJob");
+        });
+        const result = await poller.pollUntilDone();
+        assert.ok(result);
+      });
     });
   });
 });

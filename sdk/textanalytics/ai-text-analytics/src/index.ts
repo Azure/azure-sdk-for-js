@@ -25,13 +25,14 @@ export {
   AnalyzePollerLike,
   BeginAnalyzeHealthcareOptions,
   HealthPollerLike,
-  BeginAnalyzeOperationState,
+  BeginAnalyzePollState,
   HealthcareJobOptions,
   PollingOptions,
   AnalyzeJobOptions,
   BeginAnalyzeHealthcarePollState,
   AnalysisPollOperationState,
-  JobMetadata
+  JobMetadata,
+  AnalyzeJobMetadata
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
