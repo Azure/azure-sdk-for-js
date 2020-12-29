@@ -3,11 +3,112 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  HealthcareEntity,
+  DocumentHealthcareEntities,
+  Entity,
   HealthcareRelation,
-  TextDocumentBatchStatistics
+  TextDocumentBatchStatistics,
+  HealthcareEntity as GeneratedHealthcareEntity
 } from "./generated/models";
-import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "./textAnalyticsResult";
+import {
+  makeTextAnalyticsSuccessResult,
+  TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult
+} from "./textAnalyticsResult";
+import { parseHealthcareEntityIndex } from "./util";
+
+/**
+ * The type of different relationships between any two healthcare entities.
+ */
+export type HealthcareEntityRelationType =
+  | "DirectionOfBodyStructure"
+  | "DirectionOfExamination"
+  | "RelationOfExamination"
+  | "TimeOfExamination"
+  | "UnitOfExamination"
+  | "ValueOfExamination"
+  | "DirectionOfCondition"
+  | "QualifierOfCondition"
+  | "TimeOfCondition"
+  | "UnitOfCondition"
+  | "ValueOfCondition"
+  | "DosageOfMedication"
+  | "FormOfMedication"
+  | "FrequencyOfMedication"
+  | "RouteOfMedication"
+  | "TimeOfMedication"
+  | "DirectionOfTreatment"
+  | "TimeOfTreatment"
+  | "FrequencyOfTreatment";
+
+/**
+ * a type predicate for the healthcare entity relation type
+ * @param relation - a healthcare entity relation type
+ * @internal
+ * @hidden
+ */
+function isHealthcareEntityRelationType(
+  relation: string
+): relation is HealthcareEntityRelationType {
+  const relationsList = [
+    "DirectionOfBodyStructure",
+    "DirectionOfExamination",
+    "RelationOfExamination",
+    "TimeOfExamination",
+    "UnitOfExamination",
+    "ValueOfExamination",
+    "DirectionOfCondition",
+    "QualifierOfCondition",
+    "TimeOfCondition",
+    "UnitOfCondition",
+    "ValueOfCondition",
+    "DosageOfMedication",
+    "FormOfMedication",
+    "FrequencyOfMedication",
+    "RouteOfMedication",
+    "TimeOfMedication",
+    "DirectionOfTreatment",
+    "TimeOfMedication",
+    "FrequencyOfTreatment"
+  ];
+  const relations = new Set(relationsList);
+  return relations.has(relation);
+}
+
+/**
+ * A type representing a reference for the healthcare entity into a specific
+ * entity catalog.
+ */
+export interface HealthcareEntityDataSource {
+  /**
+   * Entity Catalog. Examples include: UMLS, CHV, MSH, etc.
+   */
+  dataSource: string;
+  /**
+   * Entity id in the given source catalog.
+   */
+  dataSourceId: string;
+}
+
+/**
+ * A healthcare entity represented as a node in a directed graph where the edges are
+ * a particular type of relationship between the source and target nodes.
+ */
+export type HealthcareEntity = Entity & {
+  /**
+   * Whether the entity is negated.
+   */
+  isNegated: boolean;
+  /**
+   * Entity references in known data sources.
+   */
+  dataSource?: HealthcareEntityDataSource[];
+  /**
+   * Other healthcare entities related to the current one. It is a directed
+   * relationship where the current entity is the source and the entities in
+   * the map are the target.
+   */
+  relatedHealthcareEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+};
 
 /**
  * The results of a successful healthcare job for a single document.
@@ -17,10 +118,6 @@ export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
    * Healthcare entities.
    */
   entities: HealthcareEntity[];
-  /**
-   * Healthcare entity relations.
-   */
-  relations: HealthcareRelation[];
 }
 
 /**
@@ -65,4 +162,78 @@ export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEnt
    * batch of input documents.
    */
   modelVersion: string;
+}
+
+/**
+ * Creates a user-friendly healthcare entity represented as a node in a graph
+ * @param entity - the healthcare entity returned by the service
+ * @internal
+ * @hidden
+ */
+function makeHealthcareEntitiesWithoutNeighbors(
+  entity: GeneratedHealthcareEntity
+): HealthcareEntity {
+  const { category, confidenceScore, isNegated, offset, text, links, subCategory } = entity;
+  return {
+    category,
+    confidenceScore,
+    isNegated,
+    offset,
+    text,
+    subCategory,
+    dataSource: links?.map(
+      ({ dataSource, id }): HealthcareEntityDataSource => ({ dataSource, dataSourceId: id })
+    ),
+    // initialize the neighbors map to be filled later.
+    relatedHealthcareEntities: new Map()
+  };
+}
+
+/**
+ * Connects input healthcare entities as a graph according to the relationship
+ * information the service sent.
+ * @param entities - healthcare entities represented as isolated nodes
+ * @param relations - relationship information between pairs of healthcare entities
+ *                  - using JSON pointers
+ * @internal
+ * @hidden
+ */
+function makeHealthcareEntitiesGraph(
+  entities: HealthcareEntity[],
+  relations: HealthcareRelation[]
+): HealthcareEntity[] {
+  for (const relation of relations) {
+    const relationType = relation.relationType;
+    const sourceIndex = parseHealthcareEntityIndex(relation.source);
+    const targetIndex = parseHealthcareEntityIndex(relation.target);
+    const sourceEntity = entities[sourceIndex];
+    const targetEntity = entities[targetIndex];
+    if (isHealthcareEntityRelationType(relationType)) {
+      sourceEntity.relatedHealthcareEntities.set(targetEntity, relationType);
+      if (relation.bidirectional) {
+        targetEntity.relatedHealthcareEntities.set(sourceEntity, relationType);
+      }
+    } else {
+      throw new Error(`Unrecognized healthcare entity relation type: ${relationType}`);
+    }
+  }
+  return entities;
+}
+
+/**
+ * Creates a healthcare entity in the convenience layer from the one sent by the service.
+ * @param document - incoming results sent by the service for a particular document
+ * @internal
+ * @hidden
+ */
+export function makeHealthcareEntitiesResult(
+  document: DocumentHealthcareEntities
+): HealthcareSuccessResult {
+  const { id, entities, relations, warnings, statistics } = document;
+  const newEntitiesWithoutNeighbors = entities.map(makeHealthcareEntitiesWithoutNeighbors);
+  const newEntities = makeHealthcareEntitiesGraph(newEntitiesWithoutNeighbors, relations);
+  return {
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
+    entities: newEntities
+  };
 }

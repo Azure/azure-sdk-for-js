@@ -18,7 +18,8 @@ import {
   HealthcareResult,
   HealthcareEntitiesArray,
   PagedAsyncIterableHealthcareEntities,
-  PagedHealthcareEntities
+  PagedHealthcareEntities,
+  makeHealthcareEntitiesResult
 } from "../../healthResult";
 import { PageSettings } from "@azure/core-paging";
 import {
@@ -29,7 +30,7 @@ import {
 } from "../../util";
 import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
-import { combineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
+import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
 import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
@@ -177,7 +178,11 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       if (response.results) {
-        const result = combineSuccessfulAndErroneousDocuments(this.documents, response.results);
+        const result = processAndCombineSuccessfulAndErroneousDocuments(
+          this.documents,
+          response.results,
+          makeHealthcareEntitiesResult
+        );
         return response.nextLink
           ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
           : { result };

@@ -186,17 +186,21 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 export interface HealthcareEntitiesArray extends Array<HealthcareResult> {
 }
 
-// @public (undocumented)
+// @public
 export type HealthcareEntity = Entity & {
     isNegated: boolean;
-    links?: HealthcareEntityLink[];
+    dataSource?: HealthcareEntityDataSource[];
+    relatedHealthcareEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
 };
 
-// @public (undocumented)
-export interface HealthcareEntityLink {
+// @public
+export interface HealthcareEntityDataSource {
     dataSource: string;
-    id: string;
+    dataSourceId: string;
 }
+
+// @public
+export type HealthcareEntityRelationType = "DirectionOfBodyStructure" | "DirectionOfExamination" | "RelationOfExamination" | "TimeOfExamination" | "UnitOfExamination" | "ValueOfExamination" | "DirectionOfCondition" | "QualifierOfCondition" | "TimeOfCondition" | "UnitOfCondition" | "ValueOfCondition" | "DosageOfMedication" | "FormOfMedication" | "FrequencyOfMedication" | "RouteOfMedication" | "TimeOfMedication" | "DirectionOfTreatment" | "TimeOfTreatment" | "FrequencyOfTreatment";
 
 // @public
 export type HealthcareErrorResult = TextAnalyticsErrorResult;
@@ -204,21 +208,12 @@ export type HealthcareErrorResult = TextAnalyticsErrorResult;
 // @public
 export type HealthcarePollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PagedHealthcareEntities>;
 
-// @public (undocumented)
-export interface HealthcareRelation {
-    bidirectional: boolean;
-    relationType: string;
-    source: string;
-    target: string;
-}
-
 // @public
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 
 // @public
 export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
     entities: HealthcareEntity[];
-    relations: HealthcareRelation[];
 }
 
 // @public
@@ -304,6 +299,9 @@ export interface PiiEntity extends Entity {
 export enum PiiEntityDomainType {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
+
+// @public
+export type PiiTaskParametersDomain = "phi" | "none" | string;
 
 // @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
