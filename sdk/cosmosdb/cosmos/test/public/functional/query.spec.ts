@@ -146,7 +146,6 @@ describe("Queries", function() {
 
         const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
         const { resources: sum } = await queryIterator.fetchAll();
-        console.log({ sum });
         assert.equal(sum.length, 0);
       });
     });

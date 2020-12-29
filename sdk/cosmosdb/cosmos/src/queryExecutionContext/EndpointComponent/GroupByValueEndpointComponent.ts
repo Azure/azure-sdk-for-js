@@ -67,6 +67,10 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         if (this.aggregateType) {
           const aggregateResult = extractAggregateResult(payload[0]);
           // if aggregate result is null, we need to short circuit aggregation and return undefined
+          console.log(aggregateResult)
+          if (aggregateResult === null) {
+            this.completed = true;
+          }
           this.aggregators.get(grouping).aggregate(aggregateResult);
         } else {
           // Queries with no aggregates pass the payload directly to the aggregator
@@ -76,11 +80,15 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
       }
     }
 
-    // It no results are left in the underling execution context, convert our aggregate results to an array
+    // if (this.completed) {
+    //   return { result: undefined, headers: aggregateHeaders }
+    // }
+    // If no results are left in the underlying execution context, convert our aggregate results to an array
     for (const aggregator of this.aggregators.values()) {
       this.aggregateResultArray.push(aggregator.getResult());
     }
     this.completed = true;
+    console.log({ result: this.aggregateResultArray.pop() })
     return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
   }
 
