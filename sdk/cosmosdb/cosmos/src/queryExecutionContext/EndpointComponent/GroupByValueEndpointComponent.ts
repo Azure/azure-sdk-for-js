@@ -81,7 +81,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
 
     // We bail early since we got an undefined result back `[{}]`
     if (this.completed) {
-      return { result: undefined, headers: aggregateHeaders }
+      return { result: undefined, headers: aggregateHeaders };
     }
     // If no results are left in the underlying execution context, convert our aggregate results to an array
     for (const aggregator of this.aggregators.values()) {
