@@ -128,7 +128,7 @@ describe("Queries", function() {
     describe("SUM query iterator", function() {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
-      it.only("returns undefined sum with undefined value in aggregator", async function() {
+      it("returns undefined sum with undefined value in aggregator", async function() {
         const container = await getTestContainer(
           "Validate QueryIterator Functionality",
           undefined,

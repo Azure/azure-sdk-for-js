@@ -205,13 +205,13 @@ describe("Aggregate Query", function() {
     await executeQueryAndValidateResults("SELECT VALUE MIN(r.key) FROM r ORDER BY r.key", [null]);
   });
 
-  it.only("SELECT VALUE SUM", async function() {
+  it("SELECT VALUE SUM", async function() {
     await executeQueryAndValidateResults("SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key)", [
       testdata.sum
     ]);
   });
 
-  it.only("SELECT VALUE SUM with ORDER BY", async function() {
+  it("SELECT VALUE SUM with ORDER BY", async function() {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
       [testdata.sum]
