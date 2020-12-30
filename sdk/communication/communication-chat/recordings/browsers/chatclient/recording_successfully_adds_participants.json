@@ -8,31 +8,31 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc\"}",
+   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/identities/8%3Aacs%3A9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc/token",
+   "url": "https://endpoint/identities/8%3Aacs%3A188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9/token",
    "query": {
     "api-version": "2020-07-20-preview2"
    },
    "requestBody": "{\"scopes\":[\"chat\"]}",
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc\",\"token\":\"token\",\"expiresOn\":\"2020-12-04T04:27:58.9486526+00:00\"}",
+   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\",\"token\":\"token\",\"expiresOn\":\"2020-12-31T21:14:44.3405342+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A9f4e9b341e084b90916308d8082c1f22%40thread.v2/participants",
+   "url": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a%40thread.v2/participants/:add",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"participants\":[{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bd-0212-d67a-5a3a0d0000dc\"}]}",
+   "requestBody": "{\"participants\":[{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\"}]}",
    "status": 201,
    "response": "{}",
    "responseHeaders": {

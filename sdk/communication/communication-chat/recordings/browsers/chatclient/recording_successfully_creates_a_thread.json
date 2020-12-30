@@ -8,20 +8,20 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e173-d67a-5a3a0d0000da\"}",
+   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/identities/8%3Aacs%3A9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e173-d67a-5a3a0d0000da/token",
+   "url": "https://endpoint/identities/8%3Aacs%3A188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7/token",
    "query": {
     "api-version": "2020-07-20-preview2"
    },
    "requestBody": "{\"scopes\":[\"chat\"]}",
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e173-d67a-5a3a0d0000da\",\"token\":\"token\",\"expiresOn\":\"2020-12-04T04:27:50.593613+00:00\"}",
+   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7\",\"token\":\"token\",\"expiresOn\":\"2020-12-31T21:14:35.2416709+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -34,20 +34,20 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e4bb-d67a-5a3a0d0000db\"}",
+   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4c3a-b0b7-3a3a0d0044b8\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/identities/8%3Aacs%3A9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e4bb-d67a-5a3a0d0000db/token",
+   "url": "https://endpoint/identities/8%3Aacs%3A188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4c3a-b0b7-3a3a0d0044b8/token",
    "query": {
     "api-version": "2020-07-20-preview2"
    },
    "requestBody": "{\"scopes\":[\"chat\"]}",
    "status": 200,
-   "response": "{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e4bb-d67a-5a3a0d0000db\",\"token\":\"token\",\"expiresOn\":\"2020-12-04T04:27:51.4295086+00:00\"}",
+   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4c3a-b0b7-3a3a0d0044b8\",\"token\":\"token\",\"expiresOn\":\"2020-12-31T21:14:35.9069477+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -58,12 +58,12 @@
    "query": {
     "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e173-d67a-5a3a0d0000da\"},{\"id\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e4bb-d67a-5a3a0d0000db\"}]}",
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7\"},{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4c3a-b0b7-3a3a0d0044b8\"}]}",
    "status": 201,
-   "response": "{\"chatThread\":{\"id\":\"19:9f4e9b341e084b90916308d8082c1f22@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2020-12-03T04:27:53Z\",\"createdBy\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e173-d67a-5a3a0d0000da\"}}",
+   "response": "{\"chatThread\":{\"id\":\"19:4dc973636fca42dda4eeae466d18e81a@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2020-12-30T21:14:37Z\",\"createdBy\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3A9f4e9b341e084b90916308d8082c1f22@thread.v2"
+    "location": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a@thread.v2"
    }
   }
  ],

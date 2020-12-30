@@ -165,7 +165,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body), { content: mockMessage.content });
+    assert.deepEqual(JSON.parse(request.body), { content: mockMessage.content?.message });
   });
 
   it("makes successful delete message request", async () => {
@@ -200,7 +200,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/participants?api-version=${API_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
     const requestJson = JSON.parse(request.body);
@@ -278,7 +278,7 @@ describe("[Mocked] ChatThreadClient", async () => {
   });
 
   it("makes successful sent read receipt request", async () => {
-    const mockHttpClient = generateHttpClient(201);
+    const mockHttpClient = generateHttpClient(200);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
