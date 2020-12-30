@@ -68,6 +68,10 @@ export interface SentenceSentiment {
    */
   offset: number;
   /**
+   * The length of the sentence text.
+   */
+  length: number;
+  /**
    * The list of opinions mined from this sentence. For example in "The food is
    * good, but the service is bad", we would mind these two opinions "food is
    * good", "service is bad". Only returned if `show_opinion_mining` is set to
@@ -102,6 +106,10 @@ export interface AspectSentiment {
    * The aspect text offset from the start of the sentence.
    */
   offset: number;
+  /**
+   * The length of the aspect text.
+   */
+  length: number;
 }
 
 /**
@@ -175,6 +183,7 @@ function convertGeneratedSentenceSentiment(
     sentiment: sentence.sentiment,
     text: sentence.text,
     offset: sentence.offset,
+    length: sentence.length,
     minedOpinions: sentence.aspects
       ? sentence.aspects.map(
           (aspect: SentenceAspect): MinedOpinion => ({
@@ -182,7 +191,8 @@ function convertGeneratedSentenceSentiment(
               confidenceScores: aspect.confidenceScores,
               sentiment: aspect.sentiment,
               text: aspect.text,
-              offset: aspect.offset
+              offset: aspect.offset,
+              length: aspect.length
             },
             opinions: aspect.relations
               .filter((relation) => relation.relationType === "opinion")
