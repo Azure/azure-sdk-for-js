@@ -606,9 +606,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         const poller = await client.beginAnalyzeHealthcare(
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const pollerResult = await poller.pollUntilDone();
@@ -624,12 +622,8 @@ describe("[API Key] TextAnalyticsClient", function() {
         const poller = await client.beginAnalyzeHealthcare(
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            },
-            health: {
-              stringEncodingUnit: "UnicodeCodePoint"
-            }
+            updateIntervalInMs: pollingInterval,
+            stringEncodingUnit: "UnicodeCodePoint"
           }
         );
         const pollerResult = await poller.pollUntilDone();

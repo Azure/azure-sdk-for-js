@@ -1795,7 +1795,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       });
 
       it("family emoji wit skin tone modifier", async function() {
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
           {
             entityRecognitionPiiTasks: [
@@ -1803,12 +1803,8 @@ describe("[AAD] TextAnalyticsClient", function() {
             ]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            },
-            analyze: {
-              displayName: "testJob"
-            }
+            updateIntervalInMs: pollingInterval,
+            displayName: "testJob"
           }
         );
         const pollerResult = await poller.pollUntilDone();

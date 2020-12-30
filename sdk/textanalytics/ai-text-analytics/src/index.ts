@@ -29,7 +29,8 @@ export {
   BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   JobMetadata,
-  AnalyzeJobMetadata
+  AnalyzeJobMetadata,
+  StringEncodingUnit
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -119,6 +120,5 @@ export {
   TokenSentimentValue,
   TextAnalyticsWarning,
   PiiTaskParametersDomain,
-  State,
-  StringIndexType as StringEncodingUnit
+  State
 } from "./generated/models";

@@ -41,8 +41,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
     includeOpinionMining?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "StringEncodingUnit" needs to be exported by the entry point index.d.ts
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
 }
 
 // @public
@@ -95,7 +94,7 @@ export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperat
 // @public
 export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
     resumeFrom?: string;
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
     updateIntervalInMs?: number;
 }
 
@@ -106,7 +105,7 @@ export interface BeginAnalyzeOperationState extends AnalysisPollOperationState<P
 // @public
 export type CategorizedEntitiesRecognitionTask = {
     modelVersion?: string;
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
 };
 
 // @public
@@ -296,7 +295,7 @@ export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEnt
 export type PiiEntitiesRecognitionTask = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
 };
 
 // @public
@@ -316,7 +315,7 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
 }
 
 // @public
@@ -338,7 +337,7 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
 }
 
 // @public
@@ -361,7 +360,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     domainFilter?: PiiEntityDomainType;
-    stringEncodingUnit?: StringEncodingUnit_2;
+    stringEncodingUnit?: StringEncodingUnit;
 }
 
 // @public
@@ -416,7 +415,7 @@ export interface SentimentConfidenceScores {
 export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
 
 // @public
-export type StringEncodingUnit = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit" | string;
+export type StringEncodingUnit = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
 export class TextAnalyticsClient {
