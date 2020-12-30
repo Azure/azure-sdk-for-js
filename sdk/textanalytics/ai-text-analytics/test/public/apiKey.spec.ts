@@ -601,6 +601,45 @@ describe("[API Key] TextAnalyticsClient", function() {
         const result = await poller.pollUntilDone();
         assert.ok(result);
       });
+
+      it("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {
+        const poller = await client.beginAnalyzeHealthcare(
+          [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
+          {
+            polling: {
+              updateIntervalInMs: pollingInterval
+            }
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const result = (await pollerResult.next()).value;
+        if (!result.error) {
+          assert.equal(result.entities[0].offset, 20);
+          assert.equal(result.entities[0].length, 9);
+          assert.equal(result.entities[0].text.length, result.entities[0].length);
+        }
+      });
+
+      it("family emoji wit skin tone modifier with UnicodeCodePoint", async function() {
+        const poller = await client.beginAnalyzeHealthcare(
+          [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
+          {
+            polling: {
+              updateIntervalInMs: pollingInterval
+            },
+            health: {
+              stringEncodingUnit: "UnicodeCodePoint"
+            }
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const result = (await pollerResult.next()).value;
+        if (!result.error) {
+          assert.equal(result.entities[0].offset, 12); // 20 with UTF16
+          assert.equal(result.entities[0].length, 9);
+          assert.equal(result.entities[0].text.length, result.entities[0].length);
+        }
+      });
     });
   });
 });

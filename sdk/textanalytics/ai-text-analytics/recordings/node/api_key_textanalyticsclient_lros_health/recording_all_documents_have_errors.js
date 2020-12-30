@@ -11,43 +11,83 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/ed57dc04-5683-4bf4-8ecd-95ce1c31f80d',
+  'https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290',
   'x-envoy-upstream-service-time',
-  '284',
+  '83',
   'apim-request-id',
-  '0f6fd784-a074-4a77-82b4-92d1c86576e1',
+  'b3d632d3-11a3-48ca-a553-fd1ed42a73aa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:08:29 GMT'
+  'Wed, 30 Dec 2020 17:29:15 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/ed57dc04-5683-4bf4-8ecd-95ce1c31f80d')
+  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290')
   .query(true)
-  .reply(200, {"jobId":"ed57dc04-5683-4bf4-8ecd-95ce1c31f80d","lastUpdateDateTime":"2020-12-22T20:08:29Z","createdDateTime":"2020-12-22T20:08:29Z","expirationDateTime":"2020-12-23T20:08:29Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"1c3f78cb-ded4-427a-a8f8-e786409cb290","lastUpdateDateTime":"2020-12-30T17:29:16Z","createdDateTime":"2020-12-30T17:29:16Z","expirationDateTime":"2020-12-31T17:29:16Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '7',
+  '14',
   'apim-request-id',
-  'e7769e4a-79ca-496f-bec4-5e794cc7a334',
+  '6594bff0-7d6a-4de4-ad22-29a604794956',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:08:29 GMT'
+  'Wed, 30 Dec 2020 17:29:15 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/ed57dc04-5683-4bf4-8ecd-95ce1c31f80d')
+  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290')
   .query(true)
-  .reply(200, {"jobId":"ed57dc04-5683-4bf4-8ecd-95ce1c31f80d","lastUpdateDateTime":"2020-12-22T20:08:29Z","createdDateTime":"2020-12-22T20:08:29Z","expirationDateTime":"2020-12-23T20:08:29Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"1c3f78cb-ded4-427a-a8f8-e786409cb290","lastUpdateDateTime":"2020-12-30T17:29:16Z","createdDateTime":"2020-12-30T17:29:16Z","expirationDateTime":"2020-12-31T17:29:16Z","status":"notStarted","errors":[]}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '8',
+  'apim-request-id',
+  'bd027830-89e3-40d6-9182-5a75880f5817',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Wed, 30 Dec 2020 17:29:15 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290')
+  .query(true)
+  .reply(200, {"jobId":"1c3f78cb-ded4-427a-a8f8-e786409cb290","lastUpdateDateTime":"2020-12-30T17:29:16Z","createdDateTime":"2020-12-30T17:29:16Z","expirationDateTime":"2020-12-31T17:29:16Z","status":"notStarted","errors":[]}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '11',
+  'apim-request-id',
+  '1b6b2080-d39d-4317-ad2d-1a5368c6b0fe',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Wed, 30 Dec 2020 17:29:17 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290')
+  .query(true)
+  .reply(200, {"jobId":"1c3f78cb-ded4-427a-a8f8-e786409cb290","lastUpdateDateTime":"2020-12-30T17:29:20Z","createdDateTime":"2020-12-30T17:29:16Z","expirationDateTime":"2020-12-31T17:29:16Z","status":"running","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -55,71 +95,51 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '6',
   'apim-request-id',
-  '00390d4a-2e89-41fb-8e35-b447ae198de6',
+  'c59b7c64-df0f-4da3-8e8c-ec256ebc0af4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:08:29 GMT'
+  'Wed, 30 Dec 2020 17:29:19 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/ed57dc04-5683-4bf4-8ecd-95ce1c31f80d')
+  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290')
   .query(true)
-  .reply(200, {"jobId":"ed57dc04-5683-4bf4-8ecd-95ce1c31f80d","lastUpdateDateTime":"2020-12-22T20:08:29Z","createdDateTime":"2020-12-22T20:08:29Z","expirationDateTime":"2020-12-23T20:08:29Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"1c3f78cb-ded4-427a-a8f8-e786409cb290","lastUpdateDateTime":"2020-12-30T17:29:20Z","createdDateTime":"2020-12-30T17:29:16Z","expirationDateTime":"2020-12-31T17:29:16Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"1","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}},{"id":"2","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en"}}},{"id":"3","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"A document within the request was too large to be processed. Limit document size to: 5120 text elements. For additional details on the data limitations see https://aka.ms/text-analytics-data-limits"}}}],"modelVersion":"2020-09-03"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '7',
+  '43',
   'apim-request-id',
-  '7059f19b-9457-4702-8a48-c92940ccfa67',
+  '2feb1b1e-2d7f-472b-a246-5c6a83923d23',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:08:31 GMT'
+  'Wed, 30 Dec 2020 17:29:22 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/ed57dc04-5683-4bf4-8ecd-95ce1c31f80d')
+  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/1c3f78cb-ded4-427a-a8f8-e786409cb290')
   .query(true)
-  .reply(200, {"jobId":"ed57dc04-5683-4bf4-8ecd-95ce1c31f80d","lastUpdateDateTime":"2020-12-22T20:08:33Z","createdDateTime":"2020-12-22T20:08:29Z","expirationDateTime":"2020-12-23T20:08:29Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"1","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}},{"id":"2","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en"}}},{"id":"3","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"A document within the request was too large to be processed. Limit document size to: 5120 text elements. For additional details on the data limitations see https://aka.ms/text-analytics-data-limits"}}}],"modelVersion":"2020-09-03"}}, [
+  .reply(200, {"jobId":"1c3f78cb-ded4-427a-a8f8-e786409cb290","lastUpdateDateTime":"2020-12-30T17:29:20Z","createdDateTime":"2020-12-30T17:29:16Z","expirationDateTime":"2020-12-31T17:29:16Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"1","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}},{"id":"2","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en"}}},{"id":"3","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"A document within the request was too large to be processed. Limit document size to: 5120 text elements. For additional details on the data limitations see https://aka.ms/text-analytics-data-limits"}}}],"modelVersion":"2020-09-03"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '46',
+  '278',
   'apim-request-id',
-  'aea60232-efd1-497b-9c4f-1ba93197caea',
+  'b2b5ee2f-0f75-4070-8b0b-45ae29713654',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:08:33 GMT'
-]);
-
-nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.1-preview.3/entities/health/jobs/ed57dc04-5683-4bf4-8ecd-95ce1c31f80d')
-  .query(true)
-  .reply(200, {"jobId":"ed57dc04-5683-4bf4-8ecd-95ce1c31f80d","lastUpdateDateTime":"2020-12-22T20:08:33Z","createdDateTime":"2020-12-22T20:08:29Z","expirationDateTime":"2020-12-23T20:08:29Z","status":"succeeded","errors":[],"results":{"documents":[],"errors":[{"id":"1","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"Document text is empty."}}},{"id":"2","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en"}}},{"id":"3","error":{"code":"InvalidArgument","message":"Invalid document in request.","innererror":{"code":"InvalidDocument","message":"A document within the request was too large to be processed. Limit document size to: 5120 text elements. For additional details on the data limitations see https://aka.ms/text-analytics-data-limits"}}}],"modelVersion":"2020-09-03"}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '51',
-  'apim-request-id',
-  'f8c36024-1bf1-4c39-9f7e-17896fa67f09',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 22 Dec 2020 20:08:33 GMT'
+  'Wed, 30 Dec 2020 17:29:22 GMT'
 ]);
