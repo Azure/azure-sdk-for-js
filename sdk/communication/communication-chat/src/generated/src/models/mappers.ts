@@ -220,7 +220,8 @@ export const ChatMessage: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "ChatMessageContent"
         }
       },
       senderDisplayName: {
@@ -251,6 +252,68 @@ export const ChatMessage: coreHttp.CompositeMapper = {
       },
       editedOn: {
         serializedName: "editedOn",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ChatMessageContent: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatMessageContent",
+    modelProperties: {
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      topic: {
+        serializedName: "topic",
+        type: {
+          name: "String"
+        }
+      },
+      participants: {
+        serializedName: "participants",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "ChatParticipant" } }
+        }
+      },
+      initiator: {
+        serializedName: "initiator",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ChatParticipant: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChatParticipant",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      shareHistoryTime: {
+        serializedName: "shareHistoryTime",
         type: {
           name: "DateTime"
         }
@@ -297,34 +360,6 @@ export const ChatParticipantsCollection: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ChatParticipant: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChatParticipant",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      shareHistoryTime: {
-        serializedName: "shareHistoryTime",
-        type: {
-          name: "DateTime"
         }
       }
     }

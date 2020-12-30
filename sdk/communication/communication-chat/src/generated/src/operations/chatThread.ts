@@ -227,26 +227,6 @@ export class ChatThread {
   }
 
   /**
-   * Adds thread participants to a thread. If participants already exist, no change occurs.
-   * @param chatThreadId Id of the thread to add participants to.
-   * @param addChatParticipantsRequest Thread participants to be added to the thread.
-   * @param options The options parameters.
-   */
-  addChatParticipants(
-    chatThreadId: string,
-    addChatParticipantsRequest: AddChatParticipantsRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<ChatThreadAddChatParticipantsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { chatThreadId, addChatParticipantsRequest, options: operationOptions },
-      addChatParticipantsOperationSpec
-    ) as Promise<ChatThreadAddChatParticipantsResponse>;
-  }
-
-  /**
    * Remove a participant from a thread.
    * @param chatThreadId Thread id to remove the participant from.
    * @param chatParticipantId Id of the thread participant to remove from the thread.
@@ -264,6 +244,26 @@ export class ChatThread {
       { chatThreadId, chatParticipantId, options: operationOptions },
       removeChatParticipantOperationSpec
     ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Adds thread participants to a thread. If participants already exist, no change occurs.
+   * @param chatThreadId Id of the thread to add participants to.
+   * @param addChatParticipantsRequest Thread participants to be added to the thread.
+   * @param options The options parameters.
+   */
+  addChatParticipants(
+    chatThreadId: string,
+    addChatParticipantsRequest: AddChatParticipantsRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<ChatThreadAddChatParticipantsResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.client.sendOperationRequest(
+      { chatThreadId, addChatParticipantsRequest, options: operationOptions },
+      addChatParticipantsOperationSpec
+    ) as Promise<ChatThreadAddChatParticipantsResponse>;
   }
 
   /**
@@ -370,7 +370,7 @@ const listChatReadReceiptsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   serializer
 };
@@ -378,7 +378,7 @@ const sendChatReadReceiptOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}/readReceipts",
   httpMethod: "POST",
   responses: {
-    201: {},
+    200: {},
     401: {
       bodyMapper: Mappers.ErrorModel
     },
@@ -446,7 +446,7 @@ const listChatMessagesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.apiVersion, Parameters.startTime],
+  queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   serializer
 };
@@ -563,12 +563,34 @@ const listChatParticipantsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   serializer
 };
+const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}/participants/{chatParticipantId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    401: {
+      bodyMapper: Mappers.ErrorModel
+    },
+    403: {
+      bodyMapper: Mappers.ErrorModel
+    },
+    429: {
+      bodyMapper: Mappers.ErrorModel
+    },
+    503: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatParticipantId],
+  serializer
+};
 const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/participants",
+  path: "/chat/threads/{chatThreadId}/participants/:add",
   httpMethod: "POST",
   responses: {
     201: {
@@ -592,28 +614,6 @@ const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/participants/{chatParticipantId}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    401: {
-      bodyMapper: Mappers.ErrorModel
-    },
-    403: {
-      bodyMapper: Mappers.ErrorModel
-    },
-    429: {
-      bodyMapper: Mappers.ErrorModel
-    },
-    503: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatParticipantId],
   serializer
 };
 const updateChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -661,7 +661,7 @@ const listChatReadReceiptsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
   serializer
 };
@@ -685,7 +685,7 @@ const listChatMessagesNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.apiVersion, Parameters.startTime],
+  queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
   serializer
 };
@@ -709,7 +709,7 @@ const listChatParticipantsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
   serializer
 };

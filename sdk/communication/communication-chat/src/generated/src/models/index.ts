@@ -123,15 +123,9 @@ export interface ChatMessage {
    */
   readonly id?: string;
   /**
-   * Type of the chat message.
-   *
-   * Possible values:
-   *     - Text
-   *     - ThreadActivity/TopicUpdate
-   *     - ThreadActivity/AddMember
-   *     - ThreadActivity/DeleteMember
+   * The chat message type.
    */
-  type?: string;
+  type?: ChatMessageType;
   /**
    * The chat message priority.
    */
@@ -141,9 +135,9 @@ export interface ChatMessage {
    */
   readonly version?: string;
   /**
-   * Content of the chat message.
+   * Content of a chat message.
    */
-  content?: string;
+  content?: ChatMessageContent;
   /**
    * The display name of the chat message sender. This property is used to populate sender name for push notifications.
    */
@@ -164,6 +158,46 @@ export interface ChatMessage {
    * The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
   editedOn?: Date;
+}
+
+/**
+ * Content of a chat message.
+ */
+export interface ChatMessageContent {
+  /**
+   * Chat message content for type "text" or "html" messages.
+   */
+  message?: string;
+  /**
+   * Chat message content for type "topicUpdated" messages.
+   */
+  topic?: string;
+  /**
+   * Chat message content for type "participantAdded" or "participantRemoved" messages.
+   */
+  participants?: ChatParticipant[];
+  /**
+   * Chat message content for type "participantAdded" or "participantRemoved" messages.
+   */
+  initiator?: string;
+}
+
+/**
+ * A participant of the chat thread.
+ */
+export interface ChatParticipant {
+  /**
+   * The id of the chat participant.
+   */
+  id: string;
+  /**
+   * Display name for the chat participant.
+   */
+  displayName?: string;
+  /**
+   * Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
+   */
+  shareHistoryTime?: Date;
 }
 
 /**
@@ -192,24 +226,6 @@ export interface ChatParticipantsCollection {
    * If there are more chat participants that can be retrieved, the next link will be populated.
    */
   readonly nextLink?: string;
-}
-
-/**
- * A participant of the chat thread.
- */
-export interface ChatParticipant {
-  /**
-   * The id of the chat participant.
-   */
-  id: string;
-  /**
-   * Display name for the chat participant.
-   */
-  displayName?: string;
-  /**
-   * Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
-   */
-  shareHistoryTime?: Date;
 }
 
 /**
@@ -355,7 +371,16 @@ export interface UpdateChatThreadRequest {
 /**
  * Defines values for ChatMessagePriority.
  */
-export type ChatMessagePriority = "Normal" | "High";
+export type ChatMessagePriority = "normal" | "high";
+/**
+ * Defines values for ChatMessageType.
+ */
+export type ChatMessageType =
+  | "text"
+  | "html"
+  | "topicUpdated"
+  | "participantAdded"
+  | "participantRemoved";
 
 /**
  * Optional parameters.
@@ -364,7 +389,7 @@ export interface ChatThreadListChatReadReceiptsOptionalParams extends coreHttp.O
   /**
    * The maximum number of chat message read receipts to be returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * Skips chat message read receipts up to a specified position in response.
    */
@@ -418,7 +443,7 @@ export interface ChatThreadListChatMessagesOptionalParams extends coreHttp.Opera
   /**
    * The maximum number of messages to be returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
@@ -472,7 +497,7 @@ export interface ChatThreadListChatParticipantsOptionalParams extends coreHttp.O
   /**
    * The maximum number of participants to be returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * Skips participants up to a specified position in response.
    */
@@ -527,7 +552,7 @@ export interface ChatThreadListChatReadReceiptsNextOptionalParams
   /**
    * The maximum number of chat message read receipts to be returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * Skips chat message read receipts up to a specified position in response.
    */
@@ -561,7 +586,7 @@ export interface ChatThreadListChatMessagesNextOptionalParams extends coreHttp.O
   /**
    * The maximum number of messages to be returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
@@ -596,7 +621,7 @@ export interface ChatThreadListChatParticipantsNextOptionalParams
   /**
    * The maximum number of participants to be returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * Skips participants up to a specified position in response.
    */
@@ -660,7 +685,7 @@ export interface ChatListChatThreadsOptionalParams extends coreHttp.OperationOpt
   /**
    * The maximum number of chat threads returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
@@ -714,7 +739,7 @@ export interface ChatListChatThreadsNextOptionalParams extends coreHttp.Operatio
   /**
    * The maximum number of chat threads returned per page.
    */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /**
    * The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.
    */
