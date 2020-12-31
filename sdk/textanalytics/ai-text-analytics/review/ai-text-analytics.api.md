@@ -41,7 +41,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
     includeOpinionMining?: boolean;
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
 }
 
 // @public
@@ -94,7 +94,7 @@ export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperat
 // @public
 export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
     resumeFrom?: string;
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
     updateIntervalInMs?: number;
 }
 
@@ -105,7 +105,7 @@ export interface BeginAnalyzeOperationState extends AnalysisPollOperationState<P
 // @public
 export type CategorizedEntitiesRecognitionTask = {
     modelVersion?: string;
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
 };
 
 // @public
@@ -295,7 +295,7 @@ export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEnt
 export type PiiEntitiesRecognitionTask = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
 };
 
 // @public
@@ -315,7 +315,7 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
 }
 
 // @public
@@ -337,7 +337,7 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
 }
 
 // @public
@@ -360,7 +360,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     domainFilter?: PiiEntityDomainType;
-    stringEncodingUnit?: StringEncodingUnit;
+    stringUnitOfLength?: StringUnitOfLength;
 }
 
 // @public
@@ -415,7 +415,7 @@ export interface SentimentConfidenceScores {
 export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
 
 // @public
-export type StringEncodingUnit = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringUnitOfLength = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
 export class TextAnalyticsClient {

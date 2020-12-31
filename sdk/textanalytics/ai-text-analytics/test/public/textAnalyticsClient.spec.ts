@@ -22,6 +22,7 @@ import {
   PiiEntityDomainType
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "../utils/resultHelper";
+import { checkEntityTextOffset, checkOffsetAndLength } from "../utils/stringUnitOfLengthHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -686,320 +687,176 @@ describe("[AAD] TextAnalyticsClient", function() {
     describe("#String encoding", function() {
       describe("#Default encoding (utf16CodeUnit)", function() {
         it("emoji", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "👩 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            8,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("emoji with skin tone modifier", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 10);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "👩🏻 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            10,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("family emoji", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 17);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "👩‍👩‍👧‍👧 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            17,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 25);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            25,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("diacritics nfc", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "año SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 9);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "año SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            9,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("diacritics nfd", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "año SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 10);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "año SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            10,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("korean nfc", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "아가 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            8,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("korean nfd", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "아가 SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            8,
+            11,
+            checkEntityTextOffset
+          );
         });
 
         it("zalgo", async function() {
-          const [result] = await client.recognizePiiEntities([
-            { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
-          ]);
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 121);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(
+            client,
+            "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
+            "Utf16CodeUnit",
+            121,
+            11,
+            checkEntityTextOffset
+          );
         });
       });
       describe("#UnicodeCodePoint", function() {
         it("emoji", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 7); // 8 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8); // 10 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 13); // 17 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 17); // 25 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", "UnicodeCodePoint", 17, 11); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "año SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 9);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "año SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 10);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
         });
 
         it("korean nfc", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "아가 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
         });
 
         it("korean nfd", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "아가 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
         });
 
         it("zalgo", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "UnicodeCodePoint" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 121);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
         });
       });
       describe("#TextElements_v8", function() {
         it("emoji", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 7); // 8 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElements_v8", 7, 11); // offset was 8 with UTF16
         });
 
         it("emoji with skin tone modifier", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8); // 10 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElements_v8", 8, 11); // offset was 10 with UTF16
         });
 
         it("family emoji", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 13); // 17 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElements_v8", 13, 11); // offset was 17 with UTF16
         });
 
         it("family emoji wit skin tone modifier", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 17); // 25 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", "TextElements_v8", 17, 11); // offset was 25 with UTF16
         });
 
         it("diacritics nfc", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "año SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 9);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11);
         });
 
         it("diacritics nfd", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "año SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 9); // 10 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 10 with UTF16
         });
 
         it("korean nfc", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "아가 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
         });
 
         it("korean nfd", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "아가 SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 8);
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElements_v8", 8, 11);
         });
 
         it("zalgo", async function() {
-          const [result] = await client.recognizePiiEntities(
-            [{ id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }],
-            { stringEncodingUnit: "TextElements_v8" }
-          );
-          if (!result.error) {
-            assert.equal(result.entities[0].offset, 9); // 121 with UTF16
-            assert.equal(result.entities[0].length, 11);
-            assert.equal(result.entities[0].text.length, result.entities[0].length);
-          }
+          checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElements_v8", 9, 11); // offset was 121 with UTF16
         });
       });
     });
@@ -1799,7 +1656,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
           {
             entityRecognitionPiiTasks: [
-              { modelVersion: "latest", stringEncodingUnit: "UnicodeCodePoint" }
+              { modelVersion: "latest", stringUnitOfLength: "UnicodeCodePoint" }
             ]
           },
           {

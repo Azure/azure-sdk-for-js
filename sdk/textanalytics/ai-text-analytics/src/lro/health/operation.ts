@@ -27,7 +27,7 @@ import {
   getJobID,
   handleInvalidDocumentBatch,
   nextLinkToTopAndSkip,
-  StringEncodingUnit
+  StringUnitOfLength
 } from "../../util";
 import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
@@ -72,7 +72,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringEncodingUnit?: StringEncodingUnit;
+  stringUnitOfLength?: StringUnitOfLength;
 }
 
 /**
@@ -82,17 +82,15 @@ export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOpt
   /**
    * Delay to wait until next poll, in milliseconds.
    */
+  stringUnitOfLength?: StringUnitOfLength;
+  /**
+   * Delay to wait until next poll, in milliseconds.
+   */
   updateIntervalInMs?: number;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
   resumeFrom?: string;
-  /**
-   * Specifies the measurement unit used to calculate the offset and length properties.
-   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
-   * The default is the JavaScript's default which is "Utf16CodeUnit".
-   */
-  stringEncodingUnit?: StringEncodingUnit;
 }
 
 /**

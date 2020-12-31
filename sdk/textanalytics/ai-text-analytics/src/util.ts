@@ -87,17 +87,17 @@ const jsEncodingUnit = "Utf16CodeUnit";
 /**
  * Measurement units that can used to calculate the offset and length properties.
  */
-export type StringEncodingUnit = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringUnitOfLength = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 export function addStrEncodingParam<T>(
-  options: T & { stringEncodingUnit?: StringEncodingUnit }
-): T & { stringIndexType: StringEncodingUnit } {
-  return { ...options, stringIndexType: options.stringEncodingUnit || jsEncodingUnit };
+  options: T & { stringUnitOfLength?: StringUnitOfLength }
+): T & { stringIndexType: StringUnitOfLength } {
+  return { ...options, stringIndexType: options.stringUnitOfLength || jsEncodingUnit };
 }
 
 /**
  * Set the stringIndexType property with default if it does not exist in the options bag.
- * @param options - operation options bag that has a {@link StringEncodingUnit}
+ * @param options - operation options bag that has a {@link StringUnitOfLength}
  * @internal
  * @hidden
  */
@@ -108,9 +108,9 @@ export function setStrEncodingParam<T>(
 }
 
 export function addEncodingParamToTask<X>(
-  task: X & { stringEncodingUnit?: StringEncodingUnit }
-): X & { stringIndexType?: StringEncodingUnit } {
-  return { ...task, stringIndexType: task.stringEncodingUnit || jsEncodingUnit };
+  task: X & { stringUnitOfLength?: StringUnitOfLength }
+): X & { stringIndexType?: StringUnitOfLength } {
+  return { ...task, stringIndexType: task.stringUnitOfLength || jsEncodingUnit };
 }
 
 export function AddParamsToTask<X>(task: X): { parameters?: X } {
