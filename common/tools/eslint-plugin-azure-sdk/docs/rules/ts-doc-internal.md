@@ -1,6 +1,6 @@
 # ts-doc-internal
 
-Requires any TSDoc comments on internal objects to include either an `@internal` or an `@ignore` tag.
+Requires any TSDoc comments on internal objects to include either an `@internal` or an `@hidden` tag.
 
 Internal objects are defined as classes, interfaces, or standalone functions that are not exported from the main entrypoint to the package and are not members of any exports from the main entrypoint (defined recursively). **Files that are specified as excluded in a `typedoc.json` file are ignored by this rule.**
 
@@ -33,7 +33,7 @@ class ExampleClass {}
 ```ts
 /**
  * Other documentation
- * @ignore
+ * @hidden
  */
 interface ExampleInterface {}
 ```
@@ -65,6 +65,7 @@ interface ExampleInterface {}
 ```ts
 /**
  * Other documentation
+ * @ignore
  */
 function exampleFunction(): void {}
 ```
