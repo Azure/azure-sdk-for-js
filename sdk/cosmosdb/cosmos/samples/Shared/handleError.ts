@@ -17,7 +17,9 @@ export async function finish(): Promise<void> {
     await client.database(database).delete();
     console.log("\nEnd of demo.");
   } catch (err) {
-    console.log(`Database: "${database}" might not have deleted properly. You might need to delete it manually.`);
+    console.log(
+      `Database: "${database}" might not have deleted properly. You might need to delete it manually.`
+    );
     process.exitCode = 1;
   }
 }

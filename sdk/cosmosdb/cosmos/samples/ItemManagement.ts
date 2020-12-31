@@ -54,7 +54,9 @@ async function run(): Promise<void> {
   if (!item3 && headers3["content-length"] === 0) {
     throw "Expected item this time. Something is wrong!";
   } else {
-    console.log("This time the read request returned the item because the etag values did not match");
+    console.log(
+      "This time the read request returned the item because the etag values did not match"
+    );
   }
 
   const querySpec = {
@@ -95,7 +97,9 @@ async function run(): Promise<void> {
   const { resource: updatedPerson } = await container.items.upsert(person);
 
   console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
-  console.log("The '" + person.id + "' family has " + updatedPerson.children.length + " children '");
+  console.log(
+    "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
+  );
 
   logStep("Trying to replace item when item has changed in the database");
   // The replace item above will work even if there's a new version of item on the server from what you originally read
@@ -133,8 +137,9 @@ async function run(): Promise<void> {
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
   console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
 
-  if (upsertedPerson1.id === upsertedPerson2.id)
-    {throw new Error("These two upserted records should have different resource IDs.");}
+  if (upsertedPerson1.id === upsertedPerson2.id) {
+    throw new Error("These two upserted records should have different resource IDs.");
+  }
 
   logStep("Delete item '" + item.id + "'");
   await item.delete();

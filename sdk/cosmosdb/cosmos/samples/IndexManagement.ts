@@ -14,7 +14,9 @@ async function run(): Promise<void> {
 
   // We're using the default indexing policy because by default indexingMode == consistent & automatic == true
   // which means that by default all items added to a container are indexed as the item is written
-  const { container, resource: containerDef } = await database.containers.createIfNotExists({ id: containerId });
+  const { container, resource: containerDef } = await database.containers.createIfNotExists({
+    id: containerId
+  });
 
   logStep("Manually exclude an item from being indexed");
   console.log("create container with default index policy");

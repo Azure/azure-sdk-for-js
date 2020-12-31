@@ -9,7 +9,7 @@
     "@typescript-eslint/no-extraneous-class": "error",
     "dot-notation": "off",
     "some-rule": "off",
-    // ChangeFeed.ts has problems with this rule 
+    // ChangeFeed.ts has problems with this rule
     "no-irregular-whitespace": "off",
     "@typescript-eslint/tslint/config": [
       "error",

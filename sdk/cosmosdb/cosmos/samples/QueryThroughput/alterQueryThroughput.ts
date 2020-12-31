@@ -92,7 +92,8 @@ async function updateOfferForCollection(
   logStep("Finding container to offerDefinition");
   const container = containers.find(
     (containerParam: ContainerDefinition & Resource) =>
-    containerParam._rid === oldOfferDefinition.offerResourceId && containerParam.id === collectionName
+      containerParam._rid === oldOfferDefinition.offerResourceId &&
+      containerParam.id === collectionName
   );
 
   if (container) {
