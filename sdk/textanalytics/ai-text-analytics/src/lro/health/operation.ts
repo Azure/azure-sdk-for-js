@@ -17,7 +17,7 @@ import {
 import {
   HealthcareResult,
   HealthcareEntitiesArray,
-  PagedAsyncIterableHealthEntities,
+  PagedAsyncIterableHealthcareEntities,
   PaginatedHealthcareEntities
 } from "../../healthResult";
 import { PageSettings } from "@azure/core-paging";
@@ -89,7 +89,7 @@ export interface BeginAnalyzeHealthcareOptions {
   /**
    * Options related to the healthcare job.
    */
-  health?: HealthcareJobOptions;
+  healthcare?: HealthcareJobOptions;
 }
 
 /**
@@ -124,7 +124,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   private listHealthcareEntitiesByPage(
     jobId: string,
     options: HealthcareJobStatusOptions = {}
-  ): PagedAsyncIterableHealthEntities {
+  ): PagedAsyncIterableHealthcareEntities {
     const iter = this._listHealthcareEntities(jobId, options);
     return {
       next() {
@@ -234,7 +234,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
               jobMetdata: {
                 createdAt: response.createdDateTime,
                 updatedAt: response.lastUpdateDateTime,
-                expiredAt: response.expirationDateTime,
+                expiresAt: response.expirationDateTime,
                 status: response.status
               }
             };
@@ -305,7 +305,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     if (!state.isStarted) {
       state.isStarted = true;
       const response = await this.beginAnalyzeHealthcare(this.documents, {
-        ...this.options.health,
+        ...this.options.healthcare,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
       });
       if (!response.operationLocation) {
@@ -321,7 +321,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     });
 
     state.createdAt = jobStatus.jobMetdata?.createdAt;
-    state.expiredAt = jobStatus.jobMetdata?.expiredAt;
+    state.expiresAt = jobStatus.jobMetdata?.expiresAt;
     state.updatedAt = jobStatus.jobMetdata?.updatedAt;
     state.status = jobStatus.jobMetdata?.status;
 
@@ -331,7 +331,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       }
       const pagedIterator = this.listHealthcareEntitiesByPage(
         state.jobId!,
-        this.options.health || {}
+        this.options.healthcare || {}
       );
       state.result = Object.assign(pagedIterator, {
         statistics: jobStatus.statistics,
@@ -345,7 +345,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   async cancel(): Promise<BeginAnalyzeHealthcarePollerOperation> {
     const state = this.state;
     if (state.jobId) {
-      await this.client.cancelHealthJob(state.jobId, this.options.health);
+      await this.client.cancelHealthJob(state.jobId, this.options.healthcare);
     }
     state.isCancelled = true;
     return this;

@@ -43,7 +43,7 @@ export interface HealthcareEntitiesArray extends Array<HealthcareResult> {}
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<
+export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<
   HealthcareResult,
   HealthcareEntitiesArray
 >;
@@ -53,7 +53,7 @@ export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthEntities {
+export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

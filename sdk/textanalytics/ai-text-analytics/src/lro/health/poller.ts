@@ -14,7 +14,7 @@ import {
 /**
  * Result type of the Health Long-Running-Operation (LRO)
  */
-export type HealthPollerLike = PollerLike<
+export type HealthcarePollerLike = PollerLike<
   BeginAnalyzeHealthcarePollState,
   PaginatedHealthcareEntities
 >;
@@ -47,7 +47,7 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       client,
       documents,
       {
-        health: analysisOptions,
+        healthcare: analysisOptions,
         polling: {
           updateIntervalInMs,
           resumeFrom

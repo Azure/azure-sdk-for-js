@@ -310,7 +310,7 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
         const poller = await client.beginAnalyzeHealthcare(docs, {
-          health: {
+          healthcare: {
             modelVersion: "latest",
             includeStatistics: true
           },
@@ -445,7 +445,7 @@ describe("[API Key] TextAnalyticsClient", function() {
 
         try {
           await client.beginAnalyzeHealthcare(docs, {
-            health: { modelVersion: "bad" },
+            healthcare: { modelVersion: "bad" },
             polling: {
               updateIntervalInMs: pollingInterval
             }
@@ -617,7 +617,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         );
         poller.onProgress(() => {
           assert.ok(poller.getOperationState().createdAt, "createdAt is undefined!");
-          assert.ok(poller.getOperationState().expiredAt, "expiredAt is undefined!");
+          assert.ok(poller.getOperationState().expiresAt, "expiresAt is undefined!");
           assert.ok(poller.getOperationState().updatedAt, "updatedAt is undefined!");
           assert.ok(poller.getOperationState().status, "status is undefined!");
         });

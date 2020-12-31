@@ -58,6 +58,9 @@ interface AnalyzeResultsWithPagination {
   skip?: number;
 }
 
+/**
+ * The metadata for beginAnalyze jobs.
+ */
 export interface AnalyzeJobMetadata extends JobMetadata {
   /**
    * Number of successfully completed tasks.
@@ -273,7 +276,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
             jobMetdata: {
               createdAt: response.createdDateTime,
               updatedAt: response.lastUpdateDateTime,
-              expiredAt: response.expirationDateTime,
+              expiresAt: response.expirationDateTime,
               status: response.status,
               successfullyCompletedTasksCount: response.tasks.completed,
               failedTasksCount: response.tasks.failed,
@@ -367,7 +370,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     });
 
     state.createdAt = jobStatus.jobMetdata?.createdAt;
-    state.expiredAt = jobStatus.jobMetdata?.expiredAt;
+    state.expiresAt = jobStatus.jobMetdata?.expiresAt;
     state.updatedAt = jobStatus.jobMetdata?.updatedAt;
     state.status = jobStatus.jobMetdata?.status;
     state.successfullyCompletedTasksCount = jobStatus.jobMetdata?.successfullyCompletedTasksCount;

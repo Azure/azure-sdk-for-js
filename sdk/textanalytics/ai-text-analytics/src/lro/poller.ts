@@ -50,7 +50,7 @@ export interface JobMetadata {
   /**
    * The date and time when the job results will expire on the server.
    */
-  expiredAt?: Date;
+  expiresAt?: Date;
   /**
    * The job id.
    */

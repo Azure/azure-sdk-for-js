@@ -17,7 +17,7 @@ import { TokenCredential } from '@azure/core-auth';
 export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, JobMetadata {
 }
 
-// @public (undocumented)
+// @public
 export interface AnalyzeJobMetadata extends JobMetadata {
     displayName?: string;
     failedTasksCount?: number;
@@ -85,7 +85,7 @@ export { AzureKeyCredential }
 
 // @public
 export interface BeginAnalyzeHealthcareOptions {
-    health?: HealthcareJobOptions;
+    healthcare?: HealthcareJobOptions;
     polling?: PollingOptions;
 }
 
@@ -209,6 +209,9 @@ export type HealthcareErrorResult = TextAnalyticsErrorResult;
 export interface HealthcareJobOptions extends TextAnalyticsOperationOptions {
 }
 
+// @public
+export type HealthcarePollerLike = PollerLike<BeginAnalyzeHealthcarePollState, PaginatedHealthcareEntities>;
+
 // @public (undocumented)
 export interface HealthcareRelation {
     bidirectional: boolean;
@@ -227,9 +230,6 @@ export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
 }
 
 // @public
-export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcarePollState, PaginatedHealthcareEntities>;
-
-// @public
 export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint" | string;
 
 // @public
@@ -242,7 +242,7 @@ export interface JobManifestTasks {
 // @public
 export interface JobMetadata {
     createdAt?: Date;
-    expiredAt?: Date;
+    expiresAt?: Date;
     jobId?: string;
     status?: State;
     updatedAt?: Date;
@@ -285,7 +285,7 @@ export interface OpinionSentiment extends SentenceOpinion {
 export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResult>;
 
 // @public
-export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
+export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
 
 // @public
 export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
@@ -293,7 +293,7 @@ export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResult
 }
 
 // @public
-export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthEntities {
+export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -426,8 +426,8 @@ export class TextAnalyticsClient {
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     beginAnalyze(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
     beginAnalyze(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
-    beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthPollerLike>;
-    beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthPollerLike>;
+    beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;

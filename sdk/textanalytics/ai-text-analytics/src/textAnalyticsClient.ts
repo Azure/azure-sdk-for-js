@@ -54,7 +54,7 @@ import {
   addStrEncodingParam,
   handleInvalidDocumentBatch
 } from "./util";
-import { BeginAnalyzeHealthcarePoller, HealthPollerLike } from "./lro/health/poller";
+import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
 import {
   BeginAnalyzeHealthcareOptions,
   BeginAnalyzeHealthcarePollState,
@@ -75,7 +75,7 @@ export {
   AnalyzePollerLike,
   BeginAnalyzePollState,
   BeginAnalyzeHealthcareOptions,
-  HealthPollerLike,
+  HealthcarePollerLike,
   AnalyzeJobOptions,
   PollingOptions,
   HealthcareJobOptions,
@@ -830,7 +830,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike>;
+  ): Promise<HealthcarePollerLike>;
   /**
    * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
    * symptoms, etc) and their relations.
@@ -840,13 +840,13 @@ export class TextAnalyticsClient {
   async beginAnalyzeHealthcare(
     documents: TextDocumentInput[],
     options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike>;
+  ): Promise<HealthcarePollerLike>;
 
   async beginAnalyzeHealthcare(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
     options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike> {
+  ): Promise<HealthcarePollerLike> {
     let realOptions: BeginAnalyzeHealthcareOptions;
     let realInputs: TextDocumentInput[];
     if (isStringArray(documents)) {
@@ -861,7 +861,7 @@ export class TextAnalyticsClient {
     const poller = new BeginAnalyzeHealthcarePoller({
       client: this.client,
       documents: realInputs,
-      analysisOptions: realOptions.health,
+      analysisOptions: realOptions.healthcare,
       ...realOptions.polling
     });
 
