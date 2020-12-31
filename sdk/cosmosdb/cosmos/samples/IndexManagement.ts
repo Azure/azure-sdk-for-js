@@ -9,7 +9,7 @@ logSampleHeader("Index Management");
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
 
-async function run() {
+async function run(): Promise<void> {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   // We're using the default indexing policy because by default indexingMode == consistent & automatic == true
@@ -82,8 +82,8 @@ async function run() {
   if (results2.length === 0) {
     throw new Error("There were meant to be results");
   } else {
-    const itemDef = results2[0];
-    console.log("Item with id '" + itemDef.id + "' found");
+    const fetchedItemDef = results2[0];
+    console.log("Item with id '" + fetchedItemDef.id + "' found");
   }
 
   logStep("Create a range index on string path");

@@ -31,12 +31,12 @@ export class MultiRegionWriteScenario {
     }
   }
 
-  public async init() {
+  public async init(): Promise<void> {
     await this.conflictWorker.init();
     console.log("Initialized containers");
   }
 
-  public async runBasic() {
+  public async runBasic(): Promise<void> {
     console.log("################################################");
     console.log("Basic Active-Active");
     console.log("################################################");
@@ -56,7 +56,7 @@ export class MultiRegionWriteScenario {
     console.log("################################################");
   }
 
-  public async runManualConflict() {
+  public async runManualConflict(): Promise<void> {
     console.log("################################################");
     console.log("Manual Conflict Resolution");
     console.log("################################################");
@@ -65,7 +65,7 @@ export class MultiRegionWriteScenario {
     console.log("################################################");
   }
 
-  public async runLWW() {
+  public async runLWW(): Promise<void> {
     console.log("################################################");
     console.log("LWW Conflict Resolution");
     console.log("################################################");
@@ -74,7 +74,7 @@ export class MultiRegionWriteScenario {
     console.log("################################################");
   }
 
-  public async runUDP() {
+  public async runUDP(): Promise<void> {
     console.log("################################################");
     console.log("UDP Conflict Resolution");
     console.log("################################################");

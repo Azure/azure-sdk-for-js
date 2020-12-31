@@ -20,14 +20,14 @@ const sprocParams = [
   }
 ];
 
-async function run() {
+async function run(): Promise<void> {
   const { database } = await client.databases.create({ id: databaseId });
   const { container } = await database.containers.create({ id: containerId });
 
   logStep("Creating the sproc: '" + sprocDefinition.id + "'");
 
   // Query for the stored procedure.
-  const { sproc, resource: sprocDef } = await container.scripts.storedProcedures.create(sprocDefinition);
+  const { sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
 
   logStep("Executing the sproc: '" + sproc.id + "'");
   console.log("Sproc parameters: " + JSON.stringify(sprocParams));

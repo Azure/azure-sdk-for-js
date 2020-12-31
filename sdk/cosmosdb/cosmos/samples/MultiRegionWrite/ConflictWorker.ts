@@ -16,7 +16,7 @@ export class ConflictWorker {
     private readonly udpContainerName: string
   ) {}
 
-  public addClient(region: string, client: CosmosClient) {
+  public addClient(region: string, client: CosmosClient): void {
     this.clients.set(region, client);
   }
 
@@ -24,14 +24,14 @@ export class ConflictWorker {
     const createClient = this.clients.values().next().value;
 
     const { database } = await createClient.databases.createIfNotExists({ id: this.databaseName });
-    const { container: basicContainer } = await database.containers.createIfNotExists({ id: this.basicContainerName });
-    const { container: manualContainer } = await database.containers.createIfNotExists({
+    await database.containers.createIfNotExists({ id: this.basicContainerName });
+    await database.containers.createIfNotExists({
       id: this.manualContainerName,
       conflictResolutionPolicy: {
         mode: "Custom"
       }
     });
-    const { container: lwwContainer } = await database.containers.createIfNotExists({
+    await database.containers.createIfNotExists({
       id: this.lwwContainerName,
       conflictResolutionPolicy: {
         mode: "LastWriterWins",
@@ -47,10 +47,10 @@ export class ConflictWorker {
     });
 
     // See ./lwwSprocDef for the stored procedure definition include the logic
-    const { sproc: lwwSproc } = await udpContainer.scripts.storedProcedures.create(lwwSprocDef);
+    await udpContainer.scripts.storedProcedures.create(lwwSprocDef);
   }
 
-  public async RunManualConflict() {
+  public async RunManualConflict(): Promise<void> {
     console.log("Insert Conflict");
     await this.RunInsertConflictonManual();
 
@@ -61,7 +61,7 @@ export class ConflictWorker {
     await this.RunDeleteConflictOnManual();
   }
 
-  public async RunLWWConflict() {
+  public async RunLWWConflict(): Promise<void> {
     console.log("Insert Conflict");
     await this.RunInsertConflictOnLWW();
 
@@ -72,7 +72,7 @@ export class ConflictWorker {
     await this.RunDeleteConflictOnLWW();
   }
 
-  public async RunUDP() {
+  public async RunUDP(): Promise<void> {
     console.log("Insert Conflict");
     await this.RunInsertConflictOnUdp();
 
@@ -83,7 +83,7 @@ export class ConflictWorker {
     await this.RunDeleteConflictsOnUdp();
   }
 
-  private async RunInsertConflictonManual() {
+  private async RunInsertConflictonManual(): Promise<void> {
     do {
       let p = logger(
         `Performing conflicting insert across ${this.clients.size} regions on ${this.manualContainerName}`
@@ -120,10 +120,10 @@ export class ConflictWorker {
         p.fail();
         throw err;
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  private async RunUpdateConflictOnManual() {
+  private async RunUpdateConflictOnManual(): Promise<void> {
     let retryCount = 5;
     do {
       const itemBase = { id: guid() };
@@ -177,7 +177,7 @@ export class ConflictWorker {
     console.error("Could not enduce an update conflict for manual conflict resolution");
   }
 
-  private async RunDeleteConflictOnManual() {
+  private async RunDeleteConflictOnManual(): Promise<void> {
     do {
       const itemBase = { id: guid() };
 
@@ -218,10 +218,10 @@ export class ConflictWorker {
       } else {
         console.warn("Retrying update/delete to induce conflicts");
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  private async validateAllManualConflict(item: ItemDefinition) {
+  private async validateAllManualConflict(item: ItemDefinition): Promise<void> {
     let conflictExists = false;
     for (const [conflictRegion, client] of this.clients.entries()) {
       conflictExists = await this.validateManualConflict(conflictRegion, client, item);
@@ -232,8 +232,8 @@ export class ConflictWorker {
     }
   }
 
-  private async validateManualConflict(clientRegion: string, client: CosmosClient, item: ItemDefinition) {
-    while (true) {
+  private async validateManualConflict(clientRegion: string, client: CosmosClient, item: ItemDefinition): Promise<boolean> {
+    for (;;) {
       const container = client.database(this.databaseName).container(this.manualContainerName);
 
       const { resources: conflicts } = await container.conflicts.readAll().fetchAll();
@@ -250,7 +250,7 @@ export class ConflictWorker {
             return true;
           } else {
             try {
-              const winner = client.database(this.databaseName).container(this.manualContainerName);
+              client.database(this.databaseName).container(this.manualContainerName);
               console.log(`Document from region ${item.regionId} won the conflict @ ${clientRegion}`);
               return false;
             } catch (err) {
@@ -272,7 +272,7 @@ export class ConflictWorker {
     }
   }
 
-  private async RunInsertConflictOnLWW() {
+  private async RunInsertConflictOnLWW(): Promise<void> {
     do {
       console.log(`1) Performing conflicting insert across ${this.clients.size} regions on ${this.lwwContainerName}`);
 
@@ -296,10 +296,10 @@ export class ConflictWorker {
       } else {
         console.warn("Retrying insert to induce conflicts");
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  private async RunUpdateConflictOnLWW() {
+  private async RunUpdateConflictOnLWW(): Promise<void> {
     let retry = 5;
     do {
       const itemBase = { id: guid() };
@@ -342,7 +342,7 @@ export class ConflictWorker {
     console.error("Could not induce update conflict on LWW");
   }
 
-  private async RunDeleteConflictOnLWW() {
+  private async RunDeleteConflictOnLWW(): Promise<void> {
     do {
       const itemBase = { id: guid() };
 
@@ -391,10 +391,10 @@ export class ConflictWorker {
       } else {
         console.warn("Retrying update/delete to induce conflicts");
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  private async validateLWW(items: ItemDefinition[], hasDeleteConflict: boolean = false) {
+  private async validateLWW(items: ItemDefinition[], hasDeleteConflict: boolean = false): Promise<void> {
     for (const [regionName, client] of this.clients.entries()) {
       await this.validateLWWPerClient(regionName, client, items, hasDeleteConflict);
     }
@@ -405,7 +405,7 @@ export class ConflictWorker {
     client: CosmosClient,
     items: ItemDefinition[],
     hasDeleteConflict: boolean
-  ) {
+  ): Promise<void> {
     const container = client.database(this.databaseName).container(this.lwwContainerName);
 
     const { resources: conflicts } = await container.conflicts.readAll().fetchAll();
@@ -427,14 +427,14 @@ export class ConflictWorker {
         }
         console.error(`Delete conflict for item ${items[0].id} didn't win @ ${regionName}`);
         await this.sleep(500);
-      } while (true);
+      } while (true); // eslint-disable-line no-constant-condition
     }
 
     const winner = items.reduce((p, c) => (p.regionId <= c.regionId ? c : p), items[0]);
 
     console.log(`Document from region ${winner.regionId} should be the winner`);
 
-    while (true) {
+    for (;;) {
       try {
         const { resource: currentItem } = await container.item(winner.id, undefined).read();
 
@@ -453,7 +453,7 @@ export class ConflictWorker {
     }
   }
 
-  public async RunInsertConflictOnUdp() {
+  public async RunInsertConflictOnUdp(): Promise<void> {
     do {
       console.log(`1) Performing conflicting insert across ${this.clients.size} regions on ${this.udpContainerName}`);
 
@@ -477,10 +477,10 @@ export class ConflictWorker {
       } else {
         console.warn("Retrying insert to induce conflicts");
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  public async RunUpdateConflictOnUdp() {
+  public async RunUpdateConflictOnUdp(): Promise<void> {
     do {
       const itemBase = { id: guid() };
 
@@ -518,10 +518,10 @@ export class ConflictWorker {
       } else {
         console.warn("Retrying update to induce conflicts");
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  public async RunDeleteConflictsOnUdp() {
+  public async RunDeleteConflictsOnUdp(): Promise<void> {
     do {
       const itemBase = { id: guid() };
 
@@ -570,10 +570,10 @@ export class ConflictWorker {
       } else {
         console.warn("Retrying update/delete to induce conflicts");
       }
-    } while (true);
+    } while (true); // eslint-disable-line no-constant-condition
   }
 
-  private async validateUDP(items: ItemDefinition[], hasDeleteConflict: boolean = false) {
+  private async validateUDP(items: ItemDefinition[], hasDeleteConflict: boolean = false): Promise<void> {
     for (const [regionName, client] of this.clients.entries()) {
       await this.validateUDPPerClient(regionName, client, items, hasDeleteConflict);
     }
@@ -584,7 +584,7 @@ export class ConflictWorker {
     client: CosmosClient,
     items: ItemDefinition,
     hasDeleteConflict: boolean
-  ) {
+  ): Promise<void> {
     const container = client.database(this.databaseName).container(this.udpContainerName);
 
     const { resources: conflicts } = await container.conflicts.readAll().fetchAll();
@@ -597,7 +597,7 @@ export class ConflictWorker {
     if (hasDeleteConflict) {
       do {
         try {
-          const { resource: shouldNotExist } = await container.item(items[0].id, undefined).read();
+          await container.item(items[0].id, undefined).read();
         } catch (err) {
           if (err.code === StatusCodes.NotFound) {
             console.log(`Delete conflict won @ ${regionName}`);
@@ -606,14 +606,14 @@ export class ConflictWorker {
         }
         console.error(`Delete conflict for item ${items[0].id} didn't win @ ${regionName}`);
         await this.sleep(500);
-      } while (true);
+      } while (true); // eslint-disable-line no-constant-condition
     }
 
     const winner = items.reduce((p: ItemDefinition, c: ItemDefinition) => (p.regionId <= c.regionId ? c : p), items[0]);
 
     console.log(`Document from region ${winner.regionId} should be the winner`);
 
-    while (true) {
+    for (;;) {
       try {
         const { resource: currentItem } = await container.item(winner.id, undefined).read();
 
@@ -666,7 +666,7 @@ export class ConflictWorker {
 
   private async tryDeleteItem(item: Item, newDef: ItemDefinition): Promise<ItemDefinition> {
     try {
-      const { resource: deletedItem } = await item.delete({
+      await item.delete({
         accessCondition: {
           type: "IfMatch",
           condition: newDef._etag
@@ -682,7 +682,7 @@ export class ConflictWorker {
     }
   }
 
-  private async DeleteConflict(item: ItemDefinition) {
+  private async DeleteConflict(item: ItemDefinition): Promise<void> {
     const client = this.clients.values().next().value;
     const container = client.database(this.databaseName).container(this.manualContainerName);
     const conflicts = await container.conflicts.readAll().fetchAll();
@@ -702,9 +702,9 @@ export class ConflictWorker {
   }
 
   private sleep(timeinMS: number): Promise<void> {
-    return new Promise((res, rej) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
-        res();
+        resolve();
       }, timeinMS);
     });
   }

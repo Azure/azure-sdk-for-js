@@ -10,7 +10,7 @@ logSampleHeader("Container Management");
 const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
-async function run() {
+async function run(): Promise<void> {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   logStep(`Create container with id : ${containerId}`);
