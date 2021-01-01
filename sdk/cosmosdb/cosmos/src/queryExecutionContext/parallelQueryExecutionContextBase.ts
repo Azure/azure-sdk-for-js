@@ -25,10 +25,7 @@ export enum ParallelQueryExecutionContextBaseStates {
   ended = "ended"
 }
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export abstract class ParallelQueryExecutionContextBase implements ExecutionContext {
   private err: any;
   private state: any;

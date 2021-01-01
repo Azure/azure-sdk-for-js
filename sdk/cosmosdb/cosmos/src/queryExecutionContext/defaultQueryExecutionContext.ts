@@ -20,10 +20,7 @@ enum STATES {
   ended = "ended"
 }
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class DefaultQueryExecutionContext implements ExecutionContext {
   private static readonly STATES = STATES;
   private resources: any[]; // TODO: any resources

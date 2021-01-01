@@ -8,9 +8,7 @@ interface MaxAggregateResult {
   max?: number;
 }
 
-/**
- * @hidden
- */
+/** @hidden */
 export class MaxAggregator implements Aggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;

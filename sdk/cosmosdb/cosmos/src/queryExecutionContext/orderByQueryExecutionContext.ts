@@ -9,10 +9,7 @@ import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComp
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase
   implements ExecutionContext {
   private orderByComparator: any;

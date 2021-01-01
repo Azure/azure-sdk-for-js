@@ -7,10 +7,7 @@ export interface CosmosHeaders {
   [key: string]: any;
 }
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 // TODO: docs
 export function getRequestChargeIfAny(headers: CosmosHeaders | number): number {
   if (typeof headers === "number") {

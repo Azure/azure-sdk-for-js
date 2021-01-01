@@ -4,10 +4,7 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,

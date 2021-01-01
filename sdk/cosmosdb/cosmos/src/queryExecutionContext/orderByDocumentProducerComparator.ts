@@ -33,10 +33,7 @@ const TYPEORDCOMPARATOR: {
   }
 });
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class OrderByDocumentProducerComparator {
   constructor(public sortOrder: string[]) {} // TODO: This should be an enum
 

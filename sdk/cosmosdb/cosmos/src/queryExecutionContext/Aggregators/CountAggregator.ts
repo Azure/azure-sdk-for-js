@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 import { Aggregator } from "./Aggregator";
 
-/**
- * @hidden
- */
+/** @hidden */
 export class CountAggregator implements Aggregator {
   public value: number;
   /**

@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 import { Aggregator } from "./Aggregator";
 
-/**
- * @hidden
- */
+/** @hidden */
 export class StaticValueAggregator implements Aggregator {
   public value: any;
   public aggregate(other: unknown): void {

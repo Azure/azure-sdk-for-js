@@ -16,10 +16,7 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
   private fetchBuffer: any[];
   private fetchMoreRespHeaders: CosmosHeaders;

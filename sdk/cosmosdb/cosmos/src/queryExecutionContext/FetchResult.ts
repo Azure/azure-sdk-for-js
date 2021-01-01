@@ -7,10 +7,7 @@ export enum FetchResultType {
   "Result" = 2
 }
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class FetchResult {
   public feedResponse: any;
   public fetchResultType: FetchResultType;

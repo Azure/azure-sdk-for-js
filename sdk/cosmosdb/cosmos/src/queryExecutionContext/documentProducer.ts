@@ -17,10 +17,7 @@ import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./index";
 
-/**
- * @internal
- * @hidden
- */
+/** @hidden */
 export class DocumentProducer {
   private collectionLink: string;
   private query: string | SqlQuerySpec;

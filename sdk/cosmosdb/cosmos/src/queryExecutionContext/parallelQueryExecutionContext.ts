@@ -8,7 +8,6 @@ import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionConte
 /**
  * Provides the ParallelQueryExecutionContext.
  * This class is capable of handling parallelized queries and derives from ParallelQueryExecutionContextBase.
- * @internal
  * @hidden
  */
 export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase
