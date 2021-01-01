@@ -188,16 +188,14 @@ describe("NodeJS CRUD Tests", function() {
       id: "querySproc",
       body: function() {
         const context = getContext();
-        const container = context.getCollection();
+        const container2 = context.getCollection();
         const response = context.getResponse();
 
         // query for players
         const query = "SELECT r.id, r.key, r.prop FROM r";
-        const accept = container.queryDocuments(container.getSelfLink(), query, {}, function(
+        const accept = container2.queryDocuments(container2.getSelfLink(), query, {}, function(
           err: any,
-          documents: any,
-          responseOptions: any
-        ) {
+          documents: any        ) {
           if (err) throw new Error("Error" + err.message);
           response.setBody(documents);
         });

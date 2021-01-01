@@ -121,7 +121,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
     it("validate getOverlappingRanges", function() {
       const completeRange = new QueryRange("", "FF", true, false);
 
-      const compareId = function(a: any, b: any) {
+      const compareId = function(a: any, b: any): number {
         // TODO: any
         return a["id"] - b["id"];
       };

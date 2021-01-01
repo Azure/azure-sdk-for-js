@@ -309,7 +309,7 @@ describe("Session Token", function() {
     const database = await getTestDatabase("session test", client);
 
     const containerLink = "dbs/" + database.id + "/colls/" + containerId;
-    const increaseLSN = function(oldTokens: Map<string, Map<string, VectorSessionToken>>) {
+    const increaseLSN = function(oldTokens: Map<string, Map<string, VectorSessionToken>>): string {
       for (const [, tokens] of oldTokens.entries()) {
         for (const [pk, token] of tokens.entries()) {
           (token as any).globalLsn = (token as any).globalLsn + 200;

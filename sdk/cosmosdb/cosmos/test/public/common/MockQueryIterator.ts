@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 /** @hidden */
 export class MockedQueryIterator {
-  constructor(private results: any) {}
-  public async fetchAll() {
+  constructor(private results: unknown) {}
+  public async fetchAll(): Promise<{
+    resources: unknown;
+  }> {
     return { resources: this.results };
   }
 }

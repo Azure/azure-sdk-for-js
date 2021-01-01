@@ -35,7 +35,7 @@ describe("Item CRUD", function() {
   beforeEach(async function() {
     await removeAllDatabases();
   });
-  const documentCRUDTest = async function(isUpsertTest: boolean) {
+  const documentCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
     // create container
@@ -186,7 +186,7 @@ describe("Item CRUD", function() {
     );
 
     returnedDocuments.forEach(function(document) {
-      document.prop ? ++document.prop : null;
+      document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
     });
     const newReturnedDocuments = await bulkReplaceItems(container, returnedDocuments, partitionKey);
     returnedDocuments = newReturnedDocuments;
