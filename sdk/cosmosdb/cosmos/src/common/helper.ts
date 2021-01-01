@@ -7,9 +7,9 @@ const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");
 const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 export function jsonStringifyAndEscapeNonASCII(arg: unknown): string {
   // TODO: better way for this? Not sure.

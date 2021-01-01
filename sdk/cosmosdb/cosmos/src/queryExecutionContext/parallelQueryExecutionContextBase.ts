@@ -25,7 +25,7 @@ export enum ParallelQueryExecutionContextBaseStates {
   ended = "ended"
 }
 
-/** 
+/**
  * @internal
  * @hidden
  */
@@ -199,7 +199,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @memberof ParallelQueryExecutionContextBase
    * @instance
    */
-  private async _getReplacementPartitionKeyRanges(documentProducer: DocumentProducer): Promise<any[]> {
+  private async _getReplacementPartitionKeyRanges(
+    documentProducer: DocumentProducer
+  ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
     this.routingProvider = new SmartRoutingMapProvider(this.clientContext);

@@ -7,7 +7,7 @@ export interface CosmosHeaders {
   [key: string]: any;
 }
 
-/** 
+/**
  * @internal
  * @hidden
  */

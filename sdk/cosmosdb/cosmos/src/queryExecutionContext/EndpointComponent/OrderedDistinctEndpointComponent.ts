@@ -4,9 +4,9 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private hashedLastResult: string;

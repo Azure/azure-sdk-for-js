@@ -39,7 +39,10 @@ export function parseDelimitedString(
  * @param metrics
  * @param key
  */
-export function timeSpanFromMetrics(metrics: { [key: string]: any } /* TODO: any */, key: string): TimeSpan {
+export function timeSpanFromMetrics(
+  metrics: { [key: string]: any } /* TODO: any */,
+  key: string
+): TimeSpan {
   if (key in metrics) {
     return TimeSpan.fromMilliseconds(metrics[key]);
   }

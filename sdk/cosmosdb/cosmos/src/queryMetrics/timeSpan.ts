@@ -126,7 +126,7 @@ export class TimeSpan {
    * @memberof TimeSpan
    * @instance
    */
-  public compareTo(value: TimeSpan) : 1 | -1 | 0 {
+  public compareTo(value: TimeSpan): 1 | -1 | 0 {
     if (value == null) {
       return 1;
     }

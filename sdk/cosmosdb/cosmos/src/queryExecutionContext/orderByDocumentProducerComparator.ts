@@ -33,7 +33,7 @@ const TYPEORDCOMPARATOR: {
   }
 });
 
-/** 
+/**
  * @internal
  * @hidden
  */
@@ -137,7 +137,18 @@ export class OrderByDocumentProducerComparator {
     }
   }
 
-  private getType(orderByItem: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function" | "NoValue" {
+  private getType(
+    orderByItem: any
+  ):
+    | "string"
+    | "number"
+    | "bigint"
+    | "boolean"
+    | "symbol"
+    | "undefined"
+    | "object"
+    | "function"
+    | "NoValue" {
     // TODO: any item?
     if (orderByItem === undefined || orderByItem.item === undefined) {
       return "NoValue";

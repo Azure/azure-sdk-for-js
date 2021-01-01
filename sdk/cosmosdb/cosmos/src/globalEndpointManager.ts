@@ -99,7 +99,10 @@ export class GlobalEndpointManager {
     return canUse;
   }
 
-  public async resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType): Promise<string> {
+  public async resolveServiceEndpoint(
+    resourceType: ResourceType,
+    operationType: OperationType
+  ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
     if (!this.options.connectionPolicy.enableEndpointDiscovery) {
       return this.defaultEndpoint;

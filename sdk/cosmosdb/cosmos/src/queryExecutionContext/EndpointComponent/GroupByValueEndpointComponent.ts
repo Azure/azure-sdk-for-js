@@ -19,9 +19,9 @@ interface GroupByResult {
   payload: any;
 }
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 export class GroupByValueEndpointComponent implements ExecutionContext {
   private readonly aggregators: Map<string, Aggregator> = new Map();

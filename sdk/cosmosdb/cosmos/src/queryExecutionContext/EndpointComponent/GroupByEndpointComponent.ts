@@ -19,9 +19,9 @@ interface GroupByResult {
   payload: any;
 }
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 export class GroupByEndpointComponent implements ExecutionContext {
   constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}

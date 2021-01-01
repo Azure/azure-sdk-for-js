@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Response } from "../request";
 
-/** 
+/**
  * @internal
  * @hidden
  */

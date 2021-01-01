@@ -9,7 +9,7 @@ import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionConte
  * Provides the ParallelQueryExecutionContext.
  * This class is capable of handling parallelized queries and derives from ParallelQueryExecutionContextBase.
  * @internal
- * @hidden 
+ * @hidden
  */
 export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase
   implements ExecutionContext {
@@ -21,7 +21,10 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
    * @returns {object}        - Comparator Function
    * @ignore
    */
-  public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): number {
+  public documentProducerComparator(
+    docProd1: DocumentProducer,
+    docProd2: DocumentProducer
+  ): number {
     return docProd1.generation - docProd2.generation;
   }
 }

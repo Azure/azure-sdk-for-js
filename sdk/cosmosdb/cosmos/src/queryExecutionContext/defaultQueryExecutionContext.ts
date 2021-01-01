@@ -20,7 +20,7 @@ enum STATES {
   ended = "ended"
 }
 
-/** 
+/**
  * @internal
  * @hidden
  */
@@ -48,7 +48,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    *                          An array of functions may be used to query more than one partition.
    * @ignore
    */
-  constructor(options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
+  constructor(
+    options: FeedOptions,
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
+  ) {
     this.resources = [];
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;

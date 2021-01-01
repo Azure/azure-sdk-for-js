@@ -39,12 +39,17 @@ export class PartitionKeyRangeCache {
    * @param queryRange
    * @ignore
    */
-  public async getOverlappingRanges(collectionLink: string, queryRange: QueryRange): Promise<PartitionKeyRange[]> {
+  public async getOverlappingRanges(
+    collectionLink: string,
+    queryRange: QueryRange
+  ): Promise<PartitionKeyRange[]> {
     const crm = await this.onCollectionRoutingMap(collectionLink);
     return crm.getOverlappingRanges(queryRange);
   }
 
-  private async requestCollectionRoutingMap(collectionLink: string): Promise<InMemoryCollectionRoutingMap> {
+  private async requestCollectionRoutingMap(
+    collectionLink: string
+  ): Promise<InMemoryCollectionRoutingMap> {
     const { resources } = await this.clientContext
       .queryPartitionKeyRanges(collectionLink)
       .fetchAll();

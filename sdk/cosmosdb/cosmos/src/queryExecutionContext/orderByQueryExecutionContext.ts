@@ -9,7 +9,7 @@ import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComp
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
-/** 
+/**
  * @internal
  * @hidden
  */

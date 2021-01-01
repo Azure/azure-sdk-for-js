@@ -68,7 +68,11 @@ export function createUserUri(databaseId: string, userId: string): string {
  * or deleting a Document in Azure Cosmos DB database service
  * @ignore
  */
-export function createDocumentUri(databaseId: string, collectionId: string, documentId: string): string {
+export function createDocumentUri(
+  databaseId: string,
+  collectionId: string,
+  documentId: string
+): string {
   documentId = trimSlashFromLeftAndRight(documentId);
   validateResourceId(documentId);
 
@@ -91,7 +95,11 @@ export function createDocumentUri(databaseId: string, collectionId: string, docu
  * @description Would be used when replacing or deleting a Permission in Azure Cosmos DB database service.
  * @ignore
  */
-export function createPermissionUri(databaseId: string, userId: string, permissionId: string): string {
+export function createPermissionUri(
+  databaseId: string,
+  userId: string,
+  permissionId: string
+): string {
   permissionId = trimSlashFromLeftAndRight(permissionId);
   validateResourceId(permissionId);
 
@@ -144,7 +152,11 @@ export function createStoredProcedureUri(
  * @description Would be used when replacing, executing, or deleting a Trigger in Azure Cosmos DB database service
  * @ignore
  */
-export function createTriggerUri(databaseId: string, collectionId: string, triggerId: string): string {
+export function createTriggerUri(
+  databaseId: string,
+  collectionId: string,
+  triggerId: string
+): string {
   triggerId = trimSlashFromLeftAndRight(triggerId);
   validateResourceId(triggerId);
 
@@ -195,7 +207,11 @@ export function createUserDefinedFunctionUri(
  * @description Would be used when creating a Conflict in Azure Cosmos DB database service.
  * @ignore
  */
-export function createConflictUri(databaseId: string, collectionId: string, conflictId: string): string {
+export function createConflictUri(
+  databaseId: string,
+  collectionId: string,
+  conflictId: string
+): string {
   conflictId = trimSlashFromLeftAndRight(conflictId);
   validateResourceId(conflictId);
 

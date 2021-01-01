@@ -16,7 +16,7 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
-/** 
+/**
  * @internal
  * @hidden
  */

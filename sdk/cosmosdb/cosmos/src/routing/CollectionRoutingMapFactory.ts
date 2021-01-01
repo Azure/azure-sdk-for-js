@@ -6,7 +6,7 @@ import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
 /**
  * @ignore
  */
-function compareRanges(a: any, b: any) : 0 | 1 | -1 {
+function compareRanges(a: any, b: any): 0 | 1 | -1 {
   const aVal = a[0][Constants.PartitionKeyRange.MinInclusive];
   const bVal = b[0][Constants.PartitionKeyRange.MinInclusive];
   if (aVal > bVal) {
@@ -19,7 +19,9 @@ function compareRanges(a: any, b: any) : 0 | 1 | -1 {
 }
 
 /** @hidden */
-export function createCompleteRoutingMap(partitionKeyRangeInfoTuppleList: any[]): InMemoryCollectionRoutingMap {
+export function createCompleteRoutingMap(
+  partitionKeyRangeInfoTuppleList: any[]
+): InMemoryCollectionRoutingMap {
   const rangeById: any = {}; // TODO: any
   const rangeByInfo: any = {}; // TODO: any
 

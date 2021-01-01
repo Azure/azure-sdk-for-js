@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { Agent } from "http";
 
-
 /**
  * @ignore
  */

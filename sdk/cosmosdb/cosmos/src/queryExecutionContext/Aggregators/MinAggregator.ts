@@ -8,8 +8,8 @@ export interface MinAggregateResult {
   count: number;
 }
 
-/** 
- * @hidden 
+/**
+ * @hidden
  */
 export class MinAggregator implements Aggregator {
   private value: number;

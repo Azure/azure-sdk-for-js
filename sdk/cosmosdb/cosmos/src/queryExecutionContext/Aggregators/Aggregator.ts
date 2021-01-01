@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * @internal 
- * @hidden 
+ * @internal
+ * @hidden
  */
 export interface Aggregator {
   aggregate: (other: any) => void;

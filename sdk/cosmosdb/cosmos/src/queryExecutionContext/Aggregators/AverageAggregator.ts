@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 import { Aggregator } from "./Aggregator";
 
-/** 
- * @hidden 
+/**
+ * @hidden
  */
 export interface AverageAggregateResult {
   sum: number;
   count: number;
 }
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 export class AverageAggregator implements Aggregator {
   public sum: number;

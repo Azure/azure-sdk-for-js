@@ -11,9 +11,9 @@ import { FeedOptions, RequestOptions } from "./index";
 // Utility methods
 //
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 function javaScriptFriendlyJSONStringify(s: unknown): string {
   // two line terminators (Line separator and Paragraph separator) are not needed to be escaped in JSON

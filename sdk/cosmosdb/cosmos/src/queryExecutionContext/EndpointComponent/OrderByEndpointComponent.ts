@@ -3,9 +3,9 @@
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 
-/** 
+/**
  * @internal
- * @hidden 
+ * @hidden
  */
 export class OrderByEndpointComponent implements ExecutionContext {
   /**

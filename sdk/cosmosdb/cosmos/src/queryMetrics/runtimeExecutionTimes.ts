@@ -68,7 +68,9 @@ export class RuntimeExecutionTimes {
    * Returns a new instance of the RuntimeExecutionTimes class that is
    *  the aggregation of an array of RuntimeExecutionTimes.
    */
-  public static createFromArray(runtimeExecutionTimesArray: RuntimeExecutionTimes[]): RuntimeExecutionTimes {
+  public static createFromArray(
+    runtimeExecutionTimesArray: RuntimeExecutionTimes[]
+  ): RuntimeExecutionTimes {
     if (runtimeExecutionTimesArray == null) {
       throw new Error("runtimeExecutionTimesArray is null or undefined item(s)");
     }

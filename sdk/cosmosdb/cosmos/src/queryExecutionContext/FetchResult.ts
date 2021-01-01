@@ -7,7 +7,7 @@ export enum FetchResultType {
   "Result" = 2
 }
 
-/** 
+/**
  * @internal
  * @hidden
  */

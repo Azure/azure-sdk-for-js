@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { Aggregator } from "./Aggregator";
 
-/** 
- * @hidden 
+/**
+ * @hidden
  */
 export class SumAggregator implements Aggregator {
   public sum: number;

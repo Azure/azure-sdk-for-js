@@ -77,7 +77,9 @@ export class QueryPreparationTimes {
    * @memberof QueryMetrics
    * @instance
    */
-  public static createFromArray(queryPreparationTimesArray: QueryPreparationTimes[]): QueryPreparationTimes {
+  public static createFromArray(
+    queryPreparationTimesArray: QueryPreparationTimes[]
+  ): QueryPreparationTimes {
     if (queryPreparationTimesArray == null) {
       throw new Error("queryPreparationTimesArray is null or undefined item(s)");
     }
