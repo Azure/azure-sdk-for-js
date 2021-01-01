@@ -232,7 +232,9 @@ export function replaceOrUpsertPermission(
   }
 }
 
-export function generateDocuments(docSize: number): {
+export function generateDocuments(
+  docSize: number
+): {
   id: string;
   name: string;
   spam: string;

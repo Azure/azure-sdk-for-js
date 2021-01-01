@@ -195,7 +195,8 @@ describe("NodeJS CRUD Tests", function() {
         const query = "SELECT r.id, r.key, r.prop FROM r";
         const accept = container2.queryDocuments(container2.getSelfLink(), query, {}, function(
           err: any,
-          documents: any        ) {
+          documents: any
+        ) {
           if (err) throw new Error("Error" + err.message);
           response.setBody(documents);
         });

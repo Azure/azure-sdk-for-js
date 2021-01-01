@@ -32,7 +32,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
   const smartRoutingMapProvider = new SmartRoutingMapProvider(mockedClientContext);
   const partitionKeyRangeCache = new PartitionKeyRangeCache(mockedClientContext);
 
-    // Validates the results
+  // Validates the results
   // smartRoutingMapProvider.getOverlappingRanges()
   // partitionKeyRangeCache.getOverlappingRanges() is equal
   const assertBothProvidersResultsEqual = async (queryRanges: any): Promise<void> => {
@@ -56,7 +56,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     assert.deepEqual(results1, results2);
   };
 
-    // Validates the results
+  // Validates the results
   // provider.getOverlappingRanges() is as expected
   const validateProviderOverlappingRanges = async function(
     provider: SmartRoutingMapProvider,
@@ -78,7 +78,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     }
   };
 
-    // validates that the results of
+  // validates that the results of
   // smartRoutingMapProvider.getOverlappingRanges() is as expected
   const validateSmartOverlappingRanges = async function(
     queryRanges: any,
@@ -153,7 +153,10 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
   // Validates the results of both
   // smartRoutingMapProvider.getOverlappingRanges()
   // partitionKeyRangeCache.getOverlappingRanges() is the same for both queryRanges1, queryRanges2
-  const assertOverlappingRangesAreEqual = async function(queryRanges1: any, queryRanges2: any): Promise<void> {
+  const assertOverlappingRangesAreEqual = async function(
+    queryRanges1: any,
+    queryRanges2: any
+  ): Promise<void> {
     await assertProviderOverlappingRangesAreEqual(
       smartRoutingMapProvider,
       queryRanges1,

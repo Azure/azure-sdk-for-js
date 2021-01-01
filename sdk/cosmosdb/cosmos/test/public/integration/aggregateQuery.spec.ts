@@ -58,7 +58,10 @@ describe("Aggregate Query", function() {
     await bulkInsertItems(container, documentDefinitions);
   });
 
-  const validateFetchAll = async function(queryIterator: QueryIterator<any>, expectedResults: any): Promise<number> {
+  const validateFetchAll = async function(
+    queryIterator: QueryIterator<any>,
+    expectedResults: any
+  ): Promise<number> {
     const { resources: results, requestCharge } = await queryIterator.fetchAll();
     assert(requestCharge > 0, "request charge was not greater than zero");
     assert.equal(results.length, expectedResults.length, "invalid number of results");
