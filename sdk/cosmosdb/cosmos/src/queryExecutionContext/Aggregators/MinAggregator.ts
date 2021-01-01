@@ -8,7 +8,9 @@ export interface MinAggregateResult {
   count: number;
 }
 
-/** @hidden */
+/** 
+ * @hidden 
+ */
 export class MinAggregator implements Aggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;
@@ -27,7 +29,7 @@ export class MinAggregator implements Aggregator {
    * @instance
    * @param other
    */
-  public aggregate(other: MinAggregateResult) {
+  public aggregate(other: MinAggregateResult): void {
     if (this.value === undefined) {
       // || typeof this.value === "object"
       this.value = other.min;
@@ -45,7 +47,7 @@ export class MinAggregator implements Aggregator {
    * @memberof MinAggregator
    * @instance
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }

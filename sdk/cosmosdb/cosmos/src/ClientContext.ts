@@ -207,7 +207,7 @@ export class ClientContext {
     collectionLink: string,
     query?: string | SqlQuerySpec,
     options?: FeedOptions
-  ) {
+  ): QueryIterator<PartitionKeyRange> {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
     const cb: FetchFunctionCallback = (innerOptions) => {
@@ -334,7 +334,7 @@ export class ClientContext {
     }
   }
 
-  private applySessionToken(requestContext: RequestContext) {
+  private applySessionToken(requestContext: RequestContext): void {
     const request = this.getSessionParams(requestContext.path);
 
     if (requestContext.headers && requestContext.headers[Constants.HttpHeaders.SessionToken]) {
@@ -555,7 +555,7 @@ export class ClientContext {
     partitionKeyRangeId: string;
     resourceId: string;
     options?: RequestOptions;
-  }) {
+  }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
         globalEndpointManager: this.globalEndpointManager,
@@ -597,7 +597,7 @@ export class ClientContext {
     path: string,
     operationType: OperationType,
     resHeaders: CosmosHeaders
-  ) {
+  ): void {
     const request = this.getSessionParams(path);
     request.operationType = operationType;
     if (
@@ -612,7 +612,7 @@ export class ClientContext {
     }
   }
 
-  public clearSessionToken(path: string) {
+  public clearSessionToken(path: string): void {
     const request = this.getSessionParams(path);
     this.sessionContainer.remove(request);
   }
@@ -650,7 +650,7 @@ export class ClientContext {
     return false;
   }
 
-  private buildHeaders(requestContext: RequestContext) {
+  private buildHeaders(requestContext: RequestContext): Promise<CosmosHeaders> {
     return getHeaders({
       clientOptions: this.cosmosClientOptions,
       defaultHeaders: {

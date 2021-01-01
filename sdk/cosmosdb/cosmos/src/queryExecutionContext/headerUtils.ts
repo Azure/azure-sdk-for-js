@@ -7,7 +7,10 @@ export interface CosmosHeaders {
   [key: string]: any;
 }
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden
+ */
 // TODO: docs
 export function getRequestChargeIfAny(headers: CosmosHeaders | number): number {
   if (typeof headers === "number") {
@@ -44,7 +47,7 @@ export function getInitialHeader(): CosmosHeaders {
  * @param toBeMergedHeaders
  */
 // TODO: The name of this method isn't very accurate to what it does
-export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders) {
+export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHeaders): void {
   if (headers[Constants.HttpHeaders.RequestCharge] === undefined) {
     headers[Constants.HttpHeaders.RequestCharge] = 0;
   }

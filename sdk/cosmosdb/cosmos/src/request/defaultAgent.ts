@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 import { Agent } from "http";
 
-/**
- * @ignore
- */
-export let defaultHttpAgent: Agent;
+
 /**
  * @ignore
  */
@@ -31,6 +28,9 @@ if (tls.DEFAULT_MIN_VERSION) {
 }
 // tslint:disable-next-line:no-var-requires
 const http = require("http");
-defaultHttpAgent = new http.Agent({
+/**
+ * @ignore
+ */
+export const defaultHttpAgent: Agent = new http.Agent({
   keepAlive: true
 });

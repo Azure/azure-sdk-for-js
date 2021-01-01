@@ -150,7 +150,7 @@ export class CosmosClient {
    * Used for reading, or updating a existing offer by id.
    * @param id The id of the offer.
    */
-  public offer(id: string) {
+  public offer(id: string): Offer {
     return new Offer(this, id, this.clientContext);
   }
 }

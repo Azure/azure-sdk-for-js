@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 import { Response } from "../request";
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden
+ */
 export interface ExecutionContext {
   nextItem: () => Promise<Response<any>>;
   hasMoreResults: () => boolean;

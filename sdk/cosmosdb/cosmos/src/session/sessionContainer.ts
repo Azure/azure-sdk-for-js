@@ -16,7 +16,7 @@ export class SessionContainer {
     private collectionResourceIdToSessionTokens = new Map<string, Map<string, VectorSessionToken>>()
   ) {}
 
-  public get(request: SessionContext) {
+  public get(request: SessionContext): string {
     if (!request) {
       throw new Error("request cannot be null");
     }
@@ -25,7 +25,7 @@ export class SessionContainer {
     return SessionContainer.getCombinedSessionTokenString(rangeIdToTokenMap);
   }
 
-  public remove(request: SessionContext) {
+  public remove(request: SessionContext): void {
     let collectionResourceId: string;
     const resourceAddress = trimSlashes(request.resourceAddress);
     const collectionName = getContainerLink(resourceAddress);
@@ -38,7 +38,7 @@ export class SessionContainer {
     }
   }
 
-  public set(request: SessionContext, resHeaders: CosmosHeaders) {
+  public set(request: SessionContext, resHeaders: CosmosHeaders): void {
     // TODO: we check the master logic a few different places. Might not need it.
     if (
       !resHeaders ||
@@ -76,7 +76,7 @@ export class SessionContainer {
     }
   }
 
-  private validateOwnerID(ownerId: string) {
+  private validateOwnerID(ownerId: string): boolean {
     // If ownerId contains exactly 8 bytes it represents a unique database+collection identifier. Otherwise it represents another resource
     // The first 4 bytes are the database. The last 4 bytes are the collection.
     // Cosmos rids potentially contain "-" which is an invalid character in the browser atob implementation
@@ -97,7 +97,7 @@ export class SessionContainer {
     return rangeIdToTokenMap;
   }
 
-  private static getCombinedSessionTokenString(tokens: Map<string, VectorSessionToken>) {
+  private static getCombinedSessionTokenString(tokens: Map<string, VectorSessionToken>): string {
     if (!tokens || tokens.size === 0) {
       return SessionContainer.EMPTY_SESSION_TOKEN;
     }
@@ -116,7 +116,7 @@ export class SessionContainer {
   private static compareAndSetToken(
     newTokenString: string,
     containerSessionTokens: Map<string, VectorSessionToken>
-  ) {
+  ): void {
     if (!newTokenString) {
       return;
     }
@@ -159,7 +159,7 @@ export class SessionContainer {
     return false;
   }
 
-  private getContainerName(request: SessionContext, headers: CosmosHeaders) {
+  private getContainerName(request: SessionContext, headers: CosmosHeaders): string {
     let ownerFullName = headers[Constants.HttpHeaders.OwnerFullName];
     if (!ownerFullName) {
       ownerFullName = trimSlashes(request.resourceAddress);

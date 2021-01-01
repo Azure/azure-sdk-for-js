@@ -16,7 +16,7 @@ export class Offer {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return `/${Constants.Path.OffersPathSegment}/${this.id}`;
   }
   /**

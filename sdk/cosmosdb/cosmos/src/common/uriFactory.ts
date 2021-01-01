@@ -12,7 +12,7 @@ import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
  * @description Would be used when creating or deleting a DocumentCollection \
  * or a User in Azure Cosmos DB database service
  */
-export function createDatabaseUri(databaseId: string) {
+export function createDatabaseUri(databaseId: string): string {
   databaseId = trimSlashFromLeftAndRight(databaseId);
   validateResourceId(databaseId);
 
@@ -30,7 +30,7 @@ export function createDatabaseUri(databaseId: string) {
  * with CreateDocumentQuery in Azure Cosmos DB database service.
  * @ignore
  */
-export function createDocumentCollectionUri(databaseId: string, collectionId: string) {
+export function createDocumentCollectionUri(databaseId: string, collectionId: string): string {
   collectionId = trimSlashFromLeftAndRight(collectionId);
   validateResourceId(collectionId);
 
@@ -49,7 +49,7 @@ export function createDocumentCollectionUri(databaseId: string, collectionId: st
  * a User in Azure Cosmos DB database service
  * @ignore
  */
-export function createUserUri(databaseId: string, userId: string) {
+export function createUserUri(databaseId: string, userId: string): string {
   userId = trimSlashFromLeftAndRight(userId);
   validateResourceId(userId);
 
@@ -68,7 +68,7 @@ export function createUserUri(databaseId: string, userId: string) {
  * or deleting a Document in Azure Cosmos DB database service
  * @ignore
  */
-export function createDocumentUri(databaseId: string, collectionId: string, documentId: string) {
+export function createDocumentUri(databaseId: string, collectionId: string, documentId: string): string {
   documentId = trimSlashFromLeftAndRight(documentId);
   validateResourceId(documentId);
 
@@ -91,7 +91,7 @@ export function createDocumentUri(databaseId: string, collectionId: string, docu
  * @description Would be used when replacing or deleting a Permission in Azure Cosmos DB database service.
  * @ignore
  */
-export function createPermissionUri(databaseId: string, userId: string, permissionId: string) {
+export function createPermissionUri(databaseId: string, userId: string, permissionId: string): string {
   permissionId = trimSlashFromLeftAndRight(permissionId);
   validateResourceId(permissionId);
 
@@ -120,7 +120,7 @@ export function createStoredProcedureUri(
   databaseId: string,
   collectionId: string,
   storedProcedureId: string
-) {
+): string {
   storedProcedureId = trimSlashFromLeftAndRight(storedProcedureId);
   validateResourceId(storedProcedureId);
 
@@ -144,7 +144,7 @@ export function createStoredProcedureUri(
  * @description Would be used when replacing, executing, or deleting a Trigger in Azure Cosmos DB database service
  * @ignore
  */
-export function createTriggerUri(databaseId: string, collectionId: string, triggerId: string) {
+export function createTriggerUri(databaseId: string, collectionId: string, triggerId: string): string {
   triggerId = trimSlashFromLeftAndRight(triggerId);
   validateResourceId(triggerId);
 
@@ -172,7 +172,7 @@ export function createUserDefinedFunctionUri(
   databaseId: string,
   collectionId: string,
   udfId: string
-) {
+): string {
   udfId = trimSlashFromLeftAndRight(udfId);
   validateResourceId(udfId);
 
@@ -195,7 +195,7 @@ export function createUserDefinedFunctionUri(
  * @description Would be used when creating a Conflict in Azure Cosmos DB database service.
  * @ignore
  */
-export function createConflictUri(databaseId: string, collectionId: string, conflictId: string) {
+export function createConflictUri(databaseId: string, collectionId: string, conflictId: string): string {
   conflictId = trimSlashFromLeftAndRight(conflictId);
   validateResourceId(conflictId);
 
@@ -224,7 +224,7 @@ export function createAttachmentUri(
   collectionId: string,
   documentId: string,
   attachmentId: string
-) {
+): string {
   attachmentId = trimSlashFromLeftAndRight(attachmentId);
   validateResourceId(attachmentId);
 
@@ -246,7 +246,7 @@ export function createAttachmentUri(
  * dbs/{0}/colls/{1}/pkranges with {0} being a Uri escaped version of the databaseId and {1} being collectionId
  * @ignore
  */
-export function createPartitionKeyRangesUri(databaseId: string, collectionId: string) {
+export function createPartitionKeyRangesUri(databaseId: string, collectionId: string): string {
   return (
     createDocumentCollectionUri(databaseId, collectionId) +
     "/" +

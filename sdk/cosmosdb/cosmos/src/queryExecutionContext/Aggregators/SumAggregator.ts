@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 import { Aggregator } from "./Aggregator";
 
-/** @hidden */
+/** 
+ * @hidden 
+ */
 export class SumAggregator implements Aggregator {
   public sum: number;
   /**
@@ -11,7 +13,7 @@ export class SumAggregator implements Aggregator {
    * @instance
    * @param other
    */
-  public aggregate(other: number) {
+  public aggregate(other: number): void {
     if (other === undefined) {
       return;
     }
@@ -27,7 +29,7 @@ export class SumAggregator implements Aggregator {
    * @memberof SumAggregator
    * @instance
    */
-  public getResult() {
+  public getResult(): number {
     return this.sum;
   }
 }

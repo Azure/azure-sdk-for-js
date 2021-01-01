@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export interface PartitionKeyRange {
+  // Partition Key Range Constants
+  MinInclusive: "minInclusive";
+  MaxExclusive: "maxExclusive";
+  Id: "id";
+}
+
 /**
  * @ignore
  */
@@ -202,7 +209,7 @@ export const Constants = {
     MinInclusive: "minInclusive",
     MaxExclusive: "maxExclusive",
     Id: "id"
-  },
+  } as PartitionKeyRange,
 
   QueryRangeConstants: {
     // Partition Key Range Constants

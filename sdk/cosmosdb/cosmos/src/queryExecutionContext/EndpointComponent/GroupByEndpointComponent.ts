@@ -19,7 +19,10 @@ interface GroupByResult {
   payload: any;
 }
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden 
+ */
 export class GroupByEndpointComponent implements ExecutionContext {
   constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
 
@@ -87,7 +90,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
   }
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults() || this.aggregateResultArray.length > 0;
   }
 }

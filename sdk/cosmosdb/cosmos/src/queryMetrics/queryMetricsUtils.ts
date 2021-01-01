@@ -6,7 +6,11 @@ import { TimeSpan } from "./timeSpan";
  * @ignore
  * @param delimitedString
  */
-export function parseDelimitedString(delimitedString: string) {
+export function parseDelimitedString(
+  delimitedString: string
+): {
+  [key: string]: any;
+} {
   if (delimitedString == null) {
     throw new Error("delimitedString is null or undefined");
   }
@@ -35,7 +39,7 @@ export function parseDelimitedString(delimitedString: string) {
  * @param metrics
  * @param key
  */
-export function timeSpanFromMetrics(metrics: { [key: string]: any } /* TODO: any */, key: string) {
+export function timeSpanFromMetrics(metrics: { [key: string]: any } /* TODO: any */, key: string): TimeSpan {
   if (key in metrics) {
     return TimeSpan.fromMilliseconds(metrics[key]);
   }
@@ -47,6 +51,6 @@ export function timeSpanFromMetrics(metrics: { [key: string]: any } /* TODO: any
  * @ignore
  * @param input
  */
-export function isNumeric(input: any) {
-  return !isNaN(parseFloat(input)) && isFinite(input);
+export function isNumeric(input: unknown): boolean {
+  return !isNaN(parseFloat(input as string)) && isFinite(input as number);
 }

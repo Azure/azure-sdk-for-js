@@ -31,7 +31,7 @@ export class User {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createUserUri(this.database.id, this.id);
   }
   /**

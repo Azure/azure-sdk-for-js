@@ -3,7 +3,10 @@
 import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden 
+ */
 export class OrderByEndpointComponent implements ExecutionContext {
   /**
    * Represents an endpoint in handling an order by query. For each processed orderby \
@@ -32,7 +35,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * @instance
    * @returns {Boolean} true if there is other elements to process in the OrderByEndpointComponent.
    */
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
   }
 }

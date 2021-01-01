@@ -117,7 +117,11 @@ export class Containers {
     if (body.maxThroughput) {
       const autoscaleParams: {
         maxThroughput: number;
-        autoUpgradePolicy?: object;
+        autoUpgradePolicy?: {
+          throughputPolicy: {
+            incrementPercent: number;
+          };
+        };
       } = {
         maxThroughput: body.maxThroughput
       };

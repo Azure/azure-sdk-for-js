@@ -4,7 +4,10 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden
+ */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   private hashedResults: Set<string>;
   constructor(private executionContext: ExecutionContext) {
@@ -23,7 +26,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     return { result, headers };
   }
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
   }
 }

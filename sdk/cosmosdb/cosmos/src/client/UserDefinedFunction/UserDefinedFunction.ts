@@ -22,7 +22,7 @@ export class UserDefinedFunction {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createUserDefinedFunctionUri(this.container.database.id, this.container.id, this.id);
   }
   /**

@@ -8,7 +8,15 @@ import { SumAggregator } from "./SumAggregator";
 import { StaticValueAggregator } from "./StaticValueAggregator";
 import { AggregateType } from "../../request/ErrorResponse";
 
-export function createAggregator(aggregateType: AggregateType) {
+export function createAggregator(
+  aggregateType: AggregateType
+):
+  | AverageAggregator
+  | CountAggregator
+  | MaxAggregator
+  | MinAggregator
+  | SumAggregator
+  | StaticValueAggregator {
   switch (aggregateType) {
     case "Average":
       return new AverageAggregator();

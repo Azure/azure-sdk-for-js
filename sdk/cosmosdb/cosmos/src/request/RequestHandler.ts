@@ -17,7 +17,7 @@ import { TimeoutError } from "./TimeoutError";
 /** @hidden */
 const log = logger("RequestHandler");
 
-async function executeRequest(requestContext: RequestContext) {
+async function executeRequest(requestContext: RequestContext): Promise<CosmosResponse<any>> {
   return executePlugins(requestContext, httpRequest, PluginOn.request);
 }
 
@@ -25,7 +25,14 @@ async function executeRequest(requestContext: RequestContext) {
  * @ignore
  * @param requestContext
  */
-async function httpRequest(requestContext: RequestContext) {
+async function httpRequest(
+  requestContext: RequestContext
+): Promise<{
+  headers: any;
+  result: any;
+  code: number;
+  substatus: number;
+}> {
   const controller = new AbortController();
   const signal = controller.signal;
 

@@ -19,7 +19,10 @@ interface GroupByResult {
   payload: any;
 }
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden 
+ */
 export class GroupByValueEndpointComponent implements ExecutionContext {
   private readonly aggregators: Map<string, Aggregator> = new Map();
   private readonly aggregateResultArray: any[] = [];
@@ -83,7 +86,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     return { result: this.aggregateResultArray.pop(), headers: aggregateHeaders };
   }
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults() || this.aggregateResultArray.length > 0;
   }
 }

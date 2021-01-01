@@ -25,7 +25,45 @@ const levelLogger = (namespaceLogger: debugLib.Debugger, level: logLevel) => {
 };
 
 /** @hidden */
-export const logger = (namespace: string) => {
+export const logger = (
+  namespace: string
+): {
+  silly: (
+    message:
+      | string
+      | {
+          [key: string]: any;
+        }
+  ) => void;
+  debug: (
+    message:
+      | string
+      | {
+          [key: string]: any;
+        }
+  ) => void;
+  info: (
+    message:
+      | string
+      | {
+          [key: string]: any;
+        }
+  ) => void;
+  warn: (
+    message:
+      | string
+      | {
+          [key: string]: any;
+        }
+  ) => void;
+  error: (
+    message:
+      | string
+      | {
+          [key: string]: any;
+        }
+  ) => void;
+} => {
   const namespaceLogger = cosmosDebug.extend(namespace);
   return {
     silly: levelLogger(namespaceLogger, "silly"),

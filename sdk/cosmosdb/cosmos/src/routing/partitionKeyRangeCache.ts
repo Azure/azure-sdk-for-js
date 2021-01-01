@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { ClientContext } from "../ClientContext";
 import { getIdFromLink } from "../common/helper";
 import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
@@ -38,12 +39,12 @@ export class PartitionKeyRangeCache {
    * @param queryRange
    * @ignore
    */
-  public async getOverlappingRanges(collectionLink: string, queryRange: QueryRange) {
+  public async getOverlappingRanges(collectionLink: string, queryRange: QueryRange): Promise<PartitionKeyRange[]> {
     const crm = await this.onCollectionRoutingMap(collectionLink);
     return crm.getOverlappingRanges(queryRange);
   }
 
-  private async requestCollectionRoutingMap(collectionLink: string) {
+  private async requestCollectionRoutingMap(collectionLink: string): Promise<InMemoryCollectionRoutingMap> {
     const { resources } = await this.clientContext
       .queryPartitionKeyRanges(collectionLink)
       .fetchAll();

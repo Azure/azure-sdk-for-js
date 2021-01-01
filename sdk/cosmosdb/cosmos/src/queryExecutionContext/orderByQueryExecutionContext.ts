@@ -2,12 +2,17 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import { FeedOptions } from "../request/FeedOptions";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
+import { SqlQuerySpec } from "./SqlQuerySpec";
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden
+ */
 export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase
   implements ExecutionContext {
   private orderByComparator: any;
@@ -28,8 +33,8 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
   constructor(
     clientContext: ClientContext,
     collectionLink: string,
-    query: any, // TODO: any query
-    options: any, // TODO: any options
+    query: string | SqlQuerySpec,
+    options: FeedOptions,
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     // Calling on base class constructor
@@ -44,7 +49,7 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
    * @returns {object}        - Comparator Function
    * @ignore
    */
-  public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
+  public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
     return this.orderByComparator.compare(docProd1, docProd2);
   }
 }

@@ -4,7 +4,10 @@ import { Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
-/** @hidden */
+/** 
+ * @internal
+ * @hidden 
+ */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
@@ -30,7 +33,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     return { result: undefined, headers: getInitialHeader() };
   }
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return (this.offset > 0 || this.limit > 0) && this.executionContext.hasMoreResults();
   }
 }

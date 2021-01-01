@@ -8,7 +8,9 @@ interface MaxAggregateResult {
   max?: number;
 }
 
-/** @hidden */
+/** 
+ * @hidden 
+ */
 export class MaxAggregator implements Aggregator {
   private value: number;
   private comparer: OrderByDocumentProducerComparator;
@@ -27,7 +29,7 @@ export class MaxAggregator implements Aggregator {
    * @instance
    * @param other
    */
-  public aggregate(other: MaxAggregateResult) {
+  public aggregate(other: MaxAggregateResult): void {
     if (this.value === undefined) {
       this.value = other.max;
     } else if (
@@ -42,7 +44,7 @@ export class MaxAggregator implements Aggregator {
    * @memberof MaxAggregator
    * @instance
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }

@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 import { Aggregator } from "./Aggregator";
 
-/** @hidden */
+/** 
+ * @hidden 
+ */
 export class CountAggregator implements Aggregator {
   public value: number;
   /**
@@ -19,7 +21,7 @@ export class CountAggregator implements Aggregator {
    * @instance
    * @param other
    */
-  public aggregate(other: number) {
+  public aggregate(other: number): void {
     this.value += other;
   }
 
@@ -28,7 +30,7 @@ export class CountAggregator implements Aggregator {
    * @memberof CountAggregator
    * @instance
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }
