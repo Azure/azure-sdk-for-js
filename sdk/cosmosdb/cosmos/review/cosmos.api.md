@@ -381,7 +381,7 @@ export const Constants: {
         TopologyPathSegment: string;
         DatabaseAccountPathSegment: string;
     };
-    PartitionKeyRange: PartitionKeyRange_2;
+    PartitionKeyRange: PartitionKeyRangePropertiesNames;
     QueryRangeConstants: {
         MinInclusive: string;
         MaxExclusive: string;
@@ -1024,6 +1024,16 @@ export interface PartitionKeyRange {
     status: string;
     // (undocumented)
     throughputFraction: number;
+}
+
+// @public (undocumented)
+export interface PartitionKeyRangePropertiesNames {
+    // (undocumented)
+    Id: "id";
+    // (undocumented)
+    MaxExclusive: "maxExclusive";
+    // (undocumented)
+    MinInclusive: "minInclusive";
 }
 
 // @public
@@ -1828,10 +1838,6 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/common/constants.ts:16:23 - (ae-forgotten-export) The symbol "PartitionKeyRange" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
