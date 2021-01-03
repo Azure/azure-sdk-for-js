@@ -7,7 +7,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  */
 const config = {
   input: "./dist-esm/src/index.js",
-  external: ["@azure/core-http", "@azure/identity", "@types/jsonwebtoken"],
+  external: ["@azure/core-http", "@azure/identity", "@types/jsonwebtoken", "@types/crypto"],
   output: {
     file: "./dist/index.js",
     format: "umd",

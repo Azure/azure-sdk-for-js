@@ -5,14 +5,19 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import { EnvironmentCredential } from "@azure/identity";
-
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
 
+//import { Certificate } from '@fidm/x509';
+//import { ASN1 } from '@fidm/asn1';
+
 dotenv.config();
 
 const replaceableVariables: { [k: string]: string } = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "azure_tenant_id",
   ISOLATED_ATTESTATION_URL: "isolated_attestation_url",
   AAD_ATTESTATION_URL: "aad_attestation_url",
   policySigningCertificate0: "policy_signing_certificate0",

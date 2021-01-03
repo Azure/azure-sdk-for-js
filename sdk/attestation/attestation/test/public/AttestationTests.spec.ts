@@ -7,23 +7,20 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient, createRecorder } from "../utils/recordedClient";
+import {
+  createRecordedClient,
+  createRecorder
+} from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 import { decodeString } from "../utils/base64";
-import { decode } from "jsonwebtoken";
+import { verifyAttestationToken } from "../utils/helpers";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
-  let sharedclient: AttestationClient;
-  let aadclient: AttestationClient;
-  let isolatedclient: AttestationClient;
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
     recorder = createRecorder(this);
-    aadclient = createRecordedClient("AAD");
-    isolatedclient = createRecordedClient("Isolated");
-    sharedclient = createRecordedClient("Shared");
   });
 
   afterEach(async function() {
@@ -125,42 +122,55 @@ describe("[AAD] Attestation Client", function() {
     "PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCgA";
 
   it("#AttestSgxShared", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Shared");
     const binaryRuntimeData = decodeString(_runtimeData);
-    const attestationResult = await sharedclient.attestation.attestSgxEnclave({
+    const attestationResult = await client.attestation.attestSgxEnclave({
       quote: decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
         dataType: "Binary"
       }
     });
-    // FIXME: not sure what to do with it
+
     assert(attestationResult.token);
+    if (attestationResult?.token) {
+      await verifyAttestationToken(attestationResult.token, client);
+    }
   });
   it("#AttestSgxAad", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("AAD");
     const binaryRuntimeData = decodeString(_runtimeData);
-    const attestationResult = await aadclient.attestation.attestSgxEnclave({
+    const attestationResult = await client.attestation.attestSgxEnclave({
       quote: decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
         dataType: "Binary"
       }
     });
-    // FIXME: not sure what to do with it
+
     assert(attestationResult.token);
+    if (attestationResult?.token) {
+      await verifyAttestationToken(attestationResult.token, client);
+    }
   });
+
   it("#AttestSgxIsolated", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("AAD");
     const binaryRuntimeData = decodeString(_runtimeData);
-    const attestationResult = await isolatedclient.attestation.attestSgxEnclave({
+    const attestationResult = await client.attestation.attestSgxEnclave({
       quote: decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
         dataType: "Binary"
       }
     });
-    // FIXME: not sure what to do with it
+
     assert(attestationResult.token);
-    var decoded = decode(attestationResult.token as string);
-    assert(decoded);
-    console.log(decoded);
+    if (attestationResult?.token) {
+      await verifyAttestationToken(attestationResult.token, client);
+    }
   });
 });
