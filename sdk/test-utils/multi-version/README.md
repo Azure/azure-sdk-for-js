@@ -139,9 +139,9 @@ const serviceApiVersions = ["7.0", "7.1"] as const;
 versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
 // ...
   onVersions(["7.1"]).describe(
-    "Keys client - list keys in various ways",
+    "Test suite that only runs for service version 7.1",
     async function() {
-      it("runs for 7.0 and 7.1", async function() {
+      it("some test case", async function() {
         // ...
       });
     }
