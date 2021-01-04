@@ -30,7 +30,7 @@ describe("TokenCertTests", function() {
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
     for (const key of certs) {
-      assert(key.x5C != null);
+      assert.isNotNull(key.x5C);
       for (const cert in key.x5C) {
         const berCert = decodeString(cert);
         assert(berCert);
