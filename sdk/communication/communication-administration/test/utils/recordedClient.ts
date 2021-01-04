@@ -11,9 +11,10 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode
 } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
+import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as sinon from "sinon";
 
 if (isNode) {
   dotenv.config();
@@ -80,7 +81,18 @@ export function createRecordedComminicationIdentityClientWithToken(
   context: Context
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
-  const credential = new DefaultAzureCredential();
+  let credential: TokenCredential
+
+  if (isPlaybackMode()) {
+    const mockToken = "token";
+    const fakeGetToken = sinon.fake.returns(
+      Promise.resolve({ token: mockToken, expiresOn: new Date() })
+    );
+
+    credential = { getToken: fakeGetToken };
+  } else {
+    credential = new DefaultAzureCredential();
+  }
 
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
