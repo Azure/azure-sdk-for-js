@@ -805,7 +805,7 @@ describe("ServiceClient", function() {
 
   it("should re-use the common instance of DefaultHttpClient", function() {
     const client = new ServiceClient();
-    assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpsClient());
+    assert.strictEqual((client as any)._httpsClient, getCachedDefaultHttpsClient());
   });
 });
 
