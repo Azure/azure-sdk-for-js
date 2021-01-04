@@ -599,7 +599,9 @@ describe("[API Key] TextAnalyticsClient", function() {
             }
           }
         );
-        await poller.cancelOperation();
+        if (!poller.isDone()) {
+          await poller.cancelOperation();
+        }
         assert.ok(poller.getOperationState().isCancelled);
       });
     });
