@@ -5,7 +5,7 @@
 import { assert } from "chai";
 import { isVersionInSupportedRange, versionsToTest } from "../src/multiVersion";
 
-describe.skip("Multi-service-version test support", () => {
+describe("Multi-service-version test support", () => {
   const allVersions = ["1.0", "1.1", "1.2"];
   describe("isVersionInSupportedRange() on version list", () => {
     [
@@ -55,37 +55,27 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     onVersions(["7.0"]).describe("nested test suite 3b", function() {
       it("nested test 4b", function() {
-        if (serviceVersion === "7.1") {
-          throw new Error("Test should have been skipped.");
-        }
+        assert.equal(serviceVersion, "7.0");
       });
     });
 
     onVersions(["7.0"]).it("test case 5 only runs on 7.0", function() {
-      if (serviceVersion === "7.1") {
-        throw new Error("Test should have been skipped.");
-      }
+      assert.equal(serviceVersion, "7.0");
     });
 
     onVersions({ minVer: "7.1" }).it("test case 6 only runs on 7.1", async function() {
-      if (serviceVersion === "7.0") {
-        throw new Error("Test should have been skipped.");
-      }
+      assert.notEqual(serviceVersion, "7.0");
     });
 
     onVersions({ minVer: "7.1" }).it.skip("test case 7 should be skipped", async function() {
-      if (serviceVersion === "7.0") {
-        throw new Error("Test should have been skipped.");
-      }
+      throw new Error("Test should have been skipped.");
     });
   });
 
   onVersions(["7.0"]).describe("test suite 2", async function() {
     console.log(`onVersions() can be added to top-level describe as well to have nicer test title`);
     it("test case 8", function() {
-      if (serviceVersion === "7.1") {
-        throw new Error("Test should have been skipped.");
-      }
+      assert.equal(serviceVersion, "7.0");
     });
   });
 });
