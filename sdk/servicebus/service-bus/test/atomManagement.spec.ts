@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isNode } from "@azure/core-http";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
@@ -19,7 +20,7 @@ import {
   ServiceBusAdministrationClient,
   WithResponse
 } from "../src/serviceBusAtomManagementClient";
-import { EntityStatus, EntityAvailabilityStatus, isNode } from "../src/util/utils";
+import { EntityStatus, EntityAvailabilityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";

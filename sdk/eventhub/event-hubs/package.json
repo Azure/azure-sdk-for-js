@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.3.2",
+  "version": "5.4.0-beta.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -69,7 +69,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "//metadata": {
     "constantPaths": [
@@ -88,7 +89,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.0.0",
+    "@azure/core-amqp": "^2.1.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-auth": "^1.1.3",
@@ -159,6 +160,7 @@
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
     "typescript": "4.1.2",
-    "ws": "^7.1.1"
+    "ws": "^7.1.1",
+    "typedoc": "0.15.0"
   }
 }

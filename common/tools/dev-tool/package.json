@@ -21,7 +21,8 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test": "mocha --require ts-node/register test/**/*.spec.ts",
-    "build:samples": "echo Skipped."
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "author": "Microsoft Corporation",
@@ -63,6 +64,7 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-visualizer": "^4.0.4"
+    "rollup-plugin-visualizer": "^4.0.4",
+    "typedoc": "0.15.0"
   }
 }

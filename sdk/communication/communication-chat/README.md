@@ -38,13 +38,13 @@ Use resource url and user access token to initialize chat client.
 
 ```JavaScript
 import { ChatClient } from '@azure/communication-chat';
-import { AzureCommunicationUserCredential } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 
 // Your unique Azure Communication service endpoint
 let endpointUrl = '<ENDPOINT>';
 let userAccessToken = '<USER_ACCESS_TOKEN>';
-let userCredential = new AzureCommunicationUserCredential(userAccessToken);
-let chatClient = new ChatClient(endpointUrl, userCredential);
+let tokenCredential = new AzureCommunicationTokenCredential(userAccessToken);
+let chatClient = new ChatClient(endpointUrl, tokenCredential);
 
 ```
 

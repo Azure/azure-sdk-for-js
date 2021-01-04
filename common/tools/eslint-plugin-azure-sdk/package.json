@@ -51,7 +51,8 @@
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -89,6 +90,7 @@
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "mocha-junit-reporter": "^1.18.0",
-    "typescript": "4.1.2"
+    "typescript": "4.1.2",
+    "typedoc": "0.15.0"
   }
 }

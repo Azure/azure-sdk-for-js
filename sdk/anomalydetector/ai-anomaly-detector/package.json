@@ -33,7 +33,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -110,7 +111,8 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "4.1.2",
     "util": "^0.12.1",
-    "@azure/test-utils-recorder": "^1.0.0"
+    "@azure/test-utils-recorder": "^1.0.0",
+    "typedoc": "0.15.0"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true
