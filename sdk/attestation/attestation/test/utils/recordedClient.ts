@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { EnvironmentCredential } from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
@@ -59,7 +59,11 @@ export function createRecordedClient(
   endpointType: EndpointType,
   options?: AttestationClientOptionalParams
 ): AttestationClient {
-  const credential = new EnvironmentCredential();
+  const credential = new ClientSecretCredential(
+    testEnv.AZURE_TENANT_ID,
+    testEnv.AZURE_CLIENT_ID,
+    testEnv.AZURE_CLIENT_SECRET
+  );
   switch (endpointType) {
     case "AAD": {
       return new AttestationClient(credential, testEnv.AAD_ATTESTATION_URL, options);
