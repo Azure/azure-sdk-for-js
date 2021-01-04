@@ -28,7 +28,7 @@
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
 
 # PRLabel: %Azure.Core
 /sdk/core/logger @xirzec @bterlson @chradek
@@ -107,7 +107,7 @@
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
+/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners @richardpark-msft
 
 ###########
 # Eng Sys
