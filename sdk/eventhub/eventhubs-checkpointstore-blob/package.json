@@ -15,12 +15,12 @@
     "events"
   ],
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./typings/eventhubs-checkpointstore-blob.d.ts",
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
