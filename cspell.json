@@ -3831,7 +3831,7 @@
     "sdk/vmwarecloudsimple/arm-vmwarecloudsimple/src/vMwareCloudSimpleClient.ts",
     "sdk/vmwarecloudsimple/arm-vmwarecloudsimple/src/vMwareCloudSimpleClientContext.ts",
     "SECURITY.md",
-    "swagger_to_sdk_config.json",
+    "swagger_to_sdk_config.json"
   ],
   "words": [],
   "allowCompoundWords": true
