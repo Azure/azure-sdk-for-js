@@ -2,15 +2,17 @@
 // Licensed under the MIT license.
 
 /**
+ * @internal
+ * @hidden
  * Takes a jagged 2D array and a function and runs the function with every
  * possible combination of elements of each of the arrays
  *
  * For strong type-checking, it is important that the `matrix` have a strong
  * type, such as a `const` literal.
  *
- * @param values jagged 2D array specifying the arguments and their possible
- *               values
- * @param handler the function to run with the different argument combinations
+ * @param values - jagged 2D array specifying the arguments and their possible
+ *                 values
+ * @param handler - the function to run with the different argument combinations
  *
  * @example
  * ```typescript

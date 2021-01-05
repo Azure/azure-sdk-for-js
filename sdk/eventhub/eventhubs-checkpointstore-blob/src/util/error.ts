@@ -5,7 +5,7 @@ import { logger, logErrorStackTrace } from "../log";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is undefined or null
  * @param methodName Name of the method that was passed the parameter
  * @param parameterName Name of the parameter to check

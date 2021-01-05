@@ -541,7 +541,7 @@ describe("BlobClient Node.js only", () => {
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       blockBlobClient
         .query("select * from BlobStorage", {
           onProgress: (progress) => {

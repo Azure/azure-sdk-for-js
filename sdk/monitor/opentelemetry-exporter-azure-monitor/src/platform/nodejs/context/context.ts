@@ -17,8 +17,6 @@ let instance: Context | null = null;
 export class Context {
   public tags: Tags;
 
-  public static DefaultRoleName: string = "Node.js";
-
   public static appVersion: { [path: string]: string } = {};
 
   public static sdkVersion: string | null = null;
@@ -98,8 +96,6 @@ export class Context {
 
   private _loadDeviceContext(): void {
     this.tags["ai.device.id"] = "";
-    this.tags["ai.cloud.role"] = Context.DefaultRoleName;
-    this.tags["ai.cloud.roleInstance"] = os && os.hostname();
     this.tags["ai.device.osVersion"] = os && `${os.type()} ${os.release()}`;
 
     // not yet supported tags

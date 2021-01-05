@@ -66,7 +66,6 @@ export abstract class BaseRecorder {
    *
    * @protected
    * @param content
-   * @returns
    * @memberof BaseRecorder
    */
   protected filterSecrets(content: any): any {
@@ -91,5 +90,5 @@ export abstract class BaseRecorder {
    * @memberof BaseRecorder
    */
   public abstract playback(environmentSetup: RecorderEnvironmentSetup, filePath: string): void;
-  public abstract async stop(): Promise<void>;
+  public abstract stop(): Promise<void>;
 }

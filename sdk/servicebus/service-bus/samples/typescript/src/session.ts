@@ -62,9 +62,9 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
   // createSender() also works with topics
   const sender = sbClient.createSender(queueName);
 
-  const message = {
+  const message: ServiceBusMessage = {
     body: `${scientist.firstName} ${scientist.lastName}`,
-    label: "Scientist",
+    subject: "Scientist",
     sessionId: sessionId
   };
 

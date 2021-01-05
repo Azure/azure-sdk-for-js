@@ -98,7 +98,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
     const message = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      label: "Shopping Step"
+      subject: "Shopping Step"
     };
     await sender.sendMessages(message);
   }
