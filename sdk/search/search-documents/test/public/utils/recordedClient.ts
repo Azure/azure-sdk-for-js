@@ -12,7 +12,6 @@ import {
   SearchIndexerClient,
   SearchIndexClient
 } from "../../../src";
-import { SearchClientImpl } from "../../../src/searchClientImpl";
 
 if (isNode) {
   dotenv.config();
@@ -55,7 +54,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const searchClient = new SearchClientImpl<IndexModel>(testEnv.ENDPOINT, indexName, credential);
+  const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
   const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);
   const indexerClient = new SearchIndexerClient(testEnv.ENDPOINT, credential);
 

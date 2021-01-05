@@ -1028,17 +1028,19 @@ export interface ScoringProfile {
 // @public
 export type ScoringStatistics = 'local' | 'global';
 
-// @public (undocumented)
-export interface SearchClient<T> {
+// @public
+export class SearchClient<T> {
+    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
+    readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
-    // (undocumented)
-    deleteDocuments(keyNameOrDocuments: keyof T | T[], keyValuesOrOptions?: string[] | DeleteDocumentsOptions, options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
+    readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
+    readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
