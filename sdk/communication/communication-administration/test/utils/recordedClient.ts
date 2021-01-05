@@ -81,7 +81,7 @@ export function createRecordedComminicationIdentityClientWithToken(
   context: Context
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
-  let credential: TokenCredential
+  let credential: TokenCredential;
 
   if (isPlaybackMode()) {
     const mockToken = "token";
