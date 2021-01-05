@@ -411,7 +411,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
  * @param options - Options to modify auto flush.
  */
 export function createSearchIndexingBufferedSender<T>(
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   searchClient: SearchClient<T>,
   options: SearchIndexingBufferedSenderOptions = {}
 ): SearchIndexingBufferedSender<T> {

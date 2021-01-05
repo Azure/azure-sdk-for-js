@@ -613,11 +613,6 @@ export class SearchIndexClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T> {
-    return new SearchClient<T>(
-      this.endpoint,
-      indexName,
-      this.credential,
-      options || this.options
-    );
+    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
   }
 }
