@@ -9,7 +9,8 @@ const assert = chai.assert;
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  executeAtomXmlOperation
+  executeAtomXmlOperation,
+  sanitizeSerializableObject
 } from "../../src/util/atomXmlHelper";
 import * as Constants from "../../src/util/constants";
 import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
@@ -1119,6 +1120,78 @@ describe("ATOM Serializers", () => {
         "testSubscription"
       );
       assertEmptyArray(result);
+    });
+  });
+
+  describe("key-value pairs having undefined/null as the values to be sanitized with sanitizeSerializableObject", function() {
+    [
+      {
+        title: "queue options with undefined fields",
+        input: {
+          DefaultMessageTimeToLive: undefined,
+          MaxSizeInMegabytes: undefined,
+          RequiresDuplicateDetection: undefined,
+          DuplicateDetectionHistoryTimeWindow: undefined,
+          EnableBatchedOperations: undefined,
+          AuthorizationRules: undefined,
+          Status: undefined,
+          UserMetadata: undefined,
+          SupportOrdering: undefined,
+          AutoDeleteOnIdle: undefined,
+          EnablePartitioning: undefined,
+          EntityAvailabilityStatus: undefined,
+          EnableExpress: undefined
+        },
+        output: {}
+      },
+      {
+        title: "correlation filter with some fields undefined ",
+        input: {
+          Filter: {
+            CorrelationId: undefined,
+            Label: "new-subject",
+            To: undefined,
+            ReplyTo: undefined,
+            ReplyToSessionId: undefined,
+            ContentType: undefined,
+            SessionId: undefined,
+            MessageId: undefined,
+            Properties: undefined,
+            $: {
+              "p4:type": "CorrelationFilter",
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+            }
+          },
+          Action: {
+            $: {
+              "p4:type": "EmptyRuleAction",
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+            }
+          },
+          Name: "rule-name"
+        },
+        output: {
+          Filter: {
+            Label: "new-subject",
+            $: {
+              "p4:type": "CorrelationFilter",
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+            }
+          },
+          Action: {
+            $: {
+              "p4:type": "EmptyRuleAction",
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+            }
+          },
+          Name: "rule-name"
+        }
+      }
+    ].forEach((testCase) => {
+      it(testCase.title, () => {
+        sanitizeSerializableObject(testCase.input);
+        chai.assert.deepEqual(testCase.input, testCase.output as any);
+      });
     });
   });
 });
