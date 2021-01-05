@@ -72,4 +72,6 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
     });
   });
+
+  // TODO: New tests for rule filters to match the sent messages can be added
 });
