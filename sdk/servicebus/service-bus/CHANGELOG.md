@@ -5,6 +5,8 @@
 - Fix the `isNode` check to allow the package to be usable in Electron. [Bug 12983](https://github.com/Azure/azure-sdk-for-js/issues/12983)
 - Fix issue where receiveMessages might return fewer messages than were received, causing them to be potentially locked or lost.
   [PR 12772](https://github.com/Azure/azure-sdk-for-js/pull/12772)
+  [PR 12908](https://github.com/Azure/azure-sdk-for-js/pull/12908)
+  [PR 13073](https://github.com/Azure/azure-sdk-for-js/pull/13073)
 - Updates documentation for `ServiceBusMessage` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language
   compatibility while receiving events is required.
