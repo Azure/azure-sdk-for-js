@@ -29,6 +29,12 @@ steps:
         Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
 
+  - script: npm i -g cspell
+    displayName: Install cspell
+
+  - script: cspell lint --config cspell.json --no-summary "sdk/${{ parameters.ServiceDirectory }}/**/*"
+    displayName: Spellcheck (run cspell)
+
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
@@ -71,13 +77,6 @@ steps:
   - script: |
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
-
-  - script: npm i -g cspell
-    displayName: Install cspell
-
-  - script: cspell lint --config cspell.json --no-summary "sdk/${{ parameters.ServiceDirectory }}/**/*"
-    displayName: Spellcheck (run cspell)
-
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
     # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
