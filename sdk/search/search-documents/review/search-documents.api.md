@@ -387,7 +387,7 @@ export class GeographyPoint {
     constructor(latitude: number, longitude: number);
     latitude: number;
     longitude: number;
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }
 
 // @public
@@ -541,10 +541,10 @@ export interface IndexingSchedule {
 }
 
 // @public
-export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
+export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], Record<string, unknown>>;
 
 // @public
-export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
+export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], Record<string, unknown>>;
 
 // @public
 export interface InputFieldMappingEntry {
@@ -1028,19 +1028,17 @@ export interface ScoringProfile {
 // @public
 export type ScoringStatistics = 'local' | 'global';
 
-// @public
-export class SearchClient<T> {
-    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
-    readonly apiVersion: string;
+// @public (undocumented)
+export interface SearchClient<T> {
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
-    readonly endpoint: string;
+    // (undocumented)
+    deleteDocuments(keyNameOrDocuments: keyof T | T[], keyValuesOrOptions?: string[] | DeleteDocumentsOptions, options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
-    readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;

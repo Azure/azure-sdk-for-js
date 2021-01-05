@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { SearchClient, SearchClientOptions } from "./searchClient";
+export { SearchClientOptions } from "./searchClientImpl";
+export { SearchClient } from "./searchClient";
 export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
