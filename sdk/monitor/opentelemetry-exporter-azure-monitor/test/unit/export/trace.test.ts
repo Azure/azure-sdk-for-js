@@ -52,7 +52,9 @@ describe("#AzureMonitorBaseExporter", () => {
 
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
-      const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
+      const scope = nock(DEFAULT_BREEZE_ENDPOINT)
+        .log(console.log)
+        .post("/v2/track");
       const envelope = {
         name: "Name",
         time: new Date()
@@ -103,12 +105,12 @@ describe("#AzureMonitorBaseExporter", () => {
         assert.strictEqual(persistedEnvelopes, null);
       });
 
-      it("should persist when an error is caught", async () => {
+      it("should not persist when an error is caught", async () => {
         const exporter = new TestExporter();
-        scope.reply(1, ""); // httpSender will throw
+        scope.replyWithError("Error");
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
+        assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
 
         const persistedEnvelopes = await exporter["_persister"].shift();
         assert.strictEqual(persistedEnvelopes, null);
