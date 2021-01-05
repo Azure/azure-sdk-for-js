@@ -2,9 +2,7 @@
   "version": "0.1",
   "language": "en",
   "languageId": "typescript,javascript",
-  "dictionaries": [
-    "powershell"
-  ],
+  "dictionaries": ["powershell"],
   "ignorePaths": [
     "**/node_modules/**",
     "**/recordings/**",
