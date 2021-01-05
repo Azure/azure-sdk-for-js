@@ -42,7 +42,7 @@ The new version of the Service Bus library also shares some of the cross-service
 We have a variety of new features in the version 7 of the Service Bus library.
 
 - A new `ServiceBusAdministrationClient` to perform operations like create/get/list/update/delete on queues/topics/subscriptions/rules. These were already available as part of a separate package `@azure/arm-servicebus` that uses Azure Resource Manager APIs but had the drawback of not supporting connection strings.
-- Ability to create a batch of messages with the smarter `ServiceBusSender.createBatch()` and `ServiceBusMessageBatch.tryAddMessage()` APIs. This will help you manage the messages to be sent in the most optimal way.
+- Ability to create a batch of messages with the smarter `ServiceBusSender.createMessageBatch()` and `ServiceBusMessageBatch.tryAddMessage()` APIs. This will help you manage the messages to be sent in the most optimal way.
 - Ability to configure the retry policy used by the operations on the client, sender and receivers.
 - Ability to cancel async operations on the client, sender and receivers and the management operations using the abort signal from `@azure/abort-controller`.
 - Authentication with AAD credentials using `@azure/identity`.
