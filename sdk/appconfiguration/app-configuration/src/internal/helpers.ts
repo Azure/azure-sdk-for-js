@@ -38,7 +38,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
 /**
  * Checks the onlyIfChanged/onlyIfUnchanged properties to make sure we haven't specified both
  * and throws an Error. Otherwise, returns the properties properly quoted.
- * @param options An options object with onlyIfChanged/onlyIfUnchanged fields
+ * @param options - An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
  */
 export function checkAndFormatIfAndIfNoneMatch(
@@ -103,7 +103,7 @@ export function formatWildcards(
 
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
- * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
  */
 export function formatAcceptDateTime(newOptions: {
@@ -135,7 +135,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
  *
- * @param configurationSetting The configuration setting to alter
+ * @param configurationSetting - The configuration setting to alter
  */
 export function makeConfigurationSettingEmpty(
   configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>

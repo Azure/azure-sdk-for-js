@@ -19,7 +19,7 @@ export const SyncTokenHeaderName = "sync-token";
 
 /**
  * A policy factory for injecting sync tokens properly into outgoing requests.
- * @param syncTokens
+ * @param syncTokens - the sync tokens store to be used across requests.
  * @internal
  */
 export function syncTokenPolicy(syncTokens: SyncTokens): RequestPolicyFactory {
@@ -73,7 +73,7 @@ export class SyncTokens {
    * If given an empty value (or undefined) it clears the current list of sync tokens.
    * (indicates the service has properly absorbed values into the cluster).
    *
-   * @param syncTokenHeaderValue The full value of the sync token header.
+   * @param syncTokenHeaderValue - The full value of the sync token header.
    */
   addSyncTokenFromHeaderValue(syncTokenHeaderValue: string | undefined) {
     if (syncTokenHeaderValue == null || syncTokenHeaderValue === "") {
@@ -134,7 +134,7 @@ interface SyncToken {
 /**
  * Parses a single sync token into it's constituent parts.
  *
- * @param syncToken A single sync token.
+ * @param syncToken - A single sync token.
  *
  * @internal
  */
