@@ -107,7 +107,7 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should not persist when an error is caught", async () => {
         const exporter = new TestExporter();
-        scope.replyWithError("Error");
+        scope.reply(1, ""); // httpSender will throw
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
