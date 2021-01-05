@@ -2,6 +2,7 @@
 
 ## 12.3.0-beta.2 (Unreleased)
 
+- Now you can get the functionality of the root directory via the `DataLakeDirectoryClient` created via `FileSystemClient.getDirectoryClient("")`. Fixed bug [12813](https://github.com/Azure/azure-sdk-for-js/issues/12813).
 
 ## 12.3.0-beta.1 (2020-12-09)
 
