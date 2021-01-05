@@ -50,7 +50,7 @@
     "LICENSE"
   ],
   "keywords": [
-    "Azure",
+    "azure",
     "cloud",
     "communication"
   ],
@@ -59,7 +59,11 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
