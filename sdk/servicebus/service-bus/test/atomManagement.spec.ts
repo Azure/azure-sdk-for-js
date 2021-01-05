@@ -1712,135 +1712,135 @@ describe(`createSubscription() using different variations to the input parameter
   });
 });
 
-// Rule tests
-const createRuleTests: {
-  testCaseTitle: string;
-  input: Omit<CreateRuleOptions, "name"> | undefined;
-  output: RuleProperties;
-}[] = [
-  {
-    testCaseTitle: "Undefined rule options",
-    input: undefined,
-    output: {
-      filter: {
-        sqlExpression: "1=1",
-        sqlParameters: undefined
-      },
-      action: {
-        sqlExpression: undefined,
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Sql Filter rule options",
-    input: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
-      },
-      action: { sqlExpression: "SET a='b'" }
-    },
-    output: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
-      },
-      action: {
-        sqlExpression: "SET a='b'",
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options with a single property",
-    input: {
-      filter: {
-        correlationId: "abcd",
-        applicationProperties: {
-          randomState: "WA"
-        }
-      },
-      action: { sqlExpression: "SET sys.label='GREEN'" }
-    },
-    output: {
-      filter: {
-        correlationId: "abcd",
-        contentType: "",
-        subject: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        applicationProperties: {
-          randomState: "WA"
-        }
-      },
-      action: {
-        sqlExpression: "SET sys.label='GREEN'",
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options with multiple properties",
-    input: {
-      filter: {
-        correlationId: "abcd",
-        applicationProperties: {
-          randomState: "WA",
-          randomCountry: "US",
-          randomInt: 25,
-          randomIntDisguisedAsDouble: 3.0,
-          randomDouble: 12.4,
-          randomBool: true,
-          randomDate: randomDate
-        }
-      },
-      action: { sqlExpression: "SET sys.label='GREEN'" }
-    },
-    output: {
-      filter: {
-        correlationId: "abcd",
-        contentType: "",
-        subject: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        applicationProperties: {
-          randomState: "WA",
-          randomCountry: "US",
-          randomInt: 25,
-          randomIntDisguisedAsDouble: 3.0,
-          randomDouble: 12.4,
-          randomBool: true,
-          randomDate: randomDate
-        }
-      },
-      action: {
-        sqlExpression: "SET sys.label='GREEN'",
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  }
-];
-createRuleTests.forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
-    beforeEach(async () => {
-      await recreateTopic(managementTopic1);
-      await recreateSubscription(managementTopic1, managementSubscription1);
-    });
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
+describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  beforeEach(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+  });
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
 
+  // Rule tests
+  const createRuleTests: {
+    testCaseTitle: string;
+    input: Omit<CreateRuleOptions, "name"> | undefined;
+    output: RuleProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined rule options",
+      input: undefined,
+      output: {
+        filter: {
+          sqlExpression: "1=1",
+          sqlParameters: undefined
+        },
+        action: {
+          sqlExpression: undefined,
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Sql Filter rule options",
+      input: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'" }
+      },
+      output: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: {
+          sqlExpression: "SET a='b'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Correlation Filter rule options with a single property",
+      input: {
+        filter: {
+          correlationId: "abcd",
+          applicationProperties: {
+            randomState: "WA"
+          }
+        },
+        action: { sqlExpression: "SET sys.label='GREEN'" }
+      },
+      output: {
+        filter: {
+          correlationId: "abcd",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: {
+            randomState: "WA"
+          }
+        },
+        action: {
+          sqlExpression: "SET sys.label='GREEN'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Correlation Filter rule options with multiple properties",
+      input: {
+        filter: {
+          correlationId: "abcd",
+          applicationProperties: {
+            randomState: "WA",
+            randomCountry: "US",
+            randomInt: 25,
+            randomIntDisguisedAsDouble: 3.0,
+            randomDouble: 12.4,
+            randomBool: true,
+            randomDate: randomDate
+          }
+        },
+        action: { sqlExpression: "SET sys.label='GREEN'" }
+      },
+      output: {
+        filter: {
+          correlationId: "abcd",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: {
+            randomState: "WA",
+            randomCountry: "US",
+            randomInt: 25,
+            randomIntDisguisedAsDouble: 3.0,
+            randomDouble: 12.4,
+            randomBool: true,
+            randomDate: randomDate
+          }
+        },
+        action: {
+          sqlExpression: "SET sys.label='GREEN'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    }
+  ];
+  createRuleTests.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
