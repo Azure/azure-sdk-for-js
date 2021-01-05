@@ -207,7 +207,7 @@ describe("Queries", function() {
         const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
         const { resources: sum } = await queryIterator.fetchAll();
         assert.equal(sum.length, 1);
-        assert.equal(sum[0], 66)
+        assert.equal(sum[0], 66);
       });
     });
   });
