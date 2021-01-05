@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode } from "@azure/test-utils-recorder";
 import { getGlobalObject } from "./global";
 
 export interface TestFunctionWrapper {
@@ -207,6 +207,10 @@ export interface MultiVersionTestOptions {
   versionForRecording?: string;
 }
 
+function isMultiVersionDisabled(): boolean {
+  return Boolean(env.DISABLE_MULTI_VERSION_TESTING);
+}
+
 /**
  * Determines the set of service versions used to run tests based on TEST_MODE
  * - For live tests loop through all the versions and run tests for each version.
@@ -229,7 +233,7 @@ export function versionsToTest(
   }
   let toTest: ReadonlyArray<string>;
   // all versions are used in live TEST_MODE
-  if (isLiveMode()) {
+  if (isLiveMode() && !isMultiVersionDisabled()) {
     toTest = versions;
   } else {
     toTest = options.versionForRecording

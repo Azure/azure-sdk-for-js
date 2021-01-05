@@ -213,6 +213,10 @@ versionsToTest(
 );
 ```
 
+### Disable multi-version testing via environment variable
+
+Running live tests against multiple service versions takes more time than running against a single service version. It may be desirable to only test multiple service version in non-nightly build pipelines, for example, weekly runs with a higher timeout limit. An environment variable `DISABLE_MULTI_VERSION_TESTING` is introduced to disable live testing against multiple service versions when it is set.
+
 ## Troubleshooting
 
 Besides the usual debugging of your code and tests, if you ever encounter a problem, please follow
