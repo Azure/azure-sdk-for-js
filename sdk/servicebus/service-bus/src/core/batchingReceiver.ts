@@ -387,7 +387,9 @@ export class BatchingReceiverLite {
         if (receiver.isOpen() && receiver.credit > 0) {
           logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
 
-          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+          // setting .drain and combining it with .addCredit results in (eventually) sending
+          // a drain request to Service Bus. When the drain completes rhea will call `onReceiveDrain`
+          // at which point we'll wrap everything up and resolve the promise.
           receiver.drain = true;
           receiver.addCredit(1);
         } else {
