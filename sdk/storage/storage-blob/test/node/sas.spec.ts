@@ -1513,7 +1513,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it.only("SAS permission parse from raw object should work", async () => {
+  it("SAS permission parse from raw object should work", async () => {
     const orderedBlobPermissionStr = "racwdxtme";
     const blobPermission = BlobSASPermissions.parse(orderedBlobPermissionStr);
     assert.deepStrictEqual(
