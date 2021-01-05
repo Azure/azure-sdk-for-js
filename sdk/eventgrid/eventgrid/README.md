@@ -80,18 +80,12 @@ const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential
 
 #### Using a SAS Token
 
-Like an access key, a SAS token allows access to sending events to an Event Grid topic. Unlike an access key, which can be used until it is regenerated, a SAS token has an experation time, at which point it is no longer valid. To use a SAS token for authentication, use the `EventGridSharedAccesSignatureCredential` as follows:
+Like an access key, a SAS token allows access to sending events to an Event Grid topic. Unlike an access key, which can be used until it is regenerated, a SAS token has an experation time, at which point it is no longer valid. To use a SAS token for authentication, use the `AzureSASCredential` as follows:
 
 ```js
-const {
-  EventGridPublisherClient,
-  EventGridSharedAccessSignatureCredential
-} = require("@azure/eventgrid");
+const { EventGridPublisherClient, AzureSASCredential } = require("@azure/eventgrid");
 
-const client = new EventGridPublisherClient(
-  "<endpoint>",
-  new EventGridSharedAccessSignatureCredential("<SAS Token>")
-);
+const client = new EventGridPublisherClient("<endpoint>", new AzureSASCredential("<SAS Token>"));
 ```
 
 You can generate a SAS token by using the `generateSharedAccessSigniture` function.

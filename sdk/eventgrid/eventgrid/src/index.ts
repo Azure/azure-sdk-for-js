@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureKeyCredential } from "@azure/core-auth";
+export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 export {
   CloudEvent,
@@ -18,11 +18,6 @@ export {
   SendCloudEventsOptions,
   SendCustomSchemaEventsOptions
 } from "./eventGridClient";
-
-export {
-  SignatureCredential,
-  EventGridSharedAccessSignatureCredential
-} from "./sharedAccessSignitureCredential";
 
 export { EventGridConsumer, EventGridConsumerOptions } from "./consumer";
 

@@ -1,5 +1,12 @@
 # Release History
 
+## 3.0.0-beta.4 (Unreleased)
+
+### Breaking Changes
+
+- `EventGridSharedAccessCredential` has been removed, in favor of `AzureSASCredential`. Code which is using `EventGridSharedAccessCredential` should
+  now use `AzureSASCredential` instead.
+
 ## 3.0.0-beta.3 (2020-10-06)
 
 - Added distributed tracing support. `EventGridProducerClient` will now create spans when sending events to Event Grid.

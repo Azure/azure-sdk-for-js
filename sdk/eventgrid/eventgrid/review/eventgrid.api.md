@@ -5,9 +5,11 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PipelineOptions } from '@azure/core-https';
+import { SASCredential } from '@azure/core-auth';
 
 // @public
 export interface ACSChatEventBase {
@@ -158,6 +160,8 @@ export interface AppServicePlanEventTypeDetail {
 export type AsyncStatus = string;
 
 export { AzureKeyCredential }
+
+export { AzureSASCredential }
 
 // @public
 export interface CloudEvent<T> {
@@ -346,7 +350,7 @@ export interface EventGridEvent<T> {
 
 // @public
 export class EventGridPublisherClient {
-    constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
+    constructor(endpointUrl: string, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
     sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<void>;
@@ -356,13 +360,6 @@ export class EventGridPublisherClient {
 
 // @public
 export type EventGridPublisherClientOptions = PipelineOptions;
-
-// @public
-export class EventGridSharedAccessSignatureCredential implements SignatureCredential {
-    constructor(signature: string);
-    signature(): string;
-    update(newSignature: string): void;
-}
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
@@ -1020,11 +1017,6 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
     requestUri?: string;
     subscriptionName?: string;
     topicName?: string;
-}
-
-// @public
-export interface SignatureCredential {
-    signature(): string;
 }
 
 // @public

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, SASCredential } from "@azure/core-auth";
 import { PipelineOptions } from "@azure/core-https";
 import { OperationOptions, createClientPipeline } from "@azure/core-client";
 
 import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
-import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { SDK_VERSION } from "./constants";
 import {
   SendCloudEventInput,
@@ -81,7 +80,7 @@ export class EventGridPublisherClient {
    */
   constructor(
     endpointUrl: string,
-    credential: KeyCredential | SignatureCredential,
+    credential: KeyCredential | SASCredential,
     options: EventGridPublisherClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
