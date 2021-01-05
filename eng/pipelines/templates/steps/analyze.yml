@@ -72,10 +72,12 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  - script: |
-      npm i -g cspell
-      cspell --no-progress --config ./cspell.json sdk/${{ parameters.ServiceDirectory }}/**/*
-    continueOnError: true
+  - script: npm i -g cspell
+    displayName: Install cspell
+
+  - script: cspell lint --config cspell.json --no-summary "sdk/${{ parameters.ServiceDirectory }}/**/*"
+    displayName: Spellcheck (run cspell)
+
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
     # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
