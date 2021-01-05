@@ -2300,74 +2300,68 @@ describe(`createRule() using different variations to the input parameter "ruleOp
 });
 
 // Rule tests
-[
-  {
-    testCaseTitle: "Sql Filter rule options",
-    input: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: { "@stringParam": "b" }
+describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  beforeEach(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    await createEntity(EntityType.RULE, managementRule1, managementTopic1, managementSubscription1);
+  });
+
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+  [
+    {
+      testCaseTitle: "Sql Filter rule options",
+      input: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam",
+          sqlParameters: { "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='c'" }
       },
-      action: { sqlExpression: "SET a='c'" }
+      output: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam",
+          sqlParameters: { "@stringParam": "b" }
+        },
+        action: {
+          sqlExpression: "SET a='c'",
+          sqlParameters: undefined
+        },
+
+        name: managementRule1
+      }
     },
-    output: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: { "@stringParam": "b" }
+    {
+      testCaseTitle: "Correlation Filter rule options",
+      input: {
+        filter: {
+          correlationId: "defg"
+        },
+        action: { sqlExpression: "SET sys.label='RED'" }
       },
-      action: {
-        sqlExpression: "SET a='c'",
-        sqlParameters: undefined
-      },
+      output: {
+        filter: {
+          correlationId: "defg",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: undefined
+        },
+        action: {
+          sqlExpression: "SET sys.label='RED'",
+          sqlParameters: undefined
+        },
 
-      name: managementRule1
+        name: managementRule1
+      }
     }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options",
-    input: {
-      filter: {
-        correlationId: "defg"
-      },
-      action: { sqlExpression: "SET sys.label='RED'" }
-    },
-    output: {
-      filter: {
-        correlationId: "defg",
-        contentType: "",
-        subject: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        applicationProperties: undefined
-      },
-      action: {
-        sqlExpression: "SET sys.label='RED'",
-        sqlParameters: undefined
-      },
-
-      name: managementRule1
-    }
-  }
-].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
-    beforeEach(async () => {
-      await recreateTopic(managementTopic1);
-      await recreateSubscription(managementTopic1, managementSubscription1);
-      await createEntity(
-        EntityType.RULE,
-        managementRule1,
-        managementTopic1,
-        managementSubscription1
-      );
-    });
-
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
-
+  ].forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
