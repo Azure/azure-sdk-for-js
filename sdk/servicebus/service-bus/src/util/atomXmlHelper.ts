@@ -92,13 +92,15 @@ export async function executeAtomXmlOperation(
 }
 
 /**
+ * @internal
+ * @hidden
  * The key value pairs having undefined/null as the values are removed recursively from the object in order to address the following issues
  * - ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body at top level.
  * - At the inner levels, Service assigns the empty strings as values to the empty tags instead of throwing.
  *
  * @param {{ [key: string]: any }} resource
  */
-function sanitizeSerializableObject(resource: { [key: string]: any }) {
+export function sanitizeSerializableObject(resource: { [key: string]: any }) {
   Object.keys(resource).forEach(function(property) {
     if (resource[property] == undefined) {
       delete resource[property];
