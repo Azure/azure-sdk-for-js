@@ -1,6 +1,9 @@
 # Release History
 
-## 12.3.1 (Unreleased)
+## 12.4.0-beta.2 (Unreleased)
+
+
+## 12.4.0-beta.1 (2020-12-09)
 
 - Updated Azure Storage Service API version to 2020-04-08.
 - Added a new interface `BlockBlobClient.syncUploadFromURL()` to support creating a new Block Blob where the contents of the blob are read from a given URL.

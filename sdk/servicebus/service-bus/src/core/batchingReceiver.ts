@@ -26,7 +26,7 @@ import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
- * @ignore
+ * @hidden
  * @class BatchingReceiver
  * @extends MessageReceiver
  */
@@ -165,7 +165,7 @@ export class BatchingReceiver extends MessageReceiver {
  * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function getRemainingWaitTimeInMsFn(
   maxWaitTimeInMs: number,
@@ -189,7 +189,7 @@ export function getRemainingWaitTimeInMsFn(
  * import the events definition (which is annoying with browsers).
  *
  * @internal
- * @ignore
+ * @hidden
  */
 type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
 
@@ -198,7 +198,7 @@ type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeLi
  * message receiving.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
   EventEmitterLike<Receiver> & {
@@ -211,13 +211,13 @@ export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "add
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 interface ReceiveMessageArgs extends OperationOptionsBase {
   maxMessageCount: number;
@@ -232,7 +232,7 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * Usable with both session and non-session receivers.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export class BatchingReceiverLite {
   /**
@@ -280,7 +280,7 @@ export class BatchingReceiverLite {
    * Receives a set of messages,
    *
    * @internal
-   * @ignore
+   * @hidden
    */
   public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
     try {
@@ -329,12 +329,10 @@ export class BatchingReceiverLite {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
       // eslint-disable-next-line prefer-const
-      let cleanupBeforeResolveOrReject: (
-        shouldRemoveDrain: "removeDrainHandler" | "leaveDrainHandler"
-      ) => void;
+      let cleanupBeforeResolveOrReject: () => void;
 
       const onError: OnAmqpEvent = (context: EventContext) => {
-        cleanupBeforeResolveOrReject("removeDrainHandler");
+        cleanupBeforeResolveOrReject();
 
         const eventType = context.session?.error != null ? "session_error" : "receiver_error";
         let error = context.session?.error || context.receiver?.error;
@@ -355,7 +353,7 @@ export class BatchingReceiverLite {
       };
 
       this._closeHandler = (error?: AmqpError | Error): void => {
-        cleanupBeforeResolveOrReject("removeDrainHandler");
+        cleanupBeforeResolveOrReject();
 
         if (
           // no error, just closing. Go ahead and return what we have.
@@ -379,8 +377,6 @@ export class BatchingReceiverLite {
       // - maxWaitTime is passed or
       // - newMessageWaitTimeoutInSeconds is passed since the last message was received
       const finalAction = (): void => {
-        cleanupBeforeResolveOrReject("leaveDrainHandler");
-
         // Drain any pending credits.
         if (receiver.isOpen() && receiver.credit > 0) {
           logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
@@ -389,7 +385,7 @@ export class BatchingReceiverLite {
           receiver.drain = true;
           receiver.addCredit(1);
         } else {
-          receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          cleanupBeforeResolveOrReject();
 
           logger.verbose(
             `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
@@ -458,24 +454,26 @@ export class BatchingReceiverLite {
           `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
         );
 
-        resolve(brokeredMessages);
+        // NOTE: through rhea-promise most of our event handlers are made asynchronous by calling setTimeout(emit).
+        // However, a small set (*error and drain) execute immediately. This can lead to a situation where the logical
+        // ordering of events is correct but the execution order is incorrect because the events are not all getting
+        // put into the task queue the same way.
+        // So this call, while odd, just ensures that we resolve _after_ any already-queued onMessage handlers that may
+        // be waiting in the task queue.
+        setTimeout(() => {
+          cleanupBeforeResolveOrReject();
+          resolve(brokeredMessages);
+        });
       };
 
-      cleanupBeforeResolveOrReject = (
-        shouldRemoveDrain:
-          | "removeDrainHandler" // remove drain handler (not waiting or initiating a drain)
-          | "leaveDrainHandler" // listener for drain is removed when it is determined we dont need to drain or when drain is completed
-      ): void => {
+      cleanupBeforeResolveOrReject = (): void => {
         if (receiver != null) {
           receiver.removeListener(ReceiverEvents.receiverError, onError);
           receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
           receiver.session.removeListener(SessionEvents.sessionError, onError);
           receiver.removeListener(ReceiverEvents.receiverClose, onClose);
           receiver.session.removeListener(SessionEvents.sessionClose, onClose);
-
-          if (shouldRemoveDrain === "removeDrainHandler") {
-            receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
+          receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         }
 
         if (totalWaitTimer) {
@@ -489,7 +487,7 @@ export class BatchingReceiverLite {
       };
 
       abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
-        cleanupBeforeResolveOrReject("removeDrainHandler");
+        cleanupBeforeResolveOrReject();
         reject(err);
       }, args.abortSignal);
 

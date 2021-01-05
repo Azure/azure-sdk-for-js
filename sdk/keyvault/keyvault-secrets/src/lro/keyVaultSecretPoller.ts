@@ -57,6 +57,7 @@ export interface KeyVaultSecretPollOperationOptions {
 /**
  * Common properties and methods of the Key Vault Secret Poller operations.
  */
+// eslint-disable-next-next no-use-before-define
 export class KeyVaultSecretPollOperation<
   TState extends KeyVaultSecretPollOperationState<TResult>,
   TResult
@@ -70,23 +71,23 @@ export class KeyVaultSecretPollOperation<
   }
 
   /**
-   * @summary Meant to reach to the service and update the Poller operation.
-   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+   * Meant to reach to the service and update the Poller operation.
+   * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
    */
   public async update(): Promise<PollOperation<TState, TResult>> {
     throw new Error("Operation not supported.");
   }
 
   /**
-   * @summary Meant to reach to the service and cancel the Poller operation.
-   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+   * Meant to reach to the service and cancel the Poller operation.
+   * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
    */
   public async cancel(): Promise<PollOperation<TState, TResult>> {
     throw new Error(this.cancelMessage);
   }
 
   /**
-   * @summary Serializes the Poller operation.
+   * Serializes the Poller operation.
    */
   public toString(): string {
     return JSON.stringify({

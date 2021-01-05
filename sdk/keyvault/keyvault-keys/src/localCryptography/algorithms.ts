@@ -32,7 +32,7 @@ import { createHash } from "./hash";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * The list of known assertions so far.
  * Assertions verify that the requirements to execute a local cryptography operation are met.
  */
@@ -66,10 +66,12 @@ export const assertions: Record<"keyOps" | "rsa" | "nodeOnly", LocalAssertion> =
 
 /**
  * pipeAssertions allows us to execute a sequence of assertions.
- * @param assertions One or more LocalAssertions
+ * @param assertions - One or more LocalAssertions
  */
-const pipeAssertions = (...assertions: LocalAssertion[]): LocalAssertion => (...params): void => {
-  for (const assertion of assertions) {
+const pipeAssertions = (...assertionsParam: LocalAssertion[]): LocalAssertion => (
+  ...params
+): void => {
+  for (const assertion of assertionsParam) {
     assertion(...params);
   }
 };
@@ -115,7 +117,6 @@ export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
  * Since sign algorithms behave almost the same, we're making a generator to save up code.
  * We receive the sign algorithm, from the list of names in `SignAlgorithmName`,
  * then we generate a `LocalSupportedAlgorithm` that only create hashes and verifies signatures.
- * @param signAlgorithm
  */
 const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm => {
   return {
@@ -151,7 +152,7 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
 
 /**
  * Checks whether a given algorithm name is supported or not.
- * @param algorithm string name of the algorithm
+ * @param algorithm - Name of the algorithm
  */
 export function isLocallySupported(algorithm: string): boolean {
   return !!localSupportedAlgorithms[algorithm as LocalSupportedAlgorithmName];

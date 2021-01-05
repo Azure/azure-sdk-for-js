@@ -100,7 +100,9 @@
     "dep:ms-rest-azure-js": "npx ts-node .scripts/testDependentProjects.ts ms-rest-azure-js",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
-    "latest": "ts-node ./.scripts/latest.ts"
+    "latest": "ts-node ./.scripts/latest.ts",
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "nyc": {
@@ -165,7 +167,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "express": "^4.16.3",
     "fetch-mock": "^9.10.1",
     "glob": "^7.1.2",
@@ -191,8 +193,9 @@
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
-    "xhr-mock": "^2.4.1"
+    "xhr-mock": "^2.4.1",
+    "typedoc": "0.15.0"
   }
 }

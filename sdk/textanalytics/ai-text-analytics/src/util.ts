@@ -14,9 +14,10 @@ export interface IdObject {
  * Given a sorted array of input objects (with a unique ID) and an unsorted array of results,
  * return a sorted array of results.
  *
- * @ignore
- * @param sortedArray An array of entries sorted by `id`
- * @param unsortedArray An array of entries that contain `id` but are not sorted
+ * @internal
+ * @hidden
+ * @param sortedArray - An array of entries sorted by `id`
+ * @param unsortedArray - An array of entries that contain `id` but are not sorted
  */
 export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
   sortedArray: T[],
@@ -114,14 +115,42 @@ export function getJobID(operationLocation: string): string {
 }
 
 /**
+ * @internal
+ * @hidden
  * parses incoming errors from the service and if the inner error code is
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
- * @param error the incoming error
+ * @param error - the incoming error
  */
-export function handleInvalidDocumentBatch(error: any): any {
-  const innerCode = error.response?.parsedBody?.error?.innererror?.code;
-  const innerMessage = error.response?.parsedBody?.error?.innererror?.message;
-  return innerCode === "InvalidDocumentBatch"
-    ? new RestError(innerMessage, innerCode, error.statusCode)
-    : error;
+export function handleInvalidDocumentBatch(error: unknown): any {
+  const castError = error as {
+    response: {
+      parsedBody?: {
+        error?: {
+          innererror?: {
+            code: string;
+            message: string;
+          };
+        };
+      };
+    };
+    statusCode: number;
+  };
+  const innerCode = castError.response?.parsedBody?.error?.innererror?.code;
+  const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
+  if (innerMessage) {
+    return innerCode === "InvalidDocumentBatch"
+      ? new RestError(innerMessage, innerCode, castError.statusCode)
+      : error;
+  } else {
+    // unfortunately, the service currently does not follow the swagger definition
+    // for errors in some cases.
+    // Issue: https://msazure.visualstudio.com/Cognitive%20Services/_workitems/edit/8775003/?workitem=8972164
+    // throw new Error(
+    //   `The error coming from the service does not follow the expected structure: ${error}`
+    // );
+    logger.warning(
+      `The error coming from the service does not follow the expected structure: ${error}`
+    );
+    return error;
+  }
 }

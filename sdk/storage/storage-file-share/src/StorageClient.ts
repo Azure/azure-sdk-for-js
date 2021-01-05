@@ -38,7 +38,7 @@ export abstract class StorageClient {
    * Request policy pipeline.
    *
    * @internal
-   * @ignore
+   * @hidden
    * @type {Pipeline}
    * @memberof StorageClient
    */
@@ -49,7 +49,7 @@ export abstract class StorageClient {
    * Initialized to an AnonymousCredential if not able to retrieve it from the pipeline.
    *
    * @internal
-   * @ignore
+   * @hidden
    * @type {Credential}
    * @memberof StorageClient
    */

@@ -27,7 +27,7 @@ const smallMessageMaxBytes = 255;
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
  * @param eventDataBatch The instance of `EventDataBatch` to verify.
  * @internal
- * @ignore
+ * @hidden
  */
 export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
   return (
@@ -63,7 +63,7 @@ export interface EventDataBatch {
    * set the partitionKey.
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly partitionKey?: string;
 
@@ -72,7 +72,7 @@ export interface EventDataBatch {
    * the `EventHubProducerClient` to set the partitionId.
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly partitionId?: string;
 
@@ -113,7 +113,7 @@ export interface EventDataBatch {
    * This is not meant for the user to use directly.
    *
    * @internal
-   * @ignore
+   * @hidden
    */
   _generateMessage(): Buffer;
 
@@ -121,7 +121,7 @@ export interface EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -131,7 +131,7 @@ export interface EventDataBatch {
  *
  * @class
  * @internal
- * @ignore
+ * @hidden
  */
 export class EventDataBatchImpl implements EventDataBatch {
   /**
@@ -182,7 +182,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Use the `createBatch()` method on your `EventHubProducer` instead.
    * @constructor
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(
     context: ConnectionContext,
@@ -244,7 +244,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
-   * @ignore
+   * @hidden
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
