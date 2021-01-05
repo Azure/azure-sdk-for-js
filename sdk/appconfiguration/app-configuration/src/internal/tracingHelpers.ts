@@ -9,6 +9,7 @@ import { RestError } from "@azure/core-http";
 
 /**
  * @internal
+ * @hidden
  */
 export interface Spannable {
   spanOptions?: SpanOptions;
@@ -16,6 +17,7 @@ export interface Spannable {
 
 /**
  * @internal
+ * @hidden
  */
 export class Spanner<TClient> {
   constructor(private baseOperationName: string) {}
