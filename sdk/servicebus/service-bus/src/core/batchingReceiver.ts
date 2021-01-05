@@ -325,15 +325,23 @@ export class BatchingReceiverLite {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
     const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}]`;
 
-    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
+    return new Promise<ServiceBusMessageImpl[]>((origResolve, origReject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
 
       // eslint-disable-next-line prefer-const
       let cleanupBeforeResolveOrReject: () => void;
 
-      const onError: OnAmqpEvent = (context: EventContext) => {
+      const reject = (err: Error | AmqpError) => { 
         cleanupBeforeResolveOrReject();
+        origReject(err);
+      };
 
+      const resolve = (result: ServiceBusMessageImpl[]) => { 
+        cleanupBeforeResolveOrReject();
+        origResolve(result);
+      };
+
+      const onError: OnAmqpEvent = (context: EventContext) => {
         const eventType = context.session?.error != null ? "session_error" : "receiver_error";
         let error = context.session?.error || context.receiver?.error;
 
@@ -353,8 +361,6 @@ export class BatchingReceiverLite {
       };
 
       this._closeHandler = (error?: AmqpError | Error): void => {
-        cleanupBeforeResolveOrReject();
-
         if (
           // no error, just closing. Go ahead and return what we have.
           error == null ||
@@ -385,8 +391,6 @@ export class BatchingReceiverLite {
           receiver.drain = true;
           receiver.addCredit(1);
         } else {
-          cleanupBeforeResolveOrReject();
-
           logger.verbose(
             `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
           );
@@ -461,7 +465,6 @@ export class BatchingReceiverLite {
         // So this call, while odd, just ensures that we resolve _after_ any already-queued onMessage handlers that may
         // be waiting in the task queue.
         setTimeout(() => {
-          cleanupBeforeResolveOrReject();
           resolve(brokeredMessages);
         });
       };
@@ -487,7 +490,6 @@ export class BatchingReceiverLite {
       };
 
       abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
-        cleanupBeforeResolveOrReject();
         reject(err);
       }, args.abortSignal);
 
