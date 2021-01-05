@@ -52,6 +52,7 @@ dependencies:
   '@rush-temp/synapse-monitoring': 'file:projects/synapse-monitoring.tgz'
   '@rush-temp/synapse-spark': 'file:projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
+  '@rush-temp/test-utils-multi-version': 'file:projects/test-utils-multi-version.tgz'
   '@rush-temp/test-utils-perfstress': 'file:projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
@@ -9041,6 +9042,7 @@ packages:
       karma-remap-istanbul: 0.6.0_karma@5.2.3
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9056,7 +9058,7 @@ packages:
     dev: false
     name: '@rush-temp/data-tables'
     resolution:
-      integrity: sha512-q7N2kw0AD/INh87gkzzATH88kOQ6/qO78ipb8D0vRin+En7CUV1/fo7jZzl1dM5lGTWeneGYQ7aWOcXrw6pInA==
+      integrity: sha512-4Rw9bJONHF4b63GMcRXMMedfBfpmEfz/sXPYQrXZJuXm48X+kZp5TVYLxmgjAOUBozyCv7U9cGK2DWPBpesPyA==
       tarball: 'file:projects/data-tables.tgz'
     version: 0.0.0
   'file:projects/dev-tool.tgz':
@@ -9673,7 +9675,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-ih63xJEo0JOW8l0HJJIcmBBEiXPDhSckVD5DHB1ZkvxccmDj9skcCh1wz/OBY+3gv+lRHjJGeMFmBLquoMwdfQ==
+      integrity: sha512-+Tbtb+75D9M0KutLEeNQ3rmxTvrzSajuHQyT2LDzxKHaAWVhsUmYsYrEspYGVrAtrPJ5kcV3HQurBj5smmSW+w==
       tarball: 'file:projects/keyvault-keys.tgz'
     version: 0.0.0
   'file:projects/keyvault-secrets.tgz':
@@ -10531,6 +10533,30 @@ packages:
       integrity: sha512-zh48644QwvahtrV3xRbBlFSkkKCBB84FoAQG8e7P+Fn9RvPJhmUwFfwlgACjNO1EupnfCwkWYww9BT3nFzSlJw==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
+  'file:projects/test-utils-multi-version.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.14
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.2.0
+      chai-as-promised: 7.1.1_chai@4.2.0
+      eslint: 7.15.0
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-env-preprocessor: 0.1.1
+      mocha: 7.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      tslib: 2.0.3
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/test-utils-multi-version'
+    resolution:
+      integrity: sha512-btb6eYPabccPwA2T5tmUQ/jC1FNcpPjaqq8pWeB457Rpaw49U+ybmQckfNHc7Gh/8Vnvk8ucisb0ldqfw+iKhw==
+      tarball: 'file:projects/test-utils-multi-version.tgz'
+    version: 0.0.0
   'file:projects/test-utils-perfstress.tgz':
     dependencies:
       '@opentelemetry/api': 0.10.2
@@ -10691,6 +10717,7 @@ specifiers:
   '@rush-temp/synapse-monitoring': 'file:./projects/synapse-monitoring.tgz'
   '@rush-temp/synapse-spark': 'file:./projects/synapse-spark.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
+  '@rush-temp/test-utils-multi-version': 'file:./projects/test-utils-multi-version.tgz'
   '@rush-temp/test-utils-perfstress': 'file:./projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:./projects/testhub.tgz'
