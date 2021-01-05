@@ -82,7 +82,7 @@ export class SearchClient<T> {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated SearchClient
    */
   private readonly client: GeneratedClient;

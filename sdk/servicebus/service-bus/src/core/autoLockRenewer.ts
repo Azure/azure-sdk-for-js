@@ -10,7 +10,7 @@ import { OnErrorNoContext } from "./messageReceiver";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export type RenewableMessageProperties = Readonly<
   Pick<ServiceBusMessageImpl, "lockToken" | "messageId">
@@ -20,7 +20,7 @@ export type RenewableMessageProperties = Readonly<
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
 
@@ -28,7 +28,7 @@ type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
  * Tracks locks for messages, renewing until a configurable duration.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export class LockRenewer {
   /**

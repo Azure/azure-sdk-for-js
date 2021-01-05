@@ -3,78 +3,78 @@
 
 import debugModule from "debug";
 /**
- * @ignore
+ * @hidden
  * log statements for error
  */
 export const error = debugModule("azure:eph:error");
 /**
- * @ignore
+ * @hidden
  * log statements for lease
  */
 export const baseLease = debugModule("azure:eph:baseLease");
 /**
- * @ignore
+ * @hidden
  * log statements for lease
  */
 export const completeLease = debugModule("azure:eph:completeLease");
 /**
- * @ignore
+ * @hidden
  * log statements for azurebloblease
  */
 export const azurebloblease = debugModule("azure:eph:azurebloblease");
 /**
- * @ignore
+ * @hidden
  * log statements for leaseManager
  */
 export const leaseManager = debugModule("azure:eph:leaseManager");
 /**
- * @ignore
+ * @hidden
  * log statements for partitionManager
  */
 export const partitionManager = debugModule("azure:eph:partitionManager");
 /**
- * @ignore
+ * @hidden
  * log statements for partitionManager
  */
 export const partitionPump = debugModule("azure:eph:partitionPump");
 /**
- * @ignore
+ * @hidden
  * log statements for pumpManager
  */
 export const pumpManager = debugModule("azure:eph:pumpManager");
 /**
- * @ignore
+ * @hidden
  * log statements for partitionScanner
  */
 export const partitionScanner = debugModule("azure:eph:partitionScanner");
 /**
- * @ignore
+ * @hidden
  * log statements for host
  */
 export const host = debugModule("azure:eph:host");
 /**
- * @ignore
+ * @hidden
  * log statements for blobService
  */
 export const blobService = debugModule("azure:eph:blobService");
 /**
- * @ignore
+ * @hidden
  * log statements for partitionContext
  */
 export const partitionContext = debugModule("azure:eph:partitionContext");
 /**
- * @ignore
+ * @hidden
  * log statements for checkpointLeaseMgr
  */
 export const checkpointLeaseMgr = debugModule("azure:eph:checkpointLeaseMgr");
 /**
- * @ignore
+ * @hidden
  * log statements for checkpointLeaseMgr
  */
 export const checkpoint = debugModule("azure:eph:checkpointInfo");
 
 /**
- * @ignore
+ * @hidden
  * log statements for checkpointLeaseMgr
  */
 export const util = debugModule("azure:eph:util");

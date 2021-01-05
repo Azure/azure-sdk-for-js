@@ -126,13 +126,13 @@ export interface CheckpointStore {
  * }
  * ```
  * @internal
- * @ignore
+ * @hidden
  */
 export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal
-   * @ignore
+   * @hidden
    */
   pumpManager?: PumpManager;
   /**
@@ -175,7 +175,7 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  *
  * @class EventProcessor
  * @internal
- * @ignore
+ * @hidden
  */
 export class EventProcessor {
   private _processorOptions: FullEventProcessorOptions;

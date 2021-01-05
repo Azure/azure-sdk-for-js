@@ -8,7 +8,7 @@ export class CountAggregator implements Aggregator {
   /**
    * Represents an aggregator for COUNT operator.
    * @constructor CountAggregator
-   * @ignore
+   * @hidden
    */
   constructor() {
     this.value = 0;

@@ -161,8 +161,8 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @internal
  * @hidden
+ * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const obj: ConfigurationSetting & KeyValue = {
@@ -175,8 +175,8 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @internal
  * @hidden
+ * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
   T extends KeyValue & HttpResponseField<any>
@@ -190,8 +190,8 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @internal
  * @hidden
+ * @internal
  */
 export function transformKeyValueResponse<
   T extends KeyValue & { eTag?: string } & HttpResponseField<any>
