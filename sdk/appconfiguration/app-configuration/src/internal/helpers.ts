@@ -120,8 +120,8 @@ export function formatAcceptDateTime(newOptions: {
  * @internal
  */
 export function extractAfterTokenFromNextLink(nextLink: string) {
-  let parsedLink = URLBuilder.parse(nextLink);
-  let afterToken = parsedLink.getQueryParameterValue("after");
+  const parsedLink = URLBuilder.parse(nextLink);
+  const afterToken = parsedLink.getQueryParameterValue("after");
 
   if (afterToken == null || Array.isArray(afterToken)) {
     throw new Error("Invalid nextLink - invalid after token");

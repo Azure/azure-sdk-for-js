@@ -124,7 +124,7 @@ describe("helper methods", () => {
 
   describe("extractAfterTokenFromNextLink", () => {
     it("token is extracted and properly unescaped", () => {
-      let token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
+      const token = extractAfterTokenFromNextLink("/kv?key=someKey&api-version=1.0&after=bGlah%3D");
       assert.equal("bGlah=", token);
     });
   });
