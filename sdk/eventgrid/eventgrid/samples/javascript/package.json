@@ -25,7 +25,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/eventgrid": "next",
-    "@azure/service-bus": "7.0.0-preview.5",
+    "@azure/service-bus": "^7.0.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
