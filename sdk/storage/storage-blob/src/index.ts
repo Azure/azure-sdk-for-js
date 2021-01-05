@@ -50,8 +50,7 @@ export {
   ContainerRequestConditions,
   ModificationConditions,
   MatchConditions,
-  ModifiedAccessConditions,
-  SASPermissionsLike
+  ModifiedAccessConditions
 } from "./models";
 export { RestError };
 export {

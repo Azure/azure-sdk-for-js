@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SASPermissionsLike } from "../models";
-
 /**
  * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a container.
  * Setting a value to true means that any SAS which uses these permissions will grant permissions for that operation.
@@ -71,11 +69,11 @@ export class ContainerSASPermissions {
    * and boolean values for them.
    *
    * @static
-   * @param {SASPermissionsLike} permissionLike
+   * @param {ContainerSASPermissionsLike} permissionLike
    * @returns {ContainerSASPermissions}
    * @memberof ContainerSASPermissions
    */
-  public static from(permissionLike: SASPermissionsLike): ContainerSASPermissions {
+  public static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions {
     const containerSASPermissions = new ContainerSASPermissions();
     if (permissionLike.read) {
       containerSASPermissions.read = true;
@@ -234,4 +232,90 @@ export class ContainerSASPermissions {
     }
     return permissions.join("");
   }
+}
+
+/**
+ * A type that looks like a Container SAS permission.
+ * Used in {@link ContainerSASPermissions} to parse SAS permissions from raw objects.
+ */
+export interface ContainerSASPermissionsLike {
+  /**
+   * Specifies Read access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  read?: boolean;
+
+  /**
+   * Specifies Add access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  add?: boolean;
+
+  /**
+   * Specifies Create access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  create?: boolean;
+
+  /**
+   * Specifies Write access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  write?: boolean;
+
+  /**
+   * Specifies Delete access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  delete?: boolean;
+
+  /**
+   * Specifies Delete version access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  deleteVersion?: boolean;
+
+  /**
+   * Specifies List access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  list?: boolean;
+
+  /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  tag?: boolean;
+
+  /**
+   * Specifies Move access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  move?: boolean;
+
+  /**
+   * Specifies Execute access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissionsLike
+   */
+  execute?: boolean;
 }

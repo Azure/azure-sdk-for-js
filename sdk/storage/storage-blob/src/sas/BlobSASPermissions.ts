@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { SASPermissionsLike } from "../models";
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -69,11 +68,11 @@ export class BlobSASPermissions {
    * and boolean values for them.
    *
    * @static
-   * @param {SASPermissionsLike} permissionLike
+   * @param {BlobSASPermissionsLike} permissionLike
    * @returns {BlobSASPermissions}
    * @memberof BlobSASPermissions
    */
-  public static from(permissionLike: SASPermissionsLike): BlobSASPermissions {
+  public static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions {
     const blobSASPermissions = new BlobSASPermissions();
     if (permissionLike.read) {
       blobSASPermissions.read = true;
@@ -215,4 +214,82 @@ export class BlobSASPermissions {
     }
     return permissions.join("");
   }
+}
+
+/**
+ * A type that looks like a Blob SAS permission.
+ * Used in {@link BlobSASPermissions} to parse SAS permissions from raw objects.
+ */
+export interface BlobSASPermissionsLike {
+  /**
+   * Specifies Read access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  read?: boolean;
+
+  /**
+   * Specifies Add access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  add?: boolean;
+
+  /**
+   * Specifies Create access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  create?: boolean;
+
+  /**
+   * Specifies Write access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  write?: boolean;
+
+  /**
+   * Specifies Delete access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  delete?: boolean;
+
+  /**
+   * Specifies Delete version access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  deleteVersion?: boolean;
+
+  /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  tag?: boolean;
+
+  /**
+   * Specifies Move access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  move?: boolean;
+
+  /**
+   * Specifies Execute access granted.
+   *
+   * @type {boolean}
+   * @memberof BlobSASPermissionsLike
+   */
+  execute?: boolean;
 }
