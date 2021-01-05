@@ -18,6 +18,9 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/event-hubs.d.ts",
