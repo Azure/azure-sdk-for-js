@@ -202,8 +202,8 @@ export function newPipeline(
     telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
-    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
+    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
