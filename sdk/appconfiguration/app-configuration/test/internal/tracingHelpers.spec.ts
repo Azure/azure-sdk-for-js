@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { Spanner } from "../../src/internal/tracingHelpers";
 import { RestError } from "@azure/core-http";
