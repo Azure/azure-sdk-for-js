@@ -4,7 +4,6 @@ $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
-$PACKAGE_INSTALL_NOTES_REGEX = "npm\sinstall\s(?<PackageName>.*)@(?<Version>.*)"
 
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
@@ -230,22 +229,6 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   return $packages
 }
 
-# PackageName: Pass full package name e.g. @azure/abort-controller
-# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
-function GetExistingPackageVersions ($PackageName, $GroupId = $null)
-{
-  try
-  {
-    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
-    return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
-  }
-  catch
-  {
-    LogError "Failed to retrieve package versions. `n$_"
-    return $null
-  }
-}
-
 function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $ReleaseDate, $BuildType = $null, $GroupId = $null)
 {
   if ($null -eq $ReleaseDate)
@@ -256,9 +239,4 @@ function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $
   npm install
   node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
   Pop-Location
-}
-
-function GetPackageInstallNote ($PackageName, $Version, $GroupId = $null)
-{
-  return "npm install ${PackageName}@${Version}"
 }
