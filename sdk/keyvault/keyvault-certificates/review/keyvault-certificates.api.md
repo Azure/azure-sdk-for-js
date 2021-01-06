@@ -365,51 +365,32 @@ export const enum KnownDeletionRecoveryLevel {
 
 // @public
 export const enum KnownJsonWebKeyCurveName {
-    // (undocumented)
     P256 = "P-256",
-    // (undocumented)
     P256K = "P-256K",
-    // (undocumented)
     P384 = "P-384",
-    // (undocumented)
     P521 = "P-521"
 }
 
 // @public
 export const enum KnownJsonWebKeyType {
-    // (undocumented)
     EC = "EC",
-    // (undocumented)
     ECHSM = "EC-HSM",
-    // (undocumented)
     Oct = "oct",
-    // (undocumented)
     OctHSM = "oct-HSM",
-    // (undocumented)
     RSA = "RSA",
-    // (undocumented)
     RSAHSM = "RSA-HSM"
 }
 
 // @public
 export const enum KnownKeyUsageType {
-    // (undocumented)
     CRLSign = "cRLSign",
-    // (undocumented)
     DataEncipherment = "dataEncipherment",
-    // (undocumented)
     DecipherOnly = "decipherOnly",
-    // (undocumented)
     DigitalSignature = "digitalSignature",
-    // (undocumented)
     EncipherOnly = "encipherOnly",
-    // (undocumented)
     KeyAgreement = "keyAgreement",
-    // (undocumented)
     KeyCertSign = "keyCertSign",
-    // (undocumented)
     KeyEncipherment = "keyEncipherment",
-    // (undocumented)
     NonRepudiation = "nonRepudiation"
 }
 
