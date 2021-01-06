@@ -43,8 +43,9 @@ describe("Filter messages with the rules set by the ATOM API", () => {
   });
 
   async function verifyRuleFilter(
-    messageToSend: ServiceBusMessage,
+    messagesToSend: ServiceBusMessage[],
     filter: SqlRuleFilter | CorrelationRuleFilter,
+    numberOfMessagesToBeFiltered: number,
     toCheck: (msg: ServiceBusReceivedMessage) => void
   ) {
     await serviceBusAtomManagementClient.createRule(
@@ -54,21 +55,46 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       filter
     );
 
-    await serviceBusClient.createSender(topicName).sendMessages(messageToSend);
+    await serviceBusClient.createSender(topicName).sendMessages(messagesToSend);
+
+    // Making sure the subscription has the expected number of messages
+    should.equal(
+      (
+        await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
+          topicName,
+          subscriptionName
+        )
+      ).totalMessageCount,
+      numberOfMessagesToBeFiltered,
+      "Unexpected number of messages filtered"
+    );
 
     const receivedMessages = await serviceBusClient
       .createReceiver(topicName, subscriptionName)
-      .receiveMessages(1);
-    should.equal(receivedMessages.length, 1, "Unexpected number of messages received");
+      .receiveMessages(5);
+    should.equal(
+      receivedMessages.length,
+      numberOfMessagesToBeFiltered,
+      "Unexpected number of messages received"
+    );
 
+    // Making sure the filtered message is same as the expected one.
     toCheck(receivedMessages[0]);
   }
 
   it("subject", async () => {
     const subject = "new-subject";
-    await verifyRuleFilter({ body: "random-body", subject }, { subject }, (msg) => {
-      chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
-    });
+    await verifyRuleFilter(
+      [
+        { body: "msg-1", subject }, // to be filtered
+        { body: "msg-2" } // not to be filtered
+      ],
+      { subject },
+      1,
+      (msg) => {
+        chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
+      }
+    );
   });
 
   // TODO: New tests for rule filters to match the sent messages can be added
