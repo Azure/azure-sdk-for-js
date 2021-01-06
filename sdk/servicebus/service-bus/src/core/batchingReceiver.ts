@@ -407,6 +407,9 @@ export class BatchingReceiverLite {
         logger.verbose(
           `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
         );
+
+        // we can resolve immediately (ie, no setTimeout call) because we have no
+        // remaining messages (thus nothing to wait for)
         resolveImmediately(brokeredMessages);
       }
     };
