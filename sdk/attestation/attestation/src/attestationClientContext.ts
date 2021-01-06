@@ -18,10 +18,18 @@ export class AttestationClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the AttestationClientContext class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param options The parameter options
    */
-  constructor(instanceUrl: string, options?: AttestationClientOptionalParams) {
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    instanceUrl: string,
+    options?: AttestationClientOptionalParams
+  ) {
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
     if (instanceUrl === undefined) {
       throw new Error("'instanceUrl' cannot be null");
     }
@@ -36,7 +44,11 @@ export class AttestationClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(undefined, options);
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://attest.azure.net/.default"];
+    }
+
+    super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 

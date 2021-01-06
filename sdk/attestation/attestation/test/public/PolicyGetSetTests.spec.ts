@@ -7,25 +7,52 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "../utils/recordedClient";
-import { AttestationClient } from "../../src";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
+import { AttestationClient, KnownAttestationType } from "../../src";
+import { verifyAttestationToken } from "../utils/helpers";
 
 describe("PolicyGetSetTests ", function() {
   let recorder: Recorder;
-  let client: AttestationClient;
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this, "AAD"));
+    recorder = createRecorder(this);
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("#GetPolicyShared", async () => {
-    const policyResult = await client.policy.get("SgxEnclave");
+  it("#GetPolicyAad", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("AAD");
+    const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
     const result = policyResult.token;
     assert(result);
+    if (result) {
+      await verifyAttestationToken(result, client);
+    }
+  });
+
+  it("#GetPolicyIsolated", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Isolated");
+    const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
+    const result = policyResult.token;
+    assert(result);
+    if (result) {
+      await verifyAttestationToken(result, client);
+    }
+  });
+
+  it("#GetPolicyShared", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Shared");
+    const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
+    const result = policyResult.token;
+    assert(result);
+    if (result) {
+      await verifyAttestationToken(result, client);
+    }
   });
 });

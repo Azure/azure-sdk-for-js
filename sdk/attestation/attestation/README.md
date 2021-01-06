@@ -1,8 +1,8 @@
-## Azure AttestationClient SDK for JavaScript
+# Azure AttestationClient SDK for JavaScript
 
 This package contains an isomorphic SDK for AttestationClient.
 
-### Currently supported environments
+## Currently supported environments
 
 - Node.js version 8.x.x or higher
 - Browser JavaScript
@@ -22,6 +22,5 @@ Refer the sample code in the [azure-sdk-for-js-samples](https://github.com/Azure
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcdn%2Farm-cdn%2FREADME.png)

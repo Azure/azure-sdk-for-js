@@ -7,6 +7,5 @@
  */
 
 export * from "./models";
-export * from "./operations";
 export { AttestationClient } from "./attestationClient";
 export { AttestationClientContext } from "./attestationClientContext";

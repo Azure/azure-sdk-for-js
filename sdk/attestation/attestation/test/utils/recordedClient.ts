@@ -4,18 +4,20 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
+import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
 
+//import { Certificate } from '@fidm/x509';
+//import { ASN1 } from '@fidm/asn1';
+
 dotenv.config();
 
-export interface RecordedClient {
-  client: AttestationClient;
-  recorder: Recorder;
-}
-
 const replaceableVariables: { [k: string]: string } = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "azure_tenant_id",
   ISOLATED_ATTESTATION_URL: "isolated_attestation_url",
   AAD_ATTESTATION_URL: "aad_attestation_url",
   policySigningCertificate0: "policy_signing_certificate0",
@@ -47,27 +49,30 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-type EndpointType = "AAD" | "Isolated";
+export function createRecorder(context: Context): Recorder {
+  return record(context, environmentSetup);
+}
+
+type EndpointType = "AAD" | "Isolated" | "Shared";
 
 export function createRecordedClient(
-  context: Context,
   endpointType: EndpointType,
   options?: AttestationClientOptionalParams
-): RecordedClient {
-  const recorder = record(context, environmentSetup);
-
+): AttestationClient {
+  const credential = new ClientSecretCredential(
+    testEnv.AZURE_TENANT_ID,
+    testEnv.AZURE_CLIENT_ID,
+    testEnv.AZURE_CLIENT_SECRET
+  );
   switch (endpointType) {
     case "AAD": {
-      return {
-        client: new AttestationClient(testEnv.AAD_ATTESTATION_URL, options),
-        recorder
-      };
+      return new AttestationClient(credential, testEnv.AAD_ATTESTATION_URL, options);
     }
     case "Isolated": {
-      return {
-        client: new AttestationClient(testEnv.ISOLATED_ATTESTATION_URL, options),
-        recorder
-      };
+      return new AttestationClient(credential, testEnv.ISOLATED_ATTESTATION_URL, options);
+    }
+    case "Shared": {
+      return new AttestationClient(credential, "https://shareduks.uks.attest.azure.net", options);
     }
     default: {
       throw new Error(`Unsupported endpoint type: ${endpointType}`);

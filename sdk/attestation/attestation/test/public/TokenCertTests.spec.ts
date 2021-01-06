@@ -7,25 +7,63 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
+import * as base64 from "../utils/base64";
 
 describe("TokenCertTests", function() {
   let recorder: Recorder;
-  let client: AttestationClient;
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this, "AAD"));
+    recorder = createRecorder(this);
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("#GetCertificates", async () => {
+  it("#GetCertificatesAAD", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("AAD");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
+    for (const key of certs) {
+      assert.isDefined(key.x5C);
+      for (const cert of key.x5C!) {
+        const berCert = base64.decodeString(cert);
+        assert(berCert);
+      }
+    }
+  });
+  it("#GetCertificatesIsolated", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Isolated");
+    const signingCertificates = await client.signingCertificates.get();
+    const certs = signingCertificates.keys!;
+    assert(certs.length > 0);
+    for (const key of certs) {
+      assert.isDefined(key.x5C);
+      for (const cert of key.x5C!) {
+        const berCert = base64.decodeString(cert);
+        assert(berCert);
+      }
+    }
+  });
+
+  it("#GetCertificatesShared", async () => {
+    let client: AttestationClient;
+    client = createRecordedClient("Shared");
+    const signingCertificates = await client.signingCertificates.get();
+    const certs = signingCertificates.keys!;
+    assert(certs.length > 0);
+    for (const key of certs) {
+      assert.isDefined(key.x5C);
+      for (const cert of key.x5C!) {
+        const berCert = base64.decodeString(cert);
+        assert(berCert);
+      }
+    }
   });
 });

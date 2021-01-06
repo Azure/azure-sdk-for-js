@@ -933,6 +933,16 @@ packages:
     optional: true
     resolution:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+  /@types/jsonwebtoken/8.5.0:
+    dependencies:
+      '@types/node': 10.17.49
+    dev: false
+    resolution:
+      integrity: sha512-9bVao7LvyorRGZCw0VmH/dr7Og+NdjYSsKAxB43OQoComFbBgsEpoR9JW6+qSq/ogwVBg8GI2MfAlk4SYI4OLg==
+  /@types/jsrsasign/8.0.9:
+    dev: false
+    resolution:
+      integrity: sha512-Od34HkZR4DAaNpl6/fGEFVMQ5gWlwfwsbEeBjVDMMh9zlQD7hDwVEs0oUQDiVSfHImb0tlJVgfVGkp1jL9zOkg==
   /@types/jws/3.2.2:
     dependencies:
       '@types/node': 8.10.66
@@ -4442,6 +4452,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
+  /jsrsasign/10.1.4:
+    dev: false
+    resolution:
+      integrity: sha512-j+bG6EaQ/SBvQvnI8M2x3Wawz8jx3fBViPClAw84QpsnLSjtr5fobp5W2TAljpAhboxWvbkZmd/KDBm+hckqJQ==
   /jssha/2.4.2:
     deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
@@ -8314,16 +8328,46 @@ packages:
   'file:projects/attestation.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@types/chai': 4.2.14
+      '@types/chai-as-promised': 7.1.3
+      '@types/jsonwebtoken': 8.5.0
+      '@types/jsrsasign': 8.0.9
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.2.0
+      chai-as-promised: 7.1.1_chai@4.2.0
+      dotenv: 8.2.0
+      jsonwebtoken: 8.5.1
+      jsrsasign: 10.1.4
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@5.2.3
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@5.2.3
+      karma-json-preprocessor: 0.3.3_karma@5.2.3
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@5.2.3
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@5.2.3
+      karma-remap-istanbul: 0.6.0_karma@5.2.3
+      karma-source-map-support: 1.4.0
+      mocha: 7.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.0.3
       typescript: 4.1.2
       uglify-js: 3.12.1
     dev: false
     name: '@rush-temp/attestation'
     resolution:
-      integrity: sha512-sgyRR7Jrua2HxQ6O5z2sG42ZPaFejLn9jXmZL2fVexfxH2jc14r7g7TcXDQDvkYGnNHibBYw7RKNpU7HULUHGQ==
+      integrity: sha512-fdB/mSZyk2LE8c+z2/fUxN0oPU85XrBoJsqSOxqQdcy0EWuKABmJbsspmtVevqUyNp0lLCn8S8+EhaNtObS7GA==
       tarball: 'file:projects/attestation.tgz'
     version: 0.0.0
   'file:projects/communication-administration.tgz':
