@@ -11,13 +11,15 @@ add-credentials: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-# pull down the swagger file for the AppConfiguration API
-input-file: ./appconfiguration.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/1.0/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
-# need this or a later version so we generate code using @azure/core-http
-use: '@microsoft.azure/autorest.typescript@5.0.0'
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20201210.1"
+disable-async-iterators: true
+api-version-parameter: choice
+v3: true
 ```
 
 ### Patch endpoints for exception handling
