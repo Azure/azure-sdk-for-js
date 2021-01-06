@@ -381,7 +381,7 @@ export interface PatternAnalyzer {
   lowerCaseTerms?: boolean;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -479,7 +479,7 @@ export interface PatternTokenizer {
   name: string;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -862,22 +862,16 @@ export interface SynonymMap {
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-export type IndexIterator = PagedAsyncIterableIterator<
-  SearchIndex,
-  SearchIndex[],
-  Record<string, unknown>
->;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
  * An iterator for listing the indexes that exist in the Search service. Will make requests
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
-export type IndexNameIterator = PagedAsyncIterableIterator<
-  string,
-  string[],
-  Record<string, unknown>
->;
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
  * Represents a search index definition, which describes the fields and search behavior of an

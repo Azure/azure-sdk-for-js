@@ -541,10 +541,10 @@ export interface IndexingSchedule {
 }
 
 // @public
-export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], Record<string, unknown>>;
+export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 // @public
-export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], Record<string, unknown>>;
+export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 // @public
 export interface InputFieldMappingEntry {

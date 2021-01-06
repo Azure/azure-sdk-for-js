@@ -40,7 +40,7 @@ import {
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClient, SearchClientOptions } from "./searchClient";
+import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -611,8 +611,7 @@ export class SearchIndexClient {
    * @param indexName - Name of the index
    * @param options - SearchClient Options
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T> {
+  public getSearchClient<T>(indexName: string, options?: GetSearchClientOptions): SearchClient<T> {
     return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
   }
 }

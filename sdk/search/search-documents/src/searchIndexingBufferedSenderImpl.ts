@@ -9,7 +9,8 @@ import {
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
-  SearchIndexingBufferedSenderFlushDocumentsOptions
+  SearchIndexingBufferedSenderFlushDocumentsOptions,
+  IndexDocumentsOptions
 } from "./indexModels";
 import { IndexDocumentsResult } from "./generated/data/models";
 import { RestError, OperationOptions } from "@azure/core-http";
@@ -19,7 +20,13 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
 import { delay } from "@azure/core-http";
 import { getRandomIntegerInclusive } from "./serviceUtils";
-import { SearchClient } from "./searchClient";
+
+interface IndexDocumentsClient<T> {
+  indexDocuments(
+    batch: IndexDocumentsBatch<T>,
+    options: IndexDocumentsOptions
+  ): Promise<IndexDocumentsResult>;
+}
 
 /**
  * Default Batch Size
@@ -50,7 +57,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Search Client used to call the underlying IndexBatch operations.
    */
-  private client: SearchClient<T>;
+  private client: IndexDocumentsClient<T>;
   /**
    * Indicates if autoFlush is enabled.
    */
@@ -95,8 +102,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
    * @param options - Options to modify auto flush.
    *
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
+  constructor(client: IndexDocumentsClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
     this.client = client;
     // General Configuration properties
     this.autoFlush = options.autoFlush ?? false;
@@ -411,9 +417,8 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
  * @param options - Options to modify auto flush.
  */
 export function createSearchIndexingBufferedSender<T>(
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  searchClient: SearchClient<T>,
+  indexDocumentsClient: IndexDocumentsClient<T>,
   options: SearchIndexingBufferedSenderOptions = {}
 ): SearchIndexingBufferedSender<T> {
-  return new SearchIndexingBufferedSenderImpl(searchClient, options);
+  return new SearchIndexingBufferedSenderImpl(indexDocumentsClient, options);
 }
