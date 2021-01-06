@@ -358,7 +358,9 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListConfigurationPageFromResponse(currentResponse: AppConfigurationGetKeyValuesResponse) {
+  private *createListConfigurationPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
