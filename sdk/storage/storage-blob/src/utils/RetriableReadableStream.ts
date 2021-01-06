@@ -80,8 +80,6 @@ export class RetriableReadableStream extends Readable {
   private abortHandler = () => {
     this.destroy(ABORT_ERROR);
   };
-  private destroyCalled: boolean = false;
-  private dataEnded: boolean = false;
 
   /**
    * Creates an instance of RetriableReadableStream.
@@ -105,7 +103,6 @@ export class RetriableReadableStream extends Readable {
     this.aborter = options.abortSignal || AbortSignal.none;
     this.getter = getter;
     this.source = source;
-    this.source.pause();
     this.start = offset;
     this.offset = offset;
     this.end = offset + count - 1;
@@ -115,22 +112,19 @@ export class RetriableReadableStream extends Readable {
     this.options = options;
 
     this.aborter.addEventListener("abort", this.abortHandler);
-
-    this.setSourceDataHandler();
-    this.setSourceEndHandler();
-    this.setSourceErrorHandler();
-
-    this.source.on("close", () => {
-      if (!this.destroyCalled && !this.aborter.aborted && !this.dataEnded) {
-        this.destroy(new Error("Download stream unexpectly closed."));
-      }
-    });
+    this.setSourceEventsHandlers();
   }
 
   public _read() {
     if (!this.aborter.aborted) {
       this.source.resume();
     }
+  }
+
+  private setSourceEventsHandlers() {
+    this.setSourceDataHandler();
+    this.source.on("end", this.sourceErrorOrEndHandler);
+    this.source.on("error", this.sourceErrorOrEndHandler);
   }
 
   private setSourceDataHandler() {
@@ -156,66 +150,54 @@ export class RetriableReadableStream extends Readable {
     });
   }
 
-  private setSourceEndHandler() {
-    this.source.on("end", () => {
+  private sourceErrorOrEndHandler = () => {
+    // console.log(
+    //   `Source stream emits end or error, offset: ${
+    //     this.offset
+    //   }, dest end : ${this.end}`
+    // );
+    if (this.offset - 1 === this.end) {
+      this.aborter.removeEventListener("abort", this.abortHandler);
+      this.push(null);
+    } else if (this.offset <= this.end) {
       // console.log(
-      //   `Source stream emits end, offset: ${
-      //     this.offset
-      //   }, dest end : ${this.end}`
+      //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
       // );
-      if (this.offset - 1 === this.end) {
-        this.dataEnded = true;
-        this.aborter.removeEventListener("abort", this.abortHandler);
-        this.push(null);
-      } else if (this.offset <= this.end) {
-        // console.log(
-        //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
-        // );
-        if (this.retries < this.maxRetryRequests) {
-          this.retries += 1;
-          this.getter(this.offset)
-            .then((newSource) => {
-              this.source = newSource;
-              this.setSourceDataHandler();
-              this.setSourceEndHandler();
-              this.setSourceErrorHandler();
-            })
-            .catch((error) => {
-              this.emit("error", error);
-            });
-        } else {
-          this.emit(
-            "error",
-            new Error(
-              // tslint:disable-next-line:max-line-length
-              `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
-                .offset - 1}, data needed offset: ${this.end}, retries: ${
-                this.retries
-              }, max retries: ${this.maxRetryRequests}`
-            )
-          );
-        }
+      if (this.retries < this.maxRetryRequests) {
+        this.retries += 1;
+        this.getter(this.offset)
+          .then((newSource) => {
+            this.source = newSource;
+            this.setSourceEventsHandlers();
+          })
+          .catch((error) => {
+            this.emit("error", error);
+          });
       } else {
         this.emit(
           "error",
           new Error(
-            `Data corruption failure: Received more data than original request, data needed offset is ${
-              this.end
-            }, received offset: ${this.offset - 1}`
+            // tslint:disable-next-line:max-line-length
+            `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
+              .offset - 1}, data needed offset: ${this.end}, retries: ${
+              this.retries
+            }, max retries: ${this.maxRetryRequests}`
           )
         );
       }
-    });
-  }
-
-  private setSourceErrorHandler() {
-    this.source.on("error", (error) => {
-      this.emit("error", error);
-    });
-  }
+    } else {
+      this.emit(
+        "error",
+        new Error(
+          `Data corruption failure: Received more data than original request, data needed offset is ${
+            this.end
+          }, received offset: ${this.offset - 1}`
+        )
+      );
+    }
+  };
 
   _destroy(error: Error | null, callback: (error?: Error) => void): void {
-    this.destroyCalled = true;
     // release source
     (this.source as Readable).destroy();
     callback(error === null ? undefined : error);

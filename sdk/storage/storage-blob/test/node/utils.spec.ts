@@ -6,7 +6,11 @@ import * as fs from "fs";
 import * as path from "path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Readable, ReadableOptions, PassThrough } from "stream";
-import { readStreamToLocalFile, streamToBuffer2 } from "../../src/utils/utils.node";
+import {
+  readStreamToLocalFile,
+  streamToBuffer2,
+  streamToBuffer3
+} from "../../src/utils/utils.node";
 import {
   ReadableStreamGetter,
   RetriableReadableStream
@@ -387,9 +391,12 @@ describe("Utility Helpers Node.js only", () => {
 });
 
 describe("RetriableReadableStream", () => {
+  const counterMax = 10;
+  const delayTimeInMs = 10;
+
   class Counter extends Readable {
     constructor(
-      private _max: number = 1000000,
+      private _max: number = counterMax,
       public index: number = 0,
       opt: ReadableOptions = {}
     ) {
@@ -416,12 +423,8 @@ describe("RetriableReadableStream", () => {
 
   it("destory should work", async () => {
     const counter = new Counter();
-    counter.on("close", () => {
-      // check source didn't flow
-      assert.ok(counter.index === 0);
-    });
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax);
 
-    const retriable = new RetriableReadableStream(counter, getter, 0, 1000);
     const passedInError = new Error("Passed in error.");
     let errorCaught = false;
     retriable.on("error", (err) => {
@@ -429,12 +432,9 @@ describe("RetriableReadableStream", () => {
       errorCaught = true;
     });
 
-    // spare time to flow while it shouldn't
-    await delay(1000);
-
     retriable.destroy(passedInError);
-    // spare time for "close" to fire
-    await delay(1000);
+    // spare time for events to fire
+    await delay(delayTimeInMs);
     assert.ok((counter as any).destroyed);
     assert.ok(errorCaught);
   });
@@ -464,23 +464,19 @@ describe("RetriableReadableStream", () => {
       assert.equal(counter.index, cur + 1);
       retriable.pause();
     });
-    await delay(1000);
+
+    await delay(delayTimeInMs);
     assert.equal(cur, 1);
 
     retriable.resume();
-    await delay(1000);
+    await delay(delayTimeInMs);
     assert.equal(cur, 2);
   });
 
   it("abort should destroy underlying source", async () => {
     const counter = new Counter();
-    counter.on("close", () => {
-      // check source didn't flow
-      assert.ok(counter.index === 0);
-    });
-
     const aborter = new AbortController();
-    const retriable = new RetriableReadableStream(counter, getter, 0, 1000, {
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
       abortSignal: aborter.signal
     });
 
@@ -490,28 +486,31 @@ describe("RetriableReadableStream", () => {
       aborted = true;
     });
 
-    // spare time to flow
-    await delay(1000);
-
     aborter.abort();
-    // spare time for "close" to fire
-    await delay(1000);
+    // spare time for events to fire
+    await delay(delayTimeInMs);
     assert.ok(aborted);
     assert.ok((counter as any).destroyed);
   });
 
-  it("source close should work", async () => {
-    const counter = new Counter(10, undefined, { highWaterMark: 1 });
-    const retriable = new RetriableReadableStream(counter, getter, 0, 10, { highWaterMark: 1 });
+  it("retry should work on source error", async () => {
+    const counter = new Counter();
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
+      maxRetryRequests: 1
+    });
+    counter.destroy(new Error("Manual injected error."));
 
-    let errorCaught = false;
-    retriable.on("error", (err) => {
-      assert.deepStrictEqual(err.message, "Download stream unexpectly closed.");
-      errorCaught = true;
+    const resBuf = await streamToBuffer3(retriable);
+    assert.deepStrictEqual(resBuf.toString(), "0123456789");
+  });
+
+  it("retry should work on source unexpected end", async () => {
+    const counter = new Counter(2);
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
+      maxRetryRequests: 1
     });
 
-    counter.emit("close");
-    await delay(1000);
-    assert.ok(errorCaught);
+    const resBuf = await streamToBuffer3(retriable);
+    assert.deepStrictEqual(resBuf.toString(), "0123456789");
   });
 });
