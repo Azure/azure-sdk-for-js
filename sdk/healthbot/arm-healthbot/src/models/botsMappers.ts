@@ -7,15 +7,16 @@
  */
 
 export {
-  App,
-  AppAvailabilityInfo,
-  AppListResult,
-  AppPatch,
-  AppSkuInfo,
-  AppTemplate,
-  AppTemplatesResult,
   BaseResource,
-  CloudError,
-  OperationInputs,
-  Resource
+  BotResponseList,
+  ErrorAdditionalInfo,
+  ErrorError,
+  ErrorModel,
+  HealthBot,
+  HealthBotProperties,
+  HealthBotUpdateParameters,
+  Resource,
+  Sku,
+  SystemData,
+  TrackedResource
 } from "../models/mappers";

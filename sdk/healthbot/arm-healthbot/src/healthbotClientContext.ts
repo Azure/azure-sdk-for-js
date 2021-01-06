@@ -11,21 +11,21 @@ import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
-const packageName = "@azure/arm-iotcentral";
-const packageVersion = "4.0.0";
+const packageName = "@azure/arm-healthbot";
+const packageVersion = "1.0.0";
 
-export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
+export class HealthbotClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
   apiVersion?: string;
 
   /**
-   * Initializes a new instance of the IotCentralClient class.
+   * Initializes a new instance of the HealthbotClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The subscription identifier.
+   * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.HealthbotClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -36,14 +36,14 @@ export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
     if (!options) {
       options = {};
     }
-    if (!options.userAgent) {
+    if(!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2018-09-01';
+    this.apiVersion = '2020-12-08';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -51,10 +51,10 @@ export class IotCentralClientContext extends msRestAzure.AzureServiceClient {
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

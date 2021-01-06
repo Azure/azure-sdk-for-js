@@ -7,15 +7,10 @@
  */
 
 export {
-  App,
-  AppAvailabilityInfo,
-  AppListResult,
-  AppPatch,
-  AppSkuInfo,
-  AppTemplate,
-  AppTemplatesResult,
-  BaseResource,
-  CloudError,
-  OperationInputs,
-  Resource
+  AvailableOperations,
+  ErrorAdditionalInfo,
+  ErrorError,
+  ErrorModel,
+  OperationDetail,
+  OperationDisplay
 } from "../models/mappers";

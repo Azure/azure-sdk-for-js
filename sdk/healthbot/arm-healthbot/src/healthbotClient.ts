@@ -11,23 +11,23 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { IotCentralClientContext } from "./iotCentralClientContext";
+import { HealthbotClientContext } from "./healthbotClientContext";
 
 
-class IotCentralClient extends IotCentralClientContext {
+class HealthbotClient extends HealthbotClientContext {
   // Operation groups
-  apps: operations.Apps;
+  bots: operations.Bots;
   operations: operations.Operations;
 
   /**
-   * Initializes a new instance of the IotCentralClient class.
+   * Initializes a new instance of the HealthbotClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The subscription identifier.
+   * @param subscriptionId Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.HealthbotClientOptions) {
     super(credentials, subscriptionId, options);
-    this.apps = new operations.Apps(this);
+    this.bots = new operations.Bots(this);
     this.operations = new operations.Operations(this);
   }
 }
@@ -35,9 +35,9 @@ class IotCentralClient extends IotCentralClientContext {
 // Operation Specifications
 
 export {
-  IotCentralClient,
-  IotCentralClientContext,
-  Models as IotCentralModels,
-  Mappers as IotCentralMappers
+  HealthbotClient,
+  HealthbotClientContext,
+  Models as HealthbotModels,
+  Mappers as HealthbotMappers
 };
 export * from "./operations";

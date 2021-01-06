@@ -1,6 +1,6 @@
-## Azure IotCentralClient SDK for JavaScript
+## Azure HealthbotClient SDK for JavaScript
 
-This package contains an isomorphic SDK for IotCentralClient.
+This package contains an isomorphic SDK for HealthbotClient.
 
 ### Currently supported environments
 
@@ -10,12 +10,12 @@ This package contains an isomorphic SDK for IotCentralClient.
 ### How to Install
 
 ```bash
-npm install @azure/arm-iotcentral
+npm install @azure/arm-healthbot
 ```
 
 ### How to use
 
-#### nodejs - client creation and get apps as an example written in TypeScript.
+#### nodejs - client creation and get bots as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -29,14 +29,14 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
 ```typescript
 const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
-const { IotCentralClient } = require("@azure/arm-iotcentral");
+const { HealthbotClient } = require("@azure/arm-healthbot");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new IotCentralClient(creds, subscriptionId);
+  const client = new HealthbotClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
-  const resourceName = "testresourceName";
-  client.apps.get(resourceGroupName, resourceName).then((result) => {
+  const botName = "testbotName";
+  client.bots.get(resourceGroupName, botName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +45,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get apps as an example written in JavaScript.
+#### browser - Authentication, client creation and get bots as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -62,11 +62,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>@azure/arm-iotcentral sample</title>
+    <title>@azure/arm-healthbot sample</title>
     <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
     <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-iotcentral/dist/arm-iotcentral.js"></script>
+    <script src="node_modules/@azure/arm-healthbot/dist/arm-healthbot.js"></script>
     <script type="text/javascript">
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
@@ -78,10 +78,10 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmIotcentral.IotCentralClient(res.creds, subscriptionId);
+        const client = new Azure.ArmHealthbot.HealthbotClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
-        const resourceName = "testresourceName";
-        client.apps.get(resourceGroupName, resourceName).then((result) => {
+        const botName = "testbotName";
+        client.bots.get(resourceGroupName, botName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -99,4 +99,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/iotcentral/arm-iotcentral/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/healthbot/arm-healthbot/README.png)

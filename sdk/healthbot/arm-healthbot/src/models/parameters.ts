@@ -29,6 +29,21 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const botName: msRest.OperationURLParameter = {
+  parameterPath: "botName",
+  mapper: {
+    required: true,
+    serializedName: "botName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 2,
+      Pattern: /^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -45,16 +60,11 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const resourceName: msRest.OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    required: true,
-    serializedName: "resourceName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 2,
+      Pattern: /^[a-zA-Z0-9][a-zA-Z0-9_.-]*$/
+    },
     type: {
       name: "String"
     }

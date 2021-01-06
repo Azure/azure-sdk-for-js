@@ -6,15 +6,15 @@ import sourcemaps from "rollup-plugin-sourcemaps";
  * @type {rollup.RollupFileOptions}
  */
 const config = {
-  input: "./esm/iotCentralClient.js",
+  input: "./esm/healthbotClient.js",
   external: [
     "@azure/ms-rest-js",
     "@azure/ms-rest-azure-js"
   ],
   output: {
-    file: "./dist/arm-iotcentral.js",
+    file: "./dist/arm-healthbot.js",
     format: "umd",
-    name: "Azure.ArmIotcentral",
+    name: "Azure.ArmHealthbot",
     sourcemap: true,
     globals: {
       "@azure/ms-rest-js": "msRest",

@@ -1,8 +1,8 @@
 {
-  "name": "@azure/arm-iotcentral",
+  "name": "@azure/arm-healthbot",
   "author": "Microsoft Corporation",
-  "description": "IotCentralClient Library with typescript type definitions for node.js and browser.",
-  "version": "4.0.0",
+  "description": "HealthbotClient Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",
@@ -16,9 +16,9 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "./dist/arm-iotcentral.js",
-  "module": "./esm/iotCentralClient.js",
-  "types": "./esm/iotCentralClient.d.ts",
+  "main": "./dist/arm-healthbot.js",
+  "module": "./esm/healthbotClient.js",
+  "types": "./esm/healthbotClient.d.ts",
   "devDependencies": {
     "typescript": "^3.5.3",
     "rollup": "^1.18.0",
@@ -26,7 +26,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iotcentral/arm-iotcentral",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/healthbot/arm-healthbot",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -50,7 +50,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-iotcentral.js.map'\" -o ./dist/arm-iotcentral.min.js ./dist/arm-iotcentral.js",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/arm-healthbot.js.map'\" -o ./dist/arm-healthbot.min.js ./dist/arm-healthbot.js",
     "prepack": "npm install && npm run build"
   },
   "sideEffects": false,

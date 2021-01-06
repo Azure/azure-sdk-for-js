@@ -7,5 +7,5 @@
  * regenerated.
  */
 
-export * from "./apps";
+export * from "./bots";
 export * from "./operations";
