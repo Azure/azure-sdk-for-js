@@ -513,4 +513,30 @@ describe("RetriableReadableStream", () => {
     const resBuf = await streamToBuffer3(retriable);
     assert.deepStrictEqual(resBuf.toString(), "0123456789");
   });
+
+  it("should not emit abort error after already emit error", async () => {
+    const counter = new Counter();
+    const aborter = new AbortController();
+    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
+      abortSignal: aborter.signal
+    });
+
+    let errorCaughtNum = 0;
+    retriable.on("error", (err) => {
+      assert.ok(
+        err.message.startsWith(
+          "Data corruption failure: received less data than required and reached maxRetires limitation."
+        )
+      );
+      errorCaughtNum++;
+    });
+
+    counter.destroy(new Error("Manual injected error."));
+    await delay(delayTimeInMs);
+
+    aborter.abort();
+    await delay(delayTimeInMs);
+
+    assert.deepStrictEqual(errorCaughtNum, 1);
+  });
 });

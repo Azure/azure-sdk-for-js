@@ -112,7 +112,7 @@ export class RetriableReadableStream extends Readable {
     this.options = options;
 
     this.aborter.addEventListener("abort", this.abortHandler);
-    this.setSourceEventsHandlers();
+    this.setSourceEventHandlers();
   }
 
   public _read() {
@@ -121,36 +121,42 @@ export class RetriableReadableStream extends Readable {
     }
   }
 
-  private setSourceEventsHandlers() {
-    this.setSourceDataHandler();
+  private setSourceEventHandlers() {
+    this.source.on("data", this.sourceDataHandler);
     this.source.on("end", this.sourceErrorOrEndHandler);
     this.source.on("error", this.sourceErrorOrEndHandler);
   }
 
-  private setSourceDataHandler() {
-    this.source.on("data", (data: Buffer) => {
-      if (this.options.doInjectErrorOnce) {
-        this.options.doInjectErrorOnce = undefined;
-        this.source.pause();
-        this.source.removeAllListeners("data");
-        this.source.emit("end");
-        return;
-      }
-
-      // console.log(
-      //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
-      // );
-      this.offset += data.length;
-      if (this.onProgress) {
-        this.onProgress({ loadedBytes: this.offset - this.start });
-      }
-      if (!this.push(data)) {
-        this.source.pause();
-      }
-    });
+  private removeSourceEventHandlers() {
+    this.source.removeListener("data", this.sourceDataHandler);
+    this.source.removeListener("end", this.sourceErrorOrEndHandler);
+    this.source.removeListener("error", this.sourceErrorOrEndHandler);
   }
 
+  private sourceDataHandler = (data: Buffer) => {
+    if (this.options.doInjectErrorOnce) {
+      this.options.doInjectErrorOnce = undefined;
+      this.source.pause();
+      this.source.removeAllListeners("data");
+      this.source.emit("end");
+      return;
+    }
+
+    // console.log(
+    //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
+    // );
+    this.offset += data.length;
+    if (this.onProgress) {
+      this.onProgress({ loadedBytes: this.offset - this.start });
+    }
+    if (!this.push(data)) {
+      this.source.pause();
+    }
+  };
+
   private sourceErrorOrEndHandler = () => {
+    this.removeSourceEventHandlers();
+
     // console.log(
     //   `Source stream emits end or error, offset: ${
     //     this.offset
@@ -168,12 +174,13 @@ export class RetriableReadableStream extends Readable {
         this.getter(this.offset)
           .then((newSource) => {
             this.source = newSource;
-            this.setSourceEventsHandlers();
+            this.setSourceEventHandlers();
           })
           .catch((error) => {
             this.emit("error", error);
           });
       } else {
+        this.aborter.removeEventListener("abort", this.abortHandler);
         this.emit(
           "error",
           new Error(
@@ -186,6 +193,7 @@ export class RetriableReadableStream extends Readable {
         );
       }
     } else {
+      this.aborter.removeEventListener("abort", this.abortHandler);
       this.emit(
         "error",
         new Error(
@@ -198,8 +206,12 @@ export class RetriableReadableStream extends Readable {
   };
 
   _destroy(error: Error | null, callback: (error?: Error) => void): void {
-    // release source
+    this.aborter.removeEventListener("abort", this.abortHandler);
+
+    // remove listener from source and release source
+    this.removeSourceEventHandlers();
     (this.source as Readable).destroy();
+
     callback(error === null ? undefined : error);
   }
 }
