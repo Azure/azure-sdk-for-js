@@ -52,6 +52,7 @@ describe("RetryPolicy", () => {
     };
     await injectContainerClient.setMetadata(metadata);
 
+    assert.equal(injectCounter, 1);
     const result = await containerClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
@@ -179,6 +180,7 @@ describe("RetryPolicy", () => {
     };
     await injectContainerClient.setMetadata(metadata);
 
+    assert.equal(injectCounter, 1);
     const result = await containerClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
   });
