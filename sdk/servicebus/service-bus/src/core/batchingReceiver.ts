@@ -423,6 +423,10 @@ export class BatchingReceiverLite {
         if (brokeredMessages.length === 0) {
           // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
           // and replace it with another timer that is a (probably) much shorter interval.
+          //
+          // This allows the user to get access to received messages earlier and also gives us
+          // a chance to have fewer messages internally that could get lost if the user's
+          // app crashes.
           if (totalWaitTimer) clearTimeout(totalWaitTimer);
           const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
           totalWaitTimer = setTimeout(() => {
