@@ -48,10 +48,12 @@ export const mockSdkModelParticipant: ChatParticipant = {
 
 export const mockMessage: RestModel.ChatMessage = {
   id: "id",
-  type: "Text",
-  priority: "Normal",
+  type: "text",
+  priority: "normal",
   version: "version",
-  content: "content",
+  content: {
+    message: "content"
+  },
   senderDisplayName: "senderDisplayName",
   senderId: "senderId",
   deletedOn: new Date("2020-06-26T18:06:06Z")

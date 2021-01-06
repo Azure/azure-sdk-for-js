@@ -62,7 +62,7 @@ export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
 }
 
 // @public
-export type ChatMessagePriority = "Normal" | "High";
+export type ChatMessagePriority = "normal" | "high";
 
 // @public
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
@@ -175,7 +175,8 @@ export interface RestAddChatParticipantsRequest {
 
 // @public
 export interface RestChatMessage {
-    content?: string;
+    // Warning: (ae-forgotten-export) The symbol "ChatMessageContent" needs to be exported by the entry point index.d.ts
+    content?: ChatMessageContent;
     readonly createdOn?: Date;
     deletedOn?: Date;
     editedOn?: Date;
@@ -183,7 +184,8 @@ export interface RestChatMessage {
     priority?: ChatMessagePriority;
     senderDisplayName?: string;
     readonly senderId?: string;
-    type?: string;
+    // Warning: (ae-forgotten-export) The symbol "ChatMessageType" needs to be exported by the entry point index.d.ts
+    type?: ChatMessageType;
     readonly version?: string;
 }
 
@@ -218,25 +220,25 @@ export interface RestCreateChatThreadRequest {
 
 // @public
 export interface RestListChatThreadsOptions extends coreHttp.OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
     startTime?: Date;
 }
 
 // @public
 export interface RestListMessagesOptions extends coreHttp.OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
     startTime?: Date;
 }
 
 // @public
 export interface RestListParticipantsOptions extends coreHttp.OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
     skip?: number;
 }
 
 // @public
 export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
-    maxpagesize?: number;
+    maxPageSize?: number;
     skip?: number;
 }
 

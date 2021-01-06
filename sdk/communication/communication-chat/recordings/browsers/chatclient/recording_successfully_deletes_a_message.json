@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/chat/threads/19%3A9f4e9b341e084b90916308d8082c1f22%40thread.v2/messages/1606969675207",
+   "url": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a%40thread.v2/messages/1609362880451",
    "query": {
     "api-version": "2020-11-01-preview3"
    },

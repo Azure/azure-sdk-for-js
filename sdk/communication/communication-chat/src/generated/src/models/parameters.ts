@@ -43,10 +43,10 @@ export const chatThreadId: OperationURLParameter = {
   }
 };
 
-export const maxpagesize: OperationQueryParameter = {
-  parameterPath: ["options", "maxpagesize"],
+export const maxPageSize: OperationQueryParameter = {
+  parameterPath: ["options", "maxPageSize"],
   mapper: {
-    serializedName: "$maxpagesize",
+    serializedName: "maxPageSize",
     type: {
       name: "Number"
     }
@@ -135,11 +135,6 @@ export const updateChatMessageRequest: OperationParameter = {
   mapper: UpdateChatMessageRequestMapper
 };
 
-export const addChatParticipantsRequest: OperationParameter = {
-  parameterPath: "addChatParticipantsRequest",
-  mapper: AddChatParticipantsRequestMapper
-};
-
 export const chatParticipantId: OperationURLParameter = {
   parameterPath: "chatParticipantId",
   mapper: {
@@ -149,6 +144,11 @@ export const chatParticipantId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const addChatParticipantsRequest: OperationParameter = {
+  parameterPath: "addChatParticipantsRequest",
+  mapper: AddChatParticipantsRequestMapper
 };
 
 export const updateChatThreadRequest: OperationParameter = {

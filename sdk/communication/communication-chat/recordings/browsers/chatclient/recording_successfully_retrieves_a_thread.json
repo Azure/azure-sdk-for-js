@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A9f4e9b341e084b90916308d8082c1f22%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a%40thread.v2",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"19:9f4e9b341e084b90916308d8082c1f22@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2020-12-03T04:27:53Z\",\"createdBy\":\"8:acs:9b665d53-8164-4923-ad5d-5e983b07d2e7_00000006-c6bc-e173-d67a-5a3a0d0000da\"}",
+   "response": "{\"id\":\"19:4dc973636fca42dda4eeae466d18e81a@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2020-12-30T21:14:37Z\",\"createdBy\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

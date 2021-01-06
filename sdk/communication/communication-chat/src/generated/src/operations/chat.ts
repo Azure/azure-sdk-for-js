@@ -174,7 +174,7 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.apiVersion, Parameters.startTime],
+  queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint],
   serializer
 };
@@ -244,7 +244,7 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.maxpagesize, Parameters.apiVersion, Parameters.startTime],
+  queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   serializer
 };
