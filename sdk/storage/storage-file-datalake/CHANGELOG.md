@@ -2,7 +2,7 @@
 
 ## 12.3.0-beta.2 (Unreleased)
 
-- Bug fix - `DataLakePathClient.move()` will correctly add the SAS token to the "x-ms-rename-source" header. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
+- Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
 
 ## 12.3.0-beta.1 (2020-12-09)
 
