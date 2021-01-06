@@ -10,6 +10,7 @@ import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
+  isJSONObject,
   sanitizeSerializableObject
 } from "../../src/util/atomXmlHelper";
 import * as Constants from "../../src/util/constants";
@@ -1191,6 +1192,21 @@ describe("ATOM Serializers", () => {
       it(testCase.title, () => {
         sanitizeSerializableObject(testCase.input);
         chai.assert.deepEqual(testCase.input, testCase.output as any);
+      });
+    });
+  });
+
+  describe("isJSONObject helper method", () => {
+    [
+      { input: { abc: 1 }, output: true },
+      { input: ["a", "b"], output: false },
+      { input: [{ a: 1 }, { b: { c: 3, d: "x" } }], output: false },
+      { input: new Date(), output: false },
+      { input: 123, output: false },
+      { input: "abc", output: false }
+    ].forEach((testCase) => {
+      it(`${JSON.stringify(testCase.input)}`, () => {
+        chai.assert.equal(isJSONObject(testCase.input), testCase.output);
       });
     });
   });
