@@ -202,11 +202,11 @@ export abstract class FetchHttpClient implements HttpClient {
       // clean up event listener
       if (httpRequest.abortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
-        if (httpRequest.abortSignal && isReadableStream(body)) {
+        if (isReadableStream(body)) {
           uploadStreamDone = isStreamComplete(body);
         }
         let downloadStreamDone = Promise.resolve();
-        if (httpRequest.abortSignal && isReadableStream(operationResponse?.readableStreamBody)) {
+        if (isReadableStream(operationResponse?.readableStreamBody)) {
           downloadStreamDone = isStreamComplete(operationResponse!.readableStreamBody);
         }
 
