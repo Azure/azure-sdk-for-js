@@ -94,9 +94,12 @@ export async function executeAtomXmlOperation(
 /**
  * @internal
  * @hidden
- * The key value pairs having undefined/null as the values are removed recursively from the object in order to address the following issues
- * - ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body at top level.
- * - At the inner levels, Service assigns the empty strings as values to the empty tags instead of throwing.
+ * The key-value pairs having undefined/null as the values would lead to the empty tags in the serialized XML request.
+ * Empty tags in the request body is problematic because of the following reasons.
+ * - ATOM based management operations throw a "Bad Request" error if empty tags are included in the XML request body at top level.
+ * - At the inner levels, Service assigns the empty strings as values to the empty tags instead of throwing an error.
+ *
+ * This method recursively removes the key-value pairs with undefined/null as the values from the request object that is to be serialized.
  *
  * @param {{ [key: string]: any }} resource
  */
