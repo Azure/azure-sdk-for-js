@@ -345,7 +345,7 @@ export class BatchingReceiverLite {
     };
 
     const resolveAfterPendingMessageCallbacks = (result: ServiceBusMessageImpl[]) => {
-      // NOTE: through rhea-promise most of our event handlers are made asynchronous by calling setTimeout(emit).
+      // NOTE: through rhea-promise, most of our event handlers are made asynchronous by calling setTimeout(emit).
       // However, a small set (*error and drain) execute immediately. This can lead to a situation where the logical
       // ordering of events is correct but the execution order is incorrect because the events are not all getting
       // put into the task queue the same way.
