@@ -1,5 +1,9 @@
 # Release History
 
+## 3.9.4 (2021-01-04)
+
+- BUGFIX: Sums group by operations for cross-partition queries correctly with null values
+
 ## 3.9.3 (2020-10-19)
 
 - BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.

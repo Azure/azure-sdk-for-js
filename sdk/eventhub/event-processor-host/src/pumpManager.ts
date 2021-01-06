@@ -9,7 +9,7 @@ import { CloseReason } from "./modelTypes";
 import { EPHActionStrings } from "./util/utils";
 
 /**
- * @ignore
+ * @hidden
  */
 export class PumpManager {
   private _context: HostContextWithCheckpointLeaseManager;

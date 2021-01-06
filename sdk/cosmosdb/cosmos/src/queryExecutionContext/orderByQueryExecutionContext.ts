@@ -23,7 +23,7 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
-   * @ignore
+   * @hidden
    */
   constructor(
     clientContext: ClientContext,
@@ -42,7 +42,7 @@ export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextB
   /**
    * Provides a Comparator for document producers which respects orderby sort order.
    * @returns {object}        - Comparator Function
-   * @ignore
+   * @hidden
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
     return this.orderByComparator.compare(docProd1, docProd2);

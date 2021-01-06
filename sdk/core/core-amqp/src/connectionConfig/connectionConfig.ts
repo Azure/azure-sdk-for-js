@@ -167,7 +167,7 @@ export const ConnectionConfig = {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function isSharedAccessSignature(connectionString: string): boolean {
   return connectionString.match(/;{0,1}SharedAccessSignature=SharedAccessSignature /) != null;

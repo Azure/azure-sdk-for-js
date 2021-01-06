@@ -65,7 +65,7 @@ export class SearchIndexClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated SearchServiceClient
    */
   private readonly client: GeneratedClient;
