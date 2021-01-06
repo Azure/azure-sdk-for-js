@@ -7,10 +7,7 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import {
-  createRecordedClient,
-  createRecorder
-} from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient, KnownAttestationType } from "../../src";
 import { verifyAttestationToken } from "../utils/helpers";
 
@@ -33,7 +30,7 @@ describe("PolicyGetSetTests ", function() {
     const result = policyResult.token;
     assert(result);
     if (result) {
-      verifyAttestationToken(result, client);
+      await verifyAttestationToken(result, client);
     }
   });
 
@@ -44,7 +41,7 @@ describe("PolicyGetSetTests ", function() {
     const result = policyResult.token;
     assert(result);
     if (result) {
-      verifyAttestationToken(result, client);
+      await verifyAttestationToken(result, client);
     }
   });
 
@@ -55,7 +52,7 @@ describe("PolicyGetSetTests ", function() {
     const result = policyResult.token;
     assert(result);
     if (result) {
-      verifyAttestationToken(result, client);
+      await verifyAttestationToken(result, client);
     }
   });
 });
