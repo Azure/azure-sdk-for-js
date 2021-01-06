@@ -4,7 +4,7 @@ import { Constants } from "./constants";
 import { trimSlashFromLeftAndRight, validateResourceId } from "./helper";
 
 /**
- * @ignore
+ * @hidden
  * Given a database id, this creates a database link.
  * @param {string} databaseId -The database id
  * @returns {string}          -A database link in the format of dbs/{0} \
@@ -28,7 +28,7 @@ export function createDatabaseUri(databaseId: string) {
  * @description Would be used when updating or deleting a DocumentCollection, creating a \
  * Document, a StoredProcedure, a Trigger, a UserDefinedFunction, or when executing a query \
  * with CreateDocumentQuery in Azure Cosmos DB database service.
- * @ignore
+ * @hidden
  */
 export function createDocumentCollectionUri(databaseId: string, collectionId: string) {
   collectionId = trimSlashFromLeftAndRight(collectionId);
@@ -47,7 +47,7 @@ export function createDocumentCollectionUri(databaseId: string, collectionId: st
  * with {0} being a Uri escaped version of the databaseId and {1} being userId
  * @description Would be used when creating a Permission, or when replacing or deleting \
  * a User in Azure Cosmos DB database service
- * @ignore
+ * @hidden
  */
 export function createUserUri(databaseId: string, userId: string) {
   userId = trimSlashFromLeftAndRight(userId);
@@ -66,7 +66,7 @@ export function createUserUri(databaseId: string, userId: string) {
  * the databaseId, {1} being collectionId and {2} being the documentId
  * @description Would be used when creating an Attachment, or when replacing \
  * or deleting a Document in Azure Cosmos DB database service
- * @ignore
+ * @hidden
  */
 export function createDocumentUri(databaseId: string, collectionId: string, documentId: string) {
   documentId = trimSlashFromLeftAndRight(documentId);
@@ -89,7 +89,7 @@ export function createDocumentUri(databaseId: string, collectionId: string, docu
  * @returns {string} A permission link in the format of dbs/{0}/users/{1}/permissions/{2} \
  * with {0} being a Uri escaped version of the databaseId, {1} being userId and {2} being permissionId
  * @description Would be used when replacing or deleting a Permission in Azure Cosmos DB database service.
- * @ignore
+ * @hidden
  */
 export function createPermissionUri(databaseId: string, userId: string, permissionId: string) {
   permissionId = trimSlashFromLeftAndRight(permissionId);
@@ -114,7 +114,7 @@ export function createPermissionUri(databaseId: string, userId: string, permissi
  * {1} being collectionId and {2} being the storedProcedureId
  * @description Would be used when replacing, executing, or deleting a StoredProcedure in \
  * Azure Cosmos DB database service.
- * @ignore
+ * @hidden
  */
 export function createStoredProcedureUri(
   databaseId: string,
@@ -142,7 +142,7 @@ export function createStoredProcedureUri(
  * dbs/{0}/colls/{1}/triggers/{2} with {0} being a Uri escaped version of the databaseId, \
  * {1} being collectionId and {2} being the triggerId
  * @description Would be used when replacing, executing, or deleting a Trigger in Azure Cosmos DB database service
- * @ignore
+ * @hidden
  */
 export function createTriggerUri(databaseId: string, collectionId: string, triggerId: string) {
   triggerId = trimSlashFromLeftAndRight(triggerId);
@@ -166,7 +166,7 @@ export function createTriggerUri(databaseId: string, collectionId: string, trigg
  * with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the udfId
  * @description Would be used when replacing, executing, or deleting a UserDefinedFunction in \
  * Azure Cosmos DB database service
- * @ignore
+ * @hidden
  */
 export function createUserDefinedFunctionUri(
   databaseId: string,
@@ -193,7 +193,7 @@ export function createUserDefinedFunctionUri(
  * @returns {string}                 -A conflict link in the format of dbs/{0}/colls/{1}/conflicts/{2} \
  * with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the conflictId
  * @description Would be used when creating a Conflict in Azure Cosmos DB database service.
- * @ignore
+ * @hidden
  */
 export function createConflictUri(databaseId: string, collectionId: string, conflictId: string) {
   conflictId = trimSlashFromLeftAndRight(conflictId);
@@ -217,7 +217,7 @@ export function createConflictUri(databaseId: string, collectionId: string, conf
  * @returns {string}                 -A conflict link in the format of dbs/{0}/colls/{1}/conflicts/{2} \
  * with {0} being a Uri escaped version of the databaseId, {1} being collectionId and {2} being the conflictId
  * @description Would be used when creating a Conflict in Azure Cosmos DB database service.
- * @ignore
+ * @hidden
  */
 export function createAttachmentUri(
   databaseId: string,
@@ -244,7 +244,7 @@ export function createAttachmentUri(
  * @param {string} collectionId      -The collection Id
  * @returns {string}                 -A partition key ranges link in the format of \
  * dbs/{0}/colls/{1}/pkranges with {0} being a Uri escaped version of the databaseId and {1} being collectionId
- * @ignore
+ * @hidden
  */
 export function createPartitionKeyRangesUri(databaseId: string, collectionId: string) {
   return (

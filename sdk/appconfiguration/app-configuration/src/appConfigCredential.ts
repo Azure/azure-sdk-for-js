@@ -6,7 +6,7 @@ import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export class AppConfigCredential implements ServiceClientCredentials {
   private credential: string;
@@ -20,8 +20,8 @@ export class AppConfigCredential implements ServiceClientCredentials {
   /**
    * Signs a request with the values provided in the credential and secret parameter.
    *
-   * @param {WebResource} webResource The WebResource to be signed.
-   * @returns {Promise<WebResource>} The signed request object.
+   * @param webResource - The WebResource to be signed.
+   * @returns The signed request object.
    */
   async signRequest(webResource: WebResource): Promise<WebResource> {
     const verb = webResource.method.toUpperCase();

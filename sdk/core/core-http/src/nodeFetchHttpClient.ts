@@ -116,7 +116,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     if (this.cookieJar) {
       const setCookieHeader = operationResponse.headers.get("Set-Cookie");
       if (setCookieHeader !== undefined) {
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
           this.cookieJar!.setCookie(
             setCookieHeader,
             operationResponse.request.url,

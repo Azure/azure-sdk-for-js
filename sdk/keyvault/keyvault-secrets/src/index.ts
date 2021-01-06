@@ -107,7 +107,7 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -125,11 +125,10 @@ export class SecretClient {
    *
    * let client = new SecretClient(vaultUrl, credentials);
    * ```
-   * @param {string} vaultUrl the base URL to the vault.
-   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param {PipelineOptions} [pipelineOptions] Optional. Pipeline options used to configure Key Vault API requests.
-   *                                                         Omit this parameter to use the default pipeline configuration.
-   * @memberof SecretClient
+   * @param vaultUrl - The base URL to the vault.
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
+   *                          Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
@@ -181,10 +180,10 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * await client.setSecret("MySecretName", "ABC123");
    * ```
-   * @summary Adds a secret in a specified key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {string} value The value of the secret.
-   * @param {SetSecretOptions} [options] The optional parameters.
+   * Adds a secret in a specified key vault.
+   * @param secretName - The name of the secret.
+   * @param value - The value of the secret.
+   * @param options - The optional parameters.
    */
   public async setSecret(
     secretName: string,
@@ -253,9 +252,9 @@ export class SecretClient {
    * const deletedSecret = await deletePoller.pollUntilDone();
    * console.log(deletedSecret);
    * ```
-   * @summary Deletes a secret from a specified key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {BeginDeleteSecretOptions} [options] The optional parameters.
+   * Deletes a secret from a specified key vault.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async beginDeleteSecret(
     name: string,
@@ -286,10 +285,10 @@ export class SecretClient {
    * let secret = await client.getSecret(secretName);
    * await client.updateSecretProperties(secretName, secret.properties.version, { enabled: false });
    * ```
-   * @summary Updates the attributes associated with a specified secret in a given key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {string} secretVersion The version of the secret.
-   * @param {UpdateSecretPropertiesOptions} [options] The optional parameters.
+   * Updates the attributes associated with a specified secret in a given key vault.
+   * @param secretName - The name of the secret.
+   * @param secretVersion - The version of the secret.
+   * @param options - The optional parameters.
    */
   public async updateSecretProperties(
     secretName: string,
@@ -345,9 +344,9 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * let secret = await client.getSecret("MySecretName");
    * ```
-   * @summary Get a specified secret from a given key vault.
-   * @param {string} secretName The name of the secret.
-   * @param {GetSecretOptions} [options] The optional parameters.
+   * Get a specified secret from a given key vault.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async getSecret(
     secretName: string,
@@ -380,9 +379,9 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * await client.getDeletedSecret("MyDeletedSecret");
    * ```
-   * @summary Gets the specified deleted secret.
-   * @param {string} secretName The name of the secret.
-   * @param {GetDeletedSecretOptions} [options] The optional parameters.
+   * Gets the specified deleted secret.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async getDeletedSecret(
     secretName: string,
@@ -418,9 +417,9 @@ export class SecretClient {
    * await deletePoller.pollUntilDone();
    * await client.purgeDeletedSecret("MySecretName");
    * ```
-   * @summary Permanently deletes the specified secret.
-   * @param {string} secretName The name of the secret.
-   * @param {PurgeDeletedSecretOptions} [options] The optional parameters.
+   * Permanently deletes the specified secret.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async purgeDeletedSecret(
     secretName: string,
@@ -466,9 +465,9 @@ export class SecretClient {
    * const deletedSecret = await recoverPoller.pollUntilDone();
    * console.log(deletedSecret);
    * ```
-   * @summary Recovers the deleted secret to the latest version.
-   * @param {string} secretName The name of the deleted secret.
-   * @param {BeginRecoverDeletedSecretOptions} [options] The optional parameters.
+   * Recovers the deleted secret to the latest version.
+   * @param secretName - The name of the deleted secret.
+   * @param options - The optional parameters.
    */
   public async beginRecoverDeletedSecret(
     name: string,
@@ -498,9 +497,9 @@ export class SecretClient {
    * let client = new SecretClient(url, credentials);
    * let backupResult = await client.backupSecret("MySecretName");
    * ```
-   * @summary Backs up the specified secret.
-   * @param {string} secretName The name of the secret.
-   * @param {BackupSecretOptions} [options] The optional parameters.
+   * Backs up the specified secret.
+   * @param secretName - The name of the secret.
+   * @param options - The optional parameters.
    */
   public async backupSecret(
     secretName: string,
@@ -534,9 +533,9 @@ export class SecretClient {
    * // ...
    * await client.restoreSecretBackup(mySecretBundle);
    * ```
-   * @summary Restores a backed up secret to a vault.
-   * @param {Uint8Array} secretBundleBackup The backup blob associated with a secret bundle.
-   * @param {KeyVaultClientRestoreSecretResponse} [options] The optional parameters.
+   * Restores a backed up secret to a vault.
+   * @param secretBundleBackup - The backup blob associated with a secret bundle.
+   * @param options - The optional parameters.
    */
   public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
@@ -562,11 +561,11 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
-   * @param {string} name The name of the KeyVault Secret.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPropertiesOfSecretVersionsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param name - The name of the KeyVault Secret.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretVersionsPage(
     secretName: string,
@@ -611,10 +610,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
-   * @param {string} name The name of the KeyVault Secret.
-   * @param {ListPropertiesOfSecretVersionsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param name - The name of the KeyVault Secret.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretVersionsAll(
     secretName: string,
@@ -641,8 +640,8 @@ export class SecretClient {
    *   console.log("secret version: ", secret);
    * }
    * ```
-   * @param {string} secretName Name of the secret to fetch versions for.
-   * @param {ListPropertiesOfSecretVersionsOptions} [options] The optional parameters.
+   * @param secretName - Name of the secret to fetch versions for.
+   * @param options - The optional parameters.
    */
   public listPropertiesOfSecretVersions(
     secretName: string,
@@ -672,10 +671,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecrets}.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPropertiesOfSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretsPage(
     continuationState: PageSettings,
@@ -714,9 +713,9 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
-   * @param {ListPropertiesOfSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPropertiesOfSecretsAll(
     options: ListPropertiesOfSecretsOptions = {}
@@ -742,8 +741,8 @@ export class SecretClient {
    *   console.log("secret: ", secret);
    * }
    * ```
-   * @summary List all secrets in the vault.
-   * @param {ListPropertiesOfSecretsOptions} [options] The optional parameters.
+   * List all secrets in the vault.
+   * @param options - The optional parameters.
    */
   public listPropertiesOfSecrets(
     options: ListPropertiesOfSecretsOptions = {}
@@ -772,10 +771,10 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the pagination of {@link listDeletedSecrets}.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListDeletedSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listDeletedSecretsPage(
     continuationState: PageSettings,
@@ -815,9 +814,9 @@ export class SecretClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
-   * @param {ListDeletedSecretsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listDeletedSecretsAll(
     options: ListDeletedSecretsOptions = {}
@@ -842,8 +841,8 @@ export class SecretClient {
    *   console.log("deleted secret: ", deletedSecret);
    * }
    * ```
-   * @summary List all secrets in the vault.
-   * @param {ListDeletedSecretsOptions} [options] The optional parameters.
+   * List all secrets in the vault.
+   * @param options - The optional parameters.
    */
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {}

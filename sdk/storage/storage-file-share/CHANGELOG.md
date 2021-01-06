@@ -1,6 +1,9 @@
 # Release History
 
-## 12.3.1 (Unreleased)
+## 12.4.0-beta.2 (Unreleased)
+
+
+## 12.4.0-beta.1 (2020-12-09)
 
 - Updated Azure Storage Service API version to 2020-04-08.
 - Share now supports for NFS. User can specify the `protocols` when creating a Share via `ShareClient.create()`. Also added an `rootSquash` option for NFS shares.

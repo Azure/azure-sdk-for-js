@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Container, ContainerDefinition } from "../../../src";
+import { Container, ContainerDefinition } from "../../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import snapshot from "snap-shot-it";
 import assert from "assert";
