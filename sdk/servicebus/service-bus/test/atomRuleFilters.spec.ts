@@ -53,11 +53,9 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       "rule-name",
       filter
     );
-    try {
-      await serviceBusClient.createSender(topicName).sendMessages(messageToSend);
-    } catch (error) {
-      console.log(error);
-    }
+
+    await serviceBusClient.createSender(topicName).sendMessages(messageToSend);
+
     const receivedMessages = await serviceBusClient
       .createReceiver(topicName, subscriptionName)
       .receiveMessages(1);
