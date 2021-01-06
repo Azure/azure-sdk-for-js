@@ -90,7 +90,7 @@ function serializeHeaders(
 }
 
 /**
- * @internal @ignore
+ * @internal @hidden
  */
 export function serializeRequestBody(
   request: OperationRequest,

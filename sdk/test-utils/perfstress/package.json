@@ -31,7 +31,8 @@
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
     "test": "npm run clean && npm run build && npm run unit-test",
-    "build:samples": "echo Skipped."
+    "build:samples": "echo Skipped.",
+    "docs": "echo Skipped."
   },
   "files": [
     "dist/",
@@ -74,7 +75,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^8.0.0",
     "@types/node-fetch": "^2.5.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

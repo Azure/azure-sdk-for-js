@@ -14,7 +14,7 @@ import { KeyCredential } from "@azure/core-auth";
  *
  * The service expects a UTC time, so this method returns a string based on the UTC time of the provided Date.
  *
- * @param d The Date object to convert to a string.
+ * @param d - The Date object to convert to a string.
  */
 export function dateToServiceTimeString(d: Date): string {
   const month = d.getUTCMonth() + 1; // getUTCMonth returns 0-11 not 1-12.
@@ -39,7 +39,7 @@ export function dateToServiceTimeString(d: Date): string {
  * Returns `true` if the credential object is like the KeyCredential interface (i.e. it has a
  * key property).
  *
- * @param credential the object to test
+ * @param credential - The object to test
  */
 export function isKeyCredentialLike(o: unknown): o is KeyCredential {
   const castO = o as {

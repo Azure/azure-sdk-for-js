@@ -1512,6 +1512,29 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await containerClient.delete();
   });
+
+  it("SAS permission parse from raw object should work", async () => {
+    const orderedBlobPermissionStr = "racwdxtme";
+    const blobPermission = BlobSASPermissions.parse(orderedBlobPermissionStr);
+    assert.deepStrictEqual(
+      BlobSASPermissions.from(blobPermission).toString(),
+      orderedBlobPermissionStr
+    );
+
+    const orderedContainerPermissionStr = "racwdxltme";
+    const containerPermission = ContainerSASPermissions.parse(orderedContainerPermissionStr);
+    assert.deepStrictEqual(
+      ContainerSASPermissions.from(containerPermission).toString(),
+      orderedContainerPermissionStr
+    );
+
+    const orderedAccountPermissionStr = "rwdxftlacup";
+    const accountPermission = AccountSASPermissions.parse(orderedAccountPermissionStr);
+    assert.deepStrictEqual(
+      AccountSASPermissions.from(accountPermission).toString(),
+      orderedAccountPermissionStr
+    );
+  });
 });
 
 describe("Generation for user delegation SAS Node.js only", () => {

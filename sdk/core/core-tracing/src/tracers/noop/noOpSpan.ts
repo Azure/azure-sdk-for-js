@@ -20,7 +20,7 @@ export class NoOpSpan implements Span {
 
   /**
    * Marks the end of Span execution.
-   * @param _endTime The time to use as the Span's end time. Defaults to
+   * @param _endTime - The time to use as the Span's end time. Defaults to
    * the current time.
    */
   end(_endTime?: number): void {
@@ -29,8 +29,8 @@ export class NoOpSpan implements Span {
 
   /**
    * Sets an attribute on the Span
-   * @param _key the attribute key
-   * @param _value the attribute value
+   * @param _key - The attribute key
+   * @param _value - The attribute value
    */
   setAttribute(_key: string, _value: unknown): this {
     return this;
@@ -38,7 +38,7 @@ export class NoOpSpan implements Span {
 
   /**
    * Sets attributes on the Span
-   * @param _attributes the attributes to add
+   * @param _attributes - The attributes to add
    */
   setAttributes(_attributes: Attributes): this {
     return this;
@@ -46,8 +46,8 @@ export class NoOpSpan implements Span {
 
   /**
    * Adds an event to the Span
-   * @param _name The name of the event
-   * @param _attributes The associated attributes to add for this event
+   * @param _name - The name of the event
+   * @param _attributes - The associated attributes to add for this event
    */
   addEvent(_name: string, _attributes?: Attributes): this {
     return this;
@@ -55,7 +55,7 @@ export class NoOpSpan implements Span {
 
   /**
    * Sets a status on the span. Overrides the default of CanonicalCode.OK.
-   * @param _status The status to set.
+   * @param _status - The status to set.
    */
   setStatus(_status: Status): this {
     return this;
@@ -63,7 +63,7 @@ export class NoOpSpan implements Span {
 
   /**
    * Updates the name of the Span
-   * @param _name the new Span name
+   * @param _name - the new Span name
    */
   updateName(_name: string): this {
     return this;

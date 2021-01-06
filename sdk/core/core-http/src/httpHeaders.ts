@@ -35,14 +35,14 @@ export interface HttpHeadersLike {
   /**
    * Set a header in this collection with the provided name and value. The name is
    * case-insensitive.
-   * @param headerName The name of the header to set. This value is case-insensitive.
-   * @param headerValue The value of the header to set.
+   * @param headerName - The name of the header to set. This value is case-insensitive.
+   * @param headerValue - The value of the header to set.
    */
   set(headerName: string, headerValue: string | number): void;
   /**
    * Get the header value for the provided header name, or undefined if no header exists in this
    * collection with the provided name.
-   * @param headerName The name of the header.
+   * @param headerName - The name of the header.
    */
   get(headerName: string): string | undefined;
   /**
@@ -52,7 +52,7 @@ export interface HttpHeadersLike {
   /**
    * Remove the header with the provided headerName. Return whether or not the header existed and
    * was removed.
-   * @param headerName The name of the header to remove.
+   * @param headerName - The name of the header to remove.
    */
   remove(headerName: string): boolean;
   /**
@@ -133,8 +133,8 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Set a header in this collection with the provided name and value. The name is
    * case-insensitive.
-   * @param headerName The name of the header to set. This value is case-insensitive.
-   * @param headerValue The value of the header to set.
+   * @param headerName - The name of the header to set. This value is case-insensitive.
+   * @param headerValue - The value of the header to set.
    */
   public set(headerName: string, headerValue: string | number): void {
     this._headersMap[getHeaderKey(headerName)] = {
@@ -146,7 +146,7 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Get the header value for the provided header name, or undefined if no header exists in this
    * collection with the provided name.
-   * @param headerName The name of the header.
+   * @param headerName - The name of the header.
    */
   public get(headerName: string): string | undefined {
     const header: HttpHeader = this._headersMap[getHeaderKey(headerName)];
@@ -163,7 +163,7 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Remove the header with the provided headerName. Return whether or not the header existed and
    * was removed.
-   * @param headerName The name of the header to remove.
+   * @param headerName - The name of the header to remove.
    */
   public remove(headerName: string): boolean {
     const result: boolean = this.contains(headerName);

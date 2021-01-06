@@ -26,6 +26,7 @@ import {
 import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
+import { getCachedDefaultHttpsClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
@@ -800,6 +801,11 @@ describe("ServiceClient", function() {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }
+  });
+
+  it("should re-use the common instance of DefaultHttpClient", function() {
+    const client = new ServiceClient();
+    assert.strictEqual((client as any)._httpsClient, getCachedDefaultHttpsClient());
   });
 });
 

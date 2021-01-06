@@ -82,15 +82,11 @@ export class Serializer {
   /**
    * Serialize the given object based on its metadata defined in the mapper
    *
-   * @param {Mapper} mapper The mapper which defines the metadata of the serializable object
-   *
-   * @param {object|string|Array|number|boolean|Date|stream} object A valid Javascript object to be serialized
-   *
-   * @param {string} objectName Name of the serialized object
-   *
-   * @param {options} options additional options to deserialization
-   *
-   * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
+   * @param mapper - The mapper which defines the metadata of the serializable object
+   * @param object - A valid Javascript object to be serialized
+   * @param objectName - Name of the serialized object
+   * @param options - additional options to deserialization
+   * @returns A valid serialized Javascript object
    */
   serialize(
     mapper: Mapper,
@@ -193,15 +189,11 @@ export class Serializer {
   /**
    * Deserialize the given object based on its metadata defined in the mapper
    *
-   * @param {object} mapper The mapper which defines the metadata of the serializable object
-   *
-   * @param {object|string|Array|number|boolean|Date|stream} responseBody A valid Javascript entity to be deserialized
-   *
-   * @param {string} objectName Name of the deserialized object
-   *
-   * @param options Controls behavior of XML parser and builder.
-   *
-   * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
+   * @param mapper - The mapper which defines the metadata of the serializable object
+   * @param responseBody - A valid Javascript entity to be deserialized
+   * @param objectName - Name of the deserialized object
+   * @param options - Controls behavior of XML parser and builder.
+   * @returns A valid deserialized Javascript object
    */
   deserialize(
     mapper: Mapper,
@@ -605,9 +597,9 @@ function serializeDictionaryType(
 
 /**
  * Resolves the additionalProperties property from a referenced mapper
- * @param serializer the serializer containing the entire set of mappers
- * @param mapper the composite mapper to resolve
- * @param objectName name of the object being serialized
+ * @param serializer - The serializer containing the entire set of mappers
+ * @param mapper - The composite mapper to resolve
+ * @param objectName - Name of the object being serialized
  */
 function resolveAdditionalProperties(
   serializer: Serializer,
@@ -626,9 +618,9 @@ function resolveAdditionalProperties(
 
 /**
  * Finds the mapper referenced by className
- * @param serializer the serializer containing the entire set of mappers
- * @param mapper the composite mapper to resolve
- * @param objectName name of the object being serialized
+ * @param serializer - The serializer containing the entire set of mappers
+ * @param mapper - The composite mapper to resolve
+ * @param objectName - Name of the object being serialized
  */
 function resolveReferencedMapper(
   serializer: Serializer,
@@ -651,8 +643,8 @@ function resolveReferencedMapper(
 
 /**
  * Resolves a composite mapper's modelProperties.
- * @param serializer the serializer containing the entire set of mappers
- * @param mapper the composite mapper to resolve
+ * @param serializer - The serializer containing the entire set of mappers
+ * @param mapper - The composite mapper to resolve
  */
 function resolveModelProperties(
   serializer: Serializer,
