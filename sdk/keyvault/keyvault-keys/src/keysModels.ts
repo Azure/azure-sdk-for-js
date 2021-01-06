@@ -21,10 +21,48 @@ export type KeyOperation =
 
 /**
  * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
+ * {@link KnownKeyType} can be used interchangeably with JsonWebKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **EC**: Elliptic Curve. \
+ * **EC-HSM**: Elliptic Curve with a private key which is not exportable from the HSM. \
+ * **RSA**: RSA (https://tools.ietf.org/html/rfc3447) \
+ * **RSA-HSM**: RSA with a private key which is not exportable from the HSM. \
+ * **oct**: Octet sequence (used to represent symmetric keys) \
+ * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
  * @readonly
  */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
+export type KeyType = string;
+
+/**
+ * Known values of {@link KeyType} that the service accepts.
+ */
+export const enum KnownKeyType {
+  /**
+   * Elliptic Curve.
+   */
+  EC = "EC",
+  /**
+   * Elliptic Curve with a private key which is not exportable from the HSM.
+   */
+  ECHSM = "EC-HSM",
+  /**
+   * RSA (https://tools.ietf.org/html/rfc3447)
+   */
+  RSA = "RSA",
+  /**
+   * RSA with a private key which is not exportable from the HSM.
+   */
+  RSAHSM = "RSA-HSM",
+  /**
+   * Octet sequence (used to represent symmetric keys)
+   */
+  Oct = "oct",
+  /**
+   * Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
+   */
+  OctHSM = "oct-HSM"
+}
 
 /**
  * The latest supported Key Vault service API version
