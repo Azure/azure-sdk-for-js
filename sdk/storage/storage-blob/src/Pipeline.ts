@@ -202,7 +202,7 @@ export function newPipeline(
     telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
-    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions), // Retry policy should be above any policy that throws retryable errors
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
     logPolicy({
       logger: logger.info,
