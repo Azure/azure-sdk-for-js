@@ -1596,12 +1596,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
-  /axios/0.20.0:
+  /axios/0.21.1:
     dependencies:
       follow-redirects: 1.13.1
     dev: false
     resolution:
-      integrity: sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+      integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   /azure-storage/2.10.3:
     dependencies:
       browserify-mime: 1.2.9
@@ -9443,7 +9443,7 @@ packages:
       '@types/sinon': 9.0.9
       '@types/uuid': 8.3.0
       assert: 1.5.0
-      axios: 0.20.0
+      axios: 0.21.1
       cross-env: 7.0.3
       eslint: 7.15.0
       events: 3.2.0
@@ -9482,7 +9482,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-gDqAgKO9IiU3fs1ndBcG862UQXuswjFTKIotljAb1lgW/GAEQvtw0FcqZOvIVhWeYGznlCeD0lYclCUxpXNHsA==
+      integrity: sha512-du1ENhjYGMpczYJQxuydC8TJb4Ub9V9pbghrQGJ7ogu77xVjUtL8AWYMZW6djp2Gh5Fv+kBiMmIy0nTGzfcb3Q==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
