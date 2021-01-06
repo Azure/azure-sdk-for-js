@@ -50,7 +50,7 @@ async function updateAndUpsertEntities() {
 }
 
 async function main() {
-  await createAndDeleteEntities();
+  await updateAndUpsertEntities();
 }
 
 main().catch((err) => {
