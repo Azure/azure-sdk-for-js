@@ -24,11 +24,11 @@ export type KeyOperation =
  * {@link KnownKeyType} can be used interchangeably with JsonWebKeyType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **EC**: Elliptic Curve. \
- * **EC-HSM**: Elliptic Curve with a private key which is not exportable from the HSM. \
- * **RSA**: RSA (https://tools.ietf.org/html/rfc3447) \
- * **RSA-HSM**: RSA with a private key which is not exportable from the HSM. \
- * **oct**: Octet sequence (used to represent symmetric keys) \
+ * **EC**: Elliptic Curve.
+ * **EC-HSM**: Elliptic Curve with a private key which is not exportable from the HSM.
+ * **RSA**: RSA (https://tools.ietf.org/html/rfc3447)
+ * **RSA-HSM**: RSA with a private key which is not exportable from the HSM.
+ * **oct**: Octet sequence (used to represent symmetric keys)
  * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
  * @readonly
  */
