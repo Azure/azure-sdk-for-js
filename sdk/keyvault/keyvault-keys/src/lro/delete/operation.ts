@@ -4,7 +4,10 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { KeyVaultClientDeleteKeyResponse, KeyVaultClientGetDeletedKeyResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteKeyResponse,
+  KeyVaultClientGetDeletedKeyResponse
+} from "../../generated/models";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getKeyFromKeyBundle } from "../../transformations";

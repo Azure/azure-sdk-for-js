@@ -96,7 +96,7 @@ export interface DeletedKey {
 }
 
 // @public
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel = string;
 
 // @public
 export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "A128GCM" | "A192GCM" | "A256GCM" | "A128KW" | "A192KW" | "A256KW" | "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
@@ -216,7 +216,7 @@ export interface KeyProperties {
 }
 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
+export type KeyType = string;
 
 // @public
 export interface KeyVaultKey {
@@ -238,6 +238,27 @@ export interface KeyVaultKeyId {
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+// @public
+export const enum KnownDeletionRecoveryLevel {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+    Purgeable = "Purgeable",
+    Recoverable = "Recoverable",
+    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+    RecoverablePurgeable = "Recoverable+Purgeable"
+}
+
+// @public
+export const enum KnownKeyType {
+    EC = "EC",
+    ECHSM = "EC-HSM",
+    Oct = "oct",
+    OctHSM = "oct-HSM",
+    RSA = "RSA",
+    RSAHSM = "RSA-HSM"
+}
 
 // @public
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {
