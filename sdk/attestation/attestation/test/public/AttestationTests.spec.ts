@@ -7,12 +7,9 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import {
-  createRecordedClient,
-  createRecorder
-} from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
-import { decodeString } from "../utils/base64";
+import * as base64url from "../utils/base64url";
 import { verifyAttestationToken } from "../utils/helpers";
 
 describe("[AAD] Attestation Client", function() {
@@ -124,9 +121,9 @@ describe("[AAD] Attestation Client", function() {
   it("#AttestSgxShared", async () => {
     let client: AttestationClient;
     client = createRecordedClient("Shared");
-    const binaryRuntimeData = decodeString(_runtimeData);
+    const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const attestationResult = await client.attestation.attestSgxEnclave({
-      quote: decodeString(_sgxQuote),
+      quote: base64url.decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
         dataType: "Binary"
@@ -135,15 +132,16 @@ describe("[AAD] Attestation Client", function() {
 
     assert(attestationResult.token);
     if (attestationResult?.token) {
-      await verifyAttestationToken(attestationResult.token, client);
+      const isValid = await verifyAttestationToken(attestationResult.token, client);
+      assert(isValid);
     }
   });
   it("#AttestSgxAad", async () => {
     let client: AttestationClient;
     client = createRecordedClient("AAD");
-    const binaryRuntimeData = decodeString(_runtimeData);
+    const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const attestationResult = await client.attestation.attestSgxEnclave({
-      quote: decodeString(_sgxQuote),
+      quote: base64url.decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
         dataType: "Binary"
@@ -159,9 +157,9 @@ describe("[AAD] Attestation Client", function() {
   it("#AttestSgxIsolated", async () => {
     let client: AttestationClient;
     client = createRecordedClient("AAD");
-    const binaryRuntimeData = decodeString(_runtimeData);
+    const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const attestationResult = await client.attestation.attestSgxEnclave({
-      quote: decodeString(_sgxQuote),
+      quote: base64url.decodeString(_sgxQuote),
       runtimeData: {
         data: binaryRuntimeData,
         dataType: "Binary"

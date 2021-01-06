@@ -5,30 +5,40 @@ import { assert } from "chai";
 
 import { AttestationClient } from "../../src/";
 
-import { decode, verify } from "jsonwebtoken";
+import { decode } from "jsonwebtoken";
+import * as jsrsasign from "jsrsasign"; // works in the browser
 
-
-export async function verifyAttestationToken(
+export function decodeJWT(
   attestationToken: string,
   client: AttestationClient
-): Promise<any | undefined> {
+): {
+  [key: string]: any;
+} {
   const decoded = decode(attestationToken, { complete: true, json: true });
-
-  assert(decoded);
-  let keyId;
   if (decoded?.header) {
     assert.notEqual(decoded.header.alg, "none");
     assert.equal(decoded.header.typ, "JWT");
     assert.equal(decoded.header.jku, client.instanceUrl + "/certs");
-    keyId = decoded.header.kid;
+    return decoded;
   }
+  throw new Error(`decoded token did not have header: ${decoded}`);
+}
+
+export async function verifyAttestationToken(
+  attestationToken: string,
+  client: AttestationClient
+): Promise<{
+  [key: string]: any;
+}> {
+  const decoded = decodeJWT(attestationToken, client);
+  const keyId = decoded?.header.kid;
 
   const signingCerts = await client.signingCertificates.get();
   let signingCertx5C;
   if (signingCerts?.keys) {
     assert(signingCerts.keys?.length > 0);
     for (const key of signingCerts.keys) {
-      if (key.kid == keyId) {
+      if (key.kid === keyId) {
         signingCertx5C = key.x5C;
       }
     }
@@ -39,14 +49,19 @@ export async function verifyAttestationToken(
       pemCert += signingCertx5C[0];
       pemCert += "\r\n-----END CERTIFICATE-----\r\n";
 
-      return verify(attestationToken, pemCert, {
-        algorithms: ["RS256"],
-        ignoreExpiration: true,
-        clockTolerance: 10,
-        issuer: client.instanceUrl
-      });
+      const pubKeyObj = jsrsasign.KEYUTIL.getKey(pemCert);
+      const isValid = jsrsasign.KJUR.jws.JWS.verifyJWT(
+        attestationToken,
+        pubKeyObj as jsrsasign.RSAKey,
+        {
+          iss: [client.instanceUrl],
+          alg: ["RS256"]
+        }
+      );
+      if (!isValid) {
+        throw new Error(`Verification failed! token: ${JSON.stringify(decoded)}`);
+      }
     }
   }
-
-  return decoded?.payload;
+  return decoded.payload;
 }

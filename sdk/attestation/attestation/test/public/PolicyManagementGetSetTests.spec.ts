@@ -7,10 +7,7 @@ chaiUse(chaiPromises);
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import {
-  createRecordedClient,
-  createRecorder
-} from "../utils/recordedClient";
+import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
 import { verifyAttestationToken } from "../utils/helpers";
 
@@ -35,7 +32,7 @@ describe("PolicyManagementTests ", function() {
     assert(result);
     if (result) {
       const tokenResult = await verifyAttestationToken(result, client);
-      assert.isNotNull(tokenResult);
+      assert.isDefined(tokenResult);
       if (tokenResult) {
         const tokenKeys = tokenResult["x-ms-policy-certificates"];
         assert.equal(tokenKeys.keys.length, 0);
@@ -52,7 +49,7 @@ describe("PolicyManagementTests ", function() {
     assert(result);
     if (result) {
       const tokenResult = await verifyAttestationToken(result, client);
-      assert.isNotNull(tokenResult);
+      assert.isDefined(tokenResult);
       if (tokenResult) {
         const tokenKeys = tokenResult["x-ms-policy-certificates"];
         assert.equal(tokenKeys.keys.length, 0);
@@ -69,7 +66,7 @@ describe("PolicyManagementTests ", function() {
     assert(result);
     if (result) {
       const tokenResult = await verifyAttestationToken(result, client);
-      assert.isNotNull(tokenResult);
+      assert.isDefined(tokenResult);
       if (tokenResult) {
         const tokenKeys = tokenResult["x-ms-policy-certificates"];
         // The isolated client has a single management client, unlike the others.

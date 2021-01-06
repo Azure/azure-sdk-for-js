@@ -9,7 +9,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
-import { decodeString } from "../utils/base64";
+import * as base64 from "../utils/base64";
 
 describe("TokenCertTests", function() {
   let recorder: Recorder;
@@ -30,9 +30,9 @@ describe("TokenCertTests", function() {
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
     for (const key of certs) {
-      assert.isNotNull(key.x5C);
-      for (const cert in key.x5C) {
-        const berCert = decodeString(cert);
+      assert.isDefined(key.x5C);
+      for (const cert of key.x5C!) {
+        const berCert = base64.decodeString(cert);
         assert(berCert);
       }
     }
@@ -44,9 +44,9 @@ describe("TokenCertTests", function() {
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
     for (const key of certs) {
-      assert.isNotNull(key.x5C);
-      for (const cert in key.x5C) {
-        const berCert = decodeString(cert);
+      assert.isDefined(key.x5C);
+      for (const cert of key.x5C!) {
+        const berCert = base64.decodeString(cert);
         assert(berCert);
       }
     }
@@ -59,9 +59,9 @@ describe("TokenCertTests", function() {
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
     for (const key of certs) {
-      assert.isNotNull(key.x5C);
-      for (const cert in key.x5C) {
-        const berCert = decodeString(cert);
+      assert.isDefined(key.x5C);
+      for (const cert of key.x5C!) {
+        const berCert = base64.decodeString(cert);
         assert(berCert);
       }
     }
