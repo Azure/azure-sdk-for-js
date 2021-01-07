@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.3 (Unreleased)
+
+
 ## 1.0.2 (2020-01-07)
 
 Updates the `tslib` dependency to version 2.x.
