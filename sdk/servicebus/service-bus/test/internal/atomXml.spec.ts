@@ -1196,7 +1196,7 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe.only("isJSONLikeObject helper method", () => {
+  describe("isJSONLikeObject helper method", () => {
     [
       { input: {}, output: true },
       { input: { abc: 1, d: undefined }, output: true },
