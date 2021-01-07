@@ -4,7 +4,10 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { GetKeyResponse, RecoverDeletedKeyResponse } from "../../generated/models";
+import {
+  KeyVaultClientGetKeyResponse,
+  KeyVaultClientRecoverDeletedKeyResponse
+} from "../../generated/models";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getKeyFromKeyBundle } from "../../transformations";
@@ -37,7 +40,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getKey", requestOptions);
 
-    let response: GetKeyResponse;
+    let response: KeyVaultClientGetKeyResponse;
     try {
       response = await this.client.getKey(
         this.vaultUrl,
@@ -63,7 +66,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.recoverDeletedKey", requestOptions);
 
-    let response: RecoverDeletedKeyResponse;
+    let response: KeyVaultClientRecoverDeletedKeyResponse;
     try {
       response = await this.client.recoverDeletedKey(
         this.vaultUrl,

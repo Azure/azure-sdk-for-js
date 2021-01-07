@@ -4,7 +4,10 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { DeleteKeyResponse, GetDeletedKeyResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteKeyResponse,
+  KeyVaultClientGetDeletedKeyResponse
+} from "../../generated/models";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getKeyFromKeyBundle } from "../../transformations";
@@ -36,7 +39,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.deleteKey", requestOptions);
 
-    let response: DeleteKeyResponse;
+    let response: KeyVaultClientDeleteKeyResponse;
     try {
       response = await this.client.deleteKey(
         this.vaultUrl,
@@ -61,7 +64,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     const responseOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getDeletedKey", responseOptions);
 
-    let response: GetDeletedKeyResponse;
+    let response: KeyVaultClientGetDeletedKeyResponse;
     try {
       response = await this.client.getDeletedKey(
         this.vaultUrl,
