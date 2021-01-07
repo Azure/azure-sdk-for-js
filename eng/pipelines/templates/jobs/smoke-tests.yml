@@ -1,5 +1,5 @@
 parameters:
-  - name: Nightly
+  - name: Daily
     type: boolean
     default: true
   - name: ServiceDirectory
@@ -10,7 +10,7 @@ parameters:
     default: []
 
 jobs:
-  - ${{ if eq(parameters.Nightly, false) }}:
+  - ${{ if eq(parameters.Daily, false) }}:
     - job: smoke_test_eligibility
       displayName: Check Smoke Test Eligibility
       steps:
@@ -34,7 +34,7 @@ jobs:
             RunSmokeTests: $(RunSmokeTests)
 
   - job: SmokeTest
-    ${{ if eq(parameters.Nightly, false) }}:
+    ${{ if eq(parameters.Daily, false) }}:
       dependsOn: smoke_test_eligibility
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['output_eligibility.RunSmokeTests'], true))
     strategy:
@@ -110,12 +110,12 @@ jobs:
           $packageOverrides = @()
           $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
 
-          if ([System.Convert]::ToBoolean("${{ parameters.Nightly }}")) {
+          if ([System.Convert]::ToBoolean("${{ parameters.Daily }}")) {
             ./Initialize-SmokeTests.ps1 `
               -CI `
               -Verbose `
               -Location '$(Location)' `
-              -Nightly `
+              -Daily `
               @subscriptionConfiguration `
               -AdditionalParameters $(ArmTemplateParameters)
           } else {

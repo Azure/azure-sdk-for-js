@@ -218,7 +218,7 @@ stages:
       jobs:
         - template: /eng/pipelines/templates/jobs/smoke-tests.yml
           parameters:
-            Nightly: false
+            Daily: false
             ServiceDirectory: ${{ parameters.ServiceDirectory }}
             Artifacts: ${{ parameters.Artifacts }}
 
