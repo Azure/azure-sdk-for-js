@@ -10,31 +10,23 @@ parameters:
     default: []
 
 jobs:
-  - ${{ if eq(parameters.Daily, false) }}:
+  - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
     - job: smoke_test_eligibility
       displayName: Check Smoke Test Eligibility
       steps:
-        - ${{ if ne(variables['Skip.Release'], 'true') }}:
-          - pwsh: |
-              ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
-              $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
-              $packages | ForEach-Object {
-                Write-Host "Smoke tests will run for $_.Name"
-                Write-Host "##vso[task.setvariable variable=RunSmokeTests;]true"
-              }
-            name: check_smoke_tests_${{ parameters.ServiceDirectory }}
-            displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
-            workingDirectory: ./common/smoke-test
-
         - pwsh: |
-            Write-Host "Setting RunSmokeTests to $($env:RunSmokeTests)"
-            Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]$($env:RunSmokeTests)"
-          name: output_eligibility
-          env:
-            RunSmokeTests: $(RunSmokeTests)
+            ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
+            $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
+            $packages | ForEach-Object {
+              Write-Host "Smoke tests will run for $_.Name"
+              Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]true"
+            }
+          name: check_smoke_tests_${{ parameters.ServiceDirectory }}
+          displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
+          workingDirectory: ./common/smoke-test
 
   - job: SmokeTest
-    ${{ if eq(parameters.Daily, false) }}:
+    ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
       dependsOn: smoke_test_eligibility
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['output_eligibility.RunSmokeTests'], true))
     strategy:
