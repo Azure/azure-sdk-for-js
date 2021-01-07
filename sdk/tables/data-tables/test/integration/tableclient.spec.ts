@@ -87,7 +87,7 @@ describe("TableClient", () => {
       }
 
       assert.lengthOf(all, totalItems);
-    });
+    }).timeout(10000); // Since we list all we need to extend the timeout
 
     it("should list by page", async function() {
       const totalItems = 21;
