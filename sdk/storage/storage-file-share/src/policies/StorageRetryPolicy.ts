@@ -233,11 +233,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code &&
-            err.code
-              .toString()
-              .toUpperCase()
-              .includes(retriableError))
+          (err.code && err.code.toString().toUpperCase() === retriableError)
         ) {
           logger.info(`RetryPolicy: Network error ${retriableError} found, will retry.`);
           return true;
