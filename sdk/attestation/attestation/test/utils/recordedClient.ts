@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
 import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
@@ -11,8 +10,6 @@ import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
 
 //import { Certificate } from '@fidm/x509';
 //import { ASN1 } from '@fidm/asn1';
-
-dotenv.config();
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
