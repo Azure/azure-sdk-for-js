@@ -9,17 +9,15 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/app-configuration.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -69,6 +67,9 @@
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace test-dist/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
