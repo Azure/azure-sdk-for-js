@@ -285,11 +285,30 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 /**
  * @internal
  * @hidden
+ * Helps in differentiating JSON like objects from other kinds of objects.
+ */
+const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
+
+/**
+ * @internal
+ * @hidden
  * Returns `true` if given input is a JSON like object.
  * @param value
  */
 export function isJSONLikeObject(value: any): boolean {
-  return typeof value === "object" && !(value instanceof Number) && !(value instanceof String);
+  // `value.constructor === {}.constructor` differentiates among the "object"s,
+  //    would filter the JSON objects and won't match any array or other kinds of objects
+
+  // -------------------------------------------------------------------------------
+  // Few examples       | typeof obj ==="object" |  obj.constructor==={}.constructor
+  // -------------------------------------------------------------------------------
+  // {abc:1}            | true                   | true
+  // ["a","b"]          | true                   | false
+  // [{"a":1},{"b":2}]  | true                   | false
+  // new Date()         | true                   | false
+  // 123                | false                  | false
+  // -------------------------------------------------------------------------------
+  return typeof value === "object" && value.constructor === EMPTY_JSON_OBJECT_CONSTRUCTOR;
 }
 
 /**

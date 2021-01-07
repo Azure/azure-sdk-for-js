@@ -10,6 +10,8 @@
 - Updates documentation for `ServiceBusMessage` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language
   compatibility while receiving events is required.
+- [Bug Fix] Correlation Rule Filter with the "label" set using the `createRule()` method doesn't filter the messages to the subscription.
+  The bug has been fixed in [PR 13069](https://github.com/Azure/azure-sdk-for-js/pull/13069), also fixes the related issues where the messages are not filtered when a subset of properties are set in the correlation filter.
 
 ## 7.0.0 (2020-11-23)
 
