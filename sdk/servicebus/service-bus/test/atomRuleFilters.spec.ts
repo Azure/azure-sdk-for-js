@@ -13,6 +13,7 @@ import {
   SqlRuleFilter
 } from "../src";
 import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
+import { sanitizeSerializableObject } from "../src/util/atomXmlHelper";
 import { DEFAULT_RULE_NAME } from "../src/util/constants";
 import { recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { getConnectionString } from "./utils/testutils2";
@@ -48,12 +49,17 @@ describe.only("Filter messages with the rules set by the ATOM API", () => {
     numberOfMessagesToBeFiltered: number,
     toCheck: (msg: ServiceBusReceivedMessage) => void
   ) {
-    await serviceBusAtomManagementClient.createRule(
+    const ruleName = "rule-name";
+    await serviceBusAtomManagementClient.createRule(topicName, subscriptionName, ruleName, filter);
+
+    const getRuleResponse = await serviceBusAtomManagementClient.getRule(
       topicName,
       subscriptionName,
-      "rule-name",
-      filter
+      ruleName
     );
+    // Rule filter might have undefined fields, which need to be deleted to match with the created rule
+    sanitizeSerializableObject(getRuleResponse);
+    chai.assert.deepEqual(getRuleResponse.filter, filter, "Unexpected filter");
 
     await serviceBusClient.createSender(topicName).sendMessages(messagesToSend);
 
