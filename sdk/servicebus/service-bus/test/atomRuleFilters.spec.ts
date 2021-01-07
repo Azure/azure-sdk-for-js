@@ -5,6 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
+import { delay } from "rhea-promise";
 import {
   CorrelationRuleFilter,
   ServiceBusReceivedMessage,
@@ -68,7 +69,7 @@ describe.only("Filter messages with the rules set by the ATOM API", () => {
       chai.assert.deepEqual(getRuleResponse.filter, filter, "Unexpected filter");
 
       await serviceBusClient.createSender(topicName).sendMessages(messagesToSend);
-
+      await delay(1000);
       // Making sure the subscription has the expected number of messages
       should.equal(
         (
