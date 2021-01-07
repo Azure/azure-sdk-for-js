@@ -32,7 +32,7 @@ export interface AnalyzeJobOptions extends OperationOptions {
 }
 
 // @public
-export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PaginatedAnalyzeResults>;
+export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PagedAnalyzeResults>;
 
 // @public
 export interface AnalyzeResult {
@@ -84,6 +84,12 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
+export interface BeginAnalyzeBatchTasksOptions {
+    analyze?: AnalyzeJobOptions;
+    polling?: PollingOptions;
+}
+
+// @public
 export interface BeginAnalyzeHealthcareOptions {
     healthcare?: HealthcareJobOptions;
     polling?: PollingOptions;
@@ -94,14 +100,13 @@ export interface BeginAnalyzeHealthcarePollState extends AnalysisPollOperationSt
 }
 
 // @public
-export interface BeginAnalyzeOptions {
-    analyze?: AnalyzeJobOptions;
-    polling?: PollingOptions;
+export interface BeginAnalyzePollState extends AnalysisPollOperationState<PagedAnalyzeResults>, AnalyzeJobMetadata {
 }
 
 // @public
-export interface BeginAnalyzePollState extends AnalysisPollOperationState<PaginatedAnalyzeResults>, AnalyzeJobMetadata {
-}
+export type CategorizedEntitiesRecognitionTask = {
+    modelVersion?: string;
+};
 
 // @public
 export interface CategorizedEntity extends Entity {
@@ -145,11 +150,6 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
-
-// @public
-export type EntitiesTask = {
-    modelVersion?: string;
-};
 
 // @public
 export interface Entity {
@@ -234,9 +234,9 @@ export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyF
 
 // @public
 export interface JobManifestTasks {
-    entityRecognitionPiiTasks?: PiiTask[];
-    entityRecognitionTasks?: EntitiesTask[];
-    keyPhraseExtractionTasks?: KeyPhrasesTask[];
+    entityRecognitionPiiTasks?: PiiEntitiesRecognitionTask[];
+    entityRecognitionTasks?: CategorizedEntitiesRecognitionTask[];
+    keyPhraseExtractionTasks?: KeyPhrasesExtractionTask[];
 }
 
 // @public
@@ -249,7 +249,7 @@ export interface JobMetadata {
 }
 
 // @public
-export interface KeyPhrasesTask {
+export interface KeyPhrasesExtractionTask {
     modelVersion?: string;
 }
 
@@ -282,21 +282,27 @@ export interface OpinionSentiment extends SentenceOpinion {
 }
 
 // @public
+export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
 export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResult>;
 
 // @public
 export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
 
 // @public
-export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
 export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
+
+// @public
+export type PiiEntitiesRecognitionTask = {
+    domain?: PiiEntityDomainType;
+    modelVersion?: string;
+};
 
 // @public
 export interface PiiEntity extends Entity {
@@ -306,15 +312,6 @@ export interface PiiEntity extends Entity {
 export enum PiiEntityDomainType {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
-
-// @public
-export type PiiTask = {
-    domain?: PiiTaskParametersDomain;
-    modelVersion?: string;
-};
-
-// @public
-export type PiiTaskParametersDomain = "phi" | "none" | string;
 
 // @public
 export interface PollingOptions {
@@ -424,8 +421,8 @@ export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyze(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
-    beginAnalyze(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
+    beginAnalyzeBatchTasks(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
+    beginAnalyzeBatchTasks(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
     beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
     beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
     defaultCountryHint: string;

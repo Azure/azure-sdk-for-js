@@ -18,7 +18,7 @@ import {
 import {
   AnalyzeResult,
   PagedAsyncIterableAnalyzeResults,
-  PaginatedAnalyzeResults
+  PagedAnalyzeResults
 } from "../../analyzeResult";
 import { PageSettings } from "@azure/core-paging";
 import {
@@ -112,7 +112,7 @@ export interface AnalyzeJobOptions extends OperationOptions {
 /**
  * Options for the begin analyze operation.
  */
-export interface BeginAnalyzeOptions {
+export interface BeginAnalyzeBatchTasksOptions {
   /**
    * Options related to polling from the service.
    */
@@ -127,7 +127,7 @@ export interface BeginAnalyzeOptions {
  * The state of the begin analyze polling operation.
  */
 export interface BeginAnalyzePollState
-  extends AnalysisPollOperationState<PaginatedAnalyzeResults>,
+  extends AnalysisPollOperationState<PagedAnalyzeResults>,
     AnalyzeJobMetadata {}
 
 /**
@@ -136,7 +136,7 @@ export interface BeginAnalyzePollState
  */
 export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   BeginAnalyzePollState,
-  PaginatedAnalyzeResults
+  PagedAnalyzeResults
 > {
   constructor(
     public state: BeginAnalyzePollState,
@@ -144,7 +144,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     private client: Client,
     private documents: TextDocumentInput[],
     private tasks: JobManifestTasks,
-    private options: BeginAnalyzeOptions = {},
+    private options: BeginAnalyzeBatchTasksOptions = {},
     private statusOptions: TextAnalyticsStatusOperationOptions = {}
   ) {
     super(state);
@@ -311,7 +311,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     }
   }
 
-  private async beginAnalyze(
+  private async beginAnalyzeBatchTasks(
     documents: TextDocumentInput[],
     tasks: JobManifestTasks,
     options?: BeginAnalyzeInternalOptions
@@ -352,7 +352,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     const updatedAbortSignal = options.abortSignal;
     if (!state.isStarted) {
       state.isStarted = true;
-      const response = await this.beginAnalyze(this.documents, this.tasks, {
+      const response = await this.beginAnalyzeBatchTasks(this.documents, this.tasks, {
         ...this.options.analyze,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.analyze?.abortSignal
       });

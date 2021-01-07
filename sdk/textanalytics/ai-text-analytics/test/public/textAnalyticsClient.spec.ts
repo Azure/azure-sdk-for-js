@@ -788,7 +788,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }]
@@ -824,7 +824,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
@@ -874,7 +874,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }]
@@ -919,7 +919,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
@@ -970,7 +970,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       it("bad request empty string", async function() {
         const docs = [""];
         try {
-          const poller = await client.beginAnalyze(
+          const poller = await client.beginAnalyzeBatchTasks(
             docs,
             {
               entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
@@ -1006,7 +1006,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1074,7 +1074,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1133,7 +1133,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "5", text: "five" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1195,7 +1195,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1261,7 +1261,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1289,7 +1289,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1323,7 +1323,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1357,7 +1357,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "The restaurant had really good food." }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1390,7 +1390,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1419,7 +1419,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       it("invalid language hint", async function() {
         const docs = ["This should fail because we're passing in an invalid language hint"];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1458,7 +1458,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "bad" }],
@@ -1491,7 +1491,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         const totalDocs = 25;
         const docs = Array(totalDocs - 1).fill("random text");
         docs.push("Microsoft was founded by Bill Gates and Paul Allen");
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1534,7 +1534,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
@@ -1568,7 +1568,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]

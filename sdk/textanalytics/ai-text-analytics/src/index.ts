@@ -18,10 +18,10 @@ export {
   RecognizeLinkedEntitiesOptions,
   PiiEntityDomainType,
   JobManifestTasks,
-  EntitiesTask,
-  PiiTask,
-  KeyPhrasesTask,
-  BeginAnalyzeOptions,
+  CategorizedEntitiesRecognitionTask,
+  PiiEntitiesRecognitionTask,
+  KeyPhrasesExtractionTask,
+  BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
   BeginAnalyzeHealthcareOptions,
   HealthcarePollerLike,
@@ -86,7 +86,7 @@ export {
   HealthcareErrorResult
 } from "./healthResult";
 export {
-  PaginatedAnalyzeResults,
+  PagedAnalyzeResults,
   PagedAsyncIterableAnalyzeResults,
   AnalyzeResult
 } from "./analyzeResult";
@@ -118,7 +118,6 @@ export {
   AspectConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  PiiTaskParametersDomain,
   HealthcareEntity,
   HealthcareRelation,
   HealthcareEntityLink,

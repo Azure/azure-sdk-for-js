@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
-import { PaginatedAnalyzeResults } from "../../analyzeResult";
+import { PagedAnalyzeResults } from "../../analyzeResult";
 import { JobManifestTasks } from "../../generated/models";
 import { AnalyzeJobOptions } from "../../textAnalyticsClient";
 
@@ -18,15 +18,12 @@ export interface AnalyzePollerOptions extends AnalysisPollerOptions {
 /**
  * Result type of the Analyze Long-Running-Operation (LRO)
  */
-export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PaginatedAnalyzeResults>;
+export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PagedAnalyzeResults>;
 
 /**
  * Class that represents a poller that waits for the analyze results.
  */
-export class BeginAnalyzePoller extends AnalysisPoller<
-  BeginAnalyzePollState,
-  PaginatedAnalyzeResults
-> {
+export class BeginAnalyzePoller extends AnalysisPoller<BeginAnalyzePollState, PagedAnalyzeResults> {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(pollerOptions: AnalyzePollerOptions) {
     const {

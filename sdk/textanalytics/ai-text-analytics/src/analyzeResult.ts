@@ -38,7 +38,7 @@ export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<
  * The results of an analyze job represented as a paginated iterator that
  * iterates over the results of the requested tasks.
  */
-export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
+export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

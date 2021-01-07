@@ -18,7 +18,6 @@ import {
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
-  PiiTaskParametersDomain,
   TextDocumentInput
 } from "./generated/models";
 import {
@@ -65,13 +64,13 @@ import { AnalyzePollerLike, BeginAnalyzePoller } from "./lro/analyze/poller";
 import {
   AnalyzeJobMetadata,
   AnalyzeJobOptions,
-  BeginAnalyzeOptions,
+  BeginAnalyzeBatchTasksOptions,
   BeginAnalyzePollState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, JobMetadata, PollingOptions } from "./lro/poller";
 
 export {
-  BeginAnalyzeOptions,
+  BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
   BeginAnalyzePollState,
   BeginAnalyzeHealthcareOptions,
@@ -162,7 +161,7 @@ export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for an entities recognition task.
  */
-export type EntitiesTask = {
+export type CategorizedEntitiesRecognitionTask = {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -173,13 +172,13 @@ export type EntitiesTask = {
 /**
  * Options for a Pii entities recognition task.
  */
-export type PiiTask = {
+export type PiiEntitiesRecognitionTask = {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiTaskParametersDomain;
+  domain?: PiiEntityDomainType;
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -190,7 +189,7 @@ export type PiiTask = {
 /**
  * Options for a key phrases recognition task.
  */
-export interface KeyPhrasesTask {
+export interface KeyPhrasesExtractionTask {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -205,15 +204,15 @@ export interface JobManifestTasks {
   /**
    * A collection of descriptions of entities recognition tasks.
    */
-  entityRecognitionTasks?: EntitiesTask[];
+  entityRecognitionTasks?: CategorizedEntitiesRecognitionTask[];
   /**
    * A collection of descriptions of Pii entities recognition tasks.
    */
-  entityRecognitionPiiTasks?: PiiTask[];
+  entityRecognitionPiiTasks?: PiiEntitiesRecognitionTask[];
   /**
    * A collection of descriptions of key phrases recognition tasks.
    */
-  keyPhraseExtractionTasks?: KeyPhrasesTask[];
+  keyPhraseExtractionTasks?: KeyPhrasesExtractionTask[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -880,11 +879,11 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  public async beginAnalyze(
+  public async beginAnalyzeBatchTasks(
     documents: string[],
     tasks: JobManifestTasks,
     language?: string,
-    options?: BeginAnalyzeOptions
+    options?: BeginAnalyzeBatchTasksOptions
   ): Promise<AnalyzePollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
@@ -892,18 +891,18 @@ export class TextAnalyticsClient {
    * @param tasks - Tasks to execute.
    * @param options - Options for the operation.
    */
-  public async beginAnalyze(
+  public async beginAnalyzeBatchTasks(
     documents: TextDocumentInput[],
     tasks: JobManifestTasks,
-    options?: BeginAnalyzeOptions
+    options?: BeginAnalyzeBatchTasksOptions
   ): Promise<AnalyzePollerLike>;
-  public async beginAnalyze(
+  public async beginAnalyzeBatchTasks(
     documents: string[] | TextDocumentInput[],
     tasks: JobManifestTasks,
-    languageOrOptions?: string | BeginAnalyzeOptions,
-    options?: BeginAnalyzeOptions
+    languageOrOptions?: string | BeginAnalyzeBatchTasksOptions,
+    options?: BeginAnalyzeBatchTasksOptions
   ): Promise<AnalyzePollerLike> {
-    let realOptions: BeginAnalyzeOptions;
+    let realOptions: BeginAnalyzeBatchTasksOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -916,7 +915,7 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeBatchTasksOptions) || {};
     }
     const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
     const poller = new BeginAnalyzePoller({
