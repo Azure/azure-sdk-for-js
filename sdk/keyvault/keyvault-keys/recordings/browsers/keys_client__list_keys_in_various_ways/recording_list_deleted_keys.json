@@ -787,7 +787,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMzIhTURBd01EVTBJV3RsZVM5RFJWSlVNVFU0TXpjM01ERTFNRFkyTWk5RE1FTkJRVVl4TmpNd1JUTTBNRGt4UWtRMVFqZ3dNMFU1TVRRM04wWkRRU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMzIhTURBd01EVTBJV3RsZVM5RFJWSlVNVFU0TXpjM01ERTFNRFkyTWk5RE1FTkJRVVl4TmpNd1JUTTBNRGt4UWtRMVFqZ3dNMFU1TVRRM04wWkRRU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "352",
@@ -815,7 +815,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazJJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVRlZWRWhGVGxSSlEwRlVTVTlPVTBoUFZVeEVWMDlTUzBaUFVsQkJVa0ZNVEVWTVVrVlJWVVZUVkZNdE5EQTROVEF3T0RjeU5EZzFNVEE1TXpZdE1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazJJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVRlZWRWhGVGxSSlEwRlVTVTlPVTBoUFZVeEVWMDlTUzBaUFVsQkJVa0ZNVEVWTVVrVlJWVVZUVkZNdE5EQTROVEF3T0RjeU5EZzFNVEE1TXpZdE1TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -843,7 +843,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzIhTURBd01USTRJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVRlZWRWhGVGxSSlEwRlVTVTlPVTBoUFZVeEVWMDlTUzBaUFVsQkJVa0ZNVEVWTVVrVlJWVVZUVkZNdE56SXlOekF3TlRFek1UYzRNalkxTVMweEx6TkNNRFpHTURreFJEUTJORFEzUWpCQ1FrSTJPREF5TWpJek1rSXlNek00SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzIhTURBd01USTRJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVRlZWRWhGVGxSSlEwRlVTVTlPVTBoUFZVeEVWMDlTUzBaUFVsQkJVa0ZNVEVWTVVrVlJWVVZUVkZNdE56SXlOekF3TlRFek1UYzRNalkxTVMweEx6TkNNRFpHTURreFJEUTJORFEzUWpCQ1FrSTJPREF5TWpJek1rSXlNek00SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "486",
@@ -871,7 +871,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTNJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVOU9RMFZCVlZSSVJVNVVTVU5CVkVWRVRrVlhVa1ZSVlVWVFZGTlRTRTlWVEVST1QxUkJWVlJJUlU1VVNVTkJWRVZCUjBGSlRpMHhNakl5TWpZeU5qVTROamsyT1RjM05pMHdJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTNJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVOU9RMFZCVlZSSVJVNVVTVU5CVkVWRVRrVlhVa1ZSVlVWVFZGTlRTRTlWVEVST1QxUkJWVlJJUlU1VVNVTkJWRVZCUjBGSlRpMHhNakl5TWpZeU5qVTROamsyT1RjM05pMHdJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "448",
@@ -899,7 +899,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNDghTURBd01UUXdJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVOU9RMFZCVlZSSVJVNVVTVU5CVkVWRVRrVlhVa1ZSVlVWVFZGTlRTRTlWVEVST1QxUkJWVlJJUlU1VVNVTkJWRVZCUjBGSlRpMDBNams1TmpnNE1UYzNPVEE1TVRRMk55MHdMek0zUmpBMU16WXpSa0UwTXpSRk9UVkNRMFk0UVRaRVJrRkVNRGhHUlVOQklUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNDghTURBd01UUXdJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVOU9RMFZCVlZSSVJVNVVTVU5CVkVWRVRrVlhVa1ZSVlVWVFZGTlRTRTlWVEVST1QxUkJWVlJJUlU1VVNVTkJWRVZCUjBGSlRpMDBNams1TmpnNE1UYzNPVEE1TVRRMk55MHdMek0zUmpBMU16WXpSa0UwTXpSRk9UVkNRMFk0UVRaRVJrRkVNRGhHUlVOQklUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "507",
@@ -927,7 +927,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVOU9RMFZCVlZSSVJVNVVTVU5CVkVWRVRrVlhVa1ZSVlVWVFZGTlRTRTlWVEVST1QxUkJWVlJJUlU1VVNVTkJWRVZCUjBGSlRpMDROemcyTnpjMk9EYzVNemM0T1RJMkxURWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5RFNFRk1URVZPUjBWQlZWUklRMFZTVkVsR1NVTkJWRVZPUVUxRkxVOU9RMFZCVlZSSVJVNVVTVU5CVkVWRVRrVlhVa1ZSVlVWVFZGTlRTRTlWVEVST1QxUkJWVlJJUlU1VVNVTkJWRVZCUjBGSlRpMDROemcyTnpjMk9EYzVNemM0T1RJMkxURWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -955,7 +955,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa0ZDVDFKVVExSkZRVlJKVGtkQlEwVlNWRWxHU1VOQlZFVXRNVFl3TkRreE56VXlPREkwTWprMU56TXZPRFEwT1VJM01EQTJOa0l5TkVNeE16a3dNekl5UmtNMU9FWXlNamhFTVRraE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa0ZDVDFKVVExSkZRVlJKVGtkQlEwVlNWRWxHU1VOQlZFVXRNVFl3TkRreE56VXlPREkwTWprMU56TXZPRFEwT1VJM01EQTJOa0l5TkVNeE16a3dNekl5UmtNMU9FWXlNamhFTVRraE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -983,7 +983,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXpJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa05TUlVGVVJVRkRSVkpVU1VaSlEwRlVSUzB3T1RjeE1qTTVNek14T0RjMU5qRTFNaUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXpJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa05TUlVGVVJVRkRSVkpVU1VaSlEwRlVSUzB3T1RjeE1qTTVNek14T0RjMU5qRTFNaUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -1011,7 +1011,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTIhTURBd01URTFJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa05TUlVGVVJWSkZRVVJCVGtSRVJVeEZWRVZCUTBWU1ZFbEdTVU5CVkVWSlUxTlZSVkl0TkRRMU9UTXlNek15T1RjMU9UY3dNelV2TkRGRk0wVXlNMEpGTnpCRk5FWTNRVGd4TmpKRE4wUkNOMEV4UkVNNFEwRWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTIhTURBd01URTFJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa05TUlVGVVJWSkZRVVJCVGtSRVJVeEZWRVZCUTBWU1ZFbEdTVU5CVkVWSlUxTlZSVkl0TkRRMU9UTXlNek15T1RjMU9UY3dNelV2TkRGRk0wVXlNMEpGTnpCRk5FWTNRVGd4TmpKRE4wUkNOMEV4UkVNNFEwRWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "459",
@@ -1039,7 +1039,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXlJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa1JGVEVWVVJVRkRSVkpVU1VaSlEwRlVSUzAzTWpRNU9ETTNOVE14TnpRME5USXpJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXlJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa1JGVEVWVVJVRkRSVkpVU1VaSlEwRlVSUzAzTWpRNU9ETTNOVE14TnpRME5USXpJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -1067,7 +1067,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazJJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa1JKVTBGQ1RFVkJRMFZTVkVsR1NVTkJWRVV0TnpVNU5USTVPREkxTXpNNU9EazBNUzh4TVRZeE1qUTRNREl6UWtVME0wVkVPVVUzTWpnMlJESTNOVU0zUWpZM1JDRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazJJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa1JKVTBGQ1RFVkJRMFZTVkVsR1NVTkJWRVV0TnpVNU5USTVPREkxTXpNNU9EazBNUzh4TVRZeE1qUTRNREl6UWtVME0wVkVPVVUzTWpnMlJESTNOVU0zUWpZM1JDRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -1095,7 +1095,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa1JKVTBGQ1RFVkJRMFZTVkVsR1NVTkJWRVZXUlZKVFNVOU9MVGd6TlRnM09USTJNREEwTlRRMk5Ua2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa1JKVTBGQ1RFVkJRMFZTVkVsR1NVTkJWRVZXUlZKVFNVOU9MVGd6TlRnM09USTJNREEwTlRRMk5Ua2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "379",
@@ -1123,7 +1123,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODQhTURBd01Ea3lJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa2RGVkVGRFJWSlVTVVpKUTBGVVJTMDRPVGs0TXprNU9UZzBPREV4TmprMkx6ZzBSVGt5TkVZd01qSTJSalJGTWpSQ04wRXlRMFJDTVRVMVJUVkZPRGRHSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODQhTURBd01Ea3lJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa2RGVkVGRFJWSlVTVVpKUTBGVVJTMDRPVGs0TXprNU9UZzBPREV4TmprMkx6ZzBSVGt5TkVZd01qSTJSalJGTWpSQ04wRXlRMFJDTVRVMVJUVkZPRGRHSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "422",
@@ -1151,7 +1151,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01EZzVJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbEpGVkZKSlJWWkZWRWhGVEVGVVJWTlVWa1ZTVTBsUFRrOUdRVU5GVWxSSlJrbERRVlJGVmtGTVZVVXRNREV6T1RrNE5UVXlNRFkwTlRBM016azNJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01EZzVJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbEpGVkZKSlJWWkZWRWhGVEVGVVJWTlVWa1ZTVTBsUFRrOUdRVU5GVWxSSlJrbERRVlJGVmtGTVZVVXRNREV6T1RrNE5UVXlNRFkwTlRBM016azNJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "416",
@@ -1179,7 +1179,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbFZRUkVGVVJVRkRSVkpVU1VaSlEwRlVSVk5RVDB4SlExa3RNekkxTnpnd09UWXlORGs1TlRjMU16TXZNVUZEUlRNNVJqSkZNREF6TkRneU0wRTRNRVE0UlRZM05rUkZOamt6TkRFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbFZRUkVGVVJVRkRSVkpVU1VaSlEwRlVSVk5RVDB4SlExa3RNekkxTnpnd09UWXlORGs1TlRjMU16TXZNVUZEUlRNNVJqSkZNREF6TkRneU0wRTRNRVE0UlRZM05rUkZOamt6TkRFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -1207,7 +1207,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbFZRUkVGVVJWUklSVlJCUjFOUFJrRkRSVkpVU1VaSlEwRlVSUzAwTWpBeE1qRTNNak0zT0RBNU1qZzNJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbFZRUkVGVVJWUklSVlJCUjFOUFJrRkRSVkpVU1VaSlEwRlVSUzAwTWpBeE1qRTNNak0zT0RBNU1qZzNJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -1235,7 +1235,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTRJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxWVlRTVTVIUWtWSFNVNUVSVXhGVkVWRFJWSlVTVVpKUTBGVVJWTlFUMHhNUlZJdE5qWXdORGc1TURBNU1qRTFPVEF6Tnk4eU9EaEZORUkzUkRoQlJFVTBRME5FUWpFeVJEQXlNalpHUkRReVFqSkZNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTRJV3RsZVM5RFVsVkVRMFZTVkVsR1NVTkJWRVZPUVUxRkxWVlRTVTVIUWtWSFNVNUVSVXhGVkVWRFJWSlVTVVpKUTBGVVJWTlFUMHhNUlZJdE5qWXdORGc1TURBNU1qRTFPVEF6Tnk4eU9EaEZORUkzUkRoQlJFVTBRME5FUWpFeVJEQXlNalpHUkRReVFqSkZNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "448",
@@ -1263,7 +1263,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXpJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRFJWSlVTVVpKUTBGVVJWTXRNREl6TlRnek5UYzFOell5TURrMU5EWTJNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXpJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRFJWSlVTVVpKUTBGVVJWTXRNREl6TlRnek5UYzFOell5TURrMU5EWTJNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -1291,7 +1291,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXhJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRFJWSlVTVVpKUTBGVVJWTkNXVkJCUjBVdE1EY3hNVFV4TWpjMU1UZzJOVEV3TWpFd0x6TkZPVGd3UTBaRVEwWXpRalJFUmpaQ1FqWTJNRGsyTWpZMU1FTXpRVEZHSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXhJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRFJWSlVTVVpKUTBGVVJWTkNXVkJCUjBVdE1EY3hNVFV4TWpjMU1UZzJOVEV3TWpFd0x6TkZPVGd3UTBaRVEwWXpRalJFUmpaQ1FqWTJNRGsyTWpZMU1FTXpRVEZHSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -1319,7 +1319,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTNJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRVJVeEZWRVZFUTBWU1ZFbEdTVU5CVkVWVExURTNORFE0TlRBM05qZzJNVGN4TlRFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTNJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRVJVeEZWRVZFUTBWU1ZFbEdTVU5CVkVWVExURTNORFE0TlRBM05qZzJNVGN4TlRFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "374",
@@ -1347,7 +1347,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTRJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRVJVeEZWRVZFUTBWU1ZFbEdTVU5CVkVWVFFsbFFRVWRGTFRBME16UXpPRFV3T0RFek16YzJNamN4TVM4eFJVSkNNemRCUWpBd05EZzBNMFV3UVRSRE5ERkROekk1TlVNNFFqVXlNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTRJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUa3hKVTFSRVJVeEZWRVZFUTBWU1ZFbEdTVU5CVkVWVFFsbFFRVWRGTFRBME16UXpPRFV3T0RFek16YzJNamN4TVM4eFJVSkNNemRCUWpBd05EZzBNMFV3UVRSRE5ERkROekk1TlVNNFFqVXlNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "448",
@@ -1375,7 +1375,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzRJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbEpGVkZKSlJWWkZRVXhNVmtWU1UwbFBUbE5QUmtGRFJWSlVTVVpKUTBGVVJTMHpPREF6TVRrNU5UVXhOelEyTXpnek5TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzRJV3RsZVM5TVNWTlVRMFZTVkVsR1NVTkJWRVZPUVUxRkxVTkJUbEpGVkZKSlJWWkZRVXhNVmtWU1UwbFBUbE5QUmtGRFJWSlVTVVpKUTBGVVJTMHpPREF6TVRrNU5UVXhOelEyTXpnek5TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "395",
@@ -1403,7 +1403,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0\",\"deletedDate\":1593218901,\"scheduledPurgeDate\":1600994901,\"kid\":\"https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--0\",\"attributes\":{\"enabled\":true,\"created\":1593218901,\"updated\":1593218901,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}},{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1\",\"deletedDate\":1593218924,\"scheduledPurgeDate\":1600994924,\"kid\":\"https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--1\",\"attributes\":{\"enabled\":true,\"created\":1593218901,\"updated\":1593218901,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTIhTURBd01URXpJV3RsZVM5TVVrOURVa1ZCVkVWRFJWSlVTVVpKUTBGVVJVNUJUVVV0UTBGT1YwRkpWRlZPVkVsTVFVTkZVbFJKUmtsRFFWUkZTVk5EVWtWQlZFVkVMVEE1TmpNMk9ETTVNRGMwTXprM05EYzBMek13TVVZeVJERkZNVU5EUXpRMlJFSkJNREV5TVRkQ01Ua3lRakl4TmtFMUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--0\",\"deletedDate\":1593218901,\"scheduledPurgeDate\":1600994901,\"kid\":\"https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--0\",\"attributes\":{\"enabled\":true,\"created\":1593218901,\"updated\":1593218901,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}},{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/listKeyName-listdeletedkeys--1\",\"deletedDate\":1593218924,\"scheduledPurgeDate\":1600994924,\"kid\":\"https://keyvault_name.vault.azure.net/keys/listKeyName-listdeletedkeys--1\",\"attributes\":{\"enabled\":true,\"created\":1593218901,\"updated\":1593218901,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTIhTURBd01URXpJV3RsZVM5TVVrOURVa1ZCVkVWRFJWSlVTVVpKUTBGVVJVNUJUVVV0UTBGT1YwRkpWRlZPVkVsTVFVTkZVbFJKUmtsRFFWUkZTVk5EVWtWQlZFVkVMVEE1TmpNMk9ETTVNRGMwTXprM05EYzBMek13TVVZeVJERkZNVU5EUXpRMlJFSkJNREV5TVRkQ01Ua3lRakl4TmtFMUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "1286",
@@ -1431,7 +1431,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3pJV3RsZVM5TVVrOUVSVXhGVkVWRFJWSlVTVVpKUTBGVVJVNUJUVVV0UTBGT1VrVlRWVTFGUmxKUFRVRlRWRTlRVUVWRVVFOU1URVZTTFRjNE5qQXhORFkwT0RFek9EWXpNakVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3pJV3RsZVM5TVVrOUVSVXhGVkVWRFJWSlVTVVpKUTBGVVJVNUJUVVV0UTBGT1VrVlRWVTFGUmxKUFRVRlRWRTlRVUVWRVVFOU1URVZTTFRjNE5qQXhORFkwT0RFek9EWXpNakVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -1459,7 +1459,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5TVVrOVBVRVZTUVZSSlQwNURSVkpVU1VaSlEwRlVSVTVCVFVVdFEwRk9Va1ZUVlUxRlJsSlBUVUZUVkU5UVVFVkVVRTlNVEVWU0xUSTFORGt3T1RJd016STNOREF4TlRZM0x6TTRNVUl6TmpWRVFqZERSVFJCUlVRNFFUSXpOa0UxTWpZeU0wRTFOa1E0SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5TVVrOVBVRVZTUVZSSlQwNURSVkpVU1VaSlEwRlVSVTVCVFVVdFEwRk9Va1ZUVlUxRlJsSlBUVUZUVkU5UVVFVkVVRTlNVEVWU0xUSTFORGt3T1RJd016STNOREF4TlRZM0x6TTRNVUl6TmpWRVFqZERSVFJCUlVRNFFUSXpOa0UxTWpZeU0wRTFOa1E0SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -1487,7 +1487,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzFJV3RsZVM5TVVrOVNSVU5QVmtWU1EwVlNWRWxHU1VOQlZFVk9RVTFGTFVOQlRsSkZVMVZOUlVaU1QwMUJVMVJQVUZCRlJGQlBURXhGVWkwd09ERTBNRFkyT0RrME5UYzBNREF4TlNFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzFJV3RsZVM5TVVrOVNSVU5QVmtWU1EwVlNWRWxHU1VOQlZFVk9RVTFGTFVOQlRsSkZVMVZOUlVaU1QwMUJVMVJQVUZCRlJGQlBURXhGVWkwd09ERTBNRFkyT0RrME5UYzBNREF4TlNFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "390",
@@ -1515,7 +1515,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzYhTURBd01UTXlJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVEF6TVRBMU5qYzRNREkwTXpjMU1qUTNNQzgxT1VSR1JUUXpPRVF5TmpBMFFrWTRRak5FTnpjeVF6SXdSVGhFUlROQlFpRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzYhTURBd01UTXlJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVEF6TVRBMU5qYzRNREkwTXpjMU1qUTNNQzgxT1VSR1JUUXpPRVF5TmpBMFFrWTRRak5FTnpjeVF6SXdSVGhFUlROQlFpRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "491",
@@ -1543,7 +1543,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVEExTVRJMU1UQXdNVFUyTURNNE16YzJNU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVEExTVRJMU1UQXdNVFUyTURNNE16YzJNU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -1571,7 +1571,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzYhTURBd01UTXhJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVEl5T0RZNU5qZzRPRFl4TXpRNE9UY3dMekkyUmpBMlF6RTFORU0yTURSRVFUTTRRa014UWprNFJrUTVSRFUxTVVOQ0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzYhTURBd01UTXhJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVEl5T0RZNU5qZzRPRFl4TXpRNE9UY3dMekkyUmpBMlF6RTFORU0yTURSRVFUTTRRa014UWprNFJrUTVSRFUxTVVOQ0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "491",
@@ -1599,7 +1599,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVE01TURBMk1qTXhOakV5TWpJeE1UZzNNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVE01TURBMk1qTXhOakV5TWpJeE1UZzNNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -1627,7 +1627,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzYhTURBd01UTXhJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVFkwTVRReU5UWXhOakkzTXpVd01EWXdMell6UXpBeVEwWkRSakExTkRRd1JEUTVORVF6T1Rnd04wVTFOalZGTURneUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzYhTURBd01UTXhJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVFkwTVRReU5UWXhOakkzTXpVd01EWXdMell6UXpBeVEwWkRSakExTkRRd1JEUTVORVF6T1Rnd04wVTFOalZGTURneUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "491",
@@ -1655,7 +1655,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazRJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVGcwT1RNNU5qWXlNRFUxTlRZd09EY3dJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazRJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMEpCVTBVMk5GTkZRMUpGVkZaQlRGVkZMVGcwT1RNNU5qWXlNRFUxTlRZd09EY3dJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -1683,7 +1683,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNDQhTURBd01UTTNJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMDVQVGtKQlUwVTJORk5GUTFKRlZGWkJURlZGTFRBd01UUTJOamN3TnpFNU9UY3lNVFF4TnpZd0x6TkNOVVJFTkRGRE16VTVOVFF4UXpoQk1EYzNPVGsyUkRaQk1rSTVNemt6SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNDQhTURBd01UTTNJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMDVQVGtKQlUwVTJORk5GUTFKRlZGWkJURlZGTFRBd01UUTJOamN3TnpFNU9UY3lNVFF4TnpZd0x6TkNOVVJFTkRGRE16VTVOVFF4UXpoQk1EYzNPVGsyUkRaQk1rSTVNemt6SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "502",
@@ -1711,7 +1711,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXlJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMDVQVGtKQlUwVTJORk5GUTFKRlZGWkJURlZGTFRRNE9ERTFNams0T0RNek1qQTJNVFEwTVNFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXlJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMDVQVGtKQlUwVTJORk5GUTFKRlZGWkJURlZGTFRRNE9ERTFNams0T0RNek1qQTJNVFEwTVNFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -1739,7 +1739,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNDAhTURBd01UTTBJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMDVQVGtKQlUwVTJORk5GUTFKRlZGWkJURlZGTFRjd05USXpNVFE1TlRZME56TTBORFF4TDBSQ1FqaEROemsxTXpRek5UUTBPRGRDTjBKR01ETkVPVVl6TkRWR00wVkZJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNDAhTURBd01UTTBJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVKVFZCUFVsUkJRMFZTVkVsR1NVTkJWRVZHVWs5TlFVTkZVbFJKUmtsRFFWUkZVMDVQVGtKQlUwVTJORk5GUTFKRlZGWkJURlZGTFRjd05USXpNVFE1TlRZME56TTBORFF4TDBSQ1FqaEROemsxTXpRek5UUTBPRGRDTjBKR01ETkVPVVl6TkRWR00wVkZJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "496",
@@ -1767,7 +1767,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVOUlZKSFJVRlRSVXhHVTBsSFRrVkVRMFZTVkVsR1NVTkJWRVV0T0RFek5EazFPVFU0TnpFNU5qRXlNaUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5TlJWSkhSVU5GVWxSSlJrbERRVlJGVGtGTlJTMURRVTVOUlZKSFJVRlRSVXhHVTBsSFRrVkVRMFZTVkVsR1NVTkJWRVV0T0RFek5EazFPVFU0TnpFNU5qRXlNaUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -1795,7 +1795,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0TWpBNE5UTTJOVEl6TXpJMk16TXdNek12UTBSQk56UTBNRVk0TXpjMk5ETTBNVGhCT1Rjd1JEWXpOekpGUVRBMVFUY2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0TWpBNE5UTTJOVEl6TXpJMk16TXdNek12UTBSQk56UTBNRVk0TXpjMk5ETTBNVGhCT1Rjd1JEWXpOekpGUVRBMVFUY2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -1823,7 +1823,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0TkRjMk1EWXdOREkyTmprd016WTJNU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0TkRjMk1EWXdOREkyTmprd016WTJNU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -1851,7 +1851,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0TnpNeU1qVTJNalExTkRjMk9USTFNaTg1T1RkQ01EVTRNVFUyTlVVMFJVUXpPRGhHUVVWR1JqWTFPVGRHTkVWR09TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0TnpNeU1qVTJNalExTkRjMk9USTFNaTg1T1RkQ01EVTRNVFUyTlVVMFJVUXpPRGhHUVVWR1JqWTFPVGRHTkVWR09TRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -1879,7 +1879,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0T1RrM05qVXdOekF3TkRFeE5UUTJOeUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtGQ1QxSlVRMUpGUVZSSlRrZEJRMFZTVkVsR1NVTkJWRVV0T1RrM05qVXdOekF3TkRFeE5UUTJOeUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -1907,7 +1907,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMweE1qazBNREV3TmpFNE5qVXlNamd4TlM4NVJqbEVNMEl4UmpRME5rRTBSVUU1UWpBek1EWXdSVGd6UkVFNFFqUkZOeUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMweE1qazBNREV3TmpFNE5qVXlNamd4TlM4NVJqbEVNMEl4UmpRME5rRTBSVUU1UWpBek1EWXdSVGd6UkVFNFFqUkZOeUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -1935,7 +1935,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwek5UVTNOVFV5T0RjeE1EYzVPVE00TnlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwek5UVTNOVFV5T0RjeE1EYzVPVE00TnlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "374",
@@ -1963,7 +1963,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwME56TXhNVFkyTURRek9EVXhNRFk1TkM4elJUTTROVVV6T0RrelJVRTBOREJCUVRZNFFrVTFSRUpHTUVNM09UZEdOQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwME56TXhNVFkyTURRek9EVXhNRFk1TkM4elJUTTROVVV6T0RrelJVRTBOREJCUVRZNFFrVTFSRUpHTUVNM09UZEdOQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -1991,7 +1991,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwMk1Ea3lOVFEyTXpNd056QXdNRE0xSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwMk1Ea3lOVFEyTXpNd056QXdNRE0xSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "374",
@@ -2019,7 +2019,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwNE1qVXpOamcxTXpjek1EYzBPRGcyTHpBM00wUkVOakpGTnpWR1JqUTRRekU0TTBReFJESTJRVGsxUVVORlFqVTVJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVUZEUlZKVVNVWkpRMEZVUlMwNE1qVXpOamcxTXpjek1EYzBPRGcyTHpBM00wUkVOakpGTnpWR1JqUTRRekU0TTBReFJESTJRVGsxUVVORlFqVTVJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -2047,7 +2047,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzIhTURBd01EZzFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVkpGUVVSQlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVkpVMU5WUlZJdE1EazVNekU0TURVd01UY3hORGcyTnpZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzIhTURBd01EZzFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVkpGUVVSQlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVkpVMU5WUlZJdE1EazVNekU0TURVd01UY3hORGcyTnpZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "406",
@@ -2075,7 +2075,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTYhTURBd01URTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVkpGUVVSQlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVkpVMU5WUlZJdE5UY3hPRFF4TnpNNU9UQTNPVEEyTlM5RE9EWTNRelEyTVVJME9VUTBOVUl4UWpneVJqZ3hRak14TlRJd05FVkdNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTYhTURBd01URTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVkpGUVVSQlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVkpVMU5WUlZJdE5UY3hPRFF4TnpNNU9UQTNPVEEyTlM5RE9EWTNRelEyTVVJME9VUTBOVUl4UWpneVJqZ3hRak14TlRJd05FVkdNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "464",
@@ -2103,7 +2103,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzIhTURBd01EZzBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVkpGUVVSQlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVkpVMU5WUlZJdE9EUXhPRFV6T0RjM01ERTFPVEl4TWlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzIhTURBd01EZzBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtOU1JVRlVSVkpGUVVSQlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVkpVMU5WUlZJdE9EUXhPRFV6T0RjM01ERTFPVEl4TWlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "406",
@@ -2131,7 +2131,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlMweU1EUXhNRFk1TXpjd09URTJPVFE0THprd05UZzFPRGsxTmpaRk5EUTNNRUZDTVRsR09VUTBSVGMyTUVFek5EQXhJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlMweU1EUXhNRFk1TXpjd09URTJPVFE0THprd05UZzFPRGsxTmpaRk5EUTNNRUZDTVRsR09VUTBSVGMyTUVFek5EQXhJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -2159,7 +2159,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlMwME5ESTROakUyT1RNMk9UY3lPVGdoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlMwME5ESTROakUyT1RNMk9UY3lPVGdoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -2187,7 +2187,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlMwM09ETTBOVE13TlRVeE1qTTRNalV2TUVFME5qUTRNVFF4TnpjeU5EbEJRMEkyTlRFNU1qZ3pRa0pEUXpFeU9FWWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlMwM09ETTBOVE13TlRVeE1qTTRNalV2TUVFME5qUTRNVFF4TnpjeU5EbEJRMEkyTlRFNU1qZ3pRa0pEUXpFeU9FWWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -2215,7 +2215,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01EZzVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlZkSlZFaFNSVkZWUlZOVVQxQlVTVTlPVTFSSlRVVlBWVlF0TlRjMU9ESTNOek15TXpRMU9UVTBJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01EZzVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSRlRFVlVSVUZEUlZKVVNVWkpRMEZVUlZkSlZFaFNSVkZWUlZOVVQxQlVTVTlPVTFSSlRVVlBWVlF0TlRjMU9ESTNOek15TXpRMU9UVTBJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "416",
@@ -2243,7 +2243,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXhJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSSlUwRkNURVZCUTBWU1ZFbEdTVU5CVkVVdE1ETXhPRFUwTWpFek56UXdNRGcxTWpNMUx6a3hSVVV4TnpWQ09EUkJRVFE0TmpjNE9VTkVSa0U0TjBFMk5qSTBPREkzSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXhJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtSSlUwRkNURVZCUTBWU1ZFbEdTVU5CVkVVdE1ETXhPRFUwTWpFek56UXdNRGcxTWpNMUx6a3hSVVV4TnpWQ09EUkJRVFE0TmpjNE9VTkVSa0U0TjBFMk5qSTBPREkzSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -2271,7 +2271,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzB3TURVeU9EWXlNREV6TVRjMU16UXhNREExSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzB3TURVeU9EWXlNREV6TVRjMU16UXhNREExSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "374",
@@ -2299,7 +2299,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzB6TVRnNE1EQXdORGd5TkRZMk1UQTVMekJDTXpBeVJrRTVORFJGUXpRNU9UWkJOemM0TkRBNU56SXpOamREUVRkR0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzB6TVRnNE1EQXdORGd5TkRZMk1UQTVMekJDTXpBeVJrRTVORFJGUXpRNU9UWkJOemM0TkRBNU56SXpOamREUVRkR0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -2327,7 +2327,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXlJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzAzTXpJMk1ESXpPVE16TmpnM05qUTVJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWXlJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzAzTXpJMk1ESXpPVE16TmpnM05qUTVJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -2355,7 +2355,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzA1TkRVM01Ua3hOVE0yTVRFMU9USXpMekpDT1RGR1JFVXhOVVJDTWpRME5EQTRNelpHTlROQ1JqZzRORGd3TnpZNUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSUzA1TkRVM01Ua3hOVE0yTVRFMU9USXpMekpDT1RGR1JFVXhOVVJDTWpRME5EQTRNelpHTlROQ1JqZzRORGd3TnpZNUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -2383,7 +2383,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjghTURBd01EZ3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVk5UUlVOU1JWUkpUbEJGVFVaUFVrMUJWQzAxTXpFek56YzJNVFUzT1RrME1qZzFJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjghTURBd01EZ3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVk5UUlVOU1JWUkpUbEJGVFVaUFVrMUJWQzAxTXpFek56YzJNVFUzT1RrME1qZzFJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "400",
@@ -2411,7 +2411,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTYhTURBd01URTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVk5UUlVOU1JWUkpUbEJMUTFNeE1rWlBVazFCVkMweE9UTXlNRFEwTVRjMU5ERXlNalV3T0M5RE5rTTJSVEl6TnpKQ1JEWTBNVEJDT1RrNU5qWTBOVUpGUmtJeU5FWXhReUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTYhTURBd01URTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVk5UUlVOU1JWUkpUbEJMUTFNeE1rWlBVazFCVkMweE9UTXlNRFEwTVRjMU5ERXlNalV3T0M5RE5rTTJSVEl6TnpKQ1JEWTBNVEJDT1RrNU5qWTBOVUpGUmtJeU5FWXhReUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "464",
@@ -2439,7 +2439,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjghTURBd01EZ3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVk5UUlVOU1JWUkpUbEJMUTFNeE1rWlBVazFCVkMwNU1qTTVNVGN5T0RnNU9Ua3lNakloTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjghTURBd01EZ3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVk5UUlVOU1JWUkpUbEJMUTFNeE1rWlBVazFCVkMwNU1qTTVNVGN5T0RnNU9Ua3lNakloTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "400",
@@ -2467,7 +2467,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjAhTURBd01USXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVmRKVkVoU1JWRlZSVk5VVDFCVVNVOU9VMVJKVFVWUFZWUXRPREF3TkRreU16ZzBNamN3T1RRMk5pOHdRa1E0TXpFMFJVUTFRMFkwUXpReE9UQXdOalU1TUVFMVJqTkZSVGN5TXlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjAhTURBd01USXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkRSVkpVU1VaSlEwRlVSVmRKVkVoU1JWRlZSVk5VVDFCVVNVOU9VMVJKVFVWUFZWUXRPREF3TkRreU16ZzBNamN3T1RRMk5pOHdRa1E0TXpFMFJVUTFRMFkwUXpReE9UQXdOalU1TUVFMVJqTkZSVGN5TXlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "470",
@@ -2495,7 +2495,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EWTVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVXRNakV4TmpVd05ESTBNREEwTURZeU1pRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EWTVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVXRNakV4TmpVd05ESTBNREEwTURZeU1pRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "379",
@@ -2523,7 +2523,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzIhTURBd01UTXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVkNXVlZUU1U1SFIwVlVSRVZNUlZSRlJFTkZVbFJKUmtsRFFWUkZMVGt5T1RZM01EZzROVEl5TURNNU9EVXZNMEZFT1RkRlJESkZRVGhDTkRkQ1FrSXpSVU5DTVVOR09UTkdOalV6UXpnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMzIhTURBd01UTXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGtkRlZFRkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVkNXVlZUU1U1SFIwVlVSRVZNUlZSRlJFTkZVbFJKUmtsRFFWUkZMVGt5T1RZM01EZzROVEl5TURNNU9EVXZNMEZFT1RkRlJESkZRVGhDTkRkQ1FrSXpSVU5DTVVOR09UTkdOalV6UXpnaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "486",
@@ -2551,7 +2551,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TVRBd056a3pPREEzT1RVMU1qWTJNVFl3SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TVRBd056a3pPREEzT1RVMU1qWTJNVFl3SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "374",
@@ -2579,7 +2579,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TWpNek5EazFPRE00TWpNNE16YzBOVEF2TXpRMU16UTBPVUk1TTBVek5EVXlRa0V3TWpZeE1UUXlNRFkyTjBJeFJEY2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TWpNek5EazFPRE00TWpNNE16YzBOVEF2TXpRMU16UTBPVUk1TTBVek5EVXlRa0V3TWpZeE1UUXlNRFkyTjBJeFJEY2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -2607,7 +2607,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TXpnMU9ERTRPRE0xTVRZMk9ERTRPREVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TXpnMU9ERTRPRE0xTVRZMk9ERTRPREVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -2635,7 +2635,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TlRVd016a3dNREUyTVRNd016RTRNekV2TTBNeE9FVTBNamRETUVGR05EaEJRamsyTmtORk0wWTJNakUxTWpRelJEZ2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10TlRVd016a3dNREUyTVRNd016RTRNekV2TTBNeE9FVTBNamRETUVGR05EaEJRamsyTmtORk0wWTJNakUxTWpRelJEZ2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -2663,7 +2663,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10Tmprd09ESTBNVGsxTlRVNU56QTNOREFoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDQhTURBd01EWTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10Tmprd09ESTBNVGsxTlRVNU56QTNOREFoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "368",
@@ -2691,7 +2691,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10T0RVMk1ETTNPREV5TnpNNU1EVXpNVEF2UXpORlF6STJSamswUlRoRU5FRkVRMEV5TVRnM056UTBSRFpEUWpjeFJEWWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk10T0RVMk1ETTNPREV5TnpNNU1EVXpNVEF2UXpORlF6STJSamswUlRoRU5FRkVRMEV5TVRnM056UTBSRFpEUWpjeFJEWWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -2719,7 +2719,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRNREE0T0RFNU9EZzNNemswT1RRME1UQTBNU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRNREE0T0RFNU9EZzNNemswT1RRME1UQTBNU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -2747,7 +2747,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRNakUwTnpFeE16WTFNemd6TlRjd016a3hMelk0UlRCR1F6ZzVNME14UVRReE56UTRNVEEyT0VKRE5EY3lNVUZHT1VGRklUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRNakUwTnpFeE16WTFNemd6TlRjd016a3hMelk0UlRCR1F6ZzVNME14UVRReE56UTRNVEEyT0VKRE5EY3lNVUZHT1VGRklUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -2775,7 +2775,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRORGM0TnpZek1UTTNNemsyTVRZMU9EQWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRORGM0TnpZek1UTTNNemsyTVRZMU9EQWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "379",
@@ -2803,7 +2803,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXROakk1TlRBME5EUTJPVEk1TnpJek56QXZOVGxFTXpWQk4wVTFRMEV6TkRjMlJUbENOVGMzTURGQ1JFSTRNekV5TXpjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXROakk1TlRBME5EUTJPVEk1TnpJek56QXZOVGxFTXpWQk4wVTFRMEV6TkRjMlJUbENOVGMzTURGQ1JFSTRNekV5TXpjaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -2831,7 +2831,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRPRE01TWpjM01qQXpNekl6T1RnMU5URWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRPRE01TWpjM01qQXpNekl6T1RnMU5URWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "379",
@@ -2859,7 +2859,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRPVFUzTWpVNU16Z3dNakUxT0RjME9URXZOVEpFUkRGRU56QkRORGN5TkRsR1FUZzNNelkyT0RVNU5rRkdORFk1UmpZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkRSVkpVU1VaSlEwRlVSVk5DV1ZCQlIwVXRPVFUzTWpVNU16Z3dNakUxT0RjME9URXZOVEpFUkRGRU56QkRORGN5TkRsR1FUZzNNelkyT0RVNU5rRkdORFk1UmpZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -2887,7 +2887,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVEV5TWpjd05UQTJOekE1TWpFMk9ERXhNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVEV5TWpjd05UQTJOekE1TWpFMk9ERXhNQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -2915,7 +2915,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVFF6TlRNMk1UY3hNalF4TURNNE5qTTFNQzlDT1RZM1JqUXhSVVF5UTBRMFJUWXdPRUV3UXpkRk56UkRSa1l5TkVZME1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVFF6TlRNMk1UY3hNalF4TURNNE5qTTFNQzlDT1RZM1JqUXhSVVF5UTBRMFJUWXdPRUV3UXpkRk56UkRSa1l5TkVZME1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -2943,7 +2943,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVFl6T0RNMU5EYzBOelExTWpBME1URWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVFl6T0RNMU5EYzBOelExTWpBME1URWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "379",
@@ -2971,7 +2971,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVGN3TkRVME16azRNamMxTURnek5Ea3hMelJFTmpCRlJEQXpOa0pHTlRReU1FWkNRVE0yTVRFMU0wVkJRekpGT1RGRUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVGN3TkRVME16azRNamMxTURnek5Ea3hMelJFTmpCRlJEQXpOa0pHTlRReU1FWkNRVE0yTVRFMU0wVkJRekpGT1RGRUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -2999,7 +2999,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVGczT1RBME1EVXdOREkyT0RZMU1UZ3dJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRMVGczT1RBME1EVXdOREkyT0RZMU1UZ3dJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -3027,7 +3027,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXhJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxUQTFNRE00T1RJME1USXlNRFkwT1RJMU1DOUNORVF4UkRGR09UUkNPRE0wUkRrNVFrTkNSVU5CTXpsQk1rVTNOVUU1UmlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXhJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxUQTFNRE00T1RJME1USXlNRFkwT1RJMU1DOUNORVF4UkRGR09UUkNPRE0wUkRrNVFrTkNSVU5CTXpsQk1rVTNOVUU1UmlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -3055,7 +3055,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxURXpNVGcwTXpRd05qSXpNRE13T0RFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxURXpNVGcwTXpRd05qSXpNRE13T0RFaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "390",
@@ -3083,7 +3083,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxURTVOalkyTnpRME1UVTJNREEwTXpneEx6VTJRVUpGUlVNeE1EWkROalE1UlRRNFFqbEdPVUk1TVRVMU5qZzVNek13SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxURTVOalkyTnpRME1UVTJNREEwTXpneEx6VTJRVUpGUlVNeE1EWkROalE1UlRRNFFqbEdPVUk1TVRVMU5qZzVNek13SVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -3111,7 +3111,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxUUTJPREUxTVRjeU1UWXhOVEF5TkRZd0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxUUTJPREUxTVRjeU1UWXhOVEF5TkRZd0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "395",
@@ -3139,7 +3139,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxUVTVPVFF6TkRZNE56Y3hNelF3TVRRd0wwTXlPRFJHTlRReE9URTBOVFJFUXpRNU9ERTFPVFk1TTBRMk5UUTRPRVkxSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGt4SlUxUkVSVXhGVkVWRVEwVlNWRWxHU1VOQlZFVlRRbGxRUVVkRkxUVTVPVFF6TkRZNE56Y3hNelF3TVRRd0wwTXlPRFJHTlRReE9URTBOVFJFUXpRNU9ERTFPVFk1TTBRMk5UUTRPRVkxSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -3167,7 +3167,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01EZzVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlFVUkRRVTVEUlV4QlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVlRUMUJGVWtGVVNVOU9MVEV4TmpNNE1UYzNPVEkzT1RrMk5UazJJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01EZzVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlFVUkRRVTVEUlV4QlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVlRUMUJGVWtGVVNVOU9MVEV4TmpNNE1UYzNPVEkzT1RrMk5UazJJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "416",
@@ -3195,7 +3195,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjQhTURBd01USXlJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlFVUkRRVTVEUlV4QlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVlRUMUJGVWtGVVNVOU9MVE15TVRrNE5EUTVOemd4T0RZd09UQTFMemxCTURjd09EUTBOVEpETlRRNE5qVkJSalJHUVRrd09VVTNPREF4UlVSRElUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjQhTURBd01USXlJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlFVUkRRVTVEUlV4QlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVlRUMUJGVWtGVVNVOU9MVE15TVRrNE5EUTVOemd4T0RZd09UQTFMemxCTURjd09EUTBOVEpETlRRNE5qVkJSalJHUVRrd09VVTNPREF4UlVSRElUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "475",
@@ -3223,7 +3223,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzYhTURBd01EZzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlFVUkRRVTVEUlV4QlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVlRUMUJGVWtGVVNVOU9MVGMxTkRneU16TTFPVEl6TlRReU5qTWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzYhTURBd01EZzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlFVUkRRVTVEUlV4QlRrUkVSVXhGVkVWQlEwVlNWRWxHU1VOQlZFVlRUMUJGVWtGVVNVOU9MVGMxTkRneU16TTFPVEl6TlRReU5qTWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "411",
@@ -3251,7 +3251,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlEwOVdSVkpCUkVWTVJWUkZSRU5GVWxSSlJrbERRVlJGTFRJd056YzBORFUxTlRnM05qZ3lPVGd6THpnek5qZ3pSa1ZEUkRoR01UUkdRekpDTURKRk56UXdRamcyTnpJek5ERkJJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlEwOVdSVkpCUkVWTVJWUkZSRU5GVWxSSlJrbERRVlJGTFRJd056YzBORFUxTlRnM05qZ3lPVGd6THpnek5qZ3pSa1ZEUkRoR01UUkdRekpDTURKRk56UXdRamcyTnpJek5ERkJJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "448",
@@ -3279,7 +3279,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3pJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlEwOVdSVkpCUkVWTVJWUkZSRU5GVWxSSlJrbERRVlJGTFRrNE16QXhOREV4TXpNMU9URXdNemtoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3pJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlEwOVdSVkpCUkVWTVJWUkZSRU5GVWxSSlJrbERRVlJGTFRrNE16QXhOREV4TXpNMU9URXdNemtoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -3307,7 +3307,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxUlBVa1ZCUTBWU1ZFbEdTVU5CVkVVdE16VXdNelU0TkRjek1qY3pNalk1TWk5Rk16WTVORGN3UWtNeE5qWTBPVEEyUVRKRU0wTTRNRGd4TnpsR016UTVOeUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTIhTURBd01EazVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxUlBVa1ZCUTBWU1ZFbEdTVU5CVkVVdE16VXdNelU0TkRjek1qY3pNalk1TWk5Rk16WTVORGN3UWtNeE5qWTBPVEEyUVRKRU0wTTRNRGd4TnpsR016UTVOeUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "432",
@@ -3335,7 +3335,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxUlBVa1ZCUTBWU1ZFbEdTVU5CVkVVdE56TTBNalV3T0RBNU16RXlOalUyTXlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNDghTURBd01EWTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxUlBVa1ZCUTBWU1ZFbEdTVU5CVkVVdE56TTBNalV3T0RBNU16RXlOalUyTXlFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "374",
@@ -3363,7 +3363,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB3TURBeU56WXhPVEkwT1RZeU5USTJOVGcxTHpRMU0wVXpNREJDTURrM01UUXlORVpCTWpjMk16VkZRamc0UlRWR056Z3pJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB3TURBeU56WXhPVEkwT1RZeU5USTJOVGcxTHpRMU0wVXpNREJDTURrM01UUXlORVpCTWpjMk16VkZRamc0UlRWR056Z3pJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "448",
@@ -3391,7 +3391,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB4TWpBd016YzFPRE0xT0RVM01UQTRNaUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3lJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB4TWpBd016YzFPRE0xT0RVM01UQTRNaUV3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -3419,7 +3419,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB5TnpNek9URTNOVEkxTXprM09UUXZNVFl6T0RCQlJEaEZNVGN5TkVZMVFrSTJPREZCTURkRU9EbEdOVVZEUWpVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExOTYhTURBd01UQXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB5TnpNek9URTNOVEkxTXprM09UUXZNVFl6T0RCQlJEaEZNVGN5TkVZMVFrSTJPREZCTURkRU9EbEdOVVZEUWpVaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "438",
@@ -3447,7 +3447,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB6T1Rnek5EVXpNVEF4T0RrM016Y3lJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTB6T1Rnek5EVXpNVEF4T0RrM016Y3lJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -3475,7 +3475,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTAyTVRnd05Ea3hPRE13T1RFM056VTRMMEkxUWpkRE56VXdOemd4TWpRNU5qVkNOMEUxTWpCR09EWTFSamt6UVVSQ0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTAyTVRnd05Ea3hPRE13T1RFM056VTRMMEkxUWpkRE56VXdOemd4TWpRNU5qVkNOMEUxTWpCR09EWTFSamt6UVVSQ0lUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -3503,7 +3503,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTA0TWpjM09UYzBOVGMzTlRreU5EY3pJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTA0TWpjM09UYzBOVGMzTlRreU5EY3pJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -3531,7 +3531,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTFWVGtSRlJrbE9SVVF2TURCRU1EWXhNVEJHUVRZMU5FRkdNMEV4UXpSRU9FVTVRa1ZEUkRVeFJqSWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODghTURBd01EazNJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlUxVk5SVVpTVDAxQlUxUlBVRkJGUkZCUFRFeEZVaTFWVGtSRlJrbE9SVVF2TURCRU1EWXhNVEJHUVRZMU5FRkdNMEV4UXpSRU9FVTVRa1ZEUkRVeFJqSWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "427",
@@ -3559,7 +3559,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjghTURBd01EZ3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGUVV4TVZrVlNVMGxQVGxOUFJrRkRSVkpVU1VaSlEwRlVSUzB5T0RFd09UWXdPREUyTmpZek1UWTBJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjghTURBd01EZ3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGUVV4TVZrVlNVMGxQVGxOUFJrRkRSVkpVU1VaSlEwRlVSUzB5T0RFd09UWXdPREUyTmpZek1UWTBJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "400",
@@ -3587,7 +3587,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTIhTURBd01URXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGUVV4TVZrVlNVMGxQVGxOUFJrRkRSVkpVU1VaSlEwRlVSUzAyTkRFNU5URTNOVFkzTnpJNU9EazRMelF4TUVVM05EWTFRVUZET0RRd05FUTRPRGs0TTBFeU9UZ3hNVU0xT0RVMklUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMTIhTURBd01URXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGUVV4TVZrVlNVMGxQVGxOUFJrRkRSVkpVU1VaSlEwRlVSUzAyTkRFNU5URTNOVFkzTnpJNU9EazRMelF4TUVVM05EWTFRVUZET0RRd05FUTRPRGs0TTBFeU9UZ3hNVU0xT0RVMklUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "459",
@@ -3615,7 +3615,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01Ea3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGVkVoRlRFRlVSVk5VVmtWU1UwbFBUazlHUVVORlVsUkpSa2xEUVZSRlZrRk1WVVV0TVRJek9UVTRORFkzTWpVeU56ZzNPREVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01Ea3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGVkVoRlRFRlVSVk5VVmtWU1UwbFBUazlHUVVORlVsUkpSa2xEUVZSRlZrRk1WVVV0TVRJek9UVTRORFkzTWpVeU56ZzNPREVoTURBd01ESTRJVGs1T1RrdE1USXRNekZVTWpNNk5UazZOVGt1T1RrNU9UazVPVm9oIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "416",
@@ -3643,7 +3643,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjQhTURBd01USXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGVkVoRlRFRlVSVk5VVmtWU1UwbFBUazlHUVVORlVsUkpSa2xEUVZSRlZrRk1WVVV0TXpnM05EVTBNVEl4TXpJMk5ETXhNeTg0TlVZNU9FUTFSVVEzTkRNME5FUkRPVU5ETURJNU0wVTFPRUUyTUVFeE5pRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjQhTURBd01USXpJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGVkVoRlRFRlVSVk5VVmtWU1UwbFBUazlHUVVORlVsUkpSa2xEUVZSRlZrRk1WVVV0TXpnM05EVTBNVEl4TXpJMk5ETXhNeTg0TlVZNU9FUTFSVVEzTkRNME5FUkRPVU5ETURJNU0wVTFPRUUyTUVFeE5pRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "475",
@@ -3671,7 +3671,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01Ea3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGVkVoRlRFRlVSVk5VVmtWU1UwbFBUazlHUVVORlVsUkpSa2xEUVZSRlZrRk1WVVV0T0RFMU5UWTJOemcwT0RjNU56QTJPQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExODAhTURBd01Ea3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxKRlZGSkpSVlpGVkVoRlRFRlVSVk5VVmtWU1UwbFBUazlHUVVORlVsUkpSa2xEUVZSRlZrRk1WVVV0T0RFMU5UWTJOemcwT0RjNU56QTJPQ0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "416",
@@ -3699,7 +3699,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVUZEUlZKVVNVWkpRMEZVUlZOUVQweEpRMWt0TURRek1EVTFNRFV3TWpFNE56SXhPVEV2TTBFMFJqbENRekUzTlVaRk5ERXpNemsxTVRkQk1ETkZSVGsyUmpnM05qVWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVUZEUlZKVVNVWkpRMEZVUlZOUVQweEpRMWt0TURRek1EVTFNRFV3TWpFNE56SXhPVEV2TTBFMFJqbENRekUzTlVaRk5ERXpNemsxTVRkQk1ETkZSVGsyUmpnM05qVWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -3727,7 +3727,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVUZEUlZKVVNVWkpRMEZVUlZOUVQweEpRMWt0TlRNME9UUTRNek14TnpNME9ERTBJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTYhTURBd01EY3hJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVUZEUlZKVVNVWkpRMEZVUlZOUVQweEpRMWt0TlRNME9UUTRNek14TnpNME9ERTBJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "384",
@@ -3755,7 +3755,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVUZEUlZKVVNVWkpRMEZVUlZOUVQweEpRMWt0TmpjeU5UQTJOall3TWpVNU5qQTJNUzgxTWpnNVJUQkVRMFkxUlVNME5UY3pRa00zUmpoQ09FUXlNemN4TjBaRk1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVUZEUlZKVVNVWkpRMEZVUlZOUVQweEpRMWt0TmpjeU5UQTJOall3TWpVNU5qQTJNUzgxTWpnNVJUQkVRMFkxUlVNME5UY3pRa00zUmpoQ09FUXlNemN4TjBaRk1DRXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -3783,7 +3783,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzYhTURBd01EZzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVU5GVWxSSlJrbERRVlJGVjBsVVNGSkZVVlZGVTFSUFVGUkpUMDVUVkVsTlJVOVZWQzAxT1RBME1EYzROamc0TmpRME5qTWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNzYhTURBd01EZzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVU5GVWxSSlJrbERRVlJGVjBsVVNGSkZVVlZGVTFSUFVGUkpUMDVUVkVsTlJVOVZWQzAxT1RBME1EYzROamc0TmpRME5qTWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "411",
@@ -3811,7 +3811,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMwd05ESTVNakE0TkRnek9UQXdOelV6Tnk4MlEwTkNNRU5EUWpoR05EazBRVGt4UVVVeU5FUTJRVEV3TnpnMFJUUkdSU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDQhTURBd01UQTRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMwd05ESTVNakE0TkRnek9UQXdOelV6Tnk4MlEwTkNNRU5EUWpoR05EazBRVGt4UVVVeU5FUTJRVEV3TnpnMFJUUkdSU0V3TURBd01qZ2hPVGs1T1MweE1pMHpNVlF5TXpvMU9UbzFPUzQ1T1RrNU9UazVXaUUtIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "448",
@@ -3839,7 +3839,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMweU9EUTVPRFF5TVRRNU5UZzBNekExSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMweU9EUTVPRFF5TVRRNU5UZzBNekExSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "390",
@@ -3867,7 +3867,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMwMU5UYzNORGd4T1RVeE5UZzJNekl2TkRNMFJrWkdSRVV6TkRWQ05EWTVSa0kzTURWR01qTXdRVVUwT0RSRE5UUWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTJJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMwMU5UYzNORGd4T1RVeE5UZzJNekl2TkRNMFJrWkdSRVV6TkRWQ05EWTVSa0kzTURWR01qTXdRVVUwT0RSRE5UUWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -3895,7 +3895,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMwNE9EWTROamczTVRnMU5USTJORE0ySVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjAhTURBd01EYzBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxWUVJFRlVSVlJJUlZSQlIxTlBSa0ZEUlZKVVNVWkpRMEZVUlMwNE9EWTROamczTVRnMU5USTJORE0ySVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "390",
@@ -3923,7 +3923,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRRMUpGUVZSRlJDMDJNVGswT1RjMU9UZzBNVFEzTmpjM0x6SkZRVEE0UVRNeVJEVTBNVFJGTVVVNE1qY3pNRFV4TlRORk16ZzRNREUwSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRRMUpGUVZSRlJDMDJNVGswT1RjMU9UZzBNVFEzTmpjM0x6SkZRVEE0UVRNeVJEVTBNVFJGTVVVNE1qY3pNRFV4TlRORk16ZzRNREUwSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -3951,7 +3951,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjghTURBd01USTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRRMUpGUVZSRlJFSlpSMFZVVkVsT1IxUklSVkJQVEV4RlVrWlNUMDFIUlZSRFJWSlVTVVpKUTBGVVJVOVFSVkpCVkVsUFRpMHdNREl6T0RBek5EazBPVFV4TURFek5USTJJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMjghTURBd01USTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRRMUpGUVZSRlJFSlpSMFZVVkVsT1IxUklSVkJQVEV4RlVrWlNUMDFIUlZSRFJWSlVTVVpKUTBGVVJVOVFSVkpCVkVsUFRpMHdNREl6T0RBek5EazBPVFV4TURFek5USTJJVEF3TURBeU9DRTVPVGs1TFRFeUxUTXhWREl6T2pVNU9qVTVMams1T1RrNU9UbGFJUS0tIiwiVGFyZ2V0TG9jYXRpb24iOjB9\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "480",
@@ -3979,7 +3979,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNjghTURBd01UVTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRRMUpGUVZSRlJFSlpSMFZVVkVsT1IxUklSVkJQVEV4RlVrWlNUMDFIUlZSRFJWSlVTVVpKUTBGVVJVOVFSVkpCVkVsUFRpMDNORGt4TlRRd05EZzBNakEyTWpBNUx6SkdOek00UTBOQ1JVSXpSalF6UWtaQ05UUXhRVVZGT0VVd1JFUkZRVFkxSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyNjghTURBd01UVTFJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRRMUpGUVZSRlJFSlpSMFZVVkVsT1IxUklSVkJQVEV4RlVrWlNUMDFIUlZSRFJWSlVTVVpKUTBGVVJVOVFSVkpCVkVsUFRpMDNORGt4TlRRd05EZzBNakEyTWpBNUx6SkdOek00UTBOQ1JVSXpSalF6UWtaQ05UUXhRVVZGT0VVd1JFUkZRVFkxSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "534",
@@ -4007,7 +4007,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRSRVZNUlZSRlJDMHlOVEk0TXpjMk5EWXlPREk0TVRneE15RXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRSRVZNUlZSRlJDMHlOVEk0TXpjMk5EWXlPREk0TVRneE15RXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "395",
@@ -4035,7 +4035,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRSRVZNUlZSRlJDMDVNREkzTlRjeE1ERTVPVE0xTURJNEx6TkZNVEpFTkRVMU9EQTFRelJGT0VSQ1FVVXlOa0pHUVVRME1ETkZOa1ExSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXdJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRSRVZNUlZSRlJDMDVNREkzTlRjeE1ERTVPVE0xTURJNEx6TkZNVEpFTkRVMU9EQTFRelJGT0VSQ1FVVXlOa0pHUVVRME1ETkZOa1ExSVRBd01EQXlPQ0U1T1RrNUxURXlMVE14VkRJek9qVTVPalU1TGprNU9UazVPVGxhSVEtLSIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -4063,7 +4063,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRVa1ZEVDFaRlVrVkVMVFEzTXpRMU9UUTBOelkxTURBMU56RWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzVJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVU5CVGxkQlNWUlZUbFJKVEVGRFJWSlVTVVpKUTBGVVJVbFRVa1ZEVDFaRlVrVkVMVFEzTXpRMU9UUTBOelkxTURBMU56RWhNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "395",
@@ -4091,7 +4091,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXlJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFFrVkhTVTVFUlV4RlZFVkRSVkpVU1VaSlEwRlVSVk5RVDB4TVJWSXRNVGN4TkRreE56UXpNVEUwTlRnMk1UVXZOMFZHTkVRMk9VTkZNRUkzTkRWRU1qazRNakJCTTBWQlJUa3pSRGM1UVVZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDghTURBd01URXlJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFFrVkhTVTVFUlV4RlZFVkRSVkpVU1VaSlEwRlVSVk5RVDB4TVJWSXRNVGN4TkRreE56UXpNVEUwTlRnMk1UVXZOMFZHTkVRMk9VTkZNRUkzTkRWRU1qazRNakJCTTBWQlJUa3pSRGM1UVVZaE1EQXdNREk0SVRrNU9Ua3RNVEl0TXpGVU1qTTZOVGs2TlRrdU9UazVPVGs1T1ZvaCIsIlRhcmdldExvY2F0aW9uIjowfQ\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "454",
@@ -4119,7 +4119,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFFrVkhTVTVFUlV4RlZFVkRSVkpVU1VaSlEwRlVSVk5RVDB4TVJWSXROalk0TmpreE16TTVOelUyTnpVMk55RXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNjQhTURBd01EYzRJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFFrVkhTVTVFUlV4RlZFVkRSVkpVU1VaSlEwRlVSVk5RVDB4TVJWSXROalk0TmpreE16TTVOelUyTnpVMk55RXdNREF3TWpnaE9UazVPUzB4TWkwek1WUXlNem8xT1RvMU9TNDVPVGs1T1RrNVdpRS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "395",
@@ -4147,7 +4147,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFIwVlVSRVZNUlZSRlJFTkZVbFJKUmtsRFFWUkZMVEV4TURrek9Ua3dOVEV6TXpZNE1ETTFMMFV3TUVFNE56UTVORVV3UkRRM01EZEJRa0kwUWpaRE5rSkNPREEwTTBVMUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiEyMDAhTURBd01UQTBJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFIwVlVSRVZNUlZSRlJFTkZVbFJKUmtsRFFWUkZMVEV4TURrek9Ua3dOVEV6TXpZNE1ETTFMMFV3TUVFNE56UTVORVV3UkRRM01EZEJRa0kwUWpaRE5rSkNPREEwTTBVMUlUQXdNREF5T0NFNU9UazVMVEV5TFRNeFZESXpPalU1T2pVNUxqazVPVGs1T1RsYUlRLS0iLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "443",
@@ -4175,7 +4175,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFIwVlVSRVZNUlZSRlJFTkZVbFJKUmtsRFFWUkZMVGM0TWpjek5EZ3lOakF4T1RZM05Ea2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
+   "response": "{\"value\":[],\"nextLink\":\"https://keyvault_name.vault.azure.net:443/deletedkeys?api-version=7.2-preview&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExNTIhTURBd01EY3dJV3RsZVM5U1JVTlBWa1ZTUTBWU1ZFbEdTVU5CVkVWT1FVMUZMVlZUU1U1SFIwVlVSRVZNUlZSRlJFTkZVbFJKUmtsRFFWUkZMVGM0TWpjek5EZ3lOakF4T1RZM05Ea2hNREF3TURJNElUazVPVGt0TVRJdE16RlVNak02TlRrNk5Ua3VPVGs1T1RrNU9Wb2giLCJUYXJnZXRMb2NhdGlvbiI6MH0\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "379",
