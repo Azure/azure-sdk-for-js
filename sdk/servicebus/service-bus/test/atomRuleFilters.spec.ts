@@ -27,7 +27,7 @@ const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new Servi
   getConnectionString()
 );
 
-describe("Filter messages with the rules set by the ATOM API", () => {
+describe.only("Filter messages with the rules set by the ATOM API", () => {
   const topicName = "new-topic";
   const subscriptionName = "new-subscription";
   const serviceBusClient = new ServiceBusClient(getConnectionString());
@@ -82,20 +82,22 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     toCheck(receivedMessages[0]);
   }
 
-  it("subject", async () => {
-    const subject = "new-subject";
-    await verifyRuleFilter(
-      [
-        { body: "msg-1", subject }, // to be filtered
-        { body: "msg-2" } // not to be filtered
-      ],
-      { subject },
-      1,
-      (msg) => {
-        chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
-      }
-    );
-  });
+  for (let index = 0; index < 1000; index++) {
+    it(`subject test - iteration ${index}`, async () => {
+      const subject = "new-subject";
+      await verifyRuleFilter(
+        [
+          { body: "msg-1", subject }, // to be filtered
+          { body: "msg-2" } // not to be filtered
+        ],
+        { subject },
+        1,
+        (msg) => {
+          chai.assert.deepEqual(msg.subject, subject, "Unexpected subject on the message");
+        }
+      );
+    });
+  }
 
   // TODO: New tests for rule filters to match the sent messages can be added
 });
