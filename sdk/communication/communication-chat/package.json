@@ -39,7 +39,8 @@
     "dist-esm/src/",
     "types/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "src"
   ],
   "browser": {
     "./dist-esm/src/signaling/signalingClient.js": "./dist-esm/src/signaling/signalingClient.browser.js"
