@@ -210,8 +210,9 @@ export abstract class FetchHttpClient implements HttpClient {
           downloadStreamDone = isStreamComplete(operationResponse!.readableStreamBody);
         }
 
-        await Promise.all([uploadStreamDone, downloadStreamDone]);
-        httpRequest.abortSignal?.removeEventListener("abort", abortListener);
+        Promise.all([uploadStreamDone, downloadStreamDone]).then(() => {
+          httpRequest.abortSignal?.removeEventListener("abort", abortListener!);
+        });
       }
     }
   }
@@ -227,9 +228,8 @@ function isReadableStream(body: any): body is Readable {
 
 function isStreamComplete(stream: Readable): Promise<void> {
   return new Promise((resolve) => {
+    stream.on("data", () => {});
     stream.on("close", resolve);
-    stream.on("end", resolve);
-    stream.on("error", resolve);
   });
 }
 
