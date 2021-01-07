@@ -36,9 +36,9 @@ export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PagedAnalyzeRe
 
 // @public
 export interface AnalyzeResult {
-    entitiesRecognitionResults?: RecognizeCategorizedEntitiesResultArray[];
-    keyPhrasesExtractionResults?: ExtractKeyPhrasesResultArray[];
-    piiEntitiesRecognitionResults?: RecognizePiiEntitiesResultArray[];
+    entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
+    keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
+    piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
 }
 
 // @public

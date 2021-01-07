@@ -14,15 +14,15 @@ export interface AnalyzeResult {
   /**
    * Array of the results for each categorized entities recognition task.
    */
-  entitiesRecognitionResults?: RecognizeCategorizedEntitiesResultArray[];
+  entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
   /**
    * Array of the results for each Pii entities recognition task.
    */
-  piiEntitiesRecognitionResults?: RecognizePiiEntitiesResultArray[];
+  piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
   /**
    * Array of the results for each key phrases extraction task.
    */
-  keyPhrasesExtractionResults?: ExtractKeyPhrasesResultArray[];
+  keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
 }
 
 /**

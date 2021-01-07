@@ -211,30 +211,33 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       const result: AnalyzeResult = {
-        entitiesRecognitionResults: response.tasks.entityRecognitionTasks?.map(
-          ({ results }): RecognizeCategorizedEntitiesResultArray =>
-            makeRecognizeCategorizedEntitiesResultArray(
-              this.documents,
-              results?.documents,
-              results?.errors,
-              results?.modelVersion,
-              results?.statistics
-            )
-        ),
-        piiEntitiesRecognitionResults: response.tasks.entityRecognitionPiiTasks?.map(
-          ({ results }): RecognizePiiEntitiesResultArray =>
-            makeRecognizePiiEntitiesResultArray(this.documents, results)
-        ),
-        keyPhrasesExtractionResults: response.tasks.keyPhraseExtractionTasks?.map(
-          ({ results }): ExtractKeyPhrasesResultArray =>
-            makeExtractKeyPhrasesResultArray(
-              this.documents,
-              results?.documents,
-              results?.errors,
-              results?.modelVersion,
-              results?.statistics
-            )
-        )
+        entitiesRecognitionResults:
+          response.tasks.entityRecognitionTasks?.map(
+            ({ results }): RecognizeCategorizedEntitiesResultArray =>
+              makeRecognizeCategorizedEntitiesResultArray(
+                this.documents,
+                results?.documents,
+                results?.errors,
+                results?.modelVersion,
+                results?.statistics
+              )
+          ) ?? [],
+        piiEntitiesRecognitionResults:
+          response.tasks.entityRecognitionPiiTasks?.map(
+            ({ results }): RecognizePiiEntitiesResultArray =>
+              makeRecognizePiiEntitiesResultArray(this.documents, results)
+          ) ?? [],
+        keyPhrasesExtractionResults:
+          response.tasks.keyPhraseExtractionTasks?.map(
+            ({ results }): ExtractKeyPhrasesResultArray =>
+              makeExtractKeyPhrasesResultArray(
+                this.documents,
+                results?.documents,
+                results?.errors,
+                results?.modelVersion,
+                results?.statistics
+              )
+          ) ?? []
       };
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
