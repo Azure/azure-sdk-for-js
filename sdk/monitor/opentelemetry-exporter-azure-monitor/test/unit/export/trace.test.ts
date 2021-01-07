@@ -52,9 +52,7 @@ describe("#AzureMonitorBaseExporter", () => {
 
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
-      const scope = nock(DEFAULT_BREEZE_ENDPOINT)
-        .log(console.log)
-        .post("/v2/track");
+      const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
       const envelope = {
         name: "Name",
         time: new Date()
