@@ -262,6 +262,13 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       }
     }
 
+    if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
+      logger.info(
+        "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+      );
+      return true;
+    }
+
     return false;
   }
 
