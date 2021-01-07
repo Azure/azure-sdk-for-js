@@ -1656,7 +1656,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
           {
             entityRecognitionPiiTasks: [
-              { modelVersion: "latest", stringUnitOfLength: "UnicodeCodePoint" }
+              { modelVersion: "latest", stringIndexType: "UnicodeCodePoint" }
             ]
           },
           {

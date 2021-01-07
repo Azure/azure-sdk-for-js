@@ -27,7 +27,7 @@ import {
   getJobID,
   handleInvalidDocumentBatch,
   nextLinkToTopAndSkip,
-  StringUnitOfLength
+  StringIndexType
 } from "../../util";
 import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
@@ -72,7 +72,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -82,7 +82,7 @@ export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOpt
   /**
    * Delay to wait until next poll, in milliseconds.
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
   /**
    * Delay to wait until next poll, in milliseconds.
    */

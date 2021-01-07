@@ -628,7 +628,7 @@ describe("[API Key] TextAnalyticsClient", function() {
           [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
           {
             updateIntervalInMs: pollingInterval,
-            stringUnitOfLength: "UnicodeCodePoint"
+            stringIndexType: "UnicodeCodePoint"
           }
         );
         const pollerResult = await poller.pollUntilDone();

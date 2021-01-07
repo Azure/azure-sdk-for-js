@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Entity, StringUnitOfLength, TextAnalyticsClient } from "../../src";
+import { Entity, StringIndexType, TextAnalyticsClient } from "../../src";
 
 /**
  * calls the recognizePiiEntities on the input document and checks wether the
@@ -19,13 +19,13 @@ import { Entity, StringUnitOfLength, TextAnalyticsClient } from "../../src";
 export async function checkOffsetAndLength(
   client: TextAnalyticsClient,
   doc: string,
-  stringUnitOfLength: StringUnitOfLength,
+  stringIndexType: StringIndexType,
   offset: number,
   length: number,
   callback?: (doc: string, entity: Entity, offset: number, length: number) => unknown
 ): Promise<unknown> {
   const [result] = await client.recognizePiiEntities([{ id: "0", text: doc, language: "en" }], {
-    stringUnitOfLength: stringUnitOfLength
+    stringIndexType: stringIndexType
   });
   if (!result.error) {
     const entity = result.entities[0];

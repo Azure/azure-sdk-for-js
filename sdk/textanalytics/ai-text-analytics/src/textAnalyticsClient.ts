@@ -53,7 +53,7 @@ import {
   addStrEncodingParam,
   handleInvalidDocumentBatch,
   setStrEncodingParam,
-  StringUnitOfLength
+  StringIndexType
 } from "./util";
 import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
 import {
@@ -79,7 +79,7 @@ export {
   AnalysisPollOperationState,
   JobMetadata,
   AnalyzeJobMetadata,
-  StringUnitOfLength
+  StringIndexType
 };
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
@@ -113,7 +113,7 @@ export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperat
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -134,7 +134,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -162,7 +162,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -179,7 +179,7 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -196,7 +196,7 @@ export type CategorizedEntitiesRecognitionTask = {
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 };
 
 /**
@@ -219,7 +219,7 @@ export type PiiEntitiesRecognitionTask = {
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
-  stringUnitOfLength?: StringUnitOfLength;
+  stringIndexType?: StringIndexType;
 };
 
 /**
@@ -1036,7 +1036,7 @@ function makeAnalyzeSentimentOptionsModel(
     includeStatistics: params.includeStatistics,
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
-    stringIndexType: params.stringUnitOfLength,
+    stringIndexType: params.stringIndexType,
     tracingOptions: params.tracingOptions
   };
 }
@@ -1056,7 +1056,7 @@ function makePiiEntitiesOptionsModel(
     includeStatistics: params.includeStatistics,
     modelVersion: params.modelVersion,
     requestOptions: params.requestOptions,
-    stringIndexType: params.stringUnitOfLength,
+    stringIndexType: params.stringIndexType,
     tracingOptions: params.tracingOptions
   };
 }

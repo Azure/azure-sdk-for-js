@@ -4,7 +4,7 @@
 import { RestError } from "@azure/core-http";
 import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
-import { StringIndexType } from "./generated";
+import { StringIndexType as GeneratedStringIndexType } from "./generated";
 
 export interface IdObject {
   id: string;
@@ -87,30 +87,30 @@ const jsEncodingUnit = "Utf16CodeUnit";
 /**
  * Measurement units that can used to calculate the offset and length properties.
  */
-export type StringUnitOfLength = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 export function addStrEncodingParam<T>(
-  options: T & { stringUnitOfLength?: StringUnitOfLength }
-): T & { stringIndexType: StringUnitOfLength } {
-  return { ...options, stringIndexType: options.stringUnitOfLength || jsEncodingUnit };
-}
-
-/**
- * Set the stringIndexType property with default if it does not exist in the options bag.
- * @param options - operation options bag that has a {@link StringUnitOfLength}
- * @internal
- * @hidden
- */
-export function setStrEncodingParam<T>(
   options: T & { stringIndexType?: StringIndexType }
 ): T & { stringIndexType: StringIndexType } {
   return { ...options, stringIndexType: options.stringIndexType || jsEncodingUnit };
 }
 
+/**
+ * Set the stringIndexType property with default if it does not exist in the options bag.
+ * @param options - operation options bag that has a {@link StringIndexType}
+ * @internal
+ * @hidden
+ */
+export function setStrEncodingParam<T>(
+  options: T & { stringIndexType?: GeneratedStringIndexType }
+): T & { stringIndexType: GeneratedStringIndexType } {
+  return { ...options, stringIndexType: options.stringIndexType || jsEncodingUnit };
+}
+
 export function addEncodingParamToTask<X>(
-  task: X & { stringUnitOfLength?: StringUnitOfLength }
-): X & { stringIndexType?: StringUnitOfLength } {
-  return { ...task, stringIndexType: task.stringUnitOfLength || jsEncodingUnit };
+  task: X & { stringIndexType?: StringIndexType }
+): X & { stringIndexType?: StringIndexType } {
+  return { ...task, stringIndexType: task.stringIndexType || jsEncodingUnit };
 }
 
 export function AddParamsToTask<X>(task: X): { parameters?: X } {

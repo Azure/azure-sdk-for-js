@@ -30,7 +30,7 @@ export {
   AnalysisPollOperationState,
   JobMetadata,
   AnalyzeJobMetadata,
-  StringUnitOfLength
+  StringIndexType
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
