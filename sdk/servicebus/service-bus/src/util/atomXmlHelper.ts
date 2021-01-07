@@ -19,6 +19,7 @@ import { administrationLogger as logger } from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
+import { isJSONLikeObject } from "./utils";
 
 /**
  * @internal
@@ -92,25 +93,6 @@ export async function executeAtomXmlOperation(
 }
 
 /**
- * This helper method returns true if an object is JSON, returns false otherwise.
- */
-export function isJSONObject(value: any): boolean {
-  // `value.constructor === {}.constructor` differentiates among the "object"s,
-  //    would filter the JSON objects and won't match any array or other kinds of objects
-
-  // -------------------------------------------------------------------------------
-  // Few examples       | typeof obj ==="object" |  obj.constructor==={}.constructor
-  // -------------------------------------------------------------------------------
-  // {abc:1}            | true                   | true
-  // ["a","b"]          | true                   | false
-  // [{"a":1},{"b":2}]  | true                   | false
-  // new Date()         | true                   | false
-  // 123                | false                  | false
-  // -------------------------------------------------------------------------------
-  return typeof value === "object" && value.constructor === {}.constructor;
-}
-
-/**
  * @internal
  * @hidden
  * The key-value pairs having undefined/null as the values would lead to the empty tags in the serialized XML request.
@@ -126,7 +108,7 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }) {
   Object.keys(resource).forEach(function(property) {
     if (resource[property] == undefined) {
       delete resource[property];
-    } else if (isJSONObject(resource[property])) {
+    } else if (isJSONLikeObject(resource[property])) {
       sanitizeSerializableObject(resource[property]);
     }
   });

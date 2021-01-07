@@ -10,7 +10,6 @@ import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
-  isJSONObject,
   sanitizeSerializableObject
 } from "../../src/util/atomXmlHelper";
 import * as Constants from "../../src/util/constants";
@@ -20,6 +19,7 @@ import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-htt
 import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionResourceSerializer } from "../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../src/serializers/ruleResourceSerializer";
+import { isJSONLikeObject } from "../../src/util/utils";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -1196,9 +1196,11 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe("isJSONObject helper method", () => {
+  describe.only("isJSONLikeObject helper method", () => {
     [
-      { input: { abc: 1 }, output: true },
+      { input: {}, output: true },
+      { input: { abc: 1, d: undefined }, output: true },
+      { input: { a: "2", b: { c: 3, d: "x" } }, output: true },
       { input: ["a", "b"], output: false },
       { input: [{ a: 1 }, { b: { c: 3, d: "x" } }], output: false },
       { input: new Date(), output: false },
@@ -1206,7 +1208,7 @@ describe("ATOM Serializers", () => {
       { input: "abc", output: false }
     ].forEach((testCase) => {
       it(`${JSON.stringify(testCase.input)}`, () => {
-        chai.assert.equal(isJSONObject(testCase.input), testCase.output);
+        chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
       });
     });
   });
