@@ -395,6 +395,28 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * Get URL query string.
+ *
+ * @param {string} url
+ */
+export function getURLQueryString(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getQuery();
+}
+
+/**
+ * Set URL query string.
+ *
+ * @param {string} url
+ * @param {string} queryString
+ */
+export function setURLQueries(url: string, queryString: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setQuery(queryString);
+  return urlParsed.toString();
+}
+
+/**
  * Rounds a date off to seconds.
  *
  * @export
