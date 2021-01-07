@@ -49,43 +49,52 @@ describe.only("Filter messages with the rules set by the ATOM API", () => {
     numberOfMessagesToBeFiltered: number,
     toCheck: (msg: ServiceBusReceivedMessage) => void
   ) {
-    const ruleName = "rule-name";
-    await serviceBusAtomManagementClient.createRule(topicName, subscriptionName, ruleName, filter);
+    try {
+      const ruleName = "rule-name";
+      await serviceBusAtomManagementClient.createRule(
+        topicName,
+        subscriptionName,
+        ruleName,
+        filter
+      );
 
-    const getRuleResponse = await serviceBusAtomManagementClient.getRule(
-      topicName,
-      subscriptionName,
-      ruleName
-    );
-    // Rule filter might have undefined fields, which need to be deleted to match with the created rule
-    sanitizeSerializableObject(getRuleResponse);
-    chai.assert.deepEqual(getRuleResponse.filter, filter, "Unexpected filter");
+      const getRuleResponse = await serviceBusAtomManagementClient.getRule(
+        topicName,
+        subscriptionName,
+        ruleName
+      );
+      // Rule filter might have undefined fields, which need to be deleted to match with the created rule
+      sanitizeSerializableObject(getRuleResponse);
+      chai.assert.deepEqual(getRuleResponse.filter, filter, "Unexpected filter");
 
-    await serviceBusClient.createSender(topicName).sendMessages(messagesToSend);
+      await serviceBusClient.createSender(topicName).sendMessages(messagesToSend);
 
-    // Making sure the subscription has the expected number of messages
-    should.equal(
-      (
-        await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
-          topicName,
-          subscriptionName
-        )
-      ).totalMessageCount,
-      numberOfMessagesToBeFiltered,
-      "Unexpected number of messages filtered"
-    );
+      // Making sure the subscription has the expected number of messages
+      should.equal(
+        (
+          await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
+            topicName,
+            subscriptionName
+          )
+        ).totalMessageCount,
+        numberOfMessagesToBeFiltered,
+        "Unexpected number of messages filtered"
+      );
 
-    const receivedMessages = await serviceBusClient
-      .createReceiver(topicName, subscriptionName)
-      .receiveMessages(5);
-    should.equal(
-      receivedMessages.length,
-      numberOfMessagesToBeFiltered,
-      "Unexpected number of messages received"
-    );
+      const receivedMessages = await serviceBusClient
+        .createReceiver(topicName, subscriptionName)
+        .receiveMessages(5);
+      should.equal(
+        receivedMessages.length,
+        numberOfMessagesToBeFiltered,
+        "Unexpected number of messages received"
+      );
 
-    // Making sure the filtered message is same as the expected one.
-    toCheck(receivedMessages[0]);
+      // Making sure the filtered message is same as the expected one.
+      toCheck(receivedMessages[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   for (let index = 0; index < 1000; index++) {
