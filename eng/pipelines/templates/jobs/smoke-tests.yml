@@ -10,29 +10,21 @@ parameters:
     default: []
 
 jobs:
-  - ${{ if and(eq(parameters.Nightly, false) }}:
+  - ${{ if eq(parameters.Nightly, false) }}:
     - job: smoke_test_eligibility
       displayName: Check Smoke Test Eligibility
       steps:
-        - ${{ if and(ne(variables['Skip.Release'], 'true'), ne(artifact.skipPublishPackage, 'true')) }}:
+        - ${{ if ne(variables['Skip.Release'], 'true') }}:
           - pwsh: |
-              if (!"${{ parameters.ServiceDirectory }}") {
-                Write-Error "ServiceDirectory parameter must be specified"
-                exit 1
-              }
-              $samples = (Get-ChildItem -Path "./sdk/${{ parameters.ServiceDirectory }}/*/samples/javascript/" -Directory
-                | Where-Object { Test-Path "$_/package.json" })
-              $samples | ForEach-Object {
-                $package = Get-Content -Path $_/../../package.json | ConvertFrom-Json -AsHashtable
-                if ($package.ContainsKey('//smokeTestConfiguration') -and $package['//smokeTestConfiguration'].skipFolder) {
-                  Write-Host "Smoke tests will NOT run for $($package.name)"
-                } else {
-                  Write-Host "Smoke tests will run for $($package.name)"
-                  Write-Host "##vso[task.setvariable variable=RunSmokeTests;]true"
-                }
+              ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
+              $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
+              $packages | ForEach-Object {
+                Write-Host "Smoke tests will run for $_.Name"
+                Write-Host "##vso[task.setvariable variable=RunSmokeTests;]true"
               }
             name: check_smoke_tests_${{ parameters.ServiceDirectory }}
             displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
+            workingDirectory: ./common/smoke-test
 
         - pwsh: |
             Write-Host "Setting RunSmokeTests to $($env:RunSmokeTests)"
