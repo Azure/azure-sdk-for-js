@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { 
-  ApiVersion72Preview as ApiVersion, 
+import {
+  ApiVersion72Preview as ApiVersion,
   DeletionRecoveryLevel,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,

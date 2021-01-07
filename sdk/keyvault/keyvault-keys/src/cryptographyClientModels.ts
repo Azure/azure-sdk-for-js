@@ -12,7 +12,14 @@ import {
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms
 } from "./generated/models";
 
-export { KeyCurveName, KnownKeyCurveNames, EncryptionAlgorithm, KnownEncryptionAlgorithms, SignatureAlgorithm, KnownSignatureAlgorithms }
+export {
+  KeyCurveName,
+  KnownKeyCurveNames,
+  EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
+  SignatureAlgorithm,
+  KnownSignatureAlgorithms
+};
 
 /**
  * Supported algorithms for key wrapping/unwrapping
