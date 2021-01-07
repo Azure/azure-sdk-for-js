@@ -2,72 +2,17 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./generated/models";
+import { 
+  ApiVersion72Preview as ApiVersion, 
+  DeletionRecoveryLevel,
+  JsonWebKeyType as KeyType,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  JsonWebKeyOperation as KeyOperation,
+  KnownJsonWebKeyOperation as KnownKeyOperations
+} from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
-/**
- * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
- * @readonly
- */
-export type KeyOperation =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "wrapKey"
-  | "unwrapKey"
-  | "import";
-
-/**
- * Defines values for KeyType.
- * {@link KnownKeyType} can be used interchangeably with JsonWebKeyType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **EC**: Elliptic Curve.
- * **EC-HSM**: Elliptic Curve with a private key which is not exportable from the HSM.
- * **RSA**: RSA (https://tools.ietf.org/html/rfc3447)
- * **RSA-HSM**: RSA with a private key which is not exportable from the HSM.
- * **oct**: Octet sequence (used to represent symmetric keys)
- * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
- * @readonly
- */
-export type KeyType = string;
-
-/**
- * Known values of {@link KeyType} that the service accepts.
- */
-export const enum KnownKeyType {
-  /**
-   * Elliptic Curve.
-   */
-  EC = "EC",
-  /**
-   * Elliptic Curve with a private key which is not exportable from the HSM.
-   */
-  ECHSM = "EC-HSM",
-  /**
-   * RSA (https://tools.ietf.org/html/rfc3447)
-   */
-  RSA = "RSA",
-  /**
-   * RSA with a private key which is not exportable from the HSM.
-   */
-  RSAHSM = "RSA-HSM",
-  /**
-   * Octet sequence (used to represent symmetric keys)
-   */
-  Oct = "oct",
-  /**
-   * Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
-   */
-  OctHSM = "oct-HSM"
-}
-
-/**
- * The latest supported Key Vault service API version
- */
-export const LATEST_API_VERSION = "7.1";
+export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -76,7 +21,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: ApiVersion;
 }
 
 /**

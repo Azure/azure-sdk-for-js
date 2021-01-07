@@ -29,7 +29,9 @@ import {
   KeyItem,
   KeyVaultClientGetKeysOptionalParams,
   KeyVaultClientRestoreKeyResponse,
-  KeyVaultClientUpdateKeyResponse
+  KeyVaultClientUpdateKeyResponse,
+  KnownApiVersion72Preview as KnownApiVersions,
+  ApiVersion72Preview as ApiVersion
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -54,9 +56,10 @@ import {
   ImportKeyOptions,
   JsonWebKey,
   KeyOperation,
+  KnownKeyOperations,
   KeyPollerOptions,
   KeyType,
-  KnownKeyType,
+  KnownKeyTypes,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -68,7 +71,6 @@ import {
   RestoreKeyBackupOptions,
   UpdateKeyPropertiesOptions,
   KeyClientOptions,
-  LATEST_API_VERSION,
   CryptographyClientOptions
 } from "./keysModels";
 
@@ -79,8 +81,11 @@ import { LocalCryptographyClient } from "./localCryptographyClient";
 import {
   DecryptResult,
   KeyCurveName,
+  KnownKeyCurveNames,
   EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
   SignatureAlgorithm,
+  KnownSignatureAlgorithms,
   KeyWrapAlgorithm,
   SignResult,
   UnwrapResult,
@@ -122,16 +127,20 @@ export {
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
+  KnownKeyCurveNames,
   EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
   KeyOperation,
+  KnownKeyOperations,
   KeyType,
-  KnownKeyType,
+  KnownKeyTypes,
   KeyPollerOptions,
   parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
   SignatureAlgorithm,
+  KnownSignatureAlgorithms,
   KeyVaultKey,
   KeyWrapAlgorithm,
   ListPropertiesOfKeysOptions,
@@ -156,7 +165,9 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger
+  logger,
+  KnownApiVersions,
+  ApiVersion
 };
 
 /**
@@ -231,7 +242,7 @@ export class KeyClient {
     };
 
     this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipelineOptions.serviceVersion || KnownApiVersions.Seven2Preview,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }

@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { KeyClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/keysModels";
+import { KnownApiVersions } from "../../src/";
 import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
@@ -54,7 +54,7 @@ describe("The Keys client should set the serviceVersion", () => {
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyVaultName.vault.azure.net/keys/keyName/create?api-version=${LATEST_API_VERSION}`
+      `https://keyVaultName.vault.azure.net/keys/keyName/create?api-version=${KnownApiVersions.Seven2Preview}`
     );
   });
 
