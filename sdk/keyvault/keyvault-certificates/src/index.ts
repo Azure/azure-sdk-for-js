@@ -243,8 +243,7 @@ export {
   KnownKeyTypes,
   KnownKeyUsageTypes,
   KeyType,
-  KeyCurveName,
-
+  KeyCurveName
 };
 
 /**
