@@ -387,7 +387,7 @@ export class GeographyPoint {
     constructor(latitude: number, longitude: number);
     latitude: number;
     longitude: number;
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }
 
 // @public
