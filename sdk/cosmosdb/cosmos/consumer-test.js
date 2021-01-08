@@ -1,6 +1,6 @@
 const execa = require("execa");
 
-let versions = ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6"];
+let versions = ["3.9"];
 
 if (!process.env.SKIP_LATEST) {
   versions.push("latest");
@@ -22,7 +22,9 @@ async function exec(cmd) {
     console.log("Installing @azure/cosmos as a file dependency");
     for (const version of versions) {
       console.log(`Compling with typescript@${version} - Basic`);
-      await exec(`npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true`);
+      await exec(
+        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --target ES5`
+      );
       console.log(`Compling with typescript@${version} - Custom lib`);
       await exec(
         `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`
