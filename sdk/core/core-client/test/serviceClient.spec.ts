@@ -269,7 +269,7 @@ describe("ServiceClient", function() {
     let rawResponse: FullOperationResponse | undefined;
 
     const response = await client.sendOperationRequest(
-      { options: { rawResponseCallback: (response) => (rawResponse = response) } },
+      { options: { onResponse: (response) => (rawResponse = response) } },
       {
         httpMethod: "GET",
         baseUrl: "https://example.com",
@@ -349,7 +349,7 @@ describe("ServiceClient", function() {
     const res = await client1.sendOperationRequest<Array<number>>(
       {
         options: {
-          rawResponseCallback: (response) => {
+          onResponse: (response) => {
             rawResponse = response;
           }
         }

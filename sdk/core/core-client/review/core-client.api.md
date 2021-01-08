@@ -202,7 +202,7 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
-    rawResponseCallback?: RawResponseCallback;
+    onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;

@@ -111,7 +111,7 @@ export interface OperationOptions {
    * while performing the requested operation.
    * May be called multiple times.
    */
-  rawResponseCallback?: RawResponseCallback;
+  onResponse?: RawResponseCallback;
 }
 
 /**

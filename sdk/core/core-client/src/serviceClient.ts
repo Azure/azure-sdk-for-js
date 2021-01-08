@@ -203,8 +203,8 @@ export class ServiceClient {
         rawResponse,
         operationSpec.responses[rawResponse.status]
       ) as T;
-      if (options?.rawResponseCallback) {
-        options.rawResponseCallback(rawResponse, flatResponse);
+      if (options?.onResponse) {
+        options.onResponse(rawResponse, flatResponse);
       }
       return flatResponse;
     } catch (error) {
