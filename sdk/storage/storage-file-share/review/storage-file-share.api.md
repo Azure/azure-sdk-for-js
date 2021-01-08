@@ -1166,6 +1166,22 @@ export interface ListSharesResponse {
     // (undocumented)
     serviceEndpoint: string;
     // (undocumented)
+    shareItems?: ShareItem[];
+}
+
+// @public
+export interface ListSharesResponseModel {
+    // (undocumented)
+    continuationToken: string;
+    // (undocumented)
+    marker?: string;
+    // (undocumented)
+    maxResults?: number;
+    // (undocumented)
+    prefix?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
     shareItems?: ShareItemInternal[];
 }
 
@@ -1311,16 +1327,11 @@ export interface ServiceListSharesSegmentHeaders {
 }
 
 // @public
-export type ServiceListSharesSegmentResponse = Omit<ServiceListSharesSegmentResponseModel, "shareItems"> & {
-    shareItems?: ShareItem[];
-};
-
-// @public
-export type ServiceListSharesSegmentResponseModel = ListSharesResponse & ServiceListSharesSegmentHeaders & {
-    _response: coreHttp.HttpResponse & {
+export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
+    _response: HttpResponse & {
         parsedHeaders: ServiceListSharesSegmentHeaders;
         bodyAsText: string;
-        parsedBody: ListSharesResponse;
+        parsedBody: ListSharesResponseModel;
     };
 };
 
@@ -1690,7 +1701,7 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ShareGetPropertiesResponse = Omit<ShareGetPropertiesResponseModel, "enabledProtocols"> & {
+export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
     protocols?: ShareProtocols;
 };
 
@@ -1733,9 +1744,22 @@ export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHea
 };
 
 // @public
-export type ShareItem = Omit<ShareItemInternal, "properties"> & {
+export interface ShareItem {
+    // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
+    name: string;
+    // (undocumented)
     properties: ShareProperties;
-};
+    // (undocumented)
+    snapshot?: string;
+    // (undocumented)
+    version?: string;
+}
 
 // @public
 export interface ShareItemInternal {
@@ -1773,7 +1797,7 @@ export interface SharePermission {
 }
 
 // @public
-export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+export type ShareProperties = SharePropertiesInternal & {
     protocols?: ShareProtocols;
 };
 
