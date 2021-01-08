@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel, KeyUsageType, KnownJsonWebKeyCurveName } from "./generated/models";
+import { DeletionRecoveryLevel, KeyUsageType } from "./generated/models";
 
 /**
  * Defines values for CertificateKeyType.
@@ -18,12 +18,12 @@ export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
  * @readonly
  * @enum {string}
  */
-export type CertificateKeyCurveName = KnownJsonWebKeyCurveName | string;
+export type CertificateKeyCurveName = string;
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.2-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient

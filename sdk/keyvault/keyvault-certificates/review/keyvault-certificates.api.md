@@ -111,7 +111,7 @@ export interface CertificateIssuer extends IssuerProperties {
 }
 
 // @public
-export type CertificateKeyCurveName = KnownJsonWebKeyCurveName | string;
+export type CertificateKeyCurveName = string;
 
 // @public
 export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
@@ -317,6 +317,12 @@ export interface IssuerProperties {
 }
 
 // @public
+export type KeyCurveName = string;
+
+// @public
+export type KeyType = string;
+
+// @public
 export type KeyUsageType = string;
 
 // @public
@@ -348,12 +354,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export const enum KnownApiVersion72Preview {
-    Seven2Preview = "7.2-preview"
-}
-
-// @public
-export const enum KnownDeletionRecoveryLevel {
+export const enum KnownDeletionRecoveryLevels {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -364,7 +365,7 @@ export const enum KnownDeletionRecoveryLevel {
 }
 
 // @public
-export const enum KnownJsonWebKeyCurveName {
+export const enum KnownKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -372,7 +373,7 @@ export const enum KnownJsonWebKeyCurveName {
 }
 
 // @public
-export const enum KnownJsonWebKeyType {
+export const enum KnownKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -382,7 +383,7 @@ export const enum KnownJsonWebKeyType {
 }
 
 // @public
-export const enum KnownKeyUsageType {
+export const enum KnownKeyUsageTypes {
     CRLSign = "cRLSign",
     DataEncipherment = "dataEncipherment",
     DecipherOnly = "decipherOnly",
