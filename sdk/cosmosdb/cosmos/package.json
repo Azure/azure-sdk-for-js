@@ -32,7 +32,7 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/",
   "sideEffects": false,
   "types": "./dist/types/latest/index.d.ts",
   "typesVersions": {
@@ -42,7 +42,7 @@
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
@@ -79,6 +79,9 @@
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "tsdoc": {
     "tsdocFlavor": "AEDoc"
   },

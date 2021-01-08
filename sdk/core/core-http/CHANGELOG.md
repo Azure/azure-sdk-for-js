@@ -1,6 +1,9 @@
 # Release History
 
-## 1.2.2 (Unreleased)
+## 1.2.3 (Unreleased)
+
+
+## 1.2.2 (2021-01-07)
 
 - Cache the default `HttpClient` used when one isn't passed in to `ServiceClient`. This means that for most packages we will only create a single `HttpClient`, which will improve platform resource usage by reducing overhead. [PR 12966](https://github.com/Azure/azure-sdk-for-js/pull/12966)
 

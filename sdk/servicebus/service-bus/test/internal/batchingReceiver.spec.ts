@@ -635,7 +635,7 @@ describe("BatchingReceiver unit tests", () => {
     });
 
     it("batchingReceiverLite.close() (ie, no error) just shuts down the current operation with no error", async () => {
-      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+      const { fakeRheaReceiver } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
         createConnectionContextForTests(),
@@ -648,21 +648,40 @@ describe("BatchingReceiver unit tests", () => {
 
       assert.notExists(receiver["_closeHandler"]);
 
-      const receiveMessagesPromise = receiver.receiveMessages({
-        maxMessageCount: 1,
-        maxTimeAfterFirstMessageInMs: 1,
-        maxWaitTimeInMs: 1
-      });
+      let resolveWasCalled = false;
+      let rejectWasCalled = false;
 
-      await receiveIsReady;
+      receiver["_receiveMessagesImpl"](
+        (await receiver["_getCurrentReceiver"]())!,
+        {
+          maxMessageCount: 1,
+          maxTimeAfterFirstMessageInMs: 1,
+          maxWaitTimeInMs: 1
+        },
+        () => {
+          resolveWasCalled = true;
+        },
+        () => {
+          rejectWasCalled = true;
+        }
+      );
+
       assert.exists(receiver["_closeHandler"]);
+      assert.isFalse(resolveWasCalled);
+      assert.isFalse(rejectWasCalled);
 
-      await receiver.close();
+      receiver.close();
 
-      const results = await receiveMessagesPromise;
+      // these are still false because we used setTimeout() (and we're using sinon)
+      // so the clock is "frozen"
+      assert.isFalse(resolveWasCalled);
+      assert.isFalse(rejectWasCalled);
 
-      // TODO: let's have a few messages in here.
-      assert.isEmpty(results);
+      // now unfreeze it (without ticking time forward, just running whatever is eligible _now_)
+      clock.tick(0);
+
+      assert.isTrue(resolveWasCalled);
+      assert.isFalse(rejectWasCalled);
     });
   });
 

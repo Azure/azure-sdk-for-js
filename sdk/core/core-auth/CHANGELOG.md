@@ -1,6 +1,9 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.5 (Unreleased)
+
+
+## 1.1.4 (2021-01-07)
 
 - Removed direct dependency on `@opentelemetry/api` and `@azure/core-tracing`.
 
