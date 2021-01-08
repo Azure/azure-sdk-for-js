@@ -598,6 +598,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/test-utils-multi-version",
+      "projectFolder": "sdk/test-utils/multi-version",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"

@@ -5,7 +5,7 @@
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -17,6 +17,9 @@
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -30,9 +33,6 @@
   },
   "browser": {
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
-  },
-  "engine": {
-    "node": ">=8.0.0"
   },
   "files": [
     "dist/",
@@ -69,7 +69,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "//metadata": {
     "constantPaths": [
@@ -132,7 +133,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "karma": "^5.1.0",
@@ -158,7 +159,8 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
-    "ws": "^7.1.1"
+    "typescript": "4.1.2",
+    "ws": "^7.1.1",
+    "typedoc": "0.15.0"
   }
 }

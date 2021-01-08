@@ -63,7 +63,7 @@ async function sendMessage(sbClient, scientist, sessionId) {
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
-    label: "Scientist",
+    subject: "Scientist",
     sessionId: sessionId
   };
 

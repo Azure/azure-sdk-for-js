@@ -5,7 +5,6 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
-import { SpanOptions } from '@azure/core-tracing';
 
 // @public
 export interface AccessToken {
@@ -32,11 +31,26 @@ export interface GetTokenOptions {
 }
 
 // @public
-export function isTokenCredential(credential: any): credential is TokenCredential;
+export function isTokenCredential(credential: unknown): credential is TokenCredential;
 
 // @public
 export interface KeyCredential {
     readonly key: string;
+}
+
+// @public
+export interface SpanContext {
+    spanId: string;
+    traceFlags: number;
+    traceId: string;
+}
+
+// @public
+export interface SpanOptions {
+    attributes?: {
+        [key: string]: unknown;
+    };
+    parent?: SpanContext | null;
 }
 
 // @public

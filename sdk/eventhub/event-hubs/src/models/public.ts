@@ -61,7 +61,7 @@ export interface SendBatchOptions extends OperationOptions {
  * ```
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export interface SendOptions extends OperationOptions {
   /**

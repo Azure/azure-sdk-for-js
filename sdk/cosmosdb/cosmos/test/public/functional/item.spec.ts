@@ -19,7 +19,7 @@ import {
 import { BulkOperationType, OperationInput } from "../../../src";
 
 /**
- * @ignore
+ * @hidden
  * @hidden
  */
 interface TestItem {

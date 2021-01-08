@@ -241,7 +241,6 @@ matrix([[true, false]] as const, async (useAad) => {
        */
       describe("account properties", () => {
         it("has trained models and limits", async () => {
-          const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
           const properties = await trainingClient.getAccountProperties();
 
           // Model count should be >0 because we just trained several models

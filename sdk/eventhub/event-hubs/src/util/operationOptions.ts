@@ -23,7 +23,7 @@ export interface OperationOptions {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function getParentSpan(
   options?: OperationTracingOptions

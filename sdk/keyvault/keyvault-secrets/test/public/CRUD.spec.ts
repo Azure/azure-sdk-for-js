@@ -93,10 +93,14 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
-    const secretValue = "";
-    const result = await client.setSecret(secretName, secretValue);
+    const emptySecretValue = "";
+    const result = await client.setSecret(secretName, emptySecretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+    assert.equal(
+      result.value,
+      emptySecretValue,
+      "Unexpected secret value in result from setSecret()."
+    );
     await testClient.flushSecret(secretName);
   });
 

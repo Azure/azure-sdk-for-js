@@ -33,7 +33,7 @@ export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
 
 export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
-  _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
+  _transform(chunk: string | Buffer, _encoding: string, callback: (arg: any) => void): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
     this.progressCallback!({ loadedBytes: this.loadedBytes });
@@ -205,9 +205,9 @@ export abstract class FetchHttpClient implements HttpClient {
     }
   }
 
-  abstract async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-  abstract async processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-  abstract async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
+  abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
+  abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+  abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
 }
 
 function isReadableStream(body: any): body is Readable {

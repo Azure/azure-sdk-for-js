@@ -558,7 +558,9 @@ export class ShareServiceClient extends StorageClient {
 
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
-      yield* segment.shareItems;
+      if (segment.shareItems) {
+        yield* segment.shareItems;
+      }
     }
   }
 

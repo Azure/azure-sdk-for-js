@@ -50,6 +50,7 @@ export class AccountSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     filter: boolean;
+    static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
@@ -58,6 +59,21 @@ export class AccountSASPermissions {
     toString(): string;
     update: boolean;
     write: boolean;
+}
+
+// @public
+export interface AccountSASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    filter?: boolean;
+    list?: boolean;
+    process?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    update?: boolean;
+    write?: boolean;
 }
 
 // @public
@@ -1006,12 +1022,26 @@ export class BlobSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
     read: boolean;
     tag: boolean;
     toString(): string;
     write: boolean;
+}
+
+// @public
+export interface BlobSASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    execute?: boolean;
+    move?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    write?: boolean;
 }
 
 // @public
@@ -1916,6 +1946,7 @@ export class ContainerSASPermissions {
     delete: boolean;
     deleteVersion: boolean;
     execute: boolean;
+    static from(permissionLike: ContainerSASPermissionsLike): ContainerSASPermissions;
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
@@ -1923,6 +1954,20 @@ export class ContainerSASPermissions {
     tag: boolean;
     toString(): string;
     write: boolean;
+}
+
+// @public
+export interface ContainerSASPermissionsLike {
+    add?: boolean;
+    create?: boolean;
+    delete?: boolean;
+    deleteVersion?: boolean;
+    execute?: boolean;
+    list?: boolean;
+    move?: boolean;
+    read?: boolean;
+    tag?: boolean;
+    write?: boolean;
 }
 
 // @public
