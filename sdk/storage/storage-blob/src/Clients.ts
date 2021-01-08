@@ -1772,7 +1772,8 @@ export class BlobClient extends StorageClient {
    * @param {BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
    *                                                   the specified blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   *                                                   A common header to set is `blobContentType`,*                                                   enabling the browser to provide functionality
+   *                                                   A common header to set is `blobContentType`
+   *                                                   enabling the browser to provide functionality
    *                                                   based on file type.
    * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
    * @returns {Promise<BlobSetHTTPHeadersResponse>}
