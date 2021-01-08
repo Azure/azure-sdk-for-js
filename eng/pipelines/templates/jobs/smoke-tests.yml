@@ -14,21 +14,27 @@ jobs:
     - job: smoke_test_eligibility
       displayName: Check Smoke Test Eligibility
       steps:
+        - pwsh: npm install -g
+          workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
+          displayName: Install dev-tool
+
         - pwsh: |
+            $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
+
             ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
             $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
             $packages | ForEach-Object {
-              Write-Host "Smoke tests will run for $_.Name"
+              Write-Host "Smoke tests will run for $($_.Name)"
               Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]true"
             }
-          name: check_smoke_tests_${{ parameters.ServiceDirectory }}
+          name: check_smoke_tests
           displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
           workingDirectory: ./common/smoke-test
 
   - job: SmokeTest
     ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
       dependsOn: smoke_test_eligibility
-      condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['output_eligibility.RunSmokeTests'], true))
+      condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
         Linux Node14 (AzureCloud):
