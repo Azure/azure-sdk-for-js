@@ -4,14 +4,14 @@
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
-import { createRecordedComminicationIdentityClientWithToken } from "./utils/recordedClient";
+import { createRecordedCommunicationIdentityClientWithToken } from "./utils/recordedClient";
 
 describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   let recorder: Recorder;
   let client: CommunicationIdentityClient;
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedComminicationIdentityClientWithToken(this));
+    ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
   });
 
   afterEach(async function() {

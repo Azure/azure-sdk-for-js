@@ -77,10 +77,18 @@ export function createRecordedCommunicationIdentityClient(
   };
 }
 
-export function createRecordedComminicationIdentityClientWithToken(
+export function createRecordedCommunicationIdentityClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> {
-  const recorder = record(context, environmentSetup);
+): RecordedClient<CommunicationIdentityClient> {  
+  const recorder = record(context, environmentSetup);  
+  
+  if (isBrowser()) {
+    return {
+      client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
+      recorder
+    };
+  }
+
   let credential: TokenCredential;
 
   if (isPlaybackMode()) {
@@ -91,13 +99,21 @@ export function createRecordedComminicationIdentityClientWithToken(
 
     credential = { getToken: fakeGetToken };
   } else {
-    credential = new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
     recorder
   };
+}
+
+export function isBrowser() {
+  return typeof window !== "undefined";
 }
 
 export function createRecordedPhoneNumberAdministrationClient(
