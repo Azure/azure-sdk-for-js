@@ -47,7 +47,7 @@ describe("PolicyManagementTests ", function() {
 
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
-    if (result) {
+    if (result && !isPlaybackMode()) {
       const tokenResult = await verifyAttestationToken(result, client);
       assert.isDefined(tokenResult);
       if (tokenResult) {

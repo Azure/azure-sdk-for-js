@@ -51,7 +51,7 @@ describe("PolicyGetSetTests ", function() {
     const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
     const result = policyResult.token;
     assert(result, "Expected a token from the service but did not receive one");
-    if (result) {
+    if (result && !isPlaybackMode()) {
       await verifyAttestationToken(result, client);
     }
   });

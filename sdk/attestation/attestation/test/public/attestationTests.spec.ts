@@ -132,7 +132,7 @@ describe("[AAD] Attestation Client", function() {
 
     const result = attestationResult.token;
     assert(result, "Expected a token from the service but did not receive one");
-    if (result) {
+    if (result && !isPlaybackMode()) {
       await verifyAttestationToken(result, client);
     }
   });
