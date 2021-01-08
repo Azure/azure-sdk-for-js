@@ -30,8 +30,7 @@ import {
   KeyVaultClientGetKeysOptionalParams,
   KeyVaultClientRestoreKeyResponse,
   KeyVaultClientUpdateKeyResponse,
-  KnownApiVersion72Preview as KnownApiVersions,
-  ApiVersion72Preview as ApiVersion
+  KnownApiVersion72Preview as KnownApiVersions
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -165,9 +164,7 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger,
-  KnownApiVersions,
-  ApiVersion
+  logger
 };
 
 /**
