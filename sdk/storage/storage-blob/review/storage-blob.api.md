@@ -2105,6 +2105,18 @@ export interface FilterBlobItemModel {
 // @public
 export interface FilterBlobSegment {
     // (undocumented)
+    blobs: FilterBlobItem[];
+    // (undocumented)
+    continuationToken?: string;
+    // (undocumented)
+    serviceEndpoint: string;
+    // (undocumented)
+    where: string;
+}
+
+// @public
+export interface FilterBlobSegmentModel {
+    // (undocumented)
     blobs: FilterBlobItemModel[];
     // (undocumented)
     continuationToken?: string;
@@ -2811,22 +2823,17 @@ export interface ServiceFilterBlobsHeaders {
 }
 
 // @public
-export type ServiceFilterBlobsResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceFilterBlobsHeaders;
-        bodyAsText: string;
-        parsedBody: FilterBlobSegment;
-    };
-};
-
-// @public
 export interface ServiceFindBlobByTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
 
 // @public
-export type ServiceFindBlobsByTagsSegmentResponse = Omit<ServiceFilterBlobsResponse, "blobs"> & {
-    blobs: FilterBlobItem[];
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceFilterBlobsHeaders & {
+    _response: HttpResponse & {
+        parsedHeaders: ServiceFilterBlobsHeaders;
+        bodyAsText: string;
+        parsedBody: FilterBlobSegmentModel;
+    };
 };
 
 // @public
