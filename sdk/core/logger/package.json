@@ -1,7 +1,7 @@
 {
   "name": "@azure/logger",
   "sdk-type": "client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Microsoft Azure SDK for JavaScript - Logger",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
