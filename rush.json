@@ -358,6 +358,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/attestation",
+      "projectFolder": "sdk/attestation/attestation",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-administration",
       "projectFolder": "sdk/communication/communication-administration",
       "versionPolicyName": "client"
