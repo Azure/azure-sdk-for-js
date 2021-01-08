@@ -6,6 +6,10 @@ import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { BlobServiceClient, ContainerClient, StorageSharedKeyCredential } from "../../../src";
 import { getValueInConnString } from "../../../src/utils/utils.common";
 
+// Expects the .env file at the same level as the "test" folder
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
   blobServiceClient: BlobServiceClient;
   containerClient: ContainerClient;

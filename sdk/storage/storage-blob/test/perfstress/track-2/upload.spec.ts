@@ -10,7 +10,7 @@ interface StorageBlobUploadTestOptions {
 }
 
 export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTestOptions> {
-  blobName = "";
+  blobName: string;
   buffer = Buffer.alloc(this.parsedOptions.size.value!);
   public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
     size: {
@@ -22,7 +22,8 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
     }
   };
 
-  async setup() {
+  constructor() {
+    super();
     this.blobName = generateUuid();
   }
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import fs from "fs";
 import util from "util";
+import { BlockBlobClient } from "../../../src";
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
@@ -13,6 +14,12 @@ const dirName = "temp";
 const fileName = `${dirName}/upload-from-test-temp-file.txt`;
 
 export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
+  blockBlobClient: BlockBlobClient;
+  constructor() {
+    super();
+    this.blockBlobClient = this.containerClient.getBlockBlobClient(this.blobName);
+  }
+  
   public async globalSetup() {
     await super.globalSetup();
     if (!(await fileExists(dirName))) await mkdir(dirName);
@@ -25,7 +32,6 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
   }
 
   async runAsync(): Promise<void> {
-    const blockBlobClient = this.containerClient.getBlockBlobClient(this.blobName);
-    await blockBlobClient.uploadFile(fileName);
+    await this.blockBlobClient.uploadFile(fileName);
   }
 }
