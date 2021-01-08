@@ -16,10 +16,6 @@ npm install @azure/attestation
 
 ### How to use
 
-#### Sample code
-
-Refer the sample code in the [azure-sdk-for-js-samples](https://github.com/Azure/azure-sdk-for-js-samples) repository.
-
 ## Key concepts
 
 This SDK provides the following functionality for the Microsoft Azure Attestation Service
