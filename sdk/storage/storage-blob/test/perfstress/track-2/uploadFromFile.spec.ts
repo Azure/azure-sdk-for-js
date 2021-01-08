@@ -19,7 +19,7 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
     super();
     this.blockBlobClient = this.containerClient.getBlockBlobClient(this.blobName);
   }
-  
+
   public async globalSetup() {
     await super.globalSetup();
     if (!(await fileExists(dirName))) await mkdir(dirName);
