@@ -7,6 +7,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
 import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
+import "./env";
 
 //import { Certificate } from '@fidm/x509';
 //import { ASN1 } from '@fidm/asn1';
@@ -15,19 +16,13 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
-  ISOLATED_ATTESTATION_URL: "isolated_attestation_url",
-  AAD_ATTESTATION_URL: "aad_attestation_url",
+  ISOLATED_ATTESTATION_URL: "https://isolated_attestation_url",
+  AAD_ATTESTATION_URL: "https://aad_attestation_url",
   policySigningCertificate0: "policy_signing_certificate0",
   policySigningCertificate1: "policy_signing_certificate1",
   policySigningCertificate2: "policy_signing_certificate2",
   isolatedSigningCertificate: "isolated_signing_certificate"
 };
-
-export const testEnv = new Proxy(replaceableVariables, {
-  get: (target, key: string) => {
-    return env[key] || target[key];
-  }
-});
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -39,7 +34,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     // https://<endpoint>:443/ and therefore will not match, so we have to do
     // this instead.
     (recording: string): string => {
-      const replaced = recording.replace("endpoint:443", "endpoint");
+      const replaced = recording
+        .replace("aad_attestation_url:443", "aad_attestation_url")
+        .replace("isolated_attestation_url:443", "isolated_attestation_url");
       return replaced;
     }
   ],
@@ -57,16 +54,16 @@ export function createRecordedClient(
   options?: AttestationClientOptionalParams
 ): AttestationClient {
   const credential = new ClientSecretCredential(
-    testEnv.AZURE_TENANT_ID,
-    testEnv.AZURE_CLIENT_ID,
-    testEnv.AZURE_CLIENT_SECRET
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
   );
   switch (endpointType) {
     case "AAD": {
-      return new AttestationClient(credential, testEnv.AAD_ATTESTATION_URL, options);
+      return new AttestationClient(credential, env.AAD_ATTESTATION_URL, options);
     }
     case "Isolated": {
-      return new AttestationClient(credential, testEnv.ISOLATED_ATTESTATION_URL, options);
+      return new AttestationClient(credential, env.ISOLATED_ATTESTATION_URL, options);
     }
     case "Shared": {
       return new AttestationClient(credential, "https://shareduks.uks.attest.azure.net", options);

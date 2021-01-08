@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
@@ -132,8 +132,7 @@ describe("[AAD] Attestation Client", function() {
 
     assert(attestationResult.token);
     if (attestationResult?.token) {
-      const isValid = await verifyAttestationToken(attestationResult.token, client);
-      assert(isValid);
+      await verifyAttestationToken(attestationResult.token, client);
     }
   });
   it("#AttestSgxAad", async () => {
@@ -149,7 +148,7 @@ describe("[AAD] Attestation Client", function() {
     });
 
     assert(attestationResult.token);
-    if (attestationResult?.token) {
+    if (attestationResult?.token && !isPlaybackMode()) {
       await verifyAttestationToken(attestationResult.token, client);
     }
   });
@@ -167,7 +166,12 @@ describe("[AAD] Attestation Client", function() {
     });
 
     assert(attestationResult.token);
-    if (attestationResult?.token) {
+    /**
+     * Skipping verification in playback mode because the resource url is part
+     * of the JWT and it has to be verified against the real resource url instead
+     * of the fake one in playback.
+     */
+    if (attestationResult?.token && !isPlaybackMode()) {
       await verifyAttestationToken(attestationResult.token, client);
     }
   });

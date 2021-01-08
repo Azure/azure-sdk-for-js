@@ -5,7 +5,7 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
@@ -30,7 +30,7 @@ describe("PolicyManagementTests ", function() {
     const policyResult = await client.policyCertificates.get();
     const result = policyResult.token;
     assert(result);
-    if (result) {
+    if (result && !isPlaybackMode()) {
       const tokenResult = await verifyAttestationToken(result, client);
       assert.isDefined(tokenResult);
       if (tokenResult) {
@@ -64,7 +64,7 @@ describe("PolicyManagementTests ", function() {
 
     const result = policyResult.token;
     assert(result);
-    if (result) {
+    if (result && !isPlaybackMode()) {
       const tokenResult = await verifyAttestationToken(result, client);
       assert.isDefined(tokenResult);
       if (tokenResult) {
