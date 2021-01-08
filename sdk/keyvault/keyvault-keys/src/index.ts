@@ -29,8 +29,7 @@ import {
   KeyItem,
   KeyVaultClientGetKeysOptionalParams,
   KeyVaultClientRestoreKeyResponse,
-  KeyVaultClientUpdateKeyResponse,
-  KnownApiVersion72Preview as KnownApiVersions
+  KeyVaultClientUpdateKeyResponse
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -70,7 +69,8 @@ import {
   RestoreKeyBackupOptions,
   UpdateKeyPropertiesOptions,
   KeyClientOptions,
-  CryptographyClientOptions
+  CryptographyClientOptions,
+  LATEST_API_VERSION
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -239,7 +239,7 @@ export class KeyClient {
     };
 
     this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || KnownApiVersions.Seven2Preview,
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
