@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -62,6 +61,7 @@ import { disableResponseDecompressionPolicy } from "./policies/disableResponseDe
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
 import { URL } from "./url";
+import { getCachedDefaultHttpClient } from "./httpClientCache";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -197,7 +197,7 @@ export class ServiceClient {
     }
 
     this._withCredentials = options.withCredentials || false;
-    this._httpClient = options.httpClient || new DefaultHttpClient();
+    this._httpClient = options.httpClient || getCachedDefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     let requestPolicyFactories: RequestPolicyFactory[];

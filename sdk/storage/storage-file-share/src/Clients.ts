@@ -583,10 +583,7 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
  * @export
  * @interface ShareGetPropertiesResponse
  */
-export type ShareGetPropertiesResponse = Omit<
-  ShareGetPropertiesResponseModel,
-  "enabledProtocols"
-> & {
+export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
   /**
    * The protocols that have been enabled on the share.
    * @type {ShareProtocols}
@@ -1167,7 +1164,6 @@ export class ShareClient extends StorageClient {
 
       // parse protocols
       const protocols = toShareProtocols(res.enabledProtocols);
-      delete res.enabledProtocols;
       (res as any).protocols = protocols;
       return res;
     } catch (e) {

@@ -23,7 +23,7 @@
     "os": false,
     "process": false
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
@@ -68,15 +68,13 @@
     "LICENSE"
   ],
   "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "storage",
     "ADLS",
     "DFS",
+    "cloud",
     "datalake",
     "node.js",
     "typescript",
@@ -88,7 +86,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-datalake/",
   "//metadata": {
     "constantPaths": [
       {

@@ -1,12 +1,12 @@
 {
   "name": "@azure/opentelemetry-exporter-azure-monitor",
-  "author": "appinsightssdk@microsoft.com",
+  "author": "Microsoft Corporation",
   "sdk-type": "client",
   "version": "1.0.0-beta.1",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
-  "main": "dist-esm/src/index.js",
+  "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/src/index.d.ts",
+  "types": "types/latest/opentelemetry-exporter-azure-monitor.d.ts",
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:autorest": "autorest ./swagger/README.md --typescript --v3",
@@ -35,23 +35,22 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "engines": {
-    "node": ">=8.3.0"
+    "node": ">=8.5.0"
   },
   "files": [
     "dist-esm/src/",
     "dist/src/",
     "browser/src/",
     "types/src/",
-    "src/",
     "README.md",
     "SECURITY.md",
     "LICENSE"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor/",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
@@ -96,6 +95,7 @@
     "javascript",
     "applicationinsights",
     "opentelemetry",
-    "exporter"
+    "exporter",
+    "cloud"
   ]
 }

@@ -1,11 +1,11 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.4.0-beta.1",
+  "version": "5.3.2",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -17,6 +17,9 @@
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -30,9 +33,6 @@
   },
   "browser": {
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
-  },
-  "engine": {
-    "node": ">=8.0.0"
   },
   "files": [
     "dist/",
@@ -89,7 +89,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.1.0",
+    "@azure/core-amqp": "^2.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-auth": "^1.1.3",

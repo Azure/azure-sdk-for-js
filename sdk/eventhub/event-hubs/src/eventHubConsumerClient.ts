@@ -620,7 +620,7 @@ export class EventHubConsumerClient {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function isCheckpointStore(possible: CheckpointStore | any): possible is CheckpointStore {
   if (!possible) {
@@ -639,7 +639,7 @@ export function isCheckpointStore(possible: CheckpointStore | any): possible is 
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 function isSubscriptionEventHandlers(
   possible: any | SubscriptionEventHandlers

@@ -7,11 +7,13 @@
  */
 
 import { Rule } from "eslint";
+import { JSONSchema4 } from "json-schema";
 
 export const getRuleMetaData = (
   ruleName: string,
   ruleDescription: string,
-  fix?: "code" | "whitespace"
+  fix?: "code" | "whitespace",
+  schema?: JSONSchema4 | JSONSchema4[]
 ): Rule.RuleMetaData => {
   const required = {
     type: "suggestion",
@@ -21,7 +23,7 @@ export const getRuleMetaData = (
       recommended: true,
       url: `https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk/docs/rules/${ruleName}.md`
     },
-    schema: []
+    schema: schema || []
   };
   return (fix !== undefined ? { ...required, fixable: fix } : required) as Rule.RuleMetaData;
 };

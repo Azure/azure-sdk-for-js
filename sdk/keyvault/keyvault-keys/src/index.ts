@@ -19,16 +19,19 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import {
-  BackupKeyResponse,
-  CreateKeyResponse,
+  KeyVaultClientBackupKeyResponse,
+  KeyVaultClientCreateKeyResponse,
   DeletionRecoveryLevel,
-  GetDeletedKeyResponse,
-  GetKeyResponse,
-  ImportKeyResponse,
+  KnownDeletionRecoveryLevel,
+  KeyVaultClientGetDeletedKeyResponse,
+  KeyVaultClientGetKeyResponse,
+  KeyVaultClientImportKeyResponse,
   KeyItem,
   KeyVaultClientGetKeysOptionalParams,
-  RestoreKeyResponse,
-  UpdateKeyResponse
+  KeyVaultClientRestoreKeyResponse,
+  KeyVaultClientUpdateKeyResponse,
+  KnownApiVersion72Preview as KnownApiVersions,
+  ApiVersion72Preview as ApiVersion
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -53,8 +56,10 @@ import {
   ImportKeyOptions,
   JsonWebKey,
   KeyOperation,
+  KnownKeyOperations,
   KeyPollerOptions,
   KeyType,
+  KnownKeyTypes,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -66,7 +71,6 @@ import {
   RestoreKeyBackupOptions,
   UpdateKeyPropertiesOptions,
   KeyClientOptions,
-  LATEST_API_VERSION,
   CryptographyClientOptions
 } from "./keysModels";
 
@@ -77,8 +81,11 @@ import { LocalCryptographyClient } from "./localCryptographyClient";
 import {
   DecryptResult,
   KeyCurveName,
+  KnownKeyCurveNames,
   EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
   SignatureAlgorithm,
+  KnownSignatureAlgorithms,
   KeyWrapAlgorithm,
   SignResult,
   UnwrapResult,
@@ -112,6 +119,7 @@ export {
   DecryptResult,
   DeletedKey,
   DeletionRecoveryLevel,
+  KnownDeletionRecoveryLevel,
   EncryptOptions,
   EncryptResult,
   GetDeletedKeyOptions,
@@ -119,15 +127,20 @@ export {
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
+  KnownKeyCurveNames,
   EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
   KeyOperation,
+  KnownKeyOperations,
   KeyType,
+  KnownKeyTypes,
   KeyPollerOptions,
   parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
   SignatureAlgorithm,
+  KnownSignatureAlgorithms,
   KeyVaultKey,
   KeyWrapAlgorithm,
   ListPropertiesOfKeysOptions,
@@ -152,7 +165,9 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger
+  logger,
+  KnownApiVersions,
+  ApiVersion
 };
 
 /**
@@ -227,7 +242,7 @@ export class KeyClient {
     };
 
     this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipelineOptions.serviceVersion || KnownApiVersions.Seven2Preview,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
   }
@@ -267,7 +282,7 @@ export class KeyClient {
 
       const span = createSpan("createKey", unflattenedOptions);
 
-      let response: CreateKeyResponse;
+      let response: KeyVaultClientCreateKeyResponse;
 
       try {
         response = await this.client.createKey(
@@ -315,7 +330,7 @@ export class KeyClient {
 
       const span = createSpan("createEcKey", unflattenedOptions);
 
-      let response: CreateKeyResponse;
+      let response: KeyVaultClientCreateKeyResponse;
       try {
         response = await this.client.createKey(
           this.vaultUrl,
@@ -363,7 +378,7 @@ export class KeyClient {
 
       const span = createSpan("createRsaKey", unflattenedOptions);
 
-      let response: CreateKeyResponse;
+      let response: KeyVaultClientCreateKeyResponse;
       try {
         response = await this.client.createKey(
           this.vaultUrl,
@@ -425,7 +440,7 @@ export class KeyClient {
 
       const span = createSpan("importKey", unflattenedOptions);
 
-      let response: ImportKeyResponse;
+      let response: KeyVaultClientImportKeyResponse;
       try {
         response = await this.client.importKey(
           this.vaultUrl,
@@ -527,7 +542,7 @@ export class KeyClient {
 
       const span = createSpan("updateKeyProperties", unflattenedOptions);
 
-      let response: UpdateKeyResponse;
+      let response: KeyVaultClientUpdateKeyResponse;
 
       try {
         response = await this.client.updateKey(
@@ -564,7 +579,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getKey", requestOptions);
 
-    let response: GetKeyResponse;
+    let response: KeyVaultClientGetKeyResponse;
     try {
       response = await this.client.getKey(
         this.vaultUrl,
@@ -599,7 +614,7 @@ export class KeyClient {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("getDeletedKey", responseOptions);
 
-    let response: GetDeletedKeyResponse;
+    let response: KeyVaultClientGetDeletedKeyResponse;
     try {
       response = await this.client.getDeletedKey(
         this.vaultUrl,
@@ -708,7 +723,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("backupKey", requestOptions);
 
-    let response: BackupKeyResponse;
+    let response: KeyVaultClientBackupKeyResponse;
     try {
       response = await this.client.backupKey(
         this.vaultUrl,
@@ -744,7 +759,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("restoreKeyBackup", requestOptions);
 
-    let response: RestoreKeyResponse;
+    let response: KeyVaultClientRestoreKeyResponse;
     try {
       response = await this.client.restoreKey(
         this.vaultUrl,

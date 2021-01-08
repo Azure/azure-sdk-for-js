@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool/",
   "sideEffects": false,
   "private": true,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",

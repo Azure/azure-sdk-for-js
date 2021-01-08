@@ -1,8 +1,9 @@
 # Release History
 
-## 3.10.0 (2020-12-27)
+## 3.10.0 (2021-01-11)
 
 - FEATURE: Adds AAD authentication via @azure/identity.
+- BUGFIX: Sums group by operations for cross-partition queries correctly with null value.
 
 ## 3.9.3 (2020-10-19)
 
