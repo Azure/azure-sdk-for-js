@@ -79,9 +79,9 @@ export function createRecordedCommunicationIdentityClient(
 
 export function createRecordedCommunicationIdentityClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> {  
-  const recorder = record(context, environmentSetup);  
-  
+): RecordedClient<CommunicationIdentityClient> {
+  const recorder = record(context, environmentSetup);
+
   if (isBrowser()) {
     return {
       client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
