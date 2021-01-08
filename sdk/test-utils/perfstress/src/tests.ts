@@ -47,8 +47,8 @@ export abstract class PerfStressTest<TOptions = {}> {
   public setup(): void | Promise<void> {}
   public cleanup(): void | Promise<void> {}
 
-  public run?(abortSignal?: AbortSignalLike): void;
-  public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
+  public abstract run(abortSignal?: AbortSignalLike): void;
+  public abstract runAsync(abortSignal?: AbortSignalLike): Promise<void>;
 }
 
 /**

@@ -66,4 +66,6 @@ export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions
     );
     await policy.sendRequest(request);
   }
+
+  run() {}
 }
