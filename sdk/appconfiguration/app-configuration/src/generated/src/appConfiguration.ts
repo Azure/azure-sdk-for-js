@@ -480,6 +480,9 @@ const getKeyValueOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyValue,
       headersMapper: Mappers.AppConfigurationGetKeyValueHeaders
     },
+    304: {
+      headersMapper: Mappers.AppConfigurationGetKeyValueHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorModel
     }
@@ -553,6 +556,9 @@ const checkKeyValueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "HEAD",
   responses: {
     200: {
+      headersMapper: Mappers.AppConfigurationCheckKeyValueHeaders
+    },
+    304: {
       headersMapper: Mappers.AppConfigurationCheckKeyValueHeaders
     },
     default: {}

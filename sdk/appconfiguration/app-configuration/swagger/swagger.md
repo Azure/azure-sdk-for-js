@@ -48,3 +48,49 @@ directive:
     $.required = $.required || [];
     $.required.push('key');
 ```
+
+### Add 304 response to GetKeyValueOperation
+``` yaml
+directive:
+- from: swagger-document
+  where: $["paths"]["/kv/{key}"]["get"]["responses"]
+  transform: >
+    $["304"] = {};
+    $["304"]["description"] = "Response code 304"; 
+    $["304"]["headers"] = {}
+
+    $["304"]["headers"]["Sync-Token"] = {};
+    $["304"]["headers"]["Sync-Token"]["description"] = "Enables real-time consistency between requests by providing the returned value in the next request made to the server.";
+    $["304"]["headers"]["Sync-Token"]["type"] = "string";
+
+    $["304"]["headers"]["ETag"] = {};
+    $["304"]["headers"]["ETag"]["description"] = "An identifier representing the returned state of the resource.";
+    $["304"]["headers"]["ETag"]["type"] = "string";
+
+    $["304"]["headers"]["Last-Modified"] = {};
+    $["304"]["headers"]["Last-Modified"]["description"] = "A UTC datetime that specifies the last time the resource was modified.";
+    $["304"]["headers"]["Last-Modified"]["type"] = "string";
+```
+
+### Add 304 response to CheckKeyValueOperation
+``` yaml
+directive:
+- from: swagger-document
+  where: $["paths"]["/kv/{key}"]["head"]["responses"]
+  transform: >
+    $["304"] = {};
+    $["304"]["description"] = "Response code 304"; 
+    $["304"]["headers"] = {}
+
+    $["304"]["headers"]["Sync-Token"] = {};
+    $["304"]["headers"]["Sync-Token"]["description"] = "Enables real-time consistency between requests by providing the returned value in the next request made to the server.";
+    $["304"]["headers"]["Sync-Token"]["type"] = "string";
+
+    $["304"]["headers"]["ETag"] = {};
+    $["304"]["headers"]["ETag"]["description"] = "An identifier representing the returned state of the resource.";
+    $["304"]["headers"]["ETag"]["type"] = "string";
+
+    $["304"]["headers"]["Last-Modified"] = {};
+    $["304"]["headers"]["Last-Modified"]["description"] = "A UTC datetime that specifies the last time the resource was modified.";
+    $["304"]["headers"]["Last-Modified"]["type"] = "string";
+```
