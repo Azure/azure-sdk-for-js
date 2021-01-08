@@ -32,7 +32,7 @@ This SDK provides the following functionality for the Microsoft Azure Attestatio
 
 You can set the following environment variable to get the debug logging output when using this library.
 
-- Getting debug logs from the Azure Text Analytics client library
+- Getting debug logs from the Azure Attestation client library
 
 ```bash
 export AZURE_LOG_LEVEL=verbose

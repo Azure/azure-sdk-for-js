@@ -130,9 +130,10 @@ describe("[AAD] Attestation Client", function() {
       }
     });
 
-    assert(attestationResult.token);
-    if (attestationResult?.token) {
-      await verifyAttestationToken(attestationResult.token, client);
+    const result = attestationResult.token;
+    assert(result, "Expected a token from the service but did not receive one");
+    if (result) {
+      await verifyAttestationToken(result, client);
     }
   });
   it("#AttestSgxAad", async () => {
@@ -147,9 +148,10 @@ describe("[AAD] Attestation Client", function() {
       }
     });
 
-    assert(attestationResult.token);
-    if (attestationResult?.token && !isPlaybackMode()) {
-      await verifyAttestationToken(attestationResult.token, client);
+    const result = attestationResult.token;
+    assert(result, "Expected a token from the service but did not receive one");
+    if (result && !isPlaybackMode()) {
+      await verifyAttestationToken(result, client);
     }
   });
 
@@ -165,14 +167,15 @@ describe("[AAD] Attestation Client", function() {
       }
     });
 
-    assert(attestationResult.token);
     /**
      * Skipping verification in playback mode because the resource url is part
      * of the JWT and it has to be verified against the real resource url instead
      * of the fake one in playback.
      */
-    if (attestationResult?.token && !isPlaybackMode()) {
-      await verifyAttestationToken(attestationResult.token, client);
+    const result = attestationResult.token;
+    assert(result, "Expected a token from the service but did not receive one");
+    if (result && !isPlaybackMode()) {
+      await verifyAttestationToken(result, client);
     }
   });
 });

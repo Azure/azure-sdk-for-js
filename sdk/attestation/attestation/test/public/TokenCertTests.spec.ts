@@ -9,7 +9,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
-import * as base64 from "../utils/base64";
+import { Buffer } from "../utils/Buffer";
 
 describe("TokenCertTests", function() {
   let recorder: Recorder;
@@ -32,7 +32,7 @@ describe("TokenCertTests", function() {
     for (const key of certs) {
       assert.isDefined(key.x5C);
       for (const cert of key.x5C!) {
-        const berCert = base64.decodeString(cert);
+        const berCert = Buffer.from(cert, "base64");
         assert(berCert);
       }
     }
@@ -46,7 +46,7 @@ describe("TokenCertTests", function() {
     for (const key of certs) {
       assert.isDefined(key.x5C);
       for (const cert of key.x5C!) {
-        const berCert = base64.decodeString(cert);
+        const berCert = Buffer.from(cert, "base64");
         assert(berCert);
       }
     }
@@ -61,7 +61,7 @@ describe("TokenCertTests", function() {
     for (const key of certs) {
       assert.isDefined(key.x5C);
       for (const cert of key.x5C!) {
-        const berCert = base64.decodeString(cert);
+        const berCert = Buffer.from(cert, "base64");
         assert(berCert);
       }
     }

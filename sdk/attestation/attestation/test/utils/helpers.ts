@@ -5,7 +5,6 @@ import { assert } from "chai";
 
 import { AttestationClient } from "../../src/";
 
-// import { decode } from "jsonwebtoken";
 import * as jsrsasign from "jsrsasign"; // works in the browser
 
 import { decode } from "./decodeJWT";

@@ -11,7 +11,7 @@ export function encodeString(value: string): string {
 
 /**
  * Encodes a byte array in base64 format.
- * @param value the Uint8Aray to encode
+ * @param value the Uint8Array to encode
  */
 export function encodeByteArray(value: Uint8Array): string {
   // Buffer.from accepts <ArrayBuffer> | <SharedArrayBuffer>-- the TypeScript definition is off here

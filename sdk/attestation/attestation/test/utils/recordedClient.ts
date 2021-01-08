@@ -9,9 +9,6 @@ import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-uti
 import { AttestationClient, AttestationClientOptionalParams } from "../../src/";
 import "./env";
 
-//import { Certificate } from '@fidm/x509';
-//import { ASN1 } from '@fidm/asn1';
-
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",

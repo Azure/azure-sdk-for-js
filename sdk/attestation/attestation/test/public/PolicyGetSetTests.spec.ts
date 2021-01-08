@@ -28,7 +28,7 @@ describe("PolicyGetSetTests ", function() {
     client = createRecordedClient("AAD");
     const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
     const result = policyResult.token;
-    assert(result);
+    assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
       await verifyAttestationToken(result, client);
     }
@@ -39,7 +39,7 @@ describe("PolicyGetSetTests ", function() {
     client = createRecordedClient("Isolated");
     const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
     const result = policyResult.token;
-    assert(result);
+    assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
       await verifyAttestationToken(result, client);
     }
@@ -50,7 +50,7 @@ describe("PolicyGetSetTests ", function() {
     client = createRecordedClient("Shared");
     const policyResult = await client.policy.get(KnownAttestationType.SgxEnclave);
     const result = policyResult.token;
-    assert(result);
+    assert(result, "Expected a token from the service but did not receive one");
     if (result) {
       await verifyAttestationToken(result, client);
     }

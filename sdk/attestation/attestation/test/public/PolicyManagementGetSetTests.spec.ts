@@ -29,7 +29,7 @@ describe("PolicyManagementTests ", function() {
 
     const policyResult = await client.policyCertificates.get();
     const result = policyResult.token;
-    assert(result);
+    assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
       const tokenResult = await verifyAttestationToken(result, client);
       assert.isDefined(tokenResult);
@@ -46,7 +46,7 @@ describe("PolicyManagementTests ", function() {
     const policyResult = await client.policyCertificates.get();
 
     const result = policyResult.token;
-    assert(result);
+    assert(result, "Expected a token from the service but did not receive one");
     if (result) {
       const tokenResult = await verifyAttestationToken(result, client);
       assert.isDefined(tokenResult);
@@ -63,7 +63,7 @@ describe("PolicyManagementTests ", function() {
     const policyResult = await client.policyCertificates.get();
 
     const result = policyResult.token;
-    assert(result);
+    assert(result, "Expected a token from the service but did not receive one");
     if (result && !isPlaybackMode()) {
       const tokenResult = await verifyAttestationToken(result, client);
       assert.isDefined(tokenResult);
