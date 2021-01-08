@@ -77,5 +77,7 @@ export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
     }
   }
 
-  async runAsync() {}
+  async runAsync() {
+    throw new Error("Method is not implemented");
+  }
 }

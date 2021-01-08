@@ -25,5 +25,7 @@ export class SleepTest extends PerfStressTest {
     await delay(this.secondsPerOperation * 1000);
   }
 
-  run() {}
+  run() {
+    throw new Error("Method is not implemented");
+  }
 }

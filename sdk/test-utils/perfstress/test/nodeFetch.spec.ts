@@ -37,5 +37,7 @@ export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
     await response.text();
   }
 
-  run() {}
+  run() {
+    throw new Error("Method is not implemented");
+  }
 }

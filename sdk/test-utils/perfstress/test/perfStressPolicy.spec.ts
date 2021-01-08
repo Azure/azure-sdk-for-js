@@ -67,5 +67,7 @@ export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions
     await policy.sendRequest(request);
   }
 
-  run() {}
+  run() {
+    throw new Error("Method is not implemented");
+  }
 }

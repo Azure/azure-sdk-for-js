@@ -45,5 +45,7 @@ export class Delay500ms extends PerfStressTest {
     await delay(500);
   }
 
-  run() {}
+  run() {
+    throw new Error("Method is not implemented");
+  }
 }
