@@ -72,8 +72,8 @@ async function main(argv) {
     artifactName,
     repoRoot,
     newVersion,
-    false,
-    true,
+    "--Unreleased:$false",
+    "--ReplaceLatestEntryTitle:$true",
     releaseDate
   );
   if (!updateStatus) {
