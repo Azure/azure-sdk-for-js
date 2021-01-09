@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
     "parcel-bundler": "^1.12.4"
   },
   "browserslist": [

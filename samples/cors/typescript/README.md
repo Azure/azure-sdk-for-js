@@ -6,18 +6,16 @@ While CORS is configurable for some Azure services, Azure Key Vault does not cur
 
 > Rememeber: CORS is a _browser_ restriction, and is not a concern in a Node application.
 
-Fortunately, there are options we can offer - listed below:
+Fortunately, there are a few options:
 
-- Use a back-end server to route requests to Azure Key Vault
+- Use a back end server to route requests to Azure Key Vault
 - Use [Azure API Management][azureapimanagement] to route requests to Azure Key Vault
 
 ## Use a back end server
 
-With this approach you'll use a server process (like [Express][express]) to route requests to Azure Key Vault. Since you own the client and server processes you can freely add CORS policies to support your requests. If the server is serving your web application you won't need to setup _any_ CORS policies (same-origin would apply)
+With this approach you'll use a server process (like [Express][express]) to route requests to Azure Key Vault. Since you own the client and server processes you can freely add CORS policies to support your requests.
 
 If your web application already has a back end component this will be the most straightforward approach. You'll simply add a new API endpoint to your server which will be responsible for fetching a secret from Azure Key Vault and returning it to the user. This allows you to have complete control and customization over the security and authorization of calls to Key Vault since all calls will go through a priviledged environment (your server).
-
-Please refer to our [sample][sample] for more information on how you might set this up.
 
 ## Use Azure API Management
 
@@ -25,7 +23,7 @@ But what if you don't have a server in place for your Single Page Application? T
 
 It provides all of the same benefits as having your own back end API while avoiding the need to separately deploy, manage, and secure your own server. You can define a single API that is responsible for retrieving secrets and apply best-in-class security to control access to your secrets. TODO: revise this sentence and add more context here.
 
-Please refer to our [sample][sample] for more information on how you would set this up.
+# Sample code
 
 [azureapimanagement]: https://aka.ms
 [express]: https://aka.ms
