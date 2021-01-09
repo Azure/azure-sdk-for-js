@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '377cc5df-d482-4a09-a97c-decb9e14a000',
+  '557dd64d-c113-4a2e-b17f-c2682f209500',
   'x-ms-ests-server',
-  '2.1.11328.13 - NCUS ProdSlices',
+  '2.1.11384.5 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AgD1_iMYKdBHoG5yQy9Ub_OuaJ_6AQAAAOhAc9cOAAAA; expires=Thu, 21-Jan-2021 01:20:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnBS-AfLmTxArupvOKopYAE; expires=Mon, 08-Feb-2021 01:20:43 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Dec 2020 01:20:40 GMT',
+  'Sat, 09 Jan 2021 01:20:42 GMT',
   'Content-Length',
   '1325'
 ]);
@@ -48,5 +48,5 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'Date',
-  'Tue, 22 Dec 2020 01:20:40 GMT'
+  'Sat, 09 Jan 2021 01:20:43 GMT'
 ]);

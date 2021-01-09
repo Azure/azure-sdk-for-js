@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "4caa1634350ed10e1ea07cc529643417";
+module.exports.hash = "40b398431f8d0d91866d6b123fa032f4";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1325',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,17 +22,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2bb02258-e96b-4ade-8d34-57feb2a6aa00',
+  '62c4560e-2fe5-4ced-b314-1c3dde8e8e00',
   'x-ms-ests-server',
-  '2.1.11328.13 - WUS2 ProdSlices',
+  '2.1.11384.5 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=ArU6Yo8-Re1Ki3Q-rlSGB5A; expires=Thu, 21-Jan-2021 01:20:42 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AowsoLOUr3pHsYdoXKtNiyA; expires=Mon, 08-Feb-2021 01:20:44 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Dec 2020 01:20:41 GMT'
+  'Sat, 09 Jan 2021 01:20:43 GMT',
+  'Content-Length',
+  '1325'
 ]);
 
 nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
@@ -48,7 +48,7 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'Date',
-  'Tue, 22 Dec 2020 01:20:41 GMT'
+  'Sat, 09 Jan 2021 01:20:44 GMT'
 ]);
 
 nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
@@ -62,5 +62,5 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'Date',
-  'Tue, 22 Dec 2020 01:20:41 GMT'
+  'Sat, 09 Jan 2021 01:20:44 GMT'
 ]);

@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1325",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:20 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:19 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - SCUS ProdSlices",
-    "x-ms-request-id": "3adc1fdd-d07e-4617-8329-adb061eda800"
+    "x-ms-ests-server": "2.1.11384.5 - EUS ProdSlices",
+    "x-ms-request-id": "dabd7c4b-1544-4250-ab69-3759ab819000"
    }
   },
   {
@@ -34,7 +34,7 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -50,7 +50,7 @@
    "responseHeaders": {
     "content-length": "225",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -62,11 +62,11 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTComponentTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTComponentTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2020-12-22T01:21:22.0029816+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2020-12-22T01:21:22.0030136+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2021-01-09T01:21:20.2603792+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2021-01-09T01:21:20.2604056+00:00\"}]",
    "responseHeaders": {
     "content-length": "342",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -82,7 +82,7 @@
    "responseHeaders": {
     "content-length": "277",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -94,12 +94,12 @@
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\"},\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{},\"ComponentProp1\":\"value1\"}}",
    "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"377bf1bc-528d-4d77-8f23-ae5a6db158c5\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"ComponentProp1\":{\"lastUpdateTime\":\"2020-12-22T01:21:22.0777003Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"Prop1\":{\"lastUpdateTime\":\"2020-12-22T01:21:22.0777003Z\"}}}",
+   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"9492a747-789f-4d09-be25-688436441dab\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"ComponentProp1\":{\"lastUpdateTime\":\"2021-01-09T01:21:20.3424683Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"Prop1\":{\"lastUpdateTime\":\"2021-01-09T01:21:20.3424683Z\"}}}",
    "responseHeaders": {
     "content-length": "347",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
-    "etag": "W/\"377bf1bc-528d-4d77-8f23-ae5a6db158c5\"",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
+    "etag": "W/\"9492a747-789f-4d09-be25-688436441dab\"",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -114,8 +114,8 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
-    "etag": "W/\"d0cbc0ce-e844-4c28-b585-83fdc83eaf0d\"",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
+    "etag": "W/\"b71bc8f8-c2ab-4c0b-8247-8644c40eb19f\"",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -127,12 +127,12 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"ComponentProp1\":\"5\",\"$metadata\":{\"ComponentProp1\":{\"lastUpdateTime\":\"2020-12-22T01:21:22.1220563Z\"}}}",
+   "response": "{\"ComponentProp1\":\"5\",\"$metadata\":{\"ComponentProp1\":{\"lastUpdateTime\":\"2021-01-09T01:21:20.3997067Z\"}}}",
    "responseHeaders": {
     "content-length": "103",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
-    "etag": "W/\"d0cbc0ce-e844-4c28-b585-83fdc83eaf0d\"",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
+    "etag": "W/\"b71bc8f8-c2ab-4c0b-8247-8644c40eb19f\"",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -147,7 +147,7 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -162,7 +162,7 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -177,7 +177,7 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 22 Dec 2020 01:21:21 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:20 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   }
@@ -186,5 +186,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "ec127472cbbf79332fc797f69afcd689"
+ "hash": "0bb4870d0cda738e70c5139b46a238e8"
 }

@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
-    "content-length": "1325",
+    "content-length": "1319",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:39 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:37 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - WUS2 ProdSlices",
-    "x-ms-request-id": "c511b3d9-7ecd-4c93-a499-e0d4267b7300"
+    "x-ms-ests-server": "2.1.11384.5 - EUS ProdSlices",
+    "x-ms-request-id": "bae26e18-875f-4dad-9afc-e5fedb079000"
    }
   },
   {
@@ -34,7 +34,7 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:39 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:37 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -50,7 +50,7 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:39 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:37 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -62,11 +62,11 @@
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTModelTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTModelTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTModelTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTModelTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2020-12-22T01:21:39.829748+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2020-12-22T01:21:39.8297759+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTModelTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2021-01-09T01:21:38.3055728+00:00\"},{\"id\":\"dtmi:samples:DTModelTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2021-01-09T01:21:38.3055988+00:00\"}]",
    "responseHeaders": {
-    "content-length": "333",
+    "content-length": "334",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 01:21:39 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:37 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -81,7 +81,7 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 22 Dec 2020 01:21:39 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:37 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   },
@@ -96,7 +96,7 @@
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Tue, 22 Dec 2020 01:21:39 GMT",
+    "date": "Sat, 09 Jan 2021 01:21:37 GMT",
     "strict-transport-security": "max-age=2592000"
    }
   }
