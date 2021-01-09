@@ -95,11 +95,11 @@
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^2.0.0",
+    "undici-fetch": "^0.1.0",
     "universal-user-agent": "^6.0.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

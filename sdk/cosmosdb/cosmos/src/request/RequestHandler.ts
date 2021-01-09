@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import AbortController from "node-abort-controller";
-import fetch, { RequestInit, Response } from "node-fetch";
+import fetch, { Response } from "undici-fetch";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
 import { logger } from "../common/logger";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
-import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
 import { ErrorResponse } from "./ErrorResponse";
 import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
@@ -55,15 +54,15 @@ async function httpRequest(requestContext: RequestContext) {
     response = await fetch(trimSlashes(requestContext.endpoint) + requestContext.path, {
       method: requestContext.method,
       headers: requestContext.headers as any,
-      agent: (parsedUrl: URL) => {
-        if (requestContext.requestAgent) {
-          return requestContext.requestAgent;
-        }
-        return parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
-      },
+      // agent: (parsedUrl: URL) => {
+      //   if (requestContext.requestAgent) {
+      //     return requestContext.requestAgent;
+      //   }
+      //   return parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
+      // } as any,
       signal,
       body: requestContext.body
-    } as RequestInit);
+    });
   } catch (error) {
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
@@ -81,9 +80,9 @@ async function httpRequest(requestContext: RequestContext) {
 
   const result = response.status === 204 || response.status === 304 ? null : await response.json();
   const headers = {} as any;
-  response.headers.forEach((value: string, key: string) => {
-    headers[key] = value;
-  });
+  for (const [name, value] of response.headers as any) {
+    headers[name] = value;
+  }
 
   const substatus = headers[Constants.HttpHeaders.SubStatus]
     ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
