@@ -22,7 +22,7 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const serviceClient = new DigitalTwinsClient(url, credential);
 
-  const modelId = ''; //Example: dtmi:samples:Building;1
+  const modelId = ""; //Example: dtmi:samples:Building;1
 
   // Decomission models
   const response = await serviceClient.decomissionModel(modelId);

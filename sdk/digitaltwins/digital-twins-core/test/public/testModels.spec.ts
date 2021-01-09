@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-    DigitalTwinsClient
-  } from "../../src";
+import { DigitalTwinsClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
 import chai from "chai";
@@ -12,89 +10,87 @@ import { delay } from "@azure/core-http";
 const assert = chai.assert;
 const should = chai.should();
 
-const MODEL_ID = "dtmi:samples:DTModelTestsModel;1"
-const COMPONENT_ID = "dtmi:samples:DTModelTestsComponent;1"
+const MODEL_ID = "dtmi:samples:DTModelTestsModel;1";
+const COMPONENT_ID = "dtmi:samples:DTModelTestsComponent;1";
 
 const component = {
   "@id": COMPONENT_ID,
   "@type": "Interface",
   "@context": "dtmi:dtdl:context;2",
-  "displayName": "Component1",
-  "contents": [
+  displayName: "Component1",
+  contents: [
     {
-        "@type": "Property",
-        "name": "ComponentProp1",
-        "schema": "string"
+      "@type": "Property",
+      name: "ComponentProp1",
+      schema: "string"
     },
     {
-        "@type": "Telemetry",
-        "name": "ComponentTelemetry1",
-        "schema": "integer"
+      "@type": "Telemetry",
+      name: "ComponentTelemetry1",
+      schema: "integer"
     }
   ]
-}
+};
 
 const model = {
   "@id": MODEL_ID,
   "@type": "Interface",
   "@context": "dtmi:dtdl:context;2",
-  "displayName": "TempModel",
-  "contents": [
+  displayName: "TempModel",
+  contents: [
     {
-        "@type": "Property",
-        "name": "Prop1",
-        "schema": "string"
+      "@type": "Property",
+      name: "Prop1",
+      schema: "string"
     },
     {
-        "@type": "Component",
-        "name": "Component1",
-        "schema": COMPONENT_ID
+      "@type": "Component",
+      name: "Component1",
+      schema: COMPONENT_ID
     },
     {
-        "@type": "Telemetry",
-        "name": "Telemetry1",
-        "schema": "integer"
+      "@type": "Telemetry",
+      name: "Telemetry1",
+      schema: "integer"
     }
   ]
-}
+};
 
 describe("DigitalTwins Models - create, read, list, delete operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
   async function deleteModels() {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception) {
-    }
+    } catch (Exception) {}
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception) {
-    }
-  };
+    } catch (Exception) {}
+  }
 
   async function createModel() {
     const simpleModels = [component, model];
     await client.createModels(simpleModels);
-  };
+  }
 
   async function setUpModels() {
     await deleteModels();
     await createModel();
-  };
+  }
 
-  it("create models empty", async function () {
+  it("create models empty", async function() {
     await deleteModels();
 
     let errorWasThrown = false;
@@ -102,28 +98,29 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       await client.createModels([]);
     } catch (error) {
       errorWasThrown = true;
-      assert.include(
-        error.message,
-        `should satisfy the constraint "MinItems`
-      );
-    };
+      assert.include(error.message, `should satisfy the constraint "MinItems`);
+    }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create models", async function () {
+  it("create models", async function() {
     await deleteModels();
 
     try {
       const models = await client.createModels([component, model]);
-      assert.equal(models.length, 2, "Unexpected result from createModels().")
-      assert.equal(models[0].id, component["@id"], "Unexpected component in result from createModels().")
-      assert.equal(models[1].id, model["@id"], "Unexpected model in result from createModels().")
+      assert.equal(models.length, 2, "Unexpected result from createModels().");
+      assert.equal(
+        models[0].id,
+        component["@id"],
+        "Unexpected component in result from createModels()."
+      );
+      assert.equal(models[1].id, model["@id"], "Unexpected model in result from createModels().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("create model existing", async function () {
+  it("create model existing", async function() {
     await setUpModels();
 
     let errorWasThrown = false;
@@ -131,36 +128,33 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
       await client.createModels([component, model]);
     } catch (error) {
       errorWasThrown = true;
-      assert.include(
-        error.message,
-        `Some of the model ids already exist`
-      );
+      assert.include(error.message, `Some of the model ids already exist`);
     } finally {
       await deleteModels();
     }
-  should.equal(errorWasThrown, true, "Error was not thrown");
+    should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create model invalid model", async function () {
+  it("create model invalid model", async function() {
     await deleteModels();
 
     const invalidComponent = {
       "@context": "dtmi:dtdl:context;2",
-      "displayName": "Component1",
-      "contents": [
-      {
+      displayName: "Component1",
+      contents: [
+        {
           "@type": "Property",
-          "name": "ComponentProp1",
-          "schema": "string"
-      },
-      {
+          name: "ComponentProp1",
+          schema: "string"
+        },
+        {
           "@type": "Telemetry",
-          "name": "ComponentTelemetry1",
-          "schema": "integer"
-      }
+          name: "ComponentTelemetry1",
+          schema: "integer"
+        }
       ]
-    }
-    
+    };
+
     let errorWasThrown = false;
     try {
       await client.createModels([invalidComponent]);
@@ -176,33 +170,33 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create model invalid reference", async function () {
+  it("create model invalid reference", async function() {
     await deleteModels();
 
     const invalidModel = {
       "@id": MODEL_ID,
       "@type": "Interface",
       "@context": "dtmi:dtdl:context;2",
-      "displayName": "TempModel",
-      "contents": [
+      displayName: "TempModel",
+      contents: [
         {
-            "@type": "Property",
-            "name": "Prop1",
-            "schema": "string"
+          "@type": "Property",
+          name: "Prop1",
+          schema: "string"
         },
         {
-            "@type": "Component",
-            "name": "Component1",
-            "schema": "XXX"
+          "@type": "Component",
+          name: "Component1",
+          schema: "XXX"
         },
         {
-            "@type": "Telemetry",
-            "name": "Telemetry1",
-            "schema": "integer"
+          "@type": "Telemetry",
+          name: "Telemetry1",
+          schema: "integer"
         }
       ]
-    }
-        
+    };
+
     let errorWasThrown = false;
     try {
       await client.createModels([invalidModel]);
@@ -218,29 +212,29 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get model", async function () {
+  it("get model", async function() {
     await setUpModels();
 
     try {
       const model = await client.getModel(COMPONENT_ID);
-      assert.equal(model.id, component["@id"], "Unexpected component in result from getModel().")
+      assert.equal(model.id, component["@id"], "Unexpected component in result from getModel().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("get model with definition", async function () {
+  it("get model with definition", async function() {
     await setUpModels();
 
     try {
       const model = await client.getModel(COMPONENT_ID, true);
-      assert.equal(model.id, component["@id"], "Unexpected component in result from getModel().")
+      assert.equal(model.id, component["@id"], "Unexpected component in result from getModel().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("get model not existing", async function () {
+  it("get model not existing", async function() {
     await deleteModels();
 
     let errorWasThrown = false;
@@ -252,16 +246,16 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
         error.message,
         `There is no Model(s) available that matches the provided id(s)`
       );
-    };
+    }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("list models", async function () {
+  it("list models", async function() {
     await setUpModels();
 
     try {
       const models = client.listModels();
-      
+
       let componentModelFound = false;
       let modelModelFound = false;
       let count = 0;
@@ -274,15 +268,15 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
         }
         count++;
       }
-      assert.equal(count >= 2, true, "Unexpected result from listModels().")
-      assert.equal(componentModelFound, true, "Unexpected result from listModels().")
-      assert.equal(modelModelFound, true, "Unexpected result from listModels().")
+      assert.equal(count >= 2, true, "Unexpected result from listModels().");
+      assert.equal(componentModelFound, true, "Unexpected result from listModels().");
+      assert.equal(modelModelFound, true, "Unexpected result from listModels().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("list models with definition", async function () {
+  it("list models with definition", async function() {
     await setUpModels();
 
     try {
@@ -300,34 +294,34 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
         }
         count++;
       }
-      assert.equal(count >= 2, true, "Unexpected result from listModels().")
-      assert.equal(componentModelFound, true, "Unexpected result from listModels().")
-      assert.equal(modelModelFound, true, "Unexpected result from listModels().")
+      assert.equal(count >= 2, true, "Unexpected result from listModels().");
+      assert.equal(componentModelFound, true, "Unexpected result from listModels().");
+      assert.equal(modelModelFound, true, "Unexpected result from listModels().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("decommission model", async function () {
+  it("decommission model", async function() {
     await deleteModels();
 
     try {
       await client.createModels([component]);
 
       const model1 = await client.getModel(COMPONENT_ID);
-      assert.equal(model1.id, component["@id"], "Unexpected component in result from getModel().")
-      assert.equal(model1.decommissioned, false, "Unexpected result from getModel().")
+      assert.equal(model1.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(model1.decommissioned, false, "Unexpected result from getModel().");
 
       await client.decomissionModel(COMPONENT_ID);
       const model2 = await client.getModel(COMPONENT_ID);
-      assert.equal(model2.id, component["@id"], "Unexpected component in result from getModel().")
-      assert.equal(model2.decommissioned, true, "Unexpected result from getModel().")
+      assert.equal(model2.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(model2.decommissioned, true, "Unexpected result from getModel().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("decommission model not existing", async function () {
+  it("decommission model not existing", async function() {
     await deleteModels();
     delay(500);
 
@@ -346,31 +340,31 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("decommission model already decomissioned", async function () {
+  it("decommission model already decomissioned", async function() {
     await deleteModels();
 
     try {
       await client.createModels([component]);
 
       const model1 = await client.getModel(COMPONENT_ID);
-      assert.equal(model1.id, component["@id"], "Unexpected component in result from getModel().")
-      assert.equal(model1.decommissioned, false, "Unexpected result from getModel().")
+      assert.equal(model1.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(model1.decommissioned, false, "Unexpected result from getModel().");
 
       await client.decomissionModel(COMPONENT_ID);
       const model2 = await client.getModel(COMPONENT_ID);
-      assert.equal(model2.id, component["@id"], "Unexpected component in result from getModel().")
-      assert.equal(model2.decommissioned, true, "Unexpected result from getModel().")
+      assert.equal(model2.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(model2.decommissioned, true, "Unexpected result from getModel().");
 
       await client.decomissionModel(COMPONENT_ID);
       const model3 = await client.getModel(COMPONENT_ID);
-      assert.equal(model3.id, component["@id"], "Unexpected component in result from getModel().")
-      assert.equal(model3.decommissioned, true, "Unexpected result from getModel().")
+      assert.equal(model3.id, component["@id"], "Unexpected component in result from getModel().");
+      assert.equal(model3.decommissioned, true, "Unexpected result from getModel().");
     } finally {
       await deleteModels();
     }
   });
 
-  it("delete model", async function () {
+  it("delete model", async function() {
     await setUpModels();
 
     try {
@@ -384,7 +378,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
           error.message,
           `There is no Model(s) available that matches the provided id(s)`
         );
-      };
+      }
       should.equal(errorWasThrown, true, "Error was not thrown 1");
 
       await client.deleteModel(COMPONENT_ID);
@@ -397,14 +391,14 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
           error.message,
           `There is no Model(s) available that matches the provided id(s)`
         );
-      };
+      }
       should.equal(errorWasThrown, true, "Error was not thrown 2");
     } finally {
       await deleteModels();
     }
   });
 
-  it("delete model not existing", async function () {
+  it("delete model not existing", async function() {
     await deleteModels();
 
     let errorWasThrown = false;
@@ -422,7 +416,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete model already deleted", async function () {
+  it("delete model already deleted", async function() {
     await setUpModels();
 
     await client.deleteModel(MODEL_ID);
@@ -442,7 +436,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete model with dependencies", async function () {
+  it("delete model with dependencies", async function() {
     await setUpModels();
 
     try {
@@ -451,11 +445,8 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
         await client.deleteModel(COMPONENT_ID);
       } catch (error) {
         errorWasThrown = true;
-        assert.include(
-          error.message,
-          `This model is currently being referenced by`
-        );
-      };
+        assert.include(error.message, `This model is currently being referenced by`);
+      }
       should.equal(errorWasThrown, true, "Error was not thrown 1");
 
       await client.deleteModel(MODEL_ID);
@@ -470,7 +461,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
           error.message,
           `There is no Model(s) available that matches the provided id(s)`
         );
-      };
+      }
       should.equal(errorWasThrown, true, "Error was not thrown 2");
 
       errorWasThrown = false;
@@ -482,7 +473,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
           error.message,
           `There is no Model(s) available that matches the provided id(s)`
         );
-      };
+      }
       should.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await deleteModels();
