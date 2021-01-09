@@ -1,0 +1,42 @@
+<html>
+  <body>
+    <div id="app">
+      <p>Secret will display here: <span id="secret-display"></span></p>
+      <div id="azure-api-management">
+        <h3>Use Azure API Management to access Azure Key Vault</h3>
+        <input type="text" id="subscription-key" placeholder="Enter subscription key..." />
+        <button id="fetch-from-azure">Fetch secret using Azure API Management</button>
+        <div id="azure-api-info">
+          <p>
+            To keep this example simple we're using your Azure API Management subscription key to
+            provide access to Azure API Management.
+          </p>
+          <p>
+            To find it: go to your API Management, click on "Subscriptions", and copy the Primary
+            key of the "Built-in all-access subscription".
+          </p>
+          <p>
+            Remember: this just keeps our example simple. Do not share this key or include it in
+            your bundle.
+          </p>
+          <p>
+            Instead, secure your Key Vault API with one of the many best-in-class security features
+            offered by Azure API Management.
+          </p>
+          <p>
+            For more information, see
+            <a
+              href="https://docs.microsoft.com/en-us/azure/api-management/howto-protect-backend-frontend-azure-ad-b2c"
+              >here</a
+            >
+          </p>
+        </div>
+      </div>
+      <div id="server">
+        <h3>Use a local server to access Azure Key Vault</h3>
+        <button id="fetch-from-server">Fetch secret using local server</button>
+      </div>
+    </div>
+    <script src="./index.ts"></script>
+  </body>
+</html>
