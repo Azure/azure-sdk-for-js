@@ -215,8 +215,8 @@ export abstract class FetchHttpClient implements HttpClient {
             httpRequest.abortSignal?.removeEventListener("abort", abortListener!);
             return;
           })
-          .catch((e) => {
-            throw e;
+          .catch(() => {
+            /* ignore errors */
           });
       }
     }
