@@ -1,4 +1,7 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
@@ -31,11 +34,12 @@ describe("http request related tests", function() {
       });
 
       it("throws on invalid sync tokens", () => {
-        for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"])
+        for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"]) {
           assert.throws(
             () => parseSyncToken(invalidToken),
             new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`)
           );
+        }
       });
     });
 

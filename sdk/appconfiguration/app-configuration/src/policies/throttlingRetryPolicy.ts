@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   BaseRequestPolicy,
@@ -15,7 +15,7 @@ import {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function throttlingRetryPolicy(): RequestPolicyFactory {
   return {
@@ -31,7 +31,7 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
  * responding to 429 responses (which is to throw a RestError).
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
@@ -86,7 +86,7 @@ const RetryAfterMillisecondsHeaders: string[] = ["retry-after-ms", "x-ms-retry-a
  * Extracts the retry response header, checking against several
  * header names.
  * @internal
- * @ignore
+ * @hidden
  */
 export function getDelayInMs(responseHeaders: {
   get: (headerName: string) => string | undefined;

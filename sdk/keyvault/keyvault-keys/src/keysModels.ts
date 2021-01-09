@@ -2,36 +2,17 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./generated/models";
+import {
+  ApiVersion72Preview as ApiVersion,
+  DeletionRecoveryLevel,
+  JsonWebKeyType as KeyType,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  JsonWebKeyOperation as KeyOperation,
+  KnownJsonWebKeyOperation as KnownKeyOperations
+} from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
-/**
- * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
- * @readonly
- * @enum {string}
- */
-export type KeyOperation =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "wrapKey"
-  | "unwrapKey"
-  | "import";
-
-/**
- * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
- * @readonly
- * @enum {string}
- */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
-
-/**
- * The latest supported Key Vault service API version
- */
-export const LATEST_API_VERSION = "7.1";
+export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -40,7 +21,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: ApiVersion;
 }
 
 /**
@@ -96,7 +77,7 @@ export interface JsonWebKey {
    */
   p?: Uint8Array;
   /**
-   * RSA secret prime, with p < q.
+   * RSA secret prime, with `p < q`.
    */
   q?: Uint8Array;
   /**
@@ -215,7 +196,7 @@ export interface KeyProperties {
   readonly recoveryLevel?: DeletionRecoveryLevel;
   /**
    * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
@@ -458,14 +439,14 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}

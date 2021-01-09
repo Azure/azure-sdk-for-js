@@ -8,20 +8,20 @@ This exporter package assumes your application is [already instrumented](https:/
 
 ### Install the package
 
-`npm install @microsoft/opentelemetry-exporter-azure-monitor`
+`npm install @azure/opentelemetry-exporter-azure-monitor`
 
 ### Prerequisites
 
 You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Application Insights workspace](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+If you are using this package in a Node.js application, then use Node.js 8.5.0 or higher.
 
 ### Distributed Tracing
 
 Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProvider` / `BasicTracerProvider`)
 
 ```js
-const { AzureMonitorTraceExporter } = require("@microsoft/opentelemetry-exporter-azure-monitor");
+const { AzureMonitorTraceExporter } = require("@azure/opentelemetry-exporter-azure-monitor");
 const { NodeTracerProvider } = require("@opentelemetry/node");
 const { BatchSpanProcessor } = require("@opentelemetry/tracing");
 

@@ -17,7 +17,7 @@ const { ServiceBusClient, delay } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
@@ -42,7 +42,7 @@ async function sendMessages() {
   for (let index = 0; index < data.length; index++) {
     const message = {
       body: data[index],
-      label: "RecipeStep",
+      subject: "RecipeStep",
       contentType: "application/json"
     };
     // the way we shuffle the message order is to introduce a tiny random delay before each of the messages is sent

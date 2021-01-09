@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, testEnv } from "./utils/recordedClient";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
@@ -18,8 +18,8 @@ import {
 chaiUse(chaiPromises);
 
 const schema: SchemaDescription = {
-  name: "azsdk_js_test_000022",
-  group: "azsdk_js_test_group",
+  name: "azsdk_js_test",
+  group: testEnv.SCHEMA_REGISTRY_GROUP,
   serializationType: "avro",
   content: JSON.stringify({
     type: "record",
@@ -81,13 +81,13 @@ describe("SchemaRegistryClient", function() {
     const endpoint = "https://example.com/schemaregistry/";
     const credential = new ClientSecretCredential("x", "y", "z");
 
-    let client = new SchemaRegistryClient(endpoint, credential, options);
-    assert.equal(client.endpoint, endpoint);
+    let customClient = new SchemaRegistryClient(endpoint, credential, options);
+    assert.equal(customClient.endpoint, endpoint);
     assert.equal(options.userAgentOptions?.userAgentPrefix, `CustomPrefix ${LIB_INFO}`);
 
     options = {};
-    client = new SchemaRegistryClient(endpoint, credential, options);
-    assert.equal(client.endpoint, endpoint);
+    customClient = new SchemaRegistryClient(endpoint, credential, options);
+    assert.equal(customClient.endpoint, endpoint);
     assert.equal(options.userAgentOptions?.userAgentPrefix, LIB_INFO);
   });
 
@@ -106,14 +106,6 @@ describe("SchemaRegistryClient", function() {
     const registered = await client.registerSchema(schema);
     assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
-
-    // changing schema content bumps version, generates new id/locations
-    const changed = await client.registerSchema({
-      ...schema,
-      content: schema.content.replace("favoriteNumber", "secondFavoriteNumber")
-    });
-    assertStatus(changed, 200);
-    assertIsValidSchemaId(changed);
   });
 
   it("fails to get schema ID when given invalid args", async () => {

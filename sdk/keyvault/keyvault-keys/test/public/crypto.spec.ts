@@ -89,9 +89,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("the CryptographyClient can be created from a full KeyVaultKey object", async function() {
-      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      const keyVaultKey = await client.createKey(keyName, "RSA");
-      const cryptoClientFromKey = new CryptographyClient(keyVaultKey, credential);
+      const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
+      const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
 
       const text = this.test!.title;
       const encryptResult = await cryptoClientFromKey.encrypt("RSA1_5", stringToUint8Array(text));

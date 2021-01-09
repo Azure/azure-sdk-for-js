@@ -54,7 +54,7 @@ export interface MessageHandlers {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface InternalMessageHandlers extends MessageHandlers {
   /**
@@ -68,7 +68,7 @@ export interface InternalMessageHandlers extends MessageHandlers {
 /**
  * Represents the possible receive modes for the receiver.
  * @internal
- * @ignore
+ * @hidden
  */
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 

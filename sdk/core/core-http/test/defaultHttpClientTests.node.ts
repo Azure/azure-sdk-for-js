@@ -144,7 +144,7 @@ describe("defaultHttpClient (node)", function() {
       if (response.blobBody) {
         await response.blobBody;
       } else if (typeof response.readableStreamBody === "function") {
-        const streamBody = (response.readableStreamBody as Function)();
+        const streamBody = (response.readableStreamBody as () => any)();
         streamBody.on("data", () => {
           // Nothing to do here.
         });

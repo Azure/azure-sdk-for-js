@@ -3,7 +3,7 @@
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @interface Window
  */
@@ -11,13 +11,13 @@ interface Window {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 declare let self: Window & typeof globalThis & { navigator: Navigator };
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @interface Navigator
  */
@@ -30,7 +30,7 @@ interface Navigator {
 
 /**
  * Returns information about the platform this function is being run on.
- * @ignore
+ * @hidden
  * @internal
  */
 export function getPlatformInfo(): string {
@@ -39,7 +39,7 @@ export function getPlatformInfo(): string {
 
 /**
  * Returns information about Node.js this function is being run on.
- * @ignore
+ * @hidden
  * @internal
  */
 export function getFrameworkInfo(): string {
@@ -48,7 +48,7 @@ export function getFrameworkInfo(): string {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @returns {string}
  */

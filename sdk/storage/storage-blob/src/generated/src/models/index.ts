@@ -488,10 +488,6 @@ export interface RetentionPolicy {
    * All data older than this value will be deleted
    */
   days?: number;
-  /**
-   * Indicates whether permanent delete is allowed on this storage account.
-   */
-  allowPermanentDelete?: boolean;
 }
 
 /**

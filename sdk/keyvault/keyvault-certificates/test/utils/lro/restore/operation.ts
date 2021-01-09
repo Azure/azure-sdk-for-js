@@ -13,7 +13,7 @@ export interface BeginRestoreCertificateBackupOptions extends CertificatePollerO
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * An interface representing the CertificateClient. For internal use.
  */
 export interface TestCertificateClientInterface {
@@ -53,8 +53,8 @@ export interface RestoreCertificateBackupPollOperation
   extends PollOperation<RestoreCertificateBackupPollOperationState, KeyVaultCertificate> {}
 
 /**
- * @summary Reaches to the service and updates the restore certificate's poll operation.
- * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * Reaches to the service and updates the restore certificate's poll operation.
+ * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
   this: RestoreCertificateBackupPollOperation,
@@ -85,14 +85,14 @@ async function update(
 }
 
 /**
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
  */
 async function cancel(this: RestoreCertificateBackupPollOperation): Promise<never> {
   throw new Error("Canceling the restoration of a certificate is not supported.");
 }
 
 /**
- * @summary Serializes the create certificate's poll operation
+ * Serializes the create certificate's poll operation
  */
 function toString(this: RestoreCertificateBackupPollOperation): string {
   return JSON.stringify({
@@ -101,8 +101,8 @@ function toString(this: RestoreCertificateBackupPollOperation): string {
 }
 
 /**
- * @summary Builds a create certificate's poll operation
- * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * Builds a create certificate's poll operation
+ * @param state - A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeRestoreCertificateBackupPollOperation(
   state: RestoreCertificateBackupPollOperationState

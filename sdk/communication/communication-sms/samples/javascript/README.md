@@ -4,8 +4,6 @@ languages:
   - javascript
 products:
   - azure
-  - azure-communication-service
-  - azure-communication-sms
 urlFragment: communication-sms-javascript
 ---
 
