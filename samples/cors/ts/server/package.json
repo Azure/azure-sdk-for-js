@@ -15,7 +15,7 @@
   "main": "server.ts",
   "scripts": {
     "prestart": "npm install",
-    "start": "ts-node server.ts && wait-on tcp:4000"
+    "start": "ts-node server.ts"
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.15.0",
