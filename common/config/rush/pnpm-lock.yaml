@@ -7572,6 +7572,16 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
+  /undici-fetch/0.1.0:
+    dependencies:
+      undici: 3.0.0
+    dev: false
+    resolution:
+      integrity: sha512-tjJZgJ3dVCfKzDxWC1KyBzTEsil0U0YnF+cG/Nf3nP5FzvYemLYbxPV+D7YfQqOmBjC5kFzOUbIJETCfXlqDkA==
+  /undici/3.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-qBIjzq7IZd7gQ7pf+JjyT3l3kZbsgpPlRqZRK7QawkLvdDY4TIk6kgOEoZFceM6mFBXM+1MROfr7bpi5O904sQ==
   /universal-user-agent/6.0.0:
     dev: false
     resolution:
@@ -9066,12 +9076,13 @@ packages:
       tslint-config-prettier: 1.18.0
       typedoc: 0.15.0
       typescript: 4.1.2
+      undici-fetch: 0.1.0
       universal-user-agent: 6.0.0
       uuid: 8.3.2
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-f4XvZFRk2B9t8VyvcsRz0avEx5Rbd8IMZjNMJ+R7sKiXiRLYnOHotwOJSIfZvd7nBHDUd5aKeYh9JShr8t44Tg==
+      integrity: sha512-ceBK+bzEReHUj+l3S6wEMYHW3RqZ3gwnJ6GNXptFdlhiamWfq0gYbh7NBWXy14qwV4yDpmAvnC2QnMEBZKW7zQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/data-tables.tgz':
