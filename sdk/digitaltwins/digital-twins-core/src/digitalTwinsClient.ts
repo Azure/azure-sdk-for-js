@@ -172,7 +172,8 @@ export class DigitalTwinsClient {
   ): Promise<DigitalTwinsAddResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertDigitalTwin", options);
     try {
-      return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, updatedOptions);
+      const payload = JSON.parse(digitalTwinJson);
+      return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -632,7 +633,7 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams = options;
-    digitalTwinsSendTelemetryOptionalParams.telemetrySourceTime = new Date().getTime().toString();
+    digitalTwinsSendTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
     if (!messageId) {
       messageId = generateUuid();
     }
@@ -672,13 +673,11 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     componentName: string,
     payload: string,
-    messageId?: string,
+    messageId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
-    digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date()
-      .getTime()
-      .toString();
+    digitalTwinsSendComponentTelemetryOptionalParams.telemetrySourceTime = new Date().toISOString();
     if (!messageId) {
       messageId = generateUuid();
     }
