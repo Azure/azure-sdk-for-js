@@ -3,7 +3,7 @@
 Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
 If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
 
-Azure Key Vault Key management allows you to create and control 
+Azure Key Vault Key management allows you to create and control
 encryption keys that encrypt your data.
 
 Use the client library for Azure Key Vault Keys in your Node.js application to:
@@ -23,7 +23,7 @@ Using the cryptography client available in this library you also have access to:
 - Wrapping keys
 - Unwrapping keys
 
-> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples)
 
@@ -357,7 +357,7 @@ const client = new KeyClient(url, credential);
 const keyName = "MyKeyName";
 
 async function main() {
-  const poller = await client.beginDeleteKey(keyName)
+  const poller = await client.beginDeleteKey(keyName);
 
   // You can use the deleted key immediately:
   const deletedKey = poller.getResult();
@@ -371,7 +371,7 @@ async function main() {
   // Deleted keys can also be recovered or purged:
 
   // recoverDeletedKey also returns a poller, just like beginDeleteKey.
-  const recoverPoller = await client.beginRecoverDeletedKey(keyName)
+  const recoverPoller = await client.beginRecoverDeletedKey(keyName);
   await recoverPoller.pollUntilDone();
 
   // And here is how to purge a deleted key
@@ -553,7 +553,7 @@ const keysClient = new KeyClient(url, credential);
 async function main() {
   // Create or retrieve a key from the keyvault
   let myKey = await keysClient.createKey("MyKey", "RSA");
-  
+
   // Lastly, create our cryptography client and connect to the service
   // This example uses the URL that is part of the key we created (called key ID)
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
