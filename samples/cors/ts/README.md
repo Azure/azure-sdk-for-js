@@ -2,26 +2,26 @@
 
 Browser security prevents a web page from making requests to a different domain than the one that served the web page. This restriction is called the same-origin policy. The same-origin policy prevents a malicious site from reading sensitive data from another site. Sometimes, you might want to allow other sites to make cross-origin requests to your app. That's where Cross Origin Resource Sharing (CORS) policies become necessary.
 
-While CORS is configurable for some Azure services, Azure Key Vault does not currently support CORS natively. So what can you do if you'd like to integrate with Azure Key Vault from a web application?
-
-> Rememeber: CORS is a _browser_ restriction, and is not a concern in a Node application.
+While CORS is configurable for some Azure services, Azure Key Vault does not currently support CORS natively. So what can you do if you'd like to integrate with Azure Key Vault from a client side web application?
 
 Fortunately, there are a few options:
 
-- Use a back end server to route requests to Azure Key Vault
-- Use [Azure API Management][azureapimanagement] to route requests to Azure Key Vault
+- Use a back end server to route requests to Azure Key Vault.
+- Use [Azure API Management][azureapimanagement] to route requests to Azure Key Vault.
+
+> Rememeber: CORS is a _browser_ restriction, and is not a concern for Node applications.
 
 ## Use a back end server
 
-With this approach you'll use a server process (like [Express][express]) to route requests to Azure Key Vault. Since you own the client and server processes you can freely add CORS policies to support your requests.
+With this approach you'll use a server process (like [ASP.NET][asp] or [Express][express]) to route requests to Azure Key Vault. Since you own the client and server processes you can freely add CORS policies to support your requests.
 
-If your web application already has a back end component this will be the most straightforward approach. You'll simply add a new API endpoint to your server which will be responsible for fetching a secret from Azure Key Vault and returning it to the user. This allows you to have complete control and customization over the security and authorization of calls to Key Vault since all calls will go through a priviledged environment (your server).
+If your web application already has a back end component this will be the most straightforward approach. You'll simply add a new API endpoint to your server which will be responsible for fetching secrets from Azure Key Vault and returning it to the user. This allows you to have complete control and customization over the security and authorization of calls to Key Vault since all calls will go through a priviledged environment (your server).
 
 ## Use Azure API Management
 
 But what if you don't have a server in place for your Single Page Application? Thankfully Azure provides a managed API service that can sit between your web application and Azure Key Vault and provide the CORS policy that you need to interact with Azure Key Vault.
 
-It provides all of the same benefits as having your own back end API while avoiding the need to separately deploy, manage, and secure your own server. You can define a single API that is responsible for retrieving secrets and apply best-in-class security to control access to your secrets. TODO: revise this sentence and add more context here.
+It provides all of the same benefits as having your own back end API while avoiding the need to separately deploy, manage, and secure your own server. You can define a single API that is responsible for retrieving secrets and apply best-in-class security to control access to your Key Vault.
 
 # Sample code
 
@@ -42,7 +42,9 @@ To quickly create the necessary resources in Azure and to receive the necessary 
 
 [![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fcors%2Farm-template.json)
 
-The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
+The above template will create the necessary resources for you and the output tab will contain the environment variables you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
+
+> Azure API Management can take a while to deploy so we recommend starting the deployment now before reading the rest of this document.
 
 Next, create a service principal for the backend application and configure its access to Azure resources:
 
@@ -88,6 +90,13 @@ The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` c
 
 You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deployment.
 
-[azureapimanagement]: https://aka.ms
-[express]: https://aka.ms
-[sample]: https://aka.ms
+## Security considerations
+
+The above sample demonstrates a few alternatives to integrating with Azure Key Vault, and is purposely kept simple. Remember, the browser is an _insecure_ environment and we encourage you to familiarize yourself with Azure's security policies to avoid leaking credentials to an unauthorized user in a production application. Please refer to Azure Key Vault's [security overview][keyvaultsecurity] to learn more about securing your Key Vault's data.
+
+[azureapimanagement]: https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts
+[express]: https://expressjs.com/
+[keyvaultsecurity]: https://docs.microsoft.com/en-us/azure/key-vault/general/security-overview
+[asp]: https://dotnet.microsoft.com/apps/aspnet
+[freesub]: https://azure.microsoft.com/free
+[keyvault]: https://docs.microsoft.com/en-us/azure/key-vault/
