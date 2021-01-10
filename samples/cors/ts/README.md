@@ -37,6 +37,27 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 - An Azure Key Vault. Please refer to the [Key Vault documentation][keyvault] for additional information on Azure Key Vault.
 - An Azure API Management. Please refer to [Azure API Management][azureapimanagement] for additional information on Azure API Management.
+- A Service Principal to use for authenticating with Azure Key Vault
+
+Create a service principal and configure its access to Azure resources:
+
+```Bash
+az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+```
+
+Output:
+
+```json
+{
+  "appId": "generated-app-ID",
+  "displayName": "dummy-app-name",
+  "name": "http://dummy-app-name",
+  "password": "random-password",
+  "tenant": "tenant-ID"
+}
+```
+
+Save the values returned from the above command in a safe location, you'll need them in the following steps.
 
 To quickly create the necessary resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
 
@@ -52,9 +73,15 @@ Once the above is created you'll want to ensure the necessary environment variab
 
 Copy `client/sample.env` as `client/.env` and provide the `AZURE_API_NAME` environment variable which you should have received from the outputs of the ARM template.
 
+You can find the value of `AZURE_API_NAME` in the outputs tab of your deployment.
+
 ### Server environment variables
 
 Copy `server/sample.env` as `server/.env` and provide the necessary environment variables.
+
+The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` can be found in the output returned when creating the Service Principal.
+
+You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deployment.
 
 [azureapimanagement]: https://aka.ms
 [express]: https://aka.ms

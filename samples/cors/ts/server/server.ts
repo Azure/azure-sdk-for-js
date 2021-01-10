@@ -9,8 +9,11 @@ import { SecretClient } from "@azure/keyvault-secrets";
 dotenv.config();
 
 const PORT = process.env.PORT || 4000;
-const KEYVAULT_URI = process.env.AZURE_KEYVAULT_URI;
 
+if (!process.env.AZURE_KEYVAULT_NAME) {
+  throw new Error("AZURE_KEYVAULT_NAME is missing or empty in .env file");
+}
+const KEYVAULT_URI = `https://${process.env.AZURE_KEYVAULT_NAME}.vault.azure.net/`;
 const client = new SecretClient(KEYVAULT_URI, new DefaultAzureCredential());
 
 const app = express();

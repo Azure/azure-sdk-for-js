@@ -8,6 +8,18 @@
       "metadata": {
         "description": "The base resource name."
       }
+    },
+    "tenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "The Tenant ID of the Service Principal (tenantId from the previous step)"
+      }
+    },
+    "appId": {
+      "type": "string",
+      "metadata": {
+        "description": "The ID of the Service Principal (appId from the previous step)"
+      }
     }
   },
   "variables": {
@@ -99,7 +111,7 @@
                     "[resourceId('Microsoft.ApiManagement/service/properties', variables('serviceName'), 'secret-name')]"
                   ],
                   "properties": {
-                    "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <send-request mode=\"new\" response-variable-name=\"vault-secret\" timeout=\"20\" ignore-error=\"false\">\r\n      <set-url>https://{{vault-name}}.vault.azure.net/secrets/{{secret-name}}/?api-version=7.0</set-url>\r\n      <set-method>GET</set-method>\r\n      <authentication-managed-identity resource=\"https://vault.azure.net\" />\r\n    </send-request>\r\n  </inbound>\r\n  <backend>\r\n    <return-response response-variable-name=\"existing context variable\">\r\n      <set-status code=\"200\" />\r\n      <set-body>@(((IResponse)context.Variables[\"vault-secret\"]).Body.As&lt;string&gt;())</set-body>\r\n    </return-response>\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                    "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <cors>\r\n      <allowed-origins>\r\n        <origin>*</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n    </cors>\r\n    <send-request mode=\"new\" response-variable-name=\"vault-secret\" timeout=\"20\" ignore-error=\"false\">\r\n      <set-url>https://{{vault-name}}.vault.azure.net/secrets/{{secret-name}}/?api-version=7.0</set-url>\r\n      <set-method>GET</set-method>\r\n      <authentication-managed-identity resource=\"https://vault.azure.net\" />\r\n    </send-request>\r\n  </inbound>\r\n  <backend>\r\n    <return-response response-variable-name=\"existing context variable\">\r\n      <set-status code=\"200\" />\r\n      <set-body>@(((IResponse)context.Variables[\"vault-secret\"]).Body.As&lt;string&gt;())</set-body>\r\n    </return-response>\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
                     "format": "xml"
                   }
                 }
@@ -116,13 +128,20 @@
       "location": "[resourceGroup().location]",
       "dependsOn": ["[resourceId('Microsoft.ApiManagement/service', variables('serviceName'))]"],
       "properties": {
-        "tenantId": "[subscription().tenantId]",
+        "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
           {
             "tenantId": "[reference(resourceId('Microsoft.ApiManagement/service', variables('serviceName')), '2019-01-01', 'Full').identity.tenantId]",
             "objectId": "[reference(resourceId('Microsoft.ApiManagement/service', variables('serviceName')), '2019-01-01', 'Full').identity.principalId]",
             "permissions": {
               "secrets": ["get"]
+            }
+          },
+          {
+            "tenantId": "[parameters('tenantId')]",
+            "objectId": "[parameters('appId')]",
+            "permissions": {
+              "secrets": ["get", "set"]
             }
           }
         ],
@@ -146,5 +165,14 @@
       ]
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "azure_keyvault_name": {
+      "type": "string",
+      "value": "[variables('vaultName')]"
+    },
+    "azure_api_name": {
+      "type": "string",
+      "value": "[variables('serviceName')]"
+    }
+  }
 }
