@@ -8,18 +8,6 @@
       "metadata": {
         "description": "The base resource name."
       }
-    },
-    "tenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "The Tenant ID of the Service Principal (tenantId from the previous step)"
-      }
-    },
-    "appId": {
-      "type": "string",
-      "metadata": {
-        "description": "The ID of the Service Principal (appId from the previous step)"
-      }
     }
   },
   "variables": {
@@ -128,20 +116,13 @@
       "location": "[resourceGroup().location]",
       "dependsOn": ["[resourceId('Microsoft.ApiManagement/service', variables('serviceName'))]"],
       "properties": {
-        "tenantId": "[parameters('tenantId')]",
+        "tenantId": "[subscription().tenantId]",
         "accessPolicies": [
           {
             "tenantId": "[reference(resourceId('Microsoft.ApiManagement/service', variables('serviceName')), '2019-01-01', 'Full').identity.tenantId]",
             "objectId": "[reference(resourceId('Microsoft.ApiManagement/service', variables('serviceName')), '2019-01-01', 'Full').identity.principalId]",
             "permissions": {
               "secrets": ["get"]
-            }
-          },
-          {
-            "tenantId": "[parameters('tenantId')]",
-            "objectId": "[parameters('appId')]",
-            "permissions": {
-              "secrets": ["get", "set"]
             }
           }
         ],

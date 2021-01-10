@@ -37,12 +37,17 @@ You need [an Azure subscription][freesub] and the following resources created to
 
 - An Azure Key Vault. Please refer to the [Key Vault documentation][keyvault] for additional information on Azure Key Vault.
 - An Azure API Management. Please refer to [Azure API Management][azureapimanagement] for additional information on Azure API Management.
-- A Service Principal to use for authenticating with Azure Key Vault
 
-Create a service principal and configure its access to Azure resources:
+To quickly create the necessary resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
+
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fcors%2Farm-template.json)
+
+The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
+
+Next, create a service principal for the backend application and configure its access to Azure resources:
 
 ```Bash
-az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+az ad sp create-for-rbac -n <your-application-name, can be anything unique> --skip-assignment
 ```
 
 Output:
@@ -59,11 +64,11 @@ Output:
 
 Save the values returned from the above command in a safe location, you'll need them in the following steps.
 
-To quickly create the necessary resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
+Grant the above mentioned application authorization to perform key operations on the keyvault:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fcors%2Farm-template.json)
-
-The above template will create the necessary resources for you and the output tab will contain the exact environment variables that you'll need as soon as deployment succeeds. When the deployment is finished, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
+```Bash
+az keyvault set-policy --name <AZURE_KEYVAULT_NAME from deployment outputs tab> --spn <appId from previous step> --secret-permissions get set
+```
 
 ## Running the sample
 
