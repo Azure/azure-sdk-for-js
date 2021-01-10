@@ -13,13 +13,6 @@ let subscriptionKey: HTMLInputElement = document.getElementById(
   "subscription-key"
 ) as HTMLInputElement;
 
-document.querySelector("#fetch-from-azure")?.addEventListener("click", () => {
-  getSecretFromApiManagement();
-});
-document.querySelector("#fetch-from-server")?.addEventListener("click", () => {
-  getSecretFromServer();
-});
-
 const getSecretFromServer = () => {
   secretDisplay.textContent = "";
   axios
@@ -50,3 +43,6 @@ const getSecretFromApiManagement = () => {
       .catch((err) => console.log("error fetching secret from Azure API Management", err));
   }
 };
+
+document.querySelector("#fetch-from-azure")?.addEventListener("click", getSecretFromApiManagement);
+document.querySelector("#fetch-from-server")?.addEventListener("click", getSecretFromServer);

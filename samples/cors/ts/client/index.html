@@ -14,11 +14,11 @@
         <div class="col-sm-6">
           <div class="card md">
             <div class="card-header">Use Azure API Management to access Azure Key Vault</div>
-            <div class="card-body text-left">
+            <div class="card-body">
               <div class="row">
                 <div class="col-sm-8">
                   <input
-                    type="text"
+                    type="password"
                     class="form-control"
                     id="subscription-key"
                     placeholder="Enter subscription key..."
@@ -28,7 +28,7 @@
                   <button id="fetch-from-azure" class="btn btn-primary">Fetch secret</button>
                 </div>
               </div>
-              <div id="azure-api-info" class="row">
+              <div id="azure-api-info" class="row pt-4">
                 <p>
                   To keep this example simple we're using your Azure API Management subscription key
                   to provide access to Azure API Management.
@@ -41,16 +41,13 @@
                   Remember: this just keeps our example simple. Do not share this key or include it
                   in your bundle. <br />
                   Instead, secure your Key Vault API with one of the many best-in-class security
-                  features offered by Azure API Management.
-                </p>
-                <p></p>
-                <p>
-                  For more information, see
+                  features offered by Azure API Management. <br />
+                  For more information please refer to
                   <a
                     href="https://docs.microsoft.com/en-us/azure/api-management/howto-protect-backend-frontend-azure-ad-b2c"
                     target="_blank"
-                    >here</a
-                  >
+                    >this document</a
+                  >.
                 </p>
               </div>
             </div>
@@ -59,22 +56,23 @@
         <div class="col-sm-6">
           <div class="card md">
             <div class="card-header">Use a local server to access Azure Key Vault</div>
-            <div class="card-body text-left">
+            <div class="card-body">
               <div class="row px-4">
                 <button id="fetch-from-server" class="btn btn-primary">Fetch secret</button>
               </div>
-              <div>
+              <div class="row p-4">
                 Using a local server hosted on http://localhost:4000 we can access Azure Key Vault
                 by sending a request to http://localhost:4000/api/secret which has been set up to
                 fetch a hardcoded test secret.
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h3>Secret will display here: <span id="secret-display"></span></h3>
+          <div class="card md mt-4">
+            <h5 class="card-header">Secret will display here</h5>
+            <div class="card-body">
+              <span id="secret-display"></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

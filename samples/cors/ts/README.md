@@ -92,7 +92,7 @@ You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deplo
 
 ## Security considerations
 
-The above sample demonstrates a few alternatives to integrating with Azure Key Vault, and is purposely kept simple. Remember, the browser is an _insecure_ environment and we encourage you to familiarize yourself with Azure's security policies to avoid leaking credentials to an unauthorized user in a production application. Please refer to Azure Key Vault's [security overview][keyvaultsecurity] to learn more about securing your Key Vault's data.
+The above sample demonstrates a few alternatives to integrating with Azure Key Vault from the browser, and is purposely kept simple. Remember, the browser is an _insecure_ environment and we encourage you to familiarize yourself with Azure's security policies to avoid leaking credentials to an unauthorized user in a production application. Please refer to Azure Key Vault's [security overview][keyvaultsecurity] to learn more about securing your Key Vault's data.
 
 [azureapimanagement]: https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts
 [express]: https://expressjs.com/
