@@ -312,7 +312,8 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         requestOptions: this.options.requestOptions,
         tracingOptions: this.options.tracingOptions,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
-        modelVersion: this.options.modelVersion
+        modelVersion: this.options.modelVersion,
+        stringIndexType: this.options.stringIndexType
       });
       if (!response.operationLocation) {
         throw new Error(

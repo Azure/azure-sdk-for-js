@@ -898,7 +898,8 @@ export class TextAnalyticsClient {
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom,
       includeStatistics: realOptions.includeStatistics,
-      modelVersion: realOptions.modelVersion
+      modelVersion: realOptions.modelVersion,
+      stringIndexType: realOptions.stringIndexType
     });
 
     await poller.poll();
