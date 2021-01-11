@@ -35,6 +35,10 @@ export async function main() {
   };
   const poller = await client.beginAnalyzeBatchTasks(documents, tasks);
   const resultPages = await poller.pollUntilDone();
+  console.log(
+    `The analyze job created on ${poller.getOperationState().createdOn} finished process`
+  );
+  console.log(`The analyze job results will expire on ${poller.getOperationState().expiresOn}`);
 
   for await (const page of resultPages) {
     const keyPhrasesResults = page.keyPhrasesExtractionResults![0];
