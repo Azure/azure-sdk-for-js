@@ -3,7 +3,6 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
-  ApiVersion72Preview as ApiVersion,
   DeletionRecoveryLevel,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
@@ -15,13 +14,18 @@ import { KeyCurveName } from "./cryptographyClientModels";
 export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 
 /**
+ * The latest supported Key Vault service API version
+ */
+export const LATEST_API_VERSION = "7.2-preview";
+
+/**
  * The optional parameters accepted by the KeyVault's KeyClient
  */
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: ApiVersion;
+  serviceVersion?: "7.0" | "7.1" | "7.2-preview";
 }
 
 /**

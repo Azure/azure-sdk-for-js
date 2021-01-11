@@ -13,9 +13,6 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export type ApiVersion = string;
-
-// @public
 export interface BackupKeyOptions extends coreHttp.OperationOptions {
 }
 
@@ -178,7 +175,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: ApiVersion;
+    serviceVersion?: "7.0" | "7.1" | "7.2-preview";
 }
 
 // @public
@@ -241,11 +238,6 @@ export interface KeyVaultKeyId {
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
-
-// @public
-export const enum KnownApiVersions {
-    Seven2Preview = "7.2-preview"
-}
 
 // @public
 export const enum KnownDeletionRecoveryLevel {
