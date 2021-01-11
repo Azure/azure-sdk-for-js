@@ -139,7 +139,7 @@
           "dependsOn": ["[resourceId('Microsoft.KeyVault/vaults', variables('vaultName'))]"],
           "tags": {},
           "properties": {
-            "value": "I am a test!",
+            "value": "I am a secret!",
             "contentType": "string"
           }
         }
