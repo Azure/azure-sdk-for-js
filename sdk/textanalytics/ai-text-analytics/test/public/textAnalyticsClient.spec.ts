@@ -22,7 +22,7 @@ import {
   PiiEntityDomainType
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "../utils/resultHelper";
-import { checkEntityTextOffset, checkOffsetAndLength } from "../utils/stringUnitOfLengthHelpers";
+import { checkEntityTextOffset, checkOffsetAndLength } from "../utils/stringIndexTypeHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",

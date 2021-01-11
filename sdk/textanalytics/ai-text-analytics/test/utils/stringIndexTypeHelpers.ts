@@ -9,8 +9,8 @@ import { Entity, StringIndexType, TextAnalyticsClient } from "../../src";
  * offset and length of the first pii entity matches the expected ones.
  * @param client - a text analytics client
  * @param doc - an input document to be processed by the text analytics service
- * @param stringUnitOfLength - the string unit of length used by the service to calculate
- *                             the offset and length of the entity text
+ * @param stringIndexType - the string index type used by the service to calculate
+ *                          the offset and length of the entity text
  * @param offset - the expected offset of the first entity in the input document
  * @param length - the expected length of the first entity in the input document
  * @internal
