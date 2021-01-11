@@ -2,33 +2,30 @@
 // Licensed under the MIT license.
 
 import { delay } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { PaginatedAnalyzeResults } from "../../analyzeResult";
+import { PollerLike } from "@azure/core-lro";
+import { PagedAnalyzeResults } from "../../analyzeResult";
 import { JobManifestTasks } from "../../generated/models";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
-import { BeginAnalyzePollerOperation, BeginAnalyzePollState } from "./operation";
+import { BeginAnalyzePollerOperation, BeginAnalyzeOperationState } from "./operation";
 
 export interface AnalyzePollerOptions extends AnalysisPollerOptions {
   tasks: JobManifestTasks;
+  readonly displayName?: string;
+  readonly includeStatistics?: boolean;
 }
-
-/**
- * The status of an analyze operation
- */
-export type BeginAnalyzeOperationState = PollOperationState<PaginatedAnalyzeResults>;
 
 /**
  * Result type of the Analyze Long-Running-Operation (LRO)
  */
-export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PaginatedAnalyzeResults>;
+export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PagedAnalyzeResults>;
 
 /**
  * Class that represents a poller that waits for the analyze results.
  */
 export class BeginAnalyzePoller extends AnalysisPoller<
-  BeginAnalyzePollState,
-  PaginatedAnalyzeResults
+  BeginAnalyzeOperationState,
+  PagedAnalyzeResults
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(pollerOptions: AnalyzePollerOptions) {
@@ -37,30 +34,27 @@ export class BeginAnalyzePoller extends AnalysisPoller<
       documents,
       analysisOptions,
       tasks,
+      displayName,
+      includeStatistics,
       updateIntervalInMs = 5000,
       resumeFrom
     } = pollerOptions;
 
-    let state: BeginAnalyzePollState | undefined;
+    let state: BeginAnalyzeOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const { requestOptions, tracingOptions } = analysisOptions || {};
-    const operation = new BeginAnalyzePollerOperation(
-      state || {},
-      client,
-      documents,
-      tasks,
-      {
-        analyze: { requestOptions, tracingOptions },
-        polling: {
-          updateIntervalInMs,
-          resumeFrom
-        }
-      },
-      analysisOptions
-    );
+    const { requestOptions, tracingOptions, abortSignal } = analysisOptions || {};
+    const operation = new BeginAnalyzePollerOperation(state || {}, client, documents, tasks, {
+      requestOptions,
+      tracingOptions,
+      displayName,
+      updateIntervalInMs,
+      resumeFrom,
+      includeStatistics,
+      abortSignal
+    });
 
     super(operation);
 

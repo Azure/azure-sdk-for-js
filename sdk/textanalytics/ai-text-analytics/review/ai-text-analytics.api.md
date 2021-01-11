@@ -14,18 +14,25 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AnalyzeJobOptions extends OperationOptions {
-    includeStatistics?: boolean;
+export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, JobMetadata {
 }
 
 // @public
-export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PaginatedAnalyzeResults>;
+export interface AnalyzeJobMetadata extends JobMetadata {
+    displayName?: string;
+    failedTasksCount?: number;
+    inProgressTasksCount?: number;
+    successfullyCompletedTasksCount?: number;
+}
+
+// @public
+export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PagedAnalyzeResults>;
 
 // @public
 export interface AnalyzeResult {
-    entitiesRecognitionResults?: RecognizeCategorizedEntitiesResultArray[];
-    keyPhrasesExtractionResults?: ExtractKeyPhrasesResultArray[];
-    piiEntitiesRecognitionResults?: RecognizePiiEntitiesResultArray[];
+    entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
+    keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
+    piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
 }
 
 // @public
@@ -71,22 +78,31 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
-export type BeginAnalyzeHealthcareOperationState = PollOperationState<PaginatedHealthcareEntities>;
-
-// @public
-export interface BeginAnalyzeHealthcareOptions {
-    health?: HealthcareJobOptions;
-    polling?: PollingOptions;
+export interface BeginAnalyzeBatchTasksOptions extends OperationOptions {
+    displayName?: string;
+    includeStatistics?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export type BeginAnalyzeOperationState = PollOperationState<PaginatedAnalyzeResults>;
+export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedHealthcareEntities> {
+}
 
 // @public
-export interface BeginAnalyzeOptions {
-    analyze?: AnalyzeJobOptions;
-    polling?: PollingOptions;
+export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
+
+// @public
+export interface BeginAnalyzeOperationState extends AnalysisPollOperationState<PagedAnalyzeResults>, AnalyzeJobMetadata {
+}
+
+// @public
+export type CategorizedEntitiesRecognitionTask = {
+    modelVersion?: string;
+};
 
 // @public
 export interface CategorizedEntity extends Entity {
@@ -130,11 +146,6 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
-
-// @public
-export type EntitiesTask = {
-    modelVersion?: string;
-};
 
 // @public
 export interface Entity {
@@ -191,8 +202,7 @@ export interface HealthcareEntityLink {
 export type HealthcareErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface HealthcareJobOptions extends TextAnalyticsOperationOptions {
-}
+export type HealthcarePollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PagedHealthcareEntities>;
 
 // @public (undocumented)
 export interface HealthcareRelation {
@@ -212,20 +222,26 @@ export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
 }
 
 // @public
-export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PaginatedHealthcareEntities>;
-
-// @public
 export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint" | string;
 
 // @public
 export interface JobManifestTasks {
-    entityRecognitionPiiTasks?: PiiTask[];
-    entityRecognitionTasks?: EntitiesTask[];
-    keyPhraseExtractionTasks?: KeyPhrasesTask[];
+    entityRecognitionPiiTasks?: PiiEntitiesRecognitionTask[];
+    entityRecognitionTasks?: CategorizedEntitiesRecognitionTask[];
+    keyPhraseExtractionTasks?: KeyPhrasesExtractionTask[];
 }
 
 // @public
-export interface KeyPhrasesTask {
+export interface JobMetadata {
+    createdOn?: Date;
+    expiresOn?: Date;
+    jobId?: string;
+    status?: State;
+    updatedOn?: Date;
+}
+
+// @public
+export interface KeyPhrasesExtractionTask {
     modelVersion?: string;
 }
 
@@ -258,21 +274,27 @@ export interface OpinionSentiment extends SentenceOpinion {
 }
 
 // @public
+export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
 export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResult>;
 
 // @public
-export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
+export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
 
 // @public
-export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthEntities {
+export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
+
+// @public
+export type PiiEntitiesRecognitionTask = {
+    domain?: PiiEntityDomainType;
+    modelVersion?: string;
+};
 
 // @public
 export interface PiiEntity extends Entity {
@@ -281,21 +303,6 @@ export interface PiiEntity extends Entity {
 // @public
 export enum PiiEntityDomainType {
     PROTECTED_HEALTH_INFORMATION = "PHI"
-}
-
-// @public
-export type PiiTask = {
-    domain?: PiiTaskParametersDomain;
-    modelVersion?: string;
-};
-
-// @public
-export type PiiTaskParametersDomain = "phi" | "none" | string;
-
-// @public
-export interface PollingOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -393,14 +400,17 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
+export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
+
+// @public
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyze(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
-    beginAnalyze(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeOptions): Promise<AnalyzePollerLike>;
-    beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthPollerLike>;
-    beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthPollerLike>;
+    beginAnalyzeBatchTasks(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
+    beginAnalyzeBatchTasks(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
+    beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;

@@ -18,7 +18,6 @@ import {
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
-  PiiTaskParametersDomain,
   TextDocumentInput
 } from "./generated/models";
 import {
@@ -54,31 +53,30 @@ import {
   addStrEncodingParam,
   handleInvalidDocumentBatch
 } from "./util";
+import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
 import {
-  BeginAnalyzeHealthcareOperationState,
-  BeginAnalyzeHealthcarePoller,
-  HealthPollerLike
-} from "./lro/health/poller";
-import { BeginAnalyzeHealthcareOptions, HealthcareJobOptions } from "./lro/health/operation";
+  BeginAnalyzeHealthcareOptions,
+  BeginAnalyzeHealthcareOperationState
+} from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import { AnalyzePollerLike, BeginAnalyzePoller } from "./lro/analyze/poller";
 import {
-  AnalyzePollerLike,
-  BeginAnalyzeOperationState,
-  BeginAnalyzePoller
-} from "./lro/analyze/poller";
-import { AnalyzeJobOptions, BeginAnalyzeOptions } from "./lro/analyze/operation";
-import { PollingOptions } from "./lro/poller";
+  AnalyzeJobMetadata,
+  BeginAnalyzeBatchTasksOptions,
+  BeginAnalyzeOperationState
+} from "./lro/analyze/operation";
+import { AnalysisPollOperationState, JobMetadata } from "./lro/poller";
 
 export {
-  BeginAnalyzeOptions,
+  BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
   BeginAnalyzeOperationState,
   BeginAnalyzeHealthcareOptions,
-  HealthPollerLike,
-  AnalyzeJobOptions,
-  PollingOptions,
-  HealthcareJobOptions,
-  BeginAnalyzeHealthcareOperationState
+  HealthcarePollerLike,
+  BeginAnalyzeHealthcareOperationState,
+  AnalysisPollOperationState,
+  JobMetadata,
+  AnalyzeJobMetadata
 };
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
@@ -158,7 +156,7 @@ export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for an entities recognition task.
  */
-export type EntitiesTask = {
+export type CategorizedEntitiesRecognitionTask = {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -169,13 +167,13 @@ export type EntitiesTask = {
 /**
  * Options for a Pii entities recognition task.
  */
-export type PiiTask = {
+export type PiiEntitiesRecognitionTask = {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiTaskParametersDomain;
+  domain?: PiiEntityDomainType;
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -186,7 +184,7 @@ export type PiiTask = {
 /**
  * Options for a key phrases recognition task.
  */
-export interface KeyPhrasesTask {
+export interface KeyPhrasesExtractionTask {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -201,15 +199,15 @@ export interface JobManifestTasks {
   /**
    * A collection of descriptions of entities recognition tasks.
    */
-  entityRecognitionTasks?: EntitiesTask[];
+  entityRecognitionTasks?: CategorizedEntitiesRecognitionTask[];
   /**
    * A collection of descriptions of Pii entities recognition tasks.
    */
-  entityRecognitionPiiTasks?: PiiTask[];
+  entityRecognitionPiiTasks?: PiiEntitiesRecognitionTask[];
   /**
    * A collection of descriptions of key phrases recognition tasks.
    */
-  keyPhraseExtractionTasks?: KeyPhrasesTask[];
+  keyPhraseExtractionTasks?: KeyPhrasesExtractionTask[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -826,7 +824,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike>;
+  ): Promise<HealthcarePollerLike>;
   /**
    * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
    * symptoms, etc) and their relations.
@@ -836,13 +834,13 @@ export class TextAnalyticsClient {
   async beginAnalyzeHealthcare(
     documents: TextDocumentInput[],
     options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike>;
+  ): Promise<HealthcarePollerLike>;
 
   async beginAnalyzeHealthcare(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
     options?: BeginAnalyzeHealthcareOptions
-  ): Promise<HealthPollerLike> {
+  ): Promise<HealthcarePollerLike> {
     let realOptions: BeginAnalyzeHealthcareOptions;
     let realInputs: TextDocumentInput[];
     if (isStringArray(documents)) {
@@ -857,8 +855,15 @@ export class TextAnalyticsClient {
     const poller = new BeginAnalyzeHealthcarePoller({
       client: this.client,
       documents: realInputs,
-      analysisOptions: realOptions.health,
-      ...realOptions.polling
+      analysisOptions: {
+        requestOptions: realOptions.requestOptions,
+        tracingOptions: realOptions.tracingOptions,
+        abortSignal: realOptions.abortSignal
+      },
+      updateIntervalInMs: realOptions.updateIntervalInMs,
+      resumeFrom: realOptions.resumeFrom,
+      includeStatistics: realOptions.includeStatistics,
+      modelVersion: realOptions.modelVersion
     });
 
     await poller.poll();
@@ -876,11 +881,11 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  public async beginAnalyze(
+  public async beginAnalyzeBatchTasks(
     documents: string[],
     tasks: JobManifestTasks,
     language?: string,
-    options?: BeginAnalyzeOptions
+    options?: BeginAnalyzeBatchTasksOptions
   ): Promise<AnalyzePollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
@@ -888,18 +893,18 @@ export class TextAnalyticsClient {
    * @param tasks - Tasks to execute.
    * @param options - Options for the operation.
    */
-  public async beginAnalyze(
+  public async beginAnalyzeBatchTasks(
     documents: TextDocumentInput[],
     tasks: JobManifestTasks,
-    options?: BeginAnalyzeOptions
+    options?: BeginAnalyzeBatchTasksOptions
   ): Promise<AnalyzePollerLike>;
-  public async beginAnalyze(
+  public async beginAnalyzeBatchTasks(
     documents: string[] | TextDocumentInput[],
     tasks: JobManifestTasks,
-    languageOrOptions?: string | BeginAnalyzeOptions,
-    options?: BeginAnalyzeOptions
+    languageOrOptions?: string | BeginAnalyzeBatchTasksOptions,
+    options?: BeginAnalyzeBatchTasksOptions
   ): Promise<AnalyzePollerLike> {
-    let realOptions: BeginAnalyzeOptions;
+    let realOptions: BeginAnalyzeBatchTasksOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -912,15 +917,22 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeBatchTasksOptions) || {};
     }
     const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
     const poller = new BeginAnalyzePoller({
       client: this.client,
       documents: realInputs,
       tasks: compiledTasks,
-      analysisOptions: realOptions.analyze,
-      ...realOptions.polling
+      analysisOptions: {
+        requestOptions: realOptions.requestOptions,
+        tracingOptions: realOptions.tracingOptions,
+        abortSignal: realOptions.abortSignal
+      },
+      displayName: realOptions.displayName,
+      includeStatistics: realOptions.includeStatistics,
+      updateIntervalInMs: realOptions.updateIntervalInMs,
+      resumeFrom: realOptions.resumeFrom
     });
 
     await poller.poll();

@@ -18,18 +18,18 @@ export {
   RecognizeLinkedEntitiesOptions,
   PiiEntityDomainType,
   JobManifestTasks,
-  EntitiesTask,
-  PiiTask,
-  KeyPhrasesTask,
-  BeginAnalyzeOptions,
+  CategorizedEntitiesRecognitionTask,
+  PiiEntitiesRecognitionTask,
+  KeyPhrasesExtractionTask,
+  BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
   BeginAnalyzeHealthcareOptions,
-  HealthPollerLike,
+  HealthcarePollerLike,
   BeginAnalyzeOperationState,
-  HealthcareJobOptions,
-  PollingOptions,
-  AnalyzeJobOptions,
-  BeginAnalyzeHealthcareOperationState
+  BeginAnalyzeHealthcareOperationState,
+  AnalysisPollOperationState,
+  JobMetadata,
+  AnalyzeJobMetadata
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -75,15 +75,15 @@ export {
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
-  PaginatedHealthcareEntities,
-  PagedAsyncIterableHealthEntities,
+  PagedHealthcareEntities,
+  PagedAsyncIterableHealthcareEntities,
   HealthcareEntitiesArray,
   HealthcareResult,
   HealthcareSuccessResult,
   HealthcareErrorResult
 } from "./healthResult";
 export {
-  PaginatedAnalyzeResults,
+  PagedAnalyzeResults,
   PagedAsyncIterableAnalyzeResults,
   AnalyzeResult
 } from "./analyzeResult";
@@ -115,8 +115,8 @@ export {
   AspectConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  PiiTaskParametersDomain,
   HealthcareEntity,
   HealthcareRelation,
-  HealthcareEntityLink
+  HealthcareEntityLink,
+  State
 } from "./generated/models";

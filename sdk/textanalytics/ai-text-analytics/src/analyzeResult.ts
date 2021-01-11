@@ -14,19 +14,19 @@ export interface AnalyzeResult {
   /**
    * Array of the results for each categorized entities recognition task.
    */
-  entitiesRecognitionResults?: RecognizeCategorizedEntitiesResultArray[];
+  entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
   /**
    * Array of the results for each Pii entities recognition task.
    */
-  piiEntitiesRecognitionResults?: RecognizePiiEntitiesResultArray[];
+  piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
   /**
    * Array of the results for each key phrases extraction task.
    */
-  keyPhrasesExtractionResults?: ExtractKeyPhrasesResultArray[];
+  keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
 }
 
 /**
- * The results of an analyze job represented as a paginated iterator that
+ * The results of an analyze job represented as a paged iterator that
  * iterates over the results of the requested tasks.
  */
 export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<
@@ -35,10 +35,10 @@ export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<
 >;
 
 /**
- * The results of an analyze job represented as a paginated iterator that
+ * The results of an analyze job represented as a paged iterator that
  * iterates over the results of the requested tasks.
  */
-export interface PaginatedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
+export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

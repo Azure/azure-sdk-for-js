@@ -33,7 +33,7 @@ export async function main() {
     entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
     keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyze(documents, tasks);
+  const poller = await client.beginAnalyzeBatchTasks(documents, tasks);
   const resultPages = await poller.pollUntilDone();
 
   for await (const page of resultPages) {

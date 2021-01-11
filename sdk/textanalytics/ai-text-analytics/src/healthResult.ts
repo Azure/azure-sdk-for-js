@@ -39,21 +39,21 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 export interface HealthcareEntitiesArray extends Array<HealthcareResult> {}
 
 /**
- * The results of a healthcare job represented as a paginated iterator that can
+ * The results of a healthcare job represented as a paged iterator that can
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export type PagedAsyncIterableHealthEntities = PagedAsyncIterableIterator<
+export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<
   HealthcareResult,
   HealthcareEntitiesArray
 >;
 
 /**
- * The results of a healthcare job represented as a paginated iterator that can
+ * The results of a healthcare job represented as a paged iterator that can
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthEntities {
+export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true

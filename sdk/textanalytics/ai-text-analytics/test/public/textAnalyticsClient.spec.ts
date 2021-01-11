@@ -788,21 +788,19 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const results = await poller.pollUntilDone();
         for await (const page of results) {
           const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const task = entitiesResult[0];
             for (const result of task) {
               if (!result.error) {
@@ -824,21 +822,19 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const results = await poller.pollUntilDone();
         for await (const page of results) {
           const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          if (keyPhrasesResult.length === 1) {
             const task = keyPhrasesResult[0];
             assert.equal(task.length, 2);
             for (const result of task) {
@@ -874,21 +870,19 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
           const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const task = entitiesResult[0];
             assert.equal(task.length, 3);
             for (const doc of task) {
@@ -919,21 +913,19 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
           const entitiesResult = page.piiEntitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const task = entitiesResult[0];
             assert.equal(task.length, 3);
             const doc1 = task[0];
@@ -970,16 +962,14 @@ describe("[AAD] TextAnalyticsClient", function() {
       it("bad request empty string", async function() {
         const docs = [""];
         try {
-          const poller = await client.beginAnalyze(
+          const poller = await client.beginAnalyzeBatchTasks(
             docs,
             {
               entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
             },
             "en",
             {
-              polling: {
-                updateIntervalInMs: pollingInterval
-              }
+              updateIntervalInMs: pollingInterval
             }
           );
           await poller.pollUntilDone();
@@ -1006,7 +996,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1014,15 +1004,13 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
           const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 3);
             assert.isDefined(entitiesDocs[0].error);
@@ -1033,7 +1021,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 3);
             assert.isDefined(piiEntitiesDocs[0].error);
@@ -1044,7 +1032,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 3);
             assert.isDefined(keyPhrasesDocs[0].error);
@@ -1074,7 +1062,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1082,15 +1070,13 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
           const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 3);
             assert.isDefined(entitiesDocs[0].error);
@@ -1101,7 +1087,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 3);
             assert.isDefined(piiEntitiesDocs[0].error);
@@ -1133,7 +1119,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "5", text: "five" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1141,15 +1127,13 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
           const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 5);
             let i = 1;
@@ -1161,7 +1145,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 5);
             let i = 1;
@@ -1173,7 +1157,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 5);
             let i = 1;
@@ -1195,7 +1179,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1203,16 +1187,14 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         const in_order = ["56", "0", "22", "19", "1"];
         for await (const page of result) {
           const entitiesResult = page.entitiesRecognitionResults;
-          if (entitiesResult && entitiesResult.length === 1) {
+          if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 5);
             let i = 0;
@@ -1224,7 +1206,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const piiEntitiesResult = page.piiEntitiesRecognitionResults;
-          if (piiEntitiesResult && piiEntitiesResult.length === 1) {
+          if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 5);
             let i = 0;
@@ -1236,7 +1218,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
 
           const keyPhrasesResult = page.keyPhrasesExtractionResults;
-          if (keyPhrasesResult && keyPhrasesResult.length === 1) {
+          if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 5);
             let i = 0;
@@ -1261,7 +1243,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "1", text: ":D" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1269,10 +1251,8 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            analyze: { includeStatistics: true },
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            includeStatistics: true,
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1289,7 +1269,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1298,14 +1278,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.entitiesRecognitionResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1323,7 +1301,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1332,14 +1310,12 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.entitiesRecognitionResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1357,7 +1333,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "The restaurant had really good food." }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1365,14 +1341,12 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.entitiesRecognitionResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1390,7 +1364,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1398,14 +1372,12 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults!;
+          const entitiesResult = page.entitiesRecognitionResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1419,7 +1391,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       it("invalid language hint", async function() {
         const docs = ["This should fail because we're passing in an invalid language hint"];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1428,22 +1400,20 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "notalanguage",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
+        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults[0];
         for (const doc of entitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnsupportedLanguageCode");
         }
-        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
+        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults[0];
         for (const doc of piiEntitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnsupportedLanguageCode");
         }
-        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
+        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults[0];
         for (const doc of keyPhrasesTaskDocs) {
           assert.equal(doc.error?.code, "UnsupportedLanguageCode");
         }
@@ -1458,7 +1428,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "bad" }],
@@ -1466,22 +1436,20 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "bad" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults![0];
+        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults[0];
         for (const doc of entitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnknownError");
         }
-        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults![0];
+        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults[0];
         for (const doc of piiEntitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnknownError");
         }
-        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults![0];
+        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults[0];
         for (const doc of keyPhrasesTaskDocs) {
           assert.equal(doc.error?.code, "UnknownError");
         }
@@ -1491,7 +1459,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         const totalDocs = 25;
         const docs = Array(totalDocs - 1).fill("random text");
         docs.push("Microsoft was founded by Bill Gates and Paul Allen");
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionTasks: [{ modelVersion: "latest" }],
@@ -1499,9 +1467,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1509,7 +1475,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         let pageCount = 0;
         const pageSize = 10;
         for await (const page of result.byPage({ maxPageSize: pageSize })) {
-          const entitiesTaskDocs = page.entitiesRecognitionResults![0];
+          const entitiesTaskDocs = page.entitiesRecognitionResults[0];
           ++pageCount;
           for (const doc of entitiesTaskDocs) {
             assert.isUndefined(doc.error);
@@ -1534,20 +1500,18 @@ describe("[AAD] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyze(
+        const poller = await client.beginAnalyzeBatchTasks(
           docs,
           {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults!;
+          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
           assert.equal(piiEntitiesResult.length, 1);
           for (const piiEntitiesDocs of piiEntitiesResult) {
             assert.equal(piiEntitiesDocs.length, 3);
@@ -1559,6 +1523,43 @@ describe("[AAD] TextAnalyticsClient", function() {
             }
           }
         }
+      });
+
+      it("job metadata", async function() {
+        const docs = [
+          { id: "1", text: "I will go to the park." },
+          { id: "2", text: "Este es un document escrito en Español." },
+          { id: "3", text: "猫は幸せ" }
+        ];
+
+        const poller = await client.beginAnalyzeBatchTasks(
+          docs,
+          {
+            entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
+          },
+          {
+            updateIntervalInMs: pollingInterval,
+            displayName: "testJob"
+          }
+        );
+        poller.onProgress(() => {
+          assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
+          assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
+          assert.ok(poller.getOperationState().updatedOn, "updatedOn is undefined!");
+          assert.ok(poller.getOperationState().status, "status is undefined!");
+          assert.ok(
+            poller.getOperationState().successfullyCompletedTasksCount,
+            "successfullyCompletedTasksCount is undefined!"
+          );
+          assert.equal(poller.getOperationState().failedTasksCount, 0);
+          assert.isDefined(
+            poller.getOperationState().inProgressTasksCount,
+            "inProgressTasksCount is undefined!"
+          );
+          assert.equal(poller.getOperationState().displayName, "testJob");
+        });
+        const result = await poller.pollUntilDone();
+        assert.ok(result);
       });
     });
   });
