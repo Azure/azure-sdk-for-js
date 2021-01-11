@@ -11,6 +11,8 @@ Fortunately, there are a few options:
 
 > Rememeber: CORS is a _browser_ restriction, and is not a concern for Node applications.
 
+Interested in enabling CORS in Key Vault? [Let us know!](https://feedback.azure.com/forums/906355-azure-key-vault/suggestions/34753195-enable-cors-for-key-vault)
+
 ## Use a back end server
 
 With this approach you'll use a server process (like [ASP.NET][asp] or [Express][express]) to route requests to Azure Key Vault. Since you own the client and server processes you can freely add CORS policies to support your requests.
@@ -94,9 +96,9 @@ You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deplo
 
 The above sample demonstrates a few alternatives to integrating with Azure Key Vault from the browser, and is purposely kept simple. Remember, the browser is an _insecure_ environment and we encourage you to familiarize yourself with Azure's security policies to avoid leaking credentials to an unauthorized user in a production application. Please refer to Azure Key Vault's [security overview][keyvaultsecurity] to learn more about securing your Key Vault's data.
 
-[azureapimanagement]: https://docs.microsoft.com/en-us/azure/api-management/api-management-key-concepts
+[azureapimanagement]: https://docs.microsoft.com/azure/api-management/api-management-key-concepts
 [express]: https://expressjs.com/
-[keyvaultsecurity]: https://docs.microsoft.com/en-us/azure/key-vault/general/security-overview
+[keyvaultsecurity]: https://docs.microsoft.com/azure/key-vault/general/security-overview
 [asp]: https://dotnet.microsoft.com/apps/aspnet
 [freesub]: https://azure.microsoft.com/free
-[keyvault]: https://docs.microsoft.com/en-us/azure/key-vault/
+[keyvault]: https://docs.microsoft.com/azure/key-vault/
