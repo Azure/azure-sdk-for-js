@@ -5,28 +5,6 @@ import { delay, OperationOptions } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
 import { State, TextDocumentInput } from "../generated/models";
-import { TextAnalyticsOperationOptions } from "../textAnalyticsOperationOptions";
-
-/**
- * Options for configuring a polling operation.
- */
-export interface PollingOptions {
-  /**
-   * Delay to wait until next poll, in milliseconds.
-   */
-  updateIntervalInMs?: number;
-  /**
-   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
-   */
-  resumeFrom?: string;
-}
-
-export interface TextAnalyticsStatusOperationOptions extends OperationOptions {
-  /**
-   * If set to true, response will contain input and document level statistics.
-   */
-  includeStatistics?: boolean;
-}
 
 /**
  * Common parameters to a Poller.
@@ -34,7 +12,7 @@ export interface TextAnalyticsStatusOperationOptions extends OperationOptions {
 export interface AnalysisPollerOptions {
   readonly client: GeneratedClient;
   readonly documents: TextDocumentInput[];
-  readonly analysisOptions?: TextAnalyticsOperationOptions;
+  readonly analysisOptions?: OperationOptions;
   updateIntervalInMs?: number;
   resumeFrom?: string;
 }
@@ -46,11 +24,11 @@ export interface JobMetadata {
   /**
    * The date and time the job was created.
    */
-  createdAt?: Date;
+  createdOn?: Date;
   /**
    * The date and time when the job results will expire on the server.
    */
-  expiresAt?: Date;
+  expiresOn?: Date;
   /**
    * The job id.
    */
@@ -58,7 +36,7 @@ export interface JobMetadata {
   /**
    * The time the job status was last updated.
    */
-  updatedAt?: Date;
+  updatedOn?: Date;
   /**
    * The current status of the job.
    */

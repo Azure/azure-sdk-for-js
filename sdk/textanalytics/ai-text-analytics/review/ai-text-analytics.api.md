@@ -26,13 +26,7 @@ export interface AnalyzeJobMetadata extends JobMetadata {
 }
 
 // @public
-export interface AnalyzeJobOptions extends OperationOptions {
-    displayName?: string;
-    includeStatistics?: boolean;
-}
-
-// @public
-export type AnalyzePollerLike = PollerLike<BeginAnalyzePollState, PagedAnalyzeResults>;
+export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PagedAnalyzeResults>;
 
 // @public
 export interface AnalyzeResult {
@@ -84,23 +78,25 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
-export interface BeginAnalyzeBatchTasksOptions {
-    analyze?: AnalyzeJobOptions;
-    polling?: PollingOptions;
+export interface BeginAnalyzeBatchTasksOptions extends OperationOptions {
+    displayName?: string;
+    includeStatistics?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface BeginAnalyzeHealthcareOptions {
-    healthcare?: HealthcareJobOptions;
-    polling?: PollingOptions;
+export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedHealthcareEntities> {
 }
 
 // @public
-export interface BeginAnalyzeHealthcarePollState extends AnalysisPollOperationState<PaginatedHealthcareEntities> {
+export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface BeginAnalyzePollState extends AnalysisPollOperationState<PagedAnalyzeResults>, AnalyzeJobMetadata {
+export interface BeginAnalyzeOperationState extends AnalysisPollOperationState<PagedAnalyzeResults>, AnalyzeJobMetadata {
 }
 
 // @public
@@ -206,11 +202,7 @@ export interface HealthcareEntityLink {
 export type HealthcareErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export interface HealthcareJobOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public
-export type HealthcarePollerLike = PollerLike<BeginAnalyzeHealthcarePollState, PaginatedHealthcareEntities>;
+export type HealthcarePollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PagedHealthcareEntities>;
 
 // @public (undocumented)
 export interface HealthcareRelation {
@@ -241,11 +233,11 @@ export interface JobManifestTasks {
 
 // @public
 export interface JobMetadata {
-    createdAt?: Date;
-    expiresAt?: Date;
+    createdOn?: Date;
+    expiresOn?: Date;
     jobId?: string;
     status?: State;
-    updatedAt?: Date;
+    updatedOn?: Date;
 }
 
 // @public
@@ -293,7 +285,7 @@ export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<Analyz
 export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
 
 // @public
-export interface PaginatedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
+export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
@@ -311,12 +303,6 @@ export interface PiiEntity extends Entity {
 // @public
 export enum PiiEntityDomainType {
     PROTECTED_HEALTH_INFORMATION = "PHI"
-}
-
-// @public
-export interface PollingOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public

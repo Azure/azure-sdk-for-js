@@ -56,29 +56,24 @@ import {
 import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
 import {
   BeginAnalyzeHealthcareOptions,
-  BeginAnalyzeHealthcarePollState,
-  HealthcareJobOptions
+  BeginAnalyzeHealthcareOperationState
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalyzePollerLike, BeginAnalyzePoller } from "./lro/analyze/poller";
 import {
   AnalyzeJobMetadata,
-  AnalyzeJobOptions,
   BeginAnalyzeBatchTasksOptions,
-  BeginAnalyzePollState
+  BeginAnalyzeOperationState
 } from "./lro/analyze/operation";
-import { AnalysisPollOperationState, JobMetadata, PollingOptions } from "./lro/poller";
+import { AnalysisPollOperationState, JobMetadata } from "./lro/poller";
 
 export {
   BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
-  BeginAnalyzePollState,
+  BeginAnalyzeOperationState,
   BeginAnalyzeHealthcareOptions,
   HealthcarePollerLike,
-  AnalyzeJobOptions,
-  PollingOptions,
-  HealthcareJobOptions,
-  BeginAnalyzeHealthcarePollState,
+  BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   JobMetadata,
   AnalyzeJobMetadata
@@ -860,8 +855,15 @@ export class TextAnalyticsClient {
     const poller = new BeginAnalyzeHealthcarePoller({
       client: this.client,
       documents: realInputs,
-      analysisOptions: realOptions.healthcare,
-      ...realOptions.polling
+      analysisOptions: {
+        requestOptions: realOptions.requestOptions,
+        tracingOptions: realOptions.tracingOptions,
+        abortSignal: realOptions.abortSignal
+      },
+      updateIntervalInMs: realOptions.updateIntervalInMs,
+      resumeFrom: realOptions.resumeFrom,
+      includeStatistics: realOptions.includeStatistics,
+      modelVersion: realOptions.modelVersion
     });
 
     await poller.poll();
@@ -922,8 +924,15 @@ export class TextAnalyticsClient {
       client: this.client,
       documents: realInputs,
       tasks: compiledTasks,
-      analysisOptions: realOptions.analyze,
-      ...realOptions.polling
+      analysisOptions: {
+        requestOptions: realOptions.requestOptions,
+        tracingOptions: realOptions.tracingOptions,
+        abortSignal: realOptions.abortSignal
+      },
+      displayName: realOptions.displayName,
+      includeStatistics: realOptions.includeStatistics,
+      updateIntervalInMs: realOptions.updateIntervalInMs,
+      resumeFrom: realOptions.resumeFrom
     });
 
     await poller.poll();

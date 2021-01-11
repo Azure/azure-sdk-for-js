@@ -26,7 +26,7 @@ export interface AnalyzeResult {
 }
 
 /**
- * The results of an analyze job represented as a paginated iterator that
+ * The results of an analyze job represented as a paged iterator that
  * iterates over the results of the requested tasks.
  */
 export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<
@@ -35,7 +35,7 @@ export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<
 >;
 
 /**
- * The results of an analyze job represented as a paginated iterator that
+ * The results of an analyze job represented as a paged iterator that
  * iterates over the results of the requested tasks.
  */
 export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {

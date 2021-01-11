@@ -25,11 +25,8 @@ export {
   AnalyzePollerLike,
   BeginAnalyzeHealthcareOptions,
   HealthcarePollerLike,
-  BeginAnalyzePollState,
-  HealthcareJobOptions,
-  PollingOptions,
-  AnalyzeJobOptions,
-  BeginAnalyzeHealthcarePollState,
+  BeginAnalyzeOperationState,
+  BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   JobMetadata,
   AnalyzeJobMetadata
@@ -78,7 +75,7 @@ export {
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
-  PaginatedHealthcareEntities,
+  PagedHealthcareEntities,
   PagedAsyncIterableHealthcareEntities,
   HealthcareEntitiesArray,
   HealthcareResult,

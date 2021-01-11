@@ -27,13 +27,7 @@ import {
   handleInvalidDocumentBatch,
   nextLinkToTopAndSkip
 } from "../../util";
-import {
-  AnalysisPollOperation,
-  AnalysisPollOperationState,
-  JobMetadata,
-  PollingOptions,
-  TextAnalyticsStatusOperationOptions
-} from "../poller";
+import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
@@ -96,9 +90,17 @@ interface BeginAnalyzeInternalOptions extends OperationOptions {
 }
 
 /**
- * Options for configuring analyze jobs.
+ * Options for the begin analyze operation.
  */
-export interface AnalyzeJobOptions extends OperationOptions {
+export interface BeginAnalyzeBatchTasksOptions extends OperationOptions {
+  /**
+   * Delay to wait until next poll, in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
+  resumeFrom?: string;
   /**
    * If set to true, response will contain input and document level statistics.
    */
@@ -110,23 +112,9 @@ export interface AnalyzeJobOptions extends OperationOptions {
 }
 
 /**
- * Options for the begin analyze operation.
- */
-export interface BeginAnalyzeBatchTasksOptions {
-  /**
-   * Options related to polling from the service.
-   */
-  polling?: PollingOptions;
-  /**
-   * Options related to the analyze job.
-   */
-  analyze?: AnalyzeJobOptions;
-}
-
-/**
  * The state of the begin analyze polling operation.
  */
-export interface BeginAnalyzePollState
+export interface BeginAnalyzeOperationState
   extends AnalysisPollOperationState<PagedAnalyzeResults>,
     AnalyzeJobMetadata {}
 
@@ -135,17 +123,16 @@ export interface BeginAnalyzePollState
  * operation.
  */
 export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
-  BeginAnalyzePollState,
+  BeginAnalyzeOperationState,
   PagedAnalyzeResults
 > {
   constructor(
-    public state: BeginAnalyzePollState,
+    public state: BeginAnalyzeOperationState,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
     private tasks: JobManifestTasks,
-    private options: BeginAnalyzeBatchTasksOptions = {},
-    private statusOptions: TextAnalyticsStatusOperationOptions = {}
+    private options: BeginAnalyzeBatchTasksOptions = {}
   ) {
     super(state);
   }
@@ -153,13 +140,13 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   /**
    * should be called only after all the status of the analyze jobs became
    * "succeeded" and it returns an iterator for the results and provides a
-   * byPage method to return the results paginated.
+   * byPage method to return the results paged.
    */
   private listAnalyzeResults(
     jobId: string,
     options: AnalyzeJobStatusOptions = {}
   ): PagedAsyncIterableAnalyzeResults {
-    const iter = this._listAnalyzeResultsPaginated(jobId, options);
+    const iter = this._listAnalyzeResultsPaged(jobId, options);
     return {
       next() {
         return iter.next();
@@ -169,7 +156,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
       },
       byPage: (settings?: PageSettings) => {
         const pageOptions = { ...options, top: settings?.maxPageSize };
-        return this._listAnalyzeResultsPaginated(jobId, pageOptions);
+        return this._listAnalyzeResultsPaged(jobId, pageOptions);
       }
     };
   }
@@ -177,7 +164,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   /**
    * returns an iterator to arrays of the results of an analyze job.
    */
-  private async *_listAnalyzeResultsPaginated(
+  private async *_listAnalyzeResultsPaged(
     jobId: string,
     options?: AnalyzeJobStatusOptions
   ): AsyncIterableIterator<AnalyzeResult> {
@@ -277,9 +264,9 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
             done: true,
             statistics: response.statistics,
             jobMetdata: {
-              createdAt: response.createdDateTime,
-              updatedAt: response.lastUpdateDateTime,
-              expiresAt: response.expirationDateTime,
+              createdOn: response.createdDateTime,
+              updatedOn: response.lastUpdateDateTime,
+              expiresOn: response.expirationDateTime,
               status: response.status,
               successfullyCompletedTasksCount: response.tasks.completed,
               failedTasksCount: response.tasks.failed,
@@ -348,7 +335,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: BeginAnalyzePollState) => void;
+      fireProgress?: (state: BeginAnalyzeOperationState) => void;
     } = {}
   ): Promise<BeginAnalyzePollerOperation> {
     const state = this.state;
@@ -356,8 +343,10 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     if (!state.isStarted) {
       state.isStarted = true;
       const response = await this.beginAnalyzeBatchTasks(this.documents, this.tasks, {
-        ...this.options.analyze,
-        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.analyze?.abortSignal
+        tracingOptions: this.options.tracingOptions,
+        requestOptions: this.options.requestOptions,
+        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal,
+        displayName: this.options.displayName
       });
       if (!response.operationLocation) {
         throw new Error(
@@ -368,13 +357,14 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     }
 
     const jobStatus = await this.getAnalyzeStatus(state.jobId!, {
-      ...this.statusOptions,
-      abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
+      abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
+      includeStatistics: this.options.includeStatistics,
+      tracingOptions: this.options.tracingOptions
     });
 
-    state.createdAt = jobStatus.jobMetdata?.createdAt;
-    state.expiresAt = jobStatus.jobMetdata?.expiresAt;
-    state.updatedAt = jobStatus.jobMetdata?.updatedAt;
+    state.createdOn = jobStatus.jobMetdata?.createdOn;
+    state.expiresOn = jobStatus.jobMetdata?.expiresOn;
+    state.updatedOn = jobStatus.jobMetdata?.updatedOn;
     state.status = jobStatus.jobMetdata?.status;
     state.successfullyCompletedTasksCount = jobStatus.jobMetdata?.successfullyCompletedTasksCount;
     state.failedTasksCount = jobStatus.jobMetdata?.failedTasksCount;
@@ -385,7 +375,10 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
       if (typeof options.fireProgress === "function") {
         options.fireProgress(state);
       }
-      const pagedIterator = this.listAnalyzeResults(state.jobId!, this.options.analyze || {});
+      const pagedIterator = this.listAnalyzeResults(state.jobId!, {
+        abortSignal: this.options.abortSignal,
+        tracingOptions: this.options.tracingOptions
+      });
       state.result = Object.assign(pagedIterator, {
         statistics: jobStatus.statistics
       });

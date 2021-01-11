@@ -794,9 +794,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             entityRecognitionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const results = await poller.pollUntilDone();
@@ -830,9 +828,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const results = await poller.pollUntilDone();
@@ -880,9 +876,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             entityRecognitionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -925,9 +919,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -977,9 +969,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             },
             "en",
             {
-              polling: {
-                updateIntervalInMs: pollingInterval
-              }
+              updateIntervalInMs: pollingInterval
             }
           );
           await poller.pollUntilDone();
@@ -1014,9 +1004,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1082,9 +1070,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1141,9 +1127,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1203,9 +1187,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1269,10 +1251,8 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            analyze: { includeStatistics: true },
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            includeStatistics: true,
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1298,9 +1278,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1332,9 +1310,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1365,9 +1341,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1398,9 +1372,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1428,9 +1400,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "notalanguage",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1466,9 +1436,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             keyPhraseExtractionTasks: [{ modelVersion: "bad" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1499,9 +1467,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           },
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1540,9 +1506,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -1574,18 +1538,14 @@ describe("[AAD] TextAnalyticsClient", function() {
             entityRecognitionPiiTasks: [{ modelVersion: "latest" }]
           },
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            },
-            analyze: {
-              displayName: "testJob"
-            }
+            updateIntervalInMs: pollingInterval,
+            displayName: "testJob"
           }
         );
         poller.onProgress(() => {
-          assert.ok(poller.getOperationState().createdAt, "createdAt is undefined!");
-          assert.ok(poller.getOperationState().expiresAt, "expiresAt is undefined!");
-          assert.ok(poller.getOperationState().updatedAt, "updatedAt is undefined!");
+          assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
+          assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
+          assert.ok(poller.getOperationState().updatedOn, "updatedOn is undefined!");
           assert.ok(poller.getOperationState().status, "status is undefined!");
           assert.ok(
             poller.getOperationState().successfullyCompletedTasksCount,
