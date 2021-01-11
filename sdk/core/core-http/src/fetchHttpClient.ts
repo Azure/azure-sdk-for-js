@@ -10,6 +10,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { RestError } from "./restError";
 import { Readable, Transform } from "stream";
+import { logger } from "./log";
 
 interface FetchError extends Error {
   code?: string;
@@ -215,8 +216,8 @@ export abstract class FetchHttpClient implements HttpClient {
             httpRequest.abortSignal?.removeEventListener("abort", abortListener!);
             return;
           })
-          .catch(() => {
-            /* ignore errors */
+          .catch((e) => {
+            logger.warning("Error when cleaning up abortListener", e);
           });
       }
     }
@@ -234,6 +235,8 @@ function isReadableStream(body: any): body is Readable {
 function isStreamComplete(stream: Readable): Promise<void> {
   return new Promise((resolve) => {
     stream.on("close", resolve);
+    stream.on("end", resolve);
+    stream.on("error", resolve);
   });
 }
 
