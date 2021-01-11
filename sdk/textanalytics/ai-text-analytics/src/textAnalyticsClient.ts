@@ -48,7 +48,6 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
-  addEncodingParamToTask,
   AddParamsToTask,
   addStrEncodingParam,
   handleInvalidDocumentBatch,
@@ -979,10 +978,10 @@ export class TextAnalyticsClient {
 function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
   return {
     entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
-      ?.map(addEncodingParamToTask)
+      ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
     entityRecognitionTasks: tasks.entityRecognitionTasks
-      ?.map(addEncodingParamToTask)
+      ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
     keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
   };

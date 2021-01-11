@@ -89,28 +89,22 @@ const jsEncodingUnit = "Utf16CodeUnit";
  */
 export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
-export function addStrEncodingParam<T>(
-  options: T & { stringIndexType?: StringIndexType }
-): T & { stringIndexType: StringIndexType } {
+export function addStrEncodingParam<Options extends { stringIndexType?: StringIndexType }>(
+  options: Options
+): Options & { stringIndexType: StringIndexType } {
   return { ...options, stringIndexType: options.stringIndexType || jsEncodingUnit };
 }
 
 /**
- * Set the stringIndexType property with default if it does not exist in the options bag.
+ * Set the stringIndexType property with default if it does not exist in x.
  * @param options - operation options bag that has a {@link StringIndexType}
  * @internal
  * @hidden
  */
-export function setStrEncodingParam<T>(
-  options: T & { stringIndexType?: GeneratedStringIndexType }
-): T & { stringIndexType: GeneratedStringIndexType } {
-  return { ...options, stringIndexType: options.stringIndexType || jsEncodingUnit };
-}
-
-export function addEncodingParamToTask<X>(
-  task: X & { stringIndexType?: StringIndexType }
-): X & { stringIndexType?: StringIndexType } {
-  return { ...task, stringIndexType: task.stringIndexType || jsEncodingUnit };
+export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStringIndexType }>(
+  x: X
+): X & { stringIndexType: GeneratedStringIndexType } {
+  return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
 export function AddParamsToTask<X>(task: X): { parameters?: X } {
