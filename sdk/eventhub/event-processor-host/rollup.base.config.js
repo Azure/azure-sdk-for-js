@@ -13,7 +13,6 @@ import path from "path";
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const input = "dist-esm/src/index.js";
-const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "util"];
