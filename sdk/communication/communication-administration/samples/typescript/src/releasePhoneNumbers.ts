@@ -23,9 +23,12 @@ export const main = async () => {
   const phoneNumberClient = new PhoneNumberAdministrationClient(connectionString);
 
   // Release a phone numbers
-  const releasePoller = await phoneNumberClient.beginReleasePhoneNumbers(["+1412555000", "+1412555001"]);
+  const releasePoller = await phoneNumberClient.beginReleasePhoneNumbers([
+    "+14125550000",
+    "+14125550001"
+  ]);
   console.log("Releasing phone numbers...");
-  
+
   await releasePoller.pollUntilDone();
 
   console.log("Release succeeded.");
