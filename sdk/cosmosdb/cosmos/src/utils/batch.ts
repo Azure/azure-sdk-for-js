@@ -172,7 +172,7 @@ export function decorateOperation(
     operation.operationType === BulkOperationType.Read ||
     operation.operationType === BulkOperationType.Delete
   ) {
-    return { ...operation, partitionKey: '[{}]' };
+    return { ...operation, partitionKey: "[{}]" };
   }
   return operation as Operation;
 }
