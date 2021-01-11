@@ -187,11 +187,11 @@ export interface HealthcareEntitiesArray extends Array<HealthcareResult> {
 }
 
 // @public
-export type HealthcareEntity = Entity & {
-    isNegated: boolean;
+export interface HealthcareEntity extends Entity {
     dataSource?: HealthcareEntityDataSource[];
+    isNegated: boolean;
     relatedHealthcareEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
-};
+}
 
 // @public
 export interface HealthcareEntityDataSource {

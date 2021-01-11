@@ -93,7 +93,7 @@ export interface HealthcareEntityDataSource {
  * A healthcare entity represented as a node in a directed graph where the edges are
  * a particular type of relationship between the source and target nodes.
  */
-export type HealthcareEntity = Entity & {
+export interface HealthcareEntity extends Entity {
   /**
    * Whether the entity is negated.
    */
@@ -108,7 +108,7 @@ export type HealthcareEntity = Entity & {
    * the map are the target.
    */
   relatedHealthcareEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
-};
+}
 
 /**
  * The results of a successful healthcare job for a single document.
@@ -201,7 +201,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
 function makeHealthcareEntitiesGraph(
   entities: HealthcareEntity[],
   relations: HealthcareRelation[]
-): HealthcareEntity[] {
+): void {
   for (const relation of relations) {
     const relationType = relation.relationType;
     const sourceIndex = parseHealthcareEntityIndex(relation.source);
@@ -217,7 +217,6 @@ function makeHealthcareEntitiesGraph(
       throw new Error(`Unrecognized healthcare entity relation type: ${relationType}`);
     }
   }
-  return entities;
 }
 
 /**
@@ -230,8 +229,8 @@ export function makeHealthcareEntitiesResult(
   document: DocumentHealthcareEntities
 ): HealthcareSuccessResult {
   const { id, entities, relations, warnings, statistics } = document;
-  const newEntitiesWithoutNeighbors = entities.map(makeHealthcareEntitiesWithoutNeighbors);
-  const newEntities = makeHealthcareEntitiesGraph(newEntitiesWithoutNeighbors, relations);
+  const newEntities = entities.map(makeHealthcareEntitiesWithoutNeighbors);
+  makeHealthcareEntitiesGraph(newEntities, relations);
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities: newEntities
