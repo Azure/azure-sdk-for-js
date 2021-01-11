@@ -80,7 +80,10 @@ export {
   HealthcareEntitiesArray,
   HealthcareResult,
   HealthcareSuccessResult,
-  HealthcareErrorResult
+  HealthcareErrorResult,
+  HealthcareEntity,
+  HealthcareEntityDataSource,
+  HealthcareEntityRelationType
 } from "./healthResult";
 export {
   PagedAnalyzeResults,
@@ -115,8 +118,6 @@ export {
   AspectConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  HealthcareEntity,
-  HealthcareRelation,
-  HealthcareEntityLink,
+  PiiTaskParametersDomain,
   State
 } from "./generated/models";

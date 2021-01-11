@@ -1,5 +1,10 @@
 # Release History
 
+## 5.1.0 (unreleased)
+
+- The poller for the `beginAnalyze` long-running operation gained the ability to return certain metadata information about the currently running job (e.g., when the job was created, will be expired, and last time it was updated, and also how many tasks completed and failed so far). Also, the poller for `beginAnalyzeHealthcare` gained a similar ability.
+- The healthcare entities returned by `beginAnalyzeHealthcare` are now organized as a directed graph where the edges represent a certain type of healthcare relationship between the source and target nodes.
+
 ## 5.1.0-beta.3 (2020-11-23)
 
 - We are now targeting the service's v3.1-preview.3 API as the default instead of v3.1-preview.2.

@@ -51,7 +51,7 @@ export interface OpinionIndex {
   opinion: number;
 }
 
-export function findOpinionIndex(pointer: string): OpinionIndex {
+export function parseOpinionIndex(pointer: string): OpinionIndex {
   const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/opinions\/(\d+)/);
   const res = regex.exec(pointer);
   if (res !== null) {
@@ -63,6 +63,22 @@ export function findOpinionIndex(pointer: string): OpinionIndex {
     return opinionIndex;
   } else {
     throw new Error(`Pointer "${pointer}" is not a valid opinion pointer`);
+  }
+}
+
+/**
+ * Parses the index of the healthcare entity from a JSON pointer.
+ * @param pointer - a JSON pointer representing an entity
+ * @internal
+ * @hidden
+ */
+export function parseHealthcareEntityIndex(pointer: string): number {
+  const regex = new RegExp(/#\/results\/documents\/(\d+)\/entities\/(\d+)/);
+  const res = regex.exec(pointer);
+  if (res !== null) {
+    return parseInt(res[2]);
+  } else {
+    throw new Error(`Pointer "${pointer}" is not a valid healthcare entity pointer`);
   }
 }
 

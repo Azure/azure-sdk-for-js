@@ -20,7 +20,7 @@ import {
   TokenSentimentValue as SentenceAspectSentiment,
   AspectConfidenceScoreLabel
 } from "./generated/models";
-import { findOpinionIndex, OpinionIndex } from "./util";
+import { OpinionIndex, parseOpinionIndex } from "./util";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -207,7 +207,7 @@ function convertAspectRelationToOpinionSentiment(
   document: DocumentSentiment
 ): OpinionSentiment {
   const opinionPtr = aspectRelation.ref;
-  const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
+  const opinionIndex: OpinionIndex = parseOpinionIndex(opinionPtr);
   const opinion: SentenceOpinion | undefined =
     document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {

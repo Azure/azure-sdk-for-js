@@ -105,12 +105,41 @@ describe("[API Key] TextAnalyticsClient", function() {
           }
         );
         const result = await poller.pollUntilDone();
-        for await (const doc of result) {
-          if (!doc.error) {
-            assert.ok(doc.id);
-            assert.ok(doc.entities);
-            assert.ok(doc.relations);
-          }
+        const doc1 = (await result.next()).value;
+        if (!doc1.error) {
+          assert.ok(doc1.id);
+          assert.ok(doc1.entities);
+          const doc1Entity1 = doc1.entities[0];
+          assert.equal(doc1Entity1.text, "high");
+          const doc1Entity1Target1 = doc1Entity1.relatedHealthcareEntities.keys().next().value;
+          const doc1Entity1Edge1Label = doc1Entity1.relatedHealthcareEntities.values().next().value;
+          assert.equal(doc1Entity1Target1.text, "blood pressure");
+          assert.equal(doc1Entity1Edge1Label, "ValueOfExamination");
+
+          const doc1Entity2 = doc1.entities[1];
+          assert.equal(doc1Entity2.text, "blood pressure");
+        }
+
+        const doc2 = (await result.next()).value;
+        if (!doc2.error) {
+          assert.ok(doc2.id);
+          assert.ok(doc2.entities);
+          const doc2Entity1 = doc2.entities[0];
+          assert.equal(doc2Entity1.text, "100mg");
+          const doc2Entity1Target1 = doc2Entity1.relatedHealthcareEntities.keys().next().value;
+          const doc2Entity1Edge1Label = doc2Entity1.relatedHealthcareEntities.values().next().value;
+          assert.equal(doc2Entity1Target1.text, "ibuprofen");
+          assert.equal(doc2Entity1Edge1Label, "DosageOfMedication");
+
+          const doc2Entity2 = doc2.entities[1];
+          assert.equal(doc2Entity2.text, "ibuprofen");
+
+          const doc2Entity3 = doc2.entities[2];
+          assert.equal(doc2Entity3.text, "twice daily");
+          const doc2Entity3Target1 = doc2Entity3.relatedHealthcareEntities.keys().next().value;
+          const doc2Entity3Edge1Label = doc2Entity3.relatedHealthcareEntities.values().next().value;
+          assert.equal(doc2Entity3Target1.text, "ibuprofen");
+          assert.equal(doc2Entity3Edge1Label, "FrequencyOfMedication");
         }
       });
 
@@ -129,7 +158,6 @@ describe("[API Key] TextAnalyticsClient", function() {
           if (!doc.error) {
             assert.ok(doc.id);
             assert.ok(doc.entities);
-            assert.ok(doc.relations);
           }
         }
       });
@@ -155,7 +183,6 @@ describe("[API Key] TextAnalyticsClient", function() {
         if (!result3.error) {
           assert.ok(result3.id);
           assert.ok(result3.entities);
-          assert.ok(result3.relations);
         }
         assert.ok(result1.error);
         assert.ok(result2.error);
