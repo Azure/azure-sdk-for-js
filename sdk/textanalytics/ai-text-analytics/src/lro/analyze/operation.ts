@@ -22,7 +22,6 @@ import {
 } from "../../analyzeResult";
 import { PageSettings } from "@azure/core-paging";
 import {
-  addStrEncodingParam,
   getJobID,
   handleInvalidDocumentBatch,
   nextLinkToTopAndSkip
@@ -308,7 +307,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   ): Promise<BeginAnalyzeResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-beginAnalyze",
-      addStrEncodingParam(options)
+      options || {}
     );
 
     try {

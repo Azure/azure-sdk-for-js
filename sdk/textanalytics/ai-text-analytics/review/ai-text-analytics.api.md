@@ -41,6 +41,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
     includeOpinionMining?: boolean;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -70,6 +71,7 @@ export interface AspectConfidenceScoreLabel {
 // @public
 export interface AspectSentiment {
     confidenceScores: AspectConfidenceScoreLabel;
+    length: number;
     offset: number;
     sentiment: TokenSentimentValue;
     text: string;
@@ -92,6 +94,7 @@ export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperat
 // @public
 export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
     resumeFrom?: string;
+    stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
 }
 
@@ -102,6 +105,7 @@ export interface BeginAnalyzeOperationState extends AnalysisPollOperationState<P
 // @public
 export type CategorizedEntitiesRecognitionTask = {
     modelVersion?: string;
+    stringIndexType?: StringIndexType;
 };
 
 // @public
@@ -151,6 +155,7 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface Entity {
     category: string;
     confidenceScore: number;
+    length: number;
     offset: number;
     subCategory?: string;
     text: string;
@@ -254,6 +259,7 @@ export interface LinkedEntity {
 // @public
 export interface Match {
     confidenceScore: number;
+    length: number;
     offset: number;
     text: string;
 }
@@ -289,6 +295,7 @@ export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEnt
 export type PiiEntitiesRecognitionTask = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
+    stringIndexType?: StringIndexType;
 };
 
 // @public
@@ -307,7 +314,9 @@ export type PiiTaskParametersDomain = "phi" | "none" | string;
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizeCategorizedEntitiesResult = RecognizeCategorizedEntitiesSuccessResult | RecognizeCategorizedEntitiesErrorResult;
@@ -327,7 +336,9 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
+    stringIndexType?: StringIndexType;
+}
 
 // @public
 export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
@@ -349,6 +360,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     domainFilter?: PiiEntityDomainType;
+    stringIndexType?: StringIndexType;
 }
 
 // @public
@@ -370,6 +382,7 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 export interface SentenceOpinion {
     confidenceScores: AspectConfidenceScoreLabel;
     isNegated: boolean;
+    length: number;
     offset: number;
     sentiment: TokenSentimentValue;
     text: string;
@@ -378,6 +391,7 @@ export interface SentenceOpinion {
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
+    length: number;
     minedOpinions: MinedOpinion[];
     offset: number;
     sentiment: SentenceSentimentLabel;
@@ -399,6 +413,9 @@ export interface SentimentConfidenceScores {
 
 // @public
 export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
+
+// @public
+export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
 export class TextAnalyticsClient {

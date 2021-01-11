@@ -48,10 +48,11 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
-  addEncodingParamToTask,
   AddParamsToTask,
   addStrEncodingParam,
-  handleInvalidDocumentBatch
+  handleInvalidDocumentBatch,
+  setStrEncodingParam,
+  StringIndexType
 } from "./util";
 import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
 import {
@@ -76,7 +77,8 @@ export {
   BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   JobMetadata,
-  AnalyzeJobMetadata
+  AnalyzeJobMetadata,
+  StringIndexType
 };
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
@@ -104,7 +106,14 @@ export type DetectLanguageOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the recognize entities operation.
  */
-export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Options for the analyze sentiment operation.
@@ -119,6 +128,12 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -141,6 +156,12 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
   domainFilter?: PiiEntityDomainType;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -151,7 +172,14 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the recognize linked entities operation.
  */
-export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Options for an entities recognition task.
@@ -162,6 +190,12 @@ export type CategorizedEntitiesRecognitionTask = {
    * batch of input documents.
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 };
 
 /**
@@ -179,6 +213,12 @@ export type PiiEntitiesRecognitionTask = {
    * batch of input documents.
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 };
 
 /**
@@ -526,18 +566,12 @@ export class TextAnalyticsClient {
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
-      realOptions = {
-        includeStatistics: options?.includeStatistics,
-        modelVersion: options?.modelVersion,
-        opinionMining: options?.includeOpinionMining
-      };
+      realOptions = makeAnalyzeSentimentOptionsModel(options || {});
     } else {
       realInputs = documents;
-      realOptions = {
-        includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
-        modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
-        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.includeOpinionMining
-      };
+      realOptions = makeAnalyzeSentimentOptionsModel(
+        (languageOrOptions as AnalyzeSentimentOptions) || {}
+      );
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -550,7 +584,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -692,12 +726,12 @@ export class TextAnalyticsClient {
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(inputs, language);
-      realOptions = options || {};
-      realOptions.domain = options?.domainFilter;
+      realOptions = makePiiEntitiesOptionsModel(options || {});
     } else {
       realInputs = inputs;
-      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
-      realOptions.domain = (languageOrOptions as RecognizePiiEntitiesOptions)?.domainFilter;
+      realOptions = makePiiEntitiesOptionsModel(
+        (languageOrOptions as RecognizePiiEntitiesOptions) || {}
+      );
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -710,7 +744,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
@@ -863,7 +897,8 @@ export class TextAnalyticsClient {
       updateIntervalInMs: realOptions.updateIntervalInMs,
       resumeFrom: realOptions.resumeFrom,
       includeStatistics: realOptions.includeStatistics,
-      modelVersion: realOptions.modelVersion
+      modelVersion: realOptions.modelVersion,
+      stringIndexType: realOptions.stringIndexType
     });
 
     await poller.poll();
@@ -943,10 +978,10 @@ export class TextAnalyticsClient {
 function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
   return {
     entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
-      ?.map(addEncodingParamToTask)
+      ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
     entityRecognitionTasks: tasks.entityRecognitionTasks
-      ?.map(addEncodingParamToTask)
+      ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
     keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
   };
@@ -984,4 +1019,44 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
       };
     }
   );
+}
+
+/**
+ * Creates the options the service expects for the analyze sentiment API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ * @hidden
+ */
+function makeAnalyzeSentimentOptionsModel(
+  params: AnalyzeSentimentOptions
+): GeneratedClientSentimentOptionalParams {
+  return {
+    abortSignal: params.abortSignal,
+    opinionMining: params.includeOpinionMining,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    stringIndexType: params.stringIndexType,
+    tracingOptions: params.tracingOptions
+  };
+}
+
+/**
+ * Creates the options the service expects for the recognize pii entities API from the user friendly ones.
+ * @param params - the user friendly parameters
+ * @internal
+ * @hidden
+ */
+function makePiiEntitiesOptionsModel(
+  params: RecognizePiiEntitiesOptions
+): GeneratedClientEntitiesRecognitionPiiOptionalParams {
+  return {
+    abortSignal: params.abortSignal,
+    domain: params.domainFilter,
+    includeStatistics: params.includeStatistics,
+    modelVersion: params.modelVersion,
+    requestOptions: params.requestOptions,
+    stringIndexType: params.stringIndexType,
+    tracingOptions: params.tracingOptions
+  };
 }

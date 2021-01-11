@@ -26,7 +26,8 @@ import {
   addStrEncodingParam,
   getJobID,
   handleInvalidDocumentBatch,
-  nextLinkToTopAndSkip
+  nextLinkToTopAndSkip,
+  StringIndexType
 } from "../../util";
 import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
@@ -66,12 +67,22 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
  * Options for the begin analyze healthcare operation.
  */
 export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Delay to wait until next poll, in milliseconds.
+   */
+  stringIndexType?: StringIndexType;
   /**
    * Delay to wait until next poll, in milliseconds.
    */
@@ -267,7 +278,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   ): Promise<BeginAnalyzeHealthcareResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-beginAnalyzeHealthcare",
-      addStrEncodingParam(options)
+      addStrEncodingParam(options || {})
     );
 
     try {
@@ -301,7 +312,8 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         requestOptions: this.options.requestOptions,
         tracingOptions: this.options.tracingOptions,
         abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
-        modelVersion: this.options.modelVersion
+        modelVersion: this.options.modelVersion,
+        stringIndexType: this.options.stringIndexType
       });
       if (!response.operationLocation) {
         throw new Error(

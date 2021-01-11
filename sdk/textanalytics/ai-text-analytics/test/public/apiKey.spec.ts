@@ -10,6 +10,7 @@ import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { createClient, createRecorder } from "../utils/recordedClient";
 import { TextAnalyticsClient } from "../../src";
 import { assertAllSuccess } from "../utils/resultHelper";
+import { checkEntityTextOffset } from "../utils/stringIndexTypeHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -600,6 +601,43 @@ describe("[API Key] TextAnalyticsClient", function() {
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);
+      });
+
+      it("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {
+        const doc = "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen";
+        const poller = await client.beginAnalyzeHealthcare(
+          [{ id: "0", text: doc, language: "en" }],
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const result = (await pollerResult.next()).value;
+        if (!result.error) {
+          const entity = result.entities[0];
+          const offset = 20;
+          const length = 9;
+          assert.equal(entity.offset, 20);
+          assert.equal(entity.length, 9);
+          checkEntityTextOffset(doc, entity, offset, length);
+        }
+      });
+
+      it("family emoji wit skin tone modifier with UnicodeCodePoint", async function() {
+        const poller = await client.beginAnalyzeHealthcare(
+          [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
+          {
+            updateIntervalInMs: pollingInterval,
+            stringIndexType: "UnicodeCodePoint"
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const result = (await pollerResult.next()).value;
+        if (!result.error) {
+          assert.equal(result.entities[0].offset, 12); // 20 with UTF16
+          assert.equal(result.entities[0].length, 9);
+          assert.equal(result.entities[0].text.length, result.entities[0].length);
+        }
       });
     });
   });

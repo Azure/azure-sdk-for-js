@@ -173,12 +173,13 @@ export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEnt
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
 ): HealthcareEntity {
-  const { category, confidenceScore, isNegated, offset, text, links, subCategory } = entity;
+  const { category, confidenceScore, isNegated, offset, text, links, subCategory, length } = entity;
   return {
     category,
     confidenceScore,
     isNegated,
     offset,
+    length,
     text,
     subCategory,
     dataSource: links?.map(

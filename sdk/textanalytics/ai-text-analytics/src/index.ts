@@ -29,7 +29,8 @@ export {
   BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   JobMetadata,
-  AnalyzeJobMetadata
+  AnalyzeJobMetadata,
+  StringIndexType
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {

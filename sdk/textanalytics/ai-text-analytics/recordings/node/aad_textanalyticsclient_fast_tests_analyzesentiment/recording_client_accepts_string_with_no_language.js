@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,19 +24,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2a4b9b6c-bb83-4572-ae95-e35eb0f7d500',
+  '5766510b-23fa-470b-8073-6070ab316d00',
   'x-ms-ests-server',
-  '2.1.11328.13 - WUS2 ProdSlices',
+  '2.1.11328.14 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AoCTVnjZNANIlskJjdFwx3Jz_bg1AQAAAENJdNcOAAAA; expires=Thu, 21-Jan-2021 20:08:35 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AilPM50NMXpNpfGdLUmnCntz_bg1AQAAAPevftcOAAAA; expires=Fri, 29-Jan-2021 17:29:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 22 Dec 2020 20:08:35 GMT',
-  'Content-Length',
-  '1331'
+  'Wed, 30 Dec 2020 17:29:27 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=4',
   'x-envoy-upstream-service-time',
-  '168',
+  '130',
   'apim-request-id',
-  '368d3fea-07df-4824-82e7-f617b2216f4d',
+  '5da99e2a-63d0-4429-8ff7-862942bbc310',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:08:36 GMT'
+  'Wed, 30 Dec 2020 17:29:28 GMT'
 ]);
