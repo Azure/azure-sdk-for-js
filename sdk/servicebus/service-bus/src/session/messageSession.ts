@@ -23,11 +23,7 @@ import {
   StandardAbortMessage
 } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
-import {
-  onMessageSettled,
-  DeferredPromiseAndTimer,
-  createReceiverOptions
-} from "../core/shared";
+import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
 import {
