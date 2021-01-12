@@ -1,5 +1,8 @@
 # Release History
 
+## 7.0.2 (Unreleased)
+
+
 ## 7.0.1 (2021-01-11)
 
 - Fix the `isNode` check to allow the package to be usable in Electron. [Bug 12983](https://github.com/Azure/azure-sdk-for-js/issues/12983)
