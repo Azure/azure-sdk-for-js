@@ -23,7 +23,7 @@ export function getClientParamsFromConnectionString(
   connectionString: string,
   options?: TableServiceClientOptions
 ): ClientParamsFromConnectionString {
-  if (connectionString.indexOf("UseDevelopmentStorage=true") !== -1) {
+  if (connectionString.toLocaleLowerCase().indexOf("usedevelopmentstorage=true") !== -1) {
     connectionString = DevelopmentConnectionString;
   }
   const extractedCreds = extractConnectionStringParts(connectionString);
