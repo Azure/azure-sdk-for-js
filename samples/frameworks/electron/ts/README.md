@@ -76,5 +76,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
 [identity]: https://docs.microsoft.com/javascript/api/@azure/identity
 [apiref]: https://docs.microsoft.com/javascript/api/
-[servicebusaad]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/authenticate-application
-[storageaad]: https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad-rbac-portal
+[servicebusaad]: https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application
+[storageaad]: https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal

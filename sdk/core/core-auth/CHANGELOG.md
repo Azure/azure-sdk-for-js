@@ -2,6 +2,7 @@
 
 ## 1.1.5 (Unreleased)
 
+- Add `AzureSASCredential` and `SASCredential` for use by service clients which allow authenticiation using a shared access signature.
 
 ## 1.1.4 (2021-01-07)
 
