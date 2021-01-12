@@ -147,7 +147,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
               token: authResponse.accessToken
             });
           } else {
-            reject(new Error("Did not receive a token with a valid expiration"));
+            reject(new Error(`Device Authentication Error "Did not receive token with a valid expiration"`));
           }
         } catch (error) {
           const errorMessage = formatError(
