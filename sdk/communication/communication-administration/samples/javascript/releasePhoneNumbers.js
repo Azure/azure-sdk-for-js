@@ -24,8 +24,8 @@ async function main() {
 
   // Release a phone numbers
   const releasePoller = await phoneNumberClient.beginReleasePhoneNumbers([
-    "+14125550000",
-    "+14125550001"
+    "+14125550100",
+    "+14125550101"
   ]);
   console.log("Releasing phone numbers...");
 
