@@ -323,7 +323,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   private _createMessageSessionOptions(): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: this.name,
-      autoaccept: false,
+      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
