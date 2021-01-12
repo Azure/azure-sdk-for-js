@@ -64,6 +64,12 @@ npm start
 
 4. Navigate to the web page by visiting http://localhost:8080 in a browser.
 
+## Troubleshooting
+
+### Authentication error: AADSTS50011
+
+If you receive error `AADSTS50011` with the message `The reply URL specified in the request does not match the reply URLs configured for the application`, make sure that you're accessing the sample using `localhost` and not an IP address (e.g. 127.0.0.1).
+
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
