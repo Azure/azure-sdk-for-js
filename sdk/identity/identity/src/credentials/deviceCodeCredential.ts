@@ -168,7 +168,7 @@ export class DeviceCodeCredential implements TokenCredential {
           token: deviceResponse.accessToken
         };
       } else {
-        throw new Error(`Device Authentication Error "Did not receive token with timestamp"`);
+        throw new Error("Did not receive token with timestamp");
       }
     } catch (error) {
       throw new Error(`Device Authentication Error "${JSON.stringify(error)}"`);
