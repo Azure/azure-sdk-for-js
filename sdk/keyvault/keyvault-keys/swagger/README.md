@@ -6,7 +6,7 @@
 typescript:
   package-name: "@azure/keyvault-keys"
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20201210.1"
+  "@autorest/typescript": "6.0.0-dev.20210111.1"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
@@ -17,6 +17,7 @@ source-code-folder-path: ./src/generated
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
+hide-clients: true
 ```
 
 ## Customizations for Track 2 Generator
