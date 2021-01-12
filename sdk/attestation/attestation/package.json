@@ -13,7 +13,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@opentelemetry/api": "^0.10.2",
@@ -36,6 +38,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.2.0",
+    "eslint": "^7.15.0",
     "jsrsasign": "^10.1.4",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -61,11 +64,8 @@
     "ts-node": "^8.3.0",
     "typescript": "4.1.2"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/attestation/attestation/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -77,17 +77,27 @@
     "LICENSE"
   ],
   "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && rollup -c 2>&1",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test temp types *.tgz *.log",
+    "execute:samples": "echo skipped",
     "extract-api": "api-extractor run --local",
-    "lint": "echo skipped",
-    "prepack": "npm install && npm run build",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": true,

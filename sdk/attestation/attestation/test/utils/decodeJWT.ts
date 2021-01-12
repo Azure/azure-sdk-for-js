@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 // typed implementation of jwsDecode, copied from here: https://github.com/auth0/node-jws/blob/master/lib/verify-stream.js
+/* eslint-disable */
 
 import { Buffer } from "./Buffer";
 
