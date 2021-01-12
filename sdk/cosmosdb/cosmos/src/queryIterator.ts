@@ -81,7 +81,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore();
       } catch (error) {
-        this.checkContinuationTokenError(error)
+        this.checkContinuationTokenError(error);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
@@ -146,7 +146,7 @@ export class QueryIterator<T> {
     try {
       response = await this.queryExecutionContext.fetchMore();
     } catch (error) {
-      this.checkContinuationTokenError(error)
+      this.checkContinuationTokenError(error);
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
         try {
@@ -186,7 +186,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.nextItem();
       } catch (error) {
-        this.checkContinuationTokenError(error)
+        this.checkContinuationTokenError(error);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           response = await this.queryExecutionContext.nextItem();
@@ -281,8 +281,8 @@ export class QueryIterator<T> {
   }
 
   private checkContinuationTokenError(error: Error) {
-    if (error.message.includes('Invalid Continuation Token')) {
-      throw new Error(error.message)
+    if (error.message.includes("Invalid Continuation Token")) {
+      throw new Error(error.message);
     }
   }
 }

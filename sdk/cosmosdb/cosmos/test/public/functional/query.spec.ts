@@ -133,13 +133,13 @@ describe("Queries", function() {
 
       queryIterator = resources.container.items.readAll({
         maxItemCount: 2,
-        continuationToken: 'junk'
+        continuationToken: "junk"
       });
 
       try {
-        await queryIterator.fetchNext()
+        await queryIterator.fetchNext();
       } catch (e) {
-        assert(e.message.includes('Invalid Continuation Token'))
+        assert(e.message.includes("Invalid Continuation Token"));
       }
     });
 
