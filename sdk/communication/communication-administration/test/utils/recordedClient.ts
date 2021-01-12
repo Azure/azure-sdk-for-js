@@ -14,7 +14,6 @@ import {
 import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
-import sinon from "sinon";
 
 if (isNode) {
   dotenv.config();
@@ -84,12 +83,10 @@ export function createRecordedCommunicationIdentityClientWithToken(
   let credential: TokenCredential;
 
   if (isPlaybackMode()) {
-    const mockToken = "token";
-    const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOn: new Date() })
-    );
+    credential = { 
+      getToken: async (_scopes) => { return { token: "testToken", expiresOnTimestamp: 11111 }; }
+    };
 
-    credential = { getToken: fakeGetToken };
     return {
       client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
       recorder
