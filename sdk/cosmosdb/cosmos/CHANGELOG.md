@@ -1,5 +1,9 @@
 # Release History
 
+## 3.9.5 (2021-01-12)
+
+- BUGFIX: Throws correct Invalid Continuation Token error when making request with malformed token
+
 ## 3.9.4 (2021-01-04)
 
 - BUGFIX: Sums group by operations for cross-partition queries correctly with null values
