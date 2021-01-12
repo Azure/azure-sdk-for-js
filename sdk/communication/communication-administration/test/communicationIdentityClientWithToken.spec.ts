@@ -9,9 +9,16 @@ import { createRecordedCommunicationIdentityClientWithToken } from "./utils/reco
 describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   let recorder: Recorder;
   let client: CommunicationIdentityClient;
+  let shouldSkip = false;
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
+    const recordedClient =  createRecordedCommunicationIdentityClientWithToken(this);
+    if (!recordedClient) {
+      shouldSkip = true;
+    } else {
+      client = recordedClient.client;
+      recorder = recordedClient.recorder;
+    }
   });
 
   afterEach(async function() {
@@ -21,6 +28,10 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   });
 
   it("successfully issues a token for a user [single scope]", async function() {
+    if (shouldSkip) {
+      this.skip();
+    }
+
     let user = await client.createUser();
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, ["chat"]);
     assert.isString(token);
@@ -29,6 +40,10 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   });
 
   it("successfully issues a token for a user [multiple scopes]", async function() {
+    if (shouldSkip) {
+      this.skip();
+    }
+    
     let user = await client.createUser();
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, [
       "chat",

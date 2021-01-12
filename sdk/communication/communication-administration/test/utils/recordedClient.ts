@@ -13,8 +13,8 @@ import {
 } from "@azure/test-utils-recorder";
 import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
-import { ClientSecretCredential } from "@azure/identity";
-import * as sinon from "sinon";
+import { DefaultAzureCredential } from "@azure/identity";
+import sinon from "sinon";
 
 if (isNode) {
   dotenv.config();
@@ -79,16 +79,8 @@ export function createRecordedCommunicationIdentityClient(
 
 export function createRecordedCommunicationIdentityClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> {
+): RecordedClient<CommunicationIdentityClient> | undefined {
   const recorder = record(context, environmentSetup);
-
-  if (isBrowser()) {
-    return {
-      client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
-      recorder
-    };
-  }
-
   let credential: TokenCredential;
 
   if (isPlaybackMode()) {
@@ -97,23 +89,23 @@ export function createRecordedCommunicationIdentityClientWithToken(
       Promise.resolve({ token: mockToken, expiresOn: new Date() })
     );
 
-    credential = { getToken: fakeGetToken };
-  } else {
-    credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
+    credential = { getToken: fakeGetToken};
+    return {
+      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
+      recorder
+    };
+  }
+
+  try {
+    credential = new DefaultAzureCredential();
+  } catch {
+    return undefined;
   }
 
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
     recorder
   };
-}
-
-export function isBrowser() {
-  return typeof window !== "undefined";
 }
 
 export function createRecordedPhoneNumberAdministrationClient(
