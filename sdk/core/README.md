@@ -34,14 +34,14 @@ For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/ma
 
 Usually all the information necessary to interact with a service is returned from each operation method on a client. However, sometimes developers may wish to look at additional information on the raw request object, such as headers, for debugging purposes.
 
-This is done by passing a `rawResponseCallback` in the operation call:
+This is done by passing a `onResponse` callback in the operation call:
 
 ```ts
 function logResponseHeaders(response: FullOperationResponse) {
   console.log(response.parsedHeaders);
   // You can also access the original request inside response.request
 }
-const item = await client.getItemById(id, { rawResponseCallback: logResponseHeaders });
+const item = await client.getItemById(id, { onResponse: logResponseHeaders });
 ```
 
 #### Legacy `_response` property

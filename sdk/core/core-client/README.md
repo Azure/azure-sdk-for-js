@@ -30,7 +30,7 @@ This method is used to create a `Pipeline` instance that is customized with extr
 
 `Mapper`s are used to encode and decode data into HTTP headers and bodies. They describe all request and response fields. They are referenced by `OperationSpec`s.
 
-The method `createSerializer` creates a `Serializer` is used to do the bulk of the work transforming data when making a request or processing a response. Given a corpus of `Mapper`s and the appropriate `OperationSpec` it can manufacture an HTTP request object from a user provided input or convert an HTTP response object into a user-friendly form.
+The method `createSerializer` creates a `Serializer` that is used to do the bulk of the work transforming data when making a request or processing a response. Given a corpus of `Mapper`s and the appropriate `OperationSpec` it can manufacture an HTTP request object from a user provided input or convert an HTTP response object into a user-friendly form.
 
 ## Examples
 
