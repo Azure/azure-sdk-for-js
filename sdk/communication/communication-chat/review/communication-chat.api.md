@@ -105,9 +105,9 @@ export interface ChatThreadClientOptions extends ChatClientOptions {
 // @public
 export interface ChatThreadInfo {
     deletedOn?: Date;
-    readonly id?: string;
+    id: string;
     readonly lastMessageReceivedOn?: Date;
-    topic?: string;
+    topic: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "ChatCreateChatThreadOptionalParams" needs to be exported by the entry point index.d.ts
@@ -177,39 +177,40 @@ export interface RestAddChatParticipantsRequest {
 export interface RestChatMessage {
     // Warning: (ae-forgotten-export) The symbol "ChatMessageContent" needs to be exported by the entry point index.d.ts
     content?: ChatMessageContent;
-    readonly createdOn?: Date;
+    createdOn: Date;
     deletedOn?: Date;
     editedOn?: Date;
-    readonly id?: string;
-    priority?: ChatMessagePriority;
+    id: string;
+    priority: ChatMessagePriority;
     senderDisplayName?: string;
-    readonly senderId?: string;
+    senderId: string;
+    sequenceId: string;
     // Warning: (ae-forgotten-export) The symbol "ChatMessageType" needs to be exported by the entry point index.d.ts
-    type?: ChatMessageType;
-    readonly version?: string;
+    type: ChatMessageType;
+    version: string;
 }
 
 // @public
 export interface RestChatMessageReadReceipt {
-    readonly chatMessageId?: string;
-    readonly readOn?: Date;
-    readonly senderId?: string;
+    chatMessageId: string;
+    readOn: Date;
+    senderId: string;
 }
 
 // @public
 export interface RestChatParticipant {
     displayName?: string;
     id: string;
-    shareHistoryTime?: Date;
+    shareHistoryTime: Date;
 }
 
 // @public
 export interface RestChatThread {
-    readonly createdBy?: string;
-    readonly createdOn?: Date;
+    createdBy: string;
+    createdOn: Date;
     deletedOn?: Date;
-    readonly id?: string;
-    topic?: string;
+    id: string;
+    topic: string;
 }
 
 // @public
@@ -258,6 +259,7 @@ interface SendChatMessageRequest {
     content: string;
     priority?: ChatMessagePriority;
     senderDisplayName?: string;
+    type?: ChatMessageType;
 }
 
 export { SendChatMessageRequest as RestSendMessageOptions }
@@ -269,7 +271,7 @@ export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
 
 // @public
 export interface SendChatMessageResult {
-    readonly id?: string;
+    id: string;
 }
 
 // @public

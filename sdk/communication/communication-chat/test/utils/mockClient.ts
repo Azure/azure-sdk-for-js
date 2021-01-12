@@ -51,9 +51,12 @@ export const mockMessage: RestModel.ChatMessage = {
   type: "text",
   priority: "normal",
   version: "version",
+  sequenceId: "sequenceId",
   content: {
-    message: "content"
+    message: "content",
+    topic: "topic"
   },
+  createdOn: new Date("2020-06-26T18:06:06Z"),
   senderDisplayName: "senderDisplayName",
   senderId: "senderId",
   deletedOn: new Date("2020-06-26T18:06:06Z")
