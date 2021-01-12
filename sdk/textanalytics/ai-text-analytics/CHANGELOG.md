@@ -2,9 +2,11 @@
 
 ## 5.1.0 (unreleased)
 
-- The poller for the `beginAnalyze` long-running operation gained the ability to return certain metadata information about the currently running job (e.g., when the job was created, will be expired, and last time it was updated, and also how many tasks completed and failed so far). Also, the poller for `beginAnalyzeHealthcare` gained a similar ability.
-- The healthcare entities returned by `beginAnalyzeHealthcare` are now organized as a directed graph where the edges represent a certain type of healthcare relationship between the source and target nodes.
-- A new option to control how the offset is calculated by the service, `stringIndexType`, is added to `analyzeSentiment`, `recognizeEntities`, `recognizePiiEntities`, and `beginAnalyzeHealthcare`. Furthermore, `StringUnitOfLength` is added to task types `EntitiesTask` and `PiiTask`, which are the types of input tasks to the `beginAnalyze` method. For more information, see [the Text Analytics documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/concepts/text-offsets#offsets-in-api-version-31-preview).
+- A new option to control how the offset is calculated by the service, `stringIndexType`, is added to `analyzeSentiment`, `recognizeEntities`, `recognizePiiEntities`, and `beginAnalyzeHealthcareEntities`. Furthermore, `stringIndexType` is added to task types `EntitiesTask` and `PiiTask`, which are the types of input tasks to the `beginAnalyze` method. For more information, see [the Text Analytics documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/concepts/text-offsets#offsets-in-api-version-31-preview).
+- [Breaking] `beginAnalyzeHealthcare` is renamed to `beginAnalyzeHealthcareEntities`.
+- [Breaking] The healthcare entities returned by `beginAnalyzeHealthcare` are now organized as a directed graph where the edges represent a certain type of healthcare relationship between the source and target entities. Edges are stored in the `relatedEntities` property.
+- [Breaking] The `links` property of `HealthcareEntity` is renamed to `dataSources`, a list of objects representing medical databases, where each object has `name` and `id` properties.
+- The poller for the `beginAnalyze` long-running operation gained the ability to return certain metadata information about the currently running job (e.g., when the job was created, will be expired, and last time it was updated, and also how many tasks completed and failed so far). Also, the poller for `beginAnalyzeHealthcareEntities` gained a similar ability.
 
 ## 5.1.0-beta.3 (2020-11-23)
 

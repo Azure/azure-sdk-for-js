@@ -18,6 +18,13 @@ export interface AnalysisPollOperationState<TResult> extends PollOperationState<
 }
 
 // @public
+export interface AnalyzeBatchTasksResult {
+    entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
+    keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
+    piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
+}
+
+// @public
 export interface AnalyzeJobMetadata extends JobMetadata {
     displayName?: string;
     failedTasksCount?: number;
@@ -27,13 +34,6 @@ export interface AnalyzeJobMetadata extends JobMetadata {
 
 // @public
 export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PagedAnalyzeResults>;
-
-// @public
-export interface AnalyzeResult {
-    entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
-    keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
-    piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
-}
 
 // @public
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
@@ -193,15 +193,15 @@ export interface HealthcareEntitiesArray extends Array<HealthcareResult> {
 
 // @public
 export interface HealthcareEntity extends Entity {
-    dataSource?: HealthcareEntityDataSource[];
+    dataSources: HealthcareEntityDataSource[];
     isNegated: boolean;
-    relatedHealthcareEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+    relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
 }
 
 // @public
 export interface HealthcareEntityDataSource {
-    dataSource: string;
-    dataSourceId: string;
+    id: string;
+    name: string;
 }
 
 // @public
@@ -280,7 +280,7 @@ export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
 }
 
 // @public
-export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeResult, AnalyzeResult>;
+export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeBatchTasksResult, AnalyzeBatchTasksResult>;
 
 // @public
 export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
@@ -424,8 +424,8 @@ export class TextAnalyticsClient {
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     beginAnalyzeBatchTasks(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
     beginAnalyzeBatchTasks(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
-    beginAnalyzeHealthcare(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
-    beginAnalyzeHealthcare(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;

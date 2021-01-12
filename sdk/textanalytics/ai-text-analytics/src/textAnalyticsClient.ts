@@ -854,7 +854,7 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: string[],
     language?: string,
     options?: BeginAnalyzeHealthcareOptions
@@ -865,12 +865,12 @@ export class TextAnalyticsClient {
    * @param documents - Collection of documents to analyze.
    * @param options - Options for the operation.
    */
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: TextDocumentInput[],
     options?: BeginAnalyzeHealthcareOptions
   ): Promise<HealthcarePollerLike>;
 
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
     options?: BeginAnalyzeHealthcareOptions

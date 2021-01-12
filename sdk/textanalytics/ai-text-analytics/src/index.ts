@@ -89,7 +89,7 @@ export {
 export {
   PagedAnalyzeResults,
   PagedAsyncIterableAnalyzeResults,
-  AnalyzeResult
+  AnalyzeBatchTasksResult
 } from "./analyzeResult";
 export {
   TextAnalyticsResult,
