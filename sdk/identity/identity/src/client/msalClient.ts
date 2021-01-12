@@ -130,7 +130,9 @@ export class MsalClient {
     return this.pca!.getAuthCodeUrl(request);
   }
 
-  async acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult | null> {
+  async acquireTokenByCode(
+    request: AuthorizationCodeRequest
+  ): Promise<AuthenticationResult | null> {
     await this.prepareClientApplications();
 
     return this.pca!.acquireTokenByCode(request);
