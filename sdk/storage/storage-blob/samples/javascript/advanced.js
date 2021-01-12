@@ -86,7 +86,7 @@ async function main() {
   }
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadData()
-  // Uncomment following code in browsers because document is only available in browsers
+  // Uncomment following code in browsers because document.getElementById() is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
   await blockBlobClient.uploadData(browserFile, {
