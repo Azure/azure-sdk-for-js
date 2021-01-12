@@ -16,10 +16,11 @@ model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20201210.1"
+  "@autorest/typescript": "6.0.0-dev.20210111.1"
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
+hide-clients: true
 ```
 
 ### Patch endpoints for exception handling

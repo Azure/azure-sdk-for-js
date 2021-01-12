@@ -12,6 +12,7 @@ import { ApiVersion10, AppConfigurationOptionalParams } from "./models";
 const packageName = "app-configuration";
 const packageVersion = "1.1.1";
 
+/** @hidden */
 export class AppConfigurationContext extends coreHttp.ServiceClient {
   endpoint: string;
   syncToken?: string;

@@ -51,6 +51,7 @@ import {
   AppConfigurationGetRevisionsNextResponse
 } from "./models";
 
+/** @hidden */
 export class AppConfiguration extends AppConfigurationContext {
   /**
    * Initializes a new instance of the AppConfiguration class.
@@ -387,7 +388,6 @@ export class AppConfiguration extends AppConfigurationContext {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getKeysOperationSpec: coreHttp.OperationSpec = {
