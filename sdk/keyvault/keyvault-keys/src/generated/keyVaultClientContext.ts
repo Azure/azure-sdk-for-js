@@ -12,6 +12,7 @@ import { ApiVersion72Preview, KeyVaultClientOptionalParams } from "./models";
 const packageName = "@azure/keyvault-keys";
 export const packageVersion = "4.2.0-beta.3";
 
+/** @hidden */
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
   apiVersion: ApiVersion72Preview;
 
