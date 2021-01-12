@@ -38,7 +38,6 @@ describe("BlobClient Node.js only", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
   const tempFolderPath = "temp";
-  const timeoutForLargeFile = 20 * 60 * 1000;
 
   let recorder: Recorder;
 
@@ -500,7 +499,7 @@ describe("BlobClient Node.js only", () => {
     unlinkSync(tempFileLarge);
 
     assert.ok(downloadedData.equals(uploadedData));
-  }).timeout(timeoutForLargeFile);
+  });
 
   it("query should work with aborter", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
