@@ -83,8 +83,10 @@ export function createRecordedCommunicationIdentityClientWithToken(
   let credential: TokenCredential;
 
   if (isPlaybackMode()) {
-    credential = { 
-      getToken: async (_scopes) => { return { token: "testToken", expiresOnTimestamp: 11111 }; }
+    credential = {
+      getToken: async (_scopes) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      }
     };
 
     return {
