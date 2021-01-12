@@ -2,7 +2,7 @@
 
 ## 3.9.5
 
-- FEATURE: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
+- BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
 
 ## 3.9.4 (2021-01-04)
 
