@@ -176,7 +176,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: useNewName ? getUniqueName(this.baseName) : this.name,
-      // "autoaccept" being true in the the "receiveAndDelete" mode 
+      // "autoaccept" being true in the the "receiveAndDelete" mode
       // sets the "settled" flag to true on the deliveries which helps in clearing the circular buffer(size=2048)
       // as it is needed to receive messages after 2048 of them are received.
       autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
