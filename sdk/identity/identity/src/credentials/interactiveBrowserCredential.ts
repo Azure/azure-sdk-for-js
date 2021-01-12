@@ -149,7 +149,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           } else {
             reject(
               new Error(
-                `Device Authentication Error "Did not receive token with a valid expiration"`
+                `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
               )
             );
           }
