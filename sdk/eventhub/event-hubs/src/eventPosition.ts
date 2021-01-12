@@ -44,7 +44,7 @@ export interface EventPosition {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Gets the expression to be set as the filter clause when creating the receiver
  * @return {string} filterExpression
  */
@@ -78,7 +78,7 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function isLatestPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === "@latest") {
@@ -108,7 +108,7 @@ export const latestEventPosition: EventPosition = {
 };
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function validateEventPositions(
@@ -143,7 +143,7 @@ export function validateEventPositions(
  * Determines whether a position is an EventPosition.
  * Does not validate that the position is allowed.
  * @param position
- * @ignore
+ * @hidden
  * @internal
  */
 export function isEventPosition(position: any): position is EventPosition {

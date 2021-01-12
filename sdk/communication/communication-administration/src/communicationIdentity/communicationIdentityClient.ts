@@ -5,7 +5,7 @@ import {
   createCommunicationAuthPolicy,
   parseClientArguments,
   isKeyCredential,
-  CommunicationUser
+  CommunicationUserIdentifier
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -121,7 +121,7 @@ export class CommunicationIdentityClient {
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async issueToken(
-    user: CommunicationUser,
+    user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<IssueTokenResponse> {
@@ -157,7 +157,7 @@ export class CommunicationIdentityClient {
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async revokeTokens(
-    user: CommunicationUser,
+    user: CommunicationUserIdentifier,
     tokensValidFrom: Date = new Date(),
     options: OperationOptions = {}
   ): Promise<VoidResponse> {
@@ -193,7 +193,7 @@ export class CommunicationIdentityClient {
       const { id, _response } = await this.client.create(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const user: CommunicationUser = { communicationUserId: id };
+      const user: CommunicationUserIdentifier = { communicationUserId: id };
       return attachHttpResponse(user, _response);
     } catch (e) {
       span.setStatus({
@@ -213,7 +213,7 @@ export class CommunicationIdentityClient {
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async deleteUser(
-    user: CommunicationUser,
+    user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);

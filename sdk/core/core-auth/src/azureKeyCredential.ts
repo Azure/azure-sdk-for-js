@@ -29,7 +29,7 @@ export class AzureKeyCredential implements KeyCredential {
    * Create an instance of an AzureKeyCredential for use
    * with a service client.
    *
-   * @param key the initial value of the key to use in authentication
+   * @param key - The initial value of the key to use in authentication
    */
   constructor(key: string) {
     if (!key) {
@@ -45,7 +45,7 @@ export class AzureKeyCredential implements KeyCredential {
    * Updates will take effect upon the next request after
    * updating the key value.
    *
-   * @param newKey the new key value to be used
+   * @param newKey - The new key value to be used
    */
   public update(newKey: string): void {
     this._key = newKey;

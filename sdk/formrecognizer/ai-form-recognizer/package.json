@@ -19,7 +19,7 @@
     "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js"
   },
   "types": "./types/ai-form-recognizer.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -71,7 +71,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/*/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -100,7 +101,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -122,10 +123,12 @@
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.9.3"
+    "typescript": "4.1.2",
+    "typedoc": "0.15.0"
   },
   "//smokeTestConfiguration": {
     "skip": [
+      "createComposedModel.js",
       "customModelManagement.js",
       "differentiateLabeledUnlabeled.js",
       "getBoundingBoxes.js",
@@ -134,7 +137,8 @@
       "trainUnlabeledModel.js",
       "copyModel.js",
       "authenticationMethods.js",
-      "recognizeContent.js"
+      "recognizeContent.js",
+      "deleteAllModels.js"
     ]
   }
 }

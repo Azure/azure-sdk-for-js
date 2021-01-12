@@ -2,10 +2,10 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.0.1",
+  "version": "7.0.2",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -33,7 +33,7 @@
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
@@ -73,7 +73,8 @@
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace dist-esm/test/internal/**/*.spec.js dist-esm/test/node/*.spec.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "//metadata": {
@@ -86,13 +87,10 @@
   },
   "//smokeTestConfiguration": {
     "skip": [
-      "browseMessages.js",
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
-      "scheduledMessages.js",
-      "sendMessages.js",
-      "session.js",
-      "useProxy.js"
+      "useProxy.js",
+      "usingAadAuth.js"
     ]
   },
   "dependencies": {
@@ -142,7 +140,7 @@
     "delay": "^4.2.0",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "glob": "^7.1.2",
     "https-proxy-agent": "^5.0.0",
@@ -170,10 +168,11 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "ws": "^7.1.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
-    "events": "^3.0.0"
+    "events": "^3.0.0",
+    "typedoc": "0.15.0"
   }
 }

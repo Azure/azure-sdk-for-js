@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/digitalTwinsClient.d.ts"
+    "publicTrimmedFilePath": "./types/digital-twins-core.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

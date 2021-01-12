@@ -510,8 +510,8 @@ export interface DetectionConditionsCommon {
  *
  * For a metric with two dimensions: city and category, Examples include
  *
- *   { { city: "Tokyo", category: "Handmade" } } - identifies one time series
- *   { { city: "Karachi" } }                     - identifies all time series with city === "Karachi"
+ *   `{ { city: "Tokyo", category: "Handmade" } }` - identifies one time series
+ *   `{ { city: "Karachi" } }`                     - identifies all time series with city === "Karachi"
  */
 export type DimensionKey = Record<string, string>;
 

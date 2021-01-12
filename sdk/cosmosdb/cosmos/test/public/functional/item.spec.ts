@@ -19,7 +19,7 @@ import {
 import { BulkOperationType, OperationInput } from "../../../src";
 
 /**
- * @ignore
+ * @hidden
  * @hidden
  */
 interface TestItem {
@@ -496,7 +496,6 @@ describe("bulk item operations", function() {
     it("deletes an item with default partition", async function() {
       const operation: OperationInput = {
         operationType: BulkOperationType.Delete,
-        partitionKey: {},
         id: deleteItemId
       };
 

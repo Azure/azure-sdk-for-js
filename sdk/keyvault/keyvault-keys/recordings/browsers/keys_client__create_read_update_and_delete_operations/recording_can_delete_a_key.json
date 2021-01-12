@@ -1,408 +1,408 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/create",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": "",
-   "status": 401,
-   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "87",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:41 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "401",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "2eb2785f-1dae-4e36-8158-294b65bb6362",
-    "x-powered-by": "ASP.NET"
-   }
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/create",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": "",
+      "status": 401,
+      "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "87",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:41 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "401",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "2eb2785f-1dae-4e36-8158-294b65bb6362",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-cache, no-store",
+        "content-length": "1315",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:40 GMT",
+        "expires": "-1",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.10761.12 - EUS ProdSlices",
+        "x-ms-request-id": "4a247343-9d45-43ed-b267-c1984e080d00"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/create",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": "{\"kty\":\"RSA\"}",
+      "status": 200,
+      "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/c4e270c7bb89449fba0c8f81ef173b08\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"mHImHPtl4TnWp-yd20NwjBvIJFMOs_r9iNQf0INsr-H03mdkejCMKqGSb6vgU5DqraqHx5Ovce236GMPGDlgRIbX5OI2JMASLuWP9fZ_cRdO8VOSpA3T8cWqHBKfXgll536G2M550KJDaKVhmpZyyALel66JKI5B2ukQ80ROFAUSMM1VCuMddaNpwv107HIcrxfNRxd01f9cT0Pq-LqtDnRAuwiKUkfn1hxf8QLZ_y4nBVL3sJyABLuThzeOT7l579wEav3vgAcRUds01ZrZFdNxLO2w438A19pCY6EkYbvphSDKJ8DwEYwXUgVNMFkSrTzMaG4bl7F2iMKc-KUaLQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593223061,\"updated\":1593223061,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "716",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:41 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "200",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "a9719c83-a04f-49fe-a1ac-ad735a0a3b60",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "DELETE",
+      "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-\",\"deletedDate\":1593223061,\"scheduledPurgeDate\":1600999061,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/c4e270c7bb89449fba0c8f81ef173b08\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"mHImHPtl4TnWp-yd20NwjBvIJFMOs_r9iNQf0INsr-H03mdkejCMKqGSb6vgU5DqraqHx5Ovce236GMPGDlgRIbX5OI2JMASLuWP9fZ_cRdO8VOSpA3T8cWqHBKfXgll536G2M550KJDaKVhmpZyyALel66JKI5B2ukQ80ROFAUSMM1VCuMddaNpwv107HIcrxfNRxd01f9cT0Pq-LqtDnRAuwiKUkfn1hxf8QLZ_y4nBVL3sJyABLuThzeOT7l579wEav3vgAcRUds01ZrZFdNxLO2w438A19pCY6EkYbvphSDKJ8DwEYwXUgVNMFkSrTzMaG4bl7F2iMKc-KUaLQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593223061,\"updated\":1593223061,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "886",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:41 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "200",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "220e6db2-91e0-4615-8785-03184153d0e4",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:41 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "a52e9add-e581-4bfa-9143-ba01a7a06905",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:41 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "6e8e199a-d8db-40f6-aeaa-7cc80acb56ca",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:43 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "252ba33c-b028-4783-b7d9-c2967a09cec5",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:45 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "054b4762-b9dc-4bae-be54-7b5580f569dc",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:47 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "74f471a4-9ebe-4b48-aa5f-257d7bbb62dd",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:49 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "4ff204c1-403a-4d23-b9e7-0c66f5e8a3a5",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:51 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "b20662fa-e2e9-46ca-8ea6-0e0ad8e977d6",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "110",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:54 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "043d9c5e-5d9a-430a-9c8b-45d66ec8fab4",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-\",\"deletedDate\":1593223061,\"scheduledPurgeDate\":1600999061,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/c4e270c7bb89449fba0c8f81ef173b08\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"mHImHPtl4TnWp-yd20NwjBvIJFMOs_r9iNQf0INsr-H03mdkejCMKqGSb6vgU5DqraqHx5Ovce236GMPGDlgRIbX5OI2JMASLuWP9fZ_cRdO8VOSpA3T8cWqHBKfXgll536G2M550KJDaKVhmpZyyALel66JKI5B2ukQ80ROFAUSMM1VCuMddaNpwv107HIcrxfNRxd01f9cT0Pq-LqtDnRAuwiKUkfn1hxf8QLZ_y4nBVL3sJyABLuThzeOT7l579wEav3vgAcRUds01ZrZFdNxLO2w438A19pCY6EkYbvphSDKJ8DwEYwXUgVNMFkSrTzMaG4bl7F2iMKc-KUaLQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593223061,\"updated\":1593223061,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "886",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:56 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "200",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "5b6da26e-f3d3-4850-9d70-20b8a20e138e",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 404,
+      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) CRUDKeyName-candeleteakey- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "330",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Sat, 27 Jun 2020 01:57:56 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "404",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "87349c31-7c1c-4841-b7de-db0b5eb7214b",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "DELETE",
+      "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": null,
+      "status": 204,
+      "response": "",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "date": "Sat, 27 Jun 2020 01:57:56 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "status": "204",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-aspnet-version": "4.0.30319",
+        "x-content-type-options": "nosniff",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.1.6.0",
+        "x-ms-request-id": "28eb5a99-3fd8-4a24-8835-6dcfda2aeee4",
+        "x-powered-by": "ASP.NET"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1315",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:40 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10761.12 - EUS ProdSlices",
-    "x-ms-request-id": "4a247343-9d45-43ed-b267-c1984e080d00"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/create",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": "{\"kty\":\"RSA\"}",
-   "status": 200,
-   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/c4e270c7bb89449fba0c8f81ef173b08\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"mHImHPtl4TnWp-yd20NwjBvIJFMOs_r9iNQf0INsr-H03mdkejCMKqGSb6vgU5DqraqHx5Ovce236GMPGDlgRIbX5OI2JMASLuWP9fZ_cRdO8VOSpA3T8cWqHBKfXgll536G2M550KJDaKVhmpZyyALel66JKI5B2ukQ80ROFAUSMM1VCuMddaNpwv107HIcrxfNRxd01f9cT0Pq-LqtDnRAuwiKUkfn1hxf8QLZ_y4nBVL3sJyABLuThzeOT7l579wEav3vgAcRUds01ZrZFdNxLO2w438A19pCY6EkYbvphSDKJ8DwEYwXUgVNMFkSrTzMaG4bl7F2iMKc-KUaLQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593223061,\"updated\":1593223061,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "716",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:41 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "a9719c83-a04f-49fe-a1ac-ad735a0a3b60",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-\",\"deletedDate\":1593223061,\"scheduledPurgeDate\":1600999061,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/c4e270c7bb89449fba0c8f81ef173b08\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"mHImHPtl4TnWp-yd20NwjBvIJFMOs_r9iNQf0INsr-H03mdkejCMKqGSb6vgU5DqraqHx5Ovce236GMPGDlgRIbX5OI2JMASLuWP9fZ_cRdO8VOSpA3T8cWqHBKfXgll536G2M550KJDaKVhmpZyyALel66JKI5B2ukQ80ROFAUSMM1VCuMddaNpwv107HIcrxfNRxd01f9cT0Pq-LqtDnRAuwiKUkfn1hxf8QLZ_y4nBVL3sJyABLuThzeOT7l579wEav3vgAcRUds01ZrZFdNxLO2w438A19pCY6EkYbvphSDKJ8DwEYwXUgVNMFkSrTzMaG4bl7F2iMKc-KUaLQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593223061,\"updated\":1593223061,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "886",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:41 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "220e6db2-91e0-4615-8785-03184153d0e4",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:41 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "a52e9add-e581-4bfa-9143-ba01a7a06905",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:41 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "6e8e199a-d8db-40f6-aeaa-7cc80acb56ca",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:43 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "252ba33c-b028-4783-b7d9-c2967a09cec5",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:45 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "054b4762-b9dc-4bae-be54-7b5580f569dc",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:47 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "74f471a4-9ebe-4b48-aa5f-257d7bbb62dd",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:49 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "4ff204c1-403a-4d23-b9e7-0c66f5e8a3a5",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:51 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "b20662fa-e2e9-46ca-8ea6-0e0ad8e977d6",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-candeleteakey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "110",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:54 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "043d9c5e-5d9a-430a-9c8b-45d66ec8fab4",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-\",\"deletedDate\":1593223061,\"scheduledPurgeDate\":1600999061,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/c4e270c7bb89449fba0c8f81ef173b08\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"mHImHPtl4TnWp-yd20NwjBvIJFMOs_r9iNQf0INsr-H03mdkejCMKqGSb6vgU5DqraqHx5Ovce236GMPGDlgRIbX5OI2JMASLuWP9fZ_cRdO8VOSpA3T8cWqHBKfXgll536G2M550KJDaKVhmpZyyALel66JKI5B2ukQ80ROFAUSMM1VCuMddaNpwv107HIcrxfNRxd01f9cT0Pq-LqtDnRAuwiKUkfn1hxf8QLZ_y4nBVL3sJyABLuThzeOT7l579wEav3vgAcRUds01ZrZFdNxLO2w438A19pCY6EkYbvphSDKJ8DwEYwXUgVNMFkSrTzMaG4bl7F2iMKc-KUaLQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593223061,\"updated\":1593223061,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "886",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:56 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "5b6da26e-f3d3-4850-9d70-20b8a20e138e",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-candeleteakey-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) CRUDKeyName-candeleteakey- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "330",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:57:56 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "87349c31-7c1c-4841-b7de-db0b5eb7214b",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-candeleteakey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "date": "Sat, 27 Jun 2020 01:57:56 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "204",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "28eb5a99-3fd8-4a24-8835-6dcfda2aeee4",
-    "x-powered-by": "ASP.NET"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "1cfc761baffdbec5b0f652c6228cdf27"
+  "hash": "1cfc761baffdbec5b0f652c6228cdf27"
 }

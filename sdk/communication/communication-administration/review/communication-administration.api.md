@@ -4,7 +4,7 @@
 
 ```ts
 
-import { CommunicationUser } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
@@ -81,9 +81,9 @@ export class CommunicationIdentityClient {
     constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
     createUser(options?: OperationOptions): Promise<CreateUserResponse>;
-    deleteUser(user: CommunicationUser, options?: OperationOptions): Promise<VoidResponse>;
-    issueToken(user: CommunicationUser, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
-    revokeTokens(user: CommunicationUser, tokensValidFrom?: Date, options?: OperationOptions): Promise<VoidResponse>;
+    deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
+    issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
+    revokeTokens(user: CommunicationUserIdentifier, tokensValidFrom?: Date, options?: OperationOptions): Promise<VoidResponse>;
 }
 
 // @public
@@ -104,7 +104,7 @@ export interface CommunicationTokenRequest {
 
 // @public
 export interface CommunicationUserToken extends Pick<CommunicationIdentityToken, "token" | "expiresOn"> {
-    user: CommunicationUser;
+    user: CommunicationUserIdentifier;
 }
 
 // @public
@@ -143,7 +143,7 @@ export interface CreateReservationResponse {
 }
 
 // @public
-export type CreateUserResponse = WithResponse<CommunicationUser>;
+export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 
 // @public
 export type GetAreaCodesOptions = OperationOptions;

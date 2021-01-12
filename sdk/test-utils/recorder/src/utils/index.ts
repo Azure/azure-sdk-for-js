@@ -170,7 +170,6 @@ export function applyReplacementFunctions(
  * @param {string} content
  * @param { [ENV_VAR: string]: string } replaceableVariables
  * @param {ReplacementFunctions} replacements
- * @returns
  */
 export function filterSecretsFromStrings(
   content: string,
@@ -190,7 +189,6 @@ export function filterSecretsFromStrings(
  * @param {any} content
  * @param { [ENV_VAR: string]: string } replaceableVariables
  * @param {ReplacementFunctions} replacements
- * @returns
  */
 export function filterSecretsRecursivelyFromJSON(
   content: any,

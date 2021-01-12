@@ -583,10 +583,7 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
  * @export
  * @interface ShareGetPropertiesResponse
  */
-export type ShareGetPropertiesResponse = Omit<
-  ShareGetPropertiesResponseModel,
-  "enabledProtocols"
-> & {
+export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
   /**
    * The protocols that have been enabled on the share.
    * @type {ShareProtocols}
@@ -1167,7 +1164,6 @@ export class ShareClient extends StorageClient {
 
       // parse protocols
       const protocols = toShareProtocols(res.enabledProtocols);
-      delete res.enabledProtocols;
       (res as any).protocols = protocols;
       return res;
     } catch (e) {
@@ -4712,8 +4708,9 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
-   * Upload a range of bytes to a file. Both the start and count of the
-   * range must be specified. The range can be up to 4 MB in size.
+   * Upload a range of bytes to a file. This operation can only be called on an existing file.
+   * It won't change the size, properties or metadata of the file.
+   * Both the start and count of the range must be specified. The range can be up to 4 MB in size.
    *
    * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
@@ -5035,7 +5032,7 @@ export class ShareFileClient extends StorageClient {
   // High Level functions
 
   /**
-   * Uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to an Azure File.
+   * Creates a new Azure File or replaces an existing Azure File, and then uploads a Buffer(Node)/Blob/ArrayBuffer/ArrayBufferView to it.
    *
    * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node), Blob, ArrayBuffer or ArrayBufferView
    * @param {FileParallelUploadOptions} [options]
@@ -5124,7 +5121,7 @@ export class ShareFileClient extends StorageClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * Uploads a local file to an Azure file.
+   * Creates a new Azure File or replaces an existing Azure File, and then uploads a local file to it.
    *
    * @param {string} filePath Full path of local file
    * @param {ShareFileClient} fileClient ShareFileClient
@@ -5452,8 +5449,8 @@ export class ShareFileClient extends StorageClient {
   /**
    * ONLY AVAILABLE IN NODE.JS RUNTIME.
    *
-   * Uploads a Node.js Readable stream into an Azure file.
-   * This method will try to create an Azure, then starts uploading chunk by chunk.
+   * Creates a new Azure File or replaces an existing Azure File, and then uploads a Node.js Readable stream into it.
+   * This method will try to create an Azure File, then starts uploading chunk by chunk.
    * Size of chunk is defined by `bufferSize` parameter.
    * Please make sure potential size of stream doesn't exceed file size.
    *

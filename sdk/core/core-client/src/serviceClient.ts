@@ -3,7 +3,6 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import {
-  DefaultHttpsClient,
   HttpsClient,
   PipelineRequest,
   PipelineResponse,
@@ -29,6 +28,7 @@ import { isPrimitiveType } from "./utils";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 import { URL } from "./url";
 import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
+import { getCachedDefaultHttpsClient } from "./httpClientCache";
 
 /**
  * Options to be provided while creating the client.
@@ -104,7 +104,7 @@ export class ServiceClient {
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
-    this._httpsClient = options.httpsClient || new DefaultHttpsClient();
+    this._httpsClient = options.httpsClient || getCachedDefaultHttpsClient();
     const credentialScopes = getCredentialScopes(options);
     this._pipeline =
       options.pipeline ||

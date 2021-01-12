@@ -494,7 +494,7 @@ export function createServiceBusClientForTests(
   options?: ServiceBusClientOptions
 ): ServiceBusClientForTests {
   const serviceBusClient = new ServiceBusClient(
-    connectionString(),
+    getConnectionString(),
     options
   ) as ServiceBusClientForTests;
 
@@ -516,7 +516,7 @@ export async function drainReceiveAndDeleteReceiver(receiver: ServiceBusReceiver
   }
 }
 
-function connectionString() {
+export function getConnectionString() {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
       `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}. If you're in a unit test you should not be depending on the deployed environment!`

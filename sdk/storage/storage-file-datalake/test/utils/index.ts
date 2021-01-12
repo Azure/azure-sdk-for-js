@@ -10,6 +10,11 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
 import { newPipeline, StoragePipelineOptions } from "../../src/Pipeline";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+import {
+  DataLakeFileSystemClient,
+  DataLakeSASSignatureValues,
+  generateDataLakeSASQueryParameters
+} from "../../src";
 
 dotenv.config();
 
@@ -45,6 +50,45 @@ export function getTokenCredential(): TokenCredential {
   }
 
   return new SimpleTokenCredential(accountToken);
+}
+
+/**
+ * Return a sasToken that can be used for testing
+ */
+export function getSASToken(accountType: string, sasValues: DataLakeSASSignatureValues): string {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
+
+  let accountName: string | undefined;
+  let accountKey: string | undefined;
+
+  accountName = process.env[accountNameEnvVar];
+  accountKey = process.env[accountKeyEnvVar];
+
+  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+    );
+  }
+
+  const sasParameters = generateDataLakeSASQueryParameters(
+    sasValues,
+    new StorageSharedKeyCredential(accountName, accountKey)
+  );
+  return sasParameters.toString();
+}
+
+export function getSASFileSystemClient(
+  accountType: string,
+  sasValues: DataLakeSASSignatureValues,
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
+): DataLakeFileSystemClient {
+  const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
+  const sasToken = getSASToken(accountType, sasValues);
+  const pipeline = newPipeline(undefined, { ...pipelineOptions });
+  const dfsPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.dfs.core.windows.net/${sasValues.fileSystemName}/?${sasToken}`;
+  return new DataLakeFileSystemClient(dfsPrimaryURL, pipeline);
 }
 
 export function getGenericDataLakeServiceClient(
@@ -116,6 +160,15 @@ export function getDataLakeServiceClientWithDefaultCredential(
   });
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net/`;
   return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
+}
+
+export function getDataLakeFileSystemClientWithSASCredential(
+  sasValues: DataLakeSASSignatureValues,
+  accountType: string = "DFS_",
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
+): DataLakeFileSystemClient {
+  return getSASFileSystemClient(accountType, sasValues, accountNameSuffix, pipelineOptions);
 }
 
 export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {

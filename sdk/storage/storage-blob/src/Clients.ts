@@ -2451,9 +2451,7 @@ export class BlobClient extends StorageClient {
       //   doing the same in the SDK side so that the user doesn't have to replace "\" instances in the blobName
       blobName = blobName.replace(/\\/g, "/");
 
-      if (!blobName) {
-        throw new Error("Provided blobName is invalid.");
-      } else if (!containerName) {
+      if (!containerName) {
         throw new Error("Provided containerName is invalid.");
       }
 
@@ -5573,9 +5571,9 @@ export class PageBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
-   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
-   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {string} url A Client string pointing to Azure Storage page blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
    * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
@@ -5588,10 +5586,10 @@ export class PageBlobClient extends BlobClient {
   /**
    * Creates an instance of PageBlobClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob".
+   * @param {string} url A URL string pointing to Azure Storage page blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob".
    *                     You can append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
    *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
@@ -7295,18 +7293,14 @@ export class ContainerClient extends StorageClient {
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ContainerClient.
-   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * This method accepts an URL pointing to a container.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage page blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
+   * @param {string} url A URL string pointing to Azure Storage container, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
-   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
-   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
-   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
    * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
@@ -7318,19 +7312,14 @@ export class ContainerClient extends StorageClient {
   );
   /**
    * Creates an instance of ContainerClient.
-   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * This method accepts an URL pointing to a container.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage page blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
+   * @param {string} url A URL string pointing to Azure Storage container, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
-   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
-   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
-
-   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerClient

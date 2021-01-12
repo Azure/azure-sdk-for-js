@@ -19,10 +19,11 @@ import { administrationLogger as logger } from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
+import { isJSONLikeObject } from "./utils";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
@@ -33,7 +34,7 @@ export interface AtomXmlSerializer {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Utility to execute Atom XML operations as HTTP requests
  * @param webResource
  * @param serializer
@@ -93,7 +94,29 @@ export async function executeAtomXmlOperation(
 
 /**
  * @internal
- * @ignore
+ * @hidden
+ * The key-value pairs having undefined/null as the values would lead to the empty tags in the serialized XML request.
+ * Empty tags in the request body is problematic because of the following reasons.
+ * - ATOM based management operations throw a "Bad Request" error if empty tags are included in the XML request body at top level.
+ * - At the inner levels, Service assigns the empty strings as values to the empty tags instead of throwing an error.
+ *
+ * This method recursively removes the key-value pairs with undefined/null as the values from the request object that is to be serialized.
+ *
+ * @param {{ [key: string]: any }} resource
+ */
+export function sanitizeSerializableObject(resource: { [key: string]: any }) {
+  Object.keys(resource).forEach(function(property) {
+    if (resource[property] == undefined) {
+      delete resource[property];
+    } else if (isJSONLikeObject(resource[property])) {
+      sanitizeSerializableObject(resource[property]);
+    }
+  });
+}
+
+/**
+ * @internal
+ * @hidden
  * Serializes input information to construct the Atom XML request
  * @param resourceName Name of the resource to be serialized like `QueueDescription`
  * @param resource The entity details
@@ -103,15 +126,8 @@ export async function executeAtomXmlOperation(
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
   const content: any = {};
 
-  // The top level key value pairs having undefined/null as the value are removed in order to address issue where the Service Bus'
-  // ATOM based management operations throw a "Bad Request" error if empty tags are included in the xml request body at top level.
-  const processedResource = Object.assign({}, resource);
-  Object.keys(processedResource).forEach(function(property) {
-    if (processedResource[property] == undefined) {
-      delete processedResource[property];
-    }
-  });
-  content[resourceName] = processedResource;
+  content[resourceName] = Object.assign({}, resource);
+  sanitizeSerializableObject(content[resourceName]);
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
@@ -131,7 +147,7 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Transforms response to contain the parsed data.
  * @param nameProperties The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
@@ -154,7 +170,7 @@ export async function deserializeAtomXmlResponse(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Utility to deserialize the given JSON content in response body based on
  * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
  * @param response Response containing the JSON value in `response.parsedBody`
@@ -203,7 +219,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Utility to help parse given `entry` result
  * @param entry
  */
@@ -252,7 +268,7 @@ function parseEntryResult(entry: any): object | undefined {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Utility to help parse link info from the given `feed` result
  * @param feedLink
  */
@@ -273,7 +289,7 @@ function parseLinkInfo(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Utility to help parse given `feed` result
  * @param feed
  */
@@ -300,7 +316,7 @@ function parseFeedResult(feed: any): object[] & { nextLink?: string } {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * @param {number} statusCode
  * @returns {statusCode is keyof typeof Constants.HttpResponseCodes}
  */
@@ -312,7 +328,7 @@ function isKnownResponseCode(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Extracts the applicable entity name(s) from the URL based on the known structure
  * and instantiates the corresponding name properties to the deserialized response
  *
@@ -372,7 +388,7 @@ function setName(entry: any, nameProperties: any): any {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Utility to help construct the normalized `RestError` object based on given error
  * information and other data present in the received `response` object.
  * @param response
@@ -419,7 +435,7 @@ export function buildError(response: HttpOperationResponse): RestError {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to construct user friendly error codes based on based on given error
  * information and other data present in the received `response` object.
  * @param response

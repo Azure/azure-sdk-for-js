@@ -9,17 +9,15 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/app-configuration.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration/",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -67,7 +65,11 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace test-dist/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -106,7 +108,7 @@
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -131,8 +133,9 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "typedoc": "0.15.0"
   }
 }

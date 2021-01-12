@@ -60,7 +60,7 @@ export interface Checkpoint {
  * - Optionally override the `initialize()` method to implement any set up related tasks you would want to carry out before starting to receive events from the partition
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  * @internal
- * @ignore
+ * @hidden
  */
 export class PartitionProcessor implements PartitionContext {
   private _lastEnqueuedEventProperties?: LastEnqueuedEventProperties;

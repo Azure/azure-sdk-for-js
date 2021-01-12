@@ -32,7 +32,7 @@ import { abandonMessage, completeMessage } from "../receivers/shared";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
@@ -42,7 +42,7 @@ export interface StreamingReceiverInitArgs
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
