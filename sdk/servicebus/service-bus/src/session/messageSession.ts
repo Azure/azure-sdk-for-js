@@ -323,6 +323,9 @@ export class MessageSession extends LinkEntity<Receiver> {
   private _createMessageSessionOptions(): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: this.name,
+      // "autoaccept" being true in the the "receiveAndDelete" mode
+      // sets the "settled" flag to true on the deliveries which helps in clearing the circular buffer(size=2048)
+      // as it is needed to receive messages after 2048 of them are received.
       autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
