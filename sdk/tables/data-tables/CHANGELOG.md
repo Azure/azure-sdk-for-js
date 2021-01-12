@@ -2,6 +2,8 @@
 
 ## 1.0.0-beta.4 (2021-01-12)
 
+- Fix issue that prevented support for Azure Storage Emulator and Azurite [#13165](https://github.com/Azure/azure-sdk-for-js/pull/13165)
+
 ### Breaking Changes
 
 - Don't deserialize DateTime into a JavaScript Date to avoid losing precision [#12650](https://github.com/Azure/azure-sdk-for-js/pull/12650)
