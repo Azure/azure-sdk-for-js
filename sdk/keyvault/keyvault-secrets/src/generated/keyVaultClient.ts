@@ -37,6 +37,7 @@ import {
   KeyVaultClientGetDeletedSecretsNextResponse
 } from "./models";
 
+/** @hidden */
 export class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -403,7 +404,6 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const setSecretOperationSpec: coreHttp.OperationSpec = {

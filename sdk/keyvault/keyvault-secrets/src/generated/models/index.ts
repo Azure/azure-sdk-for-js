@@ -8,43 +8,25 @@
 
 import * as coreHttp from "@azure/core-http";
 
-/**
- * The secret set parameters.
- */
+/** The secret set parameters. */
 export interface SecretSetParameters {
-  /**
-   * The value of the secret.
-   */
+  /** The value of the secret. */
   value: string;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /**
-   * Type of the secret value such as a password.
-   */
+  /** Type of the secret value such as a password. */
   contentType?: string;
-  /**
-   * The secret management attributes.
-   */
+  /** The secret management attributes. */
   secretAttributes?: SecretAttributes;
 }
 
-/**
- * The object attributes managed by the KeyVault service.
- */
+/** The object attributes managed by the KeyVault service. */
 export interface Attributes {
-  /**
-   * Determines whether the object is enabled.
-   */
+  /** Determines whether the object is enabled. */
   enabled?: boolean;
-  /**
-   * Not before date in UTC.
-   */
+  /** Not before date in UTC. */
   notBefore?: Date;
-  /**
-   * Expiry date in UTC.
-   */
+  /** Expiry date in UTC. */
   expires?: Date;
   /**
    * Creation time in UTC.
@@ -58,29 +40,17 @@ export interface Attributes {
   readonly updated?: Date;
 }
 
-/**
- * A secret consisting of a value, id and its attributes.
- */
+/** A secret consisting of a value, id and its attributes. */
 export interface SecretBundle {
-  /**
-   * The secret value.
-   */
+  /** The secret value. */
   value?: string;
-  /**
-   * The secret id.
-   */
+  /** The secret id. */
   id?: string;
-  /**
-   * The content type of the secret.
-   */
+  /** The content type of the secret. */
   contentType?: string;
-  /**
-   * The secret management attributes.
-   */
+  /** The secret management attributes. */
   attributes?: SecretAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
   /**
    * If this is a secret backing a KV certificate, then this field specifies the corresponding key backing the KV certificate.
@@ -94,9 +64,7 @@ export interface SecretBundle {
   readonly managed?: boolean;
 }
 
-/**
- * The key vault error exception.
- */
+/** The key vault error exception. */
 export interface KeyVaultError {
   /**
    * The key vault server error.
@@ -105,9 +73,7 @@ export interface KeyVaultError {
   readonly error?: ErrorModel;
 }
 
-/**
- * The key vault server error.
- */
+/** The key vault server error. */
 export interface ErrorModel {
   /**
    * The error code.
@@ -126,27 +92,17 @@ export interface ErrorModel {
   readonly innerError?: ErrorModel;
 }
 
-/**
- * The secret update parameters.
- */
+/** The secret update parameters. */
 export interface SecretUpdateParameters {
-  /**
-   * Type of the secret value such as a password.
-   */
+  /** Type of the secret value such as a password. */
   contentType?: string;
-  /**
-   * The secret management attributes.
-   */
+  /** The secret management attributes. */
   secretAttributes?: SecretAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * The secret list result.
- */
+/** The secret list result. */
 export interface SecretListResult {
   /**
    * A response message containing a list of secrets in the key vault along with a link to the next page of secrets.
@@ -160,25 +116,15 @@ export interface SecretListResult {
   readonly nextLink?: string;
 }
 
-/**
- * The secret item containing secret metadata.
- */
+/** The secret item containing secret metadata. */
 export interface SecretItem {
-  /**
-   * Secret identifier.
-   */
+  /** Secret identifier. */
   id?: string;
-  /**
-   * The secret management attributes.
-   */
+  /** The secret management attributes. */
   attributes?: SecretAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /**
-   * Type of the secret value such as a password.
-   */
+  /** Type of the secret value such as a password. */
   contentType?: string;
   /**
    * True if the secret's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
@@ -187,9 +133,7 @@ export interface SecretItem {
   readonly managed?: boolean;
 }
 
-/**
- * The deleted secret list result
- */
+/** The deleted secret list result */
 export interface DeletedSecretListResult {
   /**
    * A response message containing a list of the deleted secrets in the vault along with a link to the next page of deleted secrets
@@ -203,9 +147,7 @@ export interface DeletedSecretListResult {
   readonly nextLink?: string;
 }
 
-/**
- * The backup secret result, containing the backup blob.
- */
+/** The backup secret result, containing the backup blob. */
 export interface BackupSecretResult {
   /**
    * The backup blob containing the backed up secret.
@@ -214,29 +156,19 @@ export interface BackupSecretResult {
   readonly value?: Uint8Array;
 }
 
-/**
- * The secret restore parameters.
- */
+/** The secret restore parameters. */
 export interface SecretRestoreParameters {
-  /**
-   * The backup blob associated with a secret bundle.
-   */
+  /** The backup blob associated with a secret bundle. */
   secretBundleBackup: Uint8Array;
 }
 
-/**
- * Properties of the key backing a certificate.
- */
+/** Properties of the key backing a certificate. */
 export interface SecretProperties {
-  /**
-   * The media type (MIME type).
-   */
+  /** The media type (MIME type). */
   contentType?: string;
 }
 
-/**
- * The secret management attributes.
- */
+/** The secret management attributes. */
 export type SecretAttributes = Attributes & {
   /**
    * softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
@@ -250,13 +182,9 @@ export type SecretAttributes = Attributes & {
   readonly recoveryLevel?: DeletionRecoveryLevel;
 };
 
-/**
- * A Deleted Secret consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
- */
+/** A Deleted Secret consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export type DeletedSecretBundle = SecretBundle & {
-  /**
-   * The url of the recovery object, used to identify and recover the deleted secret.
-   */
+  /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
   /**
    * The time when the secret is scheduled to be purged, in UTC
@@ -270,13 +198,9 @@ export type DeletedSecretBundle = SecretBundle & {
   readonly deletedDate?: Date;
 };
 
-/**
- * The deleted secret item containing metadata about the deleted secret.
- */
+/** The deleted secret item containing metadata about the deleted secret. */
 export type DeletedSecretItem = SecretItem & {
-  /**
-   * The url of the recovery object, used to identify and recover the deleted secret.
-   */
+  /** The url of the recovery object, used to identify and recover the deleted secret. */
   recoveryId?: string;
   /**
    * The time when the secret is scheduled to be purged, in UTC
@@ -290,13 +214,9 @@ export type DeletedSecretItem = SecretItem & {
   readonly deletedDate?: Date;
 };
 
-/**
- * Known values of {@link ApiVersion72Preview} that the service accepts.
- */
+/** Known values of {@link ApiVersion72Preview} that the service accepts. */
 export const enum KnownApiVersion72Preview {
-  /**
-   * Api Version '7.2-preview'
-   */
+  /** Api Version '7.2-preview' */
   Seven2Preview = "7.2-preview"
 }
 
@@ -309,37 +229,21 @@ export const enum KnownApiVersion72Preview {
  */
 export type ApiVersion72Preview = string;
 
-/**
- * Known values of {@link DeletionRecoveryLevel} that the service accepts.
- */
+/** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export const enum KnownDeletionRecoveryLevel {
-  /**
-   * Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.)
-   */
+  /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
   Purgeable = "Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered
-   */
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
   RecoverablePurgeable = "Recoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered
-   */
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered */
   Recoverable = "Recoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered
-   */
+  /** Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered */
   RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled.
-   */
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. */
   CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available.
-   */
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. */
   CustomizedRecoverable = "CustomizedRecoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
-   */
+  /** Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled. */
   CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription"
 }
 
@@ -358,397 +262,241 @@ export const enum KnownDeletionRecoveryLevel {
  */
 export type DeletionRecoveryLevel = string;
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientSetSecretOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /**
-   * Type of the secret value such as a password.
-   */
+  /** Type of the secret value such as a password. */
   contentType?: string;
-  /**
-   * The secret management attributes.
-   */
+  /** The secret management attributes. */
   secretAttributes?: SecretAttributes;
 }
 
-/**
- * Contains response data for the setSecret operation.
- */
+/** Contains response data for the setSecret operation. */
 export type KeyVaultClientSetSecretResponse = SecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretBundle;
   };
 };
 
-/**
- * Contains response data for the deleteSecret operation.
- */
+/** Contains response data for the deleteSecret operation. */
 export type KeyVaultClientDeleteSecretResponse = DeletedSecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedSecretBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientUpdateSecretOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Type of the secret value such as a password.
-   */
+  /** Type of the secret value such as a password. */
   contentType?: string;
-  /**
-   * The secret management attributes.
-   */
+  /** The secret management attributes. */
   secretAttributes?: SecretAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Contains response data for the updateSecret operation.
- */
+/** Contains response data for the updateSecret operation. */
 export type KeyVaultClientUpdateSecretResponse = SecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretBundle;
   };
 };
 
-/**
- * Contains response data for the getSecret operation.
- */
+/** Contains response data for the getSecret operation. */
 export type KeyVaultClientGetSecretResponse = SecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetSecretsOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified, the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getSecrets operation.
- */
+/** Contains response data for the getSecrets operation. */
 export type KeyVaultClientGetSecretsResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetSecretVersionsOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified, the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getSecretVersions operation.
- */
+/** Contains response data for the getSecretVersions operation. */
 export type KeyVaultClientGetSecretVersionsResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetDeletedSecretsOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getDeletedSecrets operation.
- */
+/** Contains response data for the getDeletedSecrets operation. */
 export type KeyVaultClientGetDeletedSecretsResponse = DeletedSecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedSecretListResult;
   };
 };
 
-/**
- * Contains response data for the getDeletedSecret operation.
- */
+/** Contains response data for the getDeletedSecret operation. */
 export type KeyVaultClientGetDeletedSecretResponse = DeletedSecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedSecretBundle;
   };
 };
 
-/**
- * Contains response data for the recoverDeletedSecret operation.
- */
+/** Contains response data for the recoverDeletedSecret operation. */
 export type KeyVaultClientRecoverDeletedSecretResponse = SecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretBundle;
   };
 };
 
-/**
- * Contains response data for the backupSecret operation.
- */
+/** Contains response data for the backupSecret operation. */
 export type KeyVaultClientBackupSecretResponse = BackupSecretResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: BackupSecretResult;
   };
 };
 
-/**
- * Contains response data for the restoreSecret operation.
- */
+/** Contains response data for the restoreSecret operation. */
 export type KeyVaultClientRestoreSecretResponse = SecretBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetSecretsNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified, the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getSecretsNext operation.
- */
+/** Contains response data for the getSecretsNext operation. */
 export type KeyVaultClientGetSecretsNextResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetSecretVersionsNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified, the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getSecretVersionsNext operation.
- */
+/** Contains response data for the getSecretVersionsNext operation. */
 export type KeyVaultClientGetSecretVersionsNextResponse = SecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SecretListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetDeletedSecretsNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getDeletedSecretsNext operation.
- */
+/** Contains response data for the getDeletedSecretsNext operation. */
 export type KeyVaultClientGetDeletedSecretsNextResponse = DeletedSecretListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedSecretListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientOptionalParams
   extends coreHttp.ServiceClientOptions {
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

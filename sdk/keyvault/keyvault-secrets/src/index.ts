@@ -19,6 +19,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel,
+  KnownDeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams,
   KeyVaultClientSetSecretResponse,
   KeyVaultClientUpdateSecretResponse,
@@ -67,6 +68,7 @@ export {
   SecretClientOptions,
   DeletedSecret,
   DeletionRecoveryLevel,
+  KnownDeletionRecoveryLevel,
   GetSecretOptions,
   PipelineOptions,
   GetDeletedSecretOptions,

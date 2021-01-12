@@ -63,6 +63,17 @@ export interface KeyVaultSecretId {
 }
 
 // @public
+export const enum KnownDeletionRecoveryLevel {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+    Purgeable = "Purgeable",
+    Recoverable = "Recoverable",
+    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+    RecoverablePurgeable = "Recoverable+Purgeable"
+}
+
+// @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
 }
 
