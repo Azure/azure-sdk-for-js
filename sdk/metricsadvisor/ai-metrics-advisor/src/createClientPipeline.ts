@@ -4,11 +4,16 @@
 import {
   createPipelineFromOptions,
   InternalPipelineOptions,
-  ServiceClientOptions
+  ServiceClientOptions,
+  bearerTokenAuthenticationPolicy,
+  isTokenCredential
 } from "@azure/core-http";
+
+import { TokenCredential } from "@azure/identity";
 
 import {
   LIB_INFO,
+  DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters
 } from "./constants";
@@ -20,7 +25,7 @@ import {
 } from "./metricsAdvisorKeyCredentialPolicy";
 
 export function createClientPipeline(
-  credential: MetricsAdvisorKeyCredential,
+  credential: TokenCredential | MetricsAdvisorKeyCredential,
   options: MetricsAdvisorClientOptions = {}
 ): ServiceClientOptions {
   const { ...pipelineOptions } = options;
@@ -34,7 +39,9 @@ export function createClientPipeline(
     pipelineOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
   }
 
-  const authPolicy = createMetricsAdvisorKeyCredentialPolicy(credential);
+  const authPolicy = isTokenCredential(credential)
+  ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
+  : createMetricsAdvisorKeyCredentialPolicy(credential);
 
   const internalPipelineOptions: InternalPipelineOptions = {
     ...pipelineOptions,
