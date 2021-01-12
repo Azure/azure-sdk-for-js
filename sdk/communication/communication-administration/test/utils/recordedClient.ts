@@ -89,7 +89,7 @@ export function createRecordedCommunicationIdentityClientWithToken(
       Promise.resolve({ token: mockToken, expiresOn: new Date() })
     );
 
-    credential = { getToken: fakeGetToken};
+    credential = { getToken: fakeGetToken };
     return {
       client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
       recorder

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  createCommunicationAccessKeyCredentialPolicy,
+  createCommunicationAuthPolicy,
   parseClientArguments,
   isKeyCredential,
   CommunicationUser
@@ -12,9 +12,7 @@ import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RequestPolicyFactory,
-  bearerTokenAuthenticationPolicy
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
@@ -110,17 +108,7 @@ export class CommunicationIdentityClient {
       }
     };
 
-    let authPolicy: RequestPolicyFactory;
-
-    if (isTokenCredential(credentialOrOptions)) {
-      authPolicy = bearerTokenAuthenticationPolicy(
-        credentialOrOptions,
-        "https://communication.azure.com//.default"
-      );
-    } else {
-      authPolicy = createCommunicationAccessKeyCredentialPolicy(credential as KeyCredential);
-    }
-
+    let authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new IdentityRestClient(url, pipeline).communicationIdentity;
   }

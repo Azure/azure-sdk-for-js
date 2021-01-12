@@ -12,7 +12,7 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   let shouldSkip = false;
 
   beforeEach(function() {
-    const recordedClient =  createRecordedCommunicationIdentityClientWithToken(this);
+    const recordedClient = createRecordedCommunicationIdentityClientWithToken(this);
     if (!recordedClient) {
       shouldSkip = true;
     } else {
@@ -43,7 +43,7 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
     if (shouldSkip) {
       this.skip();
     }
-    
+
     let user = await client.createUser();
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, [
       "chat",

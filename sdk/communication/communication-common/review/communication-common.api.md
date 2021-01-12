@@ -48,6 +48,9 @@ export interface CommunicationUserKind extends CommunicationUser {
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
+export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
+
+// @public
 export const getIdentifierKind: (identifier: Identifier) => IdentifierKind;
 
 // @public
