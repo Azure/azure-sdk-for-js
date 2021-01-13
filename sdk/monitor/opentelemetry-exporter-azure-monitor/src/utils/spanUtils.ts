@@ -4,7 +4,7 @@
 import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { SpanKind, Logger, CanonicalCode, Link } from "@opentelemetry/api";
+import { SpanKind, Logger, StatusCode, Link } from "@opentelemetry/api";
 import { SERVICE_RESOURCE } from "@opentelemetry/resources";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
@@ -43,10 +43,10 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   if (span.parentSpanId) {
     tags[AI_OPERATION_PARENT_ID] = span.parentSpanId;
   }
-  if (span.resource && span.resource.labels) {
-    const serviceName = span.resource.labels[SERVICE_RESOURCE.NAME];
-    const serviceNamespace = span.resource.labels[SERVICE_RESOURCE.NAMESPACE];
-    const serviceInstanceId = span.resource.labels[SERVICE_RESOURCE.INSTANCE_ID];
+  if (span.resource && span.resource.attributes) {
+    const serviceName = span.resource.attributes[SERVICE_RESOURCE.NAME];
+    const serviceNamespace = span.resource.attributes[SERVICE_RESOURCE.NAMESPACE];
+    const serviceInstanceId = span.resource.attributes[SERVICE_RESOURCE.INSTANCE_ID];
     if (serviceName) {
       if (serviceNamespace) {
         tags[AI_CLOUD_ROLE] = `${serviceNamespace}.${serviceName}`;
@@ -108,7 +108,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const data: RemoteDependencyData = {
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
-    success: span.status.code === CanonicalCode.OK,
+    success: span.status.code === StatusCode.OK,
     resultCode: String(span.status.code),
     target: span.attributes[HTTP_URL] as string | undefined,
     type: "Dependency",
@@ -162,7 +162,7 @@ function createRequestData(span: ReadableSpan): RequestData {
   const data: RequestData = {
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
-    success: span.status.code === CanonicalCode.OK,
+    success: span.status.code === StatusCode.OK,
     responseCode: String(span.status.code),
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 1,

@@ -56,7 +56,7 @@
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"],
-
+    "@opentelemetry/api": ["^0.14.0"],
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     "@types/node": ["^10.0.0"]
