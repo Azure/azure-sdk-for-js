@@ -65,9 +65,12 @@ export class AzureMonitorTraceExporter implements SpanExporter {
   private async _persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
       const success = await this._persister.push(envelopes);
-      return success ? { code: ExportResultCode.SUCCESS } : {
-        code: ExportResultCode.FAILED, error: new Error("Failed to persist envelope in disk.")
-      }
+      return success
+        ? { code: ExportResultCode.SUCCESS }
+        : {
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk.")
+          };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -116,8 +119,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           senderErr.message
         );
         return await this._persist(envelopes);
-      }
-      else {
+      } else {
         this._logger.error(
           "Envelopes could not be exported and are not retriable. Error message:",
           senderErr.message
@@ -148,7 +150,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         .then(() => {
           resolve();
         })
-        .catch(e => {
+        .catch((e) => {
           reject(e);
         });
     });

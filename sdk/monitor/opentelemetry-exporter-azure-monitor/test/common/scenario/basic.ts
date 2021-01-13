@@ -51,7 +51,7 @@ export class BasicScenario implements Scenario {
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
           numbers: "1234"
-        },
+        }
       });
 
       tracer.withSpan(child1, () => {

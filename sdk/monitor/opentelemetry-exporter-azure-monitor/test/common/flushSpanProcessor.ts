@@ -8,16 +8,14 @@ import { ReadableSpan, SpanExporter, SpanProcessor } from "@opentelemetry/tracin
  */
 export class FlushSpanProcessor implements SpanProcessor {
   private _spans: ReadableSpan[] = [];
-  constructor(public exporter: SpanExporter) { }
+  constructor(public exporter: SpanExporter) {}
 
   forceFlush(): Promise<void> {
-    return Promise.resolve()
-      .then(() => {
-        this.exporter.export(this._spans, () => {
-          this._spans = [];
-        });
+    return Promise.resolve().then(() => {
+      this.exporter.export(this._spans, () => {
+        this._spans = [];
       });
-
+    });
   }
 
   onStart(): void {
