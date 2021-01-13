@@ -202,6 +202,7 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
@@ -239,13 +240,6 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
     timeout?: number;
-}
-
-// @public
-export interface OperationResponse {
-    // (undocumented)
-    [key: string]: any;
-    _response: FullOperationResponse;
 }
 
 // @public
@@ -297,6 +291,9 @@ export interface PolymorphicDiscriminator {
 // @public
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {
     // (undocumented)
@@ -347,7 +344,7 @@ export interface SerializerOptions {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
 

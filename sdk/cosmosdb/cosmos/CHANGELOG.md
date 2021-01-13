@@ -1,5 +1,9 @@
 # Release History
 
+## 3.9.5
+
+- BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
+
 ## 3.9.4 (2021-01-04)
 
 - BUGFIX: Sums group by operations for cross-partition queries correctly with null values

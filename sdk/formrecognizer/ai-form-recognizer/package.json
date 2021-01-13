@@ -137,7 +137,8 @@
       "trainUnlabeledModel.js",
       "copyModel.js",
       "authenticationMethods.js",
-      "recognizeContent.js"
+      "recognizeContent.js",
+      "deleteAllModels.js"
     ]
   }
 }

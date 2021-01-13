@@ -111,10 +111,14 @@ export class MsalClient {
     try {
       const response = await this.pca!.acquireTokenSilent(silentRequest);
       logger.info("Successful silent token acquisition");
-      return {
-        expiresOnTimestamp: response.expiresOn.getTime(),
-        token: response.accessToken
-      };
+      if (response && response.expiresOn) {
+        return {
+          expiresOnTimestamp: response.expiresOn.getTime(),
+          token: response.accessToken
+        };
+      } else {
+        throw new AuthenticationRequired("Could not authenticate silently using the cache");
+      }
     } catch (e) {
       throw new AuthenticationRequired("Could not authenticate silently using the cache");
     }
@@ -126,13 +130,15 @@ export class MsalClient {
     return this.pca!.getAuthCodeUrl(request);
   }
 
-  async acquireTokenByCode(request: AuthorizationCodeRequest): Promise<AuthenticationResult> {
+  async acquireTokenByCode(
+    request: AuthorizationCodeRequest
+  ): Promise<AuthenticationResult | null> {
     await this.prepareClientApplications();
 
     return this.pca!.acquireTokenByCode(request);
   }
 
-  async acquireTokenByDeviceCode(request: DeviceCodeRequest): Promise<AuthenticationResult> {
+  async acquireTokenByDeviceCode(request: DeviceCodeRequest): Promise<AuthenticationResult | null> {
     await this.prepareClientApplications();
 
     return this.pca!.acquireTokenByDeviceCode(request);
@@ -140,7 +146,7 @@ export class MsalClient {
 
   async acquireTokenByClientCredential(
     request: ClientCredentialRequest
-  ): Promise<AuthenticationResult> {
+  ): Promise<AuthenticationResult | null> {
     await this.prepareClientApplications();
 
     return this.cca!.acquireTokenByClientCredential(request);
