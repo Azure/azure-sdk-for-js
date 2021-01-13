@@ -109,3 +109,17 @@ export function isStreamOperation(operationSpec: OperationSpec): boolean {
   }
   return result;
 }
+
+export function isResponseBodyStream(
+  operationSpec: OperationSpec | undefined,
+  responseStatusCode: string
+): boolean {
+  if (operationSpec) {
+    const operationResponse = operationSpec.responses[responseStatusCode];
+    if (operationResponse?.bodyMapper?.type.name === MapperType.Stream) {
+      return true;
+    }
+  }
+
+  return false;
+}

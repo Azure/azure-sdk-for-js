@@ -10,6 +10,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { RestError } from "./restError";
 import { Readable, Transform } from "stream";
+import { isResponseBodyStream } from "./operationSpec";
 
 interface FetchError extends Error {
   code?: string;
@@ -153,14 +154,20 @@ export abstract class FetchHttpClient implements HttpClient {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
+
+      const isBodyReallyStream = isResponseBodyStream(
+        httpRequest.operationSpec,
+        response.status.toString()
+      );
+
       const operationResponse: HttpOperationResponse = {
         headers: headers,
         request: httpRequest,
         status: response.status,
-        readableStreamBody: httpRequest.streamResponseBody
+        readableStreamBody: isBodyReallyStream
           ? ((response.body as unknown) as NodeJS.ReadableStream)
           : undefined,
-        bodyAsText: !httpRequest.streamResponseBody ? await response.text() : undefined
+        bodyAsText: !isBodyReallyStream ? await response.text() : undefined
       };
 
       const onDownloadProgress = httpRequest.onDownloadProgress;

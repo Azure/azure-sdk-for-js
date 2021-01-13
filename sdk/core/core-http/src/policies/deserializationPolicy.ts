@@ -3,7 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationResponse } from "../operationResponse";
-import { OperationSpec, isStreamOperation } from "../operationSpec";
+import { OperationSpec, isStreamOperation, isResponseBodyStream } from "../operationSpec";
 import { RestError } from "../restError";
 import { MapperType } from "../serializer";
 import { parseXML } from "../util/xml";
@@ -341,7 +341,13 @@ function parse(
     return Promise.reject(e);
   };
 
-  if (!operationResponse.request.streamResponseBody && operationResponse.bodyAsText) {
+  if (
+    !isResponseBodyStream(
+      operationResponse.request.operationSpec,
+      operationResponse.status.toString()
+    ) &&
+    operationResponse.bodyAsText
+  ) {
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
     const contentComponents: string[] = !contentType
