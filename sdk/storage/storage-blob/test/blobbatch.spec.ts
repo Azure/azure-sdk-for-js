@@ -42,7 +42,10 @@ describe("BlobBatch", () => {
     credential = getGenericCredential("");
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
-    containerScopedBatchClient = new BlobBatchClient(containerClient.url, containerClient["pipeline"]);
+    containerScopedBatchClient = new BlobBatchClient(
+      containerClient.url,
+      containerClient["pipeline"]
+    );
     await containerClient.create();
 
     for (let i = 0; i < blockBlobCount - 1; i++) {

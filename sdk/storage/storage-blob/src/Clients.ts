@@ -8580,7 +8580,7 @@ export class ContainerClient extends StorageClient {
     });
   }
 
-    /**
+  /**
    * Creates a BlobBatchClient object to conduct batch operations.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
