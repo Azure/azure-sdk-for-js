@@ -27,7 +27,8 @@ import {
   GetKeyOptions,
   KeyVaultKey,
   CryptographyClientOptions,
-  KeyOperation
+  KeyOperation,
+  LATEST_API_VERSION
 } from "./keysModels";
 
 import {
@@ -47,7 +48,7 @@ import {
   SignOptions,
   VerifyOptions
 } from "./cryptographyClientModels";
-import { KeyBundle, KnownApiVersion72Preview as KnownApiVersions } from "./generated/models";
+import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
 import {
   LocalCryptographyOperationFunction,
@@ -643,7 +644,7 @@ export class CryptographyClient {
     };
 
     this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || KnownApiVersions.Seven2Preview,
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
 

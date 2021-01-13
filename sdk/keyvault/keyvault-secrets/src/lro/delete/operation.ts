@@ -9,7 +9,10 @@ import {
   KeyVaultSecretPollOperationState
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { DeleteSecretResponse, GetDeletedSecretResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteSecretResponse,
+  KeyVaultClientGetDeletedSecretResponse
+} from "../../generated/models";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { getSecretFromSecretBundle } from "../../transformations";
 
@@ -46,7 +49,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.deleteKey", requestOptions);
 
-    let response: DeleteSecretResponse;
+    let response: KeyVaultClientDeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
         this.vaultUrl,
@@ -71,7 +74,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     const responseOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getDeletedSecret", responseOptions);
 
-    let response: GetDeletedSecretResponse;
+    let response: KeyVaultClientGetDeletedSecretResponse;
     try {
       response = await this.client.getDeletedSecret(
         this.vaultUrl,

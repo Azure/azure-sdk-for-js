@@ -12,7 +12,7 @@ import {
 } from "../breezeTestUtils";
 import { FileSystemPersist } from "../../../src/platform";
 import { TelemetryItem as Envelope } from "../../../src/generated";
-import nock = require("nock");
+import nock from "nock";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;

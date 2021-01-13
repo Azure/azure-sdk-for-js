@@ -10,7 +10,7 @@ import TestClient from "./testClient";
 import { Context } from "mocha";
 
 // Adding this to the source would change the public API.
-type ApiVersions = "7.0" | "7.1" | "7.2-preview";
+type ApiVersions = "7.0" | "7.1";
 export async function authenticate(that: Context, version?: string): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {

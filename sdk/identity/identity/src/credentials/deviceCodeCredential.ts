@@ -160,12 +160,16 @@ export class DeviceCodeCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     try {
       const deviceResponse = await this.msalClient.acquireTokenByDeviceCode(deviceCodeRequest);
-      const expiresOnTimestamp = deviceResponse.expiresOn.getTime();
-      logger.getToken.info(formatSuccess(scopes));
-      return {
-        expiresOnTimestamp,
-        token: deviceResponse.accessToken
-      };
+      if (deviceResponse && deviceResponse.expiresOn) {
+        const expiresOnTimestamp = deviceResponse.expiresOn.getTime();
+        logger.getToken.info(formatSuccess(scopes));
+        return {
+          expiresOnTimestamp,
+          token: deviceResponse.accessToken
+        };
+      } else {
+        throw new Error("Did not receive token with a valid expiration");
+      }
     } catch (error) {
       throw new Error(`Device Authentication Error "${JSON.stringify(error)}"`);
     }

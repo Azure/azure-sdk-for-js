@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "The base resource name that is used to ensure the generated resources have unique names. This field gets automatically generated on our CI pipelines. It's possible to use non-alphanumeric characters in some resource names, like dashes in KV names, but keeping it simple will reduce confusion. A safe upper limit on the number of characters is 17 characters."
+      }
+    },
+    "tenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "The tenant ID to which the application and resources belong. You may copy it from the one available on the overview page of the Azure Active Directory section of the Azure portal, or obtain it from the overview page of a recently created Azure Application."
+      }
+    },
+    "testApplicationId": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client ID used to run tests. You may get it from the overview page of a recently created Azure application."
+      }
+    },
+    "testApplicationSecret": {
+      "type": "string",
+      "metadata": {
+        "description": "The application client secret used to run tests."
+      }
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "azureDigitalTwins": "[parameters('baseName')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.DigitalTwins/digitalTwinsInstances",
+      "apiVersion": "2020-10-31",
+      "name": "[variables('azureDigitalTwins')]",
+      "location": "[variables('location')]",
+      "properties": {}
+    }
+  ],
+  "outputs": {
+    "AZURE_TENANT_ID": {
+      "type": "string",
+      "value": "[parameters('tenantId')]"
+    },
+    "AZURE_CLIENT_ID": {
+      "type": "string",
+      "value": "[parameters('testApplicationId')]"
+    },
+    "AZURE_CLIENT_SECRET": {
+      "type": "string",
+      "value": "[parameters('testApplicationSecret')]"
+    },
+    "AZURE_DIGITALTWINS_URL": {
+      "type": "string",
+      "value": "[reference(variables('azureDigitalTwins')).hostName]"
+    }
+  }
+}

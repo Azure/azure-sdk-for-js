@@ -103,6 +103,8 @@ export class TableServiceClient {
         ? credentialOrOptions
         : options) || {};
 
+    clientOptions.endpoint = clientOptions.endpoint || url;
+
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -114,16 +116,16 @@ export class TableServiceClient {
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...clientOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
+    const pipeline = {
+      ...clientOptions,
+      ...createPipelineFromOptions(internalPipelineOptions, credential)
+    };
     const client = new GeneratedClient(url, pipeline);
     this.table = client.table;
     this.service = client.service;
