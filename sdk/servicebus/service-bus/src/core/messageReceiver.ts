@@ -16,18 +16,14 @@ import { getUniqueName } from "../util/utils";
 import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
-import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
+import {
+  onMessageSettled,
+  DeferredPromiseAndTimer,
+  ReceiverHandlers,
+  createReceiverOptions
+} from "./shared";
 import { LockRenewer } from "./autoLockRenewer";
 import { translateServiceBusError } from "../serviceBusError";
-
-/**
- * @internal
- * @hidden
- */
-export type ReceiverHandlers = Pick<
-  ReceiverOptions,
-  "onMessage" | "onError" | "onClose" | "onSessionError" | "onSessionClose"
->;
 
 /**
  * @internal
@@ -174,22 +170,19 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     useNewName: boolean,
     handlers: ReceiverHandlers
   ): ReceiverOptions {
-    const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this.baseName) : this.name,
-      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
-      // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
-      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
-      source: {
+    const rcvrOptions: ReceiverOptions = createReceiverOptions(
+      useNewName ? getUniqueName(this.baseName) : this.name,
+      this.receiveMode,
+      {
         address: this.address
       },
-      credit_window: 0,
-      onSettled: (context) => {
-        return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
-      },
-      ...handlers
-    };
+      {
+        onSettled: (context: EventContext) => {
+          return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
+        },
+        ...handlers
+      }
+    );
 
     return rcvrOptions;
   }
