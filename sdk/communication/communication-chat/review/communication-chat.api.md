@@ -18,14 +18,22 @@ import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
+export interface AddChatParticipantsErrors {
+    invalidParticipants: ErrorModel[];
+}
+
+// @public
 export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipantsRequest, "participants"> {
     participants: ChatParticipant[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "AddChatParticipantsResult" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;
+
+// @public
+export interface AddChatParticipantsResult {
+    errors?: AddChatParticipantsErrors;
+}
 
 // @public
 export type AddParticipantsOptions = OperationOptions;
@@ -57,8 +65,14 @@ export interface ChatClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
+export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
+    content?: ChatMessageContent;
     sender?: CommunicationUser;
+}
+
+// @public (undocumented)
+export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants"> {
+    participants?: ChatParticipant[];
 }
 
 // @public
@@ -68,6 +82,9 @@ export type ChatMessagePriority = "normal" | "high";
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
     readonly sender?: CommunicationUser;
 }
+
+// @public
+export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
 
 // @public
 export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
@@ -110,26 +127,41 @@ export interface ChatThreadInfo {
     topic: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ChatCreateChatThreadOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type CreateChatThreadOptions = ChatCreateChatThreadOptionalParams;
+export interface CreateChatThreadErrors {
+    readonly invalidParticipants?: ErrorModel[];
+}
+
+// @public
+export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 
 // @public
 export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "participants"> {
     participants: ChatParticipant[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "CreateChatThreadResult" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
+
+// @public
+export interface CreateChatThreadResult {
+    chatThread?: RestChatThread;
+    errors?: CreateChatThreadErrors;
+}
 
 // @public
 export type DeleteChatThreadOptions = OperationOptions;
 
 // @public
 export type DeleteMessageOptions = OperationOptions;
+
+// @public
+export interface ErrorModel {
+    readonly code?: string;
+    readonly innerErrors?: ErrorModel[];
+    readonly message?: string;
+    readonly target?: string;
+}
 
 // @public
 export type GetChatMessageResponse = WithResponse<ChatMessage>;
@@ -175,8 +207,7 @@ export interface RestAddChatParticipantsRequest {
 
 // @public
 export interface RestChatMessage {
-    // Warning: (ae-forgotten-export) The symbol "ChatMessageContent" needs to be exported by the entry point index.d.ts
-    content?: ChatMessageContent;
+    content?: RestChatMessageContent;
     createdOn: Date;
     deletedOn?: Date;
     editedOn?: Date;
@@ -185,9 +216,16 @@ export interface RestChatMessage {
     senderDisplayName?: string;
     senderId: string;
     sequenceId: string;
-    // Warning: (ae-forgotten-export) The symbol "ChatMessageType" needs to be exported by the entry point index.d.ts
     type: ChatMessageType;
     version: string;
+}
+
+// @public
+export interface RestChatMessageContent {
+    initiator?: string;
+    message?: string;
+    participants?: RestChatParticipant[];
+    topic?: string;
 }
 
 // @public
@@ -211,6 +249,11 @@ export interface RestChatThread {
     deletedOn?: Date;
     id: string;
     topic: string;
+}
+
+// @public
+export interface RestCreateChatThreadOptions extends coreHttp.OperationOptions {
+    repeatabilityRequestID?: string;
 }
 
 // @public
