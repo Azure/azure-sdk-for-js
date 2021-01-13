@@ -23,7 +23,7 @@ export {
   KeyPhrasesExtractionTask,
   BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
-  BeginAnalyzeHealthcareOptions,
+  BeginAnalyzeHealthcareEntitiesOptions,
   HealthcarePollerLike,
   BeginAnalyzeOperationState,
   BeginAnalyzeHealthcareOperationState,

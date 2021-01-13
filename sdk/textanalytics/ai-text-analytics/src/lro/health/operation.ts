@@ -78,7 +78,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
 /**
  * Options for the begin analyze healthcare operation.
  */
-export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
+export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
   /**
    * Delay to wait until next poll, in milliseconds.
    */
@@ -111,7 +111,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
-    private options: BeginAnalyzeHealthcareOptions = {}
+    private options: BeginAnalyzeHealthcareEntitiesOptions = {}
   ) {
     super(state);
   }

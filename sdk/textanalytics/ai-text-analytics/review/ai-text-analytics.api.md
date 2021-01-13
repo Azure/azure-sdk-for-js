@@ -88,14 +88,14 @@ export interface BeginAnalyzeBatchTasksOptions extends OperationOptions {
 }
 
 // @public
-export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedHealthcareEntities> {
-}
-
-// @public
-export interface BeginAnalyzeHealthcareOptions extends TextAnalyticsOperationOptions {
+export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
     resumeFrom?: string;
     stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedHealthcareEntities> {
 }
 
 // @public
@@ -424,8 +424,8 @@ export class TextAnalyticsClient {
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     beginAnalyzeBatchTasks(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
     beginAnalyzeBatchTasks(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
-    beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
-    beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<HealthcarePollerLike>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
