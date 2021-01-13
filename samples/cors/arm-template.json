@@ -8,6 +8,13 @@
       "metadata": {
         "description": "The base resource name."
       }
+    },
+    "appUri": {
+      "type": "string",
+      "defaultValue": "http://localhost:1234",
+      "metadata": {
+        "description": "The URI of the web application to allow CORS access. By default parcel will run it on http://localhost:1234"
+      }
     }
   },
   "variables": {
@@ -61,6 +68,19 @@
           }
         },
         {
+          "type": "properties",
+          "apiVersion": "2019-01-01",
+          "name": "app-uri",
+          "dependsOn": [
+            "[resourceId('Microsoft.ApiManagement/service', variables('serviceName'))]"
+          ],
+          "properties": {
+            "displayName": "app-uri",
+            "value": "[parameters('appUri')]",
+            "secret": false
+          }
+        },
+        {
           "type": "apis",
           "apiVersion": "2019-01-01",
           "name": "secret-manager",
@@ -99,7 +119,7 @@
                     "[resourceId('Microsoft.ApiManagement/service/properties', variables('serviceName'), 'secret-name')]"
                   ],
                   "properties": {
-                    "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <cors>\r\n      <allowed-origins>\r\n        <origin>*</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n    </cors>\r\n    <send-request mode=\"new\" response-variable-name=\"vault-secret\" timeout=\"20\" ignore-error=\"false\">\r\n      <set-url>https://{{vault-name}}.vault.azure.net/secrets/{{secret-name}}/?api-version=7.0</set-url>\r\n      <set-method>GET</set-method>\r\n      <authentication-managed-identity resource=\"https://vault.azure.net\" />\r\n    </send-request>\r\n  </inbound>\r\n  <backend>\r\n    <return-response response-variable-name=\"existing context variable\">\r\n      <set-status code=\"200\" />\r\n      <set-body>@(((IResponse)context.Variables[\"vault-secret\"]).Body.As&lt;string&gt;())</set-body>\r\n    </return-response>\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
+                    "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <cors>\r\n      <allowed-origins>\r\n        <origin>{{app-uri}}</origin>\r\n      </allowed-origins>\r\n      <allowed-methods>\r\n        <method>GET</method>\r\n        <method>POST</method>\r\n      </allowed-methods>\r\n    </cors>\r\n    <send-request mode=\"new\" response-variable-name=\"vault-secret\" timeout=\"20\" ignore-error=\"false\">\r\n      <set-url>https://{{vault-name}}.vault.azure.net/secrets/{{secret-name}}/?api-version=7.0</set-url>\r\n      <set-method>GET</set-method>\r\n      <authentication-managed-identity resource=\"https://vault.azure.net\" />\r\n    </send-request>\r\n  </inbound>\r\n  <backend>\r\n    <return-response response-variable-name=\"existing context variable\">\r\n      <set-status code=\"200\" />\r\n      <set-body>@(((IResponse)context.Variables[\"vault-secret\"]).Body.As&lt;string&gt;())</set-body>\r\n    </return-response>\r\n  </backend>\r\n  <outbound>\r\n    <base />\r\n  </outbound>\r\n  <on-error>\r\n    <base />\r\n  </on-error>\r\n</policies>",
                     "format": "xml"
                   }
                 }
