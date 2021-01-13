@@ -244,7 +244,8 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
-    if (error.body?.additionalErrorInfo) {
+    console.log(error)
+    if (error.body?.additionalErrorInfo || error.message.includes('Cross partition query only supports')) {
       return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     } else {
       throw new Error(error.message);
