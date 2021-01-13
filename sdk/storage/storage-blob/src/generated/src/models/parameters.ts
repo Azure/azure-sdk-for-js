@@ -11,10 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 export const access: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "access"
-  ],
+  parameterPath: ["options", "access"],
   mapper: {
     serializedName: "x-ms-blob-public-access",
     type: {
@@ -28,7 +25,7 @@ export const action0: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-lease-action",
-    defaultValue: 'acquire',
+    defaultValue: "acquire",
     type: {
       name: "String"
     }
@@ -40,7 +37,7 @@ export const action1: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-lease-action",
-    defaultValue: 'release',
+    defaultValue: "release",
     type: {
       name: "String"
     }
@@ -52,7 +49,7 @@ export const action2: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-lease-action",
-    defaultValue: 'renew',
+    defaultValue: "renew",
     type: {
       name: "String"
     }
@@ -64,7 +61,7 @@ export const action3: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-lease-action",
-    defaultValue: 'break',
+    defaultValue: "break",
     type: {
       name: "String"
     }
@@ -76,7 +73,7 @@ export const action4: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-lease-action",
-    defaultValue: 'change',
+    defaultValue: "change",
     type: {
       name: "String"
     }
@@ -88,7 +85,7 @@ export const action5: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'setAccessControl',
+    defaultValue: "setAccessControl",
     type: {
       name: "String"
     }
@@ -100,18 +97,14 @@ export const action6: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'getAccessControl',
+    defaultValue: "getAccessControl",
     type: {
       name: "String"
     }
   }
 };
 export const appendPosition: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "appendPositionAccessConditions",
-    "appendPosition"
-  ],
+  parameterPath: ["options", "appendPositionAccessConditions", "appendPosition"],
   mapper: {
     serializedName: "x-ms-blob-condition-appendpos",
     type: {
@@ -120,11 +113,7 @@ export const appendPosition: coreHttp.OperationParameter = {
   }
 };
 export const blobCacheControl: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobHTTPHeaders",
-    "blobCacheControl"
-  ],
+  parameterPath: ["options", "blobHTTPHeaders", "blobCacheControl"],
   mapper: {
     serializedName: "x-ms-blob-cache-control",
     type: {
@@ -133,11 +122,7 @@ export const blobCacheControl: coreHttp.OperationParameter = {
   }
 };
 export const blobContentDisposition: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobHTTPHeaders",
-    "blobContentDisposition"
-  ],
+  parameterPath: ["options", "blobHTTPHeaders", "blobContentDisposition"],
   mapper: {
     serializedName: "x-ms-blob-content-disposition",
     type: {
@@ -146,11 +131,7 @@ export const blobContentDisposition: coreHttp.OperationParameter = {
   }
 };
 export const blobContentEncoding: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobHTTPHeaders",
-    "blobContentEncoding"
-  ],
+  parameterPath: ["options", "blobHTTPHeaders", "blobContentEncoding"],
   mapper: {
     serializedName: "x-ms-blob-content-encoding",
     type: {
@@ -159,11 +140,7 @@ export const blobContentEncoding: coreHttp.OperationParameter = {
   }
 };
 export const blobContentLanguage: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobHTTPHeaders",
-    "blobContentLanguage"
-  ],
+  parameterPath: ["options", "blobHTTPHeaders", "blobContentLanguage"],
   mapper: {
     serializedName: "x-ms-blob-content-language",
     type: {
@@ -182,11 +159,7 @@ export const blobContentLength: coreHttp.OperationParameter = {
   }
 };
 export const blobContentMD5: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobHTTPHeaders",
-    "blobContentMD5"
-  ],
+  parameterPath: ["options", "blobHTTPHeaders", "blobContentMD5"],
   mapper: {
     serializedName: "x-ms-blob-content-md5",
     type: {
@@ -195,11 +168,7 @@ export const blobContentMD5: coreHttp.OperationParameter = {
   }
 };
 export const blobContentType: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobHTTPHeaders",
-    "blobContentType"
-  ],
+  parameterPath: ["options", "blobHTTPHeaders", "blobContentType"],
   mapper: {
     serializedName: "x-ms-blob-content-type",
     type: {
@@ -208,25 +177,17 @@ export const blobContentType: coreHttp.OperationParameter = {
   }
 };
 export const blobDeleteType: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "blobDeleteType"
-  ],
+  parameterPath: ["options", "blobDeleteType"],
   mapper: {
     serializedName: "deletetype",
     type: {
       name: "Enum",
-      allowedValues: [
-        "Permanent"
-      ]
+      allowedValues: ["Permanent"]
     }
   }
 };
 export const blobSequenceNumber: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobSequenceNumber"
-  ],
+  parameterPath: ["options", "blobSequenceNumber"],
   mapper: {
     serializedName: "x-ms-blob-sequence-number",
     defaultValue: 0,
@@ -236,10 +197,7 @@ export const blobSequenceNumber: coreHttp.OperationParameter = {
   }
 };
 export const blobTagsString: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "blobTagsString"
-  ],
+  parameterPath: ["options", "blobTagsString"],
   mapper: {
     serializedName: "x-ms-tags",
     type: {
@@ -253,7 +211,7 @@ export const blobType0: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-blob-type",
-    defaultValue: 'PageBlob',
+    defaultValue: "PageBlob",
     type: {
       name: "String"
     }
@@ -265,7 +223,7 @@ export const blobType1: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-blob-type",
-    defaultValue: 'AppendBlob',
+    defaultValue: "AppendBlob",
     type: {
       name: "String"
     }
@@ -277,7 +235,7 @@ export const blobType2: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-blob-type",
-    defaultValue: 'BlockBlob',
+    defaultValue: "BlockBlob",
     type: {
       name: "String"
     }
@@ -294,10 +252,7 @@ export const blockId: coreHttp.OperationQueryParameter = {
   }
 };
 export const breakPeriod: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "breakPeriod"
-  ],
+  parameterPath: ["options", "breakPeriod"],
   mapper: {
     serializedName: "x-ms-lease-break-period",
     type: {
@@ -306,11 +261,7 @@ export const breakPeriod: coreHttp.OperationParameter = {
   }
 };
 export const cacheControl: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "directoryHttpHeaders",
-    "cacheControl"
-  ],
+  parameterPath: ["options", "directoryHttpHeaders", "cacheControl"],
   mapper: {
     serializedName: "x-ms-cache-control",
     type: {
@@ -324,7 +275,7 @@ export const comp0: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'properties',
+    defaultValue: "properties",
     type: {
       name: "String"
     }
@@ -336,7 +287,7 @@ export const comp1: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'stats',
+    defaultValue: "stats",
     type: {
       name: "String"
     }
@@ -348,7 +299,7 @@ export const comp10: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'lease',
+    defaultValue: "lease",
     type: {
       name: "String"
     }
@@ -360,7 +311,7 @@ export const comp11: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'expiry',
+    defaultValue: "expiry",
     type: {
       name: "String"
     }
@@ -372,7 +323,7 @@ export const comp12: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'snapshot',
+    defaultValue: "snapshot",
     type: {
       name: "String"
     }
@@ -384,7 +335,7 @@ export const comp13: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'copy',
+    defaultValue: "copy",
     type: {
       name: "String"
     }
@@ -396,7 +347,7 @@ export const comp14: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'tier',
+    defaultValue: "tier",
     type: {
       name: "String"
     }
@@ -408,7 +359,7 @@ export const comp15: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'query',
+    defaultValue: "query",
     type: {
       name: "String"
     }
@@ -420,7 +371,7 @@ export const comp16: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'tags',
+    defaultValue: "tags",
     type: {
       name: "String"
     }
@@ -432,7 +383,7 @@ export const comp17: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'page',
+    defaultValue: "page",
     type: {
       name: "String"
     }
@@ -444,7 +395,7 @@ export const comp18: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'pagelist',
+    defaultValue: "pagelist",
     type: {
       name: "String"
     }
@@ -456,7 +407,7 @@ export const comp19: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'incrementalcopy',
+    defaultValue: "incrementalcopy",
     type: {
       name: "String"
     }
@@ -468,7 +419,7 @@ export const comp2: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'list',
+    defaultValue: "list",
     type: {
       name: "String"
     }
@@ -480,7 +431,7 @@ export const comp20: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'appendblock',
+    defaultValue: "appendblock",
     type: {
       name: "String"
     }
@@ -492,7 +443,7 @@ export const comp21: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'seal',
+    defaultValue: "seal",
     type: {
       name: "String"
     }
@@ -504,7 +455,7 @@ export const comp22: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'block',
+    defaultValue: "block",
     type: {
       name: "String"
     }
@@ -516,7 +467,7 @@ export const comp23: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'blocklist',
+    defaultValue: "blocklist",
     type: {
       name: "String"
     }
@@ -528,7 +479,7 @@ export const comp3: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'userdelegationkey',
+    defaultValue: "userdelegationkey",
     type: {
       name: "String"
     }
@@ -540,7 +491,7 @@ export const comp4: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'batch',
+    defaultValue: "batch",
     type: {
       name: "String"
     }
@@ -552,7 +503,7 @@ export const comp5: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'blobs',
+    defaultValue: "blobs",
     type: {
       name: "String"
     }
@@ -564,7 +515,7 @@ export const comp6: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'metadata',
+    defaultValue: "metadata",
     type: {
       name: "String"
     }
@@ -576,7 +527,7 @@ export const comp7: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'acl',
+    defaultValue: "acl",
     type: {
       name: "String"
     }
@@ -588,7 +539,7 @@ export const comp8: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'undelete',
+    defaultValue: "undelete",
     type: {
       name: "String"
     }
@@ -600,18 +551,14 @@ export const comp9: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'rename',
+    defaultValue: "rename",
     type: {
       name: "String"
     }
   }
 };
 export const contentDisposition: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "directoryHttpHeaders",
-    "contentDisposition"
-  ],
+  parameterPath: ["options", "directoryHttpHeaders", "contentDisposition"],
   mapper: {
     serializedName: "x-ms-content-disposition",
     type: {
@@ -620,11 +567,7 @@ export const contentDisposition: coreHttp.OperationParameter = {
   }
 };
 export const contentEncoding: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "directoryHttpHeaders",
-    "contentEncoding"
-  ],
+  parameterPath: ["options", "directoryHttpHeaders", "contentEncoding"],
   mapper: {
     serializedName: "x-ms-content-encoding",
     type: {
@@ -633,11 +576,7 @@ export const contentEncoding: coreHttp.OperationParameter = {
   }
 };
 export const contentLanguage: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "directoryHttpHeaders",
-    "contentLanguage"
-  ],
+  parameterPath: ["options", "directoryHttpHeaders", "contentLanguage"],
   mapper: {
     serializedName: "x-ms-content-language",
     type: {
@@ -656,11 +595,7 @@ export const contentLength: coreHttp.OperationParameter = {
   }
 };
 export const contentType: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "directoryHttpHeaders",
-    "contentType"
-  ],
+  parameterPath: ["options", "directoryHttpHeaders", "contentType"],
   mapper: {
     serializedName: "x-ms-content-type",
     type: {
@@ -674,7 +609,7 @@ export const copyActionAbortConstant: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-copy-action",
-    defaultValue: 'abort',
+    defaultValue: "abort",
     type: {
       name: "String"
     }
@@ -701,10 +636,7 @@ export const copySource: coreHttp.OperationParameter = {
   }
 };
 export const copySourceBlobProperties: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "copySourceBlobProperties"
-  ],
+  parameterPath: ["options", "copySourceBlobProperties"],
   mapper: {
     serializedName: "x-ms-copy-source-blob-properties",
     type: {
@@ -713,11 +645,7 @@ export const copySourceBlobProperties: coreHttp.OperationParameter = {
   }
 };
 export const defaultEncryptionScope: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "containerEncryptionScope",
-    "defaultEncryptionScope"
-  ],
+  parameterPath: ["options", "containerEncryptionScope", "defaultEncryptionScope"],
   mapper: {
     serializedName: "x-ms-default-encryption-scope",
     type: {
@@ -726,10 +654,7 @@ export const defaultEncryptionScope: coreHttp.OperationParameter = {
   }
 };
 export const deletedContainerName: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "deletedContainerName"
-  ],
+  parameterPath: ["options", "deletedContainerName"],
   mapper: {
     serializedName: "x-ms-deleted-container-name",
     type: {
@@ -738,10 +663,7 @@ export const deletedContainerName: coreHttp.OperationParameter = {
   }
 };
 export const deletedContainerVersion: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "deletedContainerVersion"
-  ],
+  parameterPath: ["options", "deletedContainerVersion"],
   mapper: {
     serializedName: "x-ms-deleted-container-version",
     type: {
@@ -750,18 +672,12 @@ export const deletedContainerVersion: coreHttp.OperationParameter = {
   }
 };
 export const deleteSnapshots: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "deleteSnapshots"
-  ],
+  parameterPath: ["options", "deleteSnapshots"],
   mapper: {
     serializedName: "x-ms-delete-snapshots",
     type: {
       name: "Enum",
-      allowedValues: [
-        "include",
-        "only"
-      ]
+      allowedValues: ["include", "only"]
     }
   }
 };
@@ -776,10 +692,7 @@ export const delimiter: coreHttp.OperationQueryParameter = {
   }
 };
 export const directoryProperties: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "directoryProperties"
-  ],
+  parameterPath: ["options", "directoryProperties"],
   mapper: {
     serializedName: "x-ms-properties",
     type: {
@@ -788,10 +701,7 @@ export const directoryProperties: coreHttp.OperationParameter = {
   }
 };
 export const duration: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "duration"
-  ],
+  parameterPath: ["options", "duration"],
   mapper: {
     serializedName: "x-ms-lease-duration",
     type: {
@@ -800,27 +710,17 @@ export const duration: coreHttp.OperationParameter = {
   }
 };
 export const encryptionAlgorithm: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cpkInfo",
-    "encryptionAlgorithm"
-  ],
+  parameterPath: ["options", "cpkInfo", "encryptionAlgorithm"],
   mapper: {
     serializedName: "x-ms-encryption-algorithm",
     type: {
       name: "Enum",
-      allowedValues: [
-        "AES256"
-      ]
+      allowedValues: ["AES256"]
     }
   }
 };
 export const encryptionKey: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cpkInfo",
-    "encryptionKey"
-  ],
+  parameterPath: ["options", "cpkInfo", "encryptionKey"],
   mapper: {
     serializedName: "x-ms-encryption-key",
     type: {
@@ -829,11 +729,7 @@ export const encryptionKey: coreHttp.OperationParameter = {
   }
 };
 export const encryptionKeySha256: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "cpkInfo",
-    "encryptionKeySha256"
-  ],
+  parameterPath: ["options", "cpkInfo", "encryptionKeySha256"],
   mapper: {
     serializedName: "x-ms-encryption-key-sha256",
     type: {
@@ -842,10 +738,7 @@ export const encryptionKeySha256: coreHttp.OperationParameter = {
   }
 };
 export const encryptionScope: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "encryptionScope"
-  ],
+  parameterPath: ["options", "encryptionScope"],
   mapper: {
     serializedName: "x-ms-encryption-scope",
     type: {
@@ -854,10 +747,7 @@ export const encryptionScope: coreHttp.OperationParameter = {
   }
 };
 export const expiresOn: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "expiresOn"
-  ],
+  parameterPath: ["options", "expiresOn"],
   mapper: {
     serializedName: "x-ms-expiry-time",
     type: {
@@ -876,10 +766,7 @@ export const expiryOptions: coreHttp.OperationParameter = {
   }
 };
 export const group: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "group"
-  ],
+  parameterPath: ["options", "group"],
   mapper: {
     serializedName: "x-ms-group",
     type: {
@@ -888,11 +775,7 @@ export const group: coreHttp.OperationParameter = {
   }
 };
 export const ifMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -901,11 +784,7 @@ export const ifMatch: coreHttp.OperationParameter = {
   }
 };
 export const ifModifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifModifiedSince"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifModifiedSince"],
   mapper: {
     serializedName: "If-Modified-Since",
     type: {
@@ -914,11 +793,7 @@ export const ifModifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const ifNoneMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifNoneMatch"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifNoneMatch"],
   mapper: {
     serializedName: "If-None-Match",
     type: {
@@ -927,11 +802,7 @@ export const ifNoneMatch: coreHttp.OperationParameter = {
   }
 };
 export const ifSequenceNumberEqualTo: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sequenceNumberAccessConditions",
-    "ifSequenceNumberEqualTo"
-  ],
+  parameterPath: ["options", "sequenceNumberAccessConditions", "ifSequenceNumberEqualTo"],
   mapper: {
     serializedName: "x-ms-if-sequence-number-eq",
     type: {
@@ -940,11 +811,7 @@ export const ifSequenceNumberEqualTo: coreHttp.OperationParameter = {
   }
 };
 export const ifSequenceNumberLessThan: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sequenceNumberAccessConditions",
-    "ifSequenceNumberLessThan"
-  ],
+  parameterPath: ["options", "sequenceNumberAccessConditions", "ifSequenceNumberLessThan"],
   mapper: {
     serializedName: "x-ms-if-sequence-number-lt",
     type: {
@@ -953,11 +820,7 @@ export const ifSequenceNumberLessThan: coreHttp.OperationParameter = {
   }
 };
 export const ifSequenceNumberLessThanOrEqualTo: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sequenceNumberAccessConditions",
-    "ifSequenceNumberLessThanOrEqualTo"
-  ],
+  parameterPath: ["options", "sequenceNumberAccessConditions", "ifSequenceNumberLessThanOrEqualTo"],
   mapper: {
     serializedName: "x-ms-if-sequence-number-le",
     type: {
@@ -966,11 +829,7 @@ export const ifSequenceNumberLessThanOrEqualTo: coreHttp.OperationParameter = {
   }
 };
 export const ifTags: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifTags"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifTags"],
   mapper: {
     serializedName: "x-ms-if-tags",
     type: {
@@ -979,11 +838,7 @@ export const ifTags: coreHttp.OperationParameter = {
   }
 };
 export const ifUnmodifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "modifiedAccessConditions",
-    "ifUnmodifiedSince"
-  ],
+  parameterPath: ["options", "modifiedAccessConditions", "ifUnmodifiedSince"],
   mapper: {
     serializedName: "If-Unmodified-Since",
     type: {
@@ -992,10 +847,7 @@ export const ifUnmodifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const include0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "include"
-  ],
+  parameterPath: ["options", "include"],
   mapper: {
     serializedName: "include",
     type: {
@@ -1003,10 +855,7 @@ export const include0: coreHttp.OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: [
-            "metadata",
-            "deleted"
-          ]
+          allowedValues: ["metadata", "deleted"]
         }
       }
     }
@@ -1014,10 +863,7 @@ export const include0: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const include1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "include"
-  ],
+  parameterPath: ["options", "include"],
   mapper: {
     serializedName: "include",
     type: {
@@ -1041,11 +887,7 @@ export const include1: coreHttp.OperationQueryParameter = {
   collectionFormat: coreHttp.QueryCollectionFormat.Csv
 };
 export const leaseId0: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "leaseAccessConditions",
-    "leaseId"
-  ],
+  parameterPath: ["options", "leaseAccessConditions", "leaseId"],
   mapper: {
     serializedName: "x-ms-lease-id",
     type: {
@@ -1068,22 +910,15 @@ export const listType: coreHttp.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "blocklisttype",
-    defaultValue: 'committed',
+    defaultValue: "committed",
     type: {
       name: "Enum",
-      allowedValues: [
-        "committed",
-        "uncommitted",
-        "all"
-      ]
+      allowedValues: ["committed", "uncommitted", "all"]
     }
   }
 };
 export const marker0: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "marker"
-  ],
+  parameterPath: ["options", "marker"],
   mapper: {
     serializedName: "marker",
     type: {
@@ -1092,10 +927,7 @@ export const marker0: coreHttp.OperationQueryParameter = {
   }
 };
 export const marker1: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "marker"
-  ],
+  parameterPath: ["options", "marker"],
   mapper: {
     serializedName: "continuation",
     type: {
@@ -1104,10 +936,7 @@ export const marker1: coreHttp.OperationQueryParameter = {
   }
 };
 export const maxPageSize: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxPageSize"
-  ],
+  parameterPath: ["options", "maxPageSize"],
   mapper: {
     serializedName: "maxresults",
     constraints: {
@@ -1119,11 +948,7 @@ export const maxPageSize: coreHttp.OperationQueryParameter = {
   }
 };
 export const maxSize: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "appendPositionAccessConditions",
-    "maxSize"
-  ],
+  parameterPath: ["options", "appendPositionAccessConditions", "maxSize"],
   mapper: {
     serializedName: "x-ms-blob-condition-maxsize",
     type: {
@@ -1132,10 +957,7 @@ export const maxSize: coreHttp.OperationParameter = {
   }
 };
 export const metadata: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "metadata"
-  ],
+  parameterPath: ["options", "metadata"],
   mapper: {
     serializedName: "x-ms-meta",
     type: {
@@ -1160,10 +982,7 @@ export const multipartContentType: coreHttp.OperationParameter = {
   }
 };
 export const owner: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "owner"
-  ],
+  parameterPath: ["options", "owner"],
   mapper: {
     serializedName: "x-ms-owner",
     type: {
@@ -1177,7 +996,7 @@ export const pageWrite0: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-page-write",
-    defaultValue: 'update',
+    defaultValue: "update",
     type: {
       name: "String"
     }
@@ -1189,33 +1008,24 @@ export const pageWrite1: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-page-write",
-    defaultValue: 'clear',
+    defaultValue: "clear",
     type: {
       name: "String"
     }
   }
 };
 export const pathRenameMode: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "pathRenameMode"
-  ],
+  parameterPath: ["options", "pathRenameMode"],
   mapper: {
     serializedName: "mode",
     type: {
       name: "Enum",
-      allowedValues: [
-        "legacy",
-        "posix"
-      ]
+      allowedValues: ["legacy", "posix"]
     }
   }
 };
 export const posixAcl: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "posixAcl"
-  ],
+  parameterPath: ["options", "posixAcl"],
   mapper: {
     serializedName: "x-ms-acl",
     type: {
@@ -1224,10 +1034,7 @@ export const posixAcl: coreHttp.OperationParameter = {
   }
 };
 export const posixPermissions: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "posixPermissions"
-  ],
+  parameterPath: ["options", "posixPermissions"],
   mapper: {
     serializedName: "x-ms-permissions",
     type: {
@@ -1236,10 +1043,7 @@ export const posixPermissions: coreHttp.OperationParameter = {
   }
 };
 export const posixUmask: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "posixUmask"
-  ],
+  parameterPath: ["options", "posixUmask"],
   mapper: {
     serializedName: "x-ms-umask",
     type: {
@@ -1248,10 +1052,7 @@ export const posixUmask: coreHttp.OperationParameter = {
   }
 };
 export const prefix: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "prefix"
-  ],
+  parameterPath: ["options", "prefix"],
   mapper: {
     serializedName: "prefix",
     type: {
@@ -1260,11 +1061,7 @@ export const prefix: coreHttp.OperationQueryParameter = {
   }
 };
 export const preventEncryptionScopeOverride: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "containerEncryptionScope",
-    "preventEncryptionScopeOverride"
-  ],
+  parameterPath: ["options", "containerEncryptionScope", "preventEncryptionScopeOverride"],
   mapper: {
     serializedName: "x-ms-deny-encryption-scope-override",
     type: {
@@ -1273,10 +1070,7 @@ export const preventEncryptionScopeOverride: coreHttp.OperationParameter = {
   }
 };
 export const prevsnapshot: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "prevsnapshot"
-  ],
+  parameterPath: ["options", "prevsnapshot"],
   mapper: {
     serializedName: "prevsnapshot",
     type: {
@@ -1285,10 +1079,7 @@ export const prevsnapshot: coreHttp.OperationQueryParameter = {
   }
 };
 export const prevSnapshotUrl: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "prevSnapshotUrl"
-  ],
+  parameterPath: ["options", "prevSnapshotUrl"],
   mapper: {
     serializedName: "x-ms-previous-snapshot-url",
     type: {
@@ -1297,10 +1088,7 @@ export const prevSnapshotUrl: coreHttp.OperationParameter = {
   }
 };
 export const proposedLeaseId0: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "proposedLeaseId"
-  ],
+  parameterPath: ["options", "proposedLeaseId"],
   mapper: {
     serializedName: "x-ms-proposed-lease-id",
     type: {
@@ -1319,10 +1107,7 @@ export const proposedLeaseId1: coreHttp.OperationParameter = {
   }
 };
 export const range0: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "range"
-  ],
+  parameterPath: ["options", "range"],
   mapper: {
     serializedName: "x-ms-range",
     type: {
@@ -1341,10 +1126,7 @@ export const range1: coreHttp.OperationParameter = {
   }
 };
 export const rangeGetContentCRC64: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "rangeGetContentCRC64"
-  ],
+  parameterPath: ["options", "rangeGetContentCRC64"],
   mapper: {
     serializedName: "x-ms-range-get-content-crc64",
     type: {
@@ -1353,10 +1135,7 @@ export const rangeGetContentCRC64: coreHttp.OperationParameter = {
   }
 };
 export const rangeGetContentMD5: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "rangeGetContentMD5"
-  ],
+  parameterPath: ["options", "rangeGetContentMD5"],
   mapper: {
     serializedName: "x-ms-range-get-content-md5",
     type: {
@@ -1375,10 +1154,7 @@ export const recursiveDirectoryDelete: coreHttp.OperationQueryParameter = {
   }
 };
 export const rehydratePriority: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "rehydratePriority"
-  ],
+  parameterPath: ["options", "rehydratePriority"],
   mapper: {
     serializedName: "x-ms-rehydrate-priority",
     type: {
@@ -1397,10 +1173,7 @@ export const renameSource: coreHttp.OperationParameter = {
   }
 };
 export const requestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "requestId"
-  ],
+  parameterPath: ["options", "requestId"],
   mapper: {
     serializedName: "x-ms-client-request-id",
     type: {
@@ -1414,7 +1187,7 @@ export const resource: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "resource",
-    defaultValue: 'directory',
+    defaultValue: "directory",
     type: {
       name: "String"
     }
@@ -1426,7 +1199,7 @@ export const restype0: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "restype",
-    defaultValue: 'service',
+    defaultValue: "service",
     type: {
       name: "String"
     }
@@ -1438,7 +1211,7 @@ export const restype1: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "restype",
-    defaultValue: 'account',
+    defaultValue: "account",
     type: {
       name: "String"
     }
@@ -1450,17 +1223,14 @@ export const restype2: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "restype",
-    defaultValue: 'container',
+    defaultValue: "container",
     type: {
       name: "String"
     }
   }
 };
 export const sealBlob: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sealBlob"
-  ],
+  parameterPath: ["options", "sealBlob"],
   mapper: {
     serializedName: "x-ms-seal-blob",
     type: {
@@ -1475,19 +1245,12 @@ export const sequenceNumberAction: coreHttp.OperationParameter = {
     serializedName: "x-ms-sequence-number-action",
     type: {
       name: "Enum",
-      allowedValues: [
-        "max",
-        "update",
-        "increment"
-      ]
+      allowedValues: ["max", "update", "increment"]
     }
   }
 };
 export const snapshot: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "snapshot"
-  ],
+  parameterPath: ["options", "snapshot"],
   mapper: {
     serializedName: "snapshot",
     type: {
@@ -1506,10 +1269,7 @@ export const sourceContainerName: coreHttp.OperationParameter = {
   }
 };
 export const sourceContentCrc64: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceContentCrc64"
-  ],
+  parameterPath: ["options", "sourceContentCrc64"],
   mapper: {
     serializedName: "x-ms-source-content-crc64",
     type: {
@@ -1518,10 +1278,7 @@ export const sourceContentCrc64: coreHttp.OperationParameter = {
   }
 };
 export const sourceContentMD5: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceContentMD5"
-  ],
+  parameterPath: ["options", "sourceContentMD5"],
   mapper: {
     serializedName: "x-ms-source-content-md5",
     type: {
@@ -1530,11 +1287,7 @@ export const sourceContentMD5: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfMatch"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfMatch"],
   mapper: {
     serializedName: "x-ms-source-if-match",
     type: {
@@ -1543,11 +1296,7 @@ export const sourceIfMatch: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfModifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfModifiedSince"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfModifiedSince"],
   mapper: {
     serializedName: "x-ms-source-if-modified-since",
     type: {
@@ -1556,11 +1305,7 @@ export const sourceIfModifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfNoneMatch: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfNoneMatch"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfNoneMatch"],
   mapper: {
     serializedName: "x-ms-source-if-none-match",
     type: {
@@ -1569,11 +1314,7 @@ export const sourceIfNoneMatch: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfTags: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfTags"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfTags"],
   mapper: {
     serializedName: "x-ms-source-if-tags",
     type: {
@@ -1582,11 +1323,7 @@ export const sourceIfTags: coreHttp.OperationParameter = {
   }
 };
 export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceModifiedAccessConditions",
-    "sourceIfUnmodifiedSince"
-  ],
+  parameterPath: ["options", "sourceModifiedAccessConditions", "sourceIfUnmodifiedSince"],
   mapper: {
     serializedName: "x-ms-source-if-unmodified-since",
     type: {
@@ -1595,10 +1332,7 @@ export const sourceIfUnmodifiedSince: coreHttp.OperationParameter = {
   }
 };
 export const sourceLeaseId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceLeaseId"
-  ],
+  parameterPath: ["options", "sourceLeaseId"],
   mapper: {
     serializedName: "x-ms-source-lease-id",
     type: {
@@ -1617,10 +1351,7 @@ export const sourceRange0: coreHttp.OperationParameter = {
   }
 };
 export const sourceRange1: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "sourceRange"
-  ],
+  parameterPath: ["options", "sourceRange"],
   mapper: {
     serializedName: "x-ms-source-range",
     type: {
@@ -1639,10 +1370,7 @@ export const sourceUrl: coreHttp.OperationParameter = {
   }
 };
 export const tier0: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "tier"
-  ],
+  parameterPath: ["options", "tier"],
   mapper: {
     serializedName: "x-ms-access-tier",
     type: {
@@ -1661,10 +1389,7 @@ export const tier1: coreHttp.OperationParameter = {
   }
 };
 export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "timeoutInSeconds"
-  ],
+  parameterPath: ["options", "timeoutInSeconds"],
   mapper: {
     serializedName: "timeout",
     constraints: {
@@ -1676,10 +1401,7 @@ export const timeoutInSeconds: coreHttp.OperationQueryParameter = {
   }
 };
 export const transactionalContentCrc64: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "transactionalContentCrc64"
-  ],
+  parameterPath: ["options", "transactionalContentCrc64"],
   mapper: {
     serializedName: "x-ms-content-crc64",
     type: {
@@ -1688,10 +1410,7 @@ export const transactionalContentCrc64: coreHttp.OperationParameter = {
   }
 };
 export const transactionalContentMD5: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "transactionalContentMD5"
-  ],
+  parameterPath: ["options", "transactionalContentMD5"],
   mapper: {
     serializedName: "Content-MD5",
     type: {
@@ -1700,10 +1419,7 @@ export const transactionalContentMD5: coreHttp.OperationParameter = {
   }
 };
 export const upn: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "upn"
-  ],
+  parameterPath: ["options", "upn"],
   mapper: {
     serializedName: "upn",
     type: {
@@ -1716,7 +1432,7 @@ export const url: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "url",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
@@ -1729,17 +1445,14 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2020-06-12',
+    defaultValue: "2020-04-08",
     type: {
       name: "String"
     }
   }
 };
 export const versionId: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "versionId"
-  ],
+  parameterPath: ["options", "versionId"],
   mapper: {
     serializedName: "versionid",
     type: {
@@ -1748,10 +1461,7 @@ export const versionId: coreHttp.OperationQueryParameter = {
   }
 };
 export const where: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "where"
-  ],
+  parameterPath: ["options", "where"],
   mapper: {
     serializedName: "where",
     type: {
@@ -1765,7 +1475,7 @@ export const xMsRequiresSync: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-requires-sync",
-    defaultValue: 'true',
+    defaultValue: "true",
     type: {
       name: "String"
     }
