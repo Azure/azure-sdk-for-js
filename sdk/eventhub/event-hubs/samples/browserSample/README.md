@@ -37,6 +37,8 @@ Register a new application in AAD and assign the "Azure Event Hubs Data Owner" r
 
 Ensure your app registration has been configured properly to allow the [implicit grant flow][implicitgrantflow]
 and allow both `Access tokens` and `ID tokens` to be issued by the authorization endpoint.
+Also add a `redirect URI` that points to where you'll be hosting your application.
+For running the sample locally, you can set this to `http://localhost:8080`.
 In your app registration, you will also need to add a permission for the `Microsoft.EventHubs` app.
 When adding permission for `Microsoft.EventHubs`, the type should be `delegated permissions` and the permission should be `user_impersonation`.
 
@@ -63,6 +65,13 @@ npm start
 ```
 
 4. Navigate to the web page by visiting http://localhost:8080 in a browser.
+
+## Troubleshooting
+
+### Authentication error: AADSTS50011
+
+If you receive error `AADSTS50011` with the message `The reply URL specified in the request does not match the reply URLs configured for the application`, make sure that you're accessing the sample using the same URI
+as the redirect URI you added to your app registration. If you're following along with the sample, this should be `http://localhost:8080`.
 
 ## Next Steps
 
