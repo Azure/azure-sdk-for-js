@@ -29,6 +29,10 @@ It provides all of the same benefits as having your own back end API while avoid
 
 This simple example demonstrates how to get started with both of these approaches. In this example, we create a simple [Express][express] application, connect and upload a single test secret, and fetch it via a web application using either our back end server or Azure API Management.
 
+## Security considerations
+
+This sample demonstrates a few alternatives to integrating with Azure Key Vault from the browser, and is purposely kept simple. Remember, the browser is an _insecure_ environment and we encourage you to familiarize yourself with Azure's security policies to avoid leaking credentials to an unauthorized user in a production application. Please refer to Azure Key Vault's [security overview][keyvaultsecurity] to learn more about securing your Key Vault's data.
+
 ## Prerequisites
 
 The sample is compatible with Node.js >= 8.0.0
@@ -92,9 +96,6 @@ The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` c
 
 You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deployment.
 
-## Security considerations
-
-The above sample demonstrates a few alternatives to integrating with Azure Key Vault from the browser, and is purposely kept simple. Remember, the browser is an _insecure_ environment and we encourage you to familiarize yourself with Azure's security policies to avoid leaking credentials to an unauthorized user in a production application. Please refer to Azure Key Vault's [security overview][keyvaultsecurity] to learn more about securing your Key Vault's data.
 
 [azureapimanagement]: https://docs.microsoft.com/azure/api-management/api-management-key-concepts
 [express]: https://expressjs.com/
