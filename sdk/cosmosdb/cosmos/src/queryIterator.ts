@@ -247,7 +247,7 @@ export class QueryIterator<T> {
     if (error.body?.additionalErrorInfo?.queryInfo) {
       return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     } else {
-      throw new Error(error.message)
+      throw new Error(error.message);
     }
   }
 
