@@ -40,8 +40,8 @@ export function createClientPipeline(
   }
 
   const authPolicy = isTokenCredential(credential)
-  ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-  : createMetricsAdvisorKeyCredentialPolicy(credential);
+    ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
+    : createMetricsAdvisorKeyCredentialPolicy(credential);
 
   const internalPipelineOptions: InternalPipelineOptions = {
     ...pipelineOptions,
