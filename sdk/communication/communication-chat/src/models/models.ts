@@ -47,7 +47,7 @@ export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content
   content?: ChatMessageContent;
 }
 
-export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants">{
+export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants"> {
   /**
    * Chat message content for type "participantAdded" or "participantRemoved" messages.
    */

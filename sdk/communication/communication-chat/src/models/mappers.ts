@@ -37,25 +37,29 @@ export const mapToAddChatParticipantsRequestRestModel = (
   };
 };
 
-export const mapToChatContentSdkModel = (content: RestModel.ChatMessageContent) : ChatMessageContent => {
-  const {participants, ...otherChatContents} = content;
+export const mapToChatContentSdkModel = (
+  content: RestModel.ChatMessageContent
+): ChatMessageContent => {
+  const { participants, ...otherChatContents } = content;
   return {
-    participants: content.participants?.map((participant)=>mapToChatParticipantSdkModel(participant)),
+    participants: content.participants?.map((participant) =>
+      mapToChatParticipantSdkModel(participant)
+    ),
     ...otherChatContents
   };
-}
+};
 
 /**
  * Mapping chat message REST model to chat message SDK model
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
-  const {content, senderId, ...otherChatMessage} = chatMessage;
+  const { content, senderId, ...otherChatMessage } = chatMessage;
   const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
-  return { 
+  return {
     sender: { communicationUserId: senderId! },
     content: contentSdkModel,
-    ...otherChatMessage }
-
+    ...otherChatMessage
+  };
 };
 
 /**

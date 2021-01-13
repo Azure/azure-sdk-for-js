@@ -102,8 +102,8 @@ describe("[Mocked] ChatThreadClient", async () => {
       ...responseMessage
     } = await chatThreadClient.getMessage(mockMessage.id!);
     const { senderId: expectedId, content: expectedContent, ...expectedMessage } = mockMessage;
-    const { participants: expectedParticipants, ...expectedContents} = expectedContent!;
-    const { participants: responseParticipants, ...repsonseContents} = repsonseContent!;
+    const { participants: expectedParticipants, ...expectedContents } = expectedContent!;
+    const { participants: responseParticipants, ...repsonseContents } = repsonseContent!;
 
     sinon.assert.calledOnce(spy);
     assert.deepEqual(responseMessage, expectedMessage);
@@ -134,8 +134,8 @@ describe("[Mocked] ChatThreadClient", async () => {
       ++count;
       const { sender: responseUser, content: repsonseContent, ...responseMessage } = message;
       const { senderId: expectedId, content: expectedContent, ...expectedMessage } = mockMessage;
-      const { participants: expectedParticipants, ...expectedContents} = expectedContent!;
-      const { participants: responseParticipants, ...repsonseContents} = repsonseContent!;
+      const { participants: expectedParticipants, ...expectedContents } = expectedContent!;
+      const { participants: responseParticipants, ...repsonseContents } = repsonseContent!;
 
       assert.deepEqual(responseMessage, expectedMessage);
       assert.equal(responseUser?.communicationUserId, expectedId);
