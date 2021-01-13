@@ -2,8 +2,9 @@
 
 ## 3.10.0 (2021-01-11)
 
+- BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
 - FEATURE: Adds AAD authentication via @azure/identity.
-- BUGFIX: Sums group by operations for cross-partition queries correctly with null value.
+- BUGFIX: Sums group by operations for cross-partition queries correctly with null values.
 
 ## 3.9.3 (2020-10-19)
 
