@@ -6,7 +6,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-        "description": "The base resource name."
+        "description": "The base resource name. "
       }
     },
     "sku": {
