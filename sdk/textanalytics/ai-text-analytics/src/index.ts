@@ -23,7 +23,7 @@ export {
   KeyPhrasesExtractionTask,
   BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
-  BeginAnalyzeHealthcareOptions,
+  BeginAnalyzeHealthcareEntitiesOptions,
   HealthcarePollerLike,
   BeginAnalyzeOperationState,
   BeginAnalyzeHealthcareOperationState,
@@ -89,7 +89,7 @@ export {
 export {
   PagedAnalyzeResults,
   PagedAsyncIterableAnalyzeResults,
-  AnalyzeResult
+  AnalyzeBatchTasksResult
 } from "./analyzeResult";
 export {
   TextAnalyticsResult,

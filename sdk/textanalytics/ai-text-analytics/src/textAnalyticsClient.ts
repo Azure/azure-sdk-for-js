@@ -56,7 +56,7 @@ import {
 } from "./util";
 import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
 import {
-  BeginAnalyzeHealthcareOptions,
+  BeginAnalyzeHealthcareEntitiesOptions,
   BeginAnalyzeHealthcareOperationState
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
@@ -72,7 +72,7 @@ export {
   BeginAnalyzeBatchTasksOptions,
   AnalyzePollerLike,
   BeginAnalyzeOperationState,
-  BeginAnalyzeHealthcareOptions,
+  BeginAnalyzeHealthcareEntitiesOptions,
   HealthcarePollerLike,
   BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
@@ -854,10 +854,10 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: string[],
     language?: string,
-    options?: BeginAnalyzeHealthcareOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions
   ): Promise<HealthcarePollerLike>;
   /**
    * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
@@ -865,17 +865,17 @@ export class TextAnalyticsClient {
    * @param documents - Collection of documents to analyze.
    * @param options - Options for the operation.
    */
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeHealthcareOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions
   ): Promise<HealthcarePollerLike>;
 
-  async beginAnalyzeHealthcare(
+  async beginAnalyzeHealthcareEntities(
     documents: string[] | TextDocumentInput[],
-    languageOrOptions?: string | BeginAnalyzeHealthcareOptions,
-    options?: BeginAnalyzeHealthcareOptions
+    languageOrOptions?: string | BeginAnalyzeHealthcareEntitiesOptions,
+    options?: BeginAnalyzeHealthcareEntitiesOptions
   ): Promise<HealthcarePollerLike> {
-    let realOptions: BeginAnalyzeHealthcareOptions;
+    let realOptions: BeginAnalyzeHealthcareEntitiesOptions;
     let realInputs: TextDocumentInput[];
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
@@ -883,7 +883,7 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeHealthcareOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
     }
 
     const poller = new BeginAnalyzeHealthcarePoller({

@@ -16,7 +16,7 @@ import {
   TextDocumentInput
 } from "../../generated/models";
 import {
-  AnalyzeResult,
+  AnalyzeBatchTasksResult,
   PagedAsyncIterableAnalyzeResults,
   PagedAnalyzeResults
 } from "../../analyzeResult";
@@ -46,7 +46,7 @@ import { logger } from "../../logger";
 export { State };
 
 interface AnalyzeResultsWithPagination {
-  result: AnalyzeResult;
+  result: AnalyzeBatchTasksResult;
   top?: number;
   skip?: number;
 }
@@ -166,7 +166,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   private async *_listAnalyzeResultsPaged(
     jobId: string,
     options?: AnalyzeJobStatusOptions
-  ): AsyncIterableIterator<AnalyzeResult> {
+  ): AsyncIterableIterator<AnalyzeBatchTasksResult> {
     let response = await this._listAnalyzeResultsSinglePage(jobId, options);
     yield response.result;
     while (response.skip) {
@@ -196,7 +196,7 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
         jobId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      const result: AnalyzeResult = {
+      const result: AnalyzeBatchTasksResult = {
         entitiesRecognitionResults:
           response.tasks.entityRecognitionTasks?.map(
             ({ results }): RecognizeCategorizedEntitiesResultArray =>

@@ -10,7 +10,7 @@ import { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArr
 /**
  * The results of a successful analyze job.
  */
-export interface AnalyzeResult {
+export interface AnalyzeBatchTasksResult {
   /**
    * Array of the results for each categorized entities recognition task.
    */
@@ -30,8 +30,8 @@ export interface AnalyzeResult {
  * iterates over the results of the requested tasks.
  */
 export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<
-  AnalyzeResult,
-  AnalyzeResult
+  AnalyzeBatchTasksResult,
+  AnalyzeBatchTasksResult
 >;
 
 /**

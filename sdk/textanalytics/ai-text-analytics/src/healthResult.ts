@@ -82,11 +82,11 @@ export interface HealthcareEntityDataSource {
   /**
    * Entity Catalog. Examples include: UMLS, CHV, MSH, etc.
    */
-  dataSource: string;
+  name: string;
   /**
    * Entity id in the given source catalog.
    */
-  dataSourceId: string;
+  id: string;
 }
 
 /**
@@ -101,13 +101,13 @@ export interface HealthcareEntity extends Entity {
   /**
    * Entity references in known data sources.
    */
-  dataSource?: HealthcareEntityDataSource[];
+  dataSources: HealthcareEntityDataSource[];
   /**
    * Other healthcare entities related to the current one. It is a directed
    * relationship where the current entity is the source and the entities in
    * the map are the target.
    */
-  relatedHealthcareEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+  relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
 }
 
 /**
@@ -182,11 +182,11 @@ function makeHealthcareEntitiesWithoutNeighbors(
     length,
     text,
     subCategory,
-    dataSource: links?.map(
-      ({ dataSource, id }): HealthcareEntityDataSource => ({ dataSource, dataSourceId: id })
-    ),
+    dataSources:
+      links?.map(({ dataSource, id }): HealthcareEntityDataSource => ({ name: dataSource, id })) ??
+      [],
     // initialize the neighbors map to be filled later.
-    relatedHealthcareEntities: new Map()
+    relatedEntities: new Map()
   };
 }
 
@@ -210,9 +210,9 @@ function makeHealthcareEntitiesGraph(
     const sourceEntity = entities[sourceIndex];
     const targetEntity = entities[targetIndex];
     if (isHealthcareEntityRelationType(relationType)) {
-      sourceEntity.relatedHealthcareEntities.set(targetEntity, relationType);
+      sourceEntity.relatedEntities.set(targetEntity, relationType);
       if (relation.bidirectional) {
-        targetEntity.relatedHealthcareEntities.set(sourceEntity, relationType);
+        targetEntity.relatedEntities.set(sourceEntity, relationType);
       }
     } else {
       throw new Error(`Unrecognized healthcare entity relation type: ${relationType}`);
