@@ -146,7 +146,7 @@ export class PhoneNumberAdministrationClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential as KeyCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new PhoneNumberRestClient(url, pipeline).phoneNumberAdministration;
   }

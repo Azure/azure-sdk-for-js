@@ -62,6 +62,15 @@ const connectionString = `endpoint=HOST;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
+### Using a `TokenCredential`
+
+```typescript
+import { CommunicationIdentityClient } from "@azure/communication-administration";
+
+let credential = new DefaultAzureCredential();
+const client = new CommunicationIdentityClient(HOST, credential);
+```
+
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal].
 
 ## Usage
