@@ -159,6 +159,7 @@ import { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
 import { SasIPRange } from "./sas/SasIPRange";
 import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
+// import { BlobBatchClient } from "./BlobBatchClient";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -8578,4 +8579,16 @@ export class ContainerClient extends StorageClient {
       resolve(appendToURLQuery(this.url, sas));
     });
   }
+
+    /**
+   * Creates a BlobBatchClient object to conduct batch operations.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   *
+   * @returns {BlobBatchClient} A new BlobBatchClient object for this service.
+   * @memberof ContainerClient
+   */
+  // public getBlobBatchClient(): BlobBatchClient {
+  //   return new BlobBatchClient(this.url, this.pipeline);
+  // }
 }
