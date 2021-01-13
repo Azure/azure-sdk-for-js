@@ -46,6 +46,14 @@ const connectionString = `endpoint=<Host>;accessKey=<Base64-Encoded-Key>`;
 const client = new SmsClient(connectionString);
 ```
 
+### Using a `TokenCredential`
+
+```typescript
+import { CommunicationIdentityClient } from "@azure/communication-administration";
+let credential = new DefaultAzureCredential();
+const client = new CommunicationIdentityClient("<Host>", credential);
+```
+
 ## Sending SMS
 
 ```typescript

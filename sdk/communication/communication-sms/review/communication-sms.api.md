@@ -8,6 +8,7 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface SendOptions extends OperationOptions {
@@ -25,6 +26,7 @@ export interface SendRequest {
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
     send(sendRequest: SendRequest, options?: SendOptions): Promise<RestResponse>;
 }
 
