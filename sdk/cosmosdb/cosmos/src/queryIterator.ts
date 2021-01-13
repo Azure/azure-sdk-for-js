@@ -244,7 +244,7 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
-    if (error.body?.additionalErrorInfo?.queryInfo) {
+    if (error.body?.additionalErrorInfo) {
       return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     } else {
       throw new Error(error.message);

@@ -39,8 +39,8 @@ function prefixKeyByType(key: v2Key): Buffer {
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
       return Buffer.from(BytePrefix.Undefined, "hex");
-      default:
-        throw new Error(`Unexpected type: ${typeof key}`);
+    default:
+      throw new Error(`Unexpected type: ${typeof key}`);
   }
 }
 
