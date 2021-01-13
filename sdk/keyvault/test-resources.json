@@ -20,10 +20,51 @@
       "metadata": {
         "description": "The application client ID used to run tests. You may get it from the overview page of a recently created Azure application."
       }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "The location of the resource. By default, this is the same as the resource group."
+      }
+    },
+    "hsmLocation": {
+      "type": "string",
+      "defaultValue": "southcentralus",
+      "allowedValues": ["eastus2", "southcentralus", "northeurope", "westeurope"],
+      "metadata": {
+        "description": "The location of the Managed HSM. By default, this is 'southcentralus'."
+      }
+    },
+    "enableHsm": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Whether to enable deployment of Managed HSM. The default is false."
+      }
     }
   },
   "variables": {
-    "location": "[resourceGroup().location]",
+    "location": "[parameters('location')]",
+    "hsmApiVersion": "2020-04-01-preview",
+    "mgmtApiVersion": "2019-04-01",
+    "blobContainerName": "backup",
+    "primaryAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'prim')]",
+    "hsmName": "[concat(parameters('baseName'), 'hsm')]",
+    "encryption": {
+      "services": {
+        "blob": {
+          "enabled": true
+        }
+      },
+      "keySource": "Microsoft.Storage"
+    },
+    "networkAcls": {
+      "bypass": "AzureServices",
+      "virtualNetworkRules": [],
+      "ipRules": [],
+      "defaultAction": "Allow"
+    },
     "keyVaultName": "[parameters('baseName')]"
   },
   "resources": [
@@ -31,7 +72,7 @@
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2016-10-01",
       "name": "[variables('keyVaultName')]",
-      "location": "[variables('location')]",
+      "location": "[parameters('location')]",
       "properties": {
         "sku": {
           "family": "A",
@@ -88,12 +129,83 @@
         "enabledForTemplateDeployment": false,
         "enableSoftDelete": true
       }
+    },
+    {
+      "type": "Microsoft.KeyVault/managedHSMs",
+      "apiVersion": "[variables('hsmApiVersion')]",
+      "name": "[variables('hsmName')]",
+      "condition": "[parameters('enableHsm')]",
+      "location": "[parameters('hsmLocation')]",
+      "sku": {
+        "family": "B",
+        "name": "Standard_B1"
+      },
+      "properties": {
+        "tenantId": "[parameters('tenantId')]",
+        "initialAdminObjectIds": ["[parameters('testApplicationOid')]"],
+        "enablePurgeProtection": false,
+        "enableSoftDelete": true
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('mgmtApiVersion')]",
+      "name": "[variables('primaryAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "networkAcls": "[variables('networkAcls')]",
+        "supportsHttpsTrafficOnly": true,
+        "encryption": "[variables('encryption')]",
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(variables('primaryAccountName'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('primaryAccountName'))]"
+      ],
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": []
+        },
+        "deleteRetentionPolicy": {
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2019-06-01",
+      "name": "[concat(variables('primaryAccountName'), '/default/', variables('blobContainerName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('primaryAccountName'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('primaryAccountName'))]"
+      ],
+      "properties": {
+        "publicAccess": "None"
+      }
     }
   ],
   "outputs": {
     "KEYVAULT_NAME": {
       "type": "string",
       "value": "[variables('keyVaultName')]"
+    },
+    "AZURE_MANAGEDHSM_URL": {
+      "type": "string",
+      "condition": "[parameters('enableHsm')]",
+      "value": "[reference(variables('hsmName')).hsmUri]"
     },
     "KEYVAULT_URI": {
       "type": "string",
@@ -103,13 +215,17 @@
       "type": "string",
       "value": "[parameters('testApplicationOid')]"
     },
-    "BLOB_STORAGE_URI": {
+    "BLOB_STORAGE_ACCOUNT_NAME": {
       "type": "string",
-      "value": "7.2-preview-blob-storage-uri"
+      "value": "[variables('primaryAccountName')]"
     },
-    "BLOB_STORAGE_SAS_TOKEN": {
+    "BLOB_PRIMARY_STORAGE_ACCOUNT_KEY": {
       "type": "string",
-      "value": "7.2-preview-blob-storage-sas-uri"
+      "value": "[listKeys(variables('primaryAccountName'), variables('mgmtApiVersion')).keys[0].value]"
+    },
+    "BLOB_CONTAINER_NAME": {
+      "type": "string",
+      "value": "[variables('blobContainerName')]"
     }
   }
 }

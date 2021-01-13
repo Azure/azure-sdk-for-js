@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureCliCredential } from "@azure/identity";
-import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { ClientSecretCredential } from "@azure/identity";
+import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
-import { getKeyvaultName, getKeyVaultUrl } from "./common";
+// import { getKeyvaultName, getKeyVaultUrl } from "./common";
 import { uniqueString } from "./recorder";
 
 export async function authenticate(that: any): Promise<any> {
@@ -27,10 +27,11 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_TENANT_ID: "azure_tenant_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
+      BLOB_PRIMARY_STORAGE_ACCOUNT_KEY: "blob_storage_account_key",
+      BLOB_CONTAINER_NAME: "uri",
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
-      KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://eastus2.keyvault_name.managedhsm.azure.net"
+      KEYVAULT_NAME: "keyvault_name"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -55,10 +56,15 @@ export async function authenticate(that: any): Promise<any> {
     queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
-  const credential = await new AzureCliCredential();
+  const credential = await new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
 
-  const keyVaultName = getKeyvaultName();
-  const keyVaultUrl = getKeyVaultUrl() || `https://${keyVaultName}.vault.azure.net`;
+  // const keyVaultName = getKeyvaultName();
+  const keyVaultUrl = env.KEYVAULT_RESOURCE_MANAGER_URL;
+  // const keyVaultUrl = getKeyVaultUrl() || `https://${keyVaultName}.vault.azure.net`;
   const accessControlClient = new KeyVaultAccessControlClient(keyVaultUrl, credential);
   const backupClient = new KeyVaultBackupClient(keyVaultUrl, credential);
 

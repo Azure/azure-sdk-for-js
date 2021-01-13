@@ -20,8 +20,10 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
+// Warning: (ae-forgotten-export) The symbol "BackupResult" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 // @public
 export interface BackupPollerOptions extends coreHttp.OperationOptions {
@@ -76,7 +78,7 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, string>>;
+    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
     beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
     beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
     readonly vaultUrl: string;

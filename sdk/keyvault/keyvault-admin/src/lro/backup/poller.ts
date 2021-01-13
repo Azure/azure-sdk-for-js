@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BackupPollOperation, BackupOperationState, BackupPollOperationState } from "./operation";
+import {
+  BackupPollOperation,
+  BackupOperationState,
+  BackupPollOperationState,
+  BackupResult
+} from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
 
 export interface BackupPollerOptions extends KeyVaultAdminPollerOptions {
@@ -12,7 +17,7 @@ export interface BackupPollerOptions extends KeyVaultAdminPollerOptions {
 /**
  * Class that creates a poller that waits until the backup of a Key Vault ends up being generated.
  */
-export class BackupPoller extends KeyVaultAdminPoller<BackupOperationState, string> {
+export class BackupPoller extends KeyVaultAdminPoller<BackupOperationState, BackupResult> {
   constructor(options: BackupPollerOptions) {
     const {
       client,

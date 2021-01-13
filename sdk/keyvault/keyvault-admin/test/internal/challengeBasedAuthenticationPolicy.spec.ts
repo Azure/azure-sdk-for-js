@@ -10,9 +10,8 @@ import {
   AuthenticationChallenge,
   parseWWWAuthenticate
 } from "../../../keyvault-common/src";
-import { KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { KeyVaultAccessControlClient } from "../../src";
+import { authenticate } from "../utils/authentication";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -22,15 +21,13 @@ import TestClient from "../utils/testClient";
 describe("Challenge based authentication tests", () => {
   const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
-  let client: KeyClient;
-  let testClient: TestClient;
+  let client: KeyVaultAccessControlClient;
   let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
+    client = authentication.accessControlClient;
     recorder = authentication.recorder;
   });
 
@@ -40,8 +37,12 @@ describe("Challenge based authentication tests", () => {
 
   // The tests follow
 
+  function formatName(name: string): string {
+    return name.replace(/[^0-9a-zA-Z-]/g, "");
+  }
+
   it("Authentication should work for parallel requests", async function() {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
     const sandbox = createSandbox();
@@ -49,13 +50,12 @@ describe("Challenge based authentication tests", () => {
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
     const promises = keyNames.map((name) => {
-      const promise = client.createKey(name, "RSA");
+      const promise = client.listRoleAssignments("/");
       return { promise, name };
     });
 
     for (const promise of promises) {
       await promise.promise;
-      await testClient.flushKey(promise.name);
     }
 
     // Even though we had parallel requests, only one authentication should have happened.
@@ -82,14 +82,14 @@ describe("Challenge based authentication tests", () => {
     // Now we run what would be a normal use of the client.
     // Here we will create two keys, then flush them.
     // testClient.flushKey deletes, then purges the keys.
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyName = formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
-    for (const name of keyNames) {
-      await client.createKey(name, "RSA");
+    for (const _name of keyNames) {
+      await client.listRoleAssignments("/").next();
     }
-    for (const name of keyNames) {
-      await testClient.flushKey(name);
-    }
+    // for (const name of keyNames) {
+    //   await testClient.flushKey(name);
+    // }
 
     // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);

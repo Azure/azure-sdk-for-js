@@ -24,7 +24,7 @@ export function getKeyvaultName(): string {
 export function getKeyVaultUrl(): string {
   const keyVaultEnvVarName = "KEYVAULT_URI";
   const result: string | undefined = env[keyVaultEnvVarName];
-
+  console.log("keyVaultEnvVarName", result);
   return result!;
 }
 

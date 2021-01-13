@@ -230,7 +230,7 @@ export interface FullBackupOperation {
   /**
    * The Azure blob storage container Uri which contains the full backup
    */
-  azureStorageBlobContainerUri?: string;
+  azureStorageBlobContainerUri?: string; // TODO: why is this optional?
 }
 
 export interface RestoreOperationParameters {

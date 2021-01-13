@@ -15,16 +15,25 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
+// import { setFormatter } from "sinon";
+
+export class BackupResult {
+  constructor(
+    public readonly backupFolderUri: string,
+    public readonly startTime?: Date,
+    public readonly endTIme?: Date
+  ) {}
+}
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
  */
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 /**
  * An internal interface representing the state of a backup Key Vault's poll operation.
  */
-export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<string> {
+export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<BackupResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -40,7 +49,7 @@ export interface BackupPollOperationState extends KeyVaultAdminPollOperationStat
  */
 export class BackupPollOperation extends KeyVaultAdminPollOperation<
   BackupPollOperationState,
-  string
+  BackupResult
 > {
   constructor(
     public state: BackupPollOperationState,
@@ -127,7 +136,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       state.startTime = startTime;
       state.status = status;
       state.statusDetails = statusDetails;
-      state.result = azureStorageBlobContainerUri;
+      state.result = new BackupResult(azureStorageBlobContainerUri!, startTime, endTime);
 
       if (endTime) {
         state.isCompleted = true;
@@ -148,6 +157,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       const serviceOperation = await this.fullBackupStatus(state.jobId, this.requestOptions);
       const {
         azureStorageBlobContainerUri,
+        startTime,
         endTime,
         status,
         statusDetails,
@@ -157,7 +167,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       state.endTime = endTime;
       state.status = status;
       state.statusDetails = statusDetails;
-      state.result = azureStorageBlobContainerUri;
+      state.result = new BackupResult(azureStorageBlobContainerUri!, startTime, endTime);
 
       if (endTime) {
         state.isCompleted = true;
