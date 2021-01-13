@@ -68,9 +68,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk.")
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -140,20 +140,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     resultCallback(await this.exportEnvelopes(envelopes));
   }
 
-  shutdown(): Promise<void> {
+  async shutdown(): Promise<void> {
     this._logger.info("Azure Monitor Trace Exporter shutting down");
-    return new Promise((resolve, reject) => {
-      Promise.resolve()
-        .then(() => {
-          return this._sender.shutdown();
-        })
-        .then(() => {
-          resolve();
-        })
-        .catch((e) => {
-          reject(e);
-        });
-    });
+    return this._sender.shutdown();
   }
 
   private async _sendFirstPersistedFile(): Promise<void> {
