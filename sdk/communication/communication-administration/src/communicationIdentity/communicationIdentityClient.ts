@@ -108,7 +108,7 @@ export class CommunicationIdentityClient {
       }
     };
 
-    let authPolicy = createCommunicationAuthPolicy(credential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new IdentityRestClient(url, pipeline).communicationIdentity;
   }
