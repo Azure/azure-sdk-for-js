@@ -68,9 +68,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk.")
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -161,11 +161,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       if (
         error &&
         error.code &&
-        (error.code === "ETIMEDOUT" ||
-          error.code === "ESOCKETTIMEDOUT" ||
-          error.code === "ECONNREFUSED" ||
-          error.code === "ECONNRESET" ||
-          error.code === "ENOENT")
+        (error.code === "REQUEST_SEND_ERROR")
       ) {
         return true;
       }
