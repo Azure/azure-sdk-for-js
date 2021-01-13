@@ -250,7 +250,7 @@ export class QueryIterator<T> {
     ) {
       return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
     } else {
-      throw error
+      throw error;
     }
   }
 
