@@ -2,11 +2,11 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a%40thread.v2/readReceipts",
+   "url": "https://endpoint/chat/threads/19%3Acb3f43b5b0da4b17bab9e23464e3519e%40thread.v2/readReceipts",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"chatMessageId\":\"1609362880451\"}",
+   "requestBody": "{\"chatMessageId\":\"1610503619259\"}",
    "status": 200,
    "response": "",
    "responseHeaders": {
