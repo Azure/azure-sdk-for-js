@@ -81,7 +81,6 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore();
       } catch (error) {
-        this.checkContinuationTokenError(error);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           try {
@@ -146,7 +145,6 @@ export class QueryIterator<T> {
     try {
       response = await this.queryExecutionContext.fetchMore();
     } catch (error) {
-      this.checkContinuationTokenError(error);
       if (this.needsQueryPlan(error)) {
         await this.createPipelinedExecutionContext();
         try {
@@ -186,7 +184,6 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.nextItem();
       } catch (error) {
-        this.checkContinuationTokenError(error);
         if (this.needsQueryPlan(error)) {
           await this.createPipelinedExecutionContext();
           response = await this.queryExecutionContext.nextItem();
@@ -246,8 +243,12 @@ export class QueryIterator<T> {
     return this.queryPlanPromise;
   }
 
-  private needsQueryPlan(error: any): error is ErrorResponse {
-    return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    if (error.body?.additionalErrorInfo?.queryInfo) {
+      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+    } else {
+      throw new Error(error.message);
+    }
   }
 
   private initPromise: Promise<void>;
@@ -277,12 +278,6 @@ export class QueryIterator<T> {
       throw error;
     } else {
       throw err;
-    }
-  }
-
-  private checkContinuationTokenError(error: Error) {
-    if (error.message.includes("Invalid Continuation Token")) {
-      throw new Error(error.message);
     }
   }
 }
