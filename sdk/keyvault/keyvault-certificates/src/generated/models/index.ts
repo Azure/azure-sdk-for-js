@@ -8,9 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
-/**
- * The certificate list result.
- */
+/** The certificate list result. */
 export interface CertificateListResult {
   /**
    * A response message containing a list of certificates in the key vault along with a link to the next page of certificates.
@@ -24,43 +22,25 @@ export interface CertificateListResult {
   readonly nextLink?: string;
 }
 
-/**
- * The certificate item containing certificate metadata.
- */
+/** The certificate item containing certificate metadata. */
 export interface CertificateItem {
-  /**
-   * Certificate identifier.
-   */
+  /** Certificate identifier. */
   id?: string;
-  /**
-   * The certificate management attributes.
-   */
+  /** The certificate management attributes. */
   attributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
-  /**
-   * Thumbprint of the certificate.
-   */
+  /** Thumbprint of the certificate. */
   x509Thumbprint?: Uint8Array;
 }
 
-/**
- * The object attributes managed by the KeyVault service.
- */
+/** The object attributes managed by the KeyVault service. */
 export interface Attributes {
-  /**
-   * Determines whether the object is enabled.
-   */
+  /** Determines whether the object is enabled. */
   enabled?: boolean;
-  /**
-   * Not before date in UTC.
-   */
+  /** Not before date in UTC. */
   notBefore?: Date;
-  /**
-   * Expiry date in UTC.
-   */
+  /** Expiry date in UTC. */
   expires?: Date;
   /**
    * Creation time in UTC.
@@ -74,9 +54,7 @@ export interface Attributes {
   readonly updated?: Date;
 }
 
-/**
- * The key vault error exception.
- */
+/** The key vault error exception. */
 export interface KeyVaultError {
   /**
    * The key vault server error.
@@ -85,9 +63,7 @@ export interface KeyVaultError {
   readonly error?: ErrorModel;
 }
 
-/**
- * The key vault server error.
- */
+/** The key vault server error. */
 export interface ErrorModel {
   /**
    * The error code.
@@ -106,9 +82,7 @@ export interface ErrorModel {
   readonly innerError?: ErrorModel;
 }
 
-/**
- * A certificate bundle consists of a certificate (X509) plus its attributes.
- */
+/** A certificate bundle consists of a certificate (X509) plus its attributes. */
 export interface CertificateBundle {
   /**
    * The certificate id.
@@ -135,231 +109,135 @@ export interface CertificateBundle {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly policy?: CertificatePolicy;
-  /**
-   * CER contents of x509 certificate.
-   */
+  /** CER contents of x509 certificate. */
   cer?: Uint8Array;
-  /**
-   * The content type of the secret.
-   */
+  /** The content type of the secret. */
   contentType?: string;
-  /**
-   * The certificate attributes.
-   */
+  /** The certificate attributes. */
   attributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs
-   */
+  /** Application specific metadata in the form of key-value pairs */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Management policy for a certificate.
- */
+/** Management policy for a certificate. */
 export interface CertificatePolicy {
   /**
    * The certificate id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * Properties of the key backing a certificate.
-   */
+  /** Properties of the key backing a certificate. */
   keyProperties?: KeyProperties;
-  /**
-   * Properties of the secret backing a certificate.
-   */
+  /** Properties of the secret backing a certificate. */
   secretProperties?: SecretProperties;
-  /**
-   * Properties of the X509 component of a certificate.
-   */
+  /** Properties of the X509 component of a certificate. */
   x509CertificateProperties?: X509CertificateProperties;
-  /**
-   * Actions that will be performed by Key Vault over the lifetime of a certificate.
-   */
+  /** Actions that will be performed by Key Vault over the lifetime of a certificate. */
   lifetimeActions?: LifetimeAction[];
-  /**
-   * Parameters for the issuer of the X509 component of a certificate.
-   */
+  /** Parameters for the issuer of the X509 component of a certificate. */
   issuerParameters?: IssuerParameters;
-  /**
-   * The certificate attributes.
-   */
+  /** The certificate attributes. */
   attributes?: CertificateAttributes;
 }
 
-/**
- * Properties of the key pair backing a certificate.
- */
+/** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
-  /**
-   * Indicates if the private key can be exported.
-   */
+  /** Indicates if the private key can be exported. */
   exportable?: boolean;
-  /**
-   * The type of key pair to be used for the certificate.
-   */
+  /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
-  /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
-   */
+  /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
   keySize?: number;
-  /**
-   * Indicates if the same key pair will be used on certificate renewal.
-   */
+  /** Indicates if the same key pair will be used on certificate renewal. */
   reuseKey?: boolean;
-  /**
-   * Elliptic curve name. For valid values, see JsonWebKeyCurveName.
-   */
+  /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
   curve?: JsonWebKeyCurveName;
 }
 
-/**
- * Properties of the key backing a certificate.
- */
+/** Properties of the key backing a certificate. */
 export interface SecretProperties {
-  /**
-   * The media type (MIME type).
-   */
+  /** The media type (MIME type). */
   contentType?: string;
 }
 
-/**
- * Properties of the X509 component of a certificate.
- */
+/** Properties of the X509 component of a certificate. */
 export interface X509CertificateProperties {
-  /**
-   * The subject name. Should be a valid X509 distinguished Name.
-   */
+  /** The subject name. Should be a valid X509 distinguished Name. */
   subject?: string;
-  /**
-   * The enhanced key usage.
-   */
+  /** The enhanced key usage. */
   ekus?: string[];
-  /**
-   * The subject alternative names.
-   */
+  /** The subject alternative names. */
   subjectAlternativeNames?: SubjectAlternativeNames;
-  /**
-   * List of key usages.
-   */
+  /** List of key usages. */
   keyUsage?: KeyUsageType[];
-  /**
-   * The duration that the certificate is valid in months.
-   */
+  /** The duration that the certificate is valid in months. */
   validityInMonths?: number;
 }
 
-/**
- * The subject alternate names of a X509 object.
- */
+/** The subject alternate names of a X509 object. */
 export interface SubjectAlternativeNames {
-  /**
-   * Email addresses.
-   */
+  /** Email addresses. */
   emails?: string[];
-  /**
-   * Domain names.
-   */
+  /** Domain names. */
   dnsNames?: string[];
-  /**
-   * User principal names.
-   */
+  /** User principal names. */
   upns?: string[];
 }
 
-/**
- * Action and its trigger that will be performed by Key Vault over the lifetime of a certificate.
- */
+/** Action and its trigger that will be performed by Key Vault over the lifetime of a certificate. */
 export interface LifetimeAction {
-  /**
-   * The condition that will execute the action.
-   */
+  /** The condition that will execute the action. */
   trigger?: Trigger;
-  /**
-   * The action that will be executed.
-   */
+  /** The action that will be executed. */
   action?: Action;
 }
 
-/**
- * A condition to be satisfied for an action to be executed.
- */
+/** A condition to be satisfied for an action to be executed. */
 export interface Trigger {
-  /**
-   * Percentage of lifetime at which to trigger. Value should be between 1 and 99.
-   */
+  /** Percentage of lifetime at which to trigger. Value should be between 1 and 99. */
   lifetimePercentage?: number;
-  /**
-   * Days before expiry to attempt renewal. Value should be between 1 and validity_in_months multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 * 27).
-   */
+  /** Days before expiry to attempt renewal. Value should be between 1 and validity_in_months multiplied by 27. If validity_in_months is 36, then value should be between 1 and 972 (36 * 27). */
   daysBeforeExpiry?: number;
 }
 
-/**
- * The action that will be executed.
- */
+/** The action that will be executed. */
 export interface Action {
-  /**
-   * The type of the action.
-   */
+  /** The type of the action. */
   actionType?: ActionType;
 }
 
-/**
- * Parameters for the issuer of the X509 component of a certificate.
- */
+/** Parameters for the issuer of the X509 component of a certificate. */
 export interface IssuerParameters {
-  /**
-   * Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'.
-   */
+  /** Name of the referenced issuer object or reserved names; for example, 'Self' or 'Unknown'. */
   name?: string;
-  /**
-   * Certificate type as supported by the provider (optional); for example 'OV-SSL', 'EV-SSL'
-   */
+  /** Certificate type as supported by the provider (optional); for example 'OV-SSL', 'EV-SSL' */
   certificateType?: string;
-  /**
-   * Indicates if the certificates generated under this policy should be published to certificate transparency logs.
-   */
+  /** Indicates if the certificates generated under this policy should be published to certificate transparency logs. */
   certificateTransparency?: boolean;
 }
 
-/**
- * The contacts for the vault certificates.
- */
+/** The contacts for the vault certificates. */
 export interface Contacts {
   /**
    * Identifier for the contacts collection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * The contact list for the vault certificates.
-   */
+  /** The contact list for the vault certificates. */
   contactList?: Contact[];
 }
 
-/**
- * The contact information for the vault certificates.
- */
+/** The contact information for the vault certificates. */
 export interface Contact {
-  /**
-   * Email address.
-   */
+  /** Email address. */
   emailAddress?: string;
-  /**
-   * Name.
-   */
+  /** Name. */
   name?: string;
-  /**
-   * Phone number.
-   */
+  /** Phone number. */
   phone?: string;
 }
 
-/**
- * The certificate issuer list result.
- */
+/** The certificate issuer list result. */
 export interface CertificateIssuerListResult {
   /**
    * A response message containing a list of certificate issuers in the key vault along with a link to the next page of certificate issuers.
@@ -373,99 +251,57 @@ export interface CertificateIssuerListResult {
   readonly nextLink?: string;
 }
 
-/**
- * The certificate issuer item containing certificate issuer metadata.
- */
+/** The certificate issuer item containing certificate issuer metadata. */
 export interface CertificateIssuerItem {
-  /**
-   * Certificate Identifier.
-   */
+  /** Certificate Identifier. */
   id?: string;
-  /**
-   * The issuer provider.
-   */
+  /** The issuer provider. */
   provider?: string;
 }
 
-/**
- * The certificate issuer set parameters.
- */
+/** The certificate issuer set parameters. */
 export interface CertificateIssuerSetParameters {
-  /**
-   * The issuer provider.
-   */
+  /** The issuer provider. */
   provider: string;
-  /**
-   * The credentials to be used for the issuer.
-   */
+  /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
-  /**
-   * Details of the organization as provided to the issuer.
-   */
+  /** Details of the organization as provided to the issuer. */
   organizationDetails?: OrganizationDetails;
-  /**
-   * Attributes of the issuer object.
-   */
+  /** Attributes of the issuer object. */
   attributes?: IssuerAttributes;
 }
 
-/**
- * The credentials to be used for the certificate issuer.
- */
+/** The credentials to be used for the certificate issuer. */
 export interface IssuerCredentials {
-  /**
-   * The user name/account name/account id.
-   */
+  /** The user name/account name/account id. */
   accountId?: string;
-  /**
-   * The password/secret/account key.
-   */
+  /** The password/secret/account key. */
   password?: string;
 }
 
-/**
- * Details of the organization of the certificate issuer.
- */
+/** Details of the organization of the certificate issuer. */
 export interface OrganizationDetails {
-  /**
-   * Id of the organization.
-   */
+  /** Id of the organization. */
   id?: string;
-  /**
-   * Details of the organization administrator.
-   */
+  /** Details of the organization administrator. */
   adminDetails?: AdministratorDetails[];
 }
 
-/**
- * Details of the organization administrator of the certificate issuer.
- */
+/** Details of the organization administrator of the certificate issuer. */
 export interface AdministratorDetails {
-  /**
-   * First name.
-   */
+  /** First name. */
   firstName?: string;
-  /**
-   * Last name.
-   */
+  /** Last name. */
   lastName?: string;
-  /**
-   * Email address.
-   */
+  /** Email address. */
   emailAddress?: string;
-  /**
-   * Phone number.
-   */
+  /** Phone number. */
   phone?: string;
 }
 
-/**
- * The attributes of an issuer managed by the Key Vault service.
- */
+/** The attributes of an issuer managed by the Key Vault service. */
 export interface IssuerAttributes {
-  /**
-   * Determines whether the issuer is enabled.
-   */
+  /** Determines whether the issuer is enabled. */
   enabled?: boolean;
   /**
    * Creation time in UTC.
@@ -479,191 +315,111 @@ export interface IssuerAttributes {
   readonly updated?: Date;
 }
 
-/**
- * The issuer for Key Vault certificate.
- */
+/** The issuer for Key Vault certificate. */
 export interface IssuerBundle {
   /**
    * Identifier for the issuer object.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * The issuer provider.
-   */
+  /** The issuer provider. */
   provider?: string;
-  /**
-   * The credentials to be used for the issuer.
-   */
+  /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
-  /**
-   * Details of the organization as provided to the issuer.
-   */
+  /** Details of the organization as provided to the issuer. */
   organizationDetails?: OrganizationDetails;
-  /**
-   * Attributes of the issuer object.
-   */
+  /** Attributes of the issuer object. */
   attributes?: IssuerAttributes;
 }
 
-/**
- * The certificate issuer update parameters.
- */
+/** The certificate issuer update parameters. */
 export interface CertificateIssuerUpdateParameters {
-  /**
-   * The issuer provider.
-   */
+  /** The issuer provider. */
   provider?: string;
-  /**
-   * The credentials to be used for the issuer.
-   */
+  /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
-  /**
-   * Details of the organization as provided to the issuer.
-   */
+  /** Details of the organization as provided to the issuer. */
   organizationDetails?: OrganizationDetails;
-  /**
-   * Attributes of the issuer object.
-   */
+  /** Attributes of the issuer object. */
   attributes?: IssuerAttributes;
 }
 
-/**
- * The certificate create parameters.
- */
+/** The certificate create parameters. */
 export interface CertificateCreateParameters {
-  /**
-   * The management policy for the certificate.
-   */
+  /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * A certificate operation is returned in case of asynchronous requests.
- */
+/** A certificate operation is returned in case of asynchronous requests. */
 export interface CertificateOperation {
   /**
    * The certificate id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * Parameters for the issuer of the X509 component of a certificate.
-   */
+  /** Parameters for the issuer of the X509 component of a certificate. */
   issuerParameters?: IssuerParameters;
-  /**
-   * The certificate signing request (CSR) that is being used in the certificate operation.
-   */
+  /** The certificate signing request (CSR) that is being used in the certificate operation. */
   csr?: Uint8Array;
-  /**
-   * Indicates if cancellation was requested on the certificate operation.
-   */
+  /** Indicates if cancellation was requested on the certificate operation. */
   cancellationRequested?: boolean;
-  /**
-   * Status of the certificate operation.
-   */
+  /** Status of the certificate operation. */
   status?: string;
-  /**
-   * The status details of the certificate operation.
-   */
+  /** The status details of the certificate operation. */
   statusDetails?: string;
-  /**
-   * Error encountered, if any, during the certificate operation.
-   */
+  /** Error encountered, if any, during the certificate operation. */
   error?: ErrorModel;
-  /**
-   * Location which contains the result of the certificate operation.
-   */
+  /** Location which contains the result of the certificate operation. */
   target?: string;
-  /**
-   * Identifier for the certificate operation.
-   */
+  /** Identifier for the certificate operation. */
   requestId?: string;
 }
 
-/**
- * The certificate import parameters.
- */
+/** The certificate import parameters. */
 export interface CertificateImportParameters {
-  /**
-   * Base64 encoded representation of the certificate object to import. This certificate needs to contain the private key.
-   */
+  /** Base64 encoded representation of the certificate object to import. This certificate needs to contain the private key. */
   base64EncodedCertificate: string;
-  /**
-   * If the private key in base64EncodedCertificate is encrypted, the password used for encryption.
-   */
+  /** If the private key in base64EncodedCertificate is encrypted, the password used for encryption. */
   password?: string;
-  /**
-   * The management policy for the certificate.
-   */
+  /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * The certificate update parameters.
- */
+/** The certificate update parameters. */
 export interface CertificateUpdateParameters {
-  /**
-   * The management policy for the certificate.
-   */
+  /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * The certificate operation update parameters.
- */
+/** The certificate operation update parameters. */
 export interface CertificateOperationUpdateParameter {
-  /**
-   * Indicates if cancellation was requested on the certificate operation.
-   */
+  /** Indicates if cancellation was requested on the certificate operation. */
   cancellationRequested: boolean;
 }
 
-/**
- * The certificate merge parameters
- */
+/** The certificate merge parameters */
 export interface CertificateMergeParameters {
-  /**
-   * The certificate or the certificate chain to merge.
-   */
+  /** The certificate or the certificate chain to merge. */
   x509Certificates: Uint8Array[];
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * The backup certificate result, containing the backup blob.
- */
+/** The backup certificate result, containing the backup blob. */
 export interface BackupCertificateResult {
   /**
    * The backup blob containing the backed up certificate.
@@ -672,19 +428,13 @@ export interface BackupCertificateResult {
   readonly value?: Uint8Array;
 }
 
-/**
- * The certificate restore parameters.
- */
+/** The certificate restore parameters. */
 export interface CertificateRestoreParameters {
-  /**
-   * The backup blob associated with a certificate bundle.
-   */
+  /** The backup blob associated with a certificate bundle. */
   certificateBundleBackup: Uint8Array;
 }
 
-/**
- * A list of certificates that have been deleted in this vault.
- */
+/** A list of certificates that have been deleted in this vault. */
 export interface DeletedCertificateListResult {
   /**
    * A response message containing a list of deleted certificates in the vault along with a link to the next page of deleted certificates
@@ -698,9 +448,7 @@ export interface DeletedCertificateListResult {
   readonly nextLink?: string;
 }
 
-/**
- * The pending certificate signing request result.
- */
+/** The pending certificate signing request result. */
 export interface PendingCertificateSigningRequestResult {
   /**
    * The pending certificate signing request as Base64 encoded string.
@@ -709,13 +457,9 @@ export interface PendingCertificateSigningRequestResult {
   readonly value?: string;
 }
 
-/**
- * The deleted certificate item containing metadata about the deleted certificate.
- */
+/** The deleted certificate item containing metadata about the deleted certificate. */
 export type DeletedCertificateItem = CertificateItem & {
-  /**
-   * The url of the recovery object, used to identify and recover the deleted certificate.
-   */
+  /** The url of the recovery object, used to identify and recover the deleted certificate. */
   recoveryId?: string;
   /**
    * The time when the certificate is scheduled to be purged, in UTC
@@ -729,9 +473,7 @@ export type DeletedCertificateItem = CertificateItem & {
   readonly deletedDate?: Date;
 };
 
-/**
- * The certificate management attributes.
- */
+/** The certificate management attributes. */
 export type CertificateAttributes = Attributes & {
   /**
    * softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
@@ -745,13 +487,9 @@ export type CertificateAttributes = Attributes & {
   readonly recoveryLevel?: DeletionRecoveryLevel;
 };
 
-/**
- * A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged.
- */
+/** A Deleted Certificate consisting of its previous id, attributes and its tags, as well as information on when it will be purged. */
 export type DeletedCertificateBundle = CertificateBundle & {
-  /**
-   * The url of the recovery object, used to identify and recover the deleted certificate.
-   */
+  /** The url of the recovery object, used to identify and recover the deleted certificate. */
   recoveryId?: string;
   /**
    * The time when the certificate is scheduled to be purged, in UTC
@@ -765,13 +503,9 @@ export type DeletedCertificateBundle = CertificateBundle & {
   readonly deletedDate?: Date;
 };
 
-/**
- * Known values of {@link ApiVersion72Preview} that the service accepts.
- */
+/** Known values of {@link ApiVersion72Preview} that the service accepts. */
 export const enum KnownApiVersion72Preview {
-  /**
-   * Api Version '7.2-preview'
-   */
+  /** Api Version '7.2-preview' */
   Seven2Preview = "7.2-preview"
 }
 
@@ -784,37 +518,21 @@ export const enum KnownApiVersion72Preview {
  */
 export type ApiVersion72Preview = string;
 
-/**
- * Known values of {@link DeletionRecoveryLevel} that the service accepts.
- */
+/** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export const enum KnownDeletionRecoveryLevel {
-  /**
-   * Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.)
-   */
+  /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
   Purgeable = "Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered
-   */
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
   RecoverablePurgeable = "Recoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered
-   */
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered */
   Recoverable = "Recoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered
-   */
+  /** Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered */
   RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled.
-   */
+  /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled. */
   CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available.
-   */
+  /** Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available. */
   CustomizedRecoverable = "CustomizedRecoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
-   */
+  /** Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled. */
   CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription"
 }
 
@@ -833,9 +551,7 @@ export const enum KnownDeletionRecoveryLevel {
  */
 export type DeletionRecoveryLevel = string;
 
-/**
- * Known values of {@link JsonWebKeyType} that the service accepts.
- */
+/** Known values of {@link JsonWebKeyType} that the service accepts. */
 export const enum KnownJsonWebKeyType {
   /**
    * EC Key Type.
@@ -877,9 +593,7 @@ export const enum KnownJsonWebKeyType {
  */
 export type JsonWebKeyType = string;
 
-/**
- * Known values of {@link JsonWebKeyCurveName} that the service accepts.
- */
+/** Known values of {@link JsonWebKeyCurveName} that the service accepts. */
 export const enum KnownJsonWebKeyCurveName {
   /**
    * P-256 Key Curve.
@@ -911,9 +625,7 @@ export const enum KnownJsonWebKeyCurveName {
  */
 export type JsonWebKeyCurveName = string;
 
-/**
- * Known values of {@link KeyUsageType} that the service accepts.
- */
+/** Known values of {@link KeyUsageType} that the service accepts. */
 export const enum KnownKeyUsageType {
   /**
    * DigitalSignature Usage Type.
@@ -969,840 +681,504 @@ export const enum KnownKeyUsageType {
  * **decipherOnly**
  */
 export type KeyUsageType = string;
-/**
- * Defines values for ActionType.
- */
+/** Defines values for ActionType. */
 export type ActionType = "EmailContacts" | "AutoRenew";
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetCertificatesOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
-  /**
-   * Specifies whether to include certificates which are not completely provisioned.
-   */
+  /** Specifies whether to include certificates which are not completely provisioned. */
   includePending?: boolean;
 }
 
-/**
- * Contains response data for the getCertificates operation.
- */
+/** Contains response data for the getCertificates operation. */
 export type KeyVaultClientGetCertificatesResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateListResult;
   };
 };
 
-/**
- * Contains response data for the deleteCertificate operation.
- */
+/** Contains response data for the deleteCertificate operation. */
 export type KeyVaultClientDeleteCertificateResponse = DeletedCertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedCertificateBundle;
   };
 };
 
-/**
- * Contains response data for the setCertificateContacts operation.
- */
+/** Contains response data for the setCertificateContacts operation. */
 export type KeyVaultClientSetCertificateContactsResponse = Contacts & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Contacts;
   };
 };
 
-/**
- * Contains response data for the getCertificateContacts operation.
- */
+/** Contains response data for the getCertificateContacts operation. */
 export type KeyVaultClientGetCertificateContactsResponse = Contacts & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Contacts;
   };
 };
 
-/**
- * Contains response data for the deleteCertificateContacts operation.
- */
+/** Contains response data for the deleteCertificateContacts operation. */
 export type KeyVaultClientDeleteCertificateContactsResponse = Contacts & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: Contacts;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetCertificateIssuersOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getCertificateIssuers operation.
- */
+/** Contains response data for the getCertificateIssuers operation. */
 export type KeyVaultClientGetCertificateIssuersResponse = CertificateIssuerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateIssuerListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientSetCertificateIssuerOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * The credentials to be used for the issuer.
-   */
+  /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
-  /**
-   * Details of the organization as provided to the issuer.
-   */
+  /** Details of the organization as provided to the issuer. */
   organizationDetails?: OrganizationDetails;
-  /**
-   * Attributes of the issuer object.
-   */
+  /** Attributes of the issuer object. */
   attributes?: IssuerAttributes;
 }
 
-/**
- * Contains response data for the setCertificateIssuer operation.
- */
+/** Contains response data for the setCertificateIssuer operation. */
 export type KeyVaultClientSetCertificateIssuerResponse = IssuerBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IssuerBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientUpdateCertificateIssuerOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * The issuer provider.
-   */
+  /** The issuer provider. */
   provider?: string;
-  /**
-   * The credentials to be used for the issuer.
-   */
+  /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
-  /**
-   * Details of the organization as provided to the issuer.
-   */
+  /** Details of the organization as provided to the issuer. */
   organizationDetails?: OrganizationDetails;
-  /**
-   * Attributes of the issuer object.
-   */
+  /** Attributes of the issuer object. */
   attributes?: IssuerAttributes;
 }
 
-/**
- * Contains response data for the updateCertificateIssuer operation.
- */
+/** Contains response data for the updateCertificateIssuer operation. */
 export type KeyVaultClientUpdateCertificateIssuerResponse = IssuerBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IssuerBundle;
   };
 };
 
-/**
- * Contains response data for the getCertificateIssuer operation.
- */
+/** Contains response data for the getCertificateIssuer operation. */
 export type KeyVaultClientGetCertificateIssuerResponse = IssuerBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IssuerBundle;
   };
 };
 
-/**
- * Contains response data for the deleteCertificateIssuer operation.
- */
+/** Contains response data for the deleteCertificateIssuer operation. */
 export type KeyVaultClientDeleteCertificateIssuerResponse = IssuerBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IssuerBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientCreateCertificateOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * The management policy for the certificate.
-   */
+  /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Contains response data for the createCertificate operation.
- */
+/** Contains response data for the createCertificate operation. */
 export type KeyVaultClientCreateCertificateResponse = CertificateOperation & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateOperation;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientImportCertificateOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * If the private key in base64EncodedCertificate is encrypted, the password used for encryption.
-   */
+  /** If the private key in base64EncodedCertificate is encrypted, the password used for encryption. */
   password?: string;
-  /**
-   * The management policy for the certificate.
-   */
+  /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Contains response data for the importCertificate operation.
- */
+/** Contains response data for the importCertificate operation. */
 export type KeyVaultClientImportCertificateResponse = CertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetCertificateVersionsOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getCertificateVersions operation.
- */
+/** Contains response data for the getCertificateVersions operation. */
 export type KeyVaultClientGetCertificateVersionsResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateListResult;
   };
 };
 
-/**
- * Contains response data for the getCertificatePolicy operation.
- */
+/** Contains response data for the getCertificatePolicy operation. */
 export type KeyVaultClientGetCertificatePolicyResponse = CertificatePolicy & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificatePolicy;
   };
 };
 
-/**
- * Contains response data for the updateCertificatePolicy operation.
- */
+/** Contains response data for the updateCertificatePolicy operation. */
 export type KeyVaultClientUpdateCertificatePolicyResponse = CertificatePolicy & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificatePolicy;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientUpdateCertificateOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * The management policy for the certificate.
-   */
+  /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Contains response data for the updateCertificate operation.
- */
+/** Contains response data for the updateCertificate operation. */
 export type KeyVaultClientUpdateCertificateResponse = CertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateBundle;
   };
 };
 
-/**
- * Contains response data for the getCertificate operation.
- */
+/** Contains response data for the getCertificate operation. */
 export type KeyVaultClientGetCertificateResponse = CertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateBundle;
   };
 };
 
-/**
- * Contains response data for the updateCertificateOperation operation.
- */
+/** Contains response data for the updateCertificateOperation operation. */
 export type KeyVaultClientUpdateCertificateOperationResponse = CertificateOperation & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateOperation;
   };
 };
 
-/**
- * Contains response data for the getCertificateOperation operation.
- */
+/** Contains response data for the getCertificateOperation operation. */
 export type KeyVaultClientGetCertificateOperationResponse = CertificateOperation & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateOperation;
   };
 };
 
-/**
- * Contains response data for the deleteCertificateOperation operation.
- */
+/** Contains response data for the deleteCertificateOperation operation. */
 export type KeyVaultClientDeleteCertificateOperationResponse = CertificateOperation & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateOperation;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientMergeCertificateOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * The attributes of the certificate (optional).
-   */
+  /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
-  /**
-   * Application specific metadata in the form of key-value pairs.
-   */
+  /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Contains response data for the mergeCertificate operation.
- */
+/** Contains response data for the mergeCertificate operation. */
 export type KeyVaultClientMergeCertificateResponse = CertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateBundle;
   };
 };
 
-/**
- * Contains response data for the backupCertificate operation.
- */
+/** Contains response data for the backupCertificate operation. */
 export type KeyVaultClientBackupCertificateResponse = BackupCertificateResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: BackupCertificateResult;
   };
 };
 
-/**
- * Contains response data for the restoreCertificate operation.
- */
+/** Contains response data for the restoreCertificate operation. */
 export type KeyVaultClientRestoreCertificateResponse = CertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetDeletedCertificatesOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
-  /**
-   * Specifies whether to include certificates which are not completely provisioned.
-   */
+  /** Specifies whether to include certificates which are not completely provisioned. */
   includePending?: boolean;
 }
 
-/**
- * Contains response data for the getDeletedCertificates operation.
- */
+/** Contains response data for the getDeletedCertificates operation. */
 export type KeyVaultClientGetDeletedCertificatesResponse = DeletedCertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedCertificateListResult;
   };
 };
 
-/**
- * Contains response data for the getDeletedCertificate operation.
- */
+/** Contains response data for the getDeletedCertificate operation. */
 export type KeyVaultClientGetDeletedCertificateResponse = DeletedCertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedCertificateBundle;
   };
 };
 
-/**
- * Contains response data for the recoverDeletedCertificate operation.
- */
+/** Contains response data for the recoverDeletedCertificate operation. */
 export type KeyVaultClientRecoverDeletedCertificateResponse = CertificateBundle & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateBundle;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetCertificatesNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
-  /**
-   * Specifies whether to include certificates which are not completely provisioned.
-   */
+  /** Specifies whether to include certificates which are not completely provisioned. */
   includePending?: boolean;
 }
 
-/**
- * Contains response data for the getCertificatesNext operation.
- */
+/** Contains response data for the getCertificatesNext operation. */
 export type KeyVaultClientGetCertificatesNextResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetCertificateIssuersNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getCertificateIssuersNext operation.
- */
+/** Contains response data for the getCertificateIssuersNext operation. */
 export type KeyVaultClientGetCertificateIssuersNextResponse = CertificateIssuerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateIssuerListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetCertificateVersionsNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
-/**
- * Contains response data for the getCertificateVersionsNext operation.
- */
+/** Contains response data for the getCertificateVersionsNext operation. */
 export type KeyVaultClientGetCertificateVersionsNextResponse = CertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: CertificateListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientGetDeletedCertificatesNextOptionalParams
   extends coreHttp.OperationOptions {
-  /**
-   * Maximum number of results to return in a page. If not specified the service will return up to 25 results.
-   */
+  /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
-  /**
-   * Specifies whether to include certificates which are not completely provisioned.
-   */
+  /** Specifies whether to include certificates which are not completely provisioned. */
   includePending?: boolean;
 }
 
-/**
- * Contains response data for the getDeletedCertificatesNext operation.
- */
+/** Contains response data for the getDeletedCertificatesNext operation. */
 export type KeyVaultClientGetDeletedCertificatesNextResponse = DeletedCertificateListResult & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DeletedCertificateListResult;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface KeyVaultClientOptionalParams
   extends coreHttp.ServiceClientOptions {
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }
