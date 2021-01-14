@@ -8,7 +8,6 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { AttestationClient } from "../../src";
 import { Buffer } from "../utils/Buffer";
 
 describe("TokenCertTests", function() {
@@ -24,8 +23,7 @@ describe("TokenCertTests", function() {
   });
 
   it("#GetCertificatesAAD", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
@@ -38,8 +36,7 @@ describe("TokenCertTests", function() {
     }
   });
   it("#GetCertificatesIsolated", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("Isolated");
+    const client = createRecordedClient("Isolated");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
@@ -53,8 +50,7 @@ describe("TokenCertTests", function() {
   });
 
   it("#GetCertificatesShared", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("Shared");
+    const client = createRecordedClient("Shared");
     const signingCertificates = await client.signingCertificates.get();
     const certs = signingCertificates.keys!;
     assert(certs.length > 0);
