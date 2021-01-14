@@ -50,7 +50,7 @@ export class MarketplaceAgreements {
   }
 
   /**
-   * @summary Create Confluent Marketplace agreement in the subscription.
+   * @summary Accept marketplace terms.
    * @param [options] The optional parameters
    * @returns Promise<Models.MarketplaceAgreementsCreateResponse>
    */

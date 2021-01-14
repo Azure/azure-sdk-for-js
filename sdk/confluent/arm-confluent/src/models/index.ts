@@ -12,9 +12,24 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Terms properties for Marketplace and Confluent.
+ * Confluent Agreements Resource.
  */
-export interface ConfluentAgreementProperties {
+export interface ConfluentAgreementResource extends BaseResource {
+  /**
+   * ARM id of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the agreement.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
   /**
    * Publisher identifier string.
    */
@@ -47,31 +62,6 @@ export interface ConfluentAgreementProperties {
    * If any version of the terms have been accepted, otherwise false.
    */
   accepted?: boolean;
-}
-
-/**
- * Agreement Terms definition
- */
-export interface ConfluentAgreementResource extends BaseResource {
-  /**
-   * The ARM id of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the agreement.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the agreement.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Represents the properties of the resource.
-   */
-  properties?: ConfluentAgreementProperties;
 }
 
 /**
@@ -108,6 +98,10 @@ export interface OperationResult {
    * The object that represents the operation.
    */
   display?: OperationDisplay;
+  /**
+   * Indicates whether the operation is a data action
+   */
+  isDataAction?: boolean;
 }
 
 /**
@@ -316,6 +310,9 @@ export interface OrganizationResourceUpdate {
  * Optional Parameters.
  */
 export interface MarketplaceAgreementsCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Confluent Agreement resource
+   */
   body?: ConfluentAgreementResource;
 }
 
@@ -358,7 +355,7 @@ export interface ConfluentManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * Response of a agreements operation.
+ * Response of a list operation.
  * @extends Array<ConfluentAgreementResource>
  */
 export interface ConfluentAgreementResourceListResponse extends Array<ConfluentAgreementResource> {

@@ -8,7 +8,6 @@
 
 export {
   BaseResource,
-  ConfluentAgreementProperties,
   ConfluentAgreementResource,
   ErrorResponseBody,
   OfferDetail,

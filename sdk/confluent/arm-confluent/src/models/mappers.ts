@@ -12,64 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const ConfluentAgreementProperties: msRest.CompositeMapper = {
-  serializedName: "ConfluentAgreementProperties",
-  type: {
-    name: "Composite",
-    className: "ConfluentAgreementProperties",
-    modelProperties: {
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      product: {
-        serializedName: "product",
-        type: {
-          name: "String"
-        }
-      },
-      plan: {
-        serializedName: "plan",
-        type: {
-          name: "String"
-        }
-      },
-      licenseTextLink: {
-        serializedName: "licenseTextLink",
-        type: {
-          name: "String"
-        }
-      },
-      privacyPolicyLink: {
-        serializedName: "privacyPolicyLink",
-        type: {
-          name: "String"
-        }
-      },
-      retrieveDatetime: {
-        serializedName: "retrieveDatetime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      signature: {
-        serializedName: "signature",
-        type: {
-          name: "String"
-        }
-      },
-      accepted: {
-        serializedName: "accepted",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const ConfluentAgreementResource: msRest.CompositeMapper = {
   serializedName: "ConfluentAgreementResource",
   type: {
@@ -97,11 +39,52 @@ export const ConfluentAgreementResource: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      properties: {
-        serializedName: "properties",
+      publisher: {
+        serializedName: "properties.publisher",
         type: {
-          name: "Composite",
-          className: "ConfluentAgreementProperties"
+          name: "String"
+        }
+      },
+      product: {
+        serializedName: "properties.product",
+        type: {
+          name: "String"
+        }
+      },
+      plan: {
+        serializedName: "properties.plan",
+        type: {
+          name: "String"
+        }
+      },
+      licenseTextLink: {
+        serializedName: "properties.licenseTextLink",
+        type: {
+          name: "String"
+        }
+      },
+      privacyPolicyLink: {
+        serializedName: "properties.privacyPolicyLink",
+        type: {
+          name: "String"
+        }
+      },
+      retrieveDatetime: {
+        serializedName: "properties.retrieveDatetime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      signature: {
+        serializedName: "properties.signature",
+        type: {
+          name: "String"
+        }
+      },
+      accepted: {
+        serializedName: "properties.accepted",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -159,6 +142,12 @@ export const OperationResult: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "OperationDisplay"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -315,7 +304,7 @@ export const UserDetail: msRest.CompositeMapper = {
       emailAddress: {
         serializedName: "emailAddress",
         constraints: {
-          Pattern: /^\S+@\S+\.\S+$/
+          Pattern: /\S+@\S+\.\S+/
         },
         type: {
           name: "String"
