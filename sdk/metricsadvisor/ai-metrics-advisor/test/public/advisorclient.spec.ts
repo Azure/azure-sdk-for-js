@@ -13,7 +13,10 @@ import {
 } from "../../src";
 import { createRecordedAdvisorClient, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
+import { matrix } from "./util/matrix";
 
+matrix([[true, false]] as const, async (useAad) => {
+  describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
 describe("MetricsAdvisorClient", () => {
   let client: MetricsAdvisorClient;
   let recorder: Recorder;
@@ -634,3 +637,5 @@ describe("MetricsAdvisorClient", () => {
     });
   });
 }).timeout(60000);
+  });
+});
