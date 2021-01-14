@@ -7,12 +7,12 @@ import {
   CommunicationUserIdentifier,
   CommunicationTokenCredential
 } from "@azure/communication-common";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -101,7 +101,7 @@ export class ChatThreadClient {
       }
     };
 
-    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
+    const authPolicy = bearerTokenAuthenticationPolicy(this.tokenCredential, []);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new ChatApiClient(this.url, pipeline);

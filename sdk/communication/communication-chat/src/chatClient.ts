@@ -16,12 +16,12 @@ import {
   TypingIndicatorReceivedEvent
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -94,7 +94,7 @@ export class ChatClient {
       }
     };
 
-    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
+    const authPolicy = bearerTokenAuthenticationPolicy(this.tokenCredential, []);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new ChatApiClient(this.url, pipeline);
