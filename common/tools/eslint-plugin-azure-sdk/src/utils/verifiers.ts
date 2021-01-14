@@ -196,7 +196,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
       (element: any): boolean => element.type !== "Literal"
     );
 
-    if (nonLiteral !== undefined) {
+    if (nonLiteral !== undefined && nonLiteral !== null) {
       context.report({
         node: nonLiteral,
         message: `${outer} contains non-literal (string | boolean | null | number | RegExp) elements`
