@@ -16,6 +16,10 @@ jobs:
         vmImage: ubuntu-18.04
       displayName: Check Smoke Test Eligibility
       steps:
+        - template: /eng/pipelines/templates/steps/use-node-version.yml
+          parameters:
+            NodeVersion: $(NodeTestVersion)
+
         - pwsh: npm install -g
           workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
           displayName: Install dev-tool
