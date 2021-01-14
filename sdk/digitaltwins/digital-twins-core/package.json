@@ -45,7 +45,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/digitalTwinsClient.d.ts",
+    "types/digital-twins-client.d.ts",
     "README.md",
     "LICENSE"
   ],
