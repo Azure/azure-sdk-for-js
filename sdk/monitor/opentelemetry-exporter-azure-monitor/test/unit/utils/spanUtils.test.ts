@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing";
-import { SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { SpanKind, StatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource, SERVICE_RESOURCE } from "@opentelemetry/resources";
@@ -86,6 +86,7 @@ describe("spanUtils.ts", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const span = new Span(
           tracer,
+          ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
@@ -93,14 +94,14 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [grpc.GRPC_STATUS_CODE]: CanonicalCode.OK,
+          [grpc.GRPC_STATUS_CODE]: StatusCode.OK,
           [grpc.GRPC_KIND]: SpanKind.SERVER,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
           [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
-          code: CanonicalCode.OK
+          code: StatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -141,6 +142,7 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans", () => {
         const span = new Span(
           tracer,
+          ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
@@ -148,14 +150,14 @@ describe("spanUtils.ts", () => {
         );
         span.setAttributes({
           "extra.attribute": "foo",
-          [grpc.GRPC_STATUS_CODE]: CanonicalCode.OK,
+          [grpc.GRPC_STATUS_CODE]: StatusCode.OK,
           [grpc.GRPC_KIND]: SpanKind.CLIENT,
           [grpc.GRPC_METHOD]: "/foo.Example/Foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
           [grpc.GRPC_ERROR_NAME]: "some error name"
         });
         span.setStatus({
-          code: CanonicalCode.OK
+          code: StatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -198,6 +200,7 @@ describe("spanUtils.ts", () => {
       it("should create a Request Envelope for Server Spans", () => {
         const span = new Span(
           tracer,
+          ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
@@ -207,7 +210,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK
+          code: StatusCode.OK
         });
         span.end();
         const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
@@ -247,6 +250,7 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans", () => {
         const span = new Span(
           tracer,
+          ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
@@ -256,7 +260,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK
+          code: StatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -297,6 +301,7 @@ describe("spanUtils.ts", () => {
       it("(HTTP) should create a Request Envelope for Server Spans", () => {
         const span = new Span(
           tracer,
+          ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
@@ -310,7 +315,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK
+          code: StatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {
@@ -351,6 +356,7 @@ describe("spanUtils.ts", () => {
       it("should create a Dependency Envelope for Client Spans", () => {
         const span = new Span(
           tracer,
+          ROOT_CONTEXT,
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
@@ -363,7 +369,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo"
         });
         span.setStatus({
-          code: CanonicalCode.OK
+          code: StatusCode.OK
         });
         span.end();
         const expectedTags: Tags = {

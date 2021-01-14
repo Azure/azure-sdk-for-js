@@ -10,10 +10,12 @@ export class FlushSpanProcessor implements SpanProcessor {
   private _spans: ReadableSpan[] = [];
   constructor(public exporter: SpanExporter) {}
 
-  forceFlush(callback: () => void): void {
-    this.exporter.export(this._spans, () => {
-      this._spans = [];
-      callback();
+  forceFlush(): Promise<void> {
+    return new Promise((resolve) => {
+      this.exporter.export(this._spans, () => {
+        this._spans = [];
+        resolve();
+      });
     });
   }
 
@@ -23,7 +25,7 @@ export class FlushSpanProcessor implements SpanProcessor {
   onEnd(span: ReadableSpan): void {
     this._spans.push(span);
   }
-  shutdown(): void {
-    // no op
+  shutdown(): Promise<void> {
+    return Promise.resolve();
   }
 }

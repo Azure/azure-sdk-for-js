@@ -16,7 +16,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [issueToken.ts][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
 | [revokeTokens.ts][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
 | [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
-| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release all phone numbers that match certain criteria          |
+| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers.                                         |
 
 ## Prerequisites
 

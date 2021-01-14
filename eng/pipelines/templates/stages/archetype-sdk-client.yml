@@ -34,7 +34,8 @@ stages:
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           Artifacts: ${{ parameters.Artifacts }}
-          TestPipeline: ${{ parameters.TestPipeline }}
+          ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+            TestPipeline: true
           RunUnitTests: ${{ parameters.RunUnitTests }}
           WindowsPool: ${{ parameters.WindowsPool }}
           LinuxPool: ${{ parameters.LinuxPool }}
@@ -46,7 +47,8 @@ stages:
         DependsOn: Build
         ServiceDirectory: ${{ parameters.ServiceDirectory }}
         Artifacts: ${{ parameters.Artifacts }}
-        TestPipeline: ${{ parameters.TestPipeline }}
+        ${{ if eq(parameters.ServiceDirectory, 'template') }}:
+          TestPipeline: true
         ArtifactName: packages
         TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
         TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
