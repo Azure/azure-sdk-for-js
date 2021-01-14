@@ -746,6 +746,50 @@ export class BlobServiceClient extends StorageClient {
     }
   }
 
+    /**
+   * Restore a previously deleted Blob container.
+   * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
+   *
+   * @param {string} deletedContainerName Name of the previously deleted container.
+   * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
+   * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
+   * @memberof BlobServiceClient
+   */
+  public async renameContainer(
+    oldContainerName: string,
+    containerName: string,
+    options: ServiceUndeleteContainerOptions = {}
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerUndeleteResponse: ContainerUndeleteResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-undeleteContainer",
+      options.tracingOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(
+        containerName
+      );
+      // Hack to access a protected member.
+      const containerContext = new Container(containerClient["storageClientContext"]);
+      const containerUndeleteResponse = await containerContext.rename(oldContainerName,
+        {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return { containerClient, containerUndeleteResponse };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
   /**
    * Gets the properties of a storage account’s Blob service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.

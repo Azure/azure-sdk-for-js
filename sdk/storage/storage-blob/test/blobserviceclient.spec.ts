@@ -642,4 +642,18 @@ describe("BlobServiceClient", () => {
       }
     }
   });
+
+  it.only("rename container", async function() {
+    const blobServiceClient = getBSU();
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const newContainerName = recorder.getUniqueName("container");
+    await blobServiceClient.renameContainer(containerName, newContainerName);
+
+    const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
+    console.log(await newContainerClient.getProperties());
+  });
 });
