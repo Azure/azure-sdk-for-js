@@ -19,7 +19,7 @@ import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-htt
 import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionResourceSerializer } from "../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../src/serializers/ruleResourceSerializer";
-import { isJSONLikeObject } from "../../src/util/utils";
+import { getXMLNSPrefix, isJSONLikeObject } from "../../src/util/utils";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -1209,6 +1209,80 @@ describe("ATOM Serializers", () => {
     ].forEach((testCase) => {
       it(`${JSON.stringify(testCase.input)}`, () => {
         chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
+      });
+    });
+  });
+
+  describe("getXMLNSPrefix helper method", () => {
+    [
+      {
+        title: `with "d3p1" as prefix`,
+        input: {
+          $: {
+            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+          },
+          "d3p1:ActiveMessageCount": "3",
+          "d3p1:DeadLetterMessageCount": "0",
+          "d3p1:ScheduledMessageCount": "0",
+          "d3p1:TransferMessageCount": "0",
+          "d3p1:TransferDeadLetterMessageCount": "0"
+        },
+        output: { value: "d3p1", error: undefined }
+      },
+      {
+        title: `with "d2p1" as prefix`,
+        input: {
+          $: {
+            "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+          },
+          "d2p1:DeadLetterMessageCount": "0"
+        },
+        output: { value: "d2p1", error: undefined }
+      },
+      {
+        title: `without the XML_METADATA_MARKER $`,
+        input: {
+          "d3p1:DeadLetterMessageCount": "0"
+        },
+        output: {
+          value: undefined,
+          error: `Error: Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object {"d3p1:DeadLetterMessageCount":"0"}`
+        }
+      },
+      {
+        title: `without multiple xmlns prefixes`,
+        input: {
+          $: {
+            "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+          },
+          "d3p1:DeadLetterMessageCount": "0"
+        },
+        output: {
+          value: undefined,
+          error: `Error: Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at {"xmlns:d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus","xmlns:d3p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
+        }
+      },
+      {
+        title: `without "xmlns:" string`,
+        input: {
+          $: {
+            d2p1: "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+          }
+        },
+        output: {
+          value: undefined,
+          error: `Error: Error occurred while parsing the response body - unexpected key at {"d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
+        }
+      }
+    ].forEach((testCase) => {
+      it(`${testCase.title}`, () => {
+        try {
+          const xmlnsPrefix = getXMLNSPrefix(testCase.input);
+          chai.assert.equal(xmlnsPrefix, testCase.output.value);
+        } catch (error) {
+          chai.assert.equal(error, testCase.output.error, "Unexpected error thrown");
+        }
       });
     });
   });
