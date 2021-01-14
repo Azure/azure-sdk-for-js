@@ -333,9 +333,11 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
 }
 
 /**
+ * @internal
+ * @hidden
  * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
  */
-function getXMLNSPrefix(value: any) {
+export function getXMLNSPrefix(value: any) {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
       `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
