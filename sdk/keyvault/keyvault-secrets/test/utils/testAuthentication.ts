@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { getKeyvaultName } from "./utils.common";
 import { SecretClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { uniqueString } from "./recorderUtils";
@@ -33,8 +32,11 @@ export async function authenticate(that: Context): Promise<any> {
     env.AZURE_CLIENT_SECRET
   );
 
-  const keyVaultName = getKeyvaultName();
-  const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
+  const keyVaultUrl = env.AZURE_KEYVAULT_URL;
+  if (!keyVaultUrl) {
+    throw new Error("Missing AZURE_KEYVAULT_URL environment variable.");
+  }
+
   const client = new SecretClient(keyVaultUrl, credential);
   const testClient = new TestClient(client);
 

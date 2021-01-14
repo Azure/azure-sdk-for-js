@@ -71,7 +71,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it.only("Once authenticated, new requests should not authenticate again", async function() {
+  it("Once authenticated, new requests should not authenticate again", async function() {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.

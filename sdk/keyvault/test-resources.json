@@ -1,24 +1,26 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseName": {
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-        "description": "The base resource name that is used to ensure the generated resources have unique names. This field gets automatically generated on our CI pipelines. It's possible to use non-alphanumeric characters in some resource names, like dashes in KV names, but keeping it simple will reduce confusion. A safe upper limit on the number of characters is 17 characters."
+        "description": "The base resource name."
       }
     },
     "tenantId": {
       "type": "string",
+      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
       "metadata": {
-        "description": "The tenant ID to which the application and resources belong. You may copy it from the one available on the overview page of the Azure Active Directory section of the Azure portal, or obtain it from the overview page of a recently created Azure Application."
+        "description": "The tenant ID to which the application and resources belong."
       }
     },
     "testApplicationOid": {
       "type": "string",
+      "defaultValue": "b3653439-8136-4cd5-aac3-2a9460871ca6",
       "metadata": {
-        "description": "The application client ID used to run tests. You may get it from the overview page of a recently created Azure application."
+        "description": "The client OID to grant access to test resources."
       }
     },
     "location": {
@@ -30,7 +32,7 @@
     },
     "hsmLocation": {
       "type": "string",
-      "defaultValue": "southcentralus",
+      "defaultValue": "eastus2",
       "allowedValues": ["eastus2", "southcentralus", "northeurope", "westeurope"],
       "metadata": {
         "description": "The location of the Managed HSM. By default, this is 'southcentralus'."
@@ -38,19 +40,34 @@
     },
     "enableHsm": {
       "type": "bool",
-      "defaultValue": true,
+      "defaultValue": false,
       "metadata": {
         "description": "Whether to enable deployment of Managed HSM. The default is false."
+      }
+    },
+    "enableSoftDelete": {
+      "type": "bool",
+      "defaultValue": true,
+      "metadata": {
+        "description": "Whether to enable soft delete for the Key Vault. The default is true."
+      }
+    },
+    "keyVaultSku": {
+      "type": "string",
+      "defaultValue": "premium",
+      "metadata": {
+        "description": "Key Vault SKU to deploy. The default is 'premium'"
       }
     }
   },
   "variables": {
-    "location": "[parameters('location')]",
+    "kvApiVersion": "2019-09-01",
+    "kvName": "[parameters('baseName')]",
     "hsmApiVersion": "2020-04-01-preview",
+    "hsmName": "[concat(parameters('baseName'), 'hsm')]",
     "mgmtApiVersion": "2019-04-01",
     "blobContainerName": "backup",
     "primaryAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'prim')]",
-    "hsmName": "[concat(parameters('baseName'), 'hsm')]",
     "encryption": {
       "services": {
         "blob": {
@@ -64,19 +81,18 @@
       "virtualNetworkRules": [],
       "ipRules": [],
       "defaultAction": "Allow"
-    },
-    "keyVaultName": "[parameters('baseName')]"
+    }
   },
   "resources": [
     {
       "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2016-10-01",
-      "name": "[variables('keyVaultName')]",
+      "apiVersion": "[variables('kvApiVersion')]",
+      "name": "[variables('kvName')]",
       "location": "[parameters('location')]",
       "properties": {
         "sku": {
           "family": "A",
-          "name": "Premium"
+          "name": "[parameters('keyVaultSku')]"
         },
         "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
@@ -85,41 +101,41 @@
             "objectId": "[parameters('testApplicationOid')]",
             "permissions": {
               "keys": [
-                "backup",
-                "create",
-                "decrypt",
-                "delete",
-                "encrypt",
                 "get",
-                "import",
                 "list",
-                "purge",
-                "recover",
-                "restore",
-                "sign",
-                "unwrapKey",
                 "update",
-                "verify",
-                "wrapKey"
-              ],
-              "secrets": ["backup", "delete", "get", "list", "purge", "recover", "restore", "set"],
-              "certificates": [
-                "backup",
                 "create",
-                "delete",
-                "deleteissuers",
-                "get",
-                "getissuers",
                 "import",
+                "delete",
+                "recover",
+                "backup",
+                "restore",
+                "decrypt",
+                "encrypt",
+                "unwrapKey",
+                "wrapKey",
+                "verify",
+                "sign",
+                "purge"
+              ],
+              "secrets": ["get", "list", "set", "delete", "recover", "backup", "restore", "purge"],
+              "certificates": [
+                "get",
                 "list",
-                "listissuers",
+                "update",
+                "create",
+                "import",
+                "delete",
+                "recover",
+                "backup",
+                "restore",
                 "managecontacts",
                 "manageissuers",
-                "purge",
-                "recover",
-                "restore",
+                "getissuers",
+                "listissuers",
                 "setissuers",
-                "update"
+                "deleteissuers",
+                "purge"
               ]
             }
           }
@@ -127,7 +143,8 @@
         "enabledForDeployment": false,
         "enabledForDiskEncryption": false,
         "enabledForTemplateDeployment": false,
-        "enableSoftDelete": true
+        "enableSoftDelete": "[parameters('enableSoftDelete')]",
+        "softDeleteRetentionInDays": 7
       }
     },
     {
@@ -144,7 +161,7 @@
         "tenantId": "[parameters('tenantId')]",
         "initialAdminObjectIds": ["[parameters('testApplicationOid')]"],
         "enablePurgeProtection": false,
-        "enableSoftDelete": true
+        "enableSoftDelete": "[parameters('enableSoftDelete')]"
       }
     },
     {
@@ -198,18 +215,18 @@
     }
   ],
   "outputs": {
-    "KEYVAULT_NAME": {
+    "AZURE_KEYVAULT_URL": {
       "type": "string",
-      "value": "[variables('keyVaultName')]"
+      "value": "[reference(variables('kvName')).vaultUri]"
     },
     "AZURE_MANAGEDHSM_URL": {
       "type": "string",
       "condition": "[parameters('enableHsm')]",
       "value": "[reference(variables('hsmName')).hsmUri]"
     },
-    "KEYVAULT_URI": {
+    "KEYVAULT_SKU": {
       "type": "string",
-      "value": "[reference(variables('keyVaultName')).vaultUri]"
+      "value": "[reference(parameters('baseName')).sku.name]"
     },
     "CLIENT_OBJECT_ID": {
       "type": "string",

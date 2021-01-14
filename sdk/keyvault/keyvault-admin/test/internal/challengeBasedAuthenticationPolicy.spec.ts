@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { createSandbox } from "sinon";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import Sinon, { createSandbox } from "sinon";
+import { Recorder } from "@azure/test-utils-recorder";
 
 import {
   AuthenticationChallengeCache,
@@ -13,52 +13,34 @@ import {
 import { KeyVaultAccessControlClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 
-// Following the philosophy of not testing the insides if we can test the outsides...
-// I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
-// Once we move to a common folder, and after some refactoring,
-// we will be able to unit test the insides in detail.
-
-describe("Challenge based authentication tests", () => {
-  const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
-  let keySuffix: string;
+describe("Challenge based authentication tests", function() {
   let client: KeyVaultAccessControlClient;
   let recorder: Recorder;
+  let sandbox: Sinon.SinonSandbox;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    keySuffix = authentication.keySuffix;
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
+    sandbox = createSandbox();
   });
 
   afterEach(async function() {
+    sandbox.restore();
     await recorder.stop();
   });
 
-  // The tests follow
-
-  function formatName(name: string): string {
-    return name.replace(/[^0-9a-zA-Z-]/g, "");
-  }
-
-  it("Authentication should work for parallel requests", async function() {
-    const keyName = formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
-
-    const sandbox = createSandbox();
+  it("Authentication should be idempotent", async function() {
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
-    const promises = keyNames.map((name) => {
-      const promise = client.listRoleAssignments("/");
-      return { promise, name };
-    });
+    const promises = [
+      client.listRoleAssignments("/").next(),
+      client.listRoleAssignments("/").next()
+    ];
+    await Promise.all(promises);
 
-    for (const promise of promises) {
-      await promise.promise;
-    }
-
-    // Even though we had parallel requests, only one authentication should have happened.
+    // Even though we had multiple requests, only one authentication should have happened.
 
     // This is determined by the comparison between the cached challenge and the new receive challenge.
     // So, AuthenticationChallenge's equalTo should have returned true at least once.
@@ -66,38 +48,15 @@ describe("Challenge based authentication tests", () => {
 
     // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);
-
-    // Back to normal.
-    sandbox.restore();
   });
 
-  it.only("Once authenticated, new requests should not authenticate again", async function() {
-    // Our goal is to intercept how our pipelines are storing the challenge.
-    // The first network call should indeed set the challenge in memory.
-    // Subsequent network calls should not set new challenges.
-
-    const sandbox = createSandbox();
+  it("Once authenticated, new requests should not authenticate again", async function() {
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
 
-    // Now we run what would be a normal use of the client.
-    // Here we will create two keys, then flush them.
-    // testClient.flushKey deletes, then purges the keys.
-    const keyName = formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    const keyNames = [`${keyName}-0`, `${keyName}-1`];
-    for (const _name of keyNames) {
-      await client.listRoleAssignments("/").next();
-    }
-    // for (const name of keyNames) {
-    //   await testClient.flushKey(name);
-    // }
+    await client.listRoleAssignments("/").next();
+    await client.listRoleAssignments("/").next();
 
-    // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);
-
-    // Back to normal.
-    sandbox.restore();
-
-    // Note: Failing to authenticate will make network requests throw.
   });
 
   describe("parseWWWAuthenticate tests", () => {

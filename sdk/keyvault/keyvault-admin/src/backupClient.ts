@@ -18,7 +18,7 @@ import { logger } from "./log";
 import { BackupPoller } from "./lro/backup/poller";
 import { RestorePoller } from "./lro/restore/poller";
 import { SelectiveRestorePoller } from "./lro/selectiveRestore/poller";
-import { BackupOperationState, BackupResult } from "./lro/backup/operation";
+import { BackupOperationState } from "./lro/backup/operation";
 import { RestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { SelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
@@ -144,7 +144,7 @@ export class KeyVaultBackupClient {
     blobStorageUri: string,
     sasToken: string,
     options: BeginBackupOptions = {}
-  ): Promise<PollerLike<BackupOperationState, BackupResult>> {
+  ): Promise<PollerLike<BackupOperationState, string>> {
     if (!(blobStorageUri && sasToken)) {
       throw new Error(
         "beginBackup requires non-empty strings for the parameters: blobStorageUri and sasToken."
