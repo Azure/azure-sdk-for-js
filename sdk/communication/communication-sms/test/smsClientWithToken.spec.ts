@@ -2,81 +2,86 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { isPlaybackMode, record, Recorder, RecorderEnvironmentSetup, env } from "@azure/test-utils-recorder";
+import {
+  isPlaybackMode,
+  record,
+  Recorder,
+  RecorderEnvironmentSetup,
+  env
+} from "@azure/test-utils-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 import { SendRequest, SmsClient } from "../src";
 import { assert } from "chai";
 
 const recorderConfiguration: RecorderEnvironmentSetup = {
-    replaceableVariables: {
-      AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-      AZURE_PHONE_NUMBER: "+18005551234"
-    },
-    customizationsOnRecordings: [
-      (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-      (recording: string): string =>
-        recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
-    ],
-    queryParametersToSkip: []
+  replaceableVariables: {
+    AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+    AZURE_PHONE_NUMBER: "+18005551234"
+  },
+  customizationsOnRecordings: [
+    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
+    (recording: string): string =>
+      recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
+  ],
+  queryParametersToSkip: []
 };
 
 function createCredential(): TokenCredential {
-    if (isPlaybackMode()) {
-        return { 
-            getToken: async (_scopes) => { 
-                return { token: "testToken", expiresOnTimestamp: 11111 }; 
-            }
-        };
-    } else {
-        return new DefaultAzureCredential();
-    }
+  if (isPlaybackMode()) {
+    return {
+      getToken: async (_scopes) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      }
+    };
+  } else {
+    return new DefaultAzureCredential();
+  }
 }
 
 describe("SmsClientWithToken [Playback/Live]", function() {
-    let recorder: Recorder;
+  let recorder: Recorder;
 
-    beforeEach(async function() {
-        recorder = record(this, recorderConfiguration);
-    });
+  beforeEach(async function() {
+    recorder = record(this, recorderConfiguration);
+  });
 
-    afterEach(async function () {
-        if (!this.currentTest?.isPending()) {
-            await recorder.stop();
-        } 
-    });
+  afterEach(async function() {
+    if (!this.currentTest?.isPending()) {
+      await recorder.stop();
+    }
+  });
 
-    it("successfully issues a token for a user [single scope]", async function() {
-        const credential = createCredential();
-        const endpoint = "";
-        const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
-        const toNumber = env["AZURE_PHONE_NUMBER"] as string;
+  it("successfully issues a token for a user [single scope]", async function() {
+    const credential = createCredential();
+    const endpoint = "";
+    const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
+    const toNumber = env["AZURE_PHONE_NUMBER"] as string;
 
+    const smsClient = new SmsClient(endpoint, credential);
+    const sendRequest: SendRequest = {
+      from: fromNumber,
+      to: [toNumber],
+      message: "test message"
+    };
 
-        const smsClient = new SmsClient(endpoint, credential);
-        const sendRequest: SendRequest = {
-            from: fromNumber,
-            to: [toNumber],
-            message: "test message"
-        };
+    const response = await smsClient.send(sendRequest);
+    assert.equal(response._response.status, 200);
+  });
 
-        const response = await smsClient.send(sendRequest);
-        assert.equal(response._response.status, 200);
-    });
+  it("successfully issues a token for a user [multiple scopes]", async function() {
+    const credential = createCredential();
+    const endpoint = "";
+    const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
+    const toNumber = env["AZURE_PHONE_NUMBER"] as string;
 
-    it("successfully issues a token for a user [multiple scopes]", async function () {
-        const credential = createCredential();
-        const endpoint = "";
-        const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
-        const toNumber = env["AZURE_PHONE_NUMBER"] as string;
+    const smsClient = new SmsClient(endpoint, credential);
+    const sendRequest: SendRequest = {
+      from: fromNumber,
+      to: [toNumber],
+      message: "test message"
+    };
 
-        const smsClient = new SmsClient(endpoint, credential);
-        const sendRequest: SendRequest = {
-            from: fromNumber,
-            to: [toNumber],
-            message: "test message"
-        };
-
-        const response = await smsClient.send(sendRequest);
-        assert.equal(response._response.status, 200);
-    });
+    const response = await smsClient.send(sendRequest);
+    assert.equal(response._response.status, 200);
+  });
 });
