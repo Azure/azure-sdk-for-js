@@ -1,5 +1,6 @@
 {
   "name": "@azure/attestation",
+  "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "Describes the interface for the per-tenant enclave service.",
   "version": "1.0.0-beta.1",
