@@ -2,6 +2,7 @@
 
 ## 1.0.2 (Unreleased)
 
+- Bug Fix: include the types definition file in the shipped package
 
 ## 1.0.1 (2021-01-12)
 
