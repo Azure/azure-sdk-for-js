@@ -2,6 +2,7 @@
 
 ## 1.2.3 (Unreleased)
 
+- Fix an issue where non-streaming response body was treated as stream [PR 13192](https://github.com/Azure/azure-sdk-for-js/pull/13192)
 
 ## 1.2.2 (2021-01-07)
 

@@ -155,7 +155,7 @@ export abstract class FetchHttpClient implements HttpClient {
 
       const headers = parseHeaders(response.headers);
 
-      const isBodyReallyStream = isResponseBodyStream(
+      const bodyIsStream = isResponseBodyStream(
         httpRequest.operationSpec,
         response.status.toString()
       );
@@ -164,10 +164,10 @@ export abstract class FetchHttpClient implements HttpClient {
         headers: headers,
         request: httpRequest,
         status: response.status,
-        readableStreamBody: isBodyReallyStream
+        readableStreamBody: bodyIsStream
           ? ((response.body as unknown) as NodeJS.ReadableStream)
           : undefined,
-        bodyAsText: !isBodyReallyStream ? await response.text() : undefined
+        bodyAsText: !bodyIsStream ? await response.text() : undefined
       };
 
       const onDownloadProgress = httpRequest.onDownloadProgress;

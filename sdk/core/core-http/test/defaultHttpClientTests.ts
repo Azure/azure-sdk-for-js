@@ -278,7 +278,7 @@ describe("defaultHttpClient", function() {
     response.status.should.equal(200, response.bodyAsText!);
   });
 
-  it("should not treat default response body as stream", async function() {
+  it("should not treat non-streaming default response body as stream", async function() {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
