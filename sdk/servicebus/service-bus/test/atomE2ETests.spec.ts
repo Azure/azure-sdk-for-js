@@ -87,3 +87,35 @@ describe("Filter messages with the rules set by the ATOM API", () => {
 
   // TODO: New tests for rule filters to match the sent messages can be added
 });
+
+describe("getSubscriptionRuntimeProperties", () => {
+  const topicName = "new-topic";
+  const subscriptionName = "new-subscription";
+  const serviceBusClient = new ServiceBusClient(getConnectionString());
+
+  beforeEach(async () => {
+    await recreateTopic(topicName);
+    await recreateSubscription(topicName, subscriptionName);
+  });
+
+  after(async () => {
+    await serviceBusClient.close();
+  });
+
+  it("Active Message Count", async () => {
+    const messages = [1, 2, 3].map((num) => {
+      return {
+        body: `msg-${num}`
+      };
+    });
+    await serviceBusClient.createSender(topicName).sendMessages(messages);
+    const activeMessageCount = (
+      await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
+        topicName,
+        subscriptionName
+      )
+    ).activeMessageCount;
+    chai.assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
+  });
+  // TODO: New E2E tests can be added
+});

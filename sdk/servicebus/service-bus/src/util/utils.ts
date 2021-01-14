@@ -318,16 +318,49 @@ export function isJSONLikeObject(value: any): boolean {
  * @param value
  */
 export function getMessageCountDetails(value: any): MessageCountDetails {
+  const xmlnsPrefix = getXMLNSPrefix(value);
   if (value == undefined) {
     value = {};
   }
   return {
-    activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
-    deadLetterMessageCount: parseInt(value["d2p1:DeadLetterMessageCount"]) || 0,
-    scheduledMessageCount: parseInt(value["d2p1:ScheduledMessageCount"]) || 0,
-    transferMessageCount: parseInt(value["d2p1:TransferMessageCount"]) || 0,
-    transferDeadLetterMessageCount: parseInt(value["d2p1:TransferDeadLetterMessageCount"]) || 0
+    activeMessageCount: parseInt(value[`${xmlnsPrefix}:ActiveMessageCount`]) || 0,
+    deadLetterMessageCount: parseInt(value[`${xmlnsPrefix}:DeadLetterMessageCount`]) || 0,
+    scheduledMessageCount: parseInt(value[`${xmlnsPrefix}:ScheduledMessageCount`]) || 0,
+    transferMessageCount: parseInt(value[`${xmlnsPrefix}:TransferMessageCount`]) || 0,
+    transferDeadLetterMessageCount:
+      parseInt(value[`${xmlnsPrefix}:TransferDeadLetterMessageCount`]) || 0
   };
+}
+
+/**
+ * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
+ */
+function getXMLNSPrefix(value: any) {
+  if (!value[Constants.XML_METADATA_MARKER]) {
+    throw new Error(
+      `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
+        value
+      )}`
+    );
+  }
+  const keys = Object.keys(value[Constants.XML_METADATA_MARKER]);
+  if (keys.length !== 1) {
+    throw new Error(
+      `Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at ${JSON.stringify(
+        value[Constants.XML_METADATA_MARKER]
+      )}`
+    );
+  }
+  if (!keys[0].startsWith("xmlns:")) {
+    throw new Error(
+      `Error occurred while parsing the response body - unexpected key at ${JSON.stringify(
+        value[Constants.XML_METADATA_MARKER]
+      )}`
+    );
+  }
+  // Pick the substring that's after "xmlns:"
+  const xmlnsPrefix = keys[0].substring(6);
+  return xmlnsPrefix;
 }
 
 /**
