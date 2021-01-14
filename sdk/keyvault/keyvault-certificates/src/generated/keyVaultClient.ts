@@ -928,7 +928,7 @@ const setCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
       organizationDetails: ["options", "organizationDetails"],
       attributes: ["options", "attributes"]
     },
-    mapper: Mappers.CertificateIssuerSetParameters
+    mapper: { ...Mappers.CertificateIssuerSetParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
@@ -954,7 +954,7 @@ const updateCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
       organizationDetails: ["options", "organizationDetails"],
       attributes: ["options", "attributes"]
     },
-    mapper: Mappers.CertificateIssuerUpdateParameters
+    mapper: { ...Mappers.CertificateIssuerUpdateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
@@ -1011,7 +1011,7 @@ const createCertificateOperationSpec: coreHttp.OperationSpec = {
       certificateAttributes: ["options", "certificateAttributes"],
       tags: ["options", "tags"]
     },
-    mapper: Mappers.CertificateCreateParameters
+    mapper: { ...Mappers.CertificateCreateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
@@ -1038,7 +1038,7 @@ const importCertificateOperationSpec: coreHttp.OperationSpec = {
       certificateAttributes: ["options", "certificateAttributes"],
       tags: ["options", "tags"]
     },
-    mapper: Mappers.CertificateImportParameters
+    mapper: { ...Mappers.CertificateImportParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
@@ -1113,7 +1113,7 @@ const updateCertificateOperationSpec: coreHttp.OperationSpec = {
       certificateAttributes: ["options", "certificateAttributes"],
       tags: ["options", "tags"]
     },
-    mapper: Mappers.CertificateUpdateParameters
+    mapper: { ...Mappers.CertificateUpdateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1158,7 +1158,7 @@ const updateCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: { cancellationRequested: ["cancellationRequested"] },
-    mapper: Mappers.CertificateOperationUpdateParameter
+    mapper: { ...Mappers.CertificateOperationUpdateParameter, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
@@ -1215,7 +1215,7 @@ const mergeCertificateOperationSpec: coreHttp.OperationSpec = {
       certificateAttributes: ["options", "certificateAttributes"],
       tags: ["options", "tags"]
     },
-    mapper: Mappers.CertificateMergeParameters
+    mapper: { ...Mappers.CertificateMergeParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName],
@@ -1252,7 +1252,7 @@ const restoreCertificateOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: { certificateBundleBackup: ["certificateBundleBackup"] },
-    mapper: Mappers.CertificateRestoreParameters
+    mapper: { ...Mappers.CertificateRestoreParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],

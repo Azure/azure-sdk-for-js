@@ -9,7 +9,7 @@ disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210111.1"
+  "@autorest/typescript": "6.0.0-dev.20210114.1"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
