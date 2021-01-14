@@ -89,20 +89,22 @@ describe("Filter messages with the rules set by the ATOM API", () => {
 });
 
 describe("getSubscriptionRuntimeProperties", () => {
-  const topicName = "new-topic";
-  const subscriptionName = "new-subscription";
+  const topicName = "new-topic-2";
+  const subscriptionName1 = "new-subscription-1";
+  const subscriptionName2 = "new-subscription-2";
   const serviceBusClient = new ServiceBusClient(getConnectionString());
 
   beforeEach(async () => {
     await recreateTopic(topicName);
-    await recreateSubscription(topicName, subscriptionName);
   });
 
   after(async () => {
     await serviceBusClient.close();
+    await serviceBusAtomManagementClient.deleteTopic(topicName);
   });
 
-  it("Active Message Count", async () => {
+  it("Active Message Count - single subscription", async () => {
+    await recreateSubscription(topicName, subscriptionName1);
     const messages = [1, 2, 3].map((num) => {
       return {
         body: `msg-${num}`
@@ -112,10 +114,31 @@ describe("getSubscriptionRuntimeProperties", () => {
     const activeMessageCount = (
       await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
         topicName,
-        subscriptionName
+        subscriptionName1
       )
     ).activeMessageCount;
     chai.assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
+  });
+
+  it("Active Message Count - multiple subscriptions", async () => {
+    await recreateSubscription(topicName, subscriptionName1);
+    await recreateSubscription(topicName, subscriptionName2);
+    const messages = [1, 2, 3].map((num) => {
+      return {
+        body: `msg-${num}`
+      };
+    });
+    await serviceBusClient.createSender(topicName).sendMessages(messages);
+
+    for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
+      topicName
+    )) {
+      chai.assert.equal(
+        subscription.activeMessageCount,
+        messages.length,
+        "Unexpected active message count"
+      );
+    }
   });
   // TODO: New E2E tests can be added
 });
