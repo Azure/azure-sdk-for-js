@@ -39,7 +39,7 @@ const reportInternal = (
 
   // if type is internal and has a TSDoc
   if (!context.settings.exported.includes(symbol) && tsNode.jsDoc !== undefined) {
-    // fetc all tags
+    // fetch all tags
     let TSDocTags: string[] = [];
     tsNode.jsDoc.forEach((TSDocComment: any): void => {
       TSDocTags = TSDocTags.concat(
@@ -50,7 +50,7 @@ const reportInternal = (
     });
 
     // see if any match hidden or internal
-    if (TSDocTags.every((TSDocTag: string): boolean => !/|(internal)|(hidden)/.test(TSDocTag))) {
+    if (!TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))) {
       context.report({
         node: node,
         message: "internal items with TSDoc comments should include an @internal or @hidden tag"
