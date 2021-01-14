@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @file Rule to require TSDoc comments to include internal or ignore tags if the object is internal.
+ * @file Rule to require TSDoc comments to include internal or hidden tags if the object is internal.
  * @author Arpan Laha
  */
 
@@ -26,7 +26,7 @@ import { getLocalExports, getRuleMetaData } from "../utils";
  * @param context the ESLint runtime context
  * @param converter a converter from TSESTree Nodes to TSNodes
  * @param typeChecker the TypeScript TypeChecker
- * @throws if the Node passes throught the initial checks and does not have an internal or ignore tag
+ * @throws if the Node passes throught the initial checks and does not have an internal or hidden tag
  */
 const reportInternal = (
   node: Node,
@@ -39,7 +39,7 @@ const reportInternal = (
 
   // if type is internal and has a TSDoc
   if (!context.settings.exported.includes(symbol) && tsNode.jsDoc !== undefined) {
-    // fetc all tags
+    // fetch all tags
     let TSDocTags: string[] = [];
     tsNode.jsDoc.forEach((TSDocComment: any): void => {
       TSDocTags = TSDocTags.concat(
@@ -49,11 +49,11 @@ const reportInternal = (
       );
     });
 
-    // see if any match ignore or internal
-    if (TSDocTags.every((TSDocTag: string): boolean => !/(ignore)|(internal)/.test(TSDocTag))) {
+    // see if any match hidden or internal
+    if (!TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))) {
       context.report({
         node: node,
-        message: "internal items with TSDoc comments should include an @internal or @ignore tag"
+        message: "internal items with TSDoc comments should include an @internal or @hidden tag"
       });
     }
   }
@@ -95,7 +95,7 @@ try {
 export = {
   meta: getRuleMetaData(
     "ts-doc-internal",
-    "require TSDoc comments to include an '@internal' or '@ignore' tag if the object is not public-facing"
+    "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const fileName = context.getFilename();
