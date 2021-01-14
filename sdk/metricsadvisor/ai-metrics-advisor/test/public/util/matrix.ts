@@ -32,17 +32,17 @@
  * ```
  */
 export function matrix<T extends ReadonlyArray<readonly unknown[]>>(
-    values: T,
-    handler: (
-      ...args: { [idx in keyof T]: T[idx] extends ReadonlyArray<infer U> ? U : never }
-    ) => Promise<void>
-  ): void {
-    // Classic recursive approach
-    if (values.length === 0) {
-      (handler as () => Promise<void>)();
-    } else {
-      for (const v of values[0]) {
-        matrix(values.slice(1), (...args) => (handler as any)(v, ...args));
-      }
+  values: T,
+  handler: (
+    ...args: { [idx in keyof T]: T[idx] extends ReadonlyArray<infer U> ? U : never }
+  ) => Promise<void>
+): void {
+  // Classic recursive approach
+  if (values.length === 0) {
+    (handler as () => Promise<void>)();
+  } else {
+    for (const v of values[0]) {
+      matrix(values.slice(1), (...args) => (handler as any)(v, ...args));
     }
   }
+}
