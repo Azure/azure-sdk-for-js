@@ -12,10 +12,16 @@ parameters:
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
     - job: smoke_test_eligibility
+      variables:
+        - template: /eng/pipelines/templates/variables/globals.yml
       pool:
-        vmImage: ubuntu-18.04
+        vmImage: $(OSVmImage)
       displayName: Check Smoke Test Eligibility
       steps:
+        - template: /eng/pipelines/templates/steps/use-node-version.yml
+          parameters:
+            NodeVersion: $(NodeVersion)
+
         - pwsh: npm install -g
           workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
           displayName: Install dev-tool
@@ -26,12 +32,14 @@ jobs:
             ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
             $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
             $packages | ForEach-Object {
-              Write-Host "Smoke tests will run for $($_.Name)"
-              Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]true"
+              if ($_) {
+                Write-Host "Smoke tests will run for $($_.Name)"
+                Write-Host "##vso[task.setvariable variable=RunSmokeTests;isOutput=true;]true"
+              }
             }
           name: check_smoke_tests
           displayName: Check smoke test eligibility for ${{ parameters.ServiceDirectory }}
-          workingDirectory: ./common/smoke-test
+          workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
 
   - job: SmokeTest
     ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:

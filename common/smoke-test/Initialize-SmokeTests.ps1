@@ -51,6 +51,8 @@ param (
   [Parameter()]
   [array] $TagOverridePackages,
 
+  # DryRun will generate the smoke test run manifest, but will skip deploying any resources.
+  # This can be useful for testing what projects will be configured to run for a given command.
   [Parameter(ParameterSetName = 'DryRun')]
   [switch] $DryRun,
 
