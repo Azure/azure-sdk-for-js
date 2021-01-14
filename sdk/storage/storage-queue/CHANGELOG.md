@@ -1,5 +1,8 @@
 # Release History
 
+## 12.3.1 (Unreleased)
+
+
 ## 12.3.0 (2021-01-12)
 
 - This release contains bug fixes to improve quality.
@@ -20,26 +23,26 @@
 - Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
 - Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
-## 12.1.0-preview.1 (2020.07)
+## 12.1.0-preview.1 
 
 - Updated Azure Storage Service API version to 2019-12-12.
 - Added `exists`, `createIfNotExists` and `deleteIfExists` to `QueueClient`.
 
-## 12.0.5 (2020.05)
+## 12.0.5 
 
 - Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
 - Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`. [PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998)
 - Updated to use `typescript` 3.8.3. [PR #8659](https://github.com/Azure/azure-sdk-for-js/pull/8659)
 
-## 12.0.4 (2020.03)
+## 12.0.4 
 
 - Buf fix - Fixed typings support for TypeScript 3.1. [PR #7350](https://github.com/Azure/azure-sdk-for-js/pull/7350)
 
-## 12.0.3 (2020.02)
+## 12.0.3 
 
 - Updated Azure Storage Service API version to 2019-07-07.
 
-## 12.0.2 (2020.01)
+## 12.0.2 
 
 - Bug fix - Name properties on clients now support more kinds of endpoints(IPv4/v6 hosts, single word domains). [PR #6694](https://github.com/Azure/azure-sdk-for-js/pull/6694)
 - Service clients now share a single http client instance by default. [PR #6657](https://github.com/Azure/azure-sdk-for-js/pull/6657)
@@ -52,7 +55,7 @@
 - Bug Fix - Convert empty prefixes (`""`) to `undefined` when passed as options to the `listQueues` method to avoid sending an invalid request to the service. Fixes bug [5817](https://github.com/Azure/azure-sdk-for-js/issues/5817).
 - Documented the behavior of `getProperties` methods with respect to metadata keys and their casing inconsistency when compared to the metadata keys returned through corresponding "list" methods with the `includeMetadata` option.
 
-## 12.0.0 (2019.11)
+## 12.0.0 
 
 - This release marks the general availability of the `@azure/storage-queue` package.
 - [Breaking] The custom browser and retry policies that are specific to the Storage libraries have been
@@ -78,7 +81,7 @@
     corresponding policies from the `@azure/core-http` library are meant to be used instead.
 - [Breaking] The default browser bundle has been removed from the npm package. Bundling your application with a bundler such as Webpack is the recommended approach to building a browser bundle. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-## 12.0.0-preview.5 (2019.10)
+## 12.0.0-preview.5 
 
 - [Breaking] Major API changes for the `@azure/storage-queue` package.
   - Flattened Client Hierarchy - `QueueClient` is flattened into `QueueServiceClient`, `MessagesClient` is renamed to `QueueClient`, `MessageIdClient` is flattened into the new `QueueClient`. [PR #5579](https://github.com/Azure/azure-sdk-for-js/pull/5579)
@@ -108,7 +111,7 @@
     - (with proxyURI) `UseDevelopmentStorage=true;DevelopmentStorageProxyUri=proxyURI`
 - [Breaking] IE11 needs `Object.assign` polyfill loaded. [PR #5727](https://github.com/Azure/azure-sdk-for-js/pull/5727)
 
-## 12.0.0-preview.4 (2019.10)
+## 12.0.0-preview.4 
 
 - Library tries to load the proxy settings from the environment variables like HTTP_PROXY if the proxy settings are not provided when clients like `QueueServiceClient` or `QueueClient` are instantiated.
 - Added development connection string support to connect to the storage emulator [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
@@ -136,7 +139,7 @@
   });
   ```
 
-## 12.0.0-preview.3 (2019.08)
+## 12.0.0-preview.3 
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
 - Updated Azure Storage Service API version to 2019-02-02.
@@ -151,7 +154,7 @@
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/src/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
-## 12.0.0-preview.2 (2019.08)
+## 12.0.0-preview.2 
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
   `AbortController.timeout(<milliseconds>)` can be utilized as an abort signal.
@@ -163,7 +166,7 @@
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
 - Fixed a bug where `MessageIdClient` constructor throws an error `URL is undefined` when the client is created with a valid connection string.
 
-## 12.0.0-preview.1 (2019.07)
+## 12.0.0-preview.1 
 
 - [Breaking] Client types are renamed from *URL to *Client.
   - QueueURL, MessagesURL, MessageIdURL, ServiceURL, StorageURL to QueueClient, MessagesClient, MessageIdClient, QueueServiceClient, StorageClient respectively.
@@ -194,12 +197,12 @@
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
-## 10.3.0 (2019.09)
+## 10.3.0 
 
 - Updated Azure Storage Service API version to 2019-02-02.
 - Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
 
-## 10.2.0 (2019.07)
+## 10.2.0 
 
 - Fixed a bug that `Aborter` cannot work during retry interval.
 - Fixed a bug that "err.code.toUpperCase is not a function" when retries in browser.
@@ -210,7 +213,7 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 - A new option `keepAliveOptions` added to parameter of `StorageURL.newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Updated Azure Storage Service API version to [2018-11-09](https://docs.microsoft.com/rest/api/storageservices/version-2018-11-09).
 
-## 10.1.0 (2019.01)
+## 10.1.0 
 
 - [Breaking] Updated convenience layer methods enum type parameters into typescript union types, this will help to reduce bundle footprint.
 - [Breaking] `SASQueryParameters` is not going to be exported in browser bundle, and will be exported in Node.js runtime.
@@ -221,6 +224,5 @@ For release notes and more information please visit https://aka.ms/azsdk/release
 - Fixed an issue that enqueue/dequeue/peek fail to work with some utf8 characters.
 - Exported HttpRequestBody type for who wants to implement a customized HTTP client.
 
-## 10.0.0-preview (2018.12)
 
-- Initial Release. API version 2018-03-28 supported. Please see the README for information on the new design.
+
