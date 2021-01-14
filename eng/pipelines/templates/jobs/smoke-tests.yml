@@ -12,6 +12,8 @@ parameters:
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
     - job: smoke_test_eligibility
+      pool:
+        vmImage: ubuntu-18.04
       displayName: Check Smoke Test Eligibility
       steps:
         - pwsh: npm install -g
