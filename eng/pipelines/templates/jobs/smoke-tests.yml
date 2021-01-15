@@ -30,6 +30,9 @@ jobs:
             $(Build.SourcesDirectory)/eng/common/TestResources/Import-AzModules.ps1
 
             ./Initialize-SmokeTests.ps1 -DryRun -CI -Verbose -ServiceDirectory ${{ parameters.ServiceDirectory }}
+            if (-not (Test-Path ./run-manifest.json)) {
+              exit
+            }
             $packages = Get-Content ./run-manifest.json | ConvertFrom-Json
             $packages | ForEach-Object {
               if ($_) {
