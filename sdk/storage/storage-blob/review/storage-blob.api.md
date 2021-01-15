@@ -542,6 +542,7 @@ export interface BlobDownloadHeaders {
     // (undocumented)
     errorCode?: string;
     etag?: string;
+    isCurrentVersion?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
     lastAccessed?: Date;
