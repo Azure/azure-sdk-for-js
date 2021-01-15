@@ -158,15 +158,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
   private _isNetworkError(error: Error): boolean {
     if (error instanceof RestError) {
-      if (
-        error &&
-        error.code &&
-        (error.code === "ETIMEDOUT" ||
-          error.code === "ESOCKETTIMEDOUT" ||
-          error.code === "ECONNREFUSED" ||
-          error.code === "ECONNRESET" ||
-          error.code === "ENOENT")
-      ) {
+      if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
         return true;
       }
     }

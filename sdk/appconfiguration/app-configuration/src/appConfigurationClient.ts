@@ -55,8 +55,8 @@ import {
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import {
-  GetKeyValuesResponse,
-  AppConfigurationOptions as GeneratedAppConfigurationClientOptions
+  AppConfigurationGetKeyValuesResponse,
+  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
 
@@ -169,6 +169,7 @@ export class AppConfigurationClient {
 
     this.client = new AppConfiguration(
       appConfigCredential,
+      appConfigEndpoint,
       apiVersion,
       getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
     );
@@ -357,7 +358,9 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
+  private *createListConfigurationPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
@@ -512,7 +515,7 @@ export class AppConfigurationClient {
  * @hidden
  */
 export function getGeneratedClientOptions(
-  baseUri: string,
+  endpoint: string,
   syncTokens: SyncTokens,
   internalAppConfigOptions: InternalAppConfigurationClientOptions
 ): GeneratedAppConfigurationClientOptions {
@@ -528,7 +531,7 @@ export function getGeneratedClientOptions(
   );
 
   return {
-    baseUri,
+    endpoint,
     deserializationContentTypes,
     // we'll add in our own custom retry policies
     noRetryPolicy: true,
