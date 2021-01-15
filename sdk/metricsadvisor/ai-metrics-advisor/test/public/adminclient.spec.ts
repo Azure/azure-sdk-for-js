@@ -36,7 +36,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       describe("Ingestion", function() {
-        it.only("lists ingestion status", async function() {
+        it("lists ingestion status", async function() {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 7, 1)),
