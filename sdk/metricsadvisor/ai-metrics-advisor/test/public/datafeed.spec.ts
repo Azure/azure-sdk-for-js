@@ -13,7 +13,6 @@ import {
   DataFeedDimension,
   DataFeedMetric,
   MetricsAdvisorAdministrationClient,
-  //MetricsAdvisorKeyCredential,
   UnknownDataFeedSource
 } from "../../src";
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
@@ -45,7 +44,6 @@ matrix([[true, false]] as const, async (useAad) => {
       beforeEach(function() {
         // eslint-disable-next-line no-invalid-this
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
-        //({ recorder, client } = createRecordedAdminClient(this, apiKeyCredential));
         if (recorder && !feedName) {
           feedName = recorder.getUniqueName("js-test-datafeed-");
         }
