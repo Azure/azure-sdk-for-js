@@ -25,7 +25,7 @@ The new wave of packages that we are actively working on follow the [Azure SDK D
 
 You can find the [most up to date list of all of the new packages on our page](https://azure.github.io/azure-sdk/releases/latest/index.html#javascript-packages)
 
-> NOTE: Some of these packages have beta versions. If you need to ensure your code is ready for production use one of the stable, non-preview i.e. non-beta packages.
+> NOTE: Some of these packages have beta versions. If you need to ensure your code is ready for production use one of the stable, non-beta packages.
 
 ### Client: Previous Versions
 
