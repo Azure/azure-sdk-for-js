@@ -18,11 +18,13 @@ const client = new SecretClient(KEYVAULT_URI, new DefaultAzureCredential());
 
 const app = express();
 
-// Apply the default CORS policy which would allow all CORS requests.
-// While convenient for development it is overly permissive and we encourage
-// you to review the documentation and apply a CORS policy that makes sense
-// for your application.
-app.use(cors());
+// Apply a CORS policy that will allow CORS requests from http://localhost:1234
+// (the default port parcel will serve the client from)
+const corsOptions: cors.CorsOptions = {
+  origin: "http://localhost:1234",
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Add a single API endpoint that the client can call to fetch a secret.
 // For this simple example we're exposing access to a single secret called
