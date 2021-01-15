@@ -28,7 +28,6 @@
       "name": "[variables('serviceName')]",
       "location": "[resourceGroup().location]",
       "properties": {
-        "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
         "enableClientCertificate": true,
         "virtualNetworkType": "External",
         "publisherEmail": "noreply@example.com",
