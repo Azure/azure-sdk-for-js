@@ -53,7 +53,6 @@ export interface AddPolicyOptions {
   afterPolicies?: string[];
   /**
    * The phase that this policy must come after.
-   * By default, policies without a phase occur first.
    */
   afterPhase?: PipelinePhase;
   /**
@@ -149,7 +148,7 @@ class HttpsPipeline implements Pipeline {
       throw new Error(`Invalid phase name: ${options.phase}`);
     }
     if (options.afterPhase && !ValidPhaseNames.has(options.afterPhase)) {
-      throw new Error(`Invalid phase name: ${options.afterPhase}`);
+      throw new Error(`Invalid afterPhase name: ${options.afterPhase}`);
     }
     this._policies.push({
       policy,
@@ -256,6 +255,9 @@ class HttpsPipeline implements Pipeline {
     const deserializePhase = new Set<PolicyGraphNode>();
     const retryPhase = new Set<PolicyGraphNode>();
 
+    // a list of phases in order
+    const orderedPhases = [serializePhase, noPhase, deserializePhase, retryPhase];
+
     // Small helper function to map phase name to each Set bucket.
     function getPhase(phase: PipelinePhase | undefined): Set<PolicyGraphNode> {
       if (phase === "Retry") {
@@ -346,14 +348,33 @@ class HttpsPipeline implements Pipeline {
       }
     }
 
+    function walkPhases() {
+      let noPhaseRan = false;
+
+      for (const phase of orderedPhases) {
+        walkPhase(phase);
+        if (phase === noPhase) {
+          noPhaseRan = true;
+        }
+        // if the phase isn't complete
+        if (phase.size > 0 && phase !== noPhase) {
+          if (noPhaseRan === false) {
+            // Try running noPhase to see if that unblocks this phase next tick.
+            // This can happen if a phase that happens before noPhase
+            // is waiting on a noPhase policy to complete.
+            walkPhase(noPhase);
+          }
+          // Don't proceed to the next phase until this phase finishes.
+          return;
+        }
+      }
+    }
+
     // Iterate until we've put every node in the result list.
     while (policyMap.size > 0) {
       const initialResultLength = result.length;
       // Keep walking each phase in order until we can order every node.
-      walkPhase(serializePhase);
-      walkPhase(noPhase);
-      walkPhase(deserializePhase);
-      walkPhase(retryPhase);
+      walkPhases();
       // The result list *should* get at least one larger each time.
       // Otherwise, we're going to loop forever.
       if (result.length <= initialResultLength) {
