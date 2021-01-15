@@ -84,7 +84,7 @@ Log 'Creating 3 X509 certificates to activate security domain'
 $wrappingFiles = foreach ($i in 0..2) {
     $certificate = New-X509Certificate2 "CN=$($hsmUrl.Host)"
 
-    $baseName = "$PSScriptRoot\$hsmName-certificate$i"
+    $baseName = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-certificate$i"
     Export-X509Certificate2 "$baseName.pfx" $certificate
     Export-X509Certificate2PEM "$baseName.cer" $certificate
 
@@ -97,7 +97,7 @@ az login --service-principal --tenant "$tenant" --username "$username" --passwor
 
 Log "Downloading security domain from '$hsmUrl'"
 
-$sdPath = "$PSScriptRoot\$hsmName-security-domain.key"
+$sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key"
 if (Test-Path $sdpath) {
     Log "Deleting old security domain: $sdPath"
     Remove-Item $sdPath -Force
