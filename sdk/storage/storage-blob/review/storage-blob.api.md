@@ -1086,6 +1086,10 @@ export class BlobServiceClient extends StorageClient {
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
+    renameContainer(sourceContainerName: string, destinationContainerName: string, options?: ServiceRenameContainerOptions): Promise<{
+        containerClient: ContainerClient;
+        containerRenameResponse: ContainerRenameResponse;
+    }>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
         containerClient: ContainerClient;
@@ -1930,6 +1934,23 @@ export interface ContainerReleaseLeaseOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: ModifiedAccessConditions;
 }
+
+// @public
+export interface ContainerRenameHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export type ContainerRenameResponse = ContainerRenameHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ContainerRenameHeaders;
+    };
+};
 
 // @public
 export interface ContainerRenewLeaseOptions extends CommonOptions {
@@ -2967,6 +2988,12 @@ export type ServiceListContainersSegmentResponse = ListContainersSegmentResponse
         parsedBody: ListContainersSegmentResponse;
     };
 };
+
+// @public
+export interface ServiceRenameContainerOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    sourceCondition?: LeaseAccessConditions;
+}
 
 // @public
 export interface ServiceSetPropertiesHeaders {

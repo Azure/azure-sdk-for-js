@@ -24,7 +24,9 @@ import {
   UserDelegationKeyModel,
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
-  ServiceFilterBlobsHeaders
+  ServiceFilterBlobsHeaders,
+  ContainerRenameResponse,
+  LeaseAccessConditions
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -437,6 +439,31 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link BlobServiceClient.renameContainer} operation.
+ *
+ * @export
+ * @interface ServiceRenameContainerOptions
+ */
+export interface ServiceRenameContainerOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceRenameContainerOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Condition to met for the source container.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ServiceRenameContainerOptions
+   */
+  sourceCondition?: LeaseAccessConditions;
+}
+
+/**
  * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
  *
  * @export
@@ -746,39 +773,35 @@ export class BlobServiceClient extends StorageClient {
     }
   }
 
-    /**
-   * Restore a previously deleted Blob container.
-   * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
+  /**
+   * Renames an existing Blob Container.
    *
-   * @param {string} deletedContainerName Name of the previously deleted container.
-   * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
-   * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
+   * @param {string} sourceContainerName Name of the source container.
+   * @param {string} destinationContainerName New name of the container.
    * @memberof BlobServiceClient
    */
   public async renameContainer(
-    oldContainerName: string,
-    containerName: string,
-    options: ServiceUndeleteContainerOptions = {}
+    sourceContainerName: string,
+    destinationContainerName: string,
+    options: ServiceRenameContainerOptions = {}
   ): Promise<{
     containerClient: ContainerClient;
-    containerUndeleteResponse: ContainerUndeleteResponse;
+    containerRenameResponse: ContainerRenameResponse;
   }> {
     const { span, spanOptions } = createSpan(
-      "BlobServiceClient-undeleteContainer",
+      "BlobServiceClient-renameContainer",
       options.tracingOptions
     );
     try {
-      const containerClient = this.getContainerClient(
-        containerName
-      );
+      const containerClient = this.getContainerClient(destinationContainerName);
       // Hack to access a protected member.
       const containerContext = new Container(containerClient["storageClientContext"]);
-      const containerUndeleteResponse = await containerContext.rename(oldContainerName,
-        {
+      const containerRenameResponse = await containerContext.rename(sourceContainerName, {
         ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
+        sourceLeaseId: options.sourceCondition?.leaseId,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
       });
-      return { containerClient, containerUndeleteResponse };
+      return { containerClient, containerRenameResponse };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
