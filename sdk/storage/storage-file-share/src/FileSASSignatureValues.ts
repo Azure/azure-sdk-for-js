@@ -169,15 +169,17 @@ export function generateFileSASQueryParameters(
 
   const version = fileSASSignatureValues.version ? fileSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "s";
-  let verifiedPermissions: string | undefined;
+  if (fileSASSignatureValues.filePath) {
+    resource = "f";
+  }
 
+  let verifiedPermissions: string | undefined;
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (fileSASSignatureValues.permissions) {
     if (fileSASSignatureValues.filePath) {
       verifiedPermissions = FileSASPermissions.parse(
         fileSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "f";
     } else {
       verifiedPermissions = ShareSASPermissions.parse(
         fileSASSignatureValues.permissions.toString()
