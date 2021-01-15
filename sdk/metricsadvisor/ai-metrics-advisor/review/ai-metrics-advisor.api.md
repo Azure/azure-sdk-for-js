@@ -195,6 +195,18 @@ export type ChangeThresholdConditionUnion = {
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
 
 // @public
+export type CreateDataFeedResponse = CreatedDataFeed & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
+export type CreatedDataFeed = {
+    id: string;
+};
+
+// @public
 export type DataFeed = {
     id: string;
     name: string;
@@ -923,7 +935,7 @@ export type MetricPeriodFeedback = {
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<CreateDataFeedResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
