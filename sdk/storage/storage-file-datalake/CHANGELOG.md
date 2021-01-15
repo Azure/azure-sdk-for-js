@@ -1,5 +1,9 @@
 # Release History
 
+## 12.4.0-beta.1 (Unreleased)
+
+- Fixed a bug where `generateDataLakeSASQueryParameters()` won't correctly set the resource type if `DataLakeSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
+
 ## 12.3.0 (2021-01-12)
 
 - Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
