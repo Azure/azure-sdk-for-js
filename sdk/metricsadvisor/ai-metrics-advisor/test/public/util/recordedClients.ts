@@ -4,7 +4,8 @@
 import { Context } from "mocha";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-
+import { ClientSecretCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
@@ -73,7 +74,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createRecordedAdminClient(
   context: Context,
-  apiKey: MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential
 ): RecordedAdminClient {
   const recorder = record(context, environmentSetup);
   return {
@@ -84,11 +85,21 @@ export function createRecordedAdminClient(
 
 export function createRecordedAdvisorClient(
   context: Context,
-  apiKey: MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential
 ): RecordedAdvisorClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
     recorder
   };
+}
+
+/**
+ * Returns an appropriate credential depending on the value of `useAad`.
+ */
+export function makeCredential(useAad: boolean): TokenCredential | MetricsAdvisorKeyCredential {
+  return useAad
+    ? new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    : new MetricsAdvisorKeyCredential(env.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+      env.METRICS_ADVISOR_API_KEY);
 }

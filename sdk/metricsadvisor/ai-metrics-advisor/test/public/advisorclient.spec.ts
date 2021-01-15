@@ -8,26 +8,25 @@ import {
   MetricChangePointFeedback,
   MetricCommentFeedback,
   MetricPeriodFeedback,
-  MetricsAdvisorClient,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorClient
 } from "../../src";
-import { createRecordedAdvisorClient, testEnv } from "./util/recordedClients";
+import { createRecordedAdvisorClient,makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
     describe("MetricsAdvisorClient", () => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
-      const apiKey = new MetricsAdvisorKeyCredential(
-        testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-        testEnv.METRICS_ADVISOR_API_KEY
-      );
+      // const apiKey = new MetricsAdvisorKeyCredential(
+      //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+      //   testEnv.METRICS_ADVISOR_API_KEY
+      // );
 
       beforeEach(function() {
         // eslint-disable-next-line no-invalid-this
-        ({ recorder, client } = createRecordedAdvisorClient(this, apiKey));
+        ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 
       afterEach(async function() {

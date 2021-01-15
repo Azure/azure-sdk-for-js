@@ -7,27 +7,26 @@ import {
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   MetricAlertConfiguration,
-  MetricsAdvisorAdministrationClient,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorAdministrationClient
 } from "../../src";
-import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
+import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}] FormRecognizerClient NodeJS only`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
     describe("MetricsAdvisorAdministrationClient", () => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      const apiKey = new MetricsAdvisorKeyCredential(
-        testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-        testEnv.METRICS_ADVISOR_API_KEY
-      );
-
       beforeEach(function() {
+        // const apiKey = new MetricsAdvisorKeyCredential(
+        //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+        //   testEnv.METRICS_ADVISOR_API_KEY
+        // );
+
         // eslint-disable-next-line no-invalid-this
-        ({ recorder, client } = createRecordedAdminClient(this, apiKey));
+        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
       });
 
       afterEach(async function() {

@@ -5,22 +5,24 @@ import { assert } from "chai";
 
 import {
   MetricsAdvisorAdministrationClient,
-  MetricsAdvisorKeyCredential,
   WebNotificationHook,
   EmailNotificationHook,
   EmailNotificationHookPatch,
   WebNotificationHookPatch
 } from "../../src";
-import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
+import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
+import { matrix } from "./util/matrix";
 
+matrix([[true, false]] as const, async (useAad) => {
+  describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
 describe("MetricsAdvisorClient hooks", () => {
   let client: MetricsAdvisorAdministrationClient;
   let recorder: Recorder;
-  const apiKey = new MetricsAdvisorKeyCredential(
-    testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-    testEnv.METRICS_ADVISOR_API_KEY
-  );
+  // const apiKey = new MetricsAdvisorKeyCredential(
+  //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+  //   testEnv.METRICS_ADVISOR_API_KEY
+  // );
   let createdWebHookId: string;
   let createdEmailHookId: string;
   let emailHookName: string;
@@ -28,7 +30,7 @@ describe("MetricsAdvisorClient hooks", () => {
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ recorder, client } = createRecordedAdminClient(this, apiKey));
+    ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
     if (recorder && !emailHookName) {
       emailHookName = recorder.getUniqueName("js-test-emailHook-");
     }
@@ -147,3 +149,5 @@ describe("MetricsAdvisorClient hooks", () => {
     }
   });
 }).timeout(60000);
+  })
+});

@@ -13,12 +13,15 @@ import {
   DataFeedDimension,
   DataFeedMetric,
   MetricsAdvisorAdministrationClient,
-  MetricsAdvisorKeyCredential,
+  //MetricsAdvisorKeyCredential,
   UnknownDataFeedSource
 } from "../../src";
-import { createRecordedAdminClient, testEnv } from "./util/recordedClients";
+import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
+import { matrix } from "./util/matrix";
 
+matrix([[true, false]] as const, async (useAad) => {
+  describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
 describe("MetricsAdvisorAdministrationClient datafeed", () => {
   let client: MetricsAdvisorAdministrationClient;
   let recorder: Recorder;
@@ -34,14 +37,15 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
   let mySqlFeedName: string;
   let postgreSqlFeedName: string;
 
-  const apiKey = new MetricsAdvisorKeyCredential(
-    testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-    testEnv.METRICS_ADVISOR_API_KEY
-  );
+  // const apiKeyCredential = new MetricsAdvisorKeyCredential(
+  //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+  //   testEnv.METRICS_ADVISOR_API_KEY
+  // );
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ recorder, client } = createRecordedAdminClient(this, apiKey));
+    ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+    //({ recorder, client } = createRecordedAdminClient(this, apiKeyCredential));
     if (recorder && !feedName) {
       feedName = recorder.getUniqueName("js-test-datafeed-");
     }
@@ -801,6 +805,8 @@ describe("MetricsAdvisorAdministrationClient datafeed", () => {
     });
   });
 }).timeout(60000);
+})
+});
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function verifyDataFeedDeletion(
