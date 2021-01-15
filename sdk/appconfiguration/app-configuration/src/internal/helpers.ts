@@ -209,7 +209,7 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
 }
 
 /**
- * Translates user-facing field names into their `select` equivalents (these can be 
+ * Translates user-facing field names into their `select` equivalents (these can be
  * seen in the `KnownEnum5`)
  *
  * @param fieldNames fieldNames from users.
