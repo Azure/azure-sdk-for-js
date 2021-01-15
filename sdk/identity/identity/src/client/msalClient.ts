@@ -80,7 +80,7 @@ export class MsalClient {
     this.authenticationRecord = authenticationRecord;
   }
 
-  async prepareClientApplications() {
+  async prepareClientApplications(): Promise<void> {
     // If we've already initialized the public client application, return
     if (this.pca) {
       return;
@@ -161,8 +161,8 @@ export class HttpClient implements INetworkModule {
 
   /**
    * Http Get request
-   * @param url
-   * @param options
+   * @param url -
+   * @param options -
    */
   async sendGetRequestAsync<T>(
     url: string,
@@ -185,8 +185,8 @@ export class HttpClient implements INetworkModule {
 
   /**
    * Http Post request
-   * @param url
-   * @param options
+   * @param url -
+   * @param options -
    */
   async sendPostRequestAsync<T>(
     url: string,

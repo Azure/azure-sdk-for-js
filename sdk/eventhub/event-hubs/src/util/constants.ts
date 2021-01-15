@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @ignore
+ * @hidden
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",

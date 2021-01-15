@@ -7,7 +7,7 @@ import { receiverLogger } from "../log";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface DeferredPromiseAndTimer {
   resolve: (value?: any) => void;
@@ -26,7 +26,7 @@ export interface DeferredPromiseAndTimer {
  * 5. User's code after the settlement continues.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function onMessageSettled(
   logPrefix: string,

@@ -4,6 +4,7 @@
 import assert from "assert";
 
 import { AzureKeyCredential } from "../src/azureKeyCredential";
+import { AzureSASCredential } from "../src/azureSASCredential";
 import { isTokenCredential } from "../src/tokenCredential";
 
 describe("AzureKeyCredential", () => {
@@ -24,6 +25,41 @@ describe("AzureKeyCredential", () => {
     assert.equal(credential.key, "credential1");
     credential.update("credential2");
     assert.equal(credential.key, "credential2");
+  });
+});
+
+describe("AzureSASCredential", () => {
+  it("credential constructor throws on invalid signature", () => {
+    assert.throws(() => {
+      void new AzureSASCredential("");
+    }, /shared access signature must be a non-empty string/);
+    assert.throws(() => {
+      void new AzureSASCredential((null as unknown) as string);
+    }, /shared access signature must be a non-empty string/);
+    assert.throws(() => {
+      void new AzureSASCredential((undefined as unknown) as string);
+    }, /shared access signature must be a non-empty string/);
+  });
+
+  it("credential correctly updates", () => {
+    const credential = new AzureSASCredential("credential1");
+    assert.equal(credential.signature, "credential1");
+    credential.update("credential2");
+    assert.equal(credential.signature, "credential2");
+  });
+
+  it("throws when upadting with an invalid signature", () => {
+    const credential = new AzureSASCredential("credential1");
+
+    assert.throws(() => {
+      credential.update("");
+    }, /shared access signature must be a non-empty string/);
+    assert.throws(() => {
+      credential.update((null as unknown) as string);
+    }, /shared access signature must be a non-empty string/);
+    assert.throws(() => {
+      credential.update((undefined as unknown) as string);
+    }, /shared access signature must be a non-empty string/);
   });
 });
 

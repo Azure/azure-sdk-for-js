@@ -124,5 +124,91 @@ describe("Queries", function() {
         "second batch element should be doc3"
       );
     });
+
+    describe("SUM query iterator", function() {
+      this.timeout(process.env.MOCHA_TIMEOUT || 30000);
+
+      it("returns undefined sum with null value in aggregator", async function() {
+        const container = await getTestContainer(
+          "Validate QueryIterator Functionality",
+          undefined,
+          {
+            throughput: 10100,
+            partitionKey: "/id"
+          }
+        );
+        await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5edasdfasdfed6f8a21be0109ae34e29", age: null });
+        await container.items.create({ id: "5eded6f8a2dd1be0109ae34e29", age: 22 });
+        await container.items.create({ id: "AndersenFamily" });
+        await container.items.create({ id: "1" });
+
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const { resources: sum } = await queryIterator.fetchAll();
+        assert.equal(sum.length, 0);
+      });
+      it("returns undefined sum with false value in aggregator", async function() {
+        const container = await getTestContainer(
+          "Validate QueryIterator Functionality",
+          undefined,
+          {
+            throughput: 10100,
+            partitionKey: "/id"
+          }
+        );
+        await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5edasdfasdfed6f8a21be0109ae34e29", age: false });
+        await container.items.create({ id: "5eded6f8a2dd1be0109ae34e29", age: 22 });
+        await container.items.create({ id: "AndersenFamily" });
+        await container.items.create({ id: "1" });
+
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const { resources: sum } = await queryIterator.fetchAll();
+        assert.equal(sum.length, 0);
+      });
+      it("returns undefined sum with empty array value in aggregator", async function() {
+        const container = await getTestContainer(
+          "Validate QueryIterator Functionality",
+          undefined,
+          {
+            throughput: 10100,
+            partitionKey: "/id"
+          }
+        );
+        await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5edasdfasdfed6f8a21be0109ae34e29", age: [] });
+        await container.items.create({ id: "5eded6f8a2dd1be0109ae34e29", age: 22 });
+        await container.items.create({ id: "AndersenFamily" });
+        await container.items.create({ id: "1" });
+
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const { resources: sum } = await queryIterator.fetchAll();
+        assert.equal(sum.length, 0);
+      });
+      it("returns a valid sum with undefined value in aggregator", async function() {
+        const container = await getTestContainer(
+          "Validate QueryIterator Functionality",
+          undefined,
+          {
+            throughput: 10100,
+            partitionKey: "/id"
+          }
+        );
+        await container.items.create({ id: "5eded6f8asdfasdfasdfaa21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5eded6f8a21be0109ae34e29", age: 22 });
+        await container.items.create({ id: "5edasdfasdfed6f8a21be0109ae34e29", age: undefined });
+        await container.items.create({ id: "5eded6f8a2dd1be0109ae34e29", age: 22 });
+        await container.items.create({ id: "AndersenFamily" });
+        await container.items.create({ id: "1" });
+
+        const queryIterator = container.items.query("SELECT VALUE SUM(c.age) FROM c");
+        const { resources: sum } = await queryIterator.fetchAll();
+        assert.equal(sum.length, 1);
+        assert.equal(sum[0], 66);
+      });
+    });
   });
 });

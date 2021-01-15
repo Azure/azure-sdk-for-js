@@ -78,12 +78,12 @@ export async function main() {
       );
     },
     processError: async (err, context) => {
-      console.log(`Error : ${err}`);
+      console.log(`Error on partition "${context.partitionId}": ${err}`);
     }
   });
 
   // after 30 seconds, stop processing
-  await new Promise((resolve) => {
+  await new Promise<void>((resolve) => {
     setTimeout(async () => {
       await subscription.close();
       await consumerClient.close();

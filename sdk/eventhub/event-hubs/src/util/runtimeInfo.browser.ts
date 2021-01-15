@@ -13,7 +13,7 @@ interface Navigator {
 
 /**
  * Returns information about the platform this function is being run on.
- * @ignore
+ * @hidden
  * @internal
  */
 export function getRuntimeInfo(): string {

@@ -18,7 +18,6 @@ export class ShareSASPermissions {
    *
    * @static
    * @param {string} permissions
-   * @returns
    * @memberof ShareSASPermissions
    */
   public static parse(permissions: string) {

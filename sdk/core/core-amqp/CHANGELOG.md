@@ -1,6 +1,9 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.0.2 (Unreleased)
+
+
+## 2.0.1 (2021-01-07)
 
 - Fixes the bug reported in issue [12610](https://github.com/Azure/azure-sdk-for-js/issues/12610).
   Previously, `retry` would still sleep one more time after all retry attempts were exhausted before returning.

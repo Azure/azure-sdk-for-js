@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { DefaultHttpClient } from "./defaultHttpClient";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -62,6 +61,7 @@ import { disableResponseDecompressionPolicy } from "./policies/disableResponseDe
 import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
 import { URL } from "./url";
+import { getCachedDefaultHttpClient } from "./httpClientCache";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -158,8 +158,7 @@ export interface ServiceClientOptions {
 }
 
 /**
- * @class
- * Initializes a new instance of the ServiceClient.
+ * ServiceClient sends service requests and receives responses.
  */
 export class ServiceClient {
   /**
@@ -185,9 +184,8 @@ export class ServiceClient {
 
   /**
    * The ServiceClient constructor
-   * @constructor
-   * @param credentials The credentials used for authentication with the service.
-   * @param options The service client options that govern the behavior of the client.
+   * @param credentials - The credentials used for authentication with the service.
+   * @param options - The service client options that govern the behavior of the client.
    */
   constructor(
     credentials?: TokenCredential | ServiceClientCredentials,
@@ -199,7 +197,7 @@ export class ServiceClient {
     }
 
     this._withCredentials = options.withCredentials || false;
-    this._httpClient = options.httpClient || new DefaultHttpClient();
+    this._httpClient = options.httpClient || getCachedDefaultHttpClient();
     this._requestPolicyOptions = new RequestPolicyOptions(options.httpPipelineLogger);
 
     let requestPolicyFactories: RequestPolicyFactory[];
@@ -224,7 +222,7 @@ export class ServiceClient {
           const serviceClient = this;
           const serviceClientOptions = options;
           return {
-            create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
+            create(nextPolicy: RequestPolicy, createOptions: RequestPolicyOptions): RequestPolicy {
               const credentialScopes = getCredentialScopes(
                 serviceClientOptions,
                 serviceClient.baseUri
@@ -243,7 +241,7 @@ export class ServiceClient {
                 );
               }
 
-              return bearerTokenPolicyFactory.create(nextPolicy, options);
+              return bearerTokenPolicyFactory.create(nextPolicy, createOptions);
             }
           };
         };
@@ -307,9 +305,9 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
-   * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
-   * @param {ServiceCallback} callback The callback to call when the response is received.
+   * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
+   * @param operationSpec - The OperationSpec to use to populate the httpRequest.
+   * @param callback - The callback to call when the response is received.
    */
   async sendOperationRequest(
     operationArguments: OperationArguments,
@@ -538,7 +536,6 @@ export class ServiceClient {
     const cb = callback;
     if (cb) {
       result
-        // tslint:disable-next-line:no-null-keyword
         .then((res) => cb(null, res._response.parsedBody, res._response.request, res._response))
         .catch((err) => cb(err));
     }
@@ -980,7 +977,9 @@ export function flattenResponse(
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
-  const addOperationResponse = (obj: {}): {
+  const addOperationResponse = (
+    obj: Record<string, unknown>
+  ): {
     _response: HttpOperationResponse;
   } => {
     return Object.defineProperty(obj, "_response", {

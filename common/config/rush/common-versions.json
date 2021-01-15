@@ -41,6 +41,11 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
+    // The following is required for eventhubs-checkpointstore-blob,
+    // when there is a new beta version which is being maintained in the repo.
+    // Comment this out when the storage-blob releases a stable version.
+    // "@azure/storage-blob": ["^12.3.0"],
+
     "@azure/ms-rest-js": ["^2.0.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler

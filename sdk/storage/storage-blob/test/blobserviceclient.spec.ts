@@ -343,7 +343,6 @@ describe("BlobServiceClient", () => {
       enabled: true,
       includeAPIs: true,
       retentionPolicy: {
-        allowPermanentDelete: undefined,
         days: 3,
         enabled: true
       },
@@ -544,7 +543,7 @@ describe("BlobServiceClient", () => {
       assert.deepStrictEqual(blob.containerName, containerName);
       assert.deepStrictEqual(blob.name, blobName1);
       assert.deepStrictEqual(blob.tags, tags1);
-      assert.deepStrictEqual(blob.tagValue, undefined);
+      assert.deepStrictEqual(blob.tagValue, "");
     }
 
     await containerClient.delete();

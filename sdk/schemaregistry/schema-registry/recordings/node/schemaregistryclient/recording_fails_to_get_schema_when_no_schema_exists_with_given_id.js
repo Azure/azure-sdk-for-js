@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'af534171-5c3c-4bcb-9a85-ee5dca8a4701',
+  '75b4dee7-fab8-4075-ad15-6de946d74902',
   'x-ms-ests-server',
-  '2.1.11086.7 - SCUS ProdSlices',
+  '2.1.11328.13 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=ArAKYg2zrPpLjrqM5pf-AGlJ4DFtAQAAAL-HDdcOAAAA; expires=Wed, 04-Nov-2020 21:31:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhwQEoGfzLxIjLs7cPxq-bJvWe_NAQAAAFZRfNcOAAAA; expires=Wed, 27-Jan-2021 22:21:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 05 Oct 2020 21:31:43 GMT',
-  'Content-Length',
-  '1321'
+  'Mon, 28 Dec 2020 22:21:10 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff')
   .query(true)
-  .reply(404, {"Code":404,"Detail":"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:4c61053c-d700-4fa8-ad15-90ab640077f3_G2, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2020-10-05T21:31:45"}, [
+  .reply(404, {"Code":404,"Detail":"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:696e153b-95e9-4b1f-b8e0-5e6eb919fdfb_G23, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2020-12-28T22:21:11"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Mon, 05 Oct 2020 21:31:45 GMT'
+  'Mon, 28 Dec 2020 22:21:11 GMT'
 ]);

@@ -108,7 +108,6 @@ export interface CertificateOperation {
  * Defines values for contentType.
  * Possible values include: 'application/x-pem-file', 'application/x-pkcs12'
  * @readonly
- * @enum {string}
  */
 export type CertificateContentType = "application/x-pem-file" | "application/x-pkcs12" | undefined;
 
@@ -417,7 +416,7 @@ export interface CertificateProperties {
   readonly x509Thumbprint?: Uint8Array;
   /**
    * The retention dates of the softDelete data.
-   * The value should be >=7 and <=90 when softDelete enabled.
+   * The value should be `>=7` and `<=90` when softDelete enabled.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;

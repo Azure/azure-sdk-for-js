@@ -29,13 +29,14 @@ import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 /**
  * Policies are executed in phases.
  * The execution order is:
- * 1. Policies not in a phase
- * 2. Serialize Phase
- * 3. Retry Phase
+ * 1. Serialize Phase
+ * 2. Policies not in a phase
+ * 3. Deserialize Phase
+ * 4. Retry Phase
  */
-export type PipelinePhase = "Serialize" | "Retry";
+export type PipelinePhase = "Deserialize" | "Serialize" | "Retry";
 
-const ValidPhaseNames = new Set<PipelinePhase>(["Serialize", "Retry"]);
+const ValidPhaseNames = new Set<PipelinePhase>(["Deserialize", "Serialize", "Retry"]);
 
 /**
  * Options when adding a policy to the pipeline.
@@ -216,9 +217,10 @@ class HttpsPipeline implements Pipeline {
      *
      * Order is first determined by phase:
      *
-     * 1. Policies not in a phase
-     * 2. Serialize
-     * 3. Retry
+     * 1. Serialize Phase
+     * 2. Policies not in a phase
+     * 3. Deserialize Phase
+     * 4. Retry Phase
      *
      * Within each phase, policies are executed in the order
      * they were added unless they were specified to execute
@@ -249,8 +251,9 @@ class HttpsPipeline implements Pipeline {
     const policyMap: Map<string, PolicyGraphNode> = new Map<string, PolicyGraphNode>();
 
     // Track policies for each phase.
-    const noPhase = new Set<PolicyGraphNode>();
     const serializePhase = new Set<PolicyGraphNode>();
+    const noPhase = new Set<PolicyGraphNode>();
+    const deserializePhase = new Set<PolicyGraphNode>();
     const retryPhase = new Set<PolicyGraphNode>();
 
     // Small helper function to map phase name to each Set bucket.
@@ -259,6 +262,8 @@ class HttpsPipeline implements Pipeline {
         return retryPhase;
       } else if (phase === "Serialize") {
         return serializePhase;
+      } else if (phase === "Deserialize") {
+        return deserializePhase;
       } else {
         return noPhase;
       }
@@ -345,8 +350,9 @@ class HttpsPipeline implements Pipeline {
     while (policyMap.size > 0) {
       const initialResultLength = result.length;
       // Keep walking each phase in order until we can order every node.
-      walkPhase(noPhase);
       walkPhase(serializePhase);
+      walkPhase(noPhase);
+      walkPhase(deserializePhase);
       walkPhase(retryPhase);
       // The result list *should* get at least one larger each time.
       // Otherwise, we're going to loop forever.

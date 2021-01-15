@@ -51,3 +51,8 @@ export {
   DeserializationPolicyOptions,
   DeserializationContentTypes
 } from "./deserializationPolicy";
+export {
+  serializationPolicy,
+  serializationPolicyName,
+  serializationPolicyOptions
+} from "./serializationPolicy";

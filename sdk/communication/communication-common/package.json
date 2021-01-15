@@ -13,7 +13,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "cd samples && tsc -p .",
+    "build:samples": "echo Skipped.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -33,7 +33,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -88,7 +89,7 @@
     "chai-as-promised": "^7.1.1",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -111,7 +112,8 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
-    "typescript": "~3.9.3",
-    "util": "^0.12.1"
+    "typescript": "4.1.2",
+    "util": "^0.12.1",
+    "typedoc": "0.15.0"
   }
 }

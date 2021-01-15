@@ -17,7 +17,7 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
  *
  * @class
  * @internal
- * @ignore
+ * @hidden
  */
 export class InMemoryCheckpointStore implements CheckpointStore {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();

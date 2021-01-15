@@ -1,6 +1,11 @@
 # Release History
 
-## 12.2.1 (Unreleased)
+## 12.3.0 (2021-01-12)
+
+- Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
+- Now you can get the functionality of the root directory via the `DataLakeDirectoryClient` created via `FileSystemClient.getDirectoryClient("")`. Fixed bug [12813](https://github.com/Azure/azure-sdk-for-js/issues/12813).
+
+## 12.3.0-beta.1 (2020-12-09)
 
 - Updated Azure Storage Service API version to 2020-04-08.
 - Added `generateSasUrl` to `DataLakeFileSystemClient`, `DataLakeDirectoryClient` and `DataLakeFileClient` to generate a service-level SAS URI for the client.

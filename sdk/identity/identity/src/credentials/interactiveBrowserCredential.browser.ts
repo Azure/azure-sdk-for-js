@@ -30,9 +30,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * details needed to authenticate against Azure Active Directory with
    * a user identity.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: InteractiveBrowserCredentialOptions) {
     options = {
@@ -137,9 +137,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                  TokenCredential implementation might make.
    */
   async getToken(
     scopes: string | string[],

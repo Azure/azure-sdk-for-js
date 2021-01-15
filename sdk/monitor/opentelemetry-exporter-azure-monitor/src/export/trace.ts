@@ -4,6 +4,7 @@
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel, ExportResult } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
+import { RestError } from "@azure/core-http";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
 import {
@@ -105,12 +106,20 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         return ExportResult.FAILED_NOT_RETRYABLE;
       }
     } catch (senderErr) {
-      // Request failed -- always retry
-      this._logger.error(
-        "Envelopes could not be exported and are not retriable. Error message:",
-        senderErr.message
-      );
-      return ExportResult.FAILED_NOT_RETRYABLE;
+      if (this._isNetworkError(senderErr)) {
+        this._logger.error(
+          "Retrying due to transient client side error. Error message:",
+          senderErr.message
+        );
+        return ExportResult.FAILED_RETRYABLE;
+      }
+      else {
+        this._logger.error(
+          "Envelopes could not be exported and are not retriable. Error message:",
+          senderErr.message
+        );
+        return ExportResult.FAILED_NOT_RETRYABLE;
+      }
     }
   }
 
@@ -139,5 +148,22 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     } catch (err) {
       this._logger.warn(`Failed to fetch persisted file`, err);
     }
+  }
+
+  private _isNetworkError(error: Error): boolean {
+    if (error instanceof RestError) {
+      if (
+        error &&
+        error.code &&
+        (error.code === "ETIMEDOUT" ||
+          error.code === "ESOCKETTIMEDOUT" ||
+          error.code === "ECONNREFUSED" ||
+          error.code === "ECONNRESET" ||
+          error.code === "ENOENT")
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 }

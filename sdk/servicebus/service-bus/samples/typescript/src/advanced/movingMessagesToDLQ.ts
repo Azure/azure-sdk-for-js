@@ -9,14 +9,14 @@
   Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
 
-import { ServiceBusClient } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
 
@@ -35,13 +35,13 @@ async function sendMessage() {
   // createSender() can also be used to create a sender for a topic.
   const sender = sbClient.createSender(queueName);
 
-  const message = {
+  const message: ServiceBusMessage = {
     body: {
       name: "Creamy Chicken Pasta",
       type: "Dinner"
     },
     contentType: "application/json",
-    label: "Recipe"
+    subject: "Recipe"
   };
   await sender.sendMessages(message);
   await sender.close();

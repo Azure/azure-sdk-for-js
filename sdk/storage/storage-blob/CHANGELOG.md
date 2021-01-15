@@ -1,6 +1,10 @@
 # Release History
 
-## 12.3.1 (Unreleased)
+## 12.4.0 (2021-01-12)
+
+- Added a new `from(permissionLike)` function to `AccountSASPermissions`, `BlobSASPermissions` and `ContainerSASPermissions` for creating such a permission from a raw permission-like object. Addressed issue [9714](https://github.com/Azure/azure-sdk-for-js/issues/9714).
+
+## 12.4.0-beta.1 (2020-12-09)
 
 - Updated Azure Storage Service API version to 2020-04-08.
 - Added a new interface `BlockBlobClient.syncUploadFromURL()` to support creating a new Block Blob where the contents of the blob are read from a given URL.

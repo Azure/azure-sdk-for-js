@@ -47,7 +47,7 @@ const logger = credentialLogger("DeviceCodeCredential");
 
 /**
  * Method that logs the user code from the DeviceCodeCredential.
- * @param deviceCodeInfo The device code.
+ * @param deviceCodeInfo - The device code.
  */
 export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo): void {
   console.log(deviceCodeInfo.message);
@@ -65,14 +65,14 @@ export class DeviceCodeCredential implements TokenCredential {
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID or name.
-   *                 The default value is 'organizations'.
-   *                 'organizations' may be used when dealing with multi-tenant scenarios.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   *                 By default we will try to use the Azure CLI's client ID to authenticate.
-   * @param userPromptCallback A callback function that will be invoked to show
+   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
+   *                   The default value is 'organizations'.
+   *                   'organizations' may be used when dealing with multi-tenant scenarios.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   *                   By default we will try to use the Azure CLI's client ID to authenticate.
+   * @param userPromptCallback - A callback function that will be invoked to show
                                {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string = "organizations",
@@ -109,8 +109,8 @@ export class DeviceCodeCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   async getToken(

@@ -3,9 +3,6 @@
 
 import { assert } from "chai";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
 import {
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,

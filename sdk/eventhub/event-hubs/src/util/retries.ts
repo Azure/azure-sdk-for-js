@@ -5,7 +5,7 @@ import { Constants, RetryOptions } from "@azure/core-amqp";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =

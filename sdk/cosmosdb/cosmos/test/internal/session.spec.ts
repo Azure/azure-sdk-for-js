@@ -10,7 +10,7 @@ import { SessionContainer } from "../../src/session/sessionContainer";
 import { VectorSessionToken } from "../../src/session/VectorSessionToken";
 import { endpoint, masterKey } from "../public/common/_testConfig";
 import { getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
-import * as RequestHandler from "../../src";
+import * as RequestHandler from "../../src/request/RequestHandler";
 import { RequestContext } from "../../src";
 
 // TODO: there is alot of "any" types for tokens here

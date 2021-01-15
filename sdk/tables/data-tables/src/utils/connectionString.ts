@@ -13,9 +13,8 @@ import { URL } from "./url";
  * contain:
  * - Account Connection String:  A pipeline to sign the request with a SharedKey
  * - SAS Connection String: Attach a SAS token to the storage account url for authentication
- * @param connectionString connection string to parse
- * @param options TableService client options
- * @returns
+ * @param connectionString - Connection string to parse
+ * @param options - TableService client options
  */
 export function getClientParamsFromConnectionString(
   connectionString: string,
@@ -39,9 +38,8 @@ export function getClientParamsFromConnectionString(
 /**
  * Extracts the parts of an Storage account connection string.
  *
- * @export
- * @param {string} connectionString Connection string.
- * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
+ * @param connectionString - Connection string.
+ * @returns String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   // Matching TableEndpoint in the Account connection string
@@ -102,8 +100,8 @@ function getValueInConnString(
 
 /**
  * Extracts account name from the url
- * @param {string} url url to extract the account name from
- * @returns {string} with the account name
+ * @param url - URL to extract the account name from
+ * @returns The account name
  */
 function getAccountNameFromUrl(url: string): string {
   if (!url) {

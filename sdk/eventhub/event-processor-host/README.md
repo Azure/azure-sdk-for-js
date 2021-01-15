@@ -78,7 +78,7 @@ create each instance in a separate process or a separate machine. This should pr
 The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
 For sending messages to the EventHub, please use the `azure-event-hubs` package from npm. More
 information about the event hub client can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs).
-You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/sendBatch.ts) that sends
+You can also use [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/typescript/src/sendBatch.ts) that sends
 multiple messages batched together. You should be able to run the `send` example from one terminal window and see those messages
 being received in the `singleEph` or `multipleEph` example being run in the second terminal window.
 

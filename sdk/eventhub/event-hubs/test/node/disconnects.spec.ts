@@ -85,7 +85,7 @@ describe("disconnected", function() {
 
       let processEventsInvocationCount = 0;
       let firstInvocationEndTime = 0;
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         subscription = consumer.subscribe(
           partitionId,
           {
