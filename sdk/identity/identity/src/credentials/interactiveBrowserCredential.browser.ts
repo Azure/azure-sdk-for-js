@@ -25,6 +25,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private loginStyle: BrowserLoginStyle;
   private msalConfig: msalBrowser.Configuration;
   private msalObject: msalBrowser.PublicClientApplication;
+  private account: msalCommon.AccountInfo | null = null;
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
@@ -60,7 +61,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       auth: {
         clientId: options.clientId!, // we just initialized it above
         authority: `${options.authorityHost}/${options.tenantId}`,
-        knownAuthorities,
+        knownAuthorities
       },
       cache: {
         cacheLocation: "sessionStorage",
@@ -68,8 +69,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
     };
 
-    this.msalConfig.auth.redirectUri = typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri;
-    this.msalConfig.auth.postLogoutRedirectUri = typeof options.postLogoutRedirectUri === "function" ? options.postLogoutRedirectUri() : options.postLogoutRedirectUri;
+    this.msalConfig.auth.redirectUri =
+      typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri;
+    this.msalConfig.auth.postLogoutRedirectUri =
+      typeof options.postLogoutRedirectUri === "function"
+        ? options.postLogoutRedirectUri()
+        : options.postLogoutRedirectUri;
 
     this.msalObject = new msalBrowser.PublicClientApplication(this.msalConfig);
   }
@@ -123,7 +128,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           break;
       }
 
-      authResponse = authPromise && (await authPromise) || undefined;
+      authResponse = (authPromise && (await authPromise)) || undefined;
     }
 
     return authResponse;
@@ -147,24 +152,34 @@ export class InteractiveBrowserCredential implements TokenCredential {
     try {
       const currentAccounts = this.msalObject.getAllAccounts();
       if (!currentAccounts || !currentAccounts.length) {
-        await this.login();
+        const result = await this.login();
+        if (result && result.account) {
+          this.account = result.account;
+        } else {
+          logger.getToken.info("No login response");
+          return null;
+        }
       }
 
       const authResponse = await this.acquireToken({
         authority: this.msalConfig.auth.authority!,
         // clientId: this.msalConfig.auth.clientId,
         correlationId: "TODO: correlation ID",
-        account: {
-          homeAccountId: null,
-          environment: null,
-          tenantId: null,
-          username: null,
-          localAccountId: null,
-        },
+        account: this.account!,
         forceRefresh: false,
 
         scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
       });
+
+      if (!authResponse) {
+        logger.getToken.info("No response");
+        return null;
+      }
+
+      if (!authResponse.expiresOn) {
+        logger.getToken.info(`Response had no "expiresOn" property.`);
+        return null;
+      }
 
       if (authResponse) {
         const expiresOnTimestamp = authResponse.expiresOn.getTime();
