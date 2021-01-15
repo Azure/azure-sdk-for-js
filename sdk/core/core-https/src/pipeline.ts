@@ -11,7 +11,6 @@ import {
 import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
-import { KeepAlivePolicyOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import {
   ExponentialRetryPolicyOptions,
   exponentialRetryPolicy
@@ -426,12 +425,6 @@ export interface PipelineOptions {
   proxyOptions?: ProxySettings;
 
   /**
-   * Options for how HTTP connections should be maintained for future
-   * requests.
-   */
-  keepAliveOptions?: KeepAlivePolicyOptions;
-
-  /**
    * Options for how redirect responses are handled.
    */
   redirectOptions?: PipelineRedirectOptions;
@@ -484,7 +477,6 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
-  pipeline.addPolicy(keepAlivePolicy(options.keepAliveOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
