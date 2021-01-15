@@ -26,7 +26,7 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
-      AZURE_KEYVAULT_URL: "https://uri.keyvault.azure.net",
+      KEYVAULT_URI: "https://uri.keyvault.azure.net",
       BLOB_CONTAINER_NAME: "uri",
       BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",

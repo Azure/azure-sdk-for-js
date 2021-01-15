@@ -32,9 +32,9 @@ export async function authenticate(that: Context): Promise<any> {
     env.AZURE_CLIENT_SECRET
   );
 
-  const keyVaultUrl = env.AZURE_KEYVAULT_URL;
+  const keyVaultUrl = env.KEYVAULT_URI;
   if (!keyVaultUrl) {
-    throw new Error("Missing AZURE_KEYVAULT_URL environment variable.");
+    throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
   const client = new CertificateClient(keyVaultUrl, credential);

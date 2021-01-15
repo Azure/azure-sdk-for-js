@@ -22,7 +22,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           headers: new HttpHeaders(),
           request: httpRequest,
           parsedBody: {
-            id: `${env.AZURE_KEYVAULT_URL}${path}`,
+            id: `${env.KEYVAULT_URI}${path}`,
             attributes: {}
           }
         };
@@ -55,7 +55,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should default to the latest API version", async function() {
-      const client = new KeyVaultAccessControlClient(env.AZURE_KEYVAULT_URL, credential, {
+      const client = new KeyVaultAccessControlClient(env.KEYVAULT_URI, credential, {
         httpClient: mockHttpClient
       });
       await client.listRoleDefinitions("/").next();
@@ -68,7 +68,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2-preview";
-      const client = new KeyVaultAccessControlClient(env.AZURE_KEYVAULT_URL, credential, {
+      const client = new KeyVaultAccessControlClient(env.KEYVAULT_URI, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
@@ -88,7 +88,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     });
 
     it("it should default to the latest API version", async function() {
-      const client = new KeyVaultBackupClient(env.AZURE_KEYVAULT_URL, credential, {
+      const client = new KeyVaultBackupClient(env.KEYVAULT_URI, credential, {
         httpClient: mockHttpClient
       });
       await client.beginBackup("secretName", "value");
@@ -101,7 +101,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2-preview";
-      const client = new KeyVaultBackupClient(env.AZURE_KEYVAULT_URL, credential, {
+      const client = new KeyVaultBackupClient(env.KEYVAULT_URI, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });

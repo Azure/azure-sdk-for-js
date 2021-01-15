@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "a034910784af236416b3c538a28003a2";
+module.exports.hash = "3eff7c58d008b0759e8b092d2dd8df1c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -19,17 +19,17 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  '9f5ad7c0-56bb-11eb-a6e3-0242ac12000b',
+  'c8d9afd2-56d3-11eb-9a1b-0242ac12000b',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
   "default-src 'self'",
   'x-ms-build-version',
-  '1.0.20201217-1-856d5963-develop',
+  '1.0.20210112-1-4fbf61ac-develop',
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
-  '1'
+  '2'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -47,13 +47,13 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  '9f5b042a-56bb-11eb-a3a3-0242ac12000a',
+  'c8d9a488-56d3-11eb-93f8-0242ac12000b',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
   "default-src 'self'",
   'x-ms-build-version',
-  '1.0.20201217-1-856d5963-develop',
+  '1.0.20210112-1-4fbf61ac-develop',
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
@@ -78,49 +78,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0979373b-c96e-4e83-a7a2-a52d89ab0a00',
+  '7f120c47-bee8-4b7b-94c5-add1a6560b00',
   'x-ms-ests-server',
-  '2.1.11397.13 - WUS2 ProdSlices',
+  '2.1.11397.13 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvdxGfj-Rx5MsnhHmo-xtM0nffZ-AQAAAOvCktcOAAAA; expires=Sat, 13-Feb-2021 22:55:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Alf8-GibFnZDr_3b_fTLO50nffZ-AQAAAHXrktcOAAAA; expires=Sun, 14-Feb-2021 01:48:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 14 Jan 2021 22:55:39 GMT',
+  'Fri, 15 Jan 2021 01:48:37 GMT',
   'Content-Length',
   '1322'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('///providers/Microsoft.Authorization/roleAssignments')
-  .query(true)
-  .reply(200, {"value":[{"id":"/providers/Microsoft.Authorization/roleAssignments/d686c6ca-a866-0593-9fe4-aae590e8edde","name":"d686c6ca-a866-0593-9fe4-aae590e8edde","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"},{"id":"/providers/Microsoft.Authorization/roleAssignments/a6f9cf2f-36fc-43f8-aaf4-21089e71381d","name":"a6f9cf2f-36fc-43f8-aaf4-21089e71381d","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/7b127d3c-77bd-4e3e-bbe0-dbb8971fa7f8","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}]}, [
-  'x-frame-options',
-  'SAMEORIGIN',
-  'x-ms-request-id',
-  '9fa316f2-56bb-11eb-a6e3-0242ac12000b',
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-ms-keyvault-region',
-  'southcentralus',
-  'content-length',
-  '809',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'cache-control',
-  'no-cache',
-  'x-content-type-options',
-  'nosniff',
-  'x-ms-build-version',
-  '1.0.20201217-1-856d5963-develop',
-  'x-ms-keyvault-network-info',
-  'addr=50.35.231.105',
-  'x-ms-server-latency',
-  '0'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -141,17 +111,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '29059072-e476-4525-ab39-6555f7eb0300',
+  '31c7d331-206d-4f11-865f-dca2a5a00a00',
   'x-ms-ests-server',
   '2.1.11397.13 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AoDUbO-V24NBjZvn_IDmk3InffZ-AQAAAOvCktcOAAAA; expires=Sat, 13-Feb-2021 22:55:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjLb4QWjk0VDnlmAyQTvue8nffZ-AQAAAHTrktcOAAAA; expires=Sun, 14-Feb-2021 01:48:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 14 Jan 2021 22:55:39 GMT',
+  'Fri, 15 Jan 2021 01:48:37 GMT',
   'Content-Length',
   '1322'
 ]);
@@ -159,17 +129,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .get('///providers/Microsoft.Authorization/roleAssignments')
   .query(true)
-  .reply(200, {"value":[{"id":"/providers/Microsoft.Authorization/roleAssignments/d686c6ca-a866-0593-9fe4-aae590e8edde","name":"d686c6ca-a866-0593-9fe4-aae590e8edde","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"},{"id":"/providers/Microsoft.Authorization/roleAssignments/a6f9cf2f-36fc-43f8-aaf4-21089e71381d","name":"a6f9cf2f-36fc-43f8-aaf4-21089e71381d","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/7b127d3c-77bd-4e3e-bbe0-dbb8971fa7f8","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}]}, [
+  .reply(200, {"value":[{"id":"/providers/Microsoft.Authorization/roleAssignments/abf770e6-59b6-48c4-1574-bb4d071f9760","name":"abf770e6-59b6-48c4-1574-bb4d071f9760","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}]}, [
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  '9fb2b134-56bb-11eb-a3a3-0242ac12000a',
+  'c91305d4-56d3-11eb-9a1b-0242ac12000b',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
-  'southcentralus',
+  'westeurope',
   'content-length',
-  '809',
+  '410',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -179,7 +149,37 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-content-type-options',
   'nosniff',
   'x-ms-build-version',
-  '1.0.20201217-1-856d5963-develop',
+  '1.0.20210112-1-4fbf61ac-develop',
+  'x-ms-keyvault-network-info',
+  'addr=50.35.231.105',
+  'x-ms-server-latency',
+  '1'
+]);
+
+nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('///providers/Microsoft.Authorization/roleAssignments')
+  .query(true)
+  .reply(200, {"value":[{"id":"/providers/Microsoft.Authorization/roleAssignments/abf770e6-59b6-48c4-1574-bb4d071f9760","name":"abf770e6-59b6-48c4-1574-bb4d071f9760","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}]}, [
+  'x-frame-options',
+  'SAMEORIGIN',
+  'x-ms-request-id',
+  'c9181aec-56d3-11eb-93f8-0242ac12000b',
+  'content-type',
+  'application/json; charset=utf-8',
+  'x-ms-keyvault-region',
+  'westeurope',
+  'content-length',
+  '410',
+  'strict-transport-security',
+  'max-age=31536000; includeSubDomains',
+  'content-security-policy',
+  "default-src 'self'",
+  'cache-control',
+  'no-cache',
+  'x-content-type-options',
+  'nosniff',
+  'x-ms-build-version',
+  '1.0.20210112-1-4fbf61ac-develop',
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',

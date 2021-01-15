@@ -19,17 +19,17 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  'ab550daa-56b3-11eb-be82-0242ac12000a',
+  'c99f288e-56d3-11eb-93f8-0242ac12000b',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
   "default-src 'self'",
   'x-ms-build-version',
-  '1.0.20201217-1-856d5963-develop',
+  '1.0.20210112-1-4fbf61ac-develop',
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
-  '1'
+  '0'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -50,17 +50,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6ed2dcd6-5051-4260-a355-25e891b60400',
+  '31c7d331-206d-4f11-865f-dca2dfa00a00',
   'x-ms-ests-server',
-  '2.1.11397.13 - NCUS ProdSlices',
+  '2.1.11397.13 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AmjzKe-dWppKk-e58V58SjonffZ-AgAAAJK1ktcOAAAA; expires=Sat, 13-Feb-2021 21:58:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjLb4QWjk0VDnlmAyQTvue8nffZ-AgAAAHTrktcOAAAA; expires=Sun, 14-Feb-2021 01:48:38 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 14 Jan 2021 21:58:43 GMT',
+  'Fri, 15 Jan 2021 01:48:38 GMT',
   'Content-Length',
   '1322'
 ]);
@@ -72,11 +72,11 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  'ab74ffd4-56b3-11eb-b075-0242ac12000b',
+  'c9c6d672-56d3-11eb-9a1b-0242ac12000b',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
-  'southcentralus',
+  'westeurope',
   'content-length',
   '6772',
   'strict-transport-security',
@@ -88,9 +88,9 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-content-type-options',
   'nosniff',
   'x-ms-build-version',
-  '1.0.20201217-1-856d5963-develop',
+  '1.0.20210112-1-4fbf61ac-develop',
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '1'
+  '0'
 ]);
