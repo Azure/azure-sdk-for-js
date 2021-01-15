@@ -393,16 +393,6 @@ export function createEmptyPipeline(): Pipeline {
 }
 
 /**
- * Options that allow configuring redirect behavior.
- */
-export interface PipelineRedirectOptions extends RedirectPolicyOptions {
-  /**
-   * If true, disables automatic following of redirects.
-   */
-  disable?: boolean;
-}
-
-/**
  * Defines options that are used to configure the HTTP pipeline for
  * an SDK client.
  */
@@ -426,7 +416,7 @@ export interface PipelineOptions {
   /**
    * Options for how redirect responses are handled.
    */
-  redirectOptions?: PipelineRedirectOptions;
+  redirectOptions?: RedirectPolicyOptions;
 
   /**
    * Options for adding user agent details to outgoing requests.
@@ -472,11 +462,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
   pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
-
-  if (!options.redirectOptions?.disable) {
-    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  }
-
+  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
   return pipeline;
