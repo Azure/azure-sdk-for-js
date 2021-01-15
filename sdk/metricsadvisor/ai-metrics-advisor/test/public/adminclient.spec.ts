@@ -14,7 +14,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
+  describe(`[${useAad ? "AAD": "API Key" }]`, () => {
     describe("MetricsAdvisorAdministrationClient", () => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
@@ -36,7 +36,7 @@ matrix([[true, false]] as const, async (useAad) => {
       });
 
       describe("Ingestion", function() {
-        it("lists ingestion status", async function() {
+        it.only("lists ingestion status", async function() {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 7, 1)),

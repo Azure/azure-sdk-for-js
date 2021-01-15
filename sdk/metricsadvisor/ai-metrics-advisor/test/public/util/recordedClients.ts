@@ -11,7 +11,8 @@ import {
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } from "../../../src";
-
+import * as dotenv from "dotenv";
+dotenv.config();
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
   recorder: Recorder;
@@ -99,9 +100,9 @@ export function createRecordedAdvisorClient(
  */
 export function makeCredential(useAad: boolean): TokenCredential | MetricsAdvisorKeyCredential {
   return useAad
-    ? new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
+    ? new ClientSecretCredential(testEnv.AZURE_TENANT_ID, testEnv.AZURE_CLIENT_ID, testEnv.AZURE_CLIENT_SECRET)
     : new MetricsAdvisorKeyCredential(
-        env.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-        env.METRICS_ADVISOR_API_KEY
+      testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+      testEnv.METRICS_ADVISOR_API_KEY
       );
 }
