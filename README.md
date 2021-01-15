@@ -2,7 +2,11 @@
 
 [![Packages](https://img.shields.io/badge/packages-latest-blue.svg)](https://azure.github.io/azure-sdk/releases/latest/js.html) [![Dependencies](https://img.shields.io/badge/dependency-report-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencies.html) [![DependencyGraph](https://img.shields.io/badge/dependency-graph-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/InterdependencyGraph.html)
 
-This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). For consumers of the SDK we recommend visiting our [public developer docs](https://docs.microsoft.com/javascript/azure/) or our versioned [developer docs](https://azure.github.io/azure-sdk-for-js).
+This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). It contains the management libraries for all Azure services and a growing set of client libraries for a subset of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
+
+For information on package usage and samples, please refer to these packages on npm or the readme files for each package in the source code in this repository under the `/sdk` directory.
+For API reference documentation of the latest versions of these packages, visit our [public developer docs](https://docs.microsoft.com/javascript/azure/).
+For API reference documentation of older versions, visit our versioned [developer docs](https://azure.github.io/azure-sdk-for-js).
 
 ## Getting started
 
@@ -16,19 +20,21 @@ Each service might have a number of libraries available from each of the followi
 
 ### Client: New Releases
 
-New wave of packages that we are announcing as **GA** and several that are currently releasing in **preview** on `npm`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities found in the Azure Core package such as retries, logging, transport protocols, authentication protocols, etc. Learn more about these libraries by reading [the guidelines](https://azure.github.io/azure-sdk/typescript/guidelines/) that they follow.
+Given an Azure resource already exists, you would use the client libraries to consume it and interact with it.
+The new wave of packages that we are actively working on follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These packages share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc.
 
 You can find the [most up to date list of all of the new packages on our page](https://azure.github.io/azure-sdk/releases/latest/index.html#javascript-packages)
 
-> NOTE: If you need to ensure your code is ready for production use one of the stable, non-preview libraries.
+> NOTE: Some of these packages have beta versions. If you need to ensure your code is ready for production use one of the stable, non-preview i.e. non-beta packages.
 
 ### Client: Previous Versions
 
-Last stable versions of packages that have been provided for usage with Azure and are production-ready. These libraries provide you with similar functionalities to the Preview ones as they allow you to use and consume existing resources and interact with them, for example: upload a blob. They might not implement the [guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the Novemeber releases. They do however offer wider coverage of services.
+This repository also hosts client libraries i.e. the ones you would use to consume and interact with an existing Azure resource, that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages for which we have a whole new counterparts that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines. 
+
 
 ### Management
 
-Libraries which enable you to provision specific resources. They are responsible for directly mirroring and consuming Azure service's REST endpoints. You can recognize these libraries by `mgmt` or `arm` in their package names.
+Libraries which enable you to provision specific resources. They are responsible for directly mirroring and consuming Azure service's REST endpoints. You can recognize these libraries by `@azure/arm-` in their package names.
 
 ## Need help?
 
