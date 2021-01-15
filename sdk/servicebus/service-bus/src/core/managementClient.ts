@@ -301,6 +301,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {}
   ): Promise<RheaMessage> {
+    if (request.message_id == undefined) {
+      request.message_id = generate_uuid();
+    }
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
