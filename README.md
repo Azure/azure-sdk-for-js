@@ -2,7 +2,7 @@
 
 [![Packages](https://img.shields.io/badge/packages-latest-blue.svg)](https://azure.github.io/azure-sdk/releases/latest/js.html) [![Dependencies](https://img.shields.io/badge/dependency-report-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencies.html) [![DependencyGraph](https://img.shields.io/badge/dependency-graph-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/InterdependencyGraph.html)
 
-This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). It contains the management libraries for all Azure services and a growing set of client libraries for a subset of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
+This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). It contains the management libraries for all Azure services and client libraries for a growing subset of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
 
 For information on package usage and samples, please refer to these packages on npm or the readme files for each package in the source code in this repository under the `/sdk` directory.
 For API reference documentation of the latest versions of these packages, visit our [public developer docs](https://docs.microsoft.com/javascript/azure/).
@@ -29,7 +29,7 @@ You can find the [most up to date list of all of the new packages on our page](h
 
 ### Client: Previous Versions
 
-This repository also hosts client libraries i.e. the ones you would use to consume and interact with an existing Azure resource, that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages for which we have a whole new counterparts that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines.
+This repository also hosts client libraries i.e. the ones you would use to consume and interact with an existing Azure resource, that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages which are on the path to being deprecated as we have new packages that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines themselves.
 
 ### Management
 
