@@ -55,8 +55,8 @@ import {
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import {
-  GetKeyValuesResponse,
-  AppConfigurationOptions as GeneratedAppConfigurationClientOptions
+  AppConfigurationGetKeyValuesResponse,
+  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
 
@@ -66,7 +66,7 @@ const packageName = "azsdk-js-app-configuration";
  * This constant should always be the same as the package.json's version - we use it when forming the
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
- * @ignore
+ * @hidden
  */
 export const packageVersion = "1.1.1";
 const apiVersion = "1.0";
@@ -102,7 +102,7 @@ export interface AppConfigurationClientOptions {
 /**
  * Provides internal configuration options for AppConfigurationClient.
  * @internal
- * @ignore
+ * @hidden
  */
 export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
   /**
@@ -121,16 +121,16 @@ export class AppConfigurationClient {
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
-   * @param connectionString Connection string needed for a client to connect to Azure.
-   * @param options Options for the AppConfigurationClient.
+   * @param connectionString - Connection string needed for a client to connect to Azure.
+   * @param options - Options for the AppConfigurationClient.
    */
   constructor(connectionString: string, options?: AppConfigurationClientOptions);
   /**
    * Initializes a new instance of the AppConfigurationClient class using
    * a TokenCredential.
-   * @param endpoint The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
-   * @param tokenCredential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param options Options for the AppConfigurationClient.
+   * @param endpoint - The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
+   * @param tokenCredential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param options - Options for the AppConfigurationClient.
    */
   constructor(
     endpoint: string,
@@ -169,6 +169,7 @@ export class AppConfigurationClient {
 
     this.client = new AppConfiguration(
       appConfigCredential,
+      appConfigEndpoint,
       apiVersion,
       getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
     );
@@ -184,8 +185,8 @@ export class AppConfigurationClient {
    * ```ts
    * const result = await client.addConfigurationSetting({ key: "MyKey", label: "MyLabel", value: "MyValue" });
    * ```
-   * @param configurationSetting A configuration setting.
-   * @param options Optional parameters for the request.
+   * @param configurationSetting - A configuration setting.
+   * @param options - Optional parameters for the request.
    */
   addConfigurationSetting(
     configurationSetting: AddConfigurationSettingParam,
@@ -211,8 +212,8 @@ export class AppConfigurationClient {
    * ```ts
    * const deletedSetting = await client.deleteConfigurationSetting({ key: "MyKey", label: "MyLabel" });
    * ```
-   * @param id The id of the configuration setting to delete.
-   * @param options Optional parameters for the request (ex: etag, label)
+   * @param id - The id of the configuration setting to delete.
+   * @param options - Optional parameters for the request (ex: etag, label)
    */
   deleteConfigurationSetting(
     id: ConfigurationSettingId,
@@ -237,8 +238,8 @@ export class AppConfigurationClient {
    * ```ts
    * const setting = await client.getConfigurationSetting({ key: "MyKey", label: "MyLabel" });
    * ```
-   * @param id The id of the configuration setting to get.
-   * @param options Optional parameters for the request.
+   * @param id - The id of the configuration setting to get.
+   * @param options - Optional parameters for the request.
    */
   async getConfigurationSetting(
     id: ConfigurationSettingId,
@@ -281,7 +282,7 @@ export class AppConfigurationClient {
    * ```ts
    * const allSettingsWithLabel = client.listConfigurationSettings({ labels: [ "MyLabel" ] });
    * ```
-   * @param options Optional parameters for the request.
+   * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {}
@@ -357,7 +358,9 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListConfigurationPageFromResponse(currentResponse: GetKeyValuesResponse) {
+  private *createListConfigurationPageFromResponse(
+    currentResponse: AppConfigurationGetKeyValuesResponse
+  ) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : []
@@ -372,7 +375,7 @@ export class AppConfigurationClient {
    * ```ts
    * const revisionsIterator = client.listRevisions({ keys: ["MyKey"] });
    * ```
-   * @param options Optional parameters for the request.
+   * @param options - Optional parameters for the request.
    */
   listRevisions(
     options?: ListRevisionsOptions
@@ -446,9 +449,9 @@ export class AppConfigurationClient {
 
   /**
    * Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.
-   * @param key The name of the key.
-   * @param configurationSetting A configuration value.
-   * @param options Optional parameters for the request.
+   * @param key - The name of the key.
+   * @param configurationSetting - A configuration value.
+   * @param options - Optional parameters for the request.
    *
    * Example code:
    * ```ts
@@ -475,7 +478,7 @@ export class AppConfigurationClient {
 
   /**
    * Sets or clears a key's read-only status.
-   * @param id The id of the configuration setting to modify.
+   * @param id - The id of the configuration setting to modify.
    */
   async setReadOnly(
     id: ConfigurationSettingId,
@@ -509,10 +512,10 @@ export class AppConfigurationClient {
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal
- * @ignore
+ * @hidden
  */
 export function getGeneratedClientOptions(
-  baseUri: string,
+  endpoint: string,
   syncTokens: SyncTokens,
   internalAppConfigOptions: InternalAppConfigurationClientOptions
 ): GeneratedAppConfigurationClientOptions {
@@ -528,7 +531,7 @@ export function getGeneratedClientOptions(
   );
 
   return {
-    baseUri,
+    endpoint,
     deserializationContentTypes,
     // we'll add in our own custom retry policies
     noRetryPolicy: true,
@@ -545,7 +548,7 @@ export function getGeneratedClientOptions(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): string {
   const appConfigDefaultUserAgent = `${packageName}/${packageVersion} ${getCoreHttpDefaultUserAgentValue()}`;

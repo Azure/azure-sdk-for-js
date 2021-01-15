@@ -1,5 +1,14 @@
 # Release History
 
+## 3.9.5 (2021-01-12)
+
+- BUGFIX: Throws correct Invalid Continuation Token error when making request with malformed token
+- BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
+
+## 3.9.4 (2021-01-04)
+
+- BUGFIX: Sums group by operations for cross-partition queries correctly with null values
+
 ## 3.9.3 (2020-10-19)
 
 - BUGFIX: Fixes bulk operations with top level partitionKey values that are undefined or null.

@@ -22,7 +22,9 @@ import {
   ContainerItem,
   ListContainersIncludeType,
   UserDelegationKeyModel,
-  ContainerUndeleteResponse
+  ContainerUndeleteResponse,
+  FilterBlobSegmentModel,
+  ServiceFilterBlobsHeaders
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -42,7 +44,6 @@ import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Tags } from "./models";
-import { ServiceFilterBlobsResponse } from "./generated/src/models";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
@@ -172,6 +173,41 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link BlobServiceClient.listContainers} operation.
+ *
+ * @export
+ * @interface ServiceListContainersOptions
+ */
+export interface ServiceListContainersOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceListContainersOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Filters the results to return only containers
+   * whose name begins with the specified prefix.
+   */
+  prefix?: string;
+  /**
+   * Specifies whether the container's metadata
+   *                                   should be returned as part of the response body.
+   */
+  includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted containers should be included in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListContainersOptions
+   */
+  includeDeleted?: boolean;
+}
+
+/**
  * Options to configure the {@link BlobServiceClient.findBlobsByTagsSegment} operation.
  *
  * @interface ServiceFindBlobsByTagsSegmentOptions
@@ -197,6 +233,23 @@ interface ServiceFindBlobsByTagsSegmentOptions extends CommonOptions {
    * @memberof ServiceFindBlobsByTagsSegmentOptions
    */
   maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
+ *
+ * @export
+ * @interface ServiceFindBlobByTagsOptions
+ */
+export interface ServiceFindBlobByTagsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceListContainersOptions
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -234,67 +287,44 @@ export interface FilterBlobItem {
    * @type {string}
    * @memberof FilterBlobItem
    */
-  tagValue?: string;
+  tagValue: string;
 }
 
 /**
- * Contains response data for the {@link BlobServiceClient.findBlobsByTags} operation.
+ * Segment response of {@link BlobServiceClient.findBlobsByTags} operation.
  */
-export type ServiceFindBlobsByTagsSegmentResponse = Omit<ServiceFilterBlobsResponse, "blobs"> & {
+export interface FilterBlobSegment {
+  serviceEndpoint: string;
+  where: string;
   blobs: FilterBlobItem[];
-};
-
-/**
- * Options to configure the {@link BlobServiceClient.listContainers} operation.
- *
- * @export
- * @interface ServiceListContainersOptions
- */
-export interface ServiceListContainersOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceListContainersOptions
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Filters the results to return only containers
-   * whose name begins with the specified prefix.
-   */
-  prefix?: string;
-  /**
-   * Specifies whether the container's metadata
-   *                                   should be returned as part of the response body.
-   */
-  includeMetadata?: boolean;
-
-  /**
-   * Specifies whether soft deleted containers should be included in the response.
-   *
-   * @type {boolean}
-   * @memberof ServiceListContainersOptions
-   */
-  includeDeleted?: boolean;
+  continuationToken?: string;
 }
 
 /**
- * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
- *
- * @export
- * @interface ServiceFindBlobByTagsOptions
+ * The response of {@link BlobServiceClient.findBlobsByTags} operation.
  */
-export interface ServiceFindBlobByTagsOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceListContainersOptions
-   */
-  abortSignal?: AbortSignalLike;
-}
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment &
+  ServiceFilterBlobsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceFilterBlobsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FilterBlobSegmentModel;
+    };
+  };
 
 /**
  * A user delegation key.
@@ -932,7 +962,7 @@ export class BlobServiceClient extends StorageClient {
         ...response,
         _response: response._response, // _response is made non-enumerable
         blobs: response.blobs.map((blob) => {
-          let tagValue = undefined;
+          let tagValue = "";
           if (blob.tags?.blobTagSet.length === 1) {
             tagValue = blob.tags.blobTagSet[0].value;
           }

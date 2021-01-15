@@ -74,7 +74,6 @@ export interface EventDataBatch {
 
 // @public
 export interface EventHubClientOptions {
-    customEndpointAddress?: string;
     retryOptions?: RetryOptions;
     userAgent?: string;
     webSocketOptions?: WebSocketOptions;

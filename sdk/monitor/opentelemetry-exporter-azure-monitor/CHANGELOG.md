@@ -1,7 +1,9 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 1.0.0-beta.1 (2021-01-13)
 
+- OT Exporter retry when there are network issues
+- OpenTelemetry Exporter using Resources API to get service properties
 - Rename package to `@azure/opentelemetry-exporter-azure-monitor`
 - [BREAKING] Deprecate all configuration options except for `connectionString`
 - [BREAKING] Removed support for `TelemetryProcessor`

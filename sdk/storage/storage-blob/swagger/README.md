@@ -414,4 +414,14 @@ directive:
       $.properties.Code = { "type": "string" };
 ```
 
+### Hide AllowPermanentDelete
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.RetentionPolicy
+    transform: >
+      delete $.properties["AllowPermanentDelete"];
+```
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

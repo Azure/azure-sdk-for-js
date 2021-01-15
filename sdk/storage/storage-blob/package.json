@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-blob",
   "sdk-type": "client",
-  "version": "12.4.0-beta.2",
+  "version": "12.4.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-blob/src/index.js",
@@ -27,12 +27,12 @@
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.4.0-beta.1 --use=@microsoft.azure/autorest.typescript@5.0.1",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.4.0 --use=@microsoft.azure/autorest.typescript@5.0.1",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "npm run clean && cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
@@ -74,14 +74,12 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "atorage",
-    "alob",
+    "storage",
+    "blob",
+    "cloud",
     "node.js",
     "typescript",
     "javascript",
@@ -92,7 +90,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [

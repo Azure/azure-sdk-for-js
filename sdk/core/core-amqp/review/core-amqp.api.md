@@ -159,12 +159,10 @@ export enum ConditionErrorNameMapper {
 
 // @public
 export interface ConnectionConfig {
-    amqpHostname?: string;
     connectionString: string;
     endpoint: string;
     entityPath?: string;
     host: string;
-    port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
     webSocket?: WebSocketImpl;

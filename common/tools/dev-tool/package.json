@@ -20,7 +20,9 @@
     "lint": "eslint src test --ext .ts -f html -o template-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "unit-test": "mocha --require ts-node/register test/**/*.spec.ts",
+    "unit-test": "npm run unit-test:node",
+    "unit-test:node": "mocha --require ts-node/register test/**/*.spec.ts",
+    "unit-test:browser": "echo skipped",
     "build:samples": "echo Skipped.",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
   },
@@ -30,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool/",
   "sideEffects": false,
   "private": true,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",

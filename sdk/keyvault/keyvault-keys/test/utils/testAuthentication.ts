@@ -9,7 +9,9 @@ import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 
-export async function authenticate(that: Context): Promise<any> {
+// Adding this to the source would change the public API.
+type ApiVersions = "7.0" | "7.1";
+export async function authenticate(that: Context, version?: string): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
@@ -35,7 +37,9 @@ export async function authenticate(that: Context): Promise<any> {
 
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
-  const client = new KeyClient(keyVaultUrl, credential);
+  const client = new KeyClient(keyVaultUrl, credential, {
+    serviceVersion: version as ApiVersions
+  });
   const testClient = new TestClient(client);
 
   return { recorder, client, credential, testClient, keySuffix };

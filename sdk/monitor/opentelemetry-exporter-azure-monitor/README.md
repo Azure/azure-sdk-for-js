@@ -14,7 +14,7 @@ This exporter package assumes your application is [already instrumented](https:/
 
 You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Application Insights workspace](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/) to use this package.
-If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+If you are using this package in a Node.js application, then use Node.js 8.5.0 or higher.
 
 ### Distributed Tracing
 

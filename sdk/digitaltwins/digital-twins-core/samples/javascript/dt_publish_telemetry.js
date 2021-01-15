@@ -13,8 +13,8 @@ const { inspect } = require("util");
 // - Environment variables have to be set
 // - DigitalTwins enabled device must exist on the ADT hub
 async function main() {
-  // - AZURE_URL: The tenant ID in Azure Active Directory
-  const url = process.env.AZURE_URL;
+  // - AZURE_DIGITALTWINS_URL: The tenant ID in Azure Active Directory
+  const url = process.env.AZURE_DIGITALTWINS_URL;
 
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory

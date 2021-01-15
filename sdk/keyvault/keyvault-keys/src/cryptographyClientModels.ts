@@ -3,50 +3,23 @@
 
 import { CryptographyOptions } from "./keysModels";
 
-/**
- * Defines values for SignatureAlgorithm.
- * @readonly
- */
-export type SignatureAlgorithm =
-  | "PS256"
-  | "PS384"
-  | "PS512"
-  | "RS256"
-  | "RS384"
-  | "RS512"
-  | "ES256"
-  | "ES384"
-  | "ES512"
-  | "ES256K";
+import {
+  JsonWebKeyCurveName as KeyCurveName,
+  KnownJsonWebKeyCurveName as KnownKeyCurveNames,
+  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
+  KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
+  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
+  KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms
+} from "./generated/models";
 
-/**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC', 'A256CBC', 'A128CBCPAD', 'A192CBCPAD', 'A256CBCPAD'
- * @readonly
- */
-export type EncryptionAlgorithm =
-  | "RSA-OAEP"
-  | "RSA-OAEP-256"
-  | "RSA1_5"
-  | "A128GCM"
-  | "A192GCM"
-  | "A256GCM"
-  | "A128KW"
-  | "A192KW"
-  | "A256KW"
-  | "A128CBC"
-  | "A192CBC"
-  | "A256CBC"
-  | "A128CBCPAD"
-  | "A192CBCPAD"
-  | "A256CBCPAD";
-
-/**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export {
+  KeyCurveName,
+  KnownKeyCurveNames,
+  EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
+  SignatureAlgorithm,
+  KnownSignatureAlgorithms
+};
 
 /**
  * Supported algorithms for key wrapping/unwrapping

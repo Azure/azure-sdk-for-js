@@ -20,7 +20,7 @@
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
@@ -66,14 +66,12 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "storage",
     "blob",
+    "cloud",
     "changefeed",
     "node.js",
     "typescript",
@@ -85,7 +83,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob-changefeed/",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
@@ -96,7 +94,7 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.4.0-beta.1",
+    "@azure/storage-blob": "^12.4.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",

@@ -25,7 +25,7 @@ import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
@@ -77,7 +77,7 @@ export interface ConnectionContext extends ConnectionContextBase {
 /**
  * Describes the members on the ConnectionContext that are only
  * used by it internally.
- * @ignore
+ * @hidden
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
@@ -101,7 +101,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
@@ -130,7 +130,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export namespace ConnectionContext {
   /**
@@ -438,7 +438,7 @@ export namespace ConnectionContext {
  * Helper method to create a ConnectionContext from the input passed to either
  * EventHubProducerClient or EventHubConsumerClient constructors
  *
- * @ignore
+ * @hidden
  * @internal
  */
 export function createConnectionContext(
@@ -499,10 +499,6 @@ export function createConnectionContext(
     if (!host.endsWith("/")) host += "/";
     connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
     config = EventHubConnectionConfig.create(connectionString);
-  }
-
-  if (options?.customEndpointAddress) {
-    EventHubConnectionConfig.setCustomEndpointAddress(config, options.customEndpointAddress);
   }
 
   ConnectionConfig.validate(config);

@@ -17,7 +17,7 @@
     },
     "cognitiveServicesEndpointSuffix": {
       "type": "string",
-      "defaultValue": "cognitiveservices.azure.com"
+      "defaultValue": ".cognitiveservices.azure.com"
     }
   },
   "variables": {
@@ -61,7 +61,7 @@
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', variables('accountName'), '.', parameters('cognitiveServicesEndpointSuffix'), '/')]"
+      "value": "[concat('https://', variables('accountName'), parameters('cognitiveServicesEndpointSuffix'), '/')]"
     }
   }
 }

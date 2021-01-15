@@ -2,10 +2,10 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.0.1",
+  "version": "7.0.3",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/",
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -33,7 +33,7 @@
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.1.0",
+    "@azure/core-amqp": "^2.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",

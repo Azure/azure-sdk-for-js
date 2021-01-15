@@ -115,7 +115,7 @@ export class SmsClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential as KeyCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new SmsApiClient(url, pipeline);

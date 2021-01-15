@@ -19,7 +19,7 @@
     "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js"
   },
   "types": "./types/ai-form-recognizer.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -137,7 +137,8 @@
       "trainUnlabeledModel.js",
       "copyModel.js",
       "authenticationMethods.js",
-      "recognizeContent.js"
+      "recognizeContent.js",
+      "deleteAllModels.js"
     ]
   }
 }

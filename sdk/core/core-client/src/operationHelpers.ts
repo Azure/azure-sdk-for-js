@@ -10,7 +10,7 @@ import {
 } from "./interfaces";
 
 /**
- * @internal @ignore
+ * @internal @hidden
  * Retrieves the value to use for a given operation argument
  * @param operationArguments The arguments passed from the generated client
  * @param parameter The parameter description

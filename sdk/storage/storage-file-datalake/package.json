@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.3.0-beta.2",
+  "version": "12.3.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -23,7 +23,7 @@
     "os": false,
     "process": false
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
@@ -68,15 +68,13 @@
     "LICENSE"
   ],
   "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "storage",
     "ADLS",
     "DFS",
+    "cloud",
     "datalake",
     "node.js",
     "typescript",
@@ -88,7 +86,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-file-datalake/",
   "//metadata": {
     "constantPaths": [
       {
@@ -103,7 +101,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.4.0-beta.1",
+    "@azure/storage-blob": "^12.4.0",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },

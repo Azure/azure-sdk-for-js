@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "LRO Polling strtegy for the Azure SDK in TypeScript",
   "tags": [
     "isomorphic",

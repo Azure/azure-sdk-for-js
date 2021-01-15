@@ -9,8 +9,8 @@ import {
   ShareDeleteResponse,
   ServiceGetPropertiesResponse,
   ServiceSetPropertiesResponse,
-  ServiceListSharesSegmentResponseModel,
-  ShareItemInternal,
+  ServiceListSharesSegmentHeaders,
+  ListSharesResponseModel,
   SharePropertiesInternal
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
@@ -24,7 +24,7 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode } from "@azure/core-http";
+import { isNode, HttpResponse } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
@@ -188,7 +188,7 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
  * @export
  * @interface ShareProperties
  */
-export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
+export type ShareProperties = SharePropertiesInternal & {
   /**
    * The protocols that have been enabled on the share.
    * @type {ShareProtocols}
@@ -203,18 +203,52 @@ export type ShareProperties = Omit<SharePropertiesInternal, "protocols"> & {
  * @export
  * @interface ShareItem
  */
-export type ShareItem = Omit<ShareItemInternal, "properties"> & { properties: ShareProperties };
+export interface ShareItem {
+  name: string;
+  snapshot?: string;
+  deleted?: boolean;
+  version?: string;
+  properties: ShareProperties;
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * An enumeration of shares.
+ */
+export interface ListSharesResponse {
+  serviceEndpoint: string;
+  prefix?: string;
+  marker?: string;
+  maxResults?: number;
+  shareItems?: ShareItem[];
+  continuationToken: string;
+}
 
 /**
  * Contains response data for the {@link ShareServiceClient.listShares} operation.
- *
- * @export
- * @interface ServiceListSharesSegmentResponse
  */
-export type ServiceListSharesSegmentResponse = Omit<
-  ServiceListSharesSegmentResponseModel,
-  "shareItems"
-> & { shareItems?: ShareItem[] };
+export type ServiceListSharesSegmentResponse = ListSharesResponse &
+  ServiceListSharesSegmentHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceListSharesSegmentHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListSharesResponseModel;
+    };
+  };
 
 /**
  * Options to configure {@link ShareServiceClient.generateAccountSasUrl} operation.
@@ -727,7 +761,6 @@ export class ShareServiceClient extends StorageClient {
       if (res.shareItems) {
         for (let i = 0; i < res.shareItems.length; i++) {
           const protocolsStr = res.shareItems[i].properties.enabledProtocols;
-          delete res.shareItems[i].properties.enabledProtocols;
           (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
         }
       }

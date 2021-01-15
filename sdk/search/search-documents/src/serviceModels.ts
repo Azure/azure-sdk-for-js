@@ -381,7 +381,7 @@ export interface PatternAnalyzer {
   lowerCaseTerms?: boolean;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -479,7 +479,7 @@ export interface PatternTokenizer {
   name: string;
   /**
    * A regular expression pattern to match token separators. Default is an expression that matches
-   * one or more whitespace characters. Default value: '\W+'.
+   * one or more whitespace characters. Default value: `\W+`.
    */
   pattern?: string;
   /**
@@ -670,7 +670,6 @@ export type ScoringFunction =
  * 'Collection(Edm.Int32)', 'Collection(Edm.Int64)', 'Collection(Edm.Double)',
  * 'Collection(Edm.Boolean)', 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)'
  * @readonly
- * @enum {string}
  */
 export type SearchFieldDataType =
   | "Edm.String"
@@ -692,7 +691,6 @@ export type SearchFieldDataType =
  * Defines values for ComplexDataType.
  * Possible values include: 'Edm.ComplexType', 'Collection(Edm.ComplexType)'
  * @readonly
- * @enum {string}
  */
 export type ComplexDataType = "Edm.ComplexType" | "Collection(Edm.ComplexType)";
 
@@ -864,6 +862,7 @@ export interface SynonymMap {
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
 
 /**
@@ -871,6 +870,7 @@ export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[
  * as needed during iteration. Use .byPage() to make one request to the server
  * per iteration.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 /**
@@ -1102,7 +1102,6 @@ export interface ScoringProfile {
 /**
  * Defines values for TokenizerName.
  * @readonly
- * @enum {string}
  */
 export enum KnownTokenizerNames {
   /**
@@ -1133,10 +1132,12 @@ export enum KnownTokenizerNames {
   /**
    * Divides text using language-specific rules.
    */
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
   /**
    * Divides text using language-specific rules and reduces words to their base forms.
    */
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
   /**
    * Tokenizes the input into n-grams of the given size(s). See
@@ -1174,7 +1175,6 @@ export enum KnownTokenizerNames {
 /**
  * Defines values for TokenFilterName.
  * @readonly
- * @enum {string}
  */
 export enum KnownTokenFilterNames {
   /**
@@ -1358,7 +1358,6 @@ export enum KnownTokenFilterNames {
 /**
  * Defines values for CharFilterName.
  * @readonly
- * @enum {string}
  */
 export enum KnownCharFilterNames {
   /**
@@ -1372,7 +1371,6 @@ export enum KnownCharFilterNames {
  * Defines values for AnalyzerName.
  * See https://docs.microsoft.com/rest/api/searchservice/Language-support
  * @readonly
- * @enum {string}
  */
 export enum KnownAnalyzerNames {
   /**

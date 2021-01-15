@@ -48,10 +48,6 @@ steps:
       node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
     displayName: "Pack libraries"
 
-  - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" --verbose
-    displayName: "Build samples"
-
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |

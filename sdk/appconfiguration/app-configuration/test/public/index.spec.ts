@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as assert from "assert";
 import {
@@ -438,7 +438,7 @@ describe("AppConfigurationClient", () => {
     let listConfigSettingA: ConfigurationSetting;
     let count = 0;
 
-    let productionASettingId: {
+    const productionASettingId: {
       key: string;
       label: string;
       value: string;
@@ -448,7 +448,7 @@ describe("AppConfigurationClient", () => {
       value: "[A] production value"
     };
 
-    let keys: {
+    const keys: {
       listConfigSettingA: string;
       listConfigSettingB: string;
     } = {
@@ -497,7 +497,7 @@ describe("AppConfigurationClient", () => {
 
     it("exact match on label", async () => {
       // query with a direct label match
-      let byLabelIterator = client.listConfigurationSettings({ labelFilter: uniqueLabel });
+      const byLabelIterator = client.listConfigurationSettings({ labelFilter: uniqueLabel });
       const byLabelSettings = await toSortedArray(byLabelIterator);
 
       assertEqualSettings(
@@ -521,7 +521,7 @@ describe("AppConfigurationClient", () => {
 
     it("label wildcards", async () => {
       // query with a direct label match
-      let byLabelIterator = client.listConfigurationSettings({
+      const byLabelIterator = client.listConfigurationSettings({
         labelFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*"
       });
       const byLabelSettings = await toSortedArray(byLabelIterator);
@@ -546,7 +546,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on key", async () => {
-      let byKeyIterator = client.listConfigurationSettings({
+      const byKeyIterator = client.listConfigurationSettings({
         keyFilter: keys.listConfigSettingA
       });
       const byKeySettings = await toSortedArray(byKeyIterator);
@@ -573,7 +573,7 @@ describe("AppConfigurationClient", () => {
     it("key wildcards", async () => {
       // query with a key wildcard
       const keyFilter = keys.listConfigSettingA;
-      let byKeyIterator = client.listConfigurationSettings({
+      const byKeyIterator = client.listConfigurationSettings({
         keyFilter: keyFilter.substring(0, keyFilter.length - 1) + "*"
       });
       const byKeySettings = await toSortedArray(byKeyIterator);
@@ -632,12 +632,12 @@ describe("AppConfigurationClient", () => {
     });
 
     it("by date", async () => {
-      let byKeyIterator = client.listConfigurationSettings({
+      const byKeyIterator = client.listConfigurationSettings({
         keyFilter: "listConfigSetting*",
         acceptDateTime: listConfigSettingA.lastModified
       });
 
-      let settings = await toSortedArray(byKeyIterator);
+      const settings = await toSortedArray(byKeyIterator);
       let foundMyExactSettingToo = false;
 
       // all settings returned should be the same date or as old as my setting
@@ -678,7 +678,7 @@ describe("AppConfigurationClient", () => {
 
       await Promise.all(addSettingPromises);
 
-      let listResult = client.listConfigurationSettings({
+      const listResult = client.listConfigurationSettings({
         keyFilter: key
       });
 
@@ -800,12 +800,12 @@ describe("AppConfigurationClient", () => {
     });
 
     it("by date", async () => {
-      let byKeyIterator = client.listRevisions({
+      const byKeyIterator = client.listRevisions({
         keyFilter: key,
         acceptDateTime: originalSetting.lastModified
       });
 
-      let settings = await toSortedArray(byKeyIterator);
+      const settings = await toSortedArray(byKeyIterator);
 
       assert.deepEqual(
         {

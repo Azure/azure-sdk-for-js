@@ -57,6 +57,7 @@ module.exports = function(config) {
     envPreprocessor: [
       "TEST_MODE",
       "SCHEMA_REGISTRY_ENDPOINT",
+      "SCHEMA_REGISTRY_GROUP",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"

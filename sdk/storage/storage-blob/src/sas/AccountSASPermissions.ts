@@ -69,6 +69,53 @@ export class AccountSASPermissions {
   }
 
   /**
+   * Creates a {@link AccountSASPermissions} from a raw object which contains same keys as it
+   * and boolean values for them.
+   *
+   * @static
+   * @param {AccountSASPermissionsLike} permissionLike
+   * @returns {AccountSASPermissions}
+   * @memberof AccountSASPermissions
+   */
+  public static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions {
+    const accountSASPermissions = new AccountSASPermissions();
+    if (permissionLike.read) {
+      accountSASPermissions.read = true;
+    }
+    if (permissionLike.write) {
+      accountSASPermissions.write = true;
+    }
+    if (permissionLike.delete) {
+      accountSASPermissions.delete = true;
+    }
+    if (permissionLike.deleteVersion) {
+      accountSASPermissions.deleteVersion = true;
+    }
+    if (permissionLike.filter) {
+      accountSASPermissions.filter = true;
+    }
+    if (permissionLike.tag) {
+      accountSASPermissions.tag = true;
+    }
+    if (permissionLike.list) {
+      accountSASPermissions.list = true;
+    }
+    if (permissionLike.add) {
+      accountSASPermissions.add = true;
+    }
+    if (permissionLike.create) {
+      accountSASPermissions.create = true;
+    }
+    if (permissionLike.update) {
+      accountSASPermissions.update = true;
+    }
+    if (permissionLike.process) {
+      accountSASPermissions.process = true;
+    }
+    return accountSASPermissions;
+  }
+
+  /**
    * Permission to read resources and list queues and tables granted.
    *
    * @type {boolean}
@@ -208,4 +255,98 @@ export class AccountSASPermissions {
     }
     return permissions.join("");
   }
+}
+
+/**
+ * A type that looks like an account SAS permission.
+ * Used in {@link AccountSASPermissions} to parse SAS permissions from raw objects.
+ */
+export interface AccountSASPermissionsLike {
+  /**
+   * Permission to read resources and list queues and tables granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  read?: boolean;
+
+  /**
+   * Permission to write resources granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  write?: boolean;
+
+  /**
+   * Permission to create blobs and files granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  delete?: boolean;
+
+  /**
+   * Permission to delete versions granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  deleteVersion?: boolean;
+
+  /**
+   * Permission to list blob containers, blobs, shares, directories, and files granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  list?: boolean;
+
+  /**
+   * Permission to add messages, table entities, and append to blobs granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  add?: boolean;
+
+  /**
+   * Permission to create blobs and files granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  create?: boolean;
+
+  /**
+   * Permissions to update messages and table entities granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  update?: boolean;
+
+  /**
+   * Permission to get and delete messages granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  process?: boolean;
+
+  /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  tag?: boolean;
+
+  /**
+   * Permission to filter blobs.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissionsLike
+   */
+  filter?: boolean;
 }
