@@ -10,7 +10,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 
 describe("ManagementClient unit tests", () => {
-  it("actionAfterTimeout throws error on timeout", async () => {
+  it("actionAfterTimeout throws error that can be caught on timeout", async () => {
     const connectionContext = createConnectionContextForTests();
 
     const mgmtClient = new ManagementClient(
@@ -40,5 +40,6 @@ describe("ManagementClient unit tests", () => {
         `The request with message_id "${fakeRequest.message_id}" timed out. Please try again later.`
       );
     }
+    await mgmtClient.close();
   });
 });
