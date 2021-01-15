@@ -17,7 +17,7 @@ interface StorageBlobUploadTestOptions {
 export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTestOptions> {
   blobName: string;
   blockBlobClient: BlockBlobURL;
-  buffer = Buffer.alloc(this.parsedOptions.size.value!);
+  buffer: Buffer;
   public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
     size: {
       required: true,
@@ -32,6 +32,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
     super();
     this.blobName = generateUuid();
     this.blockBlobClient = BlockBlobURL.fromContainerURL(this.containerClient, this.blobName);
+    this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
   async runAsync(): Promise<void> {
