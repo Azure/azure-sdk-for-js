@@ -182,7 +182,7 @@ export class NodeHttpsClient implements HttpsClient {
             return;
           })
           .catch((e) => {
-            logger.warning("Error when cleaning up abortListener", e);
+            logger.warning("Error when cleaning up abortListener on httpRequest", e);
           });
       }
     }

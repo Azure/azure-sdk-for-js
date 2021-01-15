@@ -217,7 +217,7 @@ export abstract class FetchHttpClient implements HttpClient {
             return;
           })
           .catch((e) => {
-            logger.warning("Error when cleaning up abortListener", e);
+            logger.warning("Error when cleaning up abortListener on httpRequest", e);
           });
       }
     }
