@@ -42,11 +42,8 @@ describe("BlobBatch", () => {
     credential = getGenericCredential("");
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
-    containerScopedBatchClient = new BlobBatchClient(
-      containerClient.url,
-      containerClient["pipeline"]
-    );
     await containerClient.create();
+    containerScopedBatchClient = containerClient.getBlobBatchClient();
 
     for (let i = 0; i < blockBlobCount - 1; i++) {
       let tmpBlobName = `blob${i}`;
@@ -679,7 +676,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it.only("Container scoped: submitBatch should work for batch delete", async () => {
+  it("Container scoped: submitBatch should work for batch delete", async () => {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."

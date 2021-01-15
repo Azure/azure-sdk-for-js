@@ -17,7 +17,8 @@ import {
   BlobClient,
   Tags,
   SASProtocol,
-  UserDelegationKey
+  UserDelegationKey,
+  BlobBatch
 } from "../../src";
 import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
@@ -1534,6 +1535,85 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       AccountSASPermissions.from(accountPermission).toString(),
       orderedAccountPermissionStr
     );
+  });
+
+  it("Batch operation should work with container sas", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
+
+    // generate conatianer sas
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = blobServiceClient.credential;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("racwdl")
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${containerClient.url}?${containerSAS}`;
+    const containerClientWithSAS = new ContainerClient(sasClient);
+
+    // upload blobs
+    const blockBlobCount = 3;
+    let blockBlobClients = new Array(blockBlobCount);
+    const content = "Hello World";
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      let tmpBlobName = `blob${i}`;
+      let tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
+    let specialBlobName = `å ä ö`;
+    let tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    let batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i]);
+    }
+
+    // Submit batch request and verify response.
+    const containerScopedBatchClient = containerClientWithSAS.getBlobBatchClient();
+    const resp = await containerScopedBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (
+      await containerClient
+        .listBlobsFlat({})
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
+
+    await containerClient.delete();
   });
 });
 
