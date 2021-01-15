@@ -10,7 +10,7 @@ import {
   MetricPeriodFeedback,
   MetricsAdvisorClient
 } from "../../src";
-import { createRecordedAdvisorClient,makeCredential, testEnv } from "./util/recordedClients";
+import { createRecordedAdvisorClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
 
