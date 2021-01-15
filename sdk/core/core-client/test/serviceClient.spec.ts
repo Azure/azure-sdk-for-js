@@ -14,7 +14,8 @@ import {
   Mapper,
   CompositeMapper,
   OperationSpec,
-  serializationPolicy
+  serializationPolicy,
+  FullOperationResponse
 } from "../src";
 import {
   createHttpHeaders,
@@ -249,20 +250,26 @@ describe("ServiceClient", function() {
     assert.deepEqual(request!.headers.toJSON(), expected);
   });
 
-  it("responses should not show the _response property when serializing", async function() {
+  it("should call rawResponseCallback with the full response", async function() {
     let request: OperationRequest;
     const client = new ServiceClient({
       httpsClient: {
         sendRequest: (req) => {
           request = req;
-          return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          return Promise.resolve({
+            request,
+            status: 200,
+            headers: createHttpHeaders({ "X-Extra-Info": "foo" })
+          });
         }
       },
       pipeline: createEmptyPipeline()
     });
 
+    let rawResponse: FullOperationResponse | undefined;
+
     const response = await client.sendOperationRequest(
-      {},
+      { options: { onResponse: (response) => (rawResponse = response) } },
       {
         httpMethod: "GET",
         baseUrl: "https://example.com",
@@ -275,8 +282,10 @@ describe("ServiceClient", function() {
     );
 
     assert(request!);
-    // _response should be not enumerable
     assert.strictEqual(JSON.stringify(response), "{}");
+    assert.strictEqual(rawResponse?.status, 200);
+    assert.strictEqual(rawResponse?.request, request!);
+    assert.strictEqual(rawResponse?.headers.get("X-Extra-Info"), "foo");
   });
 
   it("should serialize collection:csv query parameters", async function() {
@@ -336,8 +345,15 @@ describe("ServiceClient", function() {
       pipeline
     });
 
-    const res = await client1.sendOperationRequest(
-      {},
+    let rawResponse: FullOperationResponse | undefined;
+    const res = await client1.sendOperationRequest<Array<number>>(
+      {
+        options: {
+          onResponse: (response) => {
+            rawResponse = response;
+          }
+        }
+      },
       {
         serializer: createSerializer(),
         httpMethod: "GET",
@@ -359,7 +375,7 @@ describe("ServiceClient", function() {
       }
     );
 
-    assert.strictEqual(res._response.status, 200);
+    assert.strictEqual(rawResponse?.status, 200);
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
   });
 

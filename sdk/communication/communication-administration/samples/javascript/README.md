@@ -16,7 +16,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [issueToken.js][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
 | [revokeTokens.js][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
 | [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
-| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release all phone numbers that match certain criteria          |
+| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers                                          |
 
 ## Prerequisites
 

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  createCommunicationAccessKeyCredentialPolicy,
+  createCommunicationAuthPolicy,
   parseClientArguments,
   isKeyCredential,
   CommunicationUserIdentifier
 } from "@azure/communication-common";
-import { KeyCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -30,7 +30,7 @@ import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
-  options && !isKeyCredential(options);
+  options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
  * Client class for interacting with Azure Communication Services User Token Management.
@@ -60,7 +60,17 @@ export class CommunicationIdentityClient {
     credential: KeyCredential,
     options?: CommunicationIdentityOptions
   );
-
+  /**
+   * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
+   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
+   * @param credential TokenCredential that is used to authenticate requests to the service.
+   * @param options Optional. Options to configure the HTTP pipeline.
+   */
+  public constructor(
+    url: string,
+    credential: TokenCredential,
+    options?: CommunicationIdentityOptions
+  );
   /**
    * Creates an instance of CommunicationIdentity.
    *
@@ -70,7 +80,7 @@ export class CommunicationIdentityClient {
    */
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions,
+    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
     maybeOptions: CommunicationIdentityOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -98,9 +108,8 @@ export class CommunicationIdentityClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     this.client = new IdentityRestClient(url, pipeline).communicationIdentity;
   }
 

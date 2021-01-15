@@ -1,5 +1,12 @@
 # Release History
 
+## 1.2.3 (Unreleased)
+
+
+## 1.2.2 (2021-01-12)
+
+- Upgrading to the msal-node dependency due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).
+
 ## 1.2.1 (2021-01-07)
 
 - Upgrading to Axios 0.21.1 due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).

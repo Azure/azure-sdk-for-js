@@ -1,6 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -21,7 +27,9 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-istanbul",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
+      "karma-json-to-file-reporter",
+      "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
@@ -31,7 +39,7 @@ module.exports = function(config) {
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "test-browser/index.js",
       { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
-    ],
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -39,17 +47,19 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"]
+      "**/*.js": ["env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // "test-browser/index.js": ["coverage"]
+      "dist-test/index.browser.js": ["coverage"],
+      "recordings/browsers/**/*.json": ["json"]
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "AZ_CONFIG_CONNECTION",
+      "AZURE_DIGITALTWINS_URL",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
@@ -59,7 +69,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file", "karma-remap-istanbul"],
 
     coverageReporter: {
       // specify a common output directory
@@ -87,6 +97,12 @@ module.exports = function(config) {
       properties: {} // key value pair of properties to add to the <properties> section of the report
     },
 
+    jsonToFileReporter: {
+      // required - to save the recordings of browser tests
+      filter: jsonRecordingFilterFunction,
+      outputPath: "."
+    },
+
     // web server port
     port: 9876,
 
@@ -108,7 +124,7 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
+        flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
 
@@ -123,6 +139,9 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
+    browserConsoleLogOptions: {
+      terminal: !isRecordMode()
+    },
 
     client: {
       mocha: {

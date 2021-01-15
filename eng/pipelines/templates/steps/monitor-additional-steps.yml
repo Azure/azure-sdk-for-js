@@ -1,5 +1,5 @@
 parameters:
-  PackagePath: "sdk/monitor/monitor-opentelemetry-exporter/"
+  PackagePath: "sdk/monitor/opentelemetry-exporter-azure-monitor/"
 
 steps:
   - bash: |

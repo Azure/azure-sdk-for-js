@@ -6,7 +6,7 @@ import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
 import { TelemetryItem as Envelope } from "../../../src/generated";
@@ -40,7 +40,6 @@ export class BasicScenario implements Scenario {
     await tracer.withSpan(root, async () => {
       const child1 = tracer.startSpan(`${this.constructor.name}.Child.1`, {
         startTime: 0,
-        parent: root,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
           numbers: "123"
@@ -49,7 +48,6 @@ export class BasicScenario implements Scenario {
 
       const child2 = tracer.startSpan(`${this.constructor.name}.Child.2`, {
         startTime: 0,
-        parent: root,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
           numbers: "1234"
@@ -57,15 +55,15 @@ export class BasicScenario implements Scenario {
       });
 
       tracer.withSpan(child1, () => {
-        child1.setStatus({ code: CanonicalCode.OK });
+        child1.setStatus({ code: StatusCode.OK });
         child1.end(100);
       });
 
       await delay(0);
-      child2.setStatus({ code: CanonicalCode.OK });
+      child2.setStatus({ code: StatusCode.OK });
       child2.end(100);
 
-      root.setStatus({ code: CanonicalCode.OK });
+      root.setStatus({ code: StatusCode.OK });
       root.end(600);
     });
   }
@@ -74,8 +72,8 @@ export class BasicScenario implements Scenario {
     opentelemetry.trace.disable();
   }
 
-  flush(callback: () => void): void {
-    processor.forceFlush(callback);
+  flush(): Promise<void> {
+    return processor.forceFlush();
   }
 
   expectation: Expectation[] = [

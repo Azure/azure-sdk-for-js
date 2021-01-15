@@ -8,7 +8,6 @@ chaiUse(chaiPromises);
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { AttestationClient } from "../../src";
 import * as base64url from "../utils/base64url";
 import { verifyAttestationToken } from "../utils/helpers";
 
@@ -119,8 +118,7 @@ describe("[AAD] Attestation Client", function() {
     "PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCgA";
 
   it("#AttestSgxShared", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("Shared");
+    const client = createRecordedClient("Shared");
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const attestationResult = await client.attestation.attestSgxEnclave({
       quote: base64url.decodeString(_sgxQuote),
@@ -137,8 +135,7 @@ describe("[AAD] Attestation Client", function() {
     }
   });
   it("#AttestSgxAad", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD");
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const attestationResult = await client.attestation.attestSgxEnclave({
       quote: base64url.decodeString(_sgxQuote),
@@ -156,8 +153,7 @@ describe("[AAD] Attestation Client", function() {
   });
 
   it("#AttestSgxIsolated", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD");
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
     const attestationResult = await client.attestation.attestSgxEnclave({
       quote: base64url.decodeString(_sgxQuote),
