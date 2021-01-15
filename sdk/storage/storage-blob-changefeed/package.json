@@ -27,7 +27,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "npm run clean && cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
+    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",

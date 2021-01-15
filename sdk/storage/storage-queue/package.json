@@ -28,7 +28,7 @@
     "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.3.0 --use=@microsoft.azure/autorest.typescript@5.0.1",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "npm run clean && cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
+    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
