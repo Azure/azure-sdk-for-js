@@ -650,10 +650,36 @@ describe("BlobServiceClient", () => {
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const newContainerName = recorder.getUniqueName("container");
+    const newContainerName = recorder.getUniqueName("newcontainer");
     await blobServiceClient.renameContainer(containerName, newContainerName);
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
-    console.log(await newContainerClient.getProperties());
+    await newContainerClient.getProperties();
+
+    // clean up
+    await newContainerClient.delete();
+  });
+
+  it.only("rename container should work with source lease", async function() {
+    const blobServiceClient = getBSU();
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const leaseClient = containerClient.getBlobLeaseClient();
+    await leaseClient.acquireLease(-1);
+
+    const newContainerName = recorder.getUniqueName("newcontainer");
+
+    await blobServiceClient.renameContainer(containerName, newContainerName, {
+      sourceCondition: { leaseId: leaseClient.leaseId }
+    });
+
+    const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
+    await newContainerClient.getProperties();
+
+    // clean up
+    await newContainerClient.delete();
   });
 });
