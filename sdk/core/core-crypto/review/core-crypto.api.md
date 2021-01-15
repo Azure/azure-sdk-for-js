@@ -5,10 +5,10 @@
 ```ts
 
 // @public
-export function computeSha256Hash(content: string, encoding: 'base64' | 'hex'): Promise<string>;
+export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
-export function computeSha256Hmac(key: string, stringToSign: string, encoding: 'base64' | 'hex'): Promise<string>;
+export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
 
 
 // (No @packageDocumentation comment for this package)
