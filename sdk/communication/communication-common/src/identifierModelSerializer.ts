@@ -71,6 +71,8 @@ export const _serializeCommunicationIdentifier = (
       };
     case "Unknown":
       return { kind: "unknown", id: identifierKind.id };
+    default:
+      throw new Error(`Can't serialize an identifier with kind ${(identifierKind as any).kind}`);
   }
 };
 
@@ -110,7 +112,7 @@ export const _deserializeCommunicationIdentifier = (
     case "unknown":
       return { kind: "Unknown", id: assertNotNullOrUndefined(serializedIdentifier, "id") };
     default:
-      throw new Error(`Unsupported identifier kind ${serializedIdentifier.kind}.`);
+      return { kind: "Unknown", id: assertNotNullOrUndefined(serializedIdentifier, "id") };
   }
 };
 

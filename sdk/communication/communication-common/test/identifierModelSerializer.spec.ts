@@ -75,6 +75,13 @@ describe("Identifier model serializer", () => {
     );
   });
 
+  it("serializes as unknown identifier if kind not understood", () => {
+    assertSerialize({ kind: "foobar", id: "42", someOtherProp: true } as any, {
+      kind: "unknown",
+      id: "42"
+    });
+  });
+
   it("can deserialize", () => {
     assertDeserialize(
       {
@@ -128,13 +135,21 @@ describe("Identifier model serializer", () => {
     );
   });
 
-  it("throws if kind not understood", () => {
-    assert.throws(() => {
-      _deserializeCommunicationIdentifier({
+  it("deserializes as unknown identifier if kind not understood", () => {
+    assertDeserialize({ kind: "foobar", id: "42", someOtherProp: true } as any, {
+      kind: "Unknown",
+      id: "42"
+    });
+  });
+
+  it("throws if kind not understood and id property is missing", () => {
+    assertThrowsMissingProperty(
+      {
         kind: "foobar",
-        id: "42"
-      } as any);
-    }, `Unsupported identifier kind foobar.`);
+        someOtherProp: true
+      } as any,
+      "id"
+    );
   });
 
   it("throws if property is missing", () => {
