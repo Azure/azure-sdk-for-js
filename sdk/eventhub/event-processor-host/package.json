@@ -56,7 +56,7 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "//metadata": {
     "constantPaths": [
@@ -121,6 +121,6 @@
     "ts-node": "^8.3.0",
     "typescript": "4.1.2",
     "ws": "^7.1.1",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

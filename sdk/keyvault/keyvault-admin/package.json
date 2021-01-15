@@ -73,7 +73,7 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "dependencies": {
@@ -137,6 +137,6 @@
     "source-map-support": "^0.5.9",
     "typescript": "4.1.2",
     "uuid": "^8.3.0",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }
