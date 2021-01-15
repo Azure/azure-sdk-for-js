@@ -23,7 +23,6 @@ import { disableResponseDecompressionPolicy } from "./policies/disableResponseDe
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { isNode } from "./util/helpers";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 
 /**
  * Policies are executed in phases.
@@ -449,11 +448,6 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
    */
   decompressResponse?: boolean;
-
-  /**
-   * Send JSON Array payloads as NDJSON.
-   */
-  sendStreamingJson?: boolean;
 }
 
 /**
@@ -462,10 +456,6 @@ export interface InternalPipelineOptions extends PipelineOptions {
  */
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = HttpsPipeline.create();
-
-  if (options.sendStreamingJson) {
-    pipeline.addPolicy(ndJsonPolicy());
-  }
 
   if (isNode) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
