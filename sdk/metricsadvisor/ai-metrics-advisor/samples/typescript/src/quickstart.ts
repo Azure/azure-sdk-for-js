@@ -38,8 +38,9 @@ export async function main() {
 
   const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
   console.log(`Data feed created: ${created.id}`);
+  const datafeed = await adminClient.getDataFeed(created.id);
   console.log("  metrics: ");
-  console.log(created.schema.metrics);
+  console.log(datafeed.schema.metrics);
 
   console.log("Waiting for a minute before checking ingestion status...");
   await delay(60 * 1000);
