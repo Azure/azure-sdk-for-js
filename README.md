@@ -29,8 +29,7 @@ You can find the [most up to date list of all of the new packages on our page](h
 
 ### Client: Previous Versions
 
-This repository also hosts client libraries i.e. the ones you would use to consume and interact with an existing Azure resource, that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages for which we have a whole new counterparts that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines. 
-
+This repository also hosts client libraries i.e. the ones you would use to consume and interact with an existing Azure resource, that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages for which we have a whole new counterparts that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines.
 
 ### Management
 
@@ -47,6 +46,7 @@ Libraries which enable you to provision specific resources. They are responsible
 Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) <secure@microsoft.com>. You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the MSRC PGP key, can be found in the [Security TechCenter](https://www.microsoft.com/msrc/faqs-report-an-issue).
 
 ## Contributing
+
 For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
