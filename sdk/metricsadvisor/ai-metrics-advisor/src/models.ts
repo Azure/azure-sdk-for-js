@@ -1278,6 +1278,29 @@ export type GetDataFeedResponse = DataFeed & {
     parsedBody: any;
   };
 };
+/**
+ * Contains response data for the createDataFeed operation.
+ */
+export type CreateDataFeedResponse = {
+  /**
+   * Unique id of the data feed.
+   */
+  id: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+};
 
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.

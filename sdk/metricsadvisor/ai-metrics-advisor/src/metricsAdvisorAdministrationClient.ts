@@ -31,6 +31,7 @@ import {
   WebNotificationHookPatch,
   EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
+  CreateDataFeedResponse,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
@@ -183,7 +184,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createDataFeed(
     feed: DataFeedDescriptor,
     operationOptions: OperationOptions = {}
-  ): Promise<GetDataFeedResponse> {
+  ): Promise<CreateDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
       operationOptions
@@ -261,7 +262,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedId = result.location.substring(lastSlashIndex + 1);
-      return this.getDataFeed(feedId);
+      return { feedId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
