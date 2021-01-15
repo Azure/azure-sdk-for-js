@@ -13,6 +13,7 @@ import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { v4 as uuidv4 } from "uuid";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -26,6 +27,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private msalConfig: msalBrowser.Configuration;
   private msalObject: msalBrowser.PublicClientApplication;
   private account: msalCommon.AccountInfo | null = null;
+  private correlationId: string;
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
@@ -46,6 +48,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
       // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
       clientId: (options && options.clientId) || DeveloperSignOnClientId
     };
+
+    this.correlationId = uuidv4();
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
@@ -163,11 +167,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
       const authResponse = await this.acquireToken({
         authority: this.msalConfig.auth.authority!,
-        // clientId: this.msalConfig.auth.clientId,
-        correlationId: "TODO: correlation ID",
+        correlationId: this.correlationId,
         account: this.account!,
         forceRefresh: false,
-
         scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
       });
 
