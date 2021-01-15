@@ -3,10 +3,9 @@ trigger: none
 extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
-    PackageName: "@azure/digitaltwins"
+    PackageName: "@azure/digital-twins-core"
     ResourceServiceDirectory: digitaltwins
-    TestBrowser: true
-    TestSamples: false
+    TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
