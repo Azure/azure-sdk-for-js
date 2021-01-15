@@ -2,7 +2,7 @@
 
 [![Packages](https://img.shields.io/badge/packages-latest-blue.svg)](https://azure.github.io/azure-sdk/releases/latest/js.html) [![Dependencies](https://img.shields.io/badge/dependency-report-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencies.html) [![DependencyGraph](https://img.shields.io/badge/dependency-graph-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/InterdependencyGraph.html)
 
-This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). It contains the management libraries for all Azure services and client libraries for a growing subset of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
+This repository is for the Azure SDK for JavaScript (NodeJS & Browser). It contains the management libraries for all Azure services and client libraries for a growing subset of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
 
 For information on package usage and samples, please refer to these packages on npm or the readme files for each package in the source code in this repository under the `/sdk` directory.
 For API reference documentation of the latest versions of these packages, visit our [public developer docs](https://docs.microsoft.com/javascript/azure/).
