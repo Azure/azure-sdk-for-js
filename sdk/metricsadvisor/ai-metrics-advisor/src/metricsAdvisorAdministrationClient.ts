@@ -261,8 +261,8 @@ export class MetricsAdvisorAdministrationClient {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
-      const feedId = result.location.substring(lastSlashIndex + 1);
-      return { feedId, _response: result._response };
+      const id = result.location.substring(lastSlashIndex + 1);
+      return { id, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

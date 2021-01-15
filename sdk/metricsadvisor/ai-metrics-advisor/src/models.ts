@@ -272,6 +272,16 @@ export type DataFeedGranularity =
 export type DataFeedStatus = "Paused" | "Active" | string;
 
 /**
+ * Represents newly created Metrics Advisor data feed.
+ */
+export type CreatedDataFeed = {
+  /**
+   * Unique id of the data feed.
+   */
+  id: string;
+};
+
+/**
  * Represents a Metrics Advisor data feed.
  */
 export type DataFeed = {
@@ -1281,24 +1291,15 @@ export type GetDataFeedResponse = DataFeed & {
 /**
  * Contains response data for the createDataFeed operation.
  */
-export type CreateDataFeedResponse = {
-  /**
-   * Unique id of the data feed.
-   */
-  id: string;
+export type CreateDataFeedResponse = CreatedDataFeed & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
     /**
-     * The response body as text (string format)
+     * The parsed HTTP response headers.
      */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
+    parsedHeaders: any;
   };
 };
 

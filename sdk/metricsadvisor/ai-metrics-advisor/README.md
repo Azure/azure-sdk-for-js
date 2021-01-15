@@ -232,8 +232,10 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     accessMode: "Private",
     adminEmails: ["xyz@example.com"]
   };
-  const result = await adminClient.createDataFeed(dataFeed);
-
+  const created = await adminClient.createDataFeed(dataFeed);
+  /* To get the full datafeed object, you can call the get method and pass the id of the created datafeed
+  */
+  const result = await adminClient.getDataFeed(created.id);
   return result;
 }
 ```
