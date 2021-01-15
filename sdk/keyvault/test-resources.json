@@ -232,9 +232,9 @@
       "type": "string",
       "value": "[parameters('testApplicationOid')]"
     },
-    "BLOB_STORAGE_ACCOUNT_NAME": {
+    "BLOB_STORAGE_URL": {
       "type": "string",
-      "value": "[variables('primaryAccountName')]"
+      "value": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('primaryAccountName'))).primaryEndpoints.blob]"
     },
     "BLOB_PRIMARY_STORAGE_ACCOUNT_KEY": {
       "type": "string",

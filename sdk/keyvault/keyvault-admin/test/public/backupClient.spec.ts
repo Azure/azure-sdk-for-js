@@ -25,7 +25,7 @@ describe("KeyVaultBackupClient", () => {
 
   it.skip("beginBackup", async function() {
     const blobStorageUri = `https://${env.BLOB_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/backup`;
-    const sasToken = env.BLOB_PRIMARY_STORAGE_ACCOUNT_KEY;
+    const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
     console.log("blobStorageUri", blobStorageUri);
     console.log("sasToken", sasToken);
     const backupPoller = await client.beginBackup(blobStorageUri, sasToken, testPollerProperties);

@@ -26,13 +26,12 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_KEYVAULT_URL: "https://uri.keyvault.azure.net",
       BLOB_CONTAINER_NAME: "uri",
-      BLOB_PRIMARY_STORAGE_ACCOUNT_KEY: "blob_storage_account_key",
       BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
-      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
-      KEYVAULT_NAME: "keyvault_name"
+      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
