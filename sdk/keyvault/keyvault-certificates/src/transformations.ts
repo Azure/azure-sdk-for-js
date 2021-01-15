@@ -6,7 +6,6 @@ import {
   CertificateContentType,
   CertificateOperation,
   CertificateIssuer,
-  CertificateKeyType,
   CertificatePolicy,
   CertificateProperties,
   DeletedCertificate,
@@ -26,7 +25,8 @@ import {
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   X509CertificateProperties,
   CertificateOperation as CoreCertificateOperation,
-  Contacts as CoreContacts
+  Contacts as CoreContacts,
+  JsonWebKeyType as CertificateKeyType
 } from "./generated/models";
 import { parseKeyVaultCertificateId } from "./identifier";
 
