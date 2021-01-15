@@ -14,7 +14,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
-  describe(`[${useAad ? "AAD": "API Key" }]`, () => {
+  describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
     describe("MetricsAdvisorAdministrationClient", () => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;

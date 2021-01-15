@@ -100,9 +100,13 @@ export function createRecordedAdvisorClient(
  */
 export function makeCredential(useAad: boolean): TokenCredential | MetricsAdvisorKeyCredential {
   return useAad
-    ? new ClientSecretCredential(testEnv.AZURE_TENANT_ID, testEnv.AZURE_CLIENT_ID, testEnv.AZURE_CLIENT_SECRET)
+    ? new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      )
     : new MetricsAdvisorKeyCredential(
-      testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-      testEnv.METRICS_ADVISOR_API_KEY
+        testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+        testEnv.METRICS_ADVISOR_API_KEY
       );
 }
