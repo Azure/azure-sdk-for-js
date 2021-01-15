@@ -3,11 +3,11 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  createCommunicationAccessKeyCredentialPolicy,
   parseClientArguments,
-  isKeyCredential
+  isKeyCredential,
+  createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   PipelineOptions,
   InternalPipelineOptions,
@@ -115,10 +115,22 @@ export class PhoneNumberAdministrationClient {
     credential: KeyCredential,
     options?: PhoneNumberAdministrationClientOptions
   );
+  
+  /**
+   * Initializes a new instance of the PhoneNumberAdministrationClient class using a TokenCredential.
+   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential TokenCredential that is used to authenticate requests to the service.
+   * @param options Optional. Options to configure the HTTP pipeline.
+   */
+  public constructor(
+    url: string,
+    credential: TokenCredential,
+    options?: PhoneNumberAdministrationClientOptions
+  );
 
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | PhoneNumberAdministrationClientOptions,
+    credentialOrOptions?: KeyCredential | TokenCredential | PhoneNumberAdministrationClientOptions,
     maybeOptions: PhoneNumberAdministrationClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -146,7 +158,7 @@ export class PhoneNumberAdministrationClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential as KeyCredential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new PhoneNumberRestClient(url, pipeline).phoneNumberAdministration;
   }
