@@ -28,7 +28,11 @@ import {
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
+import {
+  ContainerClient,
+  ContainerCreateOptions,
+  ContainerDeleteMethodOptions
+} from "./ContainerClient";
 import {
   appendToURLPath,
   appendToURLQuery,

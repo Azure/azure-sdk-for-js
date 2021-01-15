@@ -1664,6 +1664,7 @@ export class ContainerClient extends StorageClient {
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
+    getBlobBatchClient(): BlobBatchClient;
     getBlobClient(blobName: string): BlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
     getBlockBlobClient(blobName: string): BlockBlobClient;
