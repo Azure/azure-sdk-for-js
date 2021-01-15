@@ -115,7 +115,7 @@ export class PhoneNumberAdministrationClient {
     credential: KeyCredential,
     options?: PhoneNumberAdministrationClientOptions
   );
-  
+
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a TokenCredential.
    * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
