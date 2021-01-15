@@ -304,27 +304,31 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    const actionAfterTimeout = () => {
+    const actionAfterTimeout = (reject: (reason?: any) => void) => {
       const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
       const e: Error = {
         name: "OperationTimeoutError",
         message: desc
       };
 
-      throw e;
+      reject(e);
     };
 
-    const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
+    await new Promise<void>(async (resolve, reject) => {
+      const waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
+      internalLogger.verbose(
+        `${this.logPrefix} Acquiring lock to get the management req res link.`
+      );
 
-    internalLogger.verbose(`${this.logPrefix} Acquiring lock to get the management req res link.`);
-
-    try {
-      if (!this.isOpen()) {
-        await this._init(sendRequestOptions?.abortSignal);
+      try {
+        if (!this.isOpen()) {
+          await this._init(sendRequestOptions?.abortSignal);
+        }
+      } finally {
+        clearTimeout(waitTimer);
+        resolve();
       }
-    } finally {
-      clearTimeout(waitTimer);
-    }
+    });
 
     // time taken by the init operation
     const timeTakenByInit = Date.now() - initOperationStartTime;
