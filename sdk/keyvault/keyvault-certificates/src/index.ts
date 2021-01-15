@@ -51,8 +51,6 @@ import {
   GetDeletedCertificateOptions,
   CertificateTags,
   ImportCertificateOptions,
-  CertificateKeyType,
-  CertificateKeyCurveName,
   ListPropertiesOfCertificatesOptions,
   ListPropertiesOfCertificateVersionsOptions,
   ListPropertiesOfIssuersOptions,
@@ -96,7 +94,6 @@ import {
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
-  KeyUsageType,
   X509CertificateProperties,
   KeyVaultClientDeleteCertificateContactsResponse,
   KeyVaultClientSetCertificateContactsResponse,
@@ -118,11 +115,12 @@ import {
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   ActionType,
   DeletionRecoveryLevel,
-  JsonWebKeyType as KeyType,
-  JsonWebKeyCurveName as KeyCurveName,
-  KnownJsonWebKeyCurveName as KnownKeyCurveNames,
+  JsonWebKeyType as CertificateKeyType,
+  KnownJsonWebKeyType as KnownCertificateKeyTypes,
+  JsonWebKeyCurveName as CertificateKeyCurveName,
+  KnownJsonWebKeyCurveName as KnownCertificateKeyCurveNames,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
-  KnownJsonWebKeyType as KnownKeyTypes,
+  KeyUsageType,
   KnownKeyUsageType as KnownKeyUsageTypes
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -238,12 +236,10 @@ export {
   logger,
   CancelCertificateOperationOptions,
   KeyVaultCertificatePollOperationState,
-  KnownKeyCurveNames,
+  KnownCertificateKeyCurveNames,
   KnownDeletionRecoveryLevels,
-  KnownKeyTypes,
-  KnownKeyUsageTypes,
-  KeyType,
-  KeyCurveName
+  KnownCertificateKeyTypes,
+  KnownKeyUsageTypes
 };
 
 /**

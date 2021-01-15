@@ -114,7 +114,7 @@ export interface CertificateIssuer extends IssuerProperties {
 export type CertificateKeyCurveName = string;
 
 // @public
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type CertificateKeyType = string;
 
 // @public
 export interface CertificateOperation {
@@ -317,12 +317,6 @@ export interface IssuerProperties {
 }
 
 // @public
-export type KeyCurveName = string;
-
-// @public
-export type KeyType = string;
-
-// @public
 export type KeyUsageType = string;
 
 // @public
@@ -354,6 +348,24 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
+export const enum KnownCertificateKeyCurveNames {
+    P256 = "P-256",
+    P256K = "P-256K",
+    P384 = "P-384",
+    P521 = "P-521"
+}
+
+// @public
+export const enum KnownCertificateKeyTypes {
+    EC = "EC",
+    ECHSM = "EC-HSM",
+    Oct = "oct",
+    OctHSM = "oct-HSM",
+    RSA = "RSA",
+    RSAHSM = "RSA-HSM"
+}
+
+// @public
 export const enum KnownDeletionRecoveryLevels {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
@@ -362,24 +374,6 @@ export const enum KnownDeletionRecoveryLevels {
     Recoverable = "Recoverable",
     RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
     RecoverablePurgeable = "Recoverable+Purgeable"
-}
-
-// @public
-export const enum KnownKeyCurveNames {
-    P256 = "P-256",
-    P256K = "P-256K",
-    P384 = "P-384",
-    P521 = "P-521"
-}
-
-// @public
-export const enum KnownKeyTypes {
-    EC = "EC",
-    ECHSM = "EC-HSM",
-    Oct = "oct",
-    OctHSM = "oct-HSM",
-    RSA = "RSA",
-    RSAHSM = "RSA-HSM"
 }
 
 // @public
