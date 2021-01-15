@@ -52,7 +52,7 @@
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "BreakingChanges.md",
@@ -155,7 +155,7 @@
     "typescript": "4.1.2",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true

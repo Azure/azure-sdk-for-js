@@ -72,7 +72,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/*/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -124,7 +124,7 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "4.1.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "//smokeTestConfiguration": {
     "skip": [
