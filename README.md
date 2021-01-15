@@ -29,7 +29,7 @@ You can find the [most up to date list of all of the new packages on our page](h
 
 ### Client: Previous Versions
 
-This repository also hosts client libraries i.e. the ones you would use to consume and interact with an existing Azure resource, that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages which are on the path to being deprecated as we have new packages that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines themselves.
+This repository also hosts client libraries that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages which are on the path to being deprecated as we have new packages that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines themselves.
 
 ### Management
 
