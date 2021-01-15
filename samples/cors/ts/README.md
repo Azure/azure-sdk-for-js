@@ -17,7 +17,7 @@ Interested in enabling CORS in Key Vault? [Let us know!](https://feedback.azure.
 
 With this approach you'll use a server process (like [ASP.NET][asp] or [Express][express]) to route requests to Azure Key Vault. Since you own the client and server processes you can freely add CORS policies to support your requests.
 
-If your web application already has a back end component this will be the most straightforward approach. You'll simply add a new API endpoint to your server which will be responsible for fetching secrets from Azure Key Vault and returning it to the user. This allows you to have complete control and customization over the security and authorization of calls to Key Vault since all calls will go through a priviledged environment (your server).
+If your web application already has a back end component this will be the most straightforward approach. You'll simply add a new API endpoint to your server which will be responsible for fetching secrets from Azure Key Vault and returning it to the user. This allows you to have complete control and customization over the security and authorization of calls to Key Vault since all calls will go through a privileged environment (your server).
 
 ## Use Azure API Management
 
