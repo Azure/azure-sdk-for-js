@@ -84,7 +84,6 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 
 // @public
 export interface HttpHeaders extends Iterable<[string, string]> {
-    clone(): HttpHeaders;
     delete(name: string): void;
     get(name: string): string | undefined;
     has(name: string): boolean;
@@ -159,7 +158,6 @@ export interface PipelineRequest<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
     additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
-    clone(): PipelineRequest;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;

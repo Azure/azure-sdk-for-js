@@ -61,10 +61,6 @@ export interface HttpHeaders extends Iterable<[string, string]> {
    */
   delete(name: string): void;
   /**
-   * Duplicates this collection.
-   */
-  clone(): HttpHeaders;
-  /**
    * Accesses a raw JS object that acts as a simple map
    * of header names to values.
    */
@@ -162,11 +158,6 @@ export interface PipelineRequest<AdditionalInfo = any> {
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
-
-  /**
-   * Clone this request object.
-   */
-  clone(): PipelineRequest;
 
   /**
    * Callback which fires upon upload progress.

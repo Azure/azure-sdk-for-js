@@ -146,28 +146,6 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
     this.requestId = options.requestId || generateUuid();
     this.additionalInfo = options.additionalInfo;
   }
-
-  public clone(): PipelineRequest {
-    return new PipelineRequestImpl({
-      url: this.url,
-      abortSignal: this.abortSignal,
-      body: this.body,
-      formData: this.formData,
-      headers: this.headers.clone(),
-      keepAlive: this.keepAlive,
-      method: this.method,
-      onDownloadProgress: this.onDownloadProgress,
-      onUploadProgress: this.onUploadProgress,
-      proxySettings: this.proxySettings,
-      skipDecompressResponse: this.skipDecompressResponse,
-      streamResponseBody: this.streamResponseBody,
-      timeout: this.timeout,
-      withCredentials: this.withCredentials,
-      spanOptions: this.spanOptions,
-      requestId: this.requestId,
-      additionalInfo: this.additionalInfo
-    });
-  }
 }
 
 /**
