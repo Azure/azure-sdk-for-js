@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import * as msalCommon from "@azure/msal-common";
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { IdentityClient } from "../client/identityClient";
 import {
@@ -26,7 +25,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private loginStyle: BrowserLoginStyle;
   private msalConfig: msalBrowser.Configuration;
   private msalObject: msalBrowser.PublicClientApplication;
-  private account: msalCommon.AccountInfo | null = null;
+  private account: msalBrowser.AccountInfo | null = null;
   private correlationId: string;
 
   /**
@@ -96,14 +95,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   private async acquireToken(
-    authParams: msalCommon.SilentFlowRequest
+    authParams: msalBrowser.SilentRequest
   ): Promise<msalBrowser.AuthenticationResult | undefined> {
     let authResponse: msalBrowser.AuthenticationResult | undefined;
     try {
       logger.info("Attempting to acquire token silently");
       authResponse = await this.msalObject.acquireTokenSilent(authParams);
     } catch (err) {
-      if (err instanceof msalCommon.AuthError) {
+      if (err instanceof msalBrowser.AuthError) {
         switch (err.errorCode) {
           case "consent_required":
           case "interaction_required":
