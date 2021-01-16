@@ -1,6 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function helloWorld(): string {
-  return "Hello World!";
-}
+/**
+ * Azure client library for Mixed Reality authentication.
+ *
+ * @remarks
+ * The {@link MixedRealityStsClient} class is used to request access tokens used
+ * to access Mixed Reality services.
+ *
+ * @packageDocumentation
+ */
+
+export { logger } from "./logger";
+export { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
+export { MixedRealityStsClient } from "./mixedRealityStsClient";

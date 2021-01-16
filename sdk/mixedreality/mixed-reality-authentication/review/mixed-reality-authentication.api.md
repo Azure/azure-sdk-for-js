@@ -4,10 +4,34 @@
 
 ```ts
 
-// @public (undocumented)
-export function helloWorld(): string;
+import { AccessToken } from '@azure/core-http';
+import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureLogger } from '@azure/logger';
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
+// @public
+export interface GetTokenOptions extends OperationOptions {
+}
 
-// (No @packageDocumentation comment for this package)
+// @public
+export const logger: AzureLogger;
+
+// @public
+export class MixedRealityStsClient {
+    constructor(accountId: string, endpointUrl: string, keyCredential: AzureKeyCredential, options?: MixedRealityStsClientOptions);
+    constructor(accountId: string, accountDomain: string, keyCredential: AzureKeyCredential, options?: MixedRealityStsClientOptions);
+    constructor(accountId: string, endpointUrl: string, credential: TokenCredential, options?: MixedRealityStsClientOptions);
+    constructor(accountId: string, accountDomain: string, credential: TokenCredential, options?: MixedRealityStsClientOptions);
+    readonly accountId: string;
+    readonly endpointUrl: string;
+    getToken(options?: GetTokenOptions): Promise<AccessToken>;
+    }
+
+// @public
+export interface MixedRealityStsClientOptions extends PipelineOptions {
+}
+
 
 ```
