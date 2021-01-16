@@ -19,17 +19,11 @@ import { SpanOptions } from "@azure/core-tracing";
  * Settings to initialize a request.
  * Almost equivalent to Partial<PipelineRequest>, but url is mandatory.
  */
-export interface PipelineRequestOptions<AdditionalInfo = any> {
+export interface PipelineRequestOptions {
   /**
    * The URL to make the request to.
    */
   url: string;
-
-  /**
-   * Any additional information on the request that
-   * is policy or client specific.
-   */
-  additionalInfo?: AdditionalInfo;
 
   /**
    * The HTTP method to use when making the request.
@@ -108,7 +102,7 @@ export interface PipelineRequestOptions<AdditionalInfo = any> {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
-class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<AdditionalInfo> {
+class PipelineRequestImpl implements PipelineRequest {
   public url: string;
   public method: HttpMethods;
   public headers: HttpHeaders;
@@ -125,7 +119,6 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
   public spanOptions?: SpanOptions;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
-  public additionalInfo?: AdditionalInfo;
 
   constructor(options: PipelineRequestOptions) {
     this.url = options.url;
@@ -144,7 +137,6 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
-    this.additionalInfo = options.additionalInfo;
   }
 }
 

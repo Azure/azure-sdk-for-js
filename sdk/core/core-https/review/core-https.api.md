@@ -154,9 +154,8 @@ export interface PipelinePolicy {
 }
 
 // @public
-export interface PipelineRequest<AdditionalInfo = any> {
+export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
-    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers: HttpHeaders;
@@ -174,9 +173,8 @@ export interface PipelineRequest<AdditionalInfo = any> {
 }
 
 // @public
-export interface PipelineRequestOptions<AdditionalInfo = any> {
+export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
-    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers?: HttpHeaders;

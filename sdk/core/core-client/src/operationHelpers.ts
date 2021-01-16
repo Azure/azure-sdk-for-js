@@ -6,7 +6,9 @@ import {
   OperationParameter,
   Mapper,
   CompositeMapper,
-  ParameterPath
+  ParameterPath,
+  OperationRequestInfo,
+  OperationRequest
 } from "./interfaces";
 
 /**
@@ -102,4 +104,16 @@ function getPropertyFromParameterPath(
     result.propertyFound = true;
   }
   return result;
+}
+
+const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>();
+
+export function getOperationRequestInfo(request: OperationRequest): OperationRequestInfo {
+  let info = operationRequestMap.get(request);
+
+  if (!info) {
+    info = {};
+    operationRequestMap.set(request, info);
+  }
+  return info;
 }
