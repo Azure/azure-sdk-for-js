@@ -91,13 +91,16 @@ describe("Batching Receiver", () => {
         ? TestMessage.getSessionSample()
         : TestMessage.getSample();
       const msg = await sendReceiveMsg(testMessages);
+      await receiver.renewMessageLock(msg);
 
       await receiver.completeMessage(msg);
 
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(noSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
+    it.only(noSessionTestClientType + ": complete() removes message", async function(): Promise<
+      void
+    > {
       await beforeEachTest(noSessionTestClientType);
       await testComplete();
     });
