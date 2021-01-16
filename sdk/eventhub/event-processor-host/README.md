@@ -1,6 +1,6 @@
 # @azure/event-processor-host
 
-> Please note, a newer package is available [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) as of January, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade. See the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/migrationguide.md) for more details.
+> Please note, a newer package [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) is available as of January, 2020. While this package will continue to receive critical bug fixes, we strongly encourage you to upgrade. See the [migration guide](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/migrationguide.md) for more details.
 
 Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
 across all the partitions in the provided consumer group of an EventHub and provide you messages received across
