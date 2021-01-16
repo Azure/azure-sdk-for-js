@@ -24,7 +24,7 @@ For more information, refer to https://github.com/Azure/azure-sdk-for-js/tree/ma
 
 ### ServiceClient
 
-Client libraries come in two flavors: authored and generated. Generated clients are produced by [AutoRest](#AutoRest-and-Generated-Clients) whereas authored clients are written by hand. Typically, authored clients wrap generated clients and extend them with custom API surface.
+Client libraries come in two flavors: authored and generated. Generated clients are produced by [AutoRest](#autorest-and-generated-clients) whereas authored clients are written by hand. Typically, authored clients wrap generated clients and extend them with custom API surface.
 
 `ServiceClient` is the base class of all generated clients. It builds on top of the HTTP Pipeline in order to make requests to services.
 
@@ -129,8 +129,8 @@ Consumers are expected to pass in the `SpanContext` of the parent `Span` when ca
 ```ts
 const result = await blobClient.download(undefined, undefined, {
   tracingOptions: {
-    spanOptions: { parent: rootSpan.context() }
-  }
+    spanOptions: { parent: rootSpan.context() },
+  },
 });
 ```
 

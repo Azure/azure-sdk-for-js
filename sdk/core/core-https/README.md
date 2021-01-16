@@ -66,7 +66,7 @@ export interface PipelinePolicy {
 
 It is similar in shape to `HttpsClient`, but includes a policy name as well as a slightly modified `SendRequest` signature that allows it to conditionally call the next policy in the pipeline.
 
-One can view the role of policies as that of `middleware`, a concept that is familiar to NodeJS developers who have worked with frameworks such as [Express](http://expressjs.com/).
+One can view the role of policies as that of `middleware`, a concept that is familiar to NodeJS developers who have worked with frameworks such as [Express](https://expressjs.com/).
 
 The `sendRequest` implementation can both transform the outgoing request as well as the incoming response:
 
