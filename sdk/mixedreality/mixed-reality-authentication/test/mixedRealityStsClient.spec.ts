@@ -13,46 +13,48 @@ describe("MixedRealityStsClient", () => {
   const endpointUrl = "https://sts.mixedreality.azure.com";
   const keyCredential = new AzureKeyCredential(accountKey);
 
-  it("can create with invalid arguments", () => {
-    assert.throws(
-      () => new MixedRealityStsClient(undefined!, endpointUrl, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
-    );
-    assert.throws(
-      () => new MixedRealityStsClient(null!, endpointUrl, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
-    );
-    assert.throws(
-      () => new MixedRealityStsClient("", endpointUrl, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
-    );
-
-    assert.throws(
-      () => new MixedRealityStsClient(accountId, undefined!, keyCredential),
-      "Argument cannot be null or empty: 'domainOrEndpointUrl'."
-    );
-    assert.throws(
-      () => new MixedRealityStsClient(accountId, null!, keyCredential),
-      "Argument cannot be null or empty: 'domainOrEndpointUrl'."
-    );
-    assert.throws(
-      () => new MixedRealityStsClient(accountId, "", keyCredential),
-      "Argument cannot be null or empty: 'domainOrEndpointUrl'."
-    );
-  });
-
-  it("can create with endpointUrl", () => {
-    const client = new MixedRealityStsClient(accountId, endpointUrl, keyCredential);
+  it("can create", () => {
+    const client = new MixedRealityStsClient(accountId, accountDomain, keyCredential);
 
     assert.isNotNull(client);
     assert.equal(client.accountId, accountId);
     assert.equal(client.endpointUrl, endpointUrl);
   });
 
-  it("can create with domain", () => {
-    const expectedEndpointUrl = endpointUrl;
+  it("can create with invalid arguments", () => {
+    assert.throws(
+      () => new MixedRealityStsClient(undefined!, accountDomain, keyCredential),
+      "Argument cannot be null or empty: 'accountId'."
+    );
+    assert.throws(
+      () => new MixedRealityStsClient(null!, accountDomain, keyCredential),
+      "Argument cannot be null or empty: 'accountId'."
+    );
+    assert.throws(
+      () => new MixedRealityStsClient("", accountDomain, keyCredential),
+      "Argument cannot be null or empty: 'accountId'."
+    );
 
-    const client = new MixedRealityStsClient(accountId, accountDomain, keyCredential);
+    assert.throws(
+      () => new MixedRealityStsClient(accountId, undefined!, keyCredential),
+      "Argument cannot be null or empty: 'accountDomain'."
+    );
+    assert.throws(
+      () => new MixedRealityStsClient(accountId, null!, keyCredential),
+      "Argument cannot be null or empty: 'accountDomain'."
+    );
+    assert.throws(
+      () => new MixedRealityStsClient(accountId, "", keyCredential),
+      "Argument cannot be null or empty: 'accountDomain'."
+    );
+  });
+
+  it("can create with endpointUrl", () => {
+    const expectedEndpointUrl = "https://sts.westus2.mixedreality.azure.com";
+
+    const client = new MixedRealityStsClient(accountId, accountDomain, keyCredential, {
+      endpointUrl: expectedEndpointUrl
+    });
 
     assert.isNotNull(client);
     assert.equal(client.accountId, accountId);
@@ -62,7 +64,7 @@ describe("MixedRealityStsClient", () => {
   it("can create with token credential", () => {
     const tokenCredential = createTokenCredentialFromMRKeyCredential(accountId, keyCredential);
 
-    const client = new MixedRealityStsClient(accountId, endpointUrl, tokenCredential);
+    const client = new MixedRealityStsClient(accountId, accountDomain, tokenCredential);
 
     assert.isNotNull(client);
     assert.equal(client.accountId, accountId);

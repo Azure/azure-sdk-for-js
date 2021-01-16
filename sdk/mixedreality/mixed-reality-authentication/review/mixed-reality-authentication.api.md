@@ -20,9 +20,7 @@ export const logger: AzureLogger;
 
 // @public
 export class MixedRealityStsClient {
-    constructor(accountId: string, endpointUrl: string, keyCredential: AzureKeyCredential, options?: MixedRealityStsClientOptions);
     constructor(accountId: string, accountDomain: string, keyCredential: AzureKeyCredential, options?: MixedRealityStsClientOptions);
-    constructor(accountId: string, endpointUrl: string, credential: TokenCredential, options?: MixedRealityStsClientOptions);
     constructor(accountId: string, accountDomain: string, credential: TokenCredential, options?: MixedRealityStsClientOptions);
     readonly accountId: string;
     readonly endpointUrl: string;
@@ -31,6 +29,7 @@ export class MixedRealityStsClient {
 
 // @public
 export interface MixedRealityStsClientOptions extends PipelineOptions {
+    endpointUrl?: string;
 }
 
 

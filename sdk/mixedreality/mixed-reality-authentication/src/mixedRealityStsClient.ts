@@ -39,20 +39,6 @@ export class MixedRealityStsClient {
   /**
    * Creates an instance of a MixedRealityStsClient.
    * @param accountId The Mixed Reality service account identifier.
-   * @param endpointUrl The Mixed Reality STS service endpoint.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
-   * @param options Additional client options.
-   */
-  constructor(
-    accountId: string,
-    endpointUrl: string,
-    keyCredential: AzureKeyCredential,
-    options?: MixedRealityStsClientOptions
-  );
-
-  /**
-   * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
    * @param accountDomain The Mixed Reality service account domain.
    * @param keyCredential The Mixed Reality service account primary or secondary key credential.
    * @param options Additional client options.
@@ -61,20 +47,6 @@ export class MixedRealityStsClient {
     accountId: string,
     accountDomain: string,
     keyCredential: AzureKeyCredential,
-    options?: MixedRealityStsClientOptions
-  );
-
-  /**
-   * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param endpointUrl The Mixed Reality STS service endpoint.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
-   */
-  constructor(
-    accountId: string,
-    endpointUrl: string,
-    credential: TokenCredential,
     options?: MixedRealityStsClientOptions
   );
 
@@ -95,13 +67,13 @@ export class MixedRealityStsClient {
   /**
    * Creates an instance of a MixedRealityStsClient.
    * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomainOrEndpointUrl The Mixed Reality service account domain or STS service endpoint.
+   * @param accountDomain The Mixed Reality service account domain.
    * @param credential The credential used to access the Mixed Reality service.
    * @param options Additional client options.
    */
   constructor(
     accountId: string,
-    accountDomainOrEndpointUrl: string,
+    accountDomain: string,
     credential: TokenCredential | AzureKeyCredential,
     options: MixedRealityStsClientOptions = {}
   ) {
@@ -109,18 +81,13 @@ export class MixedRealityStsClient {
       throw new Error("Argument cannot be null or empty: 'accountId'.");
     }
 
-    if (!accountDomainOrEndpointUrl) {
-      throw new Error("Argument cannot be null or empty: 'domainOrEndpointUrl'.");
+    if (!accountDomain) {
+      throw new Error("Argument cannot be null or empty: 'accountDomain'.");
     }
 
     this.accountId = accountId;
-
-    if (accountDomainOrEndpointUrl.startsWith("http")) {
-      // domainOrEndpointUrl must be an endpoint
-      this.endpointUrl = accountDomainOrEndpointUrl;
-    } else {
-      this.endpointUrl = constructAuthenticationEndpointFromDomain(accountDomainOrEndpointUrl);
-    }
+    this.endpointUrl =
+      options.endpointUrl || constructAuthenticationEndpointFromDomain(accountDomain);
 
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-mixed-reality-authentication/${SDK_VERSION}`;
