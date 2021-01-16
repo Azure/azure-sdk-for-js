@@ -154,11 +154,6 @@ export interface PipelineRequest<AdditionalInfo = any> {
   keepAlive?: boolean;
 
   /**
-   * Disable automatic decompression based on Accept-Encoding header (Node only)
-   */
-  skipDecompressResponse?: boolean;
-
-  /**
    * Used to abort the request later.
    */
   abortSignal?: AbortSignalLike;

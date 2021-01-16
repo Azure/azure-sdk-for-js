@@ -19,7 +19,7 @@ import { tracingPolicy } from "./policies/tracingPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { isNode } from "./util/helpers";
 import { formDataPolicy } from "./policies/formDataPolicy";
@@ -433,11 +433,6 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
-
-  /**
-   * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
-   */
-  decompressResponse?: boolean;
 }
 
 /**
@@ -449,10 +444,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   if (isNode) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
-
-    if (options.decompressResponse === false) {
-      pipeline.addPolicy(disableResponseDecompressionPolicy());
-    }
+    pipeline.addPolicy(decompressResponsePolicy());
   }
 
   pipeline.addPolicy(formDataPolicy());

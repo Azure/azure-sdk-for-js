@@ -5,19 +5,19 @@ import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
- * The programmatic identifier of the disableResponseDecompressionPolicy.
+ * The programmatic identifier of the decompressResponsePolicy.
  */
-export const disableResponseDecompressionPolicyName = "disableResponseDecompressionPolicy";
+export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 /**
- * A policy to disable response decompression according to Accept-Encoding header
+ * A policy to enable response decompression according to Accept-Encoding header
  * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding
  */
-export function disableResponseDecompressionPolicy(): PipelinePolicy {
+export function decompressResponsePolicy(): PipelinePolicy {
   return {
-    name: disableResponseDecompressionPolicyName,
+    name: decompressResponsePolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      request.skipDecompressResponse = true;
+      request.headers.set("Accept-Encoding", "gzip,deflate");
       return next(request);
     }
   };
