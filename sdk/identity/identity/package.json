@@ -45,7 +45,7 @@
     "unit-test:browser": "karma start",
     "unit-test:node": "mocha test-dist/**/*.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -140,6 +140,6 @@
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
     "mock-fs": "^4.10.4",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

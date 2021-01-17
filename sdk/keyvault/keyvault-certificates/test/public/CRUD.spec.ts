@@ -266,6 +266,7 @@ describe("Certificates client - create, read, update and delete", () => {
         .split(/-----(BEGIN|END) CERTIFICATE-----/g)[2]
         .split(os.EOL)
         .join("")
+        .replace(/\n/g, "")
     );
 
     await testClient.flushCertificate(certificateName);

@@ -153,7 +153,7 @@ export class ServiceClient {
     request.additionalInfo.operationArguments = operationArguments;
 
     const contentType = operationSpec.contentType || this._requestContentType;
-    if (contentType) {
+    if (contentType && operationSpec.requestBody) {
       request.headers.set("Content-Type", contentType);
     }
 

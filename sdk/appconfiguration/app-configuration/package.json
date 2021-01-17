@@ -66,7 +66,7 @@
     "unit-test:browser": "",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace test-dist/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -140,6 +140,6 @@
     "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
     "cross-env": "^7.0.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }
