@@ -5,7 +5,9 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": {
+    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+  },
   "types": "types/mixed-reality-authentication.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -76,6 +78,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -95,6 +98,8 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-remap-istanbul": "^0.6.0",
