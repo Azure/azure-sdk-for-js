@@ -9,7 +9,10 @@ import {
   InternalPipelineOptions
 } from "@azure/core-http";
 import { MixedRealityStsRestClient } from "./generated/mixedRealityStsRestClient";
-import { MixedRealityStsRestClientOptionalParams } from "./generated/models";
+import {
+  MixedRealityStsRestClientGetTokenOptionalParams,
+  MixedRealityStsRestClientOptionalParams
+} from "./generated/models";
 import { logger } from "./logger";
 import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
 import { createSpan } from "./tracing";
@@ -19,6 +22,7 @@ import { SDK_VERSION } from "./constants";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
+import { generateCvBase } from "./util/cv";
 
 /**
  * Represents the Mixed Reality STS client for retrieving STS tokens used to access Mixed Reality services.
@@ -143,7 +147,14 @@ export class MixedRealityStsClient {
    * @param options Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    const { span, updatedOptions } = createSpan("MixedRealityStsClient-GetToken", options);
+    let internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
+      ...options,
+      tokenRequestOptions: {
+        clientRequestId: generateCvBase()
+      }
+    };
+
+    const { span, updatedOptions } = createSpan("MixedRealityStsClient-GetToken", internalOptions);
 
     try {
       const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
