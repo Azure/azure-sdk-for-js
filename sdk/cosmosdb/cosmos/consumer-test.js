@@ -1,6 +1,6 @@
 const execa = require("execa");
 
-let versions = ["3.9"];
+let versions = ["3.1", "3.9"];
 
 if (!process.env.SKIP_LATEST) {
   versions.push("latest");
@@ -18,7 +18,7 @@ async function exec(cmd) {
     console.log("Running typescript consumer test againast", versions);
     await exec("npm init -y");
     console.log("Setting up typescript consumer project");
-    await exec("npm install --save ./..");
+    await exec("npm install --only=production ./..");
     console.log("Installing @azure/cosmos as a file dependency");
     for (const version of versions) {
       console.log(`Compling with typescript@${version} - Basic`);

@@ -70,7 +70,7 @@
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test-consumer": "node consumer-test.js 2>&1",
+    "test-consumer": "rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
     "test": "npm run unit-test && npm run integration-test",
     "test:signoff": "mocha -r esm -r dotenv/config -r ./test/public/common/setup.js \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\" --timeout 100000 --grep \"#nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
@@ -100,7 +100,6 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
