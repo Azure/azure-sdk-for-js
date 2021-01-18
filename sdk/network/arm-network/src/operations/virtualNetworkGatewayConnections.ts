@@ -222,6 +222,19 @@ export class VirtualNetworkGatewayConnections {
   }
 
   /**
+   * Lists IKE Security Associations for the virtual network gateway connection in the specified
+   * resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.VirtualNetworkGatewayConnectionsGetIkeSasResponse>
+   */
+  getIkeSas(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualNetworkGatewayConnectionsGetIkeSasResponse> {
+    return this.beginGetIkeSas(resourceGroupName,virtualNetworkGatewayConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.VirtualNetworkGatewayConnectionsGetIkeSasResponse>;
+  }
+
+  /**
    * Creates or updates a virtual network gateway connection in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
@@ -363,6 +376,25 @@ export class VirtualNetworkGatewayConnections {
         options
       },
       beginStopPacketCaptureOperationSpec,
+      options);
+  }
+
+  /**
+   * Lists IKE Security Associations for the virtual network gateway connection in the specified
+   * resource group.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGetIkeSas(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayConnectionName,
+        options
+      },
+      beginGetIkeSasOperationSpec,
       options);
   }
 
@@ -704,6 +736,37 @@ const beginStopPacketCaptureOperationSpec: msRest.OperationSpec = {
     202: {},
     default: {
       bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginGetIkeSasOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/getikesas",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
