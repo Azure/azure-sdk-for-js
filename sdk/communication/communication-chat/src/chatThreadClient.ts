@@ -11,8 +11,7 @@ import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase,
-  bearerTokenAuthenticationPolicy
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -50,6 +49,7 @@ import {
   mapToChatThreadMemberSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
 export { ChatMessagePriority, SendReadReceiptRequest } from "./generated/src/models";
 
@@ -101,7 +101,7 @@ export class ChatThreadClient {
       }
     };
 
-    const authPolicy = bearerTokenAuthenticationPolicy(this.tokenCredential, []);
+    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new ChatApiClient(this.url, pipeline);

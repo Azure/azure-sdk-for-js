@@ -37,7 +37,7 @@ export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKin
 // @public
 export interface CommunicationTokenCredential {
     dispose(): void;
-    getToken(abortSignalOrScopes?: AbortSignalLike | string | string[]): Promise<AccessToken>;
+    getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
 }
 
 // @public

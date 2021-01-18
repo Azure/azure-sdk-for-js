@@ -20,8 +20,7 @@ import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase,
-  bearerTokenAuthenticationPolicy
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -43,6 +42,7 @@ import {
 } from "./models/mappers";
 import { ChatThreadInfo } from "./generated/src/models";
 import { CreateChatThreadRequest } from "./models/requests";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
 export { ChatThreadInfo } from "./generated/src/models";
 
@@ -94,7 +94,7 @@ export class ChatClient {
       }
     };
 
-    const authPolicy = bearerTokenAuthenticationPolicy(this.tokenCredential, []);
+    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new ChatApiClient(this.url, pipeline);

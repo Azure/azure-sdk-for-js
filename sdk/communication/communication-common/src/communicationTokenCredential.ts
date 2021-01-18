@@ -17,9 +17,9 @@ export type TokenCredential = Pick<AzureCommunicationTokenCredential, "getToken"
 export interface CommunicationTokenCredential {
   /**
    * Gets an `AccessToken` for the user. Throws if already disposed.
-   * @param abortSignalOrScopes An implementation of `AbortSignalLike` to cancel the operation or the scopes the token apply to.
+   * @param abortSignal An implementation of `AbortSignalLike` to cancel the operation.
    */
-  getToken(abortSignalOrScopes?: AbortSignalLike | string | string[]): Promise<AccessToken>;
+  getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
   /**
    * Disposes the CommunicationTokenCredential and cancels any internal auto-refresh operation.
    */
