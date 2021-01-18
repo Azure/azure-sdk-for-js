@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
+import { ChatThread, Chat } from "./operations";
 import { ChatApiClientContext } from "./chatApiClientContext";
 import { ChatApiClientOptionalParams } from "./models";
 
-class ChatApiClient extends ChatApiClientContext {
+export class ChatApiClient extends ChatApiClientContext {
   /**
    * Initializes a new instance of the ChatApiClient class.
    * @param endpoint The endpoint of the Azure Communication resource.
@@ -20,15 +18,10 @@ class ChatApiClient extends ChatApiClientContext {
    */
   constructor(endpoint: string, options?: ChatApiClientOptionalParams) {
     super(endpoint, options);
-    this.chatThread = new operations.ChatThread(this);
-    this.chat = new operations.Chat(this);
+    this.chatThread = new ChatThread(this);
+    this.chat = new Chat(this);
   }
 
-  chatThread: operations.ChatThread;
-  chat: operations.Chat;
+  chatThread: ChatThread;
+  chat: Chat;
 }
-
-// Operation Specifications
-
-export { ChatApiClient, ChatApiClientContext, Models as ChatApiModels, Mappers as ChatApiMappers };
-export * from "./operations";

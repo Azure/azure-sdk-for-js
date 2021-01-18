@@ -15,7 +15,8 @@ input-file: https://int.chatgateway.trafficmanager.net/swagger/2020-11-01-previe
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200623.2"
+  "@autorest/typescript": "6.0.0-dev.20210114.1"
+  "@autorest/modelerfour": "4.15.442"
 azure-arm: false
 add-credentials: false
 ```

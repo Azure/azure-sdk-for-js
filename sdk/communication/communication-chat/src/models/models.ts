@@ -85,17 +85,6 @@ export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt,
 }
 
 /**
- * Arguments for retrieving the next page of search results.
- */
-export interface ListPageSettings {
-  /**
-   * A token used for retrieving the next page of results when the server
-   * enforces pagination.
-   */
-  continuationToken?: string;
-}
-
-/**
  * Represents the repsonse for operations
  */
 export interface OperationResponse {

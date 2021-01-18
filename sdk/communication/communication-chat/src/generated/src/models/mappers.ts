@@ -19,7 +19,10 @@ export const ChatMessageReadReceiptsCollection: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ChatMessageReadReceipt" }
+            type: {
+              name: "Composite",
+              className: "ChatMessageReadReceipt"
+            }
           }
         }
       },
@@ -64,21 +67,37 @@ export const ChatMessageReadReceipt: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorModel: coreHttp.CompositeMapper = {
+export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorModel",
+    className: "CommunicationErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationError: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationError",
     modelProperties: {
       code: {
         serializedName: "code",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
         }
       },
       message: {
         serializedName: "message",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
         }
@@ -90,12 +109,24 @@ export const ErrorModel: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      innerErrors: {
-        serializedName: "innerErrors",
+      details: {
+        serializedName: "details",
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ErrorModel" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
+          }
+        }
+      },
+      innerError: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
         }
       }
     }
@@ -178,7 +209,12 @@ export const ChatMessagesCollection: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatMessage" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatMessage"
+            }
+          }
         }
       },
       nextLink: {
@@ -254,7 +290,6 @@ export const ChatMessage: coreHttp.CompositeMapper = {
       },
       senderId: {
         serializedName: "senderId",
-        required: true,
         type: {
           name: "String"
         }
@@ -296,7 +331,12 @@ export const ChatMessageContent: coreHttp.CompositeMapper = {
         serializedName: "participants",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatParticipant" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatParticipant"
+            }
+          }
         }
       },
       initiator: {
@@ -329,7 +369,6 @@ export const ChatParticipant: coreHttp.CompositeMapper = {
       },
       shareHistoryTime: {
         serializedName: "shareHistoryTime",
-        required: true,
         type: {
           name: "DateTime"
         }
@@ -369,7 +408,12 @@ export const ChatParticipantsCollection: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatParticipant" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatParticipant"
+            }
+          }
         }
       },
       nextLink: {
@@ -393,7 +437,12 @@ export const AddChatParticipantsRequest: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatParticipant" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatParticipant"
+            }
+          }
         }
       }
     }
@@ -426,7 +475,12 @@ export const AddChatParticipantsErrors: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ErrorModel" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
+          }
         }
       }
     }
@@ -450,7 +504,12 @@ export const CreateChatThreadRequest: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatParticipant" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatParticipant"
+            }
+          }
         }
       }
     }
@@ -533,7 +592,12 @@ export const CreateChatThreadErrors: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ErrorModel" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
+          }
         }
       }
     }
@@ -550,7 +614,12 @@ export const ChatThreadsInfoCollection: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "ChatThreadInfo" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "ChatThreadInfo"
+            }
+          }
         }
       },
       nextLink: {

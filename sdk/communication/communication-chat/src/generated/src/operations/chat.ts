@@ -6,24 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ChatApiClient } from "../chatApiClient";
 import {
+  ChatThreadInfo,
+  ChatListChatThreadsNextOptionalParams,
+  ChatListChatThreadsOptionalParams,
   CreateChatThreadRequest,
   ChatCreateChatThreadOptionalParams,
   ChatCreateChatThreadResponse,
-  ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
   ChatGetChatThreadResponse,
-  ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
 
-/**
- * Class representing a Chat.
- */
+/** Class representing a Chat. */
 export class Chat {
   private readonly client: ChatApiClient;
 
@@ -36,6 +36,48 @@ export class Chat {
   }
 
   /**
+   * Gets the list of chat threads of a user.
+   * @param options The options parameters.
+   */
+  public listChatThreads(
+    options?: ChatListChatThreadsOptionalParams
+  ): PagedAsyncIterableIterator<ChatThreadInfo> {
+    const iter = this.listChatThreadsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listChatThreadsPagingPage(options);
+      }
+    };
+  }
+
+  private async *listChatThreadsPagingPage(
+    options?: ChatListChatThreadsOptionalParams
+  ): AsyncIterableIterator<ChatThreadInfo[]> {
+    let result = await this._listChatThreads(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listChatThreadsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listChatThreadsPagingAll(
+    options?: ChatListChatThreadsOptionalParams
+  ): AsyncIterableIterator<ChatThreadInfo> {
+    for await (const page of this.listChatThreadsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Creates a chat thread.
    * @param createChatThreadRequest Request payload for creating a chat thread.
    * @param options The options parameters.
@@ -44,11 +86,12 @@ export class Chat {
     createChatThreadRequest: CreateChatThreadRequest,
     options?: ChatCreateChatThreadOptionalParams
   ): Promise<ChatCreateChatThreadResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      createChatThreadRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { createChatThreadRequest, options: operationOptions },
+      operationArguments,
       createChatThreadOperationSpec
     ) as Promise<ChatCreateChatThreadResponse>;
   }
@@ -57,14 +100,14 @@ export class Chat {
    * Gets the list of chat threads of a user.
    * @param options The options parameters.
    */
-  listChatThreads(
+  private _listChatThreads(
     options?: ChatListChatThreadsOptionalParams
   ): Promise<ChatListChatThreadsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      operationArguments,
       listChatThreadsOperationSpec
     ) as Promise<ChatListChatThreadsResponse>;
   }
@@ -78,11 +121,12 @@ export class Chat {
     chatThreadId: string,
     options?: coreHttp.OperationOptions
   ): Promise<ChatGetChatThreadResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { chatThreadId, options: operationOptions },
+      operationArguments,
       getChatThreadOperationSpec
     ) as Promise<ChatGetChatThreadResponse>;
   }
@@ -96,11 +140,12 @@ export class Chat {
     chatThreadId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { chatThreadId, options: operationOptions },
+      operationArguments,
       deleteChatThreadOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -110,21 +155,21 @@ export class Chat {
    * @param nextLink The nextLink from the previous successful call to the ListChatThreads method.
    * @param options The options parameters.
    */
-  listChatThreadsNext(
+  private _listChatThreadsNext(
     nextLink: string,
     options?: ChatListChatThreadsNextOptionalParams
   ): Promise<ChatListChatThreadsNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { nextLink, options: operationOptions },
+      operationArguments,
       listChatThreadsNextOperationSpec
     ) as Promise<ChatListChatThreadsNextResponse>;
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -135,22 +180,26 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CreateChatThreadResult
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.repeatabilityRequestID],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestID],
   mediaType: "json",
   serializer
 };
@@ -162,20 +211,25 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ChatThreadsInfoCollection
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -186,20 +240,25 @@ const getChatThreadOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ChatThread
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const deleteChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -208,20 +267,25 @@ const deleteChatThreadOperationSpec: coreHttp.OperationSpec = {
   responses: {
     204: {},
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
@@ -232,19 +296,24 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ChatThreadsInfoCollection
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };
