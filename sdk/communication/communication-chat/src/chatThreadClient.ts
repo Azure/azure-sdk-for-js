@@ -14,11 +14,9 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
-import {
-  ChatApiClient,
-   AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src";
+import { ChatApiClient, AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src";
 import { OperationResponse } from "./models/models";
-import { mapToChatMessageSdkModel } from './models/mappers';
+import { mapToChatMessageSdkModel } from "./models/mappers";
 import {
   ChatThreadClientOptions,
   SendMessageOptions,
@@ -63,7 +61,7 @@ export class ChatThreadClient {
   readonly threadId: string;
 
   private readonly tokenCredential: CommunicationUserCredential;
-  private readonly client:ChatApiClient;
+  private readonly client: ChatApiClient;
   private disposed = false;
 
   private timeOfLastTypingRequest: Date | undefined = undefined;
@@ -201,7 +199,10 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-ListMessages", options);
 
     try {
-      const restChatMessages =  this.client.chatThread.listChatMessages(this.threadId, updatedOptions);
+      const restChatMessages = this.client.chatThread.listChatMessages(
+        this.threadId,
+        updatedOptions
+      );
       // TODO: find a solution to map the result value from generated/src/model/ChatMessage to models/model/ChatMessage
 
       return undefined;
@@ -307,7 +308,10 @@ export class ChatThreadClient {
   ): AsyncIterableIterator<ChatParticipant[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.chatThread.listChatParticipants(this.threadId, requestOptions);
+      const currentSetResponse = await this.client.chatThread.listChatParticipants(
+        this.threadId,
+        requestOptions
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToChatParticipantSdkModel, this);
@@ -470,7 +474,10 @@ export class ChatThreadClient {
   ): AsyncIterableIterator<ChatMessageReadReceipt[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.client.chatThread.listChatReadReceipts(this.threadId, requestOptions);
+      const currentSetResponse = await this.client.chatThread.listChatReadReceipts(
+        this.threadId,
+        requestOptions
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToReadReceiptSdkModel, this);
