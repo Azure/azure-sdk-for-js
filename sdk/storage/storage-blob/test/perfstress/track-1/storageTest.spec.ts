@@ -23,8 +23,8 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
   constructor() {
     super();
     const connectionString = getEnvVar("STORAGE_CONNECTION_STRING");
-    const accountName = getValueInConnString(connectionString, "AccountName");
-    const accountKey = getValueInConnString(connectionString, "AccountKey");
+    const accountName = getValueInConnectionString(connectionString, "AccountName");
+    const accountKey = getValueInConnectionString(connectionString, "AccountKey");
 
     const sharedKeyCredential = new SharedKeyCredential(accountName, accountKey);
     this.blobServiceClient = new ServiceURL(
@@ -46,7 +46,7 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
   }
 }
 
-export function getValueInConnString(
+export function getValueInConnectionString(
   connectionString: string,
   argument: "AccountName" | "AccountKey"
 ) {
