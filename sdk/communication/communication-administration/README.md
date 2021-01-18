@@ -56,7 +56,7 @@ const client = new CommunicationIdentityClient(HOST, credential);
 ### Using a connection string
 
 ```typescript
-import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
+import { CommunicationIdentityClient } from "@azure/communication-administration";
 
 const connectionString = `endpoint=HOST;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
@@ -134,9 +134,18 @@ await client.deleteUser(user);
 #### Creating an instance of PhoneNumberAdministrationClient
 
 ```typescript
-import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
 
-const client = new CommunicationIdentityClient(CONNECTION_STRING);
+const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
+```
+
+#### Creating an instance of PhoneNumberAdministrationClient with TokenCredential
+
+```typescript
+import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
+
+let credential = new DefaultAzureCredential();
+const client = new PhoneNumberAdministrationClient(HOST, credential);
 ```
 
 #### Getting countries
