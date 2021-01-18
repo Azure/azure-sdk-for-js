@@ -1,0 +1,18 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=SomeClientSecret&scope=https%3A%2F%2Fcommunication.azure.com%2F%2F.default",
+   "status": 200,
+   "response": "{\"id\":\"sanitized\"}",
+   "responseHeaders": {}
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "4771979f27387e351f98cf4dbab69a0a"
+}
