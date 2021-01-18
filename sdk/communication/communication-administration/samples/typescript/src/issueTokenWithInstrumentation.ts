@@ -43,10 +43,11 @@ const main = async () => {
   await client.revokeTokens(user, new Date());
 
   console.log("Tokens Revoked");
-}
+};
 
 const rootSpan = tracer.startSpan("IssueToken_Root");
-tracer.withSpan(rootSpan, async () => {
+tracer
+  .withSpan(rootSpan, async () => {
     try {
       await main();
     } catch (e) {
@@ -57,10 +58,11 @@ tracer.withSpan(rootSpan, async () => {
       // End the optional root span on completion
       rootSpan.end();
     }
-  }).then(() => {
+  })
+  .then(() => {
     console.log("Awaiting batched span processor to export batched spans...");
-  
+
     setTimeout(() => {
       console.log("Spans exported.");
     }, 6000);
-});
+  });

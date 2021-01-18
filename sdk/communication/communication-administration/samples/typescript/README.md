@@ -11,14 +11,14 @@ urlFragment: communication-administration-identity-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Service Communication Identity to issue and refresh tokens.
 
-| **File Name**                                 | **Description**                                                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [issueToken.ts][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
-| [issueTokenWithInstrumentation.js][issueTokenWithInstrumentation] | uses the CommunicationIdentityClient to create a user and issue then revoke a token for this user. Also shows how to instrument for exporting telemetry data to Azure Monitor.  |
-| [revokeTokens.ts][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
-| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
-| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers.                                         |
-| [tracer.ts][tracer]                           | shows how to create a tracer to instrument for exporting telemetry data to Azure Monitor                   |
+| **File Name**                                                     | **Description**                                                                                                                                                                |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [issueToken.ts][issuetoken]                                       | uses the CommunicationIdentityClient to create a user and issue a token for this user                                                                                          |
+| [issueTokenWithInstrumentation.js][issuetokenwithinstrumentation] | uses the CommunicationIdentityClient to create a user and issue then revoke a token for this user. Also shows how to instrument for exporting telemetry data to Azure Monitor. |
+| [revokeTokens.ts][revoketokens]                                   | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens                                                                     |
+| [purchasePhoneNumber.ts][purchasephonenumber]                     | uses the PhoneNumberAdministrationClient to purchase a phone number                                                                                                            |
+| [releasePhoneNumbers.ts][releasephonenumbers]                     | uses the PhoneNumberAdministrationClient to release phone numbers.                                                                                                             |
+| [tracer.ts][tracer]                                               | shows how to create a tracer to instrument for exporting telemetry data to Azure Monitor                                                                                       |
 
 ## Prerequisites
 
@@ -63,7 +63,7 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/is
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/issueToken.ts
-[issueTokenWithInstrumentation]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/issueTokenWithInstrumentation.ts
+[issuetokenwithinstrumentation]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/issueTokenWithInstrumentation.ts
 [revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/revokeTokens.ts
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/purchasePhoneNumber.ts
 [releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/releasePhoneNumbers.ts

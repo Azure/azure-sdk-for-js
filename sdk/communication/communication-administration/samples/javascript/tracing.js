@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const { BatchSpanProcessor } = require("@opentelemetry/tracing");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
@@ -21,10 +21,12 @@ const azExporter = new AzureMonitorTraceExporter({
   connectionString: MONITOR_CONNECTION_STRING
 });
 
-provider.addSpanProcessor(new BatchSpanProcessor(azExporter, {
-  bufferSize: 1000, // 1000 spans
-  bufferTimeout: 5000 // 5 seconds
-}));
+provider.addSpanProcessor(
+  new BatchSpanProcessor(azExporter, {
+    bufferSize: 1000, // 1000 spans
+    bufferTimeout: 5000 // 5 seconds
+  })
+);
 
 provider.register();
 
