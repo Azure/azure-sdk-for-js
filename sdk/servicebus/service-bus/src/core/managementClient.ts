@@ -317,21 +317,19 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       reject(e);
     };
 
-    await new Promise<void>(async (resolve, reject) => {
-      const waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
-      internalLogger.verbose(
-        `${this.logPrefix} Acquiring lock to get the management req res link.`
-      );
-
-      try {
-        if (!this.isOpen()) {
-          await this._init(sendRequestOptions?.abortSignal);
-        }
-      } finally {
-        clearTimeout(waitTimer);
-        resolve();
-      }
+    let waitTimer: NodeJS.Timer;
+    const operationTimeout = await new Promise<void>((_, reject) => {
+      waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
     });
+    internalLogger.verbose(`${this.logPrefix} Acquiring lock to get the management req res link.`);
+
+    try {
+      if (!this.isOpen()) {
+        await Promise.race([this._init(sendRequestOptions?.abortSignal), operationTimeout]);
+      }
+    } finally {
+      clearTimeout(waitTimer!);
+    }
 
     // time taken by the init operation
     const timeTakenByInit = Date.now() - initOperationStartTime;
