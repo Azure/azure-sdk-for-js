@@ -24,6 +24,10 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/communication-administration": "latest",
+    "@azure/monitor-opentelemetry-exporter": "latest",
+    "@opentelemetry/node": "latest",
+    "@opentelemetry/plugin-http": "^0.13.0",
+    "@opentelemetry/plugins-node-core": "latest",
     "dotenv": "^8.2.0"
   }
 }

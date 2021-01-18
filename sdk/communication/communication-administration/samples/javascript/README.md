@@ -14,9 +14,11 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                 | **Description**                                                                                            |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | [issueToken.js][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
+| [issueTokenWithInstrumentation.js][issueTokenWithInstrumentation] | uses the CommunicationIdentityClient to create a user and issue then revoke a token for this user. Also shows how to instrument for exporting telemetry data to Azure Monitor.  |
 | [revokeTokens.js][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
 | [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
 | [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers                                          |
+| [tracer.js][tracer]                           | shows how to create a tracer to instrument for exporting telemetry data to Azure Monitor                   |
 
 ## Prerequisites
 
@@ -55,9 +57,11 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node issueTo
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/issueToken.js
+[issueTokenWithInstrumentation]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/issueTokenWithInstrumentation.js
 [revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/revokeTokens.js
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/purchasePhoneNumber.js
 [releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/releasePhoneNumbers.js
+[tracer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/tracer.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-administration
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
