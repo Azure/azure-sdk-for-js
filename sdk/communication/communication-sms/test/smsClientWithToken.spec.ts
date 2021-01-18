@@ -10,8 +10,14 @@ import {
   env
 } from "@azure/test-utils-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
-import { SendRequest, SmsClient } from "../src";
+import { SendRequest, SmsClient } from "../src/smsClient";
 import { assert } from "chai";
+import { isNode } from "@azure/core-http";
+import * as dotenv from "dotenv";
+
+if (isNode) {
+  dotenv.config();
+}
 
 const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -30,7 +36,7 @@ const recorderConfiguration: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-function createCredential(): TokenCredential {
+function createCredential(): TokenCredential | undefined {
   if (isPlaybackMode()) {
     return {
       getToken: async (_scopes) => {
@@ -38,7 +44,11 @@ function createCredential(): TokenCredential {
       }
     };
   } else {
-    return new DefaultAzureCredential();
+    try {
+      return new DefaultAzureCredential();
+    } catch {
+      return undefined;
+    }
   }
 }
 
@@ -57,7 +67,12 @@ describe("SmsClientWithToken [Playback/Live]", function() {
 
   it("successfully issues a token for a user [single scope]", async function() {
     const credential = createCredential();
-    const endpoint = "";
+
+    if (!credential) {
+      this.skip();
+    }
+
+    const endpoint = env.COMMUNICATION_ENDPOINT;
     const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
     const toNumber = env["AZURE_PHONE_NUMBER"] as string;
 
@@ -74,9 +89,14 @@ describe("SmsClientWithToken [Playback/Live]", function() {
 
   it("successfully issues a token for a user [multiple scopes]", async function() {
     const credential = createCredential();
-    const endpoint = "";
-    const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
-    const toNumber = env["AZURE_PHONE_NUMBER"] as string;
+
+    if (!credential) {
+      this.skip();
+    }
+
+    const endpoint = env.COMMUNICATION_ENDPOINT;
+    const fromNumber = env.AZURE_PHONE_NUMBER;
+    const toNumber = env.AZURE_PHONE_NUMBER;
 
     const smsClient = new SmsClient(endpoint, credential);
     const sendRequest: SendRequest = {
