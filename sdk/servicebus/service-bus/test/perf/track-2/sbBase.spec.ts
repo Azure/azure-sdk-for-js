@@ -13,21 +13,20 @@ const sbClient = new ServiceBusClient(connectionString);
 
 export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> {
   sbClient: ServiceBusClient;
-  sbAdminClient: ServiceBusAdministrationClient;
+  static sbAdminClient = new ServiceBusAdministrationClient(connectionString);
   static queueName = `newqueue-${Math.ceil(Math.random() * 1000)}`;
 
   constructor() {
     super();
     this.sbClient = sbClient;
-    this.sbAdminClient = new ServiceBusAdministrationClient(connectionString);
   }
 
   public async globalSetup() {
-    await this.sbAdminClient.createQueue(ServiceBusTest.queueName);
+    await ServiceBusTest.sbAdminClient.createQueue(ServiceBusTest.queueName);
   }
 
   public async globalCleanup() {
-    await this.sbAdminClient.deleteQueue(ServiceBusTest.queueName);
+    await ServiceBusTest.sbAdminClient.deleteQueue(ServiceBusTest.queueName);
     await this.sbClient.close();
   }
 }
