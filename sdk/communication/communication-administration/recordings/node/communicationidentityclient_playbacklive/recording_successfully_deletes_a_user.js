@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .delete('/identities/sanitized')
-  .query(false)
+  .query(true)
   .reply(204, "", [
   'MS-CV',
   'RJ69d+okxUmVuM8XH9j/kg.0',

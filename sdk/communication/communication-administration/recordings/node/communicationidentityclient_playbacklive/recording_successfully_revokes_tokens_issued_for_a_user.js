@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .patch('/identities/sanitized', {"tokensValidFrom":"2020-10-10T00:00:00.000Z"})
-  .query(false)
+  .query(true)
   .reply(204, "", [
   'MS-CV',
   'VBWxGovE50GB8VmCr9iQcQ.0',

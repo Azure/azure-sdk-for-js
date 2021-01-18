@@ -39,7 +39,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/administration/phonenumbers/countries/US/phoneplangroups')
-  .query(false)
+  .query(true)
   .reply(200, {"phonePlanGroups":[{"phonePlanGroupId":"sanitized","phoneNumberType":"Geographic","localizedName":"Azure- User - Geographic","localizedDescription":"These are numbers used by Azure resources."},{"phonePlanGroupId":"sanitized","phoneNumberType":"Geographic","localizedName":"Azure - Geographic","localizedDescription":"These are numbers used by Azure resources."},{"phonePlanGroupId":"sanitized","phoneNumberType":"TollFree","localizedName":"Azure - Toll Free","localizedDescription":"These are toll free numbers used by Azure resources."}],"nextLink":null}, [
   'Transfer-Encoding',
   'chunked',

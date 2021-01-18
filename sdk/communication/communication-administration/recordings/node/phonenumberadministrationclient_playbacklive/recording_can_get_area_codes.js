@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .post('/administration/phonenumbers/countries/US/areacodes', {"locationOptions":[{"labelId":"state","optionsValue":"CA"},{"labelId":"city","optionsValue":"NOAM-US-CA-LA"}]})
-  .query(false)
+  .query(true)
   .reply(200, {"primaryAreaCodes":["213","818"],"secondaryAreaCodes":[],"nextLink":null}, [
   'Transfer-Encoding',
   'chunked',

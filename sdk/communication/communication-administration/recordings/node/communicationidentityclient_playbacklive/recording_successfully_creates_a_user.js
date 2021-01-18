@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .post('/identities')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"sanitized"}, [
   'Transfer-Encoding',
   'chunked',
