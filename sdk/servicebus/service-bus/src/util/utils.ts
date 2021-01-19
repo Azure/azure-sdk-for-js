@@ -362,6 +362,13 @@ export function getXMLNSPrefix(value: any) {
   }
   // Pick the substring that's after "xmlns:"
   const xmlnsPrefix = keys[0].substring(6);
+  if (!xmlnsPrefix) {
+    throw new Error(
+      `Error occurred while parsing the response body - unexpected xmlns prefix at ${JSON.stringify(
+        value[Constants.XML_METADATA_MARKER]
+      )}`
+    );
+  }
   return xmlnsPrefix;
 }
 

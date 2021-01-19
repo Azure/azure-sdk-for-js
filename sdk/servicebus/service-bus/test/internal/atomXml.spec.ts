@@ -1274,6 +1274,18 @@ describe("ATOM Serializers", () => {
           value: undefined,
           error: `Error: Error occurred while parsing the response body - unexpected key at {"d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
         }
+      },
+      {
+        title: `without xmlns prefix`,
+        input: {
+          $: {
+            "xmlns:": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+          }
+        },
+        output: {
+          value: undefined,
+          error: `Error: Error occurred while parsing the response body - unexpected xmlns prefix at {"xmlns:":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
+        }
       }
     ].forEach((testCase) => {
       it(`${testCase.title}`, () => {
