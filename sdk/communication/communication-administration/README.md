@@ -143,8 +143,9 @@ const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
 
 ```typescript
 import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
+import { DefaultAzureCredential } from "@azure/identity";
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new PhoneNumberAdministrationClient(HOST, credential);
 ```
 
