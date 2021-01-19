@@ -49,7 +49,9 @@ const client = new SmsClient(connectionString);
 ### Using a `TokenCredential`
 
 ```typescript
+import { DefaultAzureCredential } from "@azure/identity";
 import { CommunicationIdentityClient } from "@azure/communication-administration";
+
 let credential = new DefaultAzureCredential();
 const client = new CommunicationIdentityClient("<Host>", credential);
 ```
