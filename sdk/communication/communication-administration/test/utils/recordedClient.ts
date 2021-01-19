@@ -27,7 +27,7 @@ export interface RecordedClient<T> {
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
+  COMMUNICATION_ENDPOINT_STRING: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
   AZURE_TENANT_ID: "SomeTenantId"
@@ -66,45 +66,34 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createRecordedCommunicationIdentityClient(
-  context: Context
+  context: Context,
+  withToken: boolean = false
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
 
-  return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
-    recorder
-  };
-}
-
-export function createRecordedCommunicationIdentityClientWithToken(
-  context: Context
-): RecordedClient<CommunicationIdentityClient> | undefined {
-  const recorder = record(context, environmentSetup);
-  let credential: TokenCredential;
-
-  if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
-
+  if (!withToken) {
     return {
-      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
+      client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
       recorder
     };
   }
 
   try {
-    credential = new DefaultAzureCredential();
-  } catch {
-    return undefined;
-  }
+    let credential: TokenCredential = isPlaybackMode()
+      ? {
+          getToken: async (_scopes) => {
+            return { token: "testToken", expiresOnTimestamp: 11111 };
+          }
+        }
+      : new DefaultAzureCredential();
 
-  return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
-    recorder
-  };
+    return {
+      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT_STRING, credential),
+      recorder
+    };
+  } catch (e) {
+    throw e;
+  }
 }
 
 export function createRecordedPhoneNumberAdministrationClient(
