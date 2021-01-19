@@ -704,7 +704,9 @@ describe("EventHubConsumerClient", function(): void {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = badConsumerClient.subscribe({
-          processEvents: async () => {},
+          processEvents: async () => {
+            /* no-op */
+          },
           processError: async (err) => {
             resolve(err);
           }
@@ -723,7 +725,9 @@ describe("EventHubConsumerClient", function(): void {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = consumerClient.subscribe("boo", {
-          processEvents: async () => {},
+          processEvents: async () => {
+            /* no-op */
+          },
           processError: async (err) => {
             resolve(err);
           }

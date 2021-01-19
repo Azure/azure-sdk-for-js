@@ -269,7 +269,9 @@ describe("EventHub Sender", function(): void {
       const subscriber = consumerClient.subscribe(
         "0",
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             if (receivedEvents.length >= 3) {
@@ -745,7 +747,9 @@ describe("EventHub Sender", function(): void {
       const receivingPromise = new Promise((r) => (receivingResolver = r));
       const subscription = consumerClient.subscribe(
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             receivingResolver();
@@ -773,7 +777,9 @@ describe("EventHub Sender", function(): void {
       const receivingPromise = new Promise((r) => (receivingResolver = r));
       const subscription = consumerClient.subscribe(
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             receivingResolver();
@@ -806,7 +812,9 @@ describe("EventHub Sender", function(): void {
       const subscription = consumerClient.subscribe(
         partitionId,
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             receivingResolver();

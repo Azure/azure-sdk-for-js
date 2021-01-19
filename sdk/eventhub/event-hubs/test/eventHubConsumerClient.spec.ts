@@ -45,8 +45,12 @@ describe("EventHubConsumerClient", () => {
   describe("unit tests", () => {
     it("isCheckpointStore", () => {
       isCheckpointStore({
-        processEvents: async () => {},
-        processClose: async () => {}
+        processEvents: async () => {
+          /* no-op */
+        },
+        processClose: async () => {
+          /* no-op */
+        }
       }).should.not.ok;
 
       isCheckpointStore("hello").should.not.ok;
@@ -94,8 +98,12 @@ describe("EventHubConsumerClient", () => {
         );
 
         subscriptionHandlers = {
-          processEvents: async () => {},
-          processError: async () => {}
+          processEvents: async () => {
+            /* no-op */
+          },
+          processError: async () => {
+            /* no-op */
+          }
         };
 
         (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
@@ -103,7 +111,9 @@ describe("EventHubConsumerClient", () => {
       });
 
       it("conflicting subscribes", () => {
-        validateOptions = () => {};
+        validateOptions = () => {
+          /* no-op */
+        };
 
         client.subscribe(subscriptionHandlers);
         // invalid - we're already subscribed to a conflicting partition
@@ -639,7 +649,9 @@ describe("EventHubConsumerClient", () => {
           close: 0
         };
         const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents() {
             if (!handlerCalls.close) {
               // start the 2nd subscription that will kick the 1st subscription off
@@ -661,7 +673,9 @@ describe("EventHubConsumerClient", () => {
           }
         };
         const subscriptionHandlers2: SubscriptionEventHandlers = {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents() {
             // stop this subscription since it already should have forced the 1st subscription to have an error.
             await subscription2!.close();
@@ -719,7 +733,9 @@ describe("EventHubConsumerClient", () => {
         }
 
         const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(_, context) {
             partitionHandlerCalls[context.partitionId].processEvents = true;
           },
@@ -754,7 +770,9 @@ describe("EventHubConsumerClient", () => {
 
         const partitionsReadFromSub2 = new Set<string>();
         const subscriptionHandlers2: SubscriptionEventHandlers = {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(_, context) {
             partitionsReadFromSub2.add(context.partitionId);
           }
@@ -1071,8 +1089,12 @@ describe("EventHubConsumerClient", () => {
       let closeCalled = 0;
 
       const subscription = client.subscribe(partitionId, {
-        async processError() {},
-        async processEvents() {},
+        async processError() {
+          /* no-op */
+        },
+        async processEvents() {
+          /* no-op */
+        },
         async processClose() {
           closeCalled++;
         },
@@ -1115,8 +1137,12 @@ describe("EventHubConsumerClient", () => {
       let closeCalled = 0;
 
       const subscription = client.subscribe({
-        async processError() {},
-        async processEvents() {},
+        async processError() {
+          /* no-op */
+        },
+        async processEvents() {
+          /* no-op */
+        },
         async processClose() {
           closeCalled++;
         },
@@ -1158,7 +1184,9 @@ describe("EventHubConsumerClient", () => {
         let subscription: Subscription;
         const caughtErr: Error = await new Promise((resolve) => {
           subscription = client.subscribe({
-            processEvents: async () => {},
+            processEvents: async () => {
+              /* no-op */
+            },
             processError: async (err, context) => {
               if (!context.partitionId) {
                 await subscription.close();
@@ -1187,7 +1215,9 @@ describe("EventHubConsumerClient", () => {
         const caughtErr: Error = await new Promise((resolve) => {
           // Subscribe to an invalid partition id to trigger a partition-specific error.
           subscription = client.subscribe("-1", {
-            processEvents: async () => {},
+            processEvents: async () => {
+              /* no-op */
+            },
             processError: async (err, context) => {
               if (context.partitionId) {
                 await subscription.close();

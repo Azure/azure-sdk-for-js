@@ -105,7 +105,9 @@ describe("PartitionPump", () => {
       const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
 
-      await trace(async () => {}, span);
+      await trace(async () => {
+        /* no-op */
+      }, span);
 
       span.status!.code.should.equal(CanonicalCode.OK);
       span.endCalled.should.be.ok;
