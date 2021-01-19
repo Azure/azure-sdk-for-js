@@ -110,7 +110,8 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
 
-    while (true) {
+    let isWaiting = true;
+    while (isWaiting) {
       loggerForTest(`Received ${this.events.length} messages (need ${countOfExpectedEvents})`);
 
       if (this.events.length !== countOfExpectedEvents && !this.hasErrors(partitionIds)) {
@@ -122,15 +123,17 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
           );
         }
       } else {
-        this.events.sort((a, b) => {
-          const akey = `${a.partitionId}:${a.event.body}`;
-          const bkey = `${b.partitionId}:${b.event.body}`;
-          return akey.localeCompare(bkey);
-        });
-
-        return this.events;
+        isWaiting = false;
       }
     }
+
+    this.events.sort((a, b) => {
+      const akey = `${a.partitionId}:${a.event.body}`;
+      const bkey = `${b.partitionId}:${b.event.body}`;
+      return akey.localeCompare(bkey);
+    });
+
+    return this.events;
   }
 
   async waitForEvents(
