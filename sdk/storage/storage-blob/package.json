@@ -8,6 +8,7 @@
   "browser": {
     "./dist-esm/storage-blob/src/index.js": "./dist-esm/storage-blob/src/index.browser.js",
     "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.browser.js",
+    "./dist-esm/storage-blob/src/credentials/UserDelegationKeyCredential.js": "./dist-esm/storage-blob/src/credentials/UserDelegationKeyCredential.browser.js",
     "./dist-esm/storage-blob/src/utils/utils.node.js": "./dist-esm/storage-blob/src/utils/utils.browser.js",
     "./dist-esm/storage-blob/test/utils/index.js": "./dist-esm/storage-blob/test/utils/index.browser.js",
     "./dist-esm/storage-blob/src/BatchUtils.js": "./dist-esm/storage-blob/src/BatchUtils.browser.js",
