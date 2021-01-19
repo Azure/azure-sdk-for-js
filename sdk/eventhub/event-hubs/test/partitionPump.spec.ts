@@ -22,10 +22,6 @@ describe("PartitionPump", () => {
       public spanOptions: SpanOptions | undefined;
       public spanName: string | undefined;
 
-      constructor() {
-        super();
-      }
-
       startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
         this.spanName = nameArg;
         this.spanOptions = optionsArg;
