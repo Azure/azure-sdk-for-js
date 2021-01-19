@@ -69,16 +69,16 @@ export function createRecordedCommunicationIdentityClient(
   context: Context,
   withToken: boolean = false
 ): RecordedClient<CommunicationIdentityClient> {
-  const recorder = record(context, environmentSetup);
-
-  if (!withToken) {
-    return {
-      client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
-      recorder
-    };
-  }
-
   try {
+    const recorder = record(context, environmentSetup);
+
+    if (!withToken) {
+      return {
+        client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
+        recorder
+      };
+    }
+    
     let credential: TokenCredential = isPlaybackMode()
       ? {
           getToken: async (_scopes) => {
