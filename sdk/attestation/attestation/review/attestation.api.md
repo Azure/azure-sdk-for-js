@@ -160,20 +160,20 @@ export interface InitTimeData {
 
 // @public (undocumented)
 export interface JsonWebKey {
-    alg: string;
+    alg?: string;
     crv?: string;
     d?: string;
     dp?: string;
     dq?: string;
     e?: string;
     k?: string;
-    kid: string;
+    kid?: string;
     kty: string;
     n?: string;
     p?: string;
     q?: string;
     qi?: string;
-    use: string;
+    use?: string;
     x?: string;
     x5C?: string[];
     y?: string;
