@@ -63,6 +63,7 @@ describe("EventHubConsumerClient", () => {
       let clientWithCheckpointStore: EventHubConsumerClient;
       let subscriptionHandlers: SubscriptionEventHandlers;
       let fakeEventProcessor: SinonStubbedInstance<EventProcessor>;
+      let validateOptions: (options: FullEventProcessorOptions) => void;
       const fakeEventProcessorConstructor = (
         connectionContext: ConnectionContext,
         subscriptionEventHandlers: SubscriptionEventHandlers,
@@ -77,8 +78,6 @@ describe("EventHubConsumerClient", () => {
 
         return fakeEventProcessor;
       };
-
-      let validateOptions: (options: FullEventProcessorOptions) => void;
 
       beforeEach(() => {
         fakeEventProcessor = createStubInstance(EventProcessor);
@@ -642,36 +641,7 @@ describe("EventHubConsumerClient", () => {
         );
 
         clients.push(consumerClient1, consumerClient2);
-
-        // keep track of the handlers called on subscription 1
-        const handlerCalls = {
-          initialize: 0,
-          close: 0
-        };
-        const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {
-            /* no-op */
-          },
-          async processEvents() {
-            if (!handlerCalls.close) {
-              // start the 2nd subscription that will kick the 1st subscription off
-              subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
-                ownerLevel: 1,
-                maxBatchSize: 1,
-                maxWaitTimeInSeconds: 1
-              });
-            } else {
-              // stop this subscription, we know close was called so we've restarted
-              await subscription1.close();
-            }
-          },
-          async processClose() {
-            handlerCalls.close++;
-          },
-          async processInitialize() {
-            handlerCalls.initialize++;
-          }
-        };
+        let subscription2: Subscription | undefined;
         const subscriptionHandlers2: SubscriptionEventHandlers = {
           async processError() {
             /* no-op */
@@ -681,11 +651,44 @@ describe("EventHubConsumerClient", () => {
             await subscription2!.close();
           }
         };
-        let subscription2: Subscription | undefined;
-        const subscription1 = consumerClient1.subscribe(partitionId, subscriptionHandlers1, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1
-        });
+
+        // keep track of the handlers called on subscription 1
+        const handlerCalls = {
+          initialize: 0,
+          close: 0
+        };
+
+        const subscription1 = consumerClient1.subscribe(
+          partitionId,
+          {
+            async processError() {
+              /* no-op */
+            },
+            async processEvents() {
+              if (!handlerCalls.close) {
+                // start the 2nd subscription that will kick the 1st subscription off
+                subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
+                  ownerLevel: 1,
+                  maxBatchSize: 1,
+                  maxWaitTimeInSeconds: 1
+                });
+              } else {
+                // stop this subscription, we know close was called so we've restarted
+                await subscription1.close();
+              }
+            },
+            async processClose() {
+              handlerCalls.close++;
+            },
+            async processInitialize() {
+              handlerCalls.initialize++;
+            }
+          },
+          {
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1
+          }
+        );
 
         await loopUntil({
           maxTimes: 10,

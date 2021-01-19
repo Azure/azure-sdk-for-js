@@ -83,6 +83,62 @@ describe("Event Processor", function(): void {
 
   describe("unit tests", () => {
     describe("_getStartingPosition", () => {
+      function createEventProcessor(
+        checkpointStore: CheckpointStore,
+        startPosition?: FullEventProcessorOptions["startPosition"]
+      ): EventProcessor {
+        return new EventProcessor(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          consumerClient["_context"],
+          {
+            processEvents: async () => {
+              /* no-op */
+            },
+            processError: async () => {
+              /* no-op */
+            }
+          },
+          checkpointStore,
+          {
+            startPosition,
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1,
+            loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
+            loopIntervalInMs: defaultOptions.loopIntervalInMs
+          }
+        );
+      }
+
+      const emptyCheckpointStore = createCheckpointStore([]);
+
+      function createCheckpointStore(
+        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
+      ): CheckpointStore {
+        return {
+          claimOwnership: async () => {
+            return [];
+          },
+          listCheckpoints: async () => {
+            return checkpointsForTest.map((cp) => {
+              return {
+                fullyQualifiedNamespace: "not-used-for-this-test",
+                consumerGroup: "not-used-for-this-test",
+                eventHubName: "not-used-for-this-test",
+                offset: cp.offset,
+                sequenceNumber: cp.sequenceNumber,
+                partitionId: cp.partitionId
+              };
+            });
+          },
+          listOwnership: async () => {
+            return [];
+          },
+          updateCheckpoint: async () => {
+            /* no-op */
+          }
+        };
+      }
+
       before(() => {
         consumerClient["_context"].managementSession!.getEventHubProperties = async () => {
           return Promise.resolve({
@@ -160,62 +216,6 @@ describe("Event Processor", function(): void {
         const eventPositionForPartitionOne = await processor["_getStartingPosition"]("1");
         should.equal(isLatestPosition(eventPositionForPartitionOne), true);
       });
-
-      function createEventProcessor(
-        checkpointStore: CheckpointStore,
-        startPosition?: FullEventProcessorOptions["startPosition"]
-      ): EventProcessor {
-        return new EventProcessor(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
-          {
-            processEvents: async () => {
-              /* no-op */
-            },
-            processError: async () => {
-              /* no-op */
-            }
-          },
-          checkpointStore,
-          {
-            startPosition,
-            maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1,
-            loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
-            loopIntervalInMs: defaultOptions.loopIntervalInMs
-          }
-        );
-      }
-
-      const emptyCheckpointStore = createCheckpointStore([]);
-
-      function createCheckpointStore(
-        checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
-      ): CheckpointStore {
-        return {
-          claimOwnership: async () => {
-            return [];
-          },
-          listCheckpoints: async () => {
-            return checkpointsForTest.map((cp) => {
-              return {
-                fullyQualifiedNamespace: "not-used-for-this-test",
-                consumerGroup: "not-used-for-this-test",
-                eventHubName: "not-used-for-this-test",
-                offset: cp.offset,
-                sequenceNumber: cp.sequenceNumber,
-                partitionId: cp.partitionId
-              };
-            });
-          },
-          listOwnership: async () => {
-            return [];
-          },
-          updateCheckpoint: async () => {
-            /* no-op */
-          }
-        };
-      }
     });
 
     describe("_handleSubscriptionError", () => {

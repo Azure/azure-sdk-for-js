@@ -419,9 +419,9 @@ export class EventHubSender extends LinkEntity {
         }
 
         const removeListeners = (): void => {
-          clearTimeout(waitTimer);
+          clearTimeout(waitTimer); // eslint-disable-line @typescript-eslint/no-use-before-define
           if (abortSignal) {
-            abortSignal.removeEventListener("abort", onAborted);
+            abortSignal.removeEventListener("abort", onAborted); // eslint-disable-line @typescript-eslint/no-use-before-define
           }
         };
 
