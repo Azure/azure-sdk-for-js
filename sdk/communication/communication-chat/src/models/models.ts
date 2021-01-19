@@ -9,26 +9,49 @@ import {
   ChatThread as RestChatThread,
   ChatParticipant as RestChatParticipant,
   ChatMessageReadReceipt as RestChatMessageReadReceipt,
+  ChatMessageContent as RestChatMessageContent,
+  ChatMessageType,
   CreateChatThreadResult,
-  AddChatParticipantsResult
+  CreateChatThreadErrors,
+  AddChatParticipantsResult,
+  AddChatParticipantsErrors,
+  CommunicationError
 } from "../generated/src/models";
 
 export {
   RestChatMessage,
   RestChatThread,
   RestChatParticipant,
+  RestChatMessageContent,
   RestChatMessageReadReceipt,
-  SendChatMessageResult
+  CreateChatThreadResult,
+  CreateChatThreadErrors,
+  SendChatMessageResult,
+  AddChatParticipantsResult,
+  AddChatParticipantsErrors,
+  ChatMessageType,
+  CommunicationError
 };
 
 /**
  * An interface representing a chat message.
  */
-export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
+export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
   /**
    * The CommunicationUser that identifies this chat message sender.
    */
   sender?: CommunicationUser;
+  /**
+   * Content of a chat message.
+   */
+  content?: ChatMessageContent;
+}
+
+export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants"> {
+  /**
+   * Chat message content for type "participantAdded" or "participantRemoved" messages.
+   */
+  participants?: ChatParticipant[];
 }
 
 /**

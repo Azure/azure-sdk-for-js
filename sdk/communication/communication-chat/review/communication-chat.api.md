@@ -18,14 +18,22 @@ import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
+export interface AddChatParticipantsErrors {
+    invalidParticipants: (CommunicationError | null)[];
+}
+
+// @public
 export interface AddChatParticipantsRequest extends Omit<RestAddChatParticipantsRequest, "participants"> {
     participants: ChatParticipant[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "AddChatParticipantsResult" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type AddChatParticipantsResponse = WithResponse<AddChatParticipantsResult>;
+
+// @public
+export interface AddChatParticipantsResult {
+    errors?: AddChatParticipantsErrors;
+}
 
 // @public
 export type AddParticipantsOptions = OperationOptions;
@@ -57,17 +65,26 @@ export interface ChatClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
+export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
+    content?: ChatMessageContent;
     sender?: CommunicationUser;
 }
 
+// @public (undocumented)
+export interface ChatMessageContent extends Omit<RestChatMessageContent, "participants"> {
+    participants?: ChatParticipant[];
+}
+
 // @public
-export type ChatMessagePriority = "normal" | "high";
+export type ChatMessagePriority = string;
 
 // @public
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
     readonly sender?: CommunicationUser;
 }
+
+// @public
+export type ChatMessageType = string;
 
 // @public
 export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
@@ -105,25 +122,41 @@ export interface ChatThreadClientOptions extends ChatClientOptions {
 // @public
 export interface ChatThreadInfo {
     deletedOn?: Date;
-    readonly id?: string;
+    id: string;
     readonly lastMessageReceivedOn?: Date;
-    topic?: string;
+    topic: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ChatCreateChatThreadOptionalParams" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type CreateChatThreadOptions = ChatCreateChatThreadOptionalParams;
+export interface CommunicationError {
+    code: string;
+    readonly details?: (CommunicationError | null)[];
+    readonly innerError?: CommunicationError | null;
+    message: string;
+    readonly target?: string;
+}
+
+// @public
+export interface CreateChatThreadErrors {
+    readonly invalidParticipants?: (CommunicationError | null)[];
+}
+
+// @public
+export type CreateChatThreadOptions = RestCreateChatThreadOptions;
 
 // @public
 export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "participants"> {
     participants: ChatParticipant[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "CreateChatThreadResult" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type CreateChatThreadResponse = WithResponse<CreateChatThreadResult>;
+
+// @public
+export interface CreateChatThreadResult {
+    chatThread?: RestChatThread;
+    errors?: CreateChatThreadErrors;
+}
 
 // @public
 export type DeleteChatThreadOptions = OperationOptions;
@@ -175,25 +208,32 @@ export interface RestAddChatParticipantsRequest {
 
 // @public
 export interface RestChatMessage {
-    // Warning: (ae-forgotten-export) The symbol "ChatMessageContent" needs to be exported by the entry point index.d.ts
-    content?: ChatMessageContent;
-    readonly createdOn?: Date;
+    content?: RestChatMessageContent;
+    createdOn: Date;
     deletedOn?: Date;
     editedOn?: Date;
-    readonly id?: string;
-    priority?: ChatMessagePriority;
+    id: string;
+    priority: ChatMessagePriority;
     senderDisplayName?: string;
-    readonly senderId?: string;
-    // Warning: (ae-forgotten-export) The symbol "ChatMessageType" needs to be exported by the entry point index.d.ts
-    type?: ChatMessageType;
-    readonly version?: string;
+    senderId?: string;
+    sequenceId: string;
+    type: ChatMessageType;
+    version: string;
+}
+
+// @public
+export interface RestChatMessageContent {
+    initiator?: string;
+    message?: string;
+    participants?: RestChatParticipant[];
+    topic?: string;
 }
 
 // @public
 export interface RestChatMessageReadReceipt {
-    readonly chatMessageId?: string;
-    readonly readOn?: Date;
-    readonly senderId?: string;
+    chatMessageId: string;
+    readOn: Date;
+    senderId: string;
 }
 
 // @public
@@ -205,11 +245,16 @@ export interface RestChatParticipant {
 
 // @public
 export interface RestChatThread {
-    readonly createdBy?: string;
-    readonly createdOn?: Date;
+    createdBy: string;
+    createdOn: Date;
     deletedOn?: Date;
-    readonly id?: string;
-    topic?: string;
+    id: string;
+    topic: string;
+}
+
+// @public
+export interface RestCreateChatThreadOptions extends coreHttp.OperationOptions {
+    repeatabilityRequestID?: string;
 }
 
 // @public
@@ -258,6 +303,7 @@ interface SendChatMessageRequest {
     content: string;
     priority?: ChatMessagePriority;
     senderDisplayName?: string;
+    type?: ChatMessageType;
 }
 
 export { SendChatMessageRequest as RestSendMessageOptions }
@@ -269,7 +315,7 @@ export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
 
 // @public
 export interface SendChatMessageResult {
-    readonly id?: string;
+    id: string;
 }
 
 // @public

@@ -47,7 +47,10 @@ describe("ChatClient", function() {
 
     const request = {
       topic: "test topic",
-      participants: [{ user: testUser }, { user: testUser2 }]
+      participants: [
+        { user: testUser, shareHistoryTime: new Date("2020-05-26T18:06:06Z") },
+        { user: testUser2, shareHistoryTime: new Date("2020-05-26T18:06:06Z") }
+      ]
     };
 
     const chatThreadResult = await chatClient.createChatThread(request);
@@ -123,7 +126,9 @@ describe("ChatClient", function() {
   it("successfully adds participants", async function() {
     testUser3 = (await createTestUser()).user;
 
-    const request = { participants: [{ user: testUser3 }] };
+    const request = {
+      participants: [{ user: testUser3, shareHistoryTime: new Date("2020-05-26T18:06:06Z") }]
+    };
     await chatThreadClient.addParticipants(request);
   });
 

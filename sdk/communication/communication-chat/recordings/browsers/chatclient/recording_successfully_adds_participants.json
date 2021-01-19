@@ -8,31 +8,31 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\"}",
+   "response": "{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-ac8c-6032-3b3a0d001c67\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/identities/8%3Aacs%3A188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9/token",
+   "url": "https://endpoint/identities/8%3Aacs%3A8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-ac8c-6032-3b3a0d001c67/token",
    "query": {
     "api-version": "2020-07-20-preview2"
    },
    "requestBody": "{\"scopes\":[\"chat\"]}",
    "status": 200,
-   "response": "{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\",\"token\":\"token\",\"expiresOn\":\"2020-12-31T21:14:44.3405342+00:00\"}",
+   "response": "{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-ac8c-6032-3b3a0d001c67\",\"token\":\"token\",\"expiresOn\":\"2021-01-14T02:06:59.8762421+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a%40thread.v2/participants/:add",
+   "url": "https://endpoint/chat/threads/19%3Acb3f43b5b0da4b17bab9e23464e3519e%40thread.v2/participants/:add",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"participants\":[{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\"}]}",
+   "requestBody": "{\"participants\":[{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-ac8c-6032-3b3a0d001c67\",\"shareHistoryTime\":\"2020-05-26T18:06:06.000Z\"}]}",
    "status": 201,
    "response": "{}",
    "responseHeaders": {
@@ -44,5 +44,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c5fde7c044908b455d100bf47e997626"
+ "hash": "2d0d45a11547788c4d9ed325ec30bc1a"
 }

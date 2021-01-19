@@ -21,9 +21,7 @@ import {
   ChatListChatThreadsNextResponse
 } from "../models";
 
-/**
- * Class representing a Chat.
- */
+/** Class representing a Chat. */
 export class Chat {
   private readonly client: ChatApiClient;
 
@@ -44,11 +42,12 @@ export class Chat {
     createChatThreadRequest: CreateChatThreadRequest,
     options?: ChatCreateChatThreadOptionalParams
   ): Promise<ChatCreateChatThreadResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      createChatThreadRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { createChatThreadRequest, options: operationOptions },
+      operationArguments,
       createChatThreadOperationSpec
     ) as Promise<ChatCreateChatThreadResponse>;
   }
@@ -60,11 +59,11 @@ export class Chat {
   listChatThreads(
     options?: ChatListChatThreadsOptionalParams
   ): Promise<ChatListChatThreadsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { options: operationOptions },
+      operationArguments,
       listChatThreadsOperationSpec
     ) as Promise<ChatListChatThreadsResponse>;
   }
@@ -78,11 +77,12 @@ export class Chat {
     chatThreadId: string,
     options?: coreHttp.OperationOptions
   ): Promise<ChatGetChatThreadResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { chatThreadId, options: operationOptions },
+      operationArguments,
       getChatThreadOperationSpec
     ) as Promise<ChatGetChatThreadResponse>;
   }
@@ -96,11 +96,12 @@ export class Chat {
     chatThreadId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { chatThreadId, options: operationOptions },
+      operationArguments,
       deleteChatThreadOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -114,17 +115,17 @@ export class Chat {
     nextLink: string,
     options?: ChatListChatThreadsNextOptionalParams
   ): Promise<ChatListChatThreadsNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.client.sendOperationRequest(
-      { nextLink, options: operationOptions },
+      operationArguments,
       listChatThreadsNextOperationSpec
     ) as Promise<ChatListChatThreadsNextResponse>;
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -135,22 +136,26 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.CreateChatThreadResult
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.repeatabilityRequestID],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestID],
   mediaType: "json",
   serializer
 };
@@ -162,20 +167,25 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ChatThreadsInfoCollection
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -186,20 +196,25 @@ const getChatThreadOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ChatThread
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const deleteChatThreadOperationSpec: coreHttp.OperationSpec = {
@@ -208,20 +223,25 @@ const deleteChatThreadOperationSpec: coreHttp.OperationSpec = {
   responses: {
     204: {},
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
@@ -232,19 +252,24 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ChatThreadsInfoCollection
     },
     401: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     403: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
     }
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };

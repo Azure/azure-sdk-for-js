@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A4dc973636fca42dda4eeae466d18e81a%40thread.v2/participants",
+   "url": "https://endpoint/chat/threads/19%3Acb3f43b5b0da4b17bab9e23464e3519e%40thread.v2/participants",
    "query": {
     "api-version": "2020-11-01-preview3"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4943-b0b7-3a3a0d0044b7\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-4c3a-b0b7-3a3a0d0044b8\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-6d40-b0b7-3a3a0d0044b9\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "response": "{\"value\":[{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-9f5c-6032-3b3a0d001c65\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-a040-6032-3b3a0d001c66\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-ac8c-6032-3b3a0d001c67\",\"shareHistoryTime\":\"2020-05-26T18:06:06Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

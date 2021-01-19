@@ -7,9 +7,9 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
   SendReadReceiptRequest as SendReadReceiptRequestMapper,
@@ -19,6 +19,18 @@ import {
   UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
   CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",

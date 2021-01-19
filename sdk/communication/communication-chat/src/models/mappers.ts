@@ -9,6 +9,7 @@ import {
   ChatThread,
   ChatParticipant,
   ChatMessageReadReceipt,
+  ChatMessageContent,
   WithResponse
 } from "./models";
 
@@ -36,13 +37,29 @@ export const mapToAddChatParticipantsRequestRestModel = (
   };
 };
 
+export const mapToChatContentSdkModel = (
+  content: RestModel.ChatMessageContent
+): ChatMessageContent => {
+  const { participants, ...otherChatContents } = content;
+  return {
+    participants: content.participants?.map((participant) =>
+      mapToChatParticipantSdkModel(participant)
+    ),
+    ...otherChatContents
+  };
+};
+
 /**
  * Mapping chat message REST model to chat message SDK model
  */
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
-  const model = { ...chatMessage, sender: { communicationUserId: chatMessage.senderId! } };
-  delete (model as any).senderId;
-  return model;
+  const { content, senderId, ...otherChatMessage } = chatMessage;
+  const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
+  return {
+    sender: { communicationUserId: senderId! },
+    content: contentSdkModel,
+    ...otherChatMessage
+  };
 };
 
 /**

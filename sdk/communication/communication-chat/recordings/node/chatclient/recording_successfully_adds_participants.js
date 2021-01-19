@@ -1,59 +1,59 @@
 let nock = require('nock');
 
-module.exports.hash = "31e17666f781ad18cd063e7dde571c6c";
+module.exports.hash = "07eac232cd3a9dc288c9c1c7b401f64d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities')
   .query(true)
-  .reply(200, {"id":"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-2e87-1db7-3a3a0d0043a3"}, [
+  .reply(200, {"id":"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-8307-0e04-343a0d001200"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'cLOPrgFkME6aPelkkMe3BA.0',
+  'YZOA+zy4ZUSXRB6H33mHqw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
-  'd2ebb8f1-cee6-4295-b026-6e1a6ae1380a',
+  '46ad2a17-4c2d-48ed-9c0d-b53cbc724d8a',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-03-07',
+  '2020-01-15-preview3, 2020-07-20-preview1, 2020-07-20-preview2',
   'X-Processing-Time',
-  '62ms',
+  '22ms',
   'X-Azure-Ref',
-  '0tO3sXwAAAAATLakmTQUbRoZUt0xC5rRRWVZSMzBFREdFMDQxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0ulX+XwAAAABhElc5zxBdQqj6rl84plB3V1NURURHRTA4MjIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 30 Dec 2020 21:14:28 GMT'
+  'Wed, 13 Jan 2021 02:06:50 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/identities/8%3Aacs%3A188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-2e87-1db7-3a3a0d0043a3/token', {"scopes":["chat"]})
+  .post('/identities/8%3Aacs%3A8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-8307-0e04-343a0d001200/token', {"scopes":["chat"]})
   .query(true)
-  .reply(200, {"id":"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-2e87-1db7-3a3a0d0043a3","token":"token","expiresOn":"2020-12-31T21:14:28.0190859+00:00"}, [
+  .reply(200, {"id":"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-8307-0e04-343a0d001200","token":"token","expiresOn":"2021-01-14T02:06:49.203026+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'GWO8IjwebUyL8QfsJJs4Kw.0',
+  'OdymPnH2/UWyzr5l5xOA/Q.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
-  'c0f3627e-7224-40a4-a6c5-befc706212e4',
+  '58c89705-0c38-4131-9d2c-754c938f0080',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-03-07',
+  '2020-01-15-preview3, 2020-07-20-preview1, 2020-07-20-preview2',
   'X-Processing-Time',
-  '91ms',
+  '24ms',
   'X-Azure-Ref',
-  '0tO3sXwAAAAD64pzxlbGpQ4CFL+4V/xPMWVZSMzBFREdFMDQxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0ulX+XwAAAAD3aEZkR2JnQZXnAFssYV+AV1NURURHRTA4MjIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 30 Dec 2020 21:14:28 GMT'
+  'Wed, 13 Jan 2021 02:06:50 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/chat/threads/19%3A0771a8d8c00d4329b664c4237e41bf0c%40thread.v2/participants/:add', {"participants":[{"id":"8:acs:188d4cea-0a9b-4840-8fdc-7a5c71fe9bd0_00000007-5562-2e87-1db7-3a3a0d0043a3"}]})
+  .post('/chat/threads/19%3A883ce5bf892c47d6a7da73da6df31c7e%40thread.v2/participants/:add', {"participants":[{"id":"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000007-9960-8307-0e04-343a0d001200","shareHistoryTime":"2020-05-26T18:06:06.000Z"}]})
   .query(true)
   .reply(201, {}, [
   'Transfer-Encoding',
@@ -61,15 +61,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'WymZ75ejHkiljw955z6Eig.0',
+  'tlGqIx4T7E+BNmlSSxvnag.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
   '2020-11-01-preview3',
   'X-Processing-Time',
-  '424ms',
+  '282ms',
   'X-Azure-Ref',
-  '0te3sXwAAAABSxuADyJWoSLv1+z9nQRJEWVZSMzBFREdFMDQxNwBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=',
+  '0ulX+XwAAAAC1fFpvOh71QbrT2Ezc4LckV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
   'Date',
-  'Wed, 30 Dec 2020 21:14:29 GMT'
+  'Wed, 13 Jan 2021 02:06:50 GMT'
 ]);

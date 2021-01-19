@@ -5,7 +5,6 @@ import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
 import { CommunicationUser, CommunicationUserCredential } from "@azure/communication-common";
 import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
-import { ChatApiClient, ChatThread } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -15,8 +14,8 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
-import { AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src/models";
-import { OperationResponse } from "./models/models";
+import { ChatApiClient, AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src";
+import { ListPageSettings, OperationResponse } from "./models/models";
 import {
   ChatThreadClientOptions,
   SendMessageOptions,
@@ -37,7 +36,6 @@ import {
   ChatParticipant,
   GetChatMessageResponse,
   ChatMessageReadReceipt,
-  ListPageSettings,
   SendChatMessageResponse
 } from "./models/models";
 import {
@@ -62,7 +60,7 @@ export class ChatThreadClient {
   readonly threadId: string;
 
   private readonly tokenCredential: CommunicationUserCredential;
-  private readonly api: ChatThread;
+  private readonly client: ChatApiClient;
   private disposed = false;
 
   private timeOfLastTypingRequest: Date | undefined = undefined;
@@ -101,8 +99,7 @@ export class ChatThreadClient {
     const authPolicy = createCommunicationUserCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    const client = new ChatApiClient(this.url, pipeline);
-    this.api = client.chatThread;
+    this.client = new ChatApiClient(this.url, pipeline);
   }
 
   /**
@@ -113,7 +110,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateThread", options);
 
     try {
-      return await this.api.updateChatThread(
+      return await this.client.chatThread.updateChatThread(
         this.threadId,
         { topic: options.topic },
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -145,7 +142,7 @@ export class ChatThreadClient {
       // reset typing notification clock
       this.timeOfLastTypingRequest = undefined;
 
-      return await this.api.sendChatMessage(
+      return await this.client.chatThread.sendChatMessage(
         this.threadId,
         { ...request, ...options },
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -174,7 +171,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-GetMessage", options);
 
     try {
-      const response = await this.api.getChatMessage(
+      const response = await this.client.chatThread.getChatMessage(
         this.threadId,
         messageId,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -198,7 +195,10 @@ export class ChatThreadClient {
   ): AsyncIterableIterator<ChatMessage[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!pageSettings.continuationToken) {
-      const currentSetResponse = await this.api.listChatMessages(this.threadId, requestOptions);
+      const currentSetResponse = await this.client.chatThread.listChatMessages(
+        this.threadId,
+        requestOptions
+      );
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToChatMessageSdkModel, this);
@@ -206,7 +206,7 @@ export class ChatThreadClient {
     }
 
     while (pageSettings.continuationToken) {
-      const currentSetResponse = await this.api.listChatMessagesNext(
+      const currentSetResponse = await this.client.chatThread.listChatMessagesNext(
         this.threadId,
         pageSettings.continuationToken,
         requestOptions
@@ -270,7 +270,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-DeleteMessage", options);
 
     try {
-      return await this.api.deleteChatMessage(
+      return await this.client.chatThread.deleteChatMessage(
         this.threadId,
         messageId,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -298,7 +298,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateMessage", options);
 
     try {
-      return await this.api.updateChatMessage(
+      return await this.client.chatThread.updateChatMessage(
         this.threadId,
         messageId,
         options,
@@ -327,7 +327,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);
 
     try {
-      return await this.api.addChatParticipants(
+      return await this.client.chatThread.addChatParticipants(
         this.threadId,
         mapToAddChatParticipantsRequestRestModel(request),
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -349,7 +349,10 @@ export class ChatThreadClient {
   ): AsyncIterableIterator<ChatParticipant[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatParticipants(this.threadId, requestOptions);
+      const currentSetResponse = await this.client.chatThread.listChatParticipants(
+        this.threadId,
+        requestOptions
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToChatParticipantSdkModel, this);
@@ -357,7 +360,7 @@ export class ChatThreadClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatParticipantsNext(
+      const currentSetResponse = await this.client.chatThread.listChatParticipantsNext(
         this.threadId,
         continuationState.continuationToken,
         requestOptions
@@ -425,7 +428,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveParticipant", options);
 
     try {
-      return await this.api.removeChatParticipant(
+      return await this.client.chatThread.removeChatParticipant(
         this.threadId,
         participant.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -455,7 +458,7 @@ export class ChatThreadClient {
     try {
       const dateNow = new Date();
       if (this.canPostTypingNotification(dateNow)) {
-        await this.api.sendTypingNotification(
+        await this.client.chatThread.sendTypingNotification(
           this.threadId,
           operationOptionsToRequestOptionsBase(updatedOptions)
         );
@@ -490,7 +493,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-SendReadReceipt", options);
 
     try {
-      return await this.api.sendChatReadReceipt(
+      return await this.client.chatThread.sendChatReadReceipt(
         this.threadId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -512,7 +515,10 @@ export class ChatThreadClient {
   ): AsyncIterableIterator<ChatMessageReadReceipt[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatReadReceipts(this.threadId, requestOptions);
+      const currentSetResponse = await this.client.chatThread.listChatReadReceipts(
+        this.threadId,
+        requestOptions
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToReadReceiptSdkModel, this);
@@ -520,7 +526,7 @@ export class ChatThreadClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.api.listChatReadReceiptsNext(
+      const currentSetResponse = await this.client.chatThread.listChatReadReceiptsNext(
         this.threadId,
         continuationState.continuationToken,
         requestOptions

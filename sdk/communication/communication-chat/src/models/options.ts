@@ -13,6 +13,7 @@ import {
 } from "../generated/src/models";
 
 export {
+  RestCreateChatThreadOptions,
   RestSendMessageOptions,
   RestUpdateMessageOptions,
   RestUpdateThreadOptions,
