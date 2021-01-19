@@ -643,7 +643,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it.only("rename container", async function() {
+  it("rename container", async function() {
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container");
@@ -660,7 +660,7 @@ describe("BlobServiceClient", () => {
     await newContainerClient.delete();
   });
 
-  it.only("rename container should work with source lease", async function() {
+  it("rename container should work with source lease", async function() {
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container");

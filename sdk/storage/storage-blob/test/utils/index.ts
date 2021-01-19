@@ -61,7 +61,7 @@ export function getGenericBSU(
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
     });
-    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.preprod.core.windows.net/`;
+    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
     return new BlobServiceClient(blobPrimaryURL, pipeline);
   }
 }
