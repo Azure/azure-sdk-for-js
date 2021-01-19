@@ -776,8 +776,8 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Renames an existing Blob Container.
    *
-   * @param {string} sourceContainerName Name of the source container.
-   * @param {string} destinationContainerName New name of the container.
+   * @param {string} sourceContainerName The name of the source container.
+   * @param {string} destinationContainerName The new name of the container.
    * @memberof BlobServiceClient
    */
   public async renameContainer(

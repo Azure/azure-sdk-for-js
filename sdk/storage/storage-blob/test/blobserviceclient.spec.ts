@@ -651,9 +651,10 @@ describe("BlobServiceClient", () => {
     await containerClient.create();
 
     const newContainerName = recorder.getUniqueName("newcontainer");
-    await blobServiceClient.renameContainer(containerName, newContainerName);
+    const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
+    assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
     await newContainerClient.getProperties();
 
     // clean up
@@ -672,11 +673,12 @@ describe("BlobServiceClient", () => {
 
     const newContainerName = recorder.getUniqueName("newcontainer");
 
-    await blobServiceClient.renameContainer(containerName, newContainerName, {
+    const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
       sourceCondition: { leaseId: leaseClient.leaseId }
     });
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
+    assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
     await newContainerClient.getProperties();
 
     // clean up
