@@ -76,34 +76,29 @@ export interface CarrierDetails {
 }
 
 // @public
+export interface CommunicationIdentityAccessToken {
+    expiresOn: Date;
+    token: string;
+}
+
+// @public
 export class CommunicationIdentityClient {
     constructor(connectionString: string, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
     createUser(options?: OperationOptions): Promise<CreateUserResponse>;
+    createUserWithToken(scopes: TokenScope[], options?: OperationOptions): Promise<CreateUserWithTokenResponse>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
     issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
-    revokeTokens(user: CommunicationUserIdentifier, tokensValidFrom?: Date, options?: OperationOptions): Promise<VoidResponse>;
+    revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
 }
 
 // @public
 export interface CommunicationIdentityOptions extends PipelineOptions {
 }
 
-// @public (undocumented)
-export interface CommunicationIdentityToken {
-    expiresOn: Date;
-    id: string;
-    token: string;
-}
-
-// @public (undocumented)
-export interface CommunicationTokenRequest {
-    scopes: string[];
-}
-
 // @public
-export interface CommunicationUserToken extends Pick<CommunicationIdentityToken, "token" | "expiresOn"> {
+export interface CommunicationUserToken extends Pick<CommunicationIdentityAccessToken, "token" | "expiresOn"> {
     user: CommunicationUserIdentifier;
 }
 
@@ -144,6 +139,9 @@ export interface CreateReservationResponse {
 
 // @public
 export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
+
+// @public
+export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
 export type GetAreaCodesOptions = OperationOptions;
@@ -506,7 +504,7 @@ export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
 
 // @public
-export type TokenScope = "chat" | "voip" | "pstn";
+export type TokenScope = "chat" | "voip";
 
 // @public
 export type UnconfigurePhoneNumberOptions = OperationOptions;

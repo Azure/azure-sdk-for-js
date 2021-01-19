@@ -3,7 +3,7 @@
 
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
-import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
 import { createRecordedCommunicationIdentityClient } from "./utils/recordedClient";
 
@@ -37,7 +37,7 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
   it("successfully issues a token for a user [multiple scopes]", async function() {
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, [
       "chat",
-      "pstn"
+      "voip"
     ]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
@@ -45,15 +45,8 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
   });
 
   it("successfully revokes tokens issued for a user", async function() {
-    const { _response: response } = await client.revokeTokens(
-      user,
-      // Must set tokensValidFrom if in playback mode so date strings will match
-      // when Nock searches for requests
-      isPlaybackMode() ? new Date("2020-10-10T00:00:00.000Z") : undefined
-    );
+    const { _response: response } = await client.revokeTokens(user);
     assert.equal(response.status, 204);
-    const { tokensValidFrom } = JSON.parse(response.request.body);
-    assert.isNotNaN(Date.parse(tokensValidFrom));
   });
 
   it("successfully deletes a user", async function() {

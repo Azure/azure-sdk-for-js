@@ -11,10 +11,10 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { IdentityRestClient } from "../identityRestClient";
 import {
+  CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
-  CommunicationIdentityUpdateRequest,
-  CommunicationTokenRequest,
-  CommunicationIdentityIssueTokenResponse
+  CommunicationIdentityAccessTokenRequest,
+  CommunicationIdentityIssueAccessTokenResponse
 } from "../models";
 
 /**
@@ -35,7 +35,9 @@ export class CommunicationIdentity {
    * Create a new identity.
    * @param options The options parameters.
    */
-  create(options?: coreHttp.OperationOptions): Promise<CommunicationIdentityCreateResponse> {
+  create(
+    options?: CommunicationIdentityCreateOptionalParams
+  ): Promise<CommunicationIdentityCreateResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -46,7 +48,7 @@ export class CommunicationIdentity {
   }
 
   /**
-   * Delete the identity, revoke all tokens of the identity and delete all associated data.
+   * Delete the identity, revoke all tokens for the identity and delete all associated data.
    * @param id Identifier of the identity to be deleted.
    * @param options The options parameters.
    */
@@ -61,43 +63,41 @@ export class CommunicationIdentity {
   }
 
   /**
-   * Update an Identity.
+   * Revoke all access tokens for the specific identity.
    * @param id Identifier of the identity.
-   * @param body The properties of the identity to be updated.
    * @param options The options parameters.
    */
-  update(
+  revokeAccessTokens(
     id: string,
-    body: CommunicationIdentityUpdateRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { id, body, options: operationOptions },
-      updateOperationSpec
+      { id, options: operationOptions },
+      revokeAccessTokensOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
-   * Generate a new token for an identity.
+   * Issue a new token for an identity.
    * @param id Identifier of the identity to issue token for.
    * @param body Requesting scopes for the new token.
    * @param options The options parameters.
    */
-  issueToken(
+  issueAccessToken(
     id: string,
-    body: CommunicationTokenRequest,
+    body: CommunicationIdentityAccessTokenRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<CommunicationIdentityIssueTokenResponse> {
+  ): Promise<CommunicationIdentityIssueAccessTokenResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { id, body, options: operationOptions },
-      issueTokenOperationSpec
-    ) as Promise<CommunicationIdentityIssueTokenResponse>;
+      issueAccessTokenOperationSpec
+    ) as Promise<CommunicationIdentityIssueAccessTokenResponse>;
   }
 }
 // Operation Specifications
@@ -109,44 +109,60 @@ const createOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationIdentity
+      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreHttp.OperationSpec = {
   path: "/identities/{id}",
   httpMethod: "DELETE",
-  responses: { 204: {} },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
   serializer
 };
-const updateOperationSpec: coreHttp.OperationSpec = {
-  path: "/identities/{id}",
-  httpMethod: "PATCH",
-  responses: { 204: {} },
-  requestBody: Parameters.body,
+const revokeAccessTokensOperationSpec: coreHttp.OperationSpec = {
+  path: "/identities/{id}/:revokeAccessTokens",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
   serializer
 };
-const issueTokenOperationSpec: coreHttp.OperationSpec = {
-  path: "/identities/{id}/token",
+const issueAccessTokenOperationSpec: coreHttp.OperationSpec = {
+  path: "/identities/{id}/:issueAccessToken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationIdentityToken
+      bodyMapper: Mappers.CommunicationIdentityAccessToken
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.contentType1],
+  headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
 };

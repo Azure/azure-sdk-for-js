@@ -47,7 +47,7 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
     let user = await client.createUser();
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, [
       "chat",
-      "pstn"
+      "voip"
     ]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);

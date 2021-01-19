@@ -31,13 +31,12 @@ export class TestCommunicationIdentityClient {
 
   public async revokeTokensTest(
     user: CommunicationUserIdentifier,
-    revocationTime?: Date,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: revokeTokensHttpClient
     });
-    return client.revokeTokens(user, revocationTime, options);
+    return client.revokeTokens(user, options);
   }
 
   public async createUserTest(options: OperationOptions = {}): Promise<CreateUserResponse> {
