@@ -52,7 +52,7 @@ The above template will create the necessary resources for you and the output ta
 
 > Azure API Management can take a while to deploy so we recommend starting the deployment now before reading the rest of this document.
 
-Next, create a service principal for the backend application and configure its access to Azure resources:
+Next, create a service principal for the backend application and configure its access to Azure Key Vault:
 
 ```Bash
 az ad sp create-for-rbac -n <your-application-name, can be anything unique> --skip-assignment
@@ -70,12 +70,28 @@ Output:
 }
 ```
 
-Save the values returned from the above command in a safe location, you'll need them in the following steps.
+Save the values returned in a safe location as follows:
+
+```
+AZURE_CLIENT_ID=<appId>
+AZURE_CLIENT_SECRET=<password>
+AZURE_TENANT_ID=<tenant>
+```
+
+Take note of the service principal objectId:
+
+```PowerShell
+az ad sp show --id <appId> --query objectId
+```
+
+```
+"<your-service-principal-object-id>"
+```
 
 Grant the above mentioned application authorization to perform key operations on the keyvault:
 
 ```Bash
-az keyvault set-policy --name <AZURE_KEYVAULT_NAME from deployment outputs tab> --spn <appId from previous step> --secret-permissions get set
+az keyvault set-policy --name <AZURE_KEYVAULT_NAME from deployment outputs tab> --spn <your-service-principal-object-id> --secret-permissions get set
 ```
 
 ## Running the sample
@@ -92,7 +108,7 @@ You can find the value of `AZURE_API_NAME` in the outputs tab of your deployment
 
 Copy `server/sample.env` as `server/.env` and provide the necessary environment variables.
 
-The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` can be found in the output returned when creating the Service Principal.
+The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` are the values you saved in a previous step.
 
 You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deployment.
 
