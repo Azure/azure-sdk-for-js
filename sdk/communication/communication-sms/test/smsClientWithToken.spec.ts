@@ -32,7 +32,8 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
       this.skip();
     }
 
-    const endpoint = env.COMMUNICATION_ENDPOINT;
+    const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING;
+    const endpoint = connectionString.split("=")[1].split(";")[0];
     const fromNumber = env.AZURE_PHONE_NUMBER;
     const toNumber = env.AZURE_PHONE_NUMBER;
 
