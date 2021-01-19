@@ -33,8 +33,8 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
     }
 
     const endpoint = env.COMMUNICATION_ENDPOINT;
-    const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
-    const toNumber = env["AZURE_PHONE_NUMBER"] as string;
+    const fromNumber = env.AZURE_PHONE_NUMBER;
+    const toNumber = env.AZURE_PHONE_NUMBER;
 
     const smsClient = new SmsClient(endpoint, credential);
     const sendRequest: SendRequest = {

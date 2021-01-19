@@ -52,7 +52,7 @@ const client = new SmsClient(connectionString);
 import { DefaultAzureCredential } from "@azure/identity";
 import { CommunicationIdentityClient } from "@azure/communication-administration";
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new CommunicationIdentityClient("<Host>", credential);
 ```
 
