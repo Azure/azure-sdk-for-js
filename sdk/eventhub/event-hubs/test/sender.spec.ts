@@ -133,14 +133,11 @@ describe("EventHub Sender", function(): void {
       should.equal(batch.tryAdd({ body: list[1] }), false); // The Mike message will be rejected - it's over the limit.
       should.equal(batch.tryAdd({ body: list[2] }), true); // Marie should get added";
 
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        producerClient
+      );
 
-      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
-        startPosition
-      });
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, { startPosition });
       await producerClient.sendBatch(batch);
 
       let receivedEvents;
@@ -176,14 +173,11 @@ describe("EventHub Sender", function(): void {
       should.equal(batch.tryAdd({ body: list[0] }), true);
       should.equal(batch.tryAdd({ body: list[1] }), true);
 
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        producerClient
+      );
 
-      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
-        startPosition
-      });
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, { startPosition });
       await producerClient.sendBatch(batch);
 
       let receivedEvents;
@@ -217,10 +211,9 @@ describe("EventHub Sender", function(): void {
       should.equal(batch.tryAdd({ body: list[0] }), true);
       should.equal(batch.tryAdd({ body: list[1] }), true);
 
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        producerClient
+      );
 
       const subscriber = consumerClient.subscribe(subscriptionEventHandler, {
         startPosition
@@ -511,10 +504,9 @@ describe("EventHub Sender", function(): void {
 
   describe("Multiple sendBatch calls", function(): void {
     it("should be sent successfully in parallel", async function(): Promise<void> {
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(consumerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        consumerClient
+      );
 
       const promises = [];
       for (let i = 0; i < 5; i++) {

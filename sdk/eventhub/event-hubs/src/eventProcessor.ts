@@ -531,9 +531,9 @@ export class EventProcessor {
             /* no-op */
           }
         });
-      } catch (err) {
+      } catch (errorFromUser) {
         logger.verbose(
-          `[${this._id}] An error was thrown from the user's processError handler: ${err}`
+          `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`
         );
       }
     }

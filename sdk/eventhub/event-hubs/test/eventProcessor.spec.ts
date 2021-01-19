@@ -1721,10 +1721,10 @@ describe("Event Processor", function(): void {
             }
 
             // All partitions must be claimed.
-            const allPartitionsClaimed =
+            const innerAllPartitionsClaimed =
               aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
 
-            if (!allPartitionsClaimed) {
+            if (!innerAllPartitionsClaimed) {
               lastLoopError = {
                 reason: "All partitions not claimed",
                 partitionIds,
@@ -1734,7 +1734,7 @@ describe("Event Processor", function(): void {
               };
             }
 
-            return allPartitionsClaimed;
+            return innerAllPartitionsClaimed;
           }
         });
       } catch (err) {
@@ -1888,10 +1888,10 @@ describe("Event Processor", function(): void {
             }
 
             // All partitions must be claimed.
-            const allPartitionsClaimed =
+            const innerAllPartitionsClaimed =
               aProcessorPartitions.size + bProcessorPartitions.size === partitionIds.length;
 
-            if (!allPartitionsClaimed) {
+            if (!innerAllPartitionsClaimed) {
               lastLoopError = {
                 reason: "All partitions not claimed",
                 partitionIds,
@@ -1901,7 +1901,7 @@ describe("Event Processor", function(): void {
               };
             }
 
-            return allPartitionsClaimed;
+            return innerAllPartitionsClaimed;
           }
         });
       } catch (err) {

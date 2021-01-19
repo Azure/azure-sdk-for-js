@@ -395,35 +395,32 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    function cleanConnectionContext(connectionContext: ConnectionContext): Promise<void> {
+    function cleanConnectionContext(context: ConnectionContext): Promise<void> {
       // Remove listeners from the connection object.
-      connectionContext.connection.removeListener(
-        ConnectionEvents.connectionOpen,
-        onConnectionOpen
-      );
-      connectionContext.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
-      connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
-      connectionContext.connection.removeListener(ConnectionEvents.error, error);
+      context.connection.removeListener(ConnectionEvents.connectionOpen, onConnectionOpen);
+      context.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
+      context.connection.removeListener(ConnectionEvents.protocolError, protocolError);
+      context.connection.removeListener(ConnectionEvents.error, error);
       // Close the connection
-      return connectionContext.connection.close();
+      return context.connection.close();
     }
 
-    async function refreshConnection(connectionContext: ConnectionContext): Promise<void> {
-      const originalConnectionId = connectionContext.connectionId;
+    async function refreshConnection(context: ConnectionContext): Promise<void> {
+      const originalConnectionId = context.connectionId;
       try {
-        await cleanConnectionContext(connectionContext);
+        await cleanConnectionContext(context);
       } catch (err) {
         logger.verbose(
-          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
+          `[${context.connectionId}] There was an error closing the connection before reconnecting: %O`,
           err
         );
       }
 
       // Create a new connection, id, locks, and cbs client.
-      connectionContext.refreshConnection();
-      addConnectionListeners(connectionContext.connection);
+      context.refreshConnection();
+      addConnectionListeners(context.connection);
       logger.verbose(
-        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
+        `The connection "${originalConnectionId}" has been updated to "${context.connectionId}".`
       );
     }
 

@@ -203,7 +203,7 @@ describe("LoadBalancingStrategy", () => {
       // meet the minimum.
       const partitions = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-      const lb = new BalancedLoadBalancingStrategy(1000 * 60);
+      const lbs = new BalancedLoadBalancingStrategy(1000 * 60);
 
       // we'll do 4 consumers
       const initialOwnershipMap = createOwnershipMap({
@@ -222,7 +222,7 @@ describe("LoadBalancingStrategy", () => {
         "9": "d"
       });
 
-      const requestedPartitions = lb.getPartitionsToCliam("c", initialOwnershipMap, partitions);
+      const requestedPartitions = lbs.getPartitionsToCliam("c", initialOwnershipMap, partitions);
       requestedPartitions.sort();
 
       requestedPartitions.should.deep.equal(
@@ -299,7 +299,7 @@ describe("LoadBalancingStrategy", () => {
 
     it("honors the partitionOwnershipExpirationIntervalInMs", () => {
       const intervalInMs = 1000;
-      const lb = new BalancedLoadBalancingStrategy(intervalInMs);
+      const lbs = new BalancedLoadBalancingStrategy(intervalInMs);
       const allPartitions = ["0", "1"];
       const ownershipMap = createOwnershipMap({
         "0": "b",
@@ -307,14 +307,14 @@ describe("LoadBalancingStrategy", () => {
       });
 
       // At this point, 'a' has its fair share of partitions, and none should be returned.
-      let partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
+      let partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.length.should.equal(0, "Expected to not claim any new partitions.");
 
       // Change the ownership of partition "0" so it is older than the interval.
       const ownership = ownershipMap.get("0")!;
       ownership.lastModifiedTimeInMs = Date.now() - (intervalInMs + 1); // Add 1 to the interval to ensure it has just expired.
 
-      partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
+      partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.should.deep.equal(["0"]);
     });
   });
@@ -483,7 +483,7 @@ describe("LoadBalancingStrategy", () => {
       // meet the minimum.
       const partitions = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-      const lb = new BalancedLoadBalancingStrategy(1000 * 60);
+      const lbs = new BalancedLoadBalancingStrategy(1000 * 60);
 
       // we'll do 4 consumers
       const initialOwnershipMap = createOwnershipMap({
@@ -502,7 +502,7 @@ describe("LoadBalancingStrategy", () => {
         "9": "d"
       });
 
-      const requestedPartitions = lb.getPartitionsToCliam("c", initialOwnershipMap, partitions);
+      const requestedPartitions = lbs.getPartitionsToCliam("c", initialOwnershipMap, partitions);
       requestedPartitions.sort();
 
       requestedPartitions.should.deep.equal(
@@ -579,7 +579,7 @@ describe("LoadBalancingStrategy", () => {
 
     it("honors the partitionOwnershipExpirationIntervalInMs", () => {
       const intervalInMs = 1000;
-      const lb = new GreedyLoadBalancingStrategy(intervalInMs);
+      const lbs = new GreedyLoadBalancingStrategy(intervalInMs);
       const allPartitions = ["0", "1", "2", "3"];
       const ownershipMap = createOwnershipMap({
         "0": "b",
@@ -587,7 +587,7 @@ describe("LoadBalancingStrategy", () => {
       });
 
       // At this point, "a" should only grab 1 partition since both "a" and "b" should end up with 2 partitions each.
-      let partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
+      let partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.length.should.equal(1, "Expected to claim 1 new partitions.");
 
       // Change the ownership of partition "0" so it is older than the interval.
@@ -597,7 +597,7 @@ describe("LoadBalancingStrategy", () => {
       // At this point, "a" should grab partitions 0, 2, and 3.
       // This is because "b" only owned 1 partition and that claim is expired,
       // so "a" as treated as if it is the only owner.
-      partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
+      partitionsToOwn = lbs.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.sort();
       partitionsToOwn.should.deep.equal(["0", "2", "3"]);
     });

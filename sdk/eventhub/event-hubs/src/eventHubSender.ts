@@ -89,8 +89,8 @@ export class EventHubSender extends LinkEntity {
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
 
-    this._onAmqpError = (context: EventContext) => {
-      const senderError = context.sender && context.sender.error;
+    this._onAmqpError = (eventContext: EventContext) => {
+      const senderError = eventContext.sender && eventContext.sender.error;
       logger.verbose(
         "[%s] 'sender_error' event occurred on the sender '%s' with address '%s'. " +
           "The associated error is: %O",
@@ -102,8 +102,8 @@ export class EventHubSender extends LinkEntity {
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
-    this._onSessionError = (context: EventContext) => {
-      const sessionError = context.session && context.session.error;
+    this._onSessionError = (eventContext: EventContext) => {
+      const sessionError = eventContext.session && eventContext.session.error;
       logger.verbose(
         "[%s] 'session_error' event occurred on the session of sender '%s' with address '%s'. " +
           "The associated error is: %O",
@@ -115,8 +115,8 @@ export class EventHubSender extends LinkEntity {
       // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
-    this._onAmqpClose = async (context: EventContext) => {
-      const sender = this._sender || context.sender!;
+    this._onAmqpClose = async (eventContext: EventContext) => {
+      const sender = this._sender || eventContext.sender!;
       logger.verbose(
         "[%s] 'sender_close' event occurred on the sender '%s' with address '%s'. " +
           "Value for isItselfClosed on the receiver is: '%s' " +
@@ -140,8 +140,8 @@ export class EventHubSender extends LinkEntity {
       }
     };
 
-    this._onSessionClose = async (context: EventContext) => {
-      const sender = this._sender || context.sender!;
+    this._onSessionClose = async (eventContext: EventContext) => {
+      const sender = this._sender || eventContext.sender!;
       logger.verbose(
         "[%s] 'session_close' event occurred on the session of sender '%s' with address '%s'. " +
           "Value for isSessionItselfClosed on the session is: '%s' " +
@@ -322,9 +322,9 @@ export class EventHubSender extends LinkEntity {
         const messages: RheaMessage[] = [];
         // Convert EventData to RheaMessage.
         for (let i = 0; i < events.length; i++) {
-          const message = toRheaMessage(events[i], partitionKey);
-          message.body = defaultDataTransformer.encode(events[i].body);
-          messages[i] = message;
+          const rheaMessage = toRheaMessage(events[i], partitionKey);
+          rheaMessage.body = defaultDataTransformer.encode(events[i].body);
+          messages[i] = rheaMessage;
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
         const batchMessage: RheaMessage = {
@@ -391,11 +391,11 @@ export class EventHubSender extends LinkEntity {
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    * @hidden
-   * @param message The message to be sent to EventHub.
+   * @param rheaMessage The message to be sent to EventHub.
    * @returns Promise<void>
    */
   private _trySendBatch(
-    message: RheaMessage | Buffer,
+    rheaMessage: RheaMessage | Buffer,
     options: SendOptions & EventHubProducerOptions = {}
   ): Promise<void> {
     const abortSignal: AbortSignalLike | undefined = options.abortSignal;
@@ -496,7 +496,7 @@ export class EventHubSender extends LinkEntity {
           }
           try {
             this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
-            const delivery = await this._sender!.send(message, undefined, 0x80013700);
+            const delivery = await this._sender!.send(rheaMessage, undefined, 0x80013700);
             logger.info(
               "[%s] Sender '%s', sent message with delivery id: %d",
               this._context.connectionId,

@@ -485,7 +485,7 @@ describe("EventHubConsumerClient", () => {
     let clients: EventHubConsumerClient[];
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
-    const subscriptions: Subscription[] = [];
+    let subscriptions: Subscription[];
 
     beforeEach(async () => {
       producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
@@ -496,6 +496,7 @@ describe("EventHubConsumerClient", () => {
       partitionIds.length.should.gte(2);
 
       clients = [];
+      subscriptions = [];
     });
 
     afterEach(async () => {
@@ -513,7 +514,6 @@ describe("EventHubConsumerClient", () => {
 
     describe("#close()", function(): void {
       it("stops any actively running subscriptions", async function(): Promise<void> {
-        const subscriptions: Subscription[] = [];
         const client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
@@ -716,8 +716,6 @@ describe("EventHubConsumerClient", () => {
         );
 
         clients.push(consumerClient1, consumerClient2);
-
-        const partitionIds = await consumerClient1.getPartitionIds();
 
         const partitionHandlerCalls: {
           [partitionId: string]: {
