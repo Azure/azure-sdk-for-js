@@ -216,6 +216,7 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
  * @returns The field names translated into the `select` field equivalents.
  *
  * @hidden
+ * @internal
  */
 export function formatFieldsForSelect(
   fieldNames: (keyof ConfigurationSetting)[] | undefined
