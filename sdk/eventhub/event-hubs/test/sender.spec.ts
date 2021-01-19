@@ -261,7 +261,9 @@ describe("EventHub Sender", function(): void {
 
       const receivedEvents: ReceivedEventData[] = [];
       let waitUntilEventsReceivedResolver: Function;
-      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+      const waitUntilEventsReceived = new Promise(
+        (resolve) => (waitUntilEventsReceivedResolver = resolve)
+      );
 
       const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
         .lastEnqueuedSequenceNumber;
@@ -744,7 +746,7 @@ describe("EventHub Sender", function(): void {
       const receivedEvents: ReceivedEventData[] = [];
       let receivingResolver: Function;
 
-      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         {
           async processError() {
@@ -774,7 +776,7 @@ describe("EventHub Sender", function(): void {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
       let receivingResolver: Function;
-      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         {
           async processError() {
@@ -808,7 +810,7 @@ describe("EventHub Sender", function(): void {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
       let receivingResolver: Function;
-      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         partitionId,
         {
