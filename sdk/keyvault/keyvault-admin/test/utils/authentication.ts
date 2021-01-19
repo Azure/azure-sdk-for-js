@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { uniqueString } from "./recorder";
+import { DefaultHttpClient } from "@azure/core-http";
+import { getEnvironmentVariable } from "./common";
 
 export async function authenticate(that: any): Promise<any> {
   const generatedUUIDs: string[] = [];
@@ -18,11 +20,12 @@ export async function authenticate(that: any): Promise<any> {
     generatedUUIDs.push(uuid);
     return uuid;
   }
+  const managedHsmName = getManagedHsmName();
 
   const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
-      AZURE_MANAGEDHSM_URL: "https://azure_managedhsm.managedhsm.azure.net",
+      AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
@@ -30,7 +33,7 @@ export async function authenticate(that: any): Promise<any> {
       BLOB_CONTAINER_NAME: "uri",
       BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
-      BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
+      BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6"
     },
     customizationsOnRecordings: [
@@ -51,24 +54,32 @@ export async function authenticate(that: any): Promise<any> {
           );
         }
         return recording;
-      }
+      },
+      (recording: any): any =>
+        recording.replace(new RegExp(managedHsmName!, "g"), "azure_managedhsm")
     ],
     queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    getEnvironmentVariable("AZURE_TENANT_ID"),
+    getEnvironmentVariable("AZURE_CLIENT_ID"),
+    getEnvironmentVariable("AZURE_CLIENT_SECRET")
   );
 
-  const keyVaultHsmUrl = env.AZURE_MANAGEDHSM_URL;
-  if (!keyVaultHsmUrl) {
-    throw new Error("Missing AZURE_MANAGEDHSM_URL environment variable.");
-  }
+  const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
+  // Passing a separate httpClient for every instance as a workaround
+  // for a caching issue when creating role assignments
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
+    httpClient: new DefaultHttpClient()
+  });
   const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 
   return { recorder, accessControlClient, backupClient, suffix, generateFakeUUID };
+}
+
+function getManagedHsmName(): string | undefined {
+  const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
+  return (/https:\/\/(?<hsmName>[^.]+)\..*/.exec(keyVaultHsmUrl) as any)?.groups.hsmName;
 }

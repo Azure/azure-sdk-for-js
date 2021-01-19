@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { env } from "@azure/test-utils-recorder";
 
 // Async iterator's polyfill for Node 8
 if (!Symbol || !(Symbol as any).asyncIterator) {
@@ -36,4 +37,27 @@ export function formatName(name: string): string {
 //   "<id>"
 export function getFolderName(uri: string): string {
   return uri.split("/")[4];
+}
+
+/**
+ * Safely get an environment variable by name, throwing an error if it doesn't exist.
+ * @param envVarName The name of the environment variable to return
+ */
+export function getEnvironmentVariable(envVarName: string) {
+  const envVar = env[envVarName];
+  if (!envVar) {
+    throw new Error(`Missing required environment variable ${envVarName}`);
+  }
+  return envVar;
+}
+
+/**
+ * Get a predefined SAS token and Storage URI to use when backing up a KeyVault
+ */
+export function getSasToken() {
+  const baseStorageUri = getEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "");
+  const blobStorageUri = `${baseStorageUri}/${getEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+  const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
+
+  return { blobStorageUri, blobSasToken };
 }
