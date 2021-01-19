@@ -37,6 +37,7 @@ import {
 import {
   CreateChatThreadResponse,
   GetChatThreadResponse,
+  ListPageSettings,
   OperationResponse
 } from "./models/models";
 import {
@@ -177,6 +178,41 @@ export class ChatClient {
     }
   }
 
+private async *listChatThreadsPage(
+    continuationState: ListPageSettings,
+    options: ListChatThreadsOptions = {}
+  ): AsyncIterableIterator<ChatThreadInfo[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    if (!continuationState.continuationToken) {
+      const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      }
+    }
+
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.chat.listChatThreadsNext(
+        continuationState.continuationToken,
+        requestOptions
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value;
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listChatThreadsAll(
+    options: ListChatThreadsOptions
+  ): AsyncIterableIterator<ChatThreadInfo> {
+    for await (const page of this.listChatThreadsPage({}, options)) {
+      yield* page;
+    }
+  }
+
   /**
    * Gets the list of chat threads of a user.
    * @param options List chat threads options.
@@ -186,7 +222,18 @@ export class ChatClient {
   ): PagedAsyncIterableIterator<ChatThreadInfo> {
     const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
     try {
-      return this.client.chat.listChatThreads(updatedOptions);
+      const iter = this.listChatThreadsAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listChatThreadsPage(settings, updatedOptions);
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

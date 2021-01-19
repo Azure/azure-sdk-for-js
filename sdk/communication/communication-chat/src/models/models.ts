@@ -15,7 +15,7 @@ import {
   CreateChatThreadErrors,
   AddChatParticipantsResult,
   AddChatParticipantsErrors,
-  ErrorModel
+  CommunicationError
 } from "../generated/src/models";
 
 export {
@@ -29,8 +29,8 @@ export {
   SendChatMessageResult,
   AddChatParticipantsResult,
   AddChatParticipantsErrors,
-  ErrorModel,
-  ChatMessageType
+  ChatMessageType,
+  CommunicationError
 };
 
 /**
@@ -82,6 +82,17 @@ export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt,
    * The CommunicationUser that identifies this Read receipt sender.
    */
   readonly sender?: CommunicationUser;
+}
+
+/**
+ * Arguments for retrieving the next page of search results.
+ */
+export interface ListPageSettings {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
 }
 
 /**

@@ -15,8 +15,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import { SendMessageRequest, AddChatParticipantsRequest } from "./models/requests";
 import { ChatApiClient, AddChatParticipantsResult, SendReadReceiptRequest } from "./generated/src";
-import { OperationResponse } from "./models/models";
-import { mapToChatMessageSdkModel } from "./models/mappers";
+import { ListPageSettings, OperationResponse } from "./models/models";
 import {
   ChatThreadClientOptions,
   SendMessageOptions,
@@ -190,6 +189,41 @@ export class ChatThreadClient {
     }
   }
 
+private async *listMessagesPage(
+    pageSettings: ListPageSettings,
+    options: ListMessagesOptions = {}
+  ): AsyncIterableIterator<ChatMessage[]> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    if (!pageSettings.continuationToken) {
+      const currentSetResponse = await this.client.chatThread.listChatMessages(this.threadId, requestOptions);
+      pageSettings.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mapToChatMessageSdkModel, this);
+      }
+    }
+
+    while (pageSettings.continuationToken) {
+      const currentSetResponse = await this.client.chatThread.listChatMessagesNext(
+        this.threadId,
+        pageSettings.continuationToken,
+        requestOptions
+      );
+      pageSettings.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mapToChatMessageSdkModel, this);
+      } else {
+        break;
+      }
+    }
+  }
+
+  private async *listMessagesAll(options: ListMessagesOptions): AsyncIterableIterator<ChatMessage> {
+    for await (const page of this.listMessagesPage({}, options)) {
+      yield* page;
+    }
+  }
+
+
   /**
    * Gets a list of message from a thread identified by threadId.
    * Returns the list of the messages.
@@ -199,13 +233,18 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-ListMessages", options);
 
     try {
-      const restChatMessages = this.client.chatThread.listChatMessages(
-        this.threadId,
-        updatedOptions
-      );
-      // TODO: find a solution to map the result value from generated/src/model/ChatMessage to models/model/ChatMessage
-
-      return undefined;
+      const iter = this.listMessagesAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: (settings: ListPageSettings = {}) => {
+          return this.listMessagesPage(settings, updatedOptions);
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

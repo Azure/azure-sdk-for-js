@@ -19,7 +19,7 @@ import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
 export interface AddChatParticipantsErrors {
-    invalidParticipants: ErrorModel[];
+    invalidParticipants: (CommunicationError | null)[];
 }
 
 // @public
@@ -76,7 +76,7 @@ export interface ChatMessageContent extends Omit<RestChatMessageContent, "partic
 }
 
 // @public
-export type ChatMessagePriority = "normal" | "high";
+export type ChatMessagePriority = string;
 
 // @public
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
@@ -84,7 +84,7 @@ export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt,
 }
 
 // @public
-export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
+export type ChatMessageType = string;
 
 // @public
 export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
@@ -128,8 +128,17 @@ export interface ChatThreadInfo {
 }
 
 // @public
+export interface CommunicationError {
+    code: string;
+    readonly details?: (CommunicationError | null)[];
+    readonly innerError?: CommunicationError | null;
+    message: string;
+    readonly target?: string;
+}
+
+// @public
 export interface CreateChatThreadErrors {
-    readonly invalidParticipants?: ErrorModel[];
+    readonly invalidParticipants?: (CommunicationError | null)[];
 }
 
 // @public
@@ -154,14 +163,6 @@ export type DeleteChatThreadOptions = OperationOptions;
 
 // @public
 export type DeleteMessageOptions = OperationOptions;
-
-// @public
-export interface ErrorModel {
-    readonly code?: string;
-    readonly innerErrors?: ErrorModel[];
-    readonly message?: string;
-    readonly target?: string;
-}
 
 // @public
 export type GetChatMessageResponse = WithResponse<ChatMessage>;
@@ -214,7 +215,7 @@ export interface RestChatMessage {
     id: string;
     priority: ChatMessagePriority;
     senderDisplayName?: string;
-    senderId: string;
+    senderId?: string;
     sequenceId: string;
     type: ChatMessageType;
     version: string;
@@ -239,7 +240,7 @@ export interface RestChatMessageReadReceipt {
 export interface RestChatParticipant {
     displayName?: string;
     id: string;
-    shareHistoryTime: Date;
+    shareHistoryTime?: Date;
 }
 
 // @public
