@@ -3,6 +3,7 @@
 ## 12.5.0-beta.1 (Unreleased)
 
 - Fixed a bug where `generateFileSASQueryParameters()` won't correctly set the resource type if `FileSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
+
 ## 12.4.0 (2021-01-12)
 
 - This release contains bug fixes to improve quality.
