@@ -31,7 +31,7 @@ describe("PhoneNumberAdministrationClientWithToken [Playback/Live]", function() 
     }
   });
 
-  it("successfully creates PhoneNumberAdministrationClientWithToken gets phonePlanGroupId", async function() {
+  it("successfully gets phonePlanGroupId", async function() {
     if ((!includePhoneNumberLiveTests && !isPlaybackMode()) || shouldSkip) {
       this.skip();
     }
