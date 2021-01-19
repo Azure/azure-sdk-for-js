@@ -1211,7 +1211,7 @@ describe("Event Processor", function(): void {
             const n = Math.floor(partitionIds.length / 2);
             const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
               .length;
-            return numPartitions == n || numPartitions == n + 1;
+            return numPartitions === n || numPartitions === n + 1;
           };
 
           if (!isBalanced(`processor-1`) || !isBalanced(`processor-2`)) {
@@ -1368,7 +1368,7 @@ describe("Event Processor", function(): void {
             const n = Math.floor(partitionIds.length / 2);
             const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
               .length;
-            return numPartitions == n || numPartitions == n + 1;
+            return numPartitions === n || numPartitions === n + 1;
           };
 
           if (!isBalanced(`processor-1`) || !isBalanced(`processor-2`)) {

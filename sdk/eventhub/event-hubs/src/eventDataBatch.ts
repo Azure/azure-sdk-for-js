@@ -9,6 +9,7 @@ import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { defaultDataTransformer } from "./dataTransformer";
+import { isDefined } from "./util/isDefined";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -192,8 +193,8 @@ export class EventDataBatchImpl implements EventDataBatch {
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
-    this._partitionKey = partitionKey != undefined ? String(partitionKey) : partitionKey;
-    this._partitionId = partitionId != undefined ? String(partitionId) : partitionId;
+    this._partitionKey = isDefined(partitionKey) ? String(partitionKey) : partitionKey;
+    this._partitionId = isDefined(partitionId) ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
     this._count = 0;
   }

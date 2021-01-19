@@ -21,6 +21,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { isDefined } from "./util/isDefined";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 
 /**
@@ -174,7 +175,7 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
 
-    if (options.partitionId != undefined && options.partitionKey != undefined) {
+    if (isDefined(options.partitionId) && isDefined(options.partitionKey)) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
 
@@ -316,16 +317,16 @@ export class EventHubProducerClient {
         }
       }
     }
-    if (partitionId != undefined && partitionKey != undefined) {
+    if (isDefined(partitionId) && isDefined(partitionKey)) {
       throw new Error(
         `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
       );
     }
 
-    if (partitionId != undefined) {
+    if (isDefined(partitionId)) {
       partitionId = String(partitionId);
     }
-    if (partitionKey != undefined) {
+    if (isDefined(partitionKey)) {
       partitionKey = String(partitionKey);
     }
 
