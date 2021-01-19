@@ -1,58 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
-import {
-  isPlaybackMode,
-  record,
-  Recorder,
-  RecorderEnvironmentSetup,
-  env
-} from "@azure/test-utils-recorder";
-import { DefaultAzureCredential } from "@azure/identity";
+import { record, Recorder, env } from "@azure/test-utils-recorder";
 import { SendRequest, SmsClient } from "../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
+import { createCredential, recorderConfiguration } from "./utils/recordedClient";
 
 if (isNode) {
   dotenv.config();
 }
 
-const recorderConfiguration: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-    AZURE_PHONE_NUMBER: "+18005551234",
-    COMMUNICATION_ENDPOINT: "https://endpoint/",
-    AZURE_CLIENT_ID: "SomeClientId",
-    AZURE_CLIENT_SECRET: "SomeClientSecret",
-    AZURE_TENANT_ID: "SomeTenantId"
-  },
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    (recording: string): string =>
-      recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
-  ],
-  queryParametersToSkip: []
-};
-
-function createCredential(): TokenCredential | undefined {
-  if (isPlaybackMode()) {
-    return {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
-  } else {
-    try {
-      return new DefaultAzureCredential();
-    } catch {
-      return undefined;
-    }
-  }
-}
-
-describe("SmsClientWithToken [Playback/Live]", function() {
+describe("SmsClientWithToken [Playback/Live]", async () => {
   let recorder: Recorder;
 
   beforeEach(async function() {
@@ -65,7 +25,7 @@ describe("SmsClientWithToken [Playback/Live]", function() {
     }
   });
 
-  it("successfully issues a token for a user [single scope]", async function() {
+  it("successfully issues a token for a user", async function() {
     const credential = createCredential();
 
     if (!credential) {
@@ -85,27 +45,5 @@ describe("SmsClientWithToken [Playback/Live]", function() {
 
     const response = await smsClient.send(sendRequest);
     assert.equal(response._response.status, 200);
-  });
-
-  it("successfully issues a token for a user [multiple scopes]", async function() {
-    const credential = createCredential();
-
-    if (!credential) {
-      this.skip();
-    }
-
-    const endpoint = env.COMMUNICATION_ENDPOINT;
-    const fromNumber = env.AZURE_PHONE_NUMBER;
-    const toNumber = env.AZURE_PHONE_NUMBER;
-
-    const smsClient = new SmsClient(endpoint, credential);
-    const sendRequest: SendRequest = {
-      from: fromNumber,
-      to: [toNumber],
-      message: "test message"
-    };
-
-    const response = await smsClient.send(sendRequest);
-    assert.equal(response._response.status, 200);
-  });
+  }).timeout(5000);
 });
