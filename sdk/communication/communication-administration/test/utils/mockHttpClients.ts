@@ -42,13 +42,14 @@ const tokenResponse = {
   expiresOn: new Date("2011/11/30")
 };
 
-export const issueTokenHttpClient: HttpClient = createMockHttpClient<CommunicationIdentityAccessToken>(
-  200,
-  tokenResponse
-);
+export const issueTokenHttpClient: HttpClient = createMockHttpClient<
+  CommunicationIdentityAccessToken
+>(200, tokenResponse);
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 
-export const createUserHttpClient: HttpClient = createMockHttpClient<CommunicationIdentityAccessTokenResult>(200, {
+export const createUserHttpClient: HttpClient = createMockHttpClient<
+  CommunicationIdentityAccessTokenResult
+>(200, {
   identity: { id: "identity" }
 });
 
