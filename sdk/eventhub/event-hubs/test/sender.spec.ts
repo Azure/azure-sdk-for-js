@@ -129,9 +129,9 @@ describe("EventHub Sender", function(): void {
       should.not.exist(batch.partitionKey);
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
-      batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
+      should.equal(batch.tryAdd({ body: list[0] }), true);
+      should.equal(batch.tryAdd({ body: list[1] }), false); // The Mike message will be rejected - it's over the limit.
+      should.equal(batch.tryAdd({ body: list[2] }), true); // Marie should get added";
 
       const {
         subscriptionEventHandler,
@@ -173,8 +173,8 @@ describe("EventHub Sender", function(): void {
       should.not.exist(batch.partitionKey);
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.be.ok;
+      should.equal(batch.tryAdd({ body: list[0] }), true);
+      should.equal(batch.tryAdd({ body: list[1] }), true);
 
       const {
         subscriptionEventHandler,
@@ -214,8 +214,8 @@ describe("EventHub Sender", function(): void {
       should.not.exist(batch.partitionId);
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.be.ok;
+      should.equal(batch.tryAdd({ body: list[0] }), true);
+      should.equal(batch.tryAdd({ body: list[1] }), true);
 
       const {
         subscriptionEventHandler,
@@ -255,9 +255,9 @@ describe("EventHub Sender", function(): void {
 
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd(list[0]).should.be.ok;
-      batch.tryAdd(list[1]).should.be.ok;
-      batch.tryAdd(list[2]).should.be.ok;
+      should.equal(batch.tryAdd(list[0]), true);
+      should.equal(batch.tryAdd(list[1]), true);
+      should.equal(batch.tryAdd(list[2]), true);
 
       const receivedEvents: ReceivedEventData[] = [];
       let waitUntilEventsReceivedResolver: Function;

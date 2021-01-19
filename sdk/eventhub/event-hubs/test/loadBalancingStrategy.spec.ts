@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import chai from "chai";
 import { PartitionOwnership } from "../src/eventProcessor";
 import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
 import { UnbalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/unbalancedStrategy";
+const should = chai.should();
 
 describe("LoadBalancingStrategy", () => {
   function createOwnershipMap(
@@ -33,7 +35,7 @@ describe("LoadBalancingStrategy", () => {
       const lb = new UnbalancedLoadBalancingStrategy();
 
       lb.getPartitionsToCliam("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
-      m.should.be.empty;
+      should.equal(m.size, 0);
     });
 
     it("claim partitions we already own", () => {

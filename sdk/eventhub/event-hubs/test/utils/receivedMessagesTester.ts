@@ -85,7 +85,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       // So it's okay that initialize is called more than once per partition
       // in that case since the consumers, for a short time, can overlap as
       // load balancing occurs.
-      this.data.has(context.partitionId).should.not.be.ok;
+      should.equal(this.data.has(context.partitionId), false);
     }
 
     this.data.set(context.partitionId, {
@@ -162,15 +162,15 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
   }
 
   private get(partitionId: string): ReceivedMessages {
-    this.data.has(partitionId).should.be.ok;
+    should.equal(this.data.has(partitionId), true);
     const receivedData = this.data.get(partitionId)!;
     return receivedData;
   }
 
   private contextIsOk(context: PartitionContext | PartitionContext): void {
-    context.consumerGroup.should.be.ok;
-    context.eventHubName.should.be.ok;
-    context.fullyQualifiedNamespace.should.be.ok;
+    should.exist(context.consumerGroup);
+    should.exist(context.eventHubName);
+    should.exist(context.fullyQualifiedNamespace);
 
     // if we start getting messages for other partitions
     // we should immediately error out)

@@ -110,7 +110,7 @@ describe("PartitionPump", () => {
       }, span);
 
       span.status!.code.should.equal(CanonicalCode.OK);
-      span.endCalled.should.be.ok;
+      should.equal(span.endCalled, true);
     });
 
     it("trace - throws", async () => {
@@ -123,7 +123,7 @@ describe("PartitionPump", () => {
 
       span.status!.code.should.equal(CanonicalCode.UNKNOWN);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
+      should.equal(span.endCalled, true);
     });
   });
 });

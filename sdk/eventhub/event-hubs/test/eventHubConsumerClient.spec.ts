@@ -51,11 +51,11 @@ describe("EventHubConsumerClient", () => {
         processClose: async () => {
           /* no-op */
         }
-      }).should.not.ok;
+      }).should.not.equal(true);
 
-      isCheckpointStore("hello").should.not.ok;
+      isCheckpointStore("hello").should.not.equal(true);
 
-      isCheckpointStore(new InMemoryCheckpointStore()).should.ok;
+      isCheckpointStore(new InMemoryCheckpointStore()).should.equal(true);
     });
 
     describe("subscribe() overloads route properly", () => {
@@ -71,7 +71,7 @@ describe("EventHubConsumerClient", () => {
       ): SinonStubbedInstance<EventProcessor> => {
         subscriptionEventHandlers.should.equal(subscriptionHandlers);
         should.exist(connectionContext.managementSession);
-        isCheckpointStore(checkpointStore).should.be.ok;
+        isCheckpointStore(checkpointStore).should.equal(true);
 
         validateOptions(options);
 
