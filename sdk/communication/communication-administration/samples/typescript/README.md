@@ -14,11 +14,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                                     | **Description**                                                                                                                                                                |
 | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [issueToken.ts][issuetoken]                                       | uses the CommunicationIdentityClient to create a user and issue a token for this user                                                                                          |
-| [issueTokenWithInstrumentation.js][issuetokenwithinstrumentation] | uses the CommunicationIdentityClient to create a user and issue then revoke a token for this user. Also shows how to instrument for exporting telemetry data to Azure Monitor. |
 | [revokeTokens.ts][revoketokens]                                   | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens                                                                     |
 | [purchasePhoneNumber.ts][purchasephonenumber]                     | uses the PhoneNumberAdministrationClient to purchase a phone number                                                                                                            |
 | [releasePhoneNumbers.ts][releasephonenumbers]                     | uses the PhoneNumberAdministrationClient to release phone numbers.                                                                                                             |
-| [tracer.ts][tracer]                                               | shows how to create a tracer to instrument for exporting telemetry data to Azure Monitor                                                                                       |
 
 ## Prerequisites
 
