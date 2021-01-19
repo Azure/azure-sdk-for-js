@@ -253,7 +253,7 @@ describe("EventHub Sender", function(): void {
       should.equal(batch.tryAdd(list[2]), true);
 
       const receivedEvents: ReceivedEventData[] = [];
-      let waitUntilEventsReceivedResolver: Function;
+      let waitUntilEventsReceivedResolver: (value?: any) => void;
       const waitUntilEventsReceived = new Promise(
         (resolve) => (waitUntilEventsReceivedResolver = resolve)
       );
@@ -736,7 +736,7 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully", async () => {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
-      let receivingResolver: Function;
+      let receivingResolver: (value?: unknown) => void;
 
       const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
@@ -767,7 +767,7 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully with partitionKey", async () => {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
-      let receivingResolver: Function;
+      let receivingResolver: (value?: unknown) => void;
       const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         {
@@ -801,7 +801,7 @@ describe("EventHub Sender", function(): void {
       const partitionId = "0";
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
-      let receivingResolver: Function;
+      let receivingResolver: (value?: unknown) => void;
       const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         partitionId,
