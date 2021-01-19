@@ -11,12 +11,12 @@ urlFragment: communication-administration-identity-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Service Communication Identity to issue and refresh tokens.
 
-| **File Name**                                                     | **Description**                                                                                                                                                                |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [issueToken.ts][issuetoken]                                       | uses the CommunicationIdentityClient to create a user and issue a token for this user                                                                                          |
-| [revokeTokens.ts][revoketokens]                                   | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens                                                                     |
-| [purchasePhoneNumber.ts][purchasephonenumber]                     | uses the PhoneNumberAdministrationClient to purchase a phone number                                                                                                            |
-| [releasePhoneNumbers.ts][releasephonenumbers]                     | uses the PhoneNumberAdministrationClient to release phone numbers.                                                                                                             |
+| **File Name**                                 | **Description**                                                                                            |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [issueToken.ts][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
+| [revokeTokens.ts][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
+| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
+| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers.                                         |
 
 ## Prerequisites
 
