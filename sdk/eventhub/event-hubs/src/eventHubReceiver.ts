@@ -700,7 +700,7 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.close();
           } finally {
-            return reject(new AbortError("The receive operation has been cancelled by the user."));
+            reject(new AbortError("The receive operation has been cancelled by the user."));
           }
         };
 
