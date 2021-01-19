@@ -464,15 +464,15 @@ export class EventHubSender extends LinkEntity {
             });
           } catch (err) {
             removeListeners();
-            err = translate(err);
+            const translatedError = translate(err);
             logger.warning(
               "[%s] An error occurred while creating the sender %s: %s",
               this._context.connectionId,
               this.name,
-              `${err?.name}: ${err?.message}`
+              `${translatedError?.name}: ${translatedError?.message}`
             );
-            logErrorStackTrace(err);
-            return reject(err);
+            logErrorStackTrace(translatedError);
+            return reject(translatedError);
           }
         }
         const timeTakenByInit = Date.now() - initStartTime;
@@ -505,14 +505,14 @@ export class EventHubSender extends LinkEntity {
             );
             return resolve();
           } catch (err) {
-            err = translate(err.innerError || err);
+            const translatedError = translate(err.innerError || err);
             logger.warning(
               "[%s] An error occurred while sending the message %s",
               this._context.connectionId,
-              `${err?.name}: ${err?.message}`
+              `${translatedError?.name}: ${translatedError?.message}`
             );
-            logErrorStackTrace(err);
-            return reject(err);
+            logErrorStackTrace(translatedError);
+            return reject(translatedError);
           } finally {
             removeListeners();
           }
@@ -586,15 +586,15 @@ export class EventHubSender extends LinkEntity {
       }
     } catch (err) {
       this.isConnecting = false;
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",
         this._context.connectionId,
         this.name,
-        `${err?.name}: ${err?.message}`
+        `${translatedError?.name}: ${translatedError?.message}`
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 
