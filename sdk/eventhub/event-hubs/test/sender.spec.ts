@@ -92,7 +92,7 @@ describe("EventHub Sender", function(): void {
 
     it("partitionId is set as expected when it is 0 i.e. falsy", async () => {
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionId: 0
       });
       should.equal(batch.partitionId, "0");
@@ -107,7 +107,7 @@ describe("EventHub Sender", function(): void {
 
     it("partitionKey is set as expected when it is 0 i.e. falsy", async () => {
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionKey: 0
       });
       should.equal(batch.partitionKey, "0");
@@ -165,7 +165,7 @@ describe("EventHub Sender", function(): void {
       const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionId: 0
       });
 
@@ -206,7 +206,7 @@ describe("EventHub Sender", function(): void {
       const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionKey: 0
       });
 
@@ -1033,7 +1033,7 @@ describe("EventHub Sender", function(): void {
       it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async () => {
         try {
           await producerClient.createBatch({
-            //@ts-expect-error
+            // @ts-expect-error Testing the value 0 is not ignored.
             partitionId: 0,
             partitionKey: "boo"
           });
@@ -1049,7 +1049,7 @@ describe("EventHub Sender", function(): void {
         try {
           await producerClient.createBatch({
             partitionId: "1",
-            //@ts-expect-error
+            // @ts-expect-error Testing the value 0 is not ignored.
             partitionKey: 0
           });
           throw new Error("Test failure");
@@ -1202,7 +1202,7 @@ describe("EventHub Sender", function(): void {
       it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async () => {
         const badOptions: SendBatchOptions = {
           partitionKey: "foo",
-          //@ts-expect-error
+          // @ts-expect-error Testing the value 0 is not ignored.
           partitionId: 0
         };
         const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
@@ -1217,7 +1217,7 @@ describe("EventHub Sender", function(): void {
       });
       it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async () => {
         const badOptions: SendBatchOptions = {
-          //@ts-expect-error
+          // @ts-expect-error Testing the value 0 is not ignored.
           partitionKey: 0,
           partitionId: "0"
         };
