@@ -83,7 +83,7 @@ Take note of the service principal objectId:
 ```PowerShell
 az ad sp show --id <appId> --query objectId
 ```
-
+Output:
 ```
 "<your-service-principal-object-id>"
 ```
