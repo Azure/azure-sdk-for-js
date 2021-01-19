@@ -443,7 +443,7 @@ describe("LoadBalancingStrategy", () => {
         allPartitions.push(`${i}`);
       }
 
-      let partitionsToOwn = lb.getPartitionsToCliam(
+      const partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "0": "",

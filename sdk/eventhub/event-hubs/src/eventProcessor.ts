@@ -500,9 +500,7 @@ export class EventProcessor {
 
     const uniquePartitionsToClaim = new Set(partitionsToClaim);
     for (const partitionToClaim of uniquePartitionsToClaim) {
-      let partitionOwnershipRequest: PartitionOwnership;
-
-      partitionOwnershipRequest = this._createPartitionOwnershipRequest(
+      const partitionOwnershipRequest = this._createPartitionOwnershipRequest(
         partitionOwnershipMap,
         partitionToClaim
       );
