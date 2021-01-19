@@ -579,7 +579,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
   });
 });
 
-function testUserAgentString(context: ConnectionContext, customValue?: string) {
+function testUserAgentString(context: ConnectionContext, customValue?: string): void {
   const packageVersion = packageJsonInfo.version;
   const properties = context.connection.options.properties;
   properties!["user-agent"].should.startWith(

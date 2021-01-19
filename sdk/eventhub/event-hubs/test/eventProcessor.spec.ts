@@ -164,7 +164,7 @@ describe("Event Processor", function(): void {
       function createEventProcessor(
         checkpointStore: CheckpointStore,
         startPosition?: FullEventProcessorOptions["startPosition"]
-      ) {
+      ): EventProcessor {
         return new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
           consumerClient["_context"],
@@ -871,7 +871,7 @@ describe("Event Processor", function(): void {
       let partionCount: { [x: string]: number } = {};
 
       class FooPartitionProcessor {
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(events: ReceivedEventData[], context: PartitionContext): Promise<void> {
           processedAtLeastOneEvent.add(context.partitionId);
 
           !partionCount[context.partitionId]
@@ -890,7 +890,7 @@ describe("Event Processor", function(): void {
             }
           }
         }
-        async processError() {
+        async processError(): Promise<void> {
           didError = true;
         }
       }
@@ -999,7 +999,7 @@ describe("Event Processor", function(): void {
       const checkpointStore = new InMemoryCheckpointStore();
       const allObjects = new Set();
 
-      const assertUnique = (...objects: any[]) => {
+      const assertUnique = (...objects: any[]): void => {
         const size = allObjects.size;
 
         for (const obj of objects) {
@@ -1101,20 +1101,20 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor implements Required<SubscriptionEventHandlers> {
-        async processInitialize(context: PartitionContext) {
+        async processInitialize(context: PartitionContext): Promise<void> {
           loggerForTest(`processInitialize(${context.partitionId})`);
           partitionResultsMap.get(context.partitionId)!.initialized = true;
         }
-        async processClose(reason: CloseReason, context: PartitionContext) {
+        async processClose(reason: CloseReason, context: PartitionContext): Promise<void> {
           loggerForTest(`processClose(${context.partitionId})`);
           partitionResultsMap.get(context.partitionId)!.closeReason = reason;
         }
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(events: ReceivedEventData[], context: PartitionContext): Promise<void> {
           partitionOwnershipArr.add(context.partitionId);
           const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
           existingEvents.push(...events.map((event) => event.body));
         }
-        async processError(err: Error, context: PartitionContext) {
+        async processError(err: Error, context: PartitionContext): Promise<void> {
           loggerForTest(`processError(${context.partitionId})`);
           const errorName = (err as any).code;
           if (errorName === "ReceiverDisconnectedError") {
@@ -1207,7 +1207,7 @@ describe("Event Processor", function(): void {
 
           // if stealing has occurred we just want to make sure that _all_
           // the stealing has completed.
-          const isBalanced = (friendlyName: string) => {
+          const isBalanced = (friendlyName: string): boolean => {
             const n = Math.floor(partitionIds.length / 2);
             const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
               .length;
@@ -1258,20 +1258,20 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor implements Required<SubscriptionEventHandlers> {
-        async processInitialize(context: PartitionContext) {
+        async processInitialize(context: PartitionContext): Promise<void> {
           loggerForTest(`processInitialize(${context.partitionId})`);
           partitionResultsMap.get(context.partitionId)!.initialized = true;
         }
-        async processClose(reason: CloseReason, context: PartitionContext) {
+        async processClose(reason: CloseReason, context: PartitionContext): Promise<void> {
           loggerForTest(`processClose(${context.partitionId})`);
           partitionResultsMap.get(context.partitionId)!.closeReason = reason;
         }
-        async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(events: ReceivedEventData[], context: PartitionContext): Promise<void> {
           partitionOwnershipArr.add(context.partitionId);
           const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
           existingEvents.push(...events.map((event) => event.body));
         }
-        async processError(err: Error, context: PartitionContext) {
+        async processError(err: Error, context: PartitionContext): Promise<void> {
           loggerForTest(`processError(${context.partitionId})`);
           const errorName = (err as any).code;
           if (errorName === "ReceiverDisconnectedError") {
@@ -1364,7 +1364,7 @@ describe("Event Processor", function(): void {
 
           // if stealing has occurred we just want to make sure that _all_
           // the stealing has completed.
-          const isBalanced = (friendlyName: string) => {
+          const isBalanced = (friendlyName: string): boolean => {
             const n = Math.floor(partitionIds.length / 2);
             const numPartitions = partitionOwnershipMap.get(processorByName[friendlyName].id)!
               .length;
@@ -1407,10 +1407,13 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
-        async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(
+          _events: ReceivedEventData[],
+          context: PartitionContext
+        ): Promise<void> {
           partitionOwnershipArr.add(context.partitionId);
         }
-        async processError() {
+        async processError(): Promise<void> {
           didError = true;
         }
       }
@@ -1487,10 +1490,13 @@ describe("Event Processor", function(): void {
 
       // The partitionProcess will need to add events to the partitionResultsMap as they are received
       class FooPartitionProcessor {
-        async processEvents(_events: ReceivedEventData[], context: PartitionContext) {
+        async processEvents(
+          _events: ReceivedEventData[],
+          context: PartitionContext
+        ): Promise<void> {
           partitionOwnershipArr.add(context.partitionId);
         }
-        async processError() {}
+        async processError(): Promise<void> {}
       }
 
       // create messages

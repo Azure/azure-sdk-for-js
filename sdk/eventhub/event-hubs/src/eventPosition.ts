@@ -113,7 +113,7 @@ export const latestEventPosition: EventPosition = {
  */
 export function validateEventPositions(
   position: EventPosition | { [partitionId: string]: EventPosition }
-) {
+): void {
   if (position == undefined) {
     return;
   }
@@ -166,7 +166,7 @@ export function isEventPosition(position: any): position is EventPosition {
   return false;
 }
 
-function validateEventPosition(position: EventPosition) {
+function validateEventPosition(position: EventPosition): void {
   if (position == undefined) {
     return;
   }

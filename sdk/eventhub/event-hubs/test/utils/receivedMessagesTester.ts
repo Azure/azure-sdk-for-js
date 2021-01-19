@@ -138,7 +138,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     console.log("All messages received");
   }
 
-  private async produceMessages(client: EventHubProducerClient) {
+  private async produceMessages(client: EventHubProducerClient): Promise<number> {
     const expectedMessagePrefix = `EventHubConsumerClient test - ${Date.now().toString()}`;
     const messagesToSend = [];
 

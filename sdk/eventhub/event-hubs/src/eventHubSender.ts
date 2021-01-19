@@ -226,7 +226,7 @@ export class EventHubSender extends LinkEntity {
       return this._sender!.maxMessageSize;
     }
     return new Promise<number>(async (resolve, reject) => {
-      const rejectOnAbort = () => {
+      const rejectOnAbort = (): void => {
         const desc: string = `[${this._context.connectionId}] The create batch operation has been cancelled by the user.`;
         // Cancellation is user-intented, so treat as info instead of warning.
         logger.info(desc);
@@ -234,7 +234,7 @@ export class EventHubSender extends LinkEntity {
         reject(error);
       };
 
-      const onAbort = () => {
+      const onAbort = (): void => {
         if (abortSignal) {
           abortSignal.removeEventListener("abort", onAbort);
         }
@@ -402,9 +402,9 @@ export class EventHubSender extends LinkEntity {
     const retryOptions = options.retryOptions || {};
     const timeoutInMs = getRetryAttemptTimeoutInMs(retryOptions);
     retryOptions.timeoutInMs = timeoutInMs;
-    const sendEventPromise = () =>
+    const sendEventPromise = (): Promise<void> =>
       new Promise<void>(async (resolve, reject) => {
-        const rejectOnAbort = () => {
+        const rejectOnAbort = (): void => {
           const desc: string =
             `[${this._context.connectionId}] The send operation on the Sender "${this.name}" with ` +
             `address "${this.address}" has been cancelled by the user.`;
@@ -425,7 +425,7 @@ export class EventHubSender extends LinkEntity {
           }
         };
 
-        const onAborted = () => {
+        const onAborted = (): void => {
           removeListeners();
           return rejectOnAbort();
         };
@@ -434,7 +434,7 @@ export class EventHubSender extends LinkEntity {
           abortSignal.addEventListener("abort", onAborted);
         }
 
-        const actionAfterTimeout = () => {
+        const actionAfterTimeout = (): void => {
           removeListeners();
           const desc: string =
             `[${this._context.connectionId}] Sender "${this.name}" with ` +

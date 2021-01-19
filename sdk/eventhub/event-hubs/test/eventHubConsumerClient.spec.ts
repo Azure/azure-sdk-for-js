@@ -64,7 +64,7 @@ describe("EventHubConsumerClient", () => {
         subscriptionEventHandlers: SubscriptionEventHandlers,
         checkpointStore: CheckpointStore,
         options: FullEventProcessorOptions
-      ) => {
+      ): SinonStubbedInstance<EventProcessor> => {
         subscriptionEventHandlers.should.equal(subscriptionHandlers);
         should.exist(connectionContext.managementSession);
         isCheckpointStore(checkpointStore).should.be.ok;

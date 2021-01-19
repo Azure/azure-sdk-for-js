@@ -13,6 +13,7 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import {
   EventContext,
   Message,
@@ -141,7 +142,7 @@ export class ManagementClient extends LinkEntity {
    * @hidden
    * @internal
    */
-  async getSecurityToken() {
+  async getSecurityToken(): Promise<AccessToken | null> {
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
@@ -393,14 +394,14 @@ export class ManagementClient extends LinkEntity {
     try {
       const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
-      const sendOperationPromise = () =>
+      const sendOperationPromise = (): Promise<Message> =>
         new Promise<Message>(async (resolve, reject) => {
           let count = 0;
 
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
           let timeTakenByInit = 0;
 
-          const rejectOnAbort = () => {
+          const rejectOnAbort = (): void => {
             const requestName = options.requestName;
             const desc: string =
               `[${this._context.connectionId}] The request "${requestName}" ` +
@@ -428,7 +429,7 @@ export class ManagementClient extends LinkEntity {
 
             const initOperationStartTime = Date.now();
 
-            const actionAfterTimeout = () => {
+            const actionAfterTimeout = (): void => {
               const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
               const e: Error = {
                 name: "OperationTimeoutError",

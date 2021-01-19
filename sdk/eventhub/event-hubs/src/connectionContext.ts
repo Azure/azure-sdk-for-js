@@ -387,7 +387,7 @@ export namespace ConnectionContext {
       }
     };
 
-    function addConnectionListeners(connection: Connection) {
+    function addConnectionListeners(connection: Connection): void {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, onDisconnected);
@@ -395,7 +395,7 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    function cleanConnectionContext(connectionContext: ConnectionContext) {
+    function cleanConnectionContext(connectionContext: ConnectionContext): Promise<void> {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,
@@ -408,7 +408,7 @@ export namespace ConnectionContext {
       return connectionContext.connection.close();
     }
 
-    async function refreshConnection(connectionContext: ConnectionContext) {
+    async function refreshConnection(connectionContext: ConnectionContext): Promise<void> {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext(connectionContext);

@@ -301,7 +301,7 @@ export class EventProcessor {
     }
   }
 
-  private async _startPump(partitionId: string, abortSignal: AbortSignalLike) {
+  private async _startPump(partitionId: string, abortSignal: AbortSignalLike): Promise<void> {
     if (abortSignal.aborted) {
       logger.verbose(
         `[${this._id}] The subscription was closed before starting to read from ${partitionId}.`
@@ -402,7 +402,7 @@ export class EventProcessor {
   private async _runLoopWithLoadBalancing(
     loadBalancingStrategy: LoadBalancingStrategy,
     abortSignal: AbortSignalLike
-  ) {
+  ): Promise<void> {
     let cancelLoopResolver;
     // This provides a mechanism for exiting the loop early
     // if the subscription has had `close` called.
@@ -453,7 +453,7 @@ export class EventProcessor {
     loadBalancingStrategy: LoadBalancingStrategy,
     partitionIds: string[],
     abortSignal: AbortSignalLike
-  ) {
+  ): Promise<void> {
     if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
 
     // Retrieve current partition ownership details from the datastore.
@@ -573,7 +573,7 @@ export class EventProcessor {
     }
   }
 
-  isRunning() {
+  isRunning(): boolean {
     return this._isRunning;
   }
 
@@ -613,7 +613,7 @@ export class EventProcessor {
     }
   }
 
-  private async abandonPartitionOwnerships() {
+  private async abandonPartitionOwnerships(): Promise<PartitionOwnership[]> {
     logger.verbose(`[${this._id}] Abandoning owned partitions`);
     const allOwnerships = await this._checkpointStore.listOwnership(
       this._fullyQualifiedNamespace,

@@ -14,7 +14,7 @@ export const logger = createClientLogger("event-hubs");
  * @param error Error containing a stack trace.
  * @hidden
  */
-export function logErrorStackTrace(error: any) {
+export function logErrorStackTrace(error: any): void {
   if (error && error.stack) {
     logger.verbose(error.stack);
   }
