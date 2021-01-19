@@ -140,5 +140,4 @@ describe("getSubscriptionRuntimeProperties", () => {
       );
     }
   });
-  // TODO: New E2E tests can be added
 });
