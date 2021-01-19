@@ -178,7 +178,7 @@ export class ChatClient {
     }
   }
 
-private async *listChatThreadsPage(
+  private async *listChatThreadsPage(
     continuationState: ListPageSettings,
     options: ListChatThreadsOptions = {}
   ): AsyncIterableIterator<ChatThreadInfo[]> {

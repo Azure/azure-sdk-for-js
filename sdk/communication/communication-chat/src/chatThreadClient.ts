@@ -189,13 +189,16 @@ export class ChatThreadClient {
     }
   }
 
-private async *listMessagesPage(
+  private async *listMessagesPage(
     pageSettings: ListPageSettings,
     options: ListMessagesOptions = {}
   ): AsyncIterableIterator<ChatMessage[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!pageSettings.continuationToken) {
-      const currentSetResponse = await this.client.chatThread.listChatMessages(this.threadId, requestOptions);
+      const currentSetResponse = await this.client.chatThread.listChatMessages(
+        this.threadId,
+        requestOptions
+      );
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mapToChatMessageSdkModel, this);
@@ -222,7 +225,6 @@ private async *listMessagesPage(
       yield* page;
     }
   }
-
 
   /**
    * Gets a list of message from a thread identified by threadId.
