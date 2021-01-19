@@ -706,7 +706,7 @@ export class EventHubReceiver extends LinkEntity {
 
         // operation has been cancelled, so exit immediately
         if (abortSignal && abortSignal.aborted) {
-          return await rejectOnAbort();
+          return rejectOnAbort();
         }
 
         // updates the prefetch count so that the baseConsumer adds
