@@ -3,7 +3,7 @@
 
 import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
-import { isDefined } from "./util/isDefined";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * Describes the delivery annotations.

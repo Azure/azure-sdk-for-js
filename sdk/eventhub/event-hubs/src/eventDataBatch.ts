@@ -9,7 +9,7 @@ import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { defaultDataTransformer } from "./dataTransformer";
-import { isDefined } from "./util/isDefined";
+import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -30,9 +30,9 @@ const smallMessageMaxBytes = 255;
  * @internal
  * @hidden
  */
-export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
+export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is EventDataBatch {
   return (
-    eventDataBatch &&
+    isObjectWithProperties(eventDataBatch, ["count", "sizeInBytes", "tryAdd"]) &&
     typeof eventDataBatch.tryAdd === "function" &&
     typeof eventDataBatch.count === "number" &&
     typeof eventDataBatch.sizeInBytes === "number"

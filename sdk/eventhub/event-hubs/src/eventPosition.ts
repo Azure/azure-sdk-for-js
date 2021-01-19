@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
-import { isDefined } from "./util/isDefined";
+import { isDefined, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`
@@ -147,20 +147,20 @@ export function validateEventPositions(
  * @hidden
  * @internal
  */
-export function isEventPosition(position: any): position is EventPosition {
+export function isEventPosition(position: unknown): position is EventPosition {
   if (!position) {
     return false;
   }
 
-  if (isDefined(position.offset)) {
+  if (objectHasProperty(position, "offset") && isDefined(position.offset)) {
     return true;
   }
 
-  if (isDefined(position.sequenceNumber)) {
+  if (objectHasProperty(position, "sequenceNumber") && isDefined(position.sequenceNumber)) {
     return true;
   }
 
-  if (isDefined(position.enqueuedOn)) {
+  if (objectHasProperty(position, "enqueuedOn") && isDefined(position.enqueuedOn)) {
     return true;
   }
 
