@@ -2,7 +2,7 @@
   "recordings": [
     {
       "method": "POST",
-      "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
+      "url": "https://endpoint/sms",
       "query": {
         "api-version": "2020-07-20-preview1"
       },
