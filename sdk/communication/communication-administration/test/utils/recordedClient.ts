@@ -78,7 +78,7 @@ export function createRecordedCommunicationIdentityClient(
         recorder
       };
     }
-    
+
     let credential: TokenCredential = isPlaybackMode()
       ? {
           getToken: async (_scopes) => {
