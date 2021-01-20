@@ -108,39 +108,55 @@ export function createRecordedCommunicationIdentityClientWithToken(
 }
 
 export function createRecordedPhoneNumberAdministrationClient(
-  context: Context,
-  withToken: boolean = false
+  context: Context
 ): RecordedClient<PhoneNumberAdministrationClient> & {
   includePhoneNumberLiveTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
-  try {
-    let credential: TokenCredential = isPlaybackMode()
-      ? {
-          getToken: async (_scopes) => {
-            return { token: "testToken", expiresOnTimestamp: 11111 };
-          }
-        }
-      : new DefaultAzureCredential();
+  return {
+    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+    recorder,
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+  };
+}
 
-    if (!withToken) {
-      return {
-        client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
-        recorder,
-        includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
-      };
-    }
+export function createRecordedPhoneNumberAdministrationClientWithToken(
+  context: Context
+):
+  | (RecordedClient<PhoneNumberAdministrationClient> & {
+      includePhoneNumberLiveTests: boolean;
+    })
+  | undefined {
+  const recorder = record(context, environmentSetup);
+  let credential: TokenCredential;
+  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
 
-    const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
+  if (isPlaybackMode()) {
+    credential = {
+      getToken: async (_scopes) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      }
+    };
+
     return {
       client: new PhoneNumberAdministrationClient(endpoint, credential),
       recorder,
       includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
     };
-  } catch (e) {
-    throw e;
   }
+
+  try {
+    credential = new DefaultAzureCredential();
+  } catch {
+    return undefined;
+  }
+
+  return {
+    client: new PhoneNumberAdministrationClient(endpoint, credential),
+    recorder,
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+  };
 }
 
 export const testPollerOptions = {

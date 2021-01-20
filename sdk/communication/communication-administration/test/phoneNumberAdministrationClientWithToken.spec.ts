@@ -4,7 +4,7 @@
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumberAdministrationClient } from "../src";
-import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
+import { createRecordedPhoneNumberAdministrationClientWithToken } from "./utils/recordedClient";
 
 describe("PhoneNumberAdministrationClientWithToken [Playback/Live]", function() {
   let recorder: Recorder;
@@ -15,7 +15,7 @@ describe("PhoneNumberAdministrationClientWithToken [Playback/Live]", function() 
   const countryCode = "US";
 
   beforeEach(function() {
-    const recordedClient = createRecordedPhoneNumberAdministrationClient(this, true);
+    const recordedClient = createRecordedPhoneNumberAdministrationClientWithToken(this);
     if (!recordedClient) {
       shouldSkip = true;
     } else {
