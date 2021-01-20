@@ -46,7 +46,7 @@
     }
   ],
   "outputs": {
-    "COMMUNICATION_ENDPOINT_STRING": {
+    "COMMUNICATION_ENDPOINT": {
       "type": "string",
       "value": "[concat('https://', parameters('baseName'), '-', parameters('endpointPrefix'), '.communication.azure.com')]"
     },

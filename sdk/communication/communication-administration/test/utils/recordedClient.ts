@@ -27,7 +27,7 @@ export interface RecordedClient<T> {
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT_STRING: "https://endpoint/",
+  COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
   AZURE_TENANT_ID: "SomeTenantId"
@@ -88,7 +88,7 @@ export function createRecordedCommunicationIdentityClient(
       : new DefaultAzureCredential();
 
     return {
-      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT_STRING, credential),
+      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
       recorder
     };
   } catch (e) {
