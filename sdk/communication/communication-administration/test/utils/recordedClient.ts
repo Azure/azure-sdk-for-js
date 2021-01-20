@@ -14,6 +14,7 @@ import {
 import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
+import { parseConnectionString } from "../../../communication-common/src/credential/connectionString";
 
 if (isNode) {
   dotenv.config();
@@ -132,7 +133,8 @@ export function createRecordedPhoneNumberAdministrationClient(
       };
     }
 
-    const endpoint = communicationEndpoint();
+    const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+      .endpoint;
     return {
       client: new PhoneNumberAdministrationClient(endpoint, credential),
       recorder,
@@ -141,11 +143,6 @@ export function createRecordedPhoneNumberAdministrationClient(
   } catch (e) {
     throw e;
   }
-}
-
-export function communicationEndpoint(): string {
-  const connectionString = env.COMMUNICATION_CONNECTION_STRING;
-  return connectionString.split("=")[1].split(";")[0];
 }
 
 export const testPollerOptions = {
