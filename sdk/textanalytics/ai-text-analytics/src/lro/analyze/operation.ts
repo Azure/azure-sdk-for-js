@@ -19,13 +19,9 @@ import {
   AnalyzeBatchTasksResult,
   PagedAsyncIterableAnalyzeResults,
   PagedAnalyzeResults
-} from "../../analyzeResult";
+} from "../../analyzeBatchTasksResult";
 import { PageSettings } from "@azure/core-paging";
-import {
-  getJobID,
-  handleInvalidDocumentBatch,
-  nextLinkToTopAndSkip
-} from "../../util";
+import { getJobID, handleInvalidDocumentBatch, nextLinkToTopAndSkip } from "../../util";
 import { AnalysisPollOperation, AnalysisPollOperationState, JobMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
 import { CanonicalCode } from "@opentelemetry/api";

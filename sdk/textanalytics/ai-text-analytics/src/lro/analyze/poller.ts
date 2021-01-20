@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
-import { PagedAnalyzeResults } from "../../analyzeResult";
+import { PagedAnalyzeResults } from "../../analyzeBatchTasksResult";
 import { JobManifestTasks } from "../../generated/models";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
