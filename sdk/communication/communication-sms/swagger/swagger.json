@@ -22,9 +22,7 @@
   "paths": {
     "/sms": {
       "post": {
-        "tags": [
-          "Sms"
-        ],
+        "tags": ["Sms"],
         "summary": "Sends a SMS message from a phone number that belongs to the authenticated account.",
         "operationId": "Sms_Send",
         "x-ms-examples": {
@@ -32,12 +30,8 @@
             "$ref": "./examples/send.json"
           }
         },
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
             "in": "body",
@@ -99,11 +93,7 @@
     },
     "SendMessageRequest": {
       "description": "Represents the properties of a send message request.",
-      "required": [
-        "message",
-        "to",
-        "from"
-      ],
+      "required": ["message", "to", "from"],
       "type": "object",
       "properties": {
         "from": {
@@ -132,9 +122,7 @@
     },
     "SendSmsResponse": {
       "description": "Response for a successful or multi status send Sms request.",
-      "required": [
-        "value"
-      ],
+      "required": ["value"],
       "type": "object",
       "properties": {
         "value": {
@@ -151,10 +139,7 @@
     },
     "SendSmsResponseItem": {
       "description": "Response for a single recipient.",
-      "required": [
-        "httpStatusCode",
-        "to"
-      ],
+      "required": ["httpStatusCode", "to"],
       "type": "object",
       "properties": {
         "to": {

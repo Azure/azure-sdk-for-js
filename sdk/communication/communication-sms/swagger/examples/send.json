@@ -2,10 +2,7 @@
   "parameters": {
     "SendMessageRequest": {
       "from": "+18001110000",
-      "to": [
-        "+11234567890",
-        "+11234567891"
-      ],
+      "to": ["+11234567890", "+11234567891"],
       "message": "Hello world!",
       "sendSmsOptions": {
         "enableDeliveryReport": true
