@@ -1,35 +1,35 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities",
-   "query": {
-    "api-version": "2020-07-20-preview2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sanitized\"}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
-   }
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/identities",
+      "query": {
+        "api-version": "2020-07-20-preview2"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"id\":\"sanitized\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://endpoint/identities/sanitized/token",
+      "query": {
+        "api-version": "2020-07-20-preview2"
+      },
+      "requestBody": "{\"scopes\":[\"chat\",\"pstn\"]}",
+      "status": 200,
+      "response": "{\"id\":\"sanitized\",\"token\":\"sanitized\",\"expiresOn\":\"2021-01-09T00:30:24.5035871+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities/sanitized/token",
-   "query": {
-    "api-version": "2020-07-20-preview2"
-   },
-   "requestBody": "{\"scopes\":[\"chat\",\"pstn\"]}",
-   "status": 200,
-   "response": "{\"id\":\"sanitized\",\"token\":\"sanitized\",\"expiresOn\":\"2021-01-09T00:30:24.5035871+00:00\"}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "9b1612c756e3b1947bf920b9c1547a11"
+  "hash": "9b1612c756e3b1947bf920b9c1547a11"
 }
