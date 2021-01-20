@@ -12,7 +12,7 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export type ActionType = 'EmailContacts' | 'AutoRenew';
+export type ActionType = "EmailContacts" | "AutoRenew";
 
 // @public
 export interface AdministratorContact {
@@ -111,10 +111,10 @@ export interface CertificateIssuer extends IssuerProperties {
 }
 
 // @public
-export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type CertificateKeyCurveName = string;
 
 // @public
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type CertificateKeyType = string;
 
 // @public
 export interface CertificateOperation {
@@ -248,7 +248,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel = string;
 
 // @public
 export interface ErrorModel {
@@ -317,7 +317,7 @@ export interface IssuerProperties {
 }
 
 // @public
-export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
+export type KeyUsageType = string;
 
 // @public
 export interface KeyVaultCertificate {
@@ -345,6 +345,48 @@ export interface KeyVaultCertificatePollOperationState<TResult> extends PollOper
 // @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
+}
+
+// @public
+export const enum KnownCertificateKeyCurveNames {
+    P256 = "P-256",
+    P256K = "P-256K",
+    P384 = "P-384",
+    P521 = "P-521"
+}
+
+// @public
+export const enum KnownCertificateKeyTypes {
+    EC = "EC",
+    ECHSM = "EC-HSM",
+    Oct = "oct",
+    OctHSM = "oct-HSM",
+    RSA = "RSA",
+    RSAHSM = "RSA-HSM"
+}
+
+// @public
+export const enum KnownDeletionRecoveryLevels {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+    Purgeable = "Purgeable",
+    Recoverable = "Recoverable",
+    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+    RecoverablePurgeable = "Recoverable+Purgeable"
+}
+
+// @public
+export const enum KnownKeyUsageTypes {
+    CRLSign = "cRLSign",
+    DataEncipherment = "dataEncipherment",
+    DecipherOnly = "decipherOnly",
+    DigitalSignature = "digitalSignature",
+    EncipherOnly = "encipherOnly",
+    KeyAgreement = "keyAgreement",
+    KeyCertSign = "keyCertSign",
+    KeyEncipherment = "keyEncipherment",
+    NonRepudiation = "nonRepudiation"
 }
 
 // @public

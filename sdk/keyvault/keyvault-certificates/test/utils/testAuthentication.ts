@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { getKeyvaultName } from "./utils.common";
 import { CertificateClient } from "../../src";
 import { uniqueString } from "./recorderUtils";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
@@ -16,7 +15,8 @@ export async function authenticate(that: Context): Promise<any> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
-      KEYVAULT_NAME: "keyvault_name"
+      KEYVAULT_NAME: "keyvault_name",
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -33,8 +33,11 @@ export async function authenticate(that: Context): Promise<any> {
     env.AZURE_CLIENT_SECRET
   );
 
-  const keyVaultName = getKeyvaultName();
-  const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
+  const keyVaultUrl = env.KEYVAULT_URI;
+  if (!keyVaultUrl) {
+    throw new Error("Missing KEYVAULT_URI environment variable.");
+  }
+
   const client = new CertificateClient(keyVaultUrl, credential);
   const testClient = new TestClient(client);
 
