@@ -4,7 +4,7 @@
 
 - FEATURE: Adds AAD authentication via @azure/identity.
 
-## 3.9.5 (2021-01-18)
+## 3.9.5 (2021-01-15)
 
 - BUGFIX: Throws correct Invalid Continuation Token error when making request with malformed token
 - BUGFIX: Defaults partitionKeyValue to `'[{}]'` when missing in Read/Delete bulk operations
