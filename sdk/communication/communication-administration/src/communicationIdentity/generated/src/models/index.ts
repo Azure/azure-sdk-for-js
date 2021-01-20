@@ -78,11 +78,15 @@ export interface CommunicationError {
   /**
    * The error target.
    */
-  target?: string;
+  readonly target?: string;
   /**
    * Further details about specific errors that led to this error.
    */
-  details?: CommunicationError[];
+  readonly details?: CommunicationError[];
+  /**
+   * The Communication Services error.
+   */
+  innerError?: CommunicationError;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {

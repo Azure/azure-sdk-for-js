@@ -12,7 +12,7 @@ package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/communicationIdentity/generated
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/30b5cd90529d3fbba629bbc17c4ccd5446801eaa/specification/communication/data-plane/Microsoft.CommunicationServicesIdentity/stable/2021-03-07/CommunicationIdentity.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14bfbf5d0ff8f0dc1358e6e60362e99d0a649ba7/specification/communication/data-plane/Microsoft.CommunicationServicesIdentity/stable/2021-03-07/CommunicationIdentity.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

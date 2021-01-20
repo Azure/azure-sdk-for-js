@@ -1,22 +1,22 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities/sanitized/:issueAccessToken",
-   "query": {
-    "api-version": "2021-03-07"
-   },
-   "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
-   "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-01-20T15:39:43.4631316+00:00\"}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "22aff5674fb1857707675ffdfe9ccc71"
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/identities/sanitized/:issueAccessToken",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
+      "status": 200,
+      "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-01-20T15:39:43.4631316+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "22aff5674fb1857707675ffdfe9ccc71"
 }

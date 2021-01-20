@@ -108,7 +108,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   path: "/identities",
   httpMethod: "POST",
   responses: {
-    200: {
+    201: {
       bodyMapper: Mappers.CommunicationIdentityAccessTokenResult
     },
     default: {

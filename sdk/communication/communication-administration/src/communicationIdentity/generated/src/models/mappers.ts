@@ -123,17 +123,26 @@ export const CommunicationError: coreHttp.CompositeMapper = {
       },
       target: {
         serializedName: "target",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       details: {
         serializedName: "details",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
             type: { name: "Composite", className: "CommunicationError" }
           }
+        }
+      },
+      innerError: {
+        serializedName: "innerError",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
         }
       }
     }
