@@ -22,8 +22,8 @@ const { inspect } = require("util");
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  // - AZURE_URL: The tenant ID in Azure Active Directory
-  const url = process.env.AZURE_URL;
+  // - AZURE_DIGITALTWINS_URL: The tenant ID in Azure Active Directory
+  const url = process.env.AZURE_DIGITALTWINS_URL;
 
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
@@ -56,7 +56,7 @@ async function main() {
   const twinPatch = {
     AverageTemperature: 42
   };
-  const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, twinPatch);
+  const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, [twinPatch]);
   console.log(`Updated Digital Twin:`);
   console.log(inspect(updatedTwin));
 

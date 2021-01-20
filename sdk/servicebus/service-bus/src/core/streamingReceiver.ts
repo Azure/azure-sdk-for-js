@@ -6,8 +6,7 @@ import {
   OnAmqpEventAsPromise,
   OnError,
   OnMessage,
-  ReceiveOptions,
-  ReceiverHandlers
+  ReceiveOptions
 } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 
@@ -29,6 +28,7 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
+import { ReceiverHandlers } from "./shared";
 
 /**
  * @internal

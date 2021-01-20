@@ -8,6 +8,7 @@ import { AbortSignalLike } from '@azure/core-http';
 import { AccessToken } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { RequestPolicyFactory } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
@@ -60,6 +61,12 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
+export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
+
+// @internal
+export const _deserializeCommunicationIdentifier: (serializedIdentifier: _SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
+
+// @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
@@ -104,6 +111,21 @@ export interface PhoneNumberKind extends PhoneNumberIdentifier {
     kind: "PhoneNumber";
 }
 
+// @internal
+export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
+
+// @internal
+export interface _SerializedCommunicationIdentifier {
+    id?: string;
+    isAnonymous?: boolean;
+    kind: _SerializedCommunicationIdentifierKind;
+    microsoftTeamsUserId?: string;
+    phoneNumber?: string;
+}
+
+// @internal
+export type _SerializedCommunicationIdentifierKind = "unknown" | "communicationUser" | "phoneNumber" | "callingApplication" | "microsoftTeamsUser";
+
 // @public
 export interface UnknownIdentifier {
     id: string;
@@ -117,7 +139,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
 // @public
 export type UrlWithCredential = {
     url: string;
-    credential: KeyCredential;
+    credential: TokenCredential | KeyCredential;
 };
 
 

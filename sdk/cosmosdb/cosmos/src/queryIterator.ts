@@ -243,8 +243,15 @@ export class QueryIterator<T> {
     return this.queryPlanPromise;
   }
 
-  private needsQueryPlan(error: any): error is ErrorResponse {
-    return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    if (
+      error.body?.additionalErrorInfo ||
+      error.message.includes("Cross partition query only supports")
+    ) {
+      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+    } else {
+      throw error;
+    }
   }
 
   private initPromise: Promise<void>;

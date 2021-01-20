@@ -15,7 +15,7 @@ import {
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
-import { GetSecretResponse } from "../../generated/models";
+import { KeyVaultClientGetSecretResponse } from "../../generated/models";
 import { getSecretFromSecretBundle } from "../../transformations";
 
 /**
@@ -48,7 +48,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     const responseOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getSecret", responseOptions);
 
-    let response: GetSecretResponse;
+    let response: KeyVaultClientGetSecretResponse;
     try {
       response = await this.client.getSecret(
         this.vaultUrl,
@@ -74,7 +74,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     const responseOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.recoverDeletedSecret", responseOptions);
 
-    let response: GetSecretResponse;
+    let response: KeyVaultClientGetSecretResponse;
     try {
       response = await this.client.recoverDeletedSecret(
         this.vaultUrl,

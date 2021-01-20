@@ -431,7 +431,7 @@ export class ServiceClient {
       httpRequest.url = requestUrl.toString();
 
       const contentType = operationSpec.contentType || this.requestContentType;
-      if (contentType) {
+      if (contentType && operationSpec.requestBody) {
         httpRequest.headers.set("Content-Type", contentType);
       }
 

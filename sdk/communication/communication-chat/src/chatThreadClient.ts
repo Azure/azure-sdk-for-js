@@ -7,7 +7,6 @@ import {
   CommunicationUserIdentifier,
   CommunicationTokenCredential
 } from "@azure/communication-common";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
@@ -50,6 +49,7 @@ import {
   mapToChatThreadMemberSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
 export { ChatMessagePriority, SendReadReceiptRequest } from "./generated/src/models";
 

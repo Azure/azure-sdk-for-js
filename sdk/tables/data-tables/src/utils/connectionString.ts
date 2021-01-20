@@ -6,6 +6,9 @@ import { fromAccountConnectionString, getAccountConnectionString } from "./accou
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { URL } from "./url";
 
+const DevelopmentConnectionString =
+  "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1";
+
 /**
  * This function parses a connection string into a set of
  * parameters to pass to be passed to TableClientService,
@@ -20,6 +23,9 @@ export function getClientParamsFromConnectionString(
   connectionString: string,
   options?: TableServiceClientOptions
 ): ClientParamsFromConnectionString {
+  if (connectionString.toLowerCase().indexOf("usedevelopmentstorage=true") !== -1) {
+    connectionString = DevelopmentConnectionString;
+  }
   const extractedCreds = extractConnectionStringParts(connectionString);
   if (extractedCreds.kind === "AccountConnString") {
     return fromAccountConnectionString(extractedCreds, options);
