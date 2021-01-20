@@ -108,54 +108,44 @@ export function createRecordedCommunicationIdentityClientWithToken(
 }
 
 export function createRecordedPhoneNumberAdministrationClient(
-  context: Context
+  context: Context,
+  withToken: boolean = false
 ): RecordedClient<PhoneNumberAdministrationClient> & {
   includePhoneNumberLiveTests: boolean;
 } {
   const recorder = record(context, environmentSetup);
 
-  return {
-    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
-    recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
-  };
-}
+  try {
+    let credential: TokenCredential = isPlaybackMode()
+      ? {
+          getToken: async (_scopes) => {
+            return { token: "testToken", expiresOnTimestamp: 11111 };
+          }
+        }
+      : new DefaultAzureCredential();
 
-export function createRecordedPhoneNumberAdministrationClientWithToken(
-  context: Context
-):
-  | (RecordedClient<PhoneNumberAdministrationClient> & {
-      includePhoneNumberLiveTests: boolean;
-    })
-  | undefined {
-  const recorder = record(context, environmentSetup);
-  let credential: TokenCredential;
+    if (!withToken) {
+      return {
+        client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+        recorder,
+        includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+      };
+    }
 
-  if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
-
+    const endpoint = communicationEndpoint();
     return {
-      client: new PhoneNumberAdministrationClient(env.COMMUNICATION_ENDPOINT, credential),
+      client: new PhoneNumberAdministrationClient(endpoint, credential),
       recorder,
       includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
     };
+  } catch (e) {
+    throw e;
   }
+}
 
-  try {
-    credential = new DefaultAzureCredential();
-  } catch {
-    return undefined;
-  }
-
-  return {
-    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_ENDPOINT, credential),
-    recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
-  };
+export function communicationEndpoint(): string {
+  const connectionString = env.COMMUNICATION_CONNECTION_STRING;
+  return connectionString.split("=")[1].split(";")[0];
 }
 
 export const testPollerOptions = {
