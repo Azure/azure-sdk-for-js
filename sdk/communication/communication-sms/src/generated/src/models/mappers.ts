@@ -8,6 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
+
 export const SendSmsOptions: coreHttp.CompositeMapper = {
   serializedName: "SendSmsOptions",
   type: {
@@ -18,6 +19,12 @@ export const SendSmsOptions: coreHttp.CompositeMapper = {
         serializedName: "enableDeliveryReport",
         type: {
           name: "Boolean"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
         }
       }
     }
@@ -52,6 +59,10 @@ export const SendMessageRequest: coreHttp.CompositeMapper = {
       message: {
         required: true,
         serializedName: "message",
+        constraints: {
+          MaxLength: 2048,
+          MinLength: 0
+        },
         type: {
           name: "String"
         }
@@ -67,14 +78,63 @@ export const SendMessageRequest: coreHttp.CompositeMapper = {
   }
 };
 
+export const SendSmsResponseItem: coreHttp.CompositeMapper = {
+  serializedName: "SendSmsResponseItem",
+  type: {
+    name: "Composite",
+    className: "SendSmsResponseItem",
+    modelProperties: {
+      to: {
+        required: true,
+        serializedName: "to",
+        type: {
+          name: "String"
+        }
+      },
+      messageId: {
+        serializedName: "messageId",
+        type: {
+          name: "String"
+        }
+      },
+      httpStatusCode: {
+        required: true,
+        serializedName: "httpStatusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SendSmsResponse: coreHttp.CompositeMapper = {
   serializedName: "SendSmsResponse",
   type: {
     name: "Composite",
     className: "SendSmsResponse",
     modelProperties: {
-      messageId: {
-        serializedName: "messageId",
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SendSmsResponseItem"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }

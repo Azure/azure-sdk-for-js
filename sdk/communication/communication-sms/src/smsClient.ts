@@ -54,6 +54,11 @@ export interface SendOptions extends OperationOptions {
    * Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid
    */
   enableDeliveryReport?: boolean;
+  /**
+   * Use this field to provide metadata that will then be sent back in the corresponding Delivery
+   * Report.
+   */
+  tag?: string;
 }
 
 /**
@@ -135,16 +140,17 @@ export class SmsClient {
    * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options Additional request options
    */
-  public async send(sendRequest: SendRequest, options: SendOptions = {}): Promise<RestResponse> {
+  public async send(sendRequest: SendRequest, options: SendOptions = {}, _requestId?: String): Promise<RestResponse> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("SmsClient-send", operationOptions);
-
+    
     try {
       const response = await this.api.sms.send(
         {
           ...sendRequest,
           sendSmsOptions: { enableDeliveryReport: restOptions.enableDeliveryReport }
         },
+        SDK_VERSION,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 

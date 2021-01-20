@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-communication-sms";
-const packageVersion = "1.0.0-beta.3";
+const packageVersion = "1.0.0-beta.4";
 
 export class SmsApiClientContext extends coreHttp.ServiceClient {
   endpoint: string;

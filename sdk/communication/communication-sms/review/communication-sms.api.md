@@ -13,6 +13,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface SendOptions extends OperationOptions {
     enableDeliveryReport?: boolean;
+    tag?: string;
 }
 
 // @public
@@ -27,7 +28,7 @@ export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(sendRequest: SendRequest, options?: SendOptions): Promise<RestResponse>;
+    send(sendRequest: SendRequest, options?: SendOptions, _requestId?: String): Promise<RestResponse>;
 }
 
 // @public
