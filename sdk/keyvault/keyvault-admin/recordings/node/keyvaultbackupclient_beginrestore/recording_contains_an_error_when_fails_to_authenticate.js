@@ -21,7 +21,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '0',
   'x-ms-request-id',
-  'f62bde66-5ab5-11eb-88fb-0242ac120006',
+  '174ce19e-5acf-11eb-a0b8-0242ac12000a',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -37,8 +37,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -50,39 +48,41 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f4ecc6dd-fe44-4456-a48b-918b83ab0701',
+  '3c3b4bb2-8864-40f5-b1b0-96452c721001',
   'x-ms-ests-server',
   '2.1.11397.13 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=At3qUWaQVUBJmj5Gv0S-0ildWxHLCAAAABJvmdcOAAAA; expires=Fri, 19-Feb-2021 00:25:13 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AruM6-s0o4dGuoROwfwoa4NdWxHLBwAAAFGZmdcOAAAA; expires=Fri, 19-Feb-2021 03:25:06 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 20 Jan 2021 00:25:12 GMT'
+  'Wed, 20 Jan 2021 03:25:06 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .put('/restore', {"sasTokenParameters":{"storageResourceUri":"https://uri.blob.core.windows.net/uri","token":"bad_token"},"folderToRestore":"bad_folder"})
   .query(true)
-  .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"4445b9473d94405c8b4d6dee8d4cca85","startTime":1611102314,"status":"InProgress","statusDetails":null}, [
+  .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"a7c6b58306814014a6b41574f4fe5693","startTime":1611113107,"status":"InProgress","statusDetails":null}, [
   'server',
   'Kestrel',
   'date',
-  'Wed, 20 Jan 2021 00:25:13 GMT',
+  'Wed, 20 Jan 2021 03:25:07 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
   'nosniff',
   'azure-asyncoperation',
-  'https://azure_managedhsm.managedhsm.azure.netrestore/4445b9473d94405c8b4d6dee8d4cca85/pending',
+  'https://azure_managedhsm.managedhsm.azure.netrestore/a7c6b58306814014a6b41574f4fe5693/pending',
   'x-ms-keyvault-region',
   'westeurope',
   'retry-after',
   '10',
   'x-ms-request-id',
-  'f6581094-5ab5-11eb-88fb-0242ac120006',
+  '1775ccee-5acf-11eb-a0b8-0242ac12000a',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -90,7 +90,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '1419',
+  '1507',
   'content-length',
   '180',
   'strict-transport-security',
@@ -100,15 +100,15 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('/restore/4445b9473d94405c8b4d6dee8d4cca85/pending')
+  .get('/restore/a7c6b58306814014a6b41574f4fe5693/pending')
   .query(true)
-  .reply(200, {"endTime":1611102315,"error":{"code":null,"innererror":null,"message":null},"jobId":"4445b9473d94405c8b4d6dee8d4cca85","startTime":1611102314,"status":"Failed","statusDetails":"Invalid backup provided"}, [
+  .reply(200, {"endTime":1611113108,"error":{"code":null,"innererror":null,"message":null},"jobId":"a7c6b58306814014a6b41574f4fe5693","startTime":1611113107,"status":"Failed","statusDetails":"Invalid backup provided"}, [
   'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20210112-1-4fbf61ac-develop',
   'date',
-  'Wed, 20 Jan 2021 00:25:15 GMT',
+  'Wed, 20 Jan 2021 03:25:09 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -116,7 +116,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-region',
   'westeurope',
   'x-ms-request-id',
-  'f7499b26-5ab5-11eb-88fb-0242ac120006',
+  '1874264a-5acf-11eb-a0b8-0242ac12000a',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -128,7 +128,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '1189',
+  '1601',
   'content-security-policy',
   "default-src 'self'"
 ]);

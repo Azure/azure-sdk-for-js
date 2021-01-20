@@ -19,7 +19,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  'c66b4e6e-5ab5-11eb-a0b8-0242ac12000a',
+  'f4d4fc96-5ace-11eb-9b71-0242ac12000a',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -39,6 +39,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -50,19 +52,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8822819a-efa7-4fa8-a0d0-eaec2b8e0a00',
+  '3c3b4bb2-8864-40f5-b1b0-9645d76a1001',
   'x-ms-ests-server',
-  '2.1.11419.13 - WUS2 ProdSlices',
+  '2.1.11397.13 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=At3qUWaQVUBJmj5Gv0S-0ildWxHLBQAAABJvmdcOAAAA; expires=Fri, 19-Feb-2021 00:23:53 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AruM6-s0o4dGuoROwfwoa4NdWxHLBQAAAFGZmdcOAAAA; expires=Fri, 19-Feb-2021 03:24:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 20 Jan 2021 00:23:52 GMT',
-  'Content-Length',
-  '1322'
+  'Wed, 20 Jan 2021 03:24:07 GMT'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -72,7 +72,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  'c690bc44-5ab5-11eb-a0b8-0242ac12000a',
+  'f507be88-5ace-11eb-9b71-0242ac12000a',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
@@ -92,7 +92,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '1'
+  '0'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -106,7 +106,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '398',
   'x-ms-request-id',
-  'c6a958bc-5ab5-11eb-a0b8-0242ac12000a',
+  'f5205330-5ace-11eb-9b71-0242ac12000a',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -116,7 +116,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '76',
+  '75',
   'cache-control',
   'no-cache',
   'x-frame-options',
@@ -130,7 +130,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  'c6cd5500-5ab5-11eb-a0b8-0242ac12000a',
+  'f54431d8-5ace-11eb-9b71-0242ac12000a',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
@@ -150,7 +150,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '1'
+  '0'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -164,7 +164,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '398',
   'x-ms-request-id',
-  'c6e5e46c-5ab5-11eb-a0b8-0242ac12000a',
+  'f55c97d2-5ace-11eb-9b71-0242ac12000a',
   'x-ms-keyvault-region',
   'westeurope',
   'strict-transport-security',
@@ -174,7 +174,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '62',
+  '57',
   'cache-control',
   'no-cache',
   'x-frame-options',
@@ -184,7 +184,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .get('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
   .query(true)
-  .reply(404, {"error":{"code":"RoleAssignmentNotFound","message":"Requested role assignment not found (Activity ID: c707dad6-5ab5-11eb-a0b8-0242ac12000a)"}}, [
+  .reply(404, {"error":{"code":"RoleAssignmentNotFound","message":"Requested role assignment not found (Activity ID: f57e7cf8-5ace-11eb-9b71-0242ac12000a)"}}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
@@ -194,7 +194,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '143',
   'x-ms-request-id',
-  'c707dad6-5ab5-11eb-a0b8-0242ac12000a',
+  'f57e7cf8-5ace-11eb-9b71-0242ac12000a',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',

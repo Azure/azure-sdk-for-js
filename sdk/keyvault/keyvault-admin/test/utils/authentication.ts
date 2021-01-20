@@ -20,7 +20,6 @@ export async function authenticate(that: any): Promise<any> {
     generatedUUIDs.push(uuid);
     return uuid;
   }
-  const managedHsmName = getManagedHsmName();
 
   const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
@@ -54,13 +53,12 @@ export async function authenticate(that: any): Promise<any> {
           );
         }
         return recording;
-      },
-      (recording: any): any =>
-        recording.replace(new RegExp(managedHsmName!, "g"), "azure_managedhsm")
+      }
     ],
     queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
+
   const credential = new ClientSecretCredential(
     getEnvironmentVariable("AZURE_TENANT_ID"),
     getEnvironmentVariable("AZURE_CLIENT_ID"),
@@ -77,9 +75,4 @@ export async function authenticate(that: any): Promise<any> {
   const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 
   return { recorder, accessControlClient, backupClient, suffix, generateFakeUUID };
-}
-
-function getManagedHsmName(): string | undefined {
-  const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
-  return (/https:\/\/(?<hsmName>[^.]+)\..*/.exec(keyVaultHsmUrl) as any)?.groups.hsmName;
 }
