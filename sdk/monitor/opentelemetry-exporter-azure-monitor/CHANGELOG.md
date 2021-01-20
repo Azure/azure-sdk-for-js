@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.0-beta.2 (2021-01-20)
+
+- Ship the correct type declaration file
+
 ## 1.0.0-beta.1 (2021-01-13)
 
 - OT Exporter retry when there are network issues
