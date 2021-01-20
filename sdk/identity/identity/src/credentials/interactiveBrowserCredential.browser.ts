@@ -16,12 +16,33 @@ import { v4 as uuidv4 } from "uuid";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
+type MSALAuthenticationPromise = Promise<msalBrowser.AuthenticationResult | null>;
+
+/**
+ * This function caches the MSAL redirect promise handler,
+ * since the redirect information is deleted from the URL after the first time the authentication is resolved on page load.
+ */
+let redirectPromise: MSALAuthenticationPromise | null = null;
+const cachedRedirectResponse = async (
+  msalObject: msalBrowser.IPublicClientApplication
+): MSALAuthenticationPromise => {
+  if (!redirectPromise) {
+    logger.info(
+      "Caching the MSAL redirect promise handler, since the redirect information is deleted after the first resolved authentication."
+    );
+    redirectPromise = msalObject.handleRedirectPromise();
+  }
+  return redirectPromise;
+};
+
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow, either via browser redirects or a popup
  * window.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
+  private tenantId: string;
+  private clientId: string;
   private loginStyle: BrowserLoginStyle;
   private msalConfig: msalBrowser.Configuration;
   private msalObject: msalBrowser.PublicClientApplication;
@@ -33,22 +54,22 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * details needed to authenticate against Azure Active Directory with
    * a user identity.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
-   * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: InteractiveBrowserCredentialOptions) {
+    this.tenantId = (options && options.tenantId) || DefaultTenantId;
+
+    // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
+    // Developer Sign On application is available
+    // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
+    this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
+
     options = {
       ...IdentityClient.getDefaultOptions(),
       ...options,
-      tenantId: (options && options.tenantId) || DefaultTenantId,
-      // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
-      // Developer Sign On application is available
-      // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
-      clientId: (options && options.clientId) || DeveloperSignOnClientId
+      tenantId: this.tenantId,
+      clientId: this.clientId
     };
-
-    this.correlationId = uuidv4();
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
@@ -60,6 +81,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
     const knownAuthorities =
       options.tenantId === "adfs" ? (options.authorityHost ? [options.authorityHost] : []) : [];
 
+    this.correlationId = options.correlationId || uuidv4();
+
     this.msalConfig = {
       auth: {
         clientId: options.clientId!, // we just initialized it above
@@ -68,29 +91,95 @@ export class InteractiveBrowserCredential implements TokenCredential {
       },
       cache: {
         cacheLocation: "sessionStorage",
-        storeAuthStateInCookie: true
+        storeAuthStateInCookie: true // Set to true to improve the experience on IE11 and Edge.
+      },
+      system: {
+        loggerOptions: {
+          loggerCallback: (level, message, containsPii) => {
+            if (containsPii) {
+              return;
+            }
+            switch (level) {
+              case msalBrowser.LogLevel.Error:
+                logger.info(`MSAL Browser V2 error: ${message}`);
+                return;
+              case msalBrowser.LogLevel.Info:
+                logger.info(`MSAL Browser V2 info message: ${message}`);
+                return;
+              case msalBrowser.LogLevel.Verbose:
+                logger.info(`MSAL Browser V2 verbose message: ${message}`);
+                return;
+              case msalBrowser.LogLevel.Warning:
+                logger.info(`MSAL Browser V2 warning: ${message}`);
+                return;
+            }
+          }
+        }
       }
     };
 
     this.msalConfig.auth.redirectUri =
       typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri;
+
     this.msalConfig.auth.postLogoutRedirectUri =
       typeof options.postLogoutRedirectUri === "function"
         ? options.postLogoutRedirectUri()
         : options.postLogoutRedirectUri;
 
     this.msalObject = new msalBrowser.PublicClientApplication(this.msalConfig);
+
+    cachedRedirectResponse(this.msalObject)
+      .then((result) => {
+        if (result && result.account) {
+          logger.info(`MSAL Browser V2 redirect authentication successful.`);
+          this.account = result.account;
+        } else {
+          this.loadCachedAccount();
+        }
+      })
+      .catch((e) => {
+        logger.info(`Failed to acquire token through the MSAL redirect login method. ${e.message}`);
+      });
   }
 
-  private async login(): Promise<msalBrowser.AuthenticationResult | null> {
+  /**
+   * Loads the specific target account from the MSAL cache, if it exists.
+   * Returns true if the load was successful.
+   */
+  private loadCachedAccount(): boolean {
+    const accounts = this.msalObject.getAllAccounts();
+
+    const account = accounts.find((account) => {
+      const claims: any = account.idTokenClaims;
+      return (
+        claims &&
+        claims.aud === this.clientId && // Same target client ID
+        account.tenantId === this.tenantId // Same target tenant ID
+      );
+    });
+
+    if (account) {
+      logger.info(`MSAL Browser V2 cached account found.`);
+      this.account = account;
+      return true;
+    } else {
+      logger.info(`MSAL Browser V2 cached account not found.`);
+      return false;
+    }
+  }
+
+  private async login(scopes: string | string[]): Promise<msalBrowser.AuthenticationResult | null> {
+    const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+    const loginRequest = {
+      scopes: arrayScopes
+    };
     switch (this.loginStyle) {
       case "redirect": {
-        const loginPromise = this.msalObject.handleRedirectPromise();
-        this.msalObject.loginRedirect();
-        return loginPromise;
+        await this.msalObject.loginRedirect(loginRequest);
+        return null;
       }
       case "popup":
-        return this.msalObject.loginPopup();
+        return this.msalObject.loginPopup(loginRequest);
     }
   }
 
@@ -116,22 +205,20 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
     }
 
-    let authPromise: Promise<msalBrowser.AuthenticationResult | null>;
     if (authResponse === undefined) {
       logger.info(
         `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
       );
       switch (this.loginStyle) {
         case "redirect":
-          authPromise = this.msalObject.handleRedirectPromise();
+          const authPromise = this.msalObject.handleRedirectPromise();
           this.msalObject.acquireTokenRedirect(authParams);
+          authResponse = (await authPromise) || undefined;
           break;
         case "popup":
-          authPromise = this.msalObject.acquireTokenPopup(authParams);
+          authResponse = await this.msalObject.acquireTokenPopup(authParams);
           break;
       }
-
-      authResponse = (authPromise && (await authPromise)) || undefined;
     }
 
     return authResponse;
@@ -153,9 +240,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
     try {
-      const currentAccounts = this.msalObject.getAllAccounts();
-      if (!currentAccounts || !currentAccounts.length) {
-        const result = await this.login();
+      if (!this.loadCachedAccount()) {
+        const result = await this.login(scopes);
         if (result && result.account) {
           this.account = result.account;
         } else {

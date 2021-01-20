@@ -46,4 +46,9 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
    * The client (application) ID of an App Registration in the tenant.
    */
   clientId?: string;
+
+  /**
+   * Correlation ID that can be customized to keep track of the browser authentication requests.
+   */
+  correlationId?: string;
 }

@@ -154,6 +154,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
     clientId?: string;
+    correlationId?: string;
     loginStyle?: BrowserLoginStyle;
     postLogoutRedirectUri?: string | (() => string);
     redirectUri?: string | (() => string);
