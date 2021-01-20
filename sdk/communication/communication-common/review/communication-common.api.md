@@ -66,11 +66,9 @@ export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCr
 // @internal
 export const _deserializeCommunicationIdentifier: (serializedIdentifier: _SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
 
-// @public (undocumented)
+// @public
 export interface EndpointCredential {
-    // (undocumented)
     credential: KeyCredential;
-    // (undocumented)
     endpoint: string;
 }
 
