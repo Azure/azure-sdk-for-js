@@ -317,7 +317,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       reject(e);
     };
 
-    let waitTimer: NodeJS.Timer;
+    let waitTimer: ReturnType<typeof setTimeout>;
     const operationTimeout = await new Promise<void>((_, reject) => {
       waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
     });
