@@ -2,6 +2,8 @@
 
 ## 7.0.3 (Unreleased)
 
+- [Bug Fix] Response from the `ServiceBusAdministrationClient.getSubscriptionRuntimeProperties()` method had the message count properties to be zero.
+  The bug has been fixed in [#13229](https://github.com/Azure/azure-sdk-for-js/pull/13229)
 
 ## 7.0.2 (2021-01-13)
 
