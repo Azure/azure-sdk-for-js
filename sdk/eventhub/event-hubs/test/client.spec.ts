@@ -22,12 +22,13 @@ import { ConnectionContext } from "../src/connectionContext";
 import { getRuntimeInfo } from "../src/util/runtimeInfo";
 const env = getEnvVars();
 
+const testFailureMessage = "Test failure";
 function validateConnectionError<E extends Error & { code?: string }>(err: E): void {
   should.exist(err.code, "Missing code on error object.");
   if (!isNode) {
     should.equal(err.code, "ServiceCommunicationError");
   }
-  should.not.equal(err.message, "Test failure");
+  should.not.equal(err.message, testFailureMessage);
 }
 
 describe("Create EventHubConsumerClient", function(): void {
@@ -249,7 +250,7 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -261,7 +262,7 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -271,7 +272,7 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
   it("should throw ServiceCommunicationError for getPartitionIds", async function(): Promise<void> {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -314,7 +315,7 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -326,7 +327,7 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -336,7 +337,7 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   it("should throw ServiceCommunicationError for getPartitionIds", async function(): Promise<void> {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -346,7 +347,7 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   it("should throw ServiceCommunicationError while sending", async function(): Promise<void> {
     try {
       await client.sendBatch([{ body: "Hello World" }]);
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -358,7 +359,7 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   > {
     try {
       await client.createBatch();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       validateConnectionError(err);
@@ -388,7 +389,7 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -400,7 +401,7 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -412,7 +413,7 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -461,7 +462,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -473,7 +474,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -485,7 +486,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -495,7 +496,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   it("should throw MessagingEntityNotFoundError while sending", async function(): Promise<void> {
     try {
       await client.sendBatch([{ body: "Hello World" }]);
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -507,7 +508,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.createBatch();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -636,7 +637,7 @@ describe("EventHubConsumerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -649,7 +650,7 @@ describe("EventHubConsumerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -660,7 +661,7 @@ describe("EventHubConsumerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -717,7 +718,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -730,7 +731,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -741,7 +742,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -752,7 +753,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.sendBatch([{ body: "Hello World" }]);
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -765,7 +766,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.createBatch();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
