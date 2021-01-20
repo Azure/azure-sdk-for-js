@@ -151,7 +151,7 @@ export function browserConfig(test = false) {
       })
     ],
     onwarn(warning, warn) {
-      if (warning.code === "CIRCULAR_DEPENDENCY") {
+      if (warning.code === "CIRCULAR_DEPENDENCY" || warning.code === "UNRESOLVED_IMPORT") {
         throw new Error(warning.message);
       }
       warn(warning);
