@@ -68,12 +68,12 @@ $([Convert]::ToBase64String($Certificate.RawData, 'InsertLineBreaks'))
 }
 
 # Make sure we deployed a Managed HSM.
-if (!$DeploymentOutputs['AZURE_MANAGEDHSM_URL']) {
+if (!$DeploymentOutputs['AZURE_MANAGEDHSM_URI']) {
     Log "Managed HSM not deployed; skipping activation"
     exit
 }
 
-[Uri] $hsmUrl = $DeploymentOutputs['AZURE_MANAGEDHSM_URL']
+[Uri] $hsmUrl = $DeploymentOutputs['AZURE_MANAGEDHSM_URI']
 $hsmName = $hsmUrl.Host.Substring(0, $hsmUrl.Host.IndexOf('.'))
 
 $tenant = $DeploymentOutputs['KEYVAULT_TENANT_ID']
