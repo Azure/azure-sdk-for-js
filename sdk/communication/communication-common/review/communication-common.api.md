@@ -66,6 +66,14 @@ export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCr
 // @internal
 export const _deserializeCommunicationIdentifier: (serializedIdentifier: _SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
 
+// @public (undocumented)
+export interface EndpointCredential {
+    // (undocumented)
+    credential: KeyCredential;
+    // (undocumented)
+    endpoint: string;
+}
+
 // @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
@@ -100,6 +108,9 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 
 // @public
 export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
+
+// @public
+export const parseConnectionString: (connectionString: string) => EndpointCredential;
 
 // @public
 export interface PhoneNumberIdentifier {
