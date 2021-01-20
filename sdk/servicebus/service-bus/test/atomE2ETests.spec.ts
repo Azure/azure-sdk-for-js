@@ -87,3 +87,69 @@ describe("Filter messages with the rules set by the ATOM API", () => {
 
   // TODO: New tests for rule filters to match the sent messages can be added
 });
+
+describe("getSubscriptionRuntimeProperties", () => {
+  const topicName = "new-topic-2";
+  const subscriptionName1 = "new-subscription-1";
+  const subscriptionName2 = "new-subscription-2";
+  const serviceBusClient = new ServiceBusClient(getConnectionString());
+
+  beforeEach(async () => {
+    await recreateTopic(topicName);
+  });
+
+  after(async () => {
+    await serviceBusClient.close();
+    await serviceBusAtomManagementClient.deleteTopic(topicName);
+  });
+
+  async function receiveMessagesAndAbandon(topicName: string, subscriptionName: string) {
+    const receiver = serviceBusClient.createReceiver(topicName, subscriptionName);
+    const receivedMessages = await receiver.receiveMessages(10);
+    receivedMessages.forEach(async (msg) => {
+      await receiver.abandonMessage(msg);
+    });
+  }
+
+  it("Active Message Count - single subscription", async () => {
+    await recreateSubscription(topicName, subscriptionName1);
+    const messages = [1, 2, 3].map((num) => {
+      return {
+        body: `msg-${num}`
+      };
+    });
+    await serviceBusClient.createSender(topicName).sendMessages(messages);
+    await receiveMessagesAndAbandon(topicName, subscriptionName1);
+
+    const activeMessageCount = (
+      await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
+        topicName,
+        subscriptionName1
+      )
+    ).activeMessageCount;
+    chai.assert.equal(activeMessageCount, messages.length, "Unexpected active message count");
+  });
+
+  it("Active Message Count - multiple subscriptions", async () => {
+    await recreateSubscription(topicName, subscriptionName1);
+    await recreateSubscription(topicName, subscriptionName2);
+    const messages = [1, 2, 3].map((num) => {
+      return {
+        body: `msg-${num}`
+      };
+    });
+    await serviceBusClient.createSender(topicName).sendMessages(messages);
+    await receiveMessagesAndAbandon(topicName, subscriptionName1);
+    await receiveMessagesAndAbandon(topicName, subscriptionName2);
+
+    for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
+      topicName
+    )) {
+      chai.assert.equal(
+        subscription.activeMessageCount,
+        messages.length,
+        "Unexpected active message count"
+      );
+    }
+  });
+});

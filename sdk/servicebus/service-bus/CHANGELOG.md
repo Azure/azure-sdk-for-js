@@ -4,6 +4,8 @@
 
 - [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.
   Fixed in [#13264](https://github.com/Azure/azure-sdk-for-js/pull/13264)
+- [Bug Fix] Response from the `ServiceBusAdministrationClient.getSubscriptionRuntimeProperties()` method had the message count properties to be zero.
+  The bug has been fixed in [#13229](https://github.com/Azure/azure-sdk-for-js/pull/13229)
 
 ## 7.0.2 (2021-01-13)
 

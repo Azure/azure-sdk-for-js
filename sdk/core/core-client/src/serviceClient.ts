@@ -28,6 +28,7 @@ import { deserializationPolicy, DeserializationPolicyOptions } from "./deseriali
 import { URL } from "./url";
 import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
 import { getCachedDefaultHttpsClient } from "./httpClientCache";
+import { getOperationRequestInfo } from "./operationHelpers";
 
 /**
  * Options to be provided while creating the client.
@@ -148,12 +149,12 @@ export class ServiceClient {
       url
     });
     request.method = operationSpec.httpMethod;
-    request.additionalInfo = {};
-    request.additionalInfo.operationSpec = operationSpec;
-    request.additionalInfo.operationArguments = operationArguments;
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
+    operationInfo.operationArguments = operationArguments;
 
     const contentType = operationSpec.contentType || this._requestContentType;
-    if (contentType) {
+    if (contentType && operationSpec.requestBody) {
       request.headers.set("Content-Type", contentType);
     }
 
@@ -181,7 +182,7 @@ export class ServiceClient {
         }
 
         if (requestOptions.shouldDeserialize !== undefined) {
-          request.additionalInfo.shouldDeserialize = requestOptions.shouldDeserialize;
+          operationInfo.shouldDeserialize = requestOptions.shouldDeserialize;
         }
       }
 

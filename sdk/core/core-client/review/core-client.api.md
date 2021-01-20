@@ -221,7 +221,7 @@ export interface OperationQueryParameter extends OperationParameter {
 }
 
 // @public
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export type OperationRequest = PipelineRequest;
 
 // @public
 export interface OperationRequestInfo {

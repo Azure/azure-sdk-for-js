@@ -8,3 +8,4 @@ export {
 export { CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential";
 export * from "./credential";
 export * from "./identifierModels";
+export * from "./identifierModelSerializer";

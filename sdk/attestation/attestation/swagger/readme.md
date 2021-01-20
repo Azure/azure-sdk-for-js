@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/attestation"
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.2
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../

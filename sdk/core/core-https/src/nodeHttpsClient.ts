@@ -80,10 +80,9 @@ export class NodeHttpsClient implements HttpsClient {
       }, request.timeout);
     }
 
-    if (!request.skipDecompressResponse) {
-      request.headers.set("Accept-Encoding", "gzip,deflate");
-    }
-
+    const acceptEncoding = request.headers.get("Accept-Encoding");
+    const shouldDecompress =
+      acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
     let body = request.body;
 
     if (body && !request.headers.has("Content-Length")) {
@@ -118,7 +117,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = getResponseStream(res, headers, request.skipDecompressResponse);
+          let responseStream = getResponseStream(res, headers, shouldDecompress);
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {

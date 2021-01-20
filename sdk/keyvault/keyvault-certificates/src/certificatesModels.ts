@@ -2,21 +2,12 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel, KeyUsageType } from "./generated/models";
-
-/**
- * Defines values for CertificateKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
- * @readonly
- */
-export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
-
-/**
- * Defines values for CertificateKeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- */
-export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+import {
+  DeletionRecoveryLevel,
+  KeyUsageType,
+  JsonWebKeyType as CertificateKeyType,
+  JsonWebKeyCurveName as CertificateKeyCurveName
+} from "./generated/models";
 
 /**
  * The latest supported KeyVault service API version
