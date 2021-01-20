@@ -9,7 +9,6 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-const ONE_MILLION = 1000000;
 
 interface ScenarioReceiveBatchOptions {
   testDurationInMs?: number;
@@ -21,9 +20,7 @@ interface ScenarioReceiveBatchOptions {
   delayBetweenSendsInMs?: number;
   totalNumberOfMessagesToSend?: number;
   /**
-   * If set to true, `Min(totalNumberOfMessagesToSend, 1 million)` number of messages will be sent before triggering receive.
-   *
-   * @type {boolean}
+   * If set to true, `totalNumberOfMessagesToSend` number of messages will be sent before triggering receive.
    */
   sendAllMessagesBeforeReceiveStarts?: boolean;
   numberOfParallelSends?: number;
@@ -122,7 +119,6 @@ export async function scenarioReceiveBatch() {
   }
 
   if (sendAllMessagesBeforeReceiveStarts) {
-    if (totalNumberOfMessagesToSend > ONE_MILLION) totalNumberOfMessagesToSend = ONE_MILLION;
     await sendMessages();
   }
   await Promise.all(
