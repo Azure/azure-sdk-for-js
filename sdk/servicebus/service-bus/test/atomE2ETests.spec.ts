@@ -103,6 +103,14 @@ describe("getSubscriptionRuntimeProperties", () => {
     await serviceBusAtomManagementClient.deleteTopic(topicName);
   });
 
+  async function receiveMessagesAndAbandon(topicName: string, subscriptionName: string) {
+    const receiver = serviceBusClient.createReceiver(topicName, subscriptionName);
+    const receivedMessages = await receiver.receiveMessages(10);
+    receivedMessages.forEach(async (msg) => {
+      await receiver.abandonMessage(msg);
+    });
+  }
+
   it("Active Message Count - single subscription", async () => {
     await recreateSubscription(topicName, subscriptionName1);
     const messages = [1, 2, 3].map((num) => {
@@ -111,6 +119,8 @@ describe("getSubscriptionRuntimeProperties", () => {
       };
     });
     await serviceBusClient.createSender(topicName).sendMessages(messages);
+    await receiveMessagesAndAbandon(topicName, subscriptionName1);
+
     const activeMessageCount = (
       await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
         topicName,
@@ -129,6 +139,8 @@ describe("getSubscriptionRuntimeProperties", () => {
       };
     });
     await serviceBusClient.createSender(topicName).sendMessages(messages);
+    await receiveMessagesAndAbandon(topicName, subscriptionName1);
+    await receiveMessagesAndAbandon(topicName, subscriptionName2);
 
     for await (const subscription of serviceBusAtomManagementClient.listSubscriptionsRuntimeProperties(
       topicName
@@ -140,5 +152,4 @@ describe("getSubscriptionRuntimeProperties", () => {
       );
     }
   });
-  // TODO: New E2E tests can be added
 });
