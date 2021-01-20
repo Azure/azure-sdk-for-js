@@ -178,6 +178,32 @@ describe("HttpsPipeline", function() {
     assert.strictEqual(policies[3], testPolicy);
   });
 
+  it("prevents phases from getting out of order", function() {
+    const pipeline = createEmptyPipeline();
+    const testPolicy: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test"
+    };
+    const testPolicy2: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test2"
+    };
+    const testPolicy3: PipelinePolicy = {
+      sendRequest: (request, next) => next(request),
+      name: "test3"
+    };
+    pipeline.addPolicy(testPolicy, { phase: "Serialize" });
+    pipeline.addPolicy(testPolicy2, {
+      beforePolicies: [testPolicy.name],
+      afterPhase: "Deserialize"
+    });
+    pipeline.addPolicy(testPolicy3, { phase: "Deserialize" });
+
+    assert.throws(() => {
+      pipeline.getOrderedPolicies();
+    }, /cycle/);
+  });
+
   it("addPolicy throws on both phase and afterPhase specified", function() {
     const pipeline = createEmptyPipeline();
     const testPolicy: PipelinePolicy = {
@@ -203,10 +229,8 @@ describe("HttpsPipeline", function() {
 
     assert.throws(() => {
       pipeline.addPolicy(testPolicy, { afterPhase: "Cerealize" as any });
-    }, /Invalid phase name/);
+    }, /Invalid afterPhase name/);
   });
-
-  // bad phase name should throw
 
   it("removePolicy removes named policy", function() {
     const pipeline = createEmptyPipeline();

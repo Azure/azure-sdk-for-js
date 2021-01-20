@@ -89,6 +89,40 @@ describe("Create EventHubConsumerClient", function(): void {
     should.equal(client.eventHubName, "my-event-hub-name");
     should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
   });
+
+  it("respects customEndpointAddress when using connection string", () => {
+    const client = new EventHubConsumerClient(
+      "dummy",
+      "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubConsumerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
+
+  it("respects customEndpointAddress when using credentials", () => {
+    const dummyCredential: TokenCredential = {
+      getToken: async () => {
+        return {
+          token: "boo",
+          expiresOnTimestamp: 12324
+        };
+      }
+    };
+    const client = new EventHubConsumerClient(
+      "dummy",
+      "test.servicebus.windows.net",
+      "my-event-hub-name",
+      dummyCredential,
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubConsumerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
 });
 
 describe("Create EventHubProducerClient", function(): void {
@@ -154,6 +188,38 @@ describe("Create EventHubProducerClient", function(): void {
     client.should.be.an.instanceof(EventHubProducerClient);
     should.equal(client.eventHubName, "my-event-hub-name");
     should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
+  });
+
+  it("respects customEndpointAddress when using connection string", () => {
+    const client = new EventHubProducerClient(
+      "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubProducerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
+
+  it("respects customEndpointAddress when using credentials", () => {
+    const dummyCredential: TokenCredential = {
+      getToken: async () => {
+        return {
+          token: "boo",
+          expiresOnTimestamp: 12324
+        };
+      }
+    };
+    const client = new EventHubProducerClient(
+      "test.servicebus.windows.net",
+      "my-event-hub-name",
+      dummyCredential,
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubProducerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
   });
 });
 

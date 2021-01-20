@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/",
@@ -74,7 +74,7 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace dist-esm/test/internal/**/*.spec.js dist-esm/test/node/*.spec.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "//metadata": {
@@ -95,7 +95,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.0.0",
+    "@azure/core-amqp": "^2.1.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
@@ -173,6 +173,6 @@
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
     "events": "^3.0.0",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

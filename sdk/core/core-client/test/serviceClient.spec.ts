@@ -24,7 +24,10 @@ import {
   createPipelineRequest
 } from "@azure/core-https";
 
-import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
+import {
+  getOperationArgumentValueFromParameter,
+  getOperationRequestInfo
+} from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { getCachedDefaultHttpsClient } from "../src/httpClientCache";
@@ -785,9 +788,8 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
-    request.additionalInfo = {
-      operationSpec
-    };
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
 
     const httpsClient: HttpsClient = {
       sendRequest: (req) => {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Attributes, HrTime, SpanContext, SpanKind } from "@opentelemetry/api";
+import { Attributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
 import { NoopLogger, timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/tracing";
 import * as assert from "assert";
@@ -34,6 +34,7 @@ describe("#parseEventHubSpan(...)", () => {
     const envelope = { data: { baseData: {} } } as Envelope;
     const span = new Span(
       tracer,
+      ROOT_CONTEXT,
       "test span",
       { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
       SpanKind.CLIENT
@@ -54,6 +55,7 @@ describe("#parseEventHubSpan(...)", () => {
     const envelope = { data: { baseData: {} } } as Envelope;
     const span = new Span(
       tracer,
+      ROOT_CONTEXT,
       "test span",
       { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
       SpanKind.PRODUCER
@@ -75,6 +77,7 @@ describe("#parseEventHubSpan(...)", () => {
     const envelope = { data: { baseData: {} } } as Envelope;
     const span = new Span(
       tracer,
+      ROOT_CONTEXT,
       "test span",
       { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
       SpanKind.CONSUMER,

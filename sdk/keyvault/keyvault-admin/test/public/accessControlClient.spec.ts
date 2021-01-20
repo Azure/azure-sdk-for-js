@@ -71,7 +71,7 @@ describe("KeyVaultAccessControlClient", () => {
     assert.ok(receivedRoles.length);
   });
 
-  it("createRoleAssignment, getRoleAssignment and deleteRoleAssignment", async function() {
+  it.skip("createRoleAssignment, getRoleAssignment and deleteRoleAssignment", async function() {
     // First, deleting any existing assignment, just in case.
     for await (const roleAssignment of client.listRoleAssignments(globalScope)) {
       // Removing all roles from this object ID might kick us out of the system.
@@ -81,8 +81,8 @@ describe("KeyVaultAccessControlClient", () => {
       }
     }
 
-    const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
     const name = generateFakeUUID();
+    const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
 
     let assignment = await client.createRoleAssignment(
       globalScope,

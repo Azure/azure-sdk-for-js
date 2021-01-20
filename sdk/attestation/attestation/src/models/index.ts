@@ -183,7 +183,7 @@ export interface JsonWebKey {
    * established by [JWA] or be a value that contains a Collision-
    * Resistant Name.
    */
-  alg: string;
+  alg?: string;
   /**
    * The "crv" (curve) parameter identifies the curve type
    */
@@ -219,7 +219,7 @@ export interface JsonWebKey {
    * equivalent alternatives by the application using them.)  The "kid"
    * value is a case-sensitive string.
    */
-  kid: string;
+  kid?: string;
   /**
    * The "kty" (key type) parameter identifies the cryptographic algorithm
    * family used with the key, such as "RSA" or "EC". "kty" values should
@@ -250,7 +250,7 @@ export interface JsonWebKey {
    * a public key is used for encrypting data or verifying the signature
    * on data. Values are commonly "sig" (signature) or "enc" (encryption).
    */
-  use: string;
+  use?: string;
   /**
    * X coordinate for the Elliptic Curve point
    */

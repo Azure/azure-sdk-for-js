@@ -8,7 +8,6 @@ chaiUse(chaiPromises);
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, createRecorder } from "../utils/recordedClient";
-import { AttestationClient } from "../../src";
 import { verifyAttestationToken } from "../utils/helpers";
 
 describe("PolicyManagementTests ", function() {
@@ -24,8 +23,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#GetPolicyManagementCertificatesAad", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD");
 
     const policyResult = await client.policyCertificates.get();
     const result = policyResult.token;
@@ -41,8 +39,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#GetPolicyShared", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("Shared");
+    const client = createRecordedClient("Shared");
     const policyResult = await client.policyCertificates.get();
 
     const result = policyResult.token;
@@ -58,8 +55,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#GetPolicyIsolated", async () => {
-    let client: AttestationClient;
-    client = createRecordedClient("Isolated");
+    const client = createRecordedClient("Isolated");
     const policyResult = await client.policyCertificates.get();
 
     const result = policyResult.token;

@@ -56,7 +56,7 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "./logger";
 
-export const SDK_VERSION: string = "1.0.0-preview.1";
+export const SDK_VERSION: string = "1.0.3";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**
@@ -73,7 +73,6 @@ const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
 export class DigitalTwinsClient {
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated AzureDigitalTwinsAPI
    */
   private readonly client: GeneratedClient;
@@ -437,7 +436,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link listRelationships}.
    *
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
@@ -474,7 +472,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listRelationships}.
    * @param {DigitalTwinsListRelationshipsOptionalParams} [options] Common options for the iterative endpoints.
    */
@@ -526,7 +523,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link listIncomingRelationships}.
    *
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
@@ -563,7 +559,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listIncomingRelationships}.
    * @param {OperationOptions} [options] Common options for the iterative endpoints.
    */
@@ -738,7 +733,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link list}.
    *
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
@@ -770,7 +764,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link list}.
    * @param {DigitalTwinModelsListOptionalParams} [options] Common options for the iterative endpoints.
    */
@@ -942,7 +935,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link list}.
    *
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
@@ -974,7 +966,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link list}.
    * @param {EventRoutesListOptionalParams} [options] Common options for the iterative endpoints.
    */
@@ -1099,7 +1090,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link query}.
    *
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
@@ -1134,7 +1124,6 @@ export class DigitalTwinsClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link query}.
    * @param {OperationOptions} [options] Common options for the iterative endpoints.
    */

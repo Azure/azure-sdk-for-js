@@ -20,7 +20,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     // (undocumented)
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     // (undocumented)
-    shutdown(): void;
+    shutdown(): Promise<void>;
 }
 
 
