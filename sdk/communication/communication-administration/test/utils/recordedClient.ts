@@ -14,7 +14,7 @@ import {
 import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
-import { parseConnectionString } from "../../../communication-common/src/credential/connectionString";
+import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
   dotenv.config();
