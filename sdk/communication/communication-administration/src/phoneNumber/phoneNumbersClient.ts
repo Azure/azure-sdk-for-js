@@ -23,9 +23,9 @@ import {
   PhoneNumbers as GeneratedClient,
   PhoneNumbersClient as PhoneNumbersGeneratedClient
 } from "./generated/src/phoneNumbersClient";
-import { } from "./generated/src/models";
+import {} from "./generated/src/models";
 import { SDK_VERSION } from "../common/constants";
-import { } from "./models";
+import {} from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
@@ -35,9 +35,8 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
  */
 export interface PhoneNumbersClientOptions extends PipelineOptions {}
 
-const isPhoneNumbersClientOptions = (
-  options: any
-): options is PhoneNumbersClientOptions => options && !isKeyCredential(options);
+const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
+  options && !isKeyCredential(options);
 
 /**
  * Client class for interacting with Azure Communication Services Phone Number Administration.
@@ -50,7 +49,7 @@ export class PhoneNumbersClient {
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
-   * 
+   *
    * @param connectionString Connection string to connect to an Azure Communication Service resource. (eg: endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret)
    * @param options Optional. Options to configure the HTTP pipeline.
    */
@@ -58,16 +57,12 @@ export class PhoneNumbersClient {
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
-   * 
+   *
    * @param url The endpoint of the service (eg: https://contoso.eastus.communications.azure.net)
    * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(
-    url: string,
-    credential: KeyCredential,
-    options?: PhoneNumbersClientOptions
-  );
+  public constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
 
   public constructor(
     connectionStringOrUrl: string,
