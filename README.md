@@ -4,36 +4,29 @@
 
 This repository is for the Azure SDK for JavaScript (NodeJS & Browser). It contains the management libraries for all Azure services and client libraries for a growing subset of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
 
-For information on package usage and samples, please refer to these packages on npm or the readme files for each package in the source code in this repository under the `/sdk` directory.
-For API reference documentation of the latest versions of these packages, visit our [public developer docs](https://docs.microsoft.com/javascript/azure/).
-For API reference documentation of older versions, visit our versioned [developer docs](https://azure.github.io/azure-sdk-for-js).
-
 ## Getting started
 
-For your convenience, each service has a separate set of libraries that you can choose to use instead of one, large Azure package. To get started with a specific library, see the **README.md** file located in the library's project folder. You can find service libraries in the `/sdk` directory.
+A few helpful resources to get started are:
+
+- The readme for each package contains code samples and package information. This readme can be found in the corresponding package folder under the folder of the service of your choice in the `/sdk` folder of this repository. The same readme file can be found on the landing page for the package in [npm](https://www.npmjs.com/).
+- The API reference documentation of the latest versions of these packages, can be found at our [public developer docs](https://docs.microsoft.com/javascript/azure/).
+- The API reference documentation of older versions, can be found in our [versioned developer docs](https://azure.github.io/azure-sdk-for-js).
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - New Releases](#client-new-releases)
-- [Client - Previous Versions](#client-previous-versions)
+- [Client](#client)
 - [Management](#management)
 
-### Client: New Releases
+### Client
 
 Given an Azure resource already exists, you would use the client libraries to consume it and interact with it.
-The new wave of packages that we are actively working on follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These packages share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc.
-
-You can find the [most up to date list of all of the new packages on our page](https://azure.github.io/azure-sdk/releases/latest/index.html#javascript-packages)
+Most of these libraries follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html) and share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. Others will be updated in the near future to follow the guidelines as well.
 
 > NOTE: Some of these packages have beta versions. If you need to ensure your code is ready for production, use one of the stable, non-beta packages.
 
-### Client: Previous Versions
-
-This repository also hosts client libraries that do not follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These are either packages which are on the path to being deprecated as we have new packages that do follow the guidelines or are the ones that will be updated in near future to follow the guidelines themselves.
-
 ### Management
 
-Libraries which enable you to provision specific resources. They are responsible for directly mirroring and consuming Azure service's REST endpoints. You can recognize these libraries by `@azure/arm-` in their package names.
+Libraries which enable you to provision specific resources. You can recognize these libraries by `@azure/arm-` in their package names. These are purely auto-generated based on the swagger files that represent the APIs for resource management. These swagger files can be found in the [azure-rest-api-specs repository](https://github.com/Azure/azure-rest-api-specs/).
 
 ## Need help?
 
