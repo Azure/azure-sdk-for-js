@@ -23,12 +23,12 @@ import { getRuntimeInfo } from "../src/util/runtimeInfo";
 const env = getEnvVars();
 
 function validateConnectionError<E extends Error & { code?: string }>(err: E): void {
-    should.exist(err.code, "Missing code on error object.");
-    if (!isNode) {
-      should.equal(err.code, "ServiceCommunicationError");
-    }
-    should.not.equal(err.message, "Test failure");
+  should.exist(err.code, "Missing code on error object.");
+  if (!isNode) {
+    should.equal(err.code, "ServiceCommunicationError");
   }
+  should.not.equal(err.message, "Test failure");
+}
 
 describe("Create EventHubConsumerClient", function(): void {
   it("throws when no EntityPath in connection string", function(): void {
