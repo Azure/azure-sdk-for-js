@@ -129,7 +129,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       state.status = status;
       state.statusDetails = statusDetails;
 
-      state.isCompleted = !!(state.endTime || state.error?.message);
+      state.isCompleted = !!(endTime || error?.message);
 
       if (error?.message || statusDetails) {
         state.error = new Error(error?.message || statusDetails);
@@ -150,7 +150,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       state.status = status;
       state.statusDetails = statusDetails;
 
-      state.isCompleted = !!(state.endTime || state.error?.message);
+      state.isCompleted = !!(endTime || error?.message);
 
       if (error?.message || statusDetails) {
         state.error = new Error(error?.message || statusDetails);
