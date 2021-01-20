@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.4 (unreleased)
+
+## 1.0.3 (2021-01-15)
+
+- Bug Fix: include the types definition file in the shipped package
+
 ## 1.0.2 (2021-01-14)
 
 - Bug Fix: include the types definition file in the shipped package

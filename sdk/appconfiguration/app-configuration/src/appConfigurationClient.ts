@@ -45,12 +45,13 @@ import {
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
-  formatWildcards,
+  formatFiltersAndSelect,
   makeConfigurationSettingEmpty,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformKeyValue,
-  formatAcceptDateTime
+  formatAcceptDateTime,
+  formatFieldsForSelect
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
@@ -245,33 +246,37 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    return await this.spanner.trace("getConfigurationSetting", opts, async (newOptions) => {
-      const originalResponse = await this.client.getKeyValue(id.key, {
-        label: id.label,
-        select: newOptions.fields,
-        ...newOptions,
-        ...formatAcceptDateTime(options),
-        ...checkAndFormatIfAndIfNoneMatch(id, options)
-      });
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    return await this.spanner.trace(
+      "getConfigurationSetting",
+      requestOptions,
+      async (newOptions) => {
+        const originalResponse = await this.client.getKeyValue(id.key, {
+          ...newOptions,
+          label: id.label,
+          select: formatFieldsForSelect(options.fields),
+          ...formatAcceptDateTime(options),
+          ...checkAndFormatIfAndIfNoneMatch(id, options)
+        });
 
-      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
-        originalResponse
-      );
+        const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
+          originalResponse
+        );
 
-      // 304 only comes back if the user has passed a conditional option in their
-      // request _and_ the remote object has the same etag as what the user passed.
-      if (response.statusCode === 304) {
-        // this is one of our few 'required' fields so we'll make sure it does get initialized
-        // with a value
-        response.key = id.key;
+        // 304 only comes back if the user has passed a conditional option in their
+        // request _and_ the remote object has the same etag as what the user passed.
+        if (response.statusCode === 304) {
+          // this is one of our few 'required' fields so we'll make sure it does get initialized
+          // with a value
+          response.key = id.key;
 
-        // and now we'll undefine all the other properties that are not HTTP related
-        makeConfigurationSettingEmpty(response);
+          // and now we'll undefine all the other properties that are not HTTP related
+          makeConfigurationSettingEmpty(response);
+        }
+
+        return response;
       }
-
-      return response;
-    });
+    );
   }
 
   /**
@@ -317,15 +322,15 @@ export class AppConfigurationClient {
   private async *listConfigurationSettingsByPage(
     options: ListConfigurationSettingsOptions = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    const opts = operationOptionsToRequestOptionsBase(options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
     let currentResponse = await this.spanner.trace(
       "listConfigurationSettings",
-      opts,
+      requestOptions,
       async (newOptions) => {
         const response = await this.client.getKeyValues({
           ...newOptions,
           ...formatAcceptDateTime(options),
-          ...formatWildcards(newOptions)
+          ...formatFiltersAndSelect(options)
         });
 
         return response;
@@ -337,12 +342,13 @@ export class AppConfigurationClient {
     while (currentResponse.nextLink) {
       currentResponse = await this.spanner.trace(
         "listConfigurationSettings",
-        opts,
+        requestOptions,
         // TODO: same code up above. Unify.
         async (newOptions) => {
           const response = await this.client.getKeyValues({
             ...newOptions,
-            ...formatWildcards(newOptions),
+            ...formatAcceptDateTime(options),
+            ...formatFiltersAndSelect(options),
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
           });
 
@@ -410,16 +416,20 @@ export class AppConfigurationClient {
   private async *listRevisionsByPage(
     options: ListRevisionsOptions = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    const opts = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace("listRevisions", opts, async (newOptions) => {
-      const response = await this.client.getRevisions({
-        ...newOptions,
-        ...formatAcceptDateTime(options),
-        ...formatWildcards(newOptions)
-      });
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    let currentResponse = await this.spanner.trace(
+      "listRevisions",
+      requestOptions,
+      async (newOptions) => {
+        const response = await this.client.getRevisions({
+          ...newOptions,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(newOptions)
+        });
 
-      return response;
-    });
+        return response;
+      }
+    );
 
     yield {
       ...currentResponse,
@@ -427,11 +437,11 @@ export class AppConfigurationClient {
     };
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace("listRevisions", opts, (newOptions) => {
+      currentResponse = await this.spanner.trace("listRevisions", requestOptions, (newOptions) => {
         return this.client.getRevisions({
           ...newOptions,
-          ...formatWildcards(newOptions),
-          select: newOptions.fields,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(options),
           after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
         });
       });
@@ -462,18 +472,22 @@ export class AppConfigurationClient {
     configurationSetting: SetConfigurationSettingParam,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    const opts = operationOptionsToRequestOptionsBase(options);
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    return await this.spanner.trace("setConfigurationSetting", opts, async (newOptions) => {
-      const response = await this.client.putKeyValue(configurationSetting.key, {
-        ...newOptions,
-        label: configurationSetting.label,
-        entity: configurationSetting,
-        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
-      });
+    return await this.spanner.trace(
+      "setConfigurationSetting",
+      requestOptions,
+      async (newOptions) => {
+        const response = await this.client.putKeyValue(configurationSetting.key, {
+          ...newOptions,
+          label: configurationSetting.label,
+          entity: configurationSetting,
+          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
+        });
 
-      return transformKeyValueResponse(response);
-    });
+        return transformKeyValueResponse(response);
+      }
+    );
   }
 
   /**

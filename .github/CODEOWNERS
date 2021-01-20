@@ -62,7 +62,7 @@
 /sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/keyvault/ @jonathandturner @sadasant @maorleger
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377

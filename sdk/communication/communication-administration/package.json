@@ -39,7 +39,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -126,7 +126,7 @@
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "typescript": "4.1.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "//smokeTestConfiguration": {
     "skip": [

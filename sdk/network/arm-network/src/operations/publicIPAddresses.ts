@@ -333,7 +333,7 @@ export class PublicIPAddresses {
    * service.
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
-   * @param roleInstanceName The name of role instance
+   * @param roleInstanceName The name of role instance.
    * @param networkInterfaceName The network interface name.
    * @param ipConfigurationName The IP configuration name.
    * @param [options] The optional parameters
@@ -343,7 +343,7 @@ export class PublicIPAddresses {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
-   * @param roleInstanceName The name of role instance
+   * @param roleInstanceName The name of role instance.
    * @param networkInterfaceName The network interface name.
    * @param ipConfigurationName The IP configuration name.
    * @param callback The callback
@@ -352,7 +352,7 @@ export class PublicIPAddresses {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
-   * @param roleInstanceName The name of role instance
+   * @param roleInstanceName The name of role instance.
    * @param networkInterfaceName The network interface name.
    * @param ipConfigurationName The IP configuration name.
    * @param options The optional parameters
