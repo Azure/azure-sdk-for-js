@@ -12,7 +12,12 @@ import {
   MetricsAdvisorAdministrationClient
 } from "../../../src";
 import * as dotenv from "dotenv";
-dotenv.config();
+import { isNode } from "@azure/core-http";
+
+if (isNode) {
+  dotenv.config();
+}
+
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
   recorder: Recorder;
