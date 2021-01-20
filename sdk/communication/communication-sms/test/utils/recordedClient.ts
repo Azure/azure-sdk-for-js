@@ -1,4 +1,3 @@
-import { env } from "@azure/test-utils-recorder";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
@@ -17,11 +16,6 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
   ],
   queryParametersToSkip: []
 };
-
-export function communicationEndpoint(): string {
-  const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING;
-  return connectionString.split("=")[1].split(";")[0];
-}
 
 export function createCredential(): TokenCredential | undefined {
   if (isPlaybackMode()) {

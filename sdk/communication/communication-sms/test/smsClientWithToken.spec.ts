@@ -6,11 +6,8 @@ import { SendRequest, SmsClient } from "../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import {
-  communicationEndpoint,
-  createCredential,
-  recorderConfiguration
-} from "./utils/recordedClient";
+import { parseConnectionString } from "../../communication-common/src/credential/connectionString";
+import { createCredential, recorderConfiguration } from "./utils/recordedClient";
 
 if (isNode) {
   dotenv.config();
@@ -36,7 +33,8 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
       this.skip();
     }
 
-    const endpoint = communicationEndpoint();
+    const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+      .endpoint;
     const fromNumber = env.AZURE_PHONE_NUMBER;
     const toNumber = env.AZURE_PHONE_NUMBER;
 
