@@ -70,9 +70,9 @@ export interface PipelineRequestOptions<AdditionalInfo = any> {
   formData?: FormDataMap;
 
   /**
-   * Whether or not the body of the PipelineResponse should be treated as a stream.
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
    */
-  streamResponseBody?: boolean;
+  streamResponseStatusCodes?: Set<number>;
 
   /**
    * Proxy configuration.
@@ -116,7 +116,7 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
   public withCredentials: boolean;
   public body?: RequestBodyType;
   public formData?: FormDataMap;
-  public streamResponseBody: boolean;
+  public streamResponseStatusCodes: Set<number>;
   public proxySettings?: ProxySettings;
   public keepAlive: boolean;
   public skipDecompressResponse: boolean;
@@ -137,7 +137,7 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
     this.keepAlive = options.keepAlive ?? true;
     this.proxySettings = options.proxySettings;
     this.skipDecompressResponse = options.skipDecompressResponse ?? false;
-    this.streamResponseBody = options.streamResponseBody ?? false;
+    this.streamResponseStatusCodes = options.streamResponseStatusCodes ?? new Set<number>();
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
     this.spanOptions = options.spanOptions;
@@ -160,7 +160,7 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
       onUploadProgress: this.onUploadProgress,
       proxySettings: this.proxySettings,
       skipDecompressResponse: this.skipDecompressResponse,
-      streamResponseBody: this.streamResponseBody,
+      streamResponseStatusCodes: this.streamResponseStatusCodes,
       timeout: this.timeout,
       withCredentials: this.withCredentials,
       spanOptions: this.spanOptions,

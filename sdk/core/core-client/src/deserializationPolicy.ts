@@ -19,7 +19,6 @@ import {
   RequiredSerializerOptions
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
-import { isStreamOperation } from "./interfaceHelpers";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
 const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
@@ -239,7 +238,9 @@ function handleErrorResponse(
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
-  const initialErrorMessage = isStreamOperation(operationSpec)
+  const initialErrorMessage = parsedResponse.request.streamResponseStatusCodes?.has(
+    parsedResponse.status
+  )
     ? `Unexpected status code: ${parsedResponse.status}`
     : (parsedResponse.bodyAsText as string);
 
@@ -314,7 +315,10 @@ async function parse(
   opts: RequiredSerializerOptions,
   parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
 ): Promise<FullOperationResponse> {
-  if (!operationResponse.request.streamResponseBody && operationResponse.bodyAsText) {
+  if (
+    !operationResponse.request.streamResponseStatusCodes?.has(operationResponse.status) &&
+    operationResponse.bodyAsText
+  ) {
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
     const contentComponents: string[] = !contentType

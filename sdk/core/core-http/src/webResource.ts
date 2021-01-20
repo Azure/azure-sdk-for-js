@@ -56,9 +56,14 @@ export interface WebResourceLike {
    */
   headers: HttpHeadersLike;
   /**
+   * @deprecated
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
   streamResponseBody?: boolean;
+  /**
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
+   */
+  streamResponseStatusCodes?: Set<number>;
   /**
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
@@ -180,9 +185,14 @@ export class WebResource implements WebResourceLike {
   body?: any;
   headers: HttpHeadersLike;
   /**
+   * @deprecated
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
   streamResponseBody?: boolean;
+  /**
+   * A list of status codes whose corresponding PipelineResponse body should be treated as a stream.
+   */
+  streamResponseStatusCodes?: Set<number>;
   /**
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
@@ -237,9 +247,11 @@ export class WebResource implements WebResourceLike {
     onDownloadProgress?: (progress: TransferProgressEvent) => void,
     proxySettings?: ProxySettings,
     keepAlive?: boolean,
-    decompressResponse?: boolean
+    decompressResponse?: boolean,
+    streamResponseStatusCodes?: Set<number>
   ) {
     this.streamResponseBody = streamResponseBody;
+    this.streamResponseStatusCodes = streamResponseStatusCodes;
     this.url = url || "";
     this.method = method || "GET";
     this.headers = isHttpHeadersLike(headers) ? headers : new HttpHeaders(headers);
@@ -507,7 +519,8 @@ export class WebResource implements WebResourceLike {
       this.onDownloadProgress,
       this.proxySettings,
       this.keepAlive,
-      this.decompressResponse
+      this.decompressResponse,
+      this.streamResponseStatusCodes
     );
 
     if (this.formData) {

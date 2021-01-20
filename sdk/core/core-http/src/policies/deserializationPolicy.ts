@@ -3,7 +3,7 @@
 
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { OperationResponse } from "../operationResponse";
-import { OperationSpec, isStreamOperation, isResponseBodyStream } from "../operationSpec";
+import { OperationSpec } from "../operationSpec";
 import { RestError } from "../restError";
 import { MapperType } from "../serializer";
 import { parseXML } from "../util/xml";
@@ -256,7 +256,10 @@ function handleErrorResponse(
   }
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
-  const initialErrorMessage = isStreamOperation(operationSpec)
+  const streaming =
+    parsedResponse.request.streamResponseStatusCodes?.has(parsedResponse.status) ||
+    parsedResponse.request.streamResponseBody;
+  const initialErrorMessage = streaming
     ? `Unexpected status code: ${parsedResponse.status}`
     : (parsedResponse.bodyAsText as string);
 
@@ -341,13 +344,10 @@ function parse(
     return Promise.reject(e);
   };
 
-  if (
-    !isResponseBodyStream(
-      operationResponse.request.operationSpec,
-      operationResponse.status.toString()
-    ) &&
-    operationResponse.bodyAsText
-  ) {
+  const streaming =
+    operationResponse.request.streamResponseStatusCodes?.has(operationResponse.status) ||
+    operationResponse.request.streamResponseBody;
+  if (!streaming && operationResponse.bodyAsText) {
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
     const contentComponents: string[] = !contentType

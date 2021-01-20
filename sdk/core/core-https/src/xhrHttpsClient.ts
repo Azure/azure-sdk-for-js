@@ -59,7 +59,7 @@ export class XhrHttpsClient implements HttpsClient {
     for (const [name, value] of request.headers) {
       xhr.setRequestHeader(name, value);
     }
-    xhr.responseType = request.streamResponseBody ? "blob" : "text";
+    xhr.responseType = request.streamResponseStatusCodes?.size ?? 0 > 0 ? "blob" : "text";
 
     if (isReadableStream(request.body)) {
       throw new Error("Node streams are not supported in browser environment.");
@@ -67,23 +67,54 @@ export class XhrHttpsClient implements HttpsClient {
 
     xhr.send(request.body === undefined ? null : request.body);
 
-    if (request.streamResponseBody) {
+    if (request.streamResponseStatusCodes?.size ?? 0 > 0) {
       return new Promise((resolve, reject) => {
         xhr.addEventListener("readystatechange", () => {
           // Resolve as soon as headers are loaded
           if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-            const blobBody = new Promise<Blob>((resolve, reject) => {
-              xhr.addEventListener("load", () => {
-                resolve(xhr.response);
+            if (request.streamResponseStatusCodes?.has(xhr.status)) {
+              // eslint-disable-next-line @typescript-eslint/no-shadow
+              const blobBody = new Promise<Blob>((resolve, reject) => {
+                xhr.addEventListener("load", () => {
+                  resolve(xhr.response);
+                });
+                rejectOnTerminalEvent(request, xhr, reject);
               });
-              rejectOnTerminalEvent(request, xhr, reject);
-            });
-            resolve({
-              request,
-              status: xhr.status,
-              headers: parseHeaders(xhr),
-              blobBody
-            });
+              resolve({
+                request,
+                status: xhr.status,
+                headers: parseHeaders(xhr),
+                blobBody
+              });
+            } else {
+              xhr.addEventListener("load", () => {
+                // response comes back in Blob when xhr.responseType === "blob"
+                // but the response body type is not expected to be stream based on response status code
+                // so converting from Blob to text
+                if (!xhr.response) {
+                  resolve({
+                    request,
+                    status: xhr.status,
+                    headers: parseHeaders(xhr)
+                  });
+                } else {
+                  xhr.response
+                    .text()
+                    .then((text: string) => {
+                      resolve({
+                        request,
+                        status: xhr.status,
+                        headers: parseHeaders(xhr),
+                        bodyAsText: text
+                      });
+                      return;
+                    })
+                    .catch((e: any) => {
+                      reject(e);
+                    });
+                }
+              });
+            }
           }
         });
         rejectOnTerminalEvent(request, xhr, reject);
