@@ -24,7 +24,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [recognizeLinkedEntities.ts][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
 | [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.ts][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
-| [beginAnalyzeHealthcareEntities.ts][beginanalyzehealthcareEntities]       | detects healthcare entities of a piece of text                                                     |
+| [beginAnalyzeHealthcareEntities.ts][beginanalyzehealthcareentities]       | detects healthcare entities of a piece of text                                                     |
 | [beginAnalyze.ts][beginanalyze]                                           | applies multiple tasks at once                                                                     |
 
 ## Prerequisites

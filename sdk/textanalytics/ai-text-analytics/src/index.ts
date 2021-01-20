@@ -90,7 +90,7 @@ export {
   PagedAnalyzeResults,
   PagedAsyncIterableAnalyzeResults,
   AnalyzeBatchTasksResult
-} from "./analyzeResult";
+} from "./analyzeBatchTasksResult";
 export {
   TextAnalyticsResult,
   ErrorCode,
