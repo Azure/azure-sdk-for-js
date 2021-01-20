@@ -1,0 +1,48 @@
+{
+  "name": "@azure/quantum-client",
+  "author": "Microsoft Corporation",
+  "description": "Azure Quantum REST API client",
+  "version": "1.0.0",
+  "dependencies": { "@azure/core-http": "^1.1.4", "tslib": "^1.9.3" },
+  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
+  "license": "MIT",
+  "main": "./dist/quantum-client.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "devDependencies": {
+    "typescript": "^3.1.1",
+    "rollup": "^0.66.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "uglify-js": "^3.4.9",
+    "@microsoft/api-extractor": "7.9.10"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "esm/**/*.js",
+    "esm/**/*.js.map",
+    "esm/**/*.d.ts",
+    "esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/quantum-client.js.map'\" -o ./dist/quantum-client.min.js ./dist/quantum-client.js",
+    "prepack": "npm install && npm run build",
+    "extract-api": "api-extractor run --local"
+  },
+  "sideEffects": false,
+  "autoPublish": true
+}
