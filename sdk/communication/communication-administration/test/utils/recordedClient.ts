@@ -66,34 +66,45 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createRecordedCommunicationIdentityClient(
-  context: Context,
-  withToken: boolean = false
+  context: Context
 ): RecordedClient<CommunicationIdentityClient> {
-  try {
-    const recorder = record(context, environmentSetup);
+  const recorder = record(context, environmentSetup);
 
-    if (!withToken) {
-      return {
-        client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
-        recorder
-      };
-    }
+  return {
+    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
+    recorder
+  };
+}
 
-    let credential: TokenCredential = isPlaybackMode()
-      ? {
-          getToken: async (_scopes) => {
-            return { token: "testToken", expiresOnTimestamp: 11111 };
-          }
-        }
-      : new DefaultAzureCredential();
+export function createRecordedCommunicationIdentityClientWithToken(
+  context: Context
+): RecordedClient<CommunicationIdentityClient> | undefined {
+  const recorder = record(context, environmentSetup);
+  let credential: TokenCredential;
+
+  if (isPlaybackMode()) {
+    credential = {
+      getToken: async (_scopes) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      }
+    };
 
     return {
       client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
       recorder
     };
-  } catch (e) {
-    throw e;
   }
+
+  try {
+    credential = new DefaultAzureCredential();
+  } catch {
+    return undefined;
+  }
+
+  return {
+    client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
+    recorder
+  };
 }
 
 export function createRecordedPhoneNumberAdministrationClient(

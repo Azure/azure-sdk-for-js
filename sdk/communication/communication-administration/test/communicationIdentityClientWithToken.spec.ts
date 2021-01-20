@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
-import { createRecordedCommunicationIdentityClient } from "./utils/recordedClient";
+import { createRecordedCommunicationIdentityClientWithToken } from "./utils/recordedClient";
 
 describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   let recorder: Recorder;
@@ -12,7 +12,7 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   let shouldSkip = false;
 
   beforeEach(function() {
-    const recordedClient = createRecordedCommunicationIdentityClient(this, true);
+    const recordedClient = createRecordedCommunicationIdentityClientWithToken(this);
     if (!recordedClient) {
       shouldSkip = true;
     } else {
