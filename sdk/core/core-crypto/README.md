@@ -14,7 +14,10 @@ This package is not meant to be consumed directly by end users.
 
 ## Key concepts
 
-TODO: ???
+This package currently supports the following protocols:
+
+- SHA-256 HMAC
+- SHA-256 HASH
 
 ## Examples
 
