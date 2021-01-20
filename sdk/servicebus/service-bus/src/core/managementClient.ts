@@ -318,7 +318,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     };
 
     let waitTimer: ReturnType<typeof setTimeout>;
-    const operationTimeout = await new Promise<void>((_, reject) => {
+    const operationTimeout = new Promise<void>((_, reject) => {
       waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
     });
     internalLogger.verbose(`${this.logPrefix} Acquiring lock to get the management req res link.`);
