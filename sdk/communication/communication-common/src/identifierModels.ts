@@ -11,10 +11,17 @@ export type CommunicationIdentifier =
   | MicrosoftTeamsUserIdentifier
   | UnknownIdentifier;
 
+export interface WithOptionalFullId {
+  /**
+   * Optional full id of the identifier.
+   */
+  id?: string;
+}
+
 /**
  * An Azure Communication user.
  */
-export interface CommunicationUserIdentifier {
+export interface CommunicationUserIdentifier extends WithOptionalFullId {
   /**
    * Id of the CommunicationUser as returned from the Communication Service.
    */
@@ -24,7 +31,7 @@ export interface CommunicationUserIdentifier {
 /**
  * A phone number.
  */
-export interface PhoneNumberIdentifier {
+export interface PhoneNumberIdentifier extends WithOptionalFullId {
   /**
    * The phone number in E.164 format.
    */
@@ -34,7 +41,7 @@ export interface PhoneNumberIdentifier {
 /**
  * A calling application, i.e. a non-human participant in communication.
  */
-export interface CallingApplicationIdentifier {
+export interface CallingApplicationIdentifier extends WithOptionalFullId {
   /**
    * Id of the CallingApplication.
    */
@@ -44,7 +51,7 @@ export interface CallingApplicationIdentifier {
 /**
  * A Microsoft Teams user.
  */
-export interface MicrosoftTeamsUserIdentifier {
+export interface MicrosoftTeamsUserIdentifier extends WithOptionalFullId {
   /**
    * Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
    */
@@ -53,7 +60,12 @@ export interface MicrosoftTeamsUserIdentifier {
   /**
    * True if the user is anonymous, for example when joining a meeting with a share link.
    */
-  isAnonymous: boolean | undefined;
+  isAnonymous: boolean;
+
+  /**
+   * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".
+   */
+  cloud?: "public" | "dod" | "gcch";
 }
 
 /**
@@ -138,7 +150,7 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "CommunicationUser";
+  kind: "communicationUser";
 }
 
 /**
@@ -148,7 +160,7 @@ export interface PhoneNumberKind extends PhoneNumberIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "PhoneNumber";
+  kind: "phoneNumber";
 }
 
 /**
@@ -158,7 +170,7 @@ export interface CallingApplicationKind extends CallingApplicationIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "CallingApplication";
+  kind: "callingApplication";
 }
 
 /**
@@ -168,7 +180,7 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "MicrosoftTeamsUser";
+  kind: "microsoftTeamsUser";
 }
 
 /**
@@ -178,7 +190,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "Unknown";
+  kind: "unknown";
 }
 
 /**
@@ -190,16 +202,16 @@ export const getIdentifierKind = (
   identifier: CommunicationIdentifier
 ): CommunicationIdentifierKind => {
   if (isCommunicationUserIdentifier(identifier)) {
-    return { ...identifier, kind: "CommunicationUser" };
+    return { ...identifier, kind: "communicationUser" };
   }
   if (isPhoneNumberIdentifier(identifier)) {
-    return { ...identifier, kind: "PhoneNumber" };
+    return { ...identifier, kind: "phoneNumber" };
   }
   if (isCallingApplicationIdentifier(identifier)) {
-    return { ...identifier, kind: "CallingApplication" };
+    return { ...identifier, kind: "callingApplication" };
   }
   if (isMicrosoftTeamsUserIdentifier(identifier)) {
-    return { ...identifier, kind: "MicrosoftTeamsUser" };
+    return { ...identifier, kind: "microsoftTeamsUser" };
   }
-  return { ...identifier, kind: "Unknown" };
+  return { ...identifier, kind: "unknown" };
 };

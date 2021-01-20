@@ -33,6 +33,10 @@ export interface _SerializedCommunicationIdentifier {
    * True if the identifier is anonymous.
    */
   isAnonymous?: boolean;
+  /**
+   * The cloud that the identifier belongs to.
+   */
+  cloud?: _SerializedCommunicationCloud;
 }
 
 /**
@@ -49,6 +53,17 @@ export type _SerializedCommunicationIdentifierKind =
 
 /**
  * @internal
+ * Defines values for CommunicationCloud.
+ * This type is the serialized format of the CommunicationCloud used in web requests and responses.
+ */
+export type _SerializedCommunicationCloud = "public" | "dod" | "gcch";
+
+const addIdIfExisting = <T>(identifier: T, id: string | undefined): T & { id?: string } => {
+  return id === undefined ? identifier : { ...identifier, id };
+};
+
+/**
+ * @internal
  * Translates a CommunicationIdentifier to its serialized format for sending a request.
  * @param identifier The CommunicationIdentifier to be serialized.
  */
@@ -57,19 +72,26 @@ export const _serializeCommunicationIdentifier = (
 ): _SerializedCommunicationIdentifier => {
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
-    case "CommunicationUser":
+    case "communicationUser":
       return { kind: "communicationUser", id: identifierKind.communicationUserId };
-    case "CallingApplication":
+    case "callingApplication":
       return { kind: "callingApplication", id: identifierKind.callingApplicationId };
-    case "PhoneNumber":
-      return { kind: "phoneNumber", phoneNumber: identifierKind.phoneNumber };
-    case "MicrosoftTeamsUser":
-      return {
-        kind: "microsoftTeamsUser",
-        microsoftTeamsUserId: identifierKind.microsoftTeamsUserId,
-        isAnonymous: identifierKind.isAnonymous
-      };
-    case "Unknown":
+    case "phoneNumber":
+      return addIdIfExisting(
+        { kind: "phoneNumber", phoneNumber: identifierKind.phoneNumber },
+        identifierKind.id
+      );
+    case "microsoftTeamsUser":
+      return addIdIfExisting(
+        {
+          kind: "microsoftTeamsUser",
+          microsoftTeamsUserId: identifierKind.microsoftTeamsUserId,
+          isAnonymous: identifierKind.isAnonymous,
+          cloud: identifierKind.cloud ?? "public"
+        },
+        identifierKind.id
+      );
+    case "unknown":
       return { kind: "unknown", id: identifierKind.id };
     default:
       throw new Error(`Can't serialize an identifier with kind ${(identifierKind as any).kind}`);
@@ -87,32 +109,37 @@ export const _deserializeCommunicationIdentifier = (
   switch (serializedIdentifier.kind) {
     case "communicationUser":
       return {
-        kind: "CommunicationUser",
-        communicationUserId: assertNotNullOrUndefined(serializedIdentifier, "id")
+        kind: "communicationUser",
+        communicationUserId: assertNotNullOrUndefined(serializedIdentifier, "id"),
+        id: assertNotNullOrUndefined(serializedIdentifier, "id")
       };
     case "callingApplication":
       return {
-        kind: "CallingApplication",
-        callingApplicationId: assertNotNullOrUndefined(serializedIdentifier, "id")
+        kind: "callingApplication",
+        callingApplicationId: assertNotNullOrUndefined(serializedIdentifier, "id"),
+        id: assertNotNullOrUndefined(serializedIdentifier, "id")
       };
     case "phoneNumber":
       return {
-        kind: "PhoneNumber",
-        phoneNumber: assertNotNullOrUndefined(serializedIdentifier, "phoneNumber")
+        kind: "phoneNumber",
+        phoneNumber: assertNotNullOrUndefined(serializedIdentifier, "phoneNumber"),
+        id: assertNotNullOrUndefined(serializedIdentifier, "id")
       };
     case "microsoftTeamsUser":
       return {
-        kind: "MicrosoftTeamsUser",
+        kind: "microsoftTeamsUser",
         microsoftTeamsUserId: assertNotNullOrUndefined(
           serializedIdentifier,
           "microsoftTeamsUserId"
         ),
-        isAnonymous: assertNotNullOrUndefined(serializedIdentifier, "isAnonymous")
+        isAnonymous: assertNotNullOrUndefined(serializedIdentifier, "isAnonymous"),
+        cloud: assertNotNullOrUndefined(serializedIdentifier, "cloud"),
+        id: assertNotNullOrUndefined(serializedIdentifier, "id")
       };
     case "unknown":
-      return { kind: "Unknown", id: assertNotNullOrUndefined(serializedIdentifier, "id") };
+      return { kind: "unknown", id: assertNotNullOrUndefined(serializedIdentifier, "id") };
     default:
-      return { kind: "Unknown", id: assertNotNullOrUndefined(serializedIdentifier, "id") };
+      return { kind: "unknown", id: assertNotNullOrUndefined(serializedIdentifier, "id") };
   }
 };
 

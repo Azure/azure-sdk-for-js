@@ -19,13 +19,13 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     }
 
 // @public
-export interface CallingApplicationIdentifier {
+export interface CallingApplicationIdentifier extends WithOptionalFullId {
     callingApplicationId: string;
 }
 
 // @public
 export interface CallingApplicationKind extends CallingApplicationIdentifier {
-    kind: "CallingApplication";
+    kind: "callingApplication";
 }
 
 // @public
@@ -48,13 +48,13 @@ export interface CommunicationTokenRefreshOptions {
 }
 
 // @public
-export interface CommunicationUserIdentifier {
+export interface CommunicationUserIdentifier extends WithOptionalFullId {
     communicationUserId: string;
 }
 
 // @public
 export interface CommunicationUserKind extends CommunicationUserIdentifier {
-    kind: "CommunicationUser";
+    kind: "communicationUser";
 }
 
 // @public
@@ -94,14 +94,15 @@ export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => i
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
-export interface MicrosoftTeamsUserIdentifier {
-    isAnonymous: boolean | undefined;
+export interface MicrosoftTeamsUserIdentifier extends WithOptionalFullId {
+    cloud?: "public" | "dod" | "gcch";
+    isAnonymous: boolean;
     microsoftTeamsUserId: string;
 }
 
 // @public
 export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
-    kind: "MicrosoftTeamsUser";
+    kind: "microsoftTeamsUser";
 }
 
 // @public
@@ -111,20 +112,24 @@ export const parseClientArguments: (connectionStringOrUrl: string, credentialOrO
 export const parseConnectionString: (connectionString: string) => EndpointCredential;
 
 // @public
-export interface PhoneNumberIdentifier {
+export interface PhoneNumberIdentifier extends WithOptionalFullId {
     phoneNumber: string;
 }
 
 // @public
 export interface PhoneNumberKind extends PhoneNumberIdentifier {
-    kind: "PhoneNumber";
+    kind: "phoneNumber";
 }
 
 // @internal
 export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
 
 // @internal
+export type _SerializedCommunicationCloud = "public" | "dod" | "gcch";
+
+// @internal
 export interface _SerializedCommunicationIdentifier {
+    cloud?: _SerializedCommunicationCloud;
     id?: string;
     isAnonymous?: boolean;
     kind: _SerializedCommunicationIdentifierKind;
@@ -142,7 +147,7 @@ export interface UnknownIdentifier {
 
 // @public
 export interface UnknownIdentifierKind extends UnknownIdentifier {
-    kind: "Unknown";
+    kind: "unknown";
 }
 
 // @public
@@ -150,6 +155,11 @@ export type UrlWithCredential = {
     url: string;
     credential: TokenCredential | KeyCredential;
 };
+
+// @public (undocumented)
+export interface WithOptionalFullId {
+    id?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)
