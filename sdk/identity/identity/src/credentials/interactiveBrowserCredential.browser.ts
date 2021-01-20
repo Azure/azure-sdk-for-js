@@ -12,7 +12,6 @@ import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import { v4 as uuidv4 } from "uuid";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -47,7 +46,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private msalConfig: msalBrowser.Configuration;
   private msalObject: msalBrowser.PublicClientApplication;
   private account: msalBrowser.AccountInfo | null = null;
-  private correlationId: string;
+  private correlationId: string | undefined;
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
@@ -81,7 +80,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     const knownAuthorities =
       options.tenantId === "adfs" ? (options.authorityHost ? [options.authorityHost] : []) : [];
 
-    this.correlationId = options.correlationId || uuidv4();
+    this.correlationId = options.correlationId;
 
     this.msalConfig = {
       auth: {
@@ -252,7 +251,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
       const authResponse = await this.acquireToken({
         authority: this.msalConfig.auth.authority!,
-        correlationId: this.correlationId,
+        correlationId: this.correlationId, // If undefined, MSAL will automatically generate one.
         account: this.account!,
         forceRefresh: false,
         scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
