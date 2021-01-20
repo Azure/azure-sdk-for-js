@@ -16,7 +16,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | ------------------------------- | ---------------------------------------------------------------- |
 | [cryptography.ts][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
 | [helloWorld.ts][helloworld]     | creates, reads, lists, and deletes keys                          |
-| [purgeAllKeys.ts][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)    |
+| [purgeAllKeys.ts][purgeallkeys] | purges all the keys of a Key Vault (useful for repeated tests)   |
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ npm install -g typescript
 
 You need [an Azure subscription][freesub] and [an Azure Key Vault][azkeyvault] to run these sample programs. To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
 If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [this page][kvsoftdelete] for more information.
 
@@ -74,7 +74,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript/src/cryptography.ts
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript/src/helloWorld.ts
-[purgeAllKeys]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript/src/purgeAllKeys.ts
+[purgeallkeys]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/typescript/src/purgeAllKeys.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

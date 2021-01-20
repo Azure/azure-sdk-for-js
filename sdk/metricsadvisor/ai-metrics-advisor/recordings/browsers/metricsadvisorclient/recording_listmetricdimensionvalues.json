@@ -4,18 +4,18 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
    "query": {},
-   "requestBody": "{\"dimensionName\":\"Dim1\"}",
+   "requestBody": "{\"dimensionName\":\"city\"}",
    "status": 200,
-   "response": "{\"value\":[\"Algerian Fir\",\"Almond\",\"Aspen\",\"Austrian Pine\",\"Bastard Service Tree\",\"Birch\",\"Black Birch (River Birch)\",\"Black Mulberry\",\"Black Poplar\",\"Blackthorn\",\"Blue Atlas Cedar\",\"Box elder\",\"Cabbage Palm\",\"Caucasian Fir\",\"Caucasian Lime\",\"Cherry\",\"Cherry Laurel\",\"Chinese red-barked birch\",\"Cider gum\",\"Cockspur Thorn\"],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=20&$skip=20\"}",
+   "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\",\"Alexandria\",\"Ankara\",\"Atlanta\",\"Baghdad\",\"Bangkok\",\"Barcelona\",\"Beijing\",\"Belo Horizonte\",\"Bengaluru\",\"Bogota\",\"Boston\",\"Brasilia\",\"Buenos Aires\",\"Cairo\",\"Chengdu\",\"Chennai\",\"Chicago\",\"Chittagong\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$top=20&$skip=20\"}",
    "responseHeaders": {
-    "apim-request-id": "d487840d-e763-4580-a3ee-a8ded3ce63b8",
-    "content-length": "497",
+    "apim-request-id": "7b5c1fb9-cd80-426d-9c31-f9a48ac1c6dd",
+    "content-length": "402",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:34 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "84",
-    "x-request-id": "d487840d-e763-4580-a3ee-a8ded3ce63b8"
+    "x-envoy-upstream-service-time": "116",
+    "x-request-id": "7b5c1fb9-cd80-426d-9c31-f9a48ac1c6dd"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b29bd23e9151aa75da4ce0b02ec467f7"
+ "hash": "ffc2805ac27599113e822f60bd9e7ec5"
 }

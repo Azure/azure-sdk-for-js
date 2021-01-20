@@ -4,18 +4,18 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/query",
    "query": {},
-   "requestBody": "{\"startTime\":\"2020-01-01T00:00:00.000Z\",\"endTime\":\"2020-09-12T00:00:00.000Z\",\"timeMode\":\"AnomalyTime\"}",
+   "requestBody": "{\"startTime\":\"2020-11-01T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"timeMode\":\"AnomalyTime\"}",
    "status": 200,
-   "response": "{\"value\":[{\"alertId\":\"1747a763000\",\"timestamp\":\"2020-09-11T00:00:00Z\",\"createdTime\":\"2020-09-14T12:31:04.148Z\",\"modifiedTime\":\"2020-09-17T17:26:31.464Z\"},{\"alertId\":\"174754fd400\",\"timestamp\":\"2020-09-10T00:00:00Z\",\"createdTime\":\"2020-09-14T12:31:04.002Z\",\"modifiedTime\":\"2020-09-16T21:08:42.991Z\"},{\"alertId\":\"17470297800\",\"timestamp\":\"2020-09-09T00:00:00Z\",\"createdTime\":\"2020-09-12T01:15:16.575Z\",\"modifiedTime\":\"2020-09-14T20:43:36.527Z\"},{\"alertId\":\"1746b031c00\",\"timestamp\":\"2020-09-08T00:00:00Z\",\"createdTime\":\"2020-09-12T01:15:16.406Z\",\"modifiedTime\":\"2020-09-14T20:42:57.048Z\"},{\"alertId\":\"17465dcc000\",\"timestamp\":\"2020-09-07T00:00:00Z\",\"createdTime\":\"2020-09-12T01:14:17.184Z\",\"modifiedTime\":\"2020-09-12T01:28:54.26Z\"},{\"alertId\":\"17460b66400\",\"timestamp\":\"2020-09-06T00:00:00Z\",\"createdTime\":\"2020-09-12T01:14:16.927Z\",\"modifiedTime\":\"2020-09-12T01:24:16.887Z\"}],\"@nextLink\":null}",
+   "response": "{\"value\":[{\"alertId\":\"175908d9800\",\"timestamp\":\"2020-11-04T00:00:00Z\",\"createdTime\":\"2020-11-05T00:56:55.458Z\",\"modifiedTime\":\"2020-11-10T20:27:22.216Z\"},{\"alertId\":\"1758b673c00\",\"timestamp\":\"2020-11-03T00:00:00Z\",\"createdTime\":\"2020-11-04T00:06:13.262Z\",\"modifiedTime\":\"2020-11-09T00:07:02.44Z\"},{\"alertId\":\"1758640e000\",\"timestamp\":\"2020-11-02T00:00:00Z\",\"createdTime\":\"2020-11-03T00:06:12.487Z\",\"modifiedTime\":\"2020-11-08T00:06:42.859Z\"},{\"alertId\":\"175811a8400\",\"timestamp\":\"2020-11-01T00:00:00Z\",\"createdTime\":\"2020-11-02T00:33:16.23Z\",\"modifiedTime\":\"2020-11-07T00:07:17.348Z\"}],\"@nextLink\":null}",
    "responseHeaders": {
-    "apim-request-id": "8426c79a-24e0-4e8c-bf91-67904af03b1c",
-    "content-length": "891",
+    "apim-request-id": "0dfd3fe2-9f00-4ed8-b79c-00d9484cc9e4",
+    "content-length": "602",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 21 Sep 2020 19:33:05 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "123",
-    "x-request-id": "8426c79a-24e0-4e8c-bf91-67904af03b1c"
+    "x-envoy-upstream-service-time": "98",
+    "x-request-id": "0dfd3fe2-9f00-4ed8-b79c-00d9484cc9e4"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a64886a359594a7e1236bbbb0b0bc7d1"
+ "hash": "1ee5bfa0b3120bf18eca080268d7407d"
 }

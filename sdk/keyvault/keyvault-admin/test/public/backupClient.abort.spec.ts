@@ -9,7 +9,7 @@ import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
 import { assertThrowsAbortError, getFolderName } from "../utils/common";
 
-describe("Aborting KeyVaultBackupClient's requests", () => {
+describe.skip("Aborting KeyVaultBackupClient's requests", () => {
   let client: KeyVaultBackupClient;
   let recorder: Recorder;
   let generateFakeUUID: () => string;

@@ -41,7 +41,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
 
     this.baseUri =
-      options.endpoint || "{endpoint}/formrecognizer/v2.1-preview.1";
+      options.endpoint || "{endpoint}/formrecognizer/v2.1-preview.2";
 
     // Parameter assignments
     this.endpoint = endpoint;

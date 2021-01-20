@@ -31,12 +31,12 @@ async function main() {
   for (const result of results) {
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log("  Key phrases:");
+      console.log("\tKey phrases:");
       for (const phrase of result.keyPhrases) {
-        console.log(`    ${phrase}`);
+        console.log(`\t- ${phrase}`);
       }
     } else {
-      console.error("  Error:", result.error);
+      console.error("\tError:", result.error);
     }
   }
 }

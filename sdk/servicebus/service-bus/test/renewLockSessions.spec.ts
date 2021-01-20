@@ -275,7 +275,7 @@ describe("Session Lock Renewal", () => {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
     await delay(10000);
@@ -341,7 +341,7 @@ describe("Session Lock Renewal", () => {
         }
       },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
 

@@ -88,7 +88,7 @@ export interface PartitionProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface ManagementClientOptions {
   address?: string;
@@ -98,7 +98,7 @@ export interface ManagementClientOptions {
 /**
  * @class ManagementClient
  * @internal
- * @ignore
+ * @hidden
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
@@ -121,7 +121,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Instantiates the management client.
    * @constructor
-   * @ignore
+   * @hidden
    * @param context The connection context.
    * @param [address] The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
@@ -138,7 +138,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Gets the security token for the management application properties.
-   * @ignore
+   * @hidden
    * @internal
    */
   async getSecurityToken() {
@@ -160,7 +160,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides the eventhub runtime information.
-   * @ignore
+   * @hidden
    */
   async getEventHubProperties(
     options: OperationOptions & { retryOptions?: RetryOptions } = {}
@@ -214,7 +214,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides information about the specified partition.
-   * @ignore
+   * @hidden
    * @param partitionId Partition ID for which partition information is required.
    */
   async getPartitionProperties(
@@ -287,8 +287,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Closes the AMQP management session to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @ignore
-   * @returns
+   * @hidden
    */
   async close(): Promise<void> {
     try {

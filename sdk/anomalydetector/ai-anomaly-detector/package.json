@@ -33,7 +33,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -83,8 +84,9 @@
     "@types/node": "^8.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
+    "csv-parse": "^4.4.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -107,9 +109,10 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "util": "^0.12.1",
-    "@azure/test-utils-recorder": "^1.0.0"
+    "@azure/test-utils-recorder": "^1.0.0",
+    "typedoc": "0.15.2"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true

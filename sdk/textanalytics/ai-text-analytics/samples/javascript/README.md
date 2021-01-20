@@ -24,6 +24,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [recognizeLinkedEntities.js][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
 | [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
+| [beginAnalyzeHealthcare.js][beginanalyzehealthcare]                       | detects healthcare entities of a piece of text                                                     |
+| [beginAnalyze.js][beginanalyze]                                           | applies multiple tasks at once                                                                     |
 
 ## Prerequisites
 
@@ -63,13 +65,15 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/alternativeDocumentInput.js
 [analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentiment.js
-[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentimentWithOpinionMining.js
+[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/analyzeSentimentWithOpinionMining.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/authenticationMethods.js
 [detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/detectLanguage.js
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/extractKeyPhrases.js
-[recognizepii]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
+[recognizepii]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeEntities.js
+[beginanalyze]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyze.js
+[beginanalyzehealthcare]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyzeHealthcare.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

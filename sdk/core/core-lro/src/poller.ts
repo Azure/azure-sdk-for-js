@@ -46,6 +46,7 @@ export class PollerCancelledError extends Error {
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
  */
+// eslint-disable-next-line no-use-before-define
 export interface PollerLike<TState extends PollOperationState<TResult>, TResult> {
   /**
    * Returns a promise that will resolve once a single polling request finishes.
@@ -160,10 +161,11 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
  * ```
  *
  */
+// eslint-disable-next-line no-use-before-define
 export abstract class Poller<TState extends PollOperationState<TResult>, TResult>
   implements PollerLike<TState, TResult> {
   private stopped: boolean = true;
-  private resolve?: (value?: TResult) => void;
+  private resolve?: (value: TResult) => void;
   private reject?: (error: PollerStoppedError | PollerCancelledError | Error) => void;
   private pollOncePromise?: Promise<void>;
   private cancelPromise?: Promise<void>;
@@ -177,7 +179,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   protected operation: PollOperation<TState, TResult>;
 
   /**
-   * A poller needs to be initialized by passing in at least the basic properties of the PollOperation<TState, TResult>.
+   * A poller needs to be initialized by passing in at least the basic properties of the `PollOperation<TState, TResult>`.
    *
    * When writing an implementation of a Poller, this implementation needs to deal with the initialization
    * of any custom state beyond the basic definition of the poller. The basic poller assumes that the poller's
@@ -239,13 +241,13 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * }
    * ```
    *
-   * @param operation Must contain the basic properties of PollOperation<State, TResult>.
+   * @param operation - Must contain the basic properties of `PollOperation<State, TResult>`.
    */
   constructor(operation: PollOperation<TState, TResult>) {
     this.operation = operation;
-    this.promise = new Promise(
+    this.promise = new Promise<TResult>(
       (
-        resolve: (result?: TResult) => void,
+        resolve: (result: TResult) => void,
         reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
       ) => {
         this.resolve = resolve;
@@ -264,7 +266,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * Defines how much to wait between each poll request.
    * This has to be implemented by your custom poller.
    *
-   * @azure/core-http has a simple implementation of a delay function that waits as many milliseconds as specified.
+   * \@azure/core-http has a simple implementation of a delay function that waits as many milliseconds as specified.
    * This can be used as follows:
    *
    * ```ts
@@ -281,11 +283,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * ```
    *
    */
-  protected abstract async delay(): Promise<void>;
+  protected abstract delay(): Promise<void>;
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Starts a loop that will break only if the poller is done
    * or if the poller is stopped.
    */
@@ -301,13 +303,13 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * pollOnce does one polling, by calling to the update method of the underlying
    * poll operation to make any relevant change effective.
    *
-   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * It only optionally receives an object with an abortSignal property, from \@azure/abort-controller's AbortSignalLike.
    *
-   * @param options Optional properties passed to the operation's update method.
+   * @param options - Optional properties passed to the operation's update method.
    */
   private async pollOnce(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     const state: PollOperationState<TResult> = this.operation.state;
@@ -318,7 +320,12 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           fireProgress: this.fireProgress.bind(this)
         });
         if (this.isDone() && this.resolve) {
-          this.resolve(state.result);
+          // If the poller has finished polling, this means we now have a result.
+          // However, it can be the case that TResult is instantiated to void, so
+          // we are not expecting a result anyway. To assert that we might not
+          // have a result eventually after finishing polling, we cast the result
+          // to TResult.
+          this.resolve(state.result as TResult);
         }
       }
     } catch (e) {
@@ -332,13 +339,13 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * fireProgress calls the functions passed in via onProgress the method of the poller.
    *
    * It loops over all of the callbacks received from onProgress, and executes them, sending them
    * the current operation state.
    *
-   * @param state The current operation state.
+   * @param state - The current operation state.
    */
   private fireProgress(state: TState): void {
     for (const callback of this.pollProgressCallbacks) {
@@ -348,7 +355,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Invokes the underlying operation's cancel method, and rejects the
    * pollUntilDone promise.
    */
@@ -363,9 +370,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
    *
-   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * It only optionally receives an object with an abortSignal property, from \@azure/abort-controller's AbortSignalLike.
    *
-   * @param options Optional properties passed to the operation's update method.
+   * @param options - Optional properties passed to the operation's update method.
    */
   public poll(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     if (!this.pollOncePromise) {
@@ -431,11 +438,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
   /**
    * Attempts to cancel the underlying operation.
    *
-   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * It only optionally receives an object with an abortSignal property, from \@azure/abort-controller's AbortSignalLike.
    *
    * If it's called again before it finishes, it will throw an error.
    *
-   * @param options Optional properties passed to the operation's update method.
+   * @param options - Optional properties passed to the operation's update method.
    */
   public cancelOperation(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     if (!this.stopped) {

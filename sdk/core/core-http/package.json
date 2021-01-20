@@ -2,7 +2,7 @@
   "name": "@azure/core-http",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -55,7 +55,8 @@
     "./es/src/util/base64.js": "./es/src/util/base64.browser.js",
     "./es/src/util/xml.js": "./es/src/util/xml.browser.js",
     "./es/src/defaultHttpClient.js": "./es/src/defaultHttpClient.browser.js",
-    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js"
+    "./es/src/util/inspect.js": "./es/src/util/inspect.browser.js",
+    "./es/src/util/url.js": "./es/src/util/url.browser.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-http/README.md",
@@ -82,7 +83,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o core-http-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -99,7 +100,9 @@
     "dep:ms-rest-azure-js": "npx ts-node .scripts/testDependentProjects.ts ms-rest-azure-js",
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
-    "latest": "ts-node ./.scripts/latest.ts"
+    "latest": "ts-node ./.scripts/latest.ts",
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "nyc": {
@@ -164,7 +167,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "express": "^4.16.3",
     "fetch-mock": "^9.10.1",
     "glob": "^7.1.2",
@@ -190,8 +193,9 @@
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
-    "xhr-mock": "^2.4.1"
+    "xhr-mock": "^2.4.1",
+    "typedoc": "0.15.2"
   }
 }

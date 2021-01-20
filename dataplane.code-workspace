@@ -13,12 +13,20 @@
       "path": "sdk/appconfiguration/app-configuration"
     },
     {
-      "name": "core-amqp",
-      "path": "sdk/core/core-amqp"
+      "name": "communication-admin",
+      "path": "sdk/communication/communication-administration"
     },
     {
-      "name": "core-arm",
-      "path": "sdk/core/core-arm"
+      "name": "communication-chat",
+      "path": "sdk/communication/communication-chat"
+    },
+    {
+      "name": "communication-sms",
+      "path": "sdk/communication/communication-sms"
+    },
+    {
+      "name": "core-amqp",
+      "path": "sdk/core/core-amqp"
     },
     {
       "name": "core-asynciterator-polyfill",
@@ -109,6 +117,10 @@
       "path": "sdk\\metricsadvisor\\ai-metrics-advisor"
     },
     {
+      "name": "schema-registry",
+      "path": "sdk/schemaregistry/schema-registry"
+    },
+    {
       "name": "search",
       "path": "sdk/search/search-documents"
     },
@@ -133,8 +145,32 @@
       "path": "sdk/storage/storage-file-share"
     },
     {
+      "name": "storage-internal-avro",
+      "path": "sdk/storage/storage-internal-avro"
+    },
+    {
       "name": "storage-queue",
       "path": "sdk/storage/storage-queue"
+    },
+    {
+      "name": "synapse-access-control",
+      "path": "sdk/synapse/synapse-access-control"
+    },
+    {
+      "name": "synapse-artifacts",
+      "path": "sdk/synapse/synapse-artifacts"
+    },
+    {
+      "name": "synapse-managed-private-endpoints",
+      "path": "sdk/synapse/synapse-managed-private-endpoints"
+    },
+    {
+      "name": "synapse-monitoring",
+      "path": "sdk/synapse/synapse-monitoring"
+    },
+    {
+      "name": "synapse-spark",
+      "path": "sdk/synapse/synapse-spark"
     },
     {
       "name": "tables",
@@ -146,7 +182,7 @@
     },
     {
       "name": "monitor",
-      "path": "sdk/monitor/monitor-opentelemetry-exporter"
+      "path": "sdk/monitor/opentelemetry-exporter-azure-monitor"
     },
     {
       "name": "test recorder",
@@ -161,8 +197,16 @@
       "path": "common/tools/eslint-plugin-azure-sdk"
     },
     {
+      "name": "dev tool",
+      "path": "common/tools/dev-tool"
+    },
+    {
       "name": "perfstress",
       "path": "sdk/test-utils/perfstress"
+    },
+    {
+      "name": "multi-version test",
+      "path": "sdk/test-utils/multi-version"
     },
     {
       "path": "sdk\\digitaltwins\\digital-twins-core"

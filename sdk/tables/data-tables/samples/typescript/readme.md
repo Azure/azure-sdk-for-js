@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-storage
-  - azure-cosmosdb
+  - azure-cosmos-db
 urlFragment: data-tables-typescript
 ---
 

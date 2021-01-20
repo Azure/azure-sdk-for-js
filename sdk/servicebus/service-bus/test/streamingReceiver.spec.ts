@@ -18,9 +18,9 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { isNode } from "../src/util/utils";
 import { verifyMessageCount } from "./utils/managementUtils";
 import sinon from "sinon";
+import { isNode } from "@azure/core-http";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -136,7 +136,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -231,7 +231,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -278,7 +278,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const deliveryCountFlag = await checkWithTimeout(
@@ -332,7 +332,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
       const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
       should.equal(
@@ -397,7 +397,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
@@ -782,7 +782,7 @@ describe("Streaming Receiver Tests", () => {
           processError
         },
         {
-          autoComplete: false
+          autoCompleteMessages: false
         }
       );
       await receiver.close();
@@ -1040,7 +1040,7 @@ export function singleMessagePromise(
         }
       },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
   });

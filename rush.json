@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.28.0",
+  "rushVersion": "5.36.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +24,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "5.3.0",
+  "pnpmVersion": "5.15.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -358,6 +358,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/attestation",
+      "projectFolder": "sdk/attestation/attestation",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-administration",
       "projectFolder": "sdk/communication/communication-administration",
       "versionPolicyName": "client"
@@ -380,11 +385,6 @@
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/core-arm",
-      "projectFolder": "sdk/core/core-arm",
       "versionPolicyName": "core"
     },
     {
@@ -438,8 +438,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
+      "packageName": "@azure/opentelemetry-exporter-azure-monitor",
+      "projectFolder": "sdk/monitor/opentelemetry-exporter-azure-monitor",
       "versionPolicyName": "client"
     },
     {
@@ -553,6 +553,31 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-artifacts",
+      "projectFolder": "sdk/synapse/synapse-artifacts",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-managed-private-endpoints",
+      "projectFolder": "sdk/synapse/synapse-managed-private-endpoints",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-monitoring",
+      "projectFolder": "sdk/synapse/synapse-monitoring",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/synapse-spark",
+      "projectFolder": "sdk/synapse/synapse-spark",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/data-tables",
       "projectFolder": "sdk/tables/data-tables",
       "versionPolicyName": "client"
@@ -575,6 +600,11 @@
     {
       "packageName": "@azure/test-utils-perfstress",
       "projectFolder": "sdk/test-utils/perfstress",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/test-utils-multi-version",
+      "projectFolder": "sdk/test-utils/multi-version",
       "versionPolicyName": "utility"
     },
     {

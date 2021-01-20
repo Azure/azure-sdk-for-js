@@ -145,7 +145,7 @@ describe("receive and delete", () => {
             errors.push(args.error.message);
           }
         },
-        { autoComplete: autoCompleteFlag }
+        { autoCompleteMessages: autoCompleteFlag }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);

@@ -36,103 +36,57 @@ export interface TextDocumentInput {
   language?: string;
 }
 
-export interface EntitiesResult {
+export interface JobDescriptor {
   /**
-   * Response by document
+   * Optional display name for the analysis job.
    */
-  documents: DocumentEntities[];
-  /**
-   * Errors by document id.
-   */
-  errors: DocumentError[];
-  /**
-   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
-   */
-  statistics?: TextDocumentBatchStatistics;
-  /**
-   * This field indicates which model is used for scoring.
-   */
-  modelVersion: string;
+  displayName?: string;
 }
 
-export interface DocumentEntities {
+export interface JobManifest {
   /**
-   * Unique, non-empty document identifier.
+   * The set of tasks to execute on the input documents. Cannot specify the same task more than once.
    */
-  id: string;
-  /**
-   * Recognized entities in the document.
-   */
-  entities: Entity[];
-  /**
-   * Warnings encountered while processing document.
-   */
-  warnings: TextAnalyticsWarning[];
-  /**
-   * if showStats=true was specified in the request this field will contain information about the document payload.
-   */
-  statistics?: TextDocumentStatistics;
+  tasks: JobManifestTasks;
 }
 
 /**
- * A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Text Analytics service is described at https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types .
+ * The set of tasks to execute on the input documents. Cannot specify the same task more than once.
  */
-export interface Entity {
-  /**
-   * Entity text as appears in the request.
-   */
-  text: string;
-  /**
-   * Entity type, such as Person/Location/Org/SSN etc
-   */
-  category: string;
-  /**
-   * Entity sub type, such as Age/Year/TimeRange etc
-   */
-  subCategory?: string;
-  /**
-   * Start position for the entity text.
-   */
-  offset: number;
-  /**
-   * Confidence score between 0 and 1 of the extracted entity.
-   */
-  confidenceScore: number;
+export interface JobManifestTasks {
+  entityRecognitionTasks?: EntitiesTask[];
+  entityRecognitionPiiTasks?: PiiTask[];
+  keyPhraseExtractionTasks?: KeyPhrasesTask[];
 }
 
-/**
- * Represents a warning encountered while processing a document.
- */
-export interface TextAnalyticsWarning {
-  /**
-   * Error code.
-   */
-  code: WarningCode;
-  /**
-   * Warning message.
-   */
-  message: string;
+export interface EntitiesTask {
+  parameters?: EntitiesTaskParameters;
 }
 
-/**
- * if includeStatistics=true was specified in the request this field will contain information about the document payload.
- */
-export interface TextDocumentStatistics {
-  /**
-   * Number of text elements recognized in the document.
-   */
-  characterCount: number;
-  /**
-   * Number of transactions for the document.
-   */
-  transactionCount: number;
+export interface EntitiesTaskParameters {
+  modelVersion?: string;
+  stringIndexType?: StringIndexTypeResponse;
 }
 
-export interface DocumentError {
-  /**
-   * Document Id.
-   */
-  id: string;
+export interface PiiTask {
+  parameters?: PiiTaskParameters;
+}
+
+export interface PiiTaskParameters {
+  domain?: PiiTaskParametersDomain;
+  modelVersion?: string;
+  stringIndexType?: StringIndexTypeResponse;
+}
+
+export interface KeyPhrasesTask {
+  parameters?: KeyPhrasesTaskParameters;
+}
+
+export interface KeyPhrasesTaskParameters {
+  modelVersion?: string;
+}
+
+export interface ErrorResponse {
   /**
    * Document Error.
    */
@@ -207,14 +161,148 @@ export interface TextDocumentBatchStatistics {
   transactionCount: number;
 }
 
-export interface ErrorResponse {
+export interface JobMetadata {
+  createdDateTime: Date;
+  displayName?: string;
+  expirationDateTime?: Date;
+  jobId: string;
+  lastUpdateDateTime: Date;
+  status: State;
+}
+
+export interface TasksState {
+  tasks: TasksStateTasks;
+}
+
+export interface TasksStateTasks {
+  details?: TaskState;
+  completed: number;
+  failed: number;
+  inProgress: number;
+  total: number;
+  entityRecognitionTasks?: TasksStateTasksEntityRecognitionTasksItem[];
+  entityRecognitionPiiTasks?: TasksStateTasksEntityRecognitionPiiTasksItem[];
+  keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
+}
+
+export interface TaskState {
+  lastUpdateDateTime: Date;
+  name?: string;
+  status: State;
+}
+
+export interface Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 {
+  results: EntitiesResult;
+}
+
+export interface EntitiesResult {
+  /**
+   * Response by document
+   */
+  documents: DocumentEntities[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  /**
+   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
+export interface DocumentEntities {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * Recognized entities in the document.
+   */
+  entities: Entity[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the document payload.
+   */
+  statistics?: TextDocumentStatistics;
+}
+
+/**
+ * A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Text Analytics service is described at https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types .
+ */
+export interface Entity {
+  /**
+   * Entity text as appears in the request.
+   */
+  text: string;
+  /**
+   * Entity type.
+   */
+  category: string;
+  /**
+   * (Optional) Entity sub type.
+   */
+  subCategory?: string;
+  /**
+   * Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned.
+   */
+  offset: number;
+  /**
+   * Confidence score between 0 and 1 of the extracted entity.
+   */
+  confidenceScore: number;
+}
+
+/**
+ * Represents a warning encountered while processing a document.
+ */
+export interface TextAnalyticsWarning {
+  /**
+   * Error code.
+   */
+  code: WarningCode;
+  /**
+   * Warning message.
+   */
+  message: string;
+}
+
+/**
+ * if includeStatistics=true was specified in the request this field will contain information about the document payload.
+ */
+export interface TextDocumentStatistics {
+  /**
+   * Number of text elements recognized in the document.
+   */
+  characterCount: number;
+  /**
+   * Number of transactions for the document.
+   */
+  transactionCount: number;
+}
+
+export interface DocumentError {
+  /**
+   * Document Id.
+   */
+  id: string;
   /**
    * Document Error.
    */
   error: TextAnalyticsError;
 }
 
-export interface PiiEntitiesResult {
+export interface Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 {
+  results: PiiResult;
+}
+
+export interface PiiResult {
   /**
    * Response by document
    */
@@ -239,6 +327,10 @@ export interface PiiDocumentEntities {
    */
   id: string;
   /**
+   * Returns redacted text.
+   */
+  redactedText: string;
+  /**
    * Recognized entities in the document.
    */
   entities: Entity[];
@@ -250,10 +342,124 @@ export interface PiiDocumentEntities {
    * if showStats=true was specified in the request this field will contain information about the document payload.
    */
   statistics?: TextDocumentStatistics;
+}
+
+export interface Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 {
+  results: KeyPhraseResult;
+}
+
+export interface KeyPhraseResult {
   /**
-   * Returns redacted text.
+   * Response by document
    */
-  redactedText: string;
+  documents: DocumentKeyPhrases[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  /**
+   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
+export interface DocumentKeyPhrases {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document.
+   */
+  keyPhrases: string[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the document payload.
+   */
+  statistics?: TextDocumentStatistics;
+}
+
+export interface Pagination {
+  nextLink?: string;
+}
+
+export interface HealthcareResult {
+  /**
+   * Response by document
+   */
+  documents: DocumentHealthcareEntities[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  /**
+   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
+export interface DocumentHealthcareEntities {
+  /**
+   * Unique, non-empty document identifier.
+   */
+  id: string;
+  /**
+   * Healthcare entities.
+   */
+  entities: HealthcareEntity[];
+  /**
+   * Healthcare entity relations.
+   */
+  relations: HealthcareRelation[];
+  /**
+   * Warnings encountered while processing document.
+   */
+  warnings: TextAnalyticsWarning[];
+  /**
+   * if showStats=true was specified in the request this field will contain information about the document payload.
+   */
+  statistics?: TextDocumentStatistics;
+}
+
+export interface HealthcareEntityLink {
+  /**
+   * Entity Catalog. Examples include: UMLS, CHV, MSH, etc.
+   */
+  dataSource: string;
+  /**
+   * Entity id in the given source catalog.
+   */
+  id: string;
+}
+
+export interface HealthcareRelation {
+  /**
+   * Type of relation. Examples include: `DosageOfMedication` or 'FrequencyOfMedication', etc.
+   */
+  relationType: string;
+  /**
+   * If true the relation between the entities is bidirectional, otherwise directionality is source to target.
+   */
+  bidirectional: boolean;
+  /**
+   * Reference link to the source entity.
+   */
+  source: string;
+  /**
+   * Reference link to the target entity.
+   */
+  target: string;
 }
 
 export interface EntityLinkingResult {
@@ -323,7 +529,7 @@ export interface LinkedEntity {
    */
   dataSource: string;
   /**
-   * Bing unique identifier of the recognized entity. Use in conjunction with the Bing Entity Search API to fetch additional relevant information.
+   * Bing Entity Search API unique identifier of the recognized entity.
    */
   bingEntitySearchApiId?: string;
 }
@@ -344,44 +550,6 @@ export interface Match {
    * Start position for the entity match text.
    */
   offset: number;
-}
-
-export interface KeyPhraseResult {
-  /**
-   * Response by document
-   */
-  documents: DocumentKeyPhrases[];
-  /**
-   * Errors by document id.
-   */
-  errors: DocumentError[];
-  /**
-   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
-   */
-  statistics?: TextDocumentBatchStatistics;
-  /**
-   * This field indicates which model is used for scoring.
-   */
-  modelVersion: string;
-}
-
-export interface DocumentKeyPhrases {
-  /**
-   * Unique, non-empty document identifier.
-   */
-  id: string;
-  /**
-   * A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document.
-   */
-  keyPhrases: string[];
-  /**
-   * Warnings encountered while processing document.
-   */
-  warnings: TextAnalyticsWarning[];
-  /**
-   * if showStats=true was specified in the request this field will contain information about the document payload.
-   */
-  statistics?: TextDocumentStatistics;
 }
 
 export interface LanguageBatchInput {
@@ -606,25 +774,74 @@ export interface SentenceOpinion {
   isNegated: boolean;
 }
 
+export type AnalyzeBatchInput = JobDescriptor &
+  JobManifest & {
+    /**
+     * Contains a set of input documents to be analyzed by the service.
+     */
+    analysisInput: MultiLanguageBatchInput;
+  };
+
+export type AnalyzeJobState = JobMetadata &
+  TasksState &
+  Pagination & {
+    errors?: TextAnalyticsError[];
+    /**
+     * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+     */
+    statistics?: TextDocumentBatchStatistics;
+  };
+
+export type HealthcareJobState = JobMetadata &
+  Pagination & {
+    results?: HealthcareResult;
+    errors?: TextAnalyticsError[];
+  };
+
+export type TasksStateTasksEntityRecognitionTasksItem = TaskState &
+  Components15Gvwi3SchemasTasksstatePropertiesTasksPropertiesEntityrecognitiontasksItemsAllof1 & {};
+
+export type TasksStateTasksEntityRecognitionPiiTasksItem = TaskState &
+  Components15X8E9LSchemasTasksstatePropertiesTasksPropertiesEntityrecognitionpiitasksItemsAllof1 & {};
+
+export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
+  Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1 & {};
+
+export type TasksStateTasksDetails = TaskState & {};
+
+export type HealthcareEntity = Entity & {
+  isNegated: boolean;
+  /**
+   * Entity references in known data sources.
+   */
+  links?: HealthcareEntityLink[];
+};
+
 /**
- * Defines values for StringIndexType.
+ * Defines headers for GeneratedClient_analyze operation.
  */
-export type StringIndexType =
-  | "TextElements_v8"
-  | "UnicodeCodePoint"
-  | "Utf16CodeUnit";
+export interface GeneratedClientAnalyzeHeaders {
+  operationLocation?: string;
+}
+
 /**
- * Defines values for WarningCode.
+ * Defines headers for GeneratedClient_cancelHealthJob operation.
  */
-export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";
+export interface GeneratedClientCancelHealthJobHeaders {
+  operationLocation?: string;
+}
+
 /**
- * Defines values for ErrorCodeValue.
+ * Defines headers for GeneratedClient_health operation.
  */
-export type ErrorCodeValue =
-  | "InvalidRequest"
-  | "InvalidArgument"
-  | "InternalServerError"
-  | "ServiceUnavailable";
+export interface GeneratedClientHealthHeaders {
+  operationLocation?: string;
+}
+
+/**
+ * Defines values for PiiTaskParametersDomain.
+ */
+export type PiiTaskParametersDomain = "phi" | "none" | string;
 /**
  * Defines values for InnerErrorCodeValue.
  */
@@ -637,7 +854,49 @@ export type InnerErrorCodeValue =
   | "ModelVersionIncorrect"
   | "InvalidDocumentBatch"
   | "UnsupportedLanguageCode"
-  | "InvalidCountryHint";
+  | "InvalidCountryHint"
+  | string;
+/**
+ * Defines values for WarningCode.
+ */
+export type WarningCode = "LongWordsInDocument" | "DocumentTruncated" | string;
+/**
+ * Defines values for StringIndexType.
+ */
+export type StringIndexType =
+  | "TextElements_v8"
+  | "UnicodeCodePoint"
+  | "Utf16CodeUnit"
+  | string;
+/**
+ * Defines values for StringIndexTypeResponse.
+ */
+export type StringIndexTypeResponse =
+  | "TextElements_v8"
+  | "UnicodeCodePoint"
+  | "Utf16CodeUnit";
+/**
+ * Defines values for ErrorCodeValue.
+ */
+export type ErrorCodeValue =
+  | "InvalidRequest"
+  | "InvalidArgument"
+  | "InternalServerError"
+  | "ServiceUnavailable"
+  | "NotFound";
+/**
+ * Defines values for State.
+ */
+export type State =
+  | "notStarted"
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "rejected"
+  | "cancelled"
+  | "cancelling"
+  | "partiallyCompleted"
+  | "partiallySucceeded";
 /**
  * Defines values for DocumentSentimentLabel.
  */
@@ -662,16 +921,165 @@ export type AspectRelationType = "opinion" | "aspect";
 /**
  * Optional parameters.
  */
-export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
+export interface GeneratedClientAnalyzeOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Collection of documents to analyze and tasks to execute.
+   */
+  body?: AnalyzeBatchInput;
+}
+
+/**
+ * Contains response data for the analyze operation.
+ */
+export type GeneratedClientAnalyzeResponse = GeneratedClientAnalyzeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientAnalyzeHeaders;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientAnalyzeStatusOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * (Optional) if set to true, response will contain request and document level statistics.
+   */
+  includeStatistics?: boolean;
+  /**
+   * (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first.
+   */
+  top?: number;
+  /**
+   * (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first.
+   */
+  skip?: number;
+}
+
+/**
+ * Contains response data for the analyzeStatus operation.
+ */
+export type GeneratedClientAnalyzeStatusResponse = AnalyzeJobState & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AnalyzeJobState;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientHealthStatusOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * (Optional) if set to true, response will contain request and document level statistics.
+   */
+  includeStatistics?: boolean;
+  /**
+   * (Optional) Set the maximum number of results per task. When both $top and $skip are specified, $skip is applied first.
+   */
+  top?: number;
+  /**
+   * (Optional) Set the number of elements to offset in the response. When both $top and $skip are specified, $skip is applied first.
+   */
+  skip?: number;
+}
+
+/**
+ * Contains response data for the healthStatus operation.
+ */
+export type GeneratedClientHealthStatusResponse = HealthcareJobState & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: HealthcareJobState;
+  };
+};
+
+/**
+ * Contains response data for the cancelHealthJob operation.
+ */
+export type GeneratedClientCancelHealthJobResponse = GeneratedClientCancelHealthJobHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientCancelHealthJobHeaders;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientHealthOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
    */
   modelVersion?: string;
   /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
+}
+
+/**
+ * Contains response data for the health operation.
+ */
+export type GeneratedClientHealthResponse = GeneratedClientHealthHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientHealthHeaders;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
    * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
   /**
    * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
    */
@@ -704,19 +1112,19 @@ export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult &
 export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
    * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
   /**
    * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
    */
   stringIndexType?: StringIndexType;
   /**
-   * (Optional) if set to 'PHI', response will contain only PHI entities.
+   * (Optional) if specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'PHI', 'none'.
    */
   domain?: string;
 }
@@ -724,7 +1132,7 @@ export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
 /**
  * Contains response data for the entitiesRecognitionPii operation.
  */
-export type GeneratedClientEntitiesRecognitionPiiResponse = PiiEntitiesResult & {
+export type GeneratedClientEntitiesRecognitionPiiResponse = PiiResult & {
   /**
    * The underlying HTTP response.
    */
@@ -737,7 +1145,7 @@ export type GeneratedClientEntitiesRecognitionPiiResponse = PiiEntitiesResult & 
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: PiiEntitiesResult;
+    parsedBody: PiiResult;
   };
 };
 
@@ -747,13 +1155,13 @@ export type GeneratedClientEntitiesRecognitionPiiResponse = PiiEntitiesResult & 
 export interface GeneratedClientEntitiesLinkingOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
    * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
   /**
    * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
    */
@@ -786,13 +1194,13 @@ export type GeneratedClientEntitiesLinkingResponse = EntityLinkingResult & {
 export interface GeneratedClientKeyPhrasesOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
    * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -821,13 +1229,13 @@ export type GeneratedClientKeyPhrasesResponse = KeyPhraseResult & {
 export interface GeneratedClientLanguagesOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
    * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -856,13 +1264,13 @@ export type GeneratedClientLanguagesResponse = LanguageResult & {
 export interface GeneratedClientSentimentOptionalParams
   extends coreHttp.OperationOptions {
   /**
-   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
-   */
-  modelVersion?: string;
-  /**
    * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
   /**
    * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
    */

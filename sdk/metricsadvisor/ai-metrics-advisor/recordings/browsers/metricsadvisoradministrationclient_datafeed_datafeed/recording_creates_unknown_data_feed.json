@@ -1,20 +1,8 @@
 {
  "recordings": [],
  "uniqueTestInfo": {
-  "uniqueName": {
-   "js-test-datafeed-": "js-test-datafeed-160462060783902573",
-   "js-test-appInsightsFeed-": "js-test-appInsightsFeed-160462060783902417",
-   "js-test-sqlServerFeed-": "js-test-sqlServerFeed-160462060783904133",
-   "js-test-cosmosFeed-": "js-test-cosmosFeed-160462060783905477",
-   "js-test-dataExplorerFeed-": "js-test-dataExplorerFeed-160462060783906596",
-   "js-test-tableFeed-": "js-test-tableFeed-160462060783901974",
-   "js-test-httpRequestFeed-": "js-test-httpRequestFeed-160462060783906040",
-   "js-test-influxdbFeed-": "js-test-influxdbFeed-160462060783907937",
-   "js-test-mongoDbFeed-": "js-test-mongoDbFeed-160462060783904167",
-   "js-test-mySqlFeed-": "js-test-mySqlFeed-160462060783905821",
-   "js-test-postgreSqlFeed-": "js-test-postgreSqlFeed-160462060783905792"
-  },
+  "uniqueName": {},
   "newDate": {}
  },
- "hash": "a1d32b3cb29addc69ddee69533b1d9c3"
+ "hash": "2bef61f2708484901ccd2c85ede40d2d"
 }

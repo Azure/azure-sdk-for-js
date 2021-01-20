@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.2.1",
+  "version": "12.3.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -25,10 +25,10 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.2.0 --use=@microsoft.azure/autorest.typescript@5.0.1",
+    "build:autorest": "autorest ./swagger/README.md --typescript --package-version=12.3.0 --use=@microsoft.azure/autorest.typescript@5.0.1",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
+    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
@@ -52,7 +52,8 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "BreakingChanges.md",
@@ -63,14 +64,12 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "storage",
     "queue",
+    "cloud",
     "node.js",
     "typescript",
     "javascript",
@@ -81,7 +80,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
@@ -131,7 +130,7 @@
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",
@@ -160,7 +159,8 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
-    "util": "^0.12.1"
+    "typescript": "4.1.2",
+    "util": "^0.12.1",
+    "typedoc": "0.15.2"
   }
 }

@@ -24,7 +24,8 @@ import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { MessageSession } from "../../src/session/messageSession";
-import { ProcessErrorArgs, ReceiveMode } from "../../src";
+import { ProcessErrorArgs } from "../../src";
+import { ReceiveMode } from "../../src/models";
 
 describe("AbortSignal", () => {
   const defaultOptions = {

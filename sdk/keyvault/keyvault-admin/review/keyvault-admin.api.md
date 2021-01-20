@@ -21,13 +21,7 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
-export interface BackupOperationState extends PollOperationState<string> {
-    endTime?: Date;
-    jobId?: string;
-    startTime?: Date;
-    status?: string;
-    statusDetails?: string;
-}
+export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
 
 // @public
 export interface BackupPollerOptions extends coreHttp.OperationOptions {
@@ -68,6 +62,15 @@ export class KeyVaultAccessControlClient {
     listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationState<TResult> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
 }
 
 // @public
@@ -142,12 +145,7 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
-export interface RestoreOperationState extends PollOperationState<undefined> {
-    endTime?: Date;
-    jobId?: string;
-    startTime?: Date;
-    status?: string;
-    statusDetails?: string;
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
 }
 
 // @public
@@ -157,12 +155,7 @@ export type RoleAssignmentScope = "/" | "/keys" | string;
 export const SDK_VERSION: string;
 
 // @public
-export interface SelectiveRestoreOperationState extends PollOperationState<undefined> {
-    endTime?: Date;
-    jobId?: string;
-    startTime?: Date;
-    status?: string;
-    statusDetails?: string;
+export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
 }
 
 // @public

@@ -132,7 +132,7 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 600000,
+    browserNoActivityTimeout: 60000000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -143,7 +143,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
+        timeout: 0
       }
     }
   });

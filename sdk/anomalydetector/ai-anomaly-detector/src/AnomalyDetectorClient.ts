@@ -44,7 +44,7 @@ export class AnomalyDetectorClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated AnomalyDetector HTTP client.
    */
   private client: GeneratedClient;
@@ -61,9 +61,9 @@ export class AnomalyDetectorClient {
    *    new AzureKeyCredential("<api key>")
    * );
    * ```
-   * @param string endpointUrl Url to an Azure Anomaly Detector service endpoint
-   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
-   * @param FormRecognizerClientOptions options Used to configure the Form Recognizer client.
+   * @param endpointUrl - Url to an Azure Anomaly Detector service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Form Recognizer client.
    */
   constructor(
     endpointUrl: string,
@@ -107,9 +107,9 @@ export class AnomalyDetectorClient {
    * This operation generates a model using an entire series, each point is detected with the same model.
    * With this method, points before and after a certain point are used to determine whether it is an
    * anomaly. The entire detection can give user an overall status of the time series.
-   * @param body Time series points and period if needed. Advanced model parameters can also be set in
+   * @param body - Time series points and period if needed. Advanced model parameters can also be set in
    *             the request.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public detectEntireSeries(
     body: DetectRequest,
@@ -138,9 +138,9 @@ export class AnomalyDetectorClient {
    * This operation generates a model using points before the latest one. With this method, only
    * historical points are used to determine whether the target point is an anomaly. The latest point
    * detecting operation matches the scenario of real-time monitoring of business metrics.
-   * @param body Time series points and period if needed. Advanced model parameters can also be set in
+   * @param body - Time series points and period if needed. Advanced model parameters can also be set in
    *             the request.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public detectLastPoint(
     body: DetectRequest,
@@ -167,9 +167,9 @@ export class AnomalyDetectorClient {
 
   /**
    * Evaluate change point score of every series point
-   * @param body Time series points and granularity is needed. Advanced model parameters can also be set
+   * @param body - Time series points and granularity is needed. Advanced model parameters can also be set
    *             in the request if needed.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   detectChangePoint(
     body: DetectChangePointRequest,

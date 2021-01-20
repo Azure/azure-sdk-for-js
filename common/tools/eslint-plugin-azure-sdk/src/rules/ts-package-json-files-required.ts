@@ -14,7 +14,7 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
 // Rule Definition
 //------------------------------------------------------------------------------
 
-let requiredPatternSuggestionMap: Map<string, string | undefined> = new Map();
+const requiredPatternSuggestionMap: Map<string, string | undefined> = new Map();
 function addRequiredPattern(pattern: string, suggestion?: string): void {
   requiredPatternSuggestionMap.set(pattern, suggestion);
 }
@@ -28,6 +28,30 @@ const badPatterns = ["src"];
 addRequiredPattern("dist");
 addRequiredPattern("dist-esm", "src");
 const requiredPatterns = Array.from(requiredPatternSuggestionMap.keys());
+
+/**
+ * Creates the more specific and recommended pattern that will be added to the
+ * files list by the fixer.
+ * @param pat - A pattern that is missing from the files list
+ */
+function buildFixRequiredPattern(pat: string): string {
+  return requiredPatternSuggestionMap.get(pat) !== undefined
+    ? `${pat}/${requiredPatternSuggestionMap.get(pat)}`
+    : pat;
+}
+
+/**
+ * Updates the patterns in the input list to be the more specific and
+ * recommended patterns.
+ * @param currRequiredPatterns - A list of patterns that are required
+ * but missing from the files list
+ */
+function updateFixRequiredPatterns(currRequiredPatterns: string[]): void {
+  for (let i = 0; i < currRequiredPatterns.length; ++i) {
+    const pat = currRequiredPatterns[i];
+    currRequiredPatterns[i] = buildFixRequiredPattern(pat);
+  }
+}
 
 export = {
   meta: getRuleMetaData(
@@ -72,8 +96,8 @@ export = {
               (element): unknown => element.value
             );
 
-            let currBadPatterns: string[] = [];
-            let currRequiredPatterns = [...requiredPatterns];
+            const currBadPatterns: string[] = [];
+            const currRequiredPatterns = [...requiredPatterns];
             const fullMatchIndex = 0;
             const patternRootMatchIndex = 1;
             // Looking for both required and bad patterns
@@ -84,7 +108,11 @@ export = {
                 if (badPatterns.indexOf(patternRoot) >= 0) {
                   currBadPatterns.push(patternMatchResult[fullMatchIndex]);
                 } else if (requiredPatterns.indexOf(patternRoot) >= 0) {
-                  currRequiredPatterns.splice(currRequiredPatterns.indexOf(patternRoot), 1);
+                  const deletedItemsCount = 1;
+                  currRequiredPatterns.splice(
+                    currRequiredPatterns.indexOf(patternRoot),
+                    deletedItemsCount
+                  );
                 }
               }
             }
@@ -93,8 +121,9 @@ export = {
             // a meaningful error message for them and remove them from the
             // files list
             if (currBadPatterns.length > 0) {
+              const unitLength = 1;
               errorMessage = `${currBadPatterns.join()} ${
-                currBadPatterns.length === 1 ? "is" : "are"
+                currBadPatterns.length === unitLength ? "is" : "are"
               } included in files`;
               filesList = filesList.filter(
                 (filePattern) => currBadPatterns.indexOf(filePattern as string) < 0
@@ -107,21 +136,19 @@ export = {
               updateFixRequiredPatterns(currRequiredPatterns);
               filesList = filesList.concat(currRequiredPatterns);
               if (errorMessage.length > 0) {
-                errorMessage = errorMessage + " and ";
+                errorMessage = `${errorMessage} and `;
               }
-              errorMessage =
-                errorMessage +
-                `${currRequiredPatterns.join()} ${
-                  currRequiredPatterns.length === 1 ? "is" : "are"
-                } not included in files`;
+              const unitLength = 1;
+              errorMessage = `${errorMessage}${currRequiredPatterns.join()} ${
+                currRequiredPatterns.length === unitLength ? "is" : "are"
+              } not included in files`;
             }
             if (errorMessage.length > 0) {
               context.report({
                 node: nodeValue,
                 message: errorMessage,
-                fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                  return fixer.replaceText(nodeValue, arrayToString(filesList));
-                }
+                fix: (fixer: Rule.RuleFixer): Rule.Fix =>
+                  fixer.replaceText(nodeValue, arrayToString(filesList))
               });
             }
           }
@@ -129,27 +156,3 @@ export = {
       : {};
   }
 };
-
-/**
- * Creates the more specific and recommended pattern that will be added to the
- * files list by the fixer.
- * @param pat - A pattern that is missing from the files list
- */
-function buildFixRequiredPattern(pat: string): string {
-  return requiredPatternSuggestionMap.get(pat) !== undefined
-    ? pat + "/" + requiredPatternSuggestionMap.get(pat)
-    : pat;
-}
-
-/**
- * Updates the patterns in the input list to be the more specific and
- * recommended patterns.
- * @param currRequiredPatterns - A list of patterns that are required
- * but missing from the files list
- */
-function updateFixRequiredPatterns(currRequiredPatterns: string[]): void {
-  for (let i = 0; i < currRequiredPatterns.length; ++i) {
-    const pat = currRequiredPatterns[i];
-    currRequiredPatterns[i] = buildFixRequiredPattern(pat);
-  }
-}

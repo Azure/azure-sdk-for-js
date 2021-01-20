@@ -18,7 +18,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "I had a wonderful trip to Seattle last week.",
-  "I visited the Space Needle 2 times.",
+  "I visited the Space Needle 2 times."
 ];
 
 export async function main() {
@@ -31,11 +31,11 @@ export async function main() {
   for (const result of results) {
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log("  Recognized Entities:");
+      console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
-        console.log(`    - Entity ${entity.text} of type ${entity.category}`);
+        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
       }
-    } else console.error("  Error:", result.error);
+    } else console.error("\tError:", result.error);
   }
 }
 

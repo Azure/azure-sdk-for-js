@@ -10,7 +10,7 @@ import * as log from "./log";
 import { EPHDiagnosticInfo } from "./modelTypes";
 
 /**
- * @ignore
+ * @hidden
  */
 export class PartitionScanner {
   private _context: HostContextWithPumpManager;

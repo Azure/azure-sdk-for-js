@@ -87,7 +87,7 @@ describe("TableClient", () => {
       }
 
       assert.lengthOf(all, totalItems);
-    });
+    }).timeout(10000);
 
     it("should list by page", async function() {
       const totalItems = 21;
@@ -166,12 +166,15 @@ describe("TableClient", () => {
     });
 
     it("should createEntity with Date", async () => {
-      type TestType = { testField: Date };
-      const testDate = new Date(2020, 8, 17);
-      const testEntity: TableEntity<TestType> = {
+      type TestType = {
+        testField: Edm<"DateTime">;
+      };
+
+      const testDate = "2020-09-17T00:00:00.111Z";
+      const testEntity = {
         partitionKey: `P2_${suffix}`,
         rowKey: "R2",
-        testField: testDate
+        testField: new Date(testDate)
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
@@ -181,7 +184,7 @@ describe("TableClient", () => {
       assert.equal(createResult._response.status, 204);
       assert.equal(result.partitionKey, testEntity.partitionKey);
       assert.equal(result.rowKey, testEntity.rowKey);
-      assert.deepEqual(result.testField, testDate);
+      assert.deepEqual(result.testField.value, testDate);
     });
 
     it("should createEntity with Guid", async () => {
@@ -301,11 +304,7 @@ describe("TableClient", () => {
       type TestType = {
         testField: Edm<"DateTime">;
       };
-
-      type ResponseType = {
-        testField: Date;
-      };
-      const testDate = new Date(2020, 8, 17);
+      const testDate = "2020-09-17T00:00:00.99999Z";
       const testDateTime: Edm<"DateTime"> = {
         value: testDate,
         type: "DateTime"
@@ -317,16 +316,13 @@ describe("TableClient", () => {
         testField: testDateTime
       };
       const createResult = await client.createEntity(testEntity, {});
-      const result = await client.getEntity<ResponseType>(
-        testEntity.partitionKey,
-        testEntity.rowKey
-      );
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
       const deleteResult = await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey);
 
       assert.equal(deleteResult._response.status, 204);
       assert.equal(createResult._response.status, 204);
       assert.equal(result.rowKey, testEntity.rowKey);
-      assert.deepEqual(result.testField, testDate);
+      assert.deepEqual(result.testField.value, testDate);
     });
 
     it("should createEntity with primitive int and float", async () => {

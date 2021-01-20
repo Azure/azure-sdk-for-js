@@ -28,7 +28,7 @@
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
 
 # PRLabel: %Azure.Core
 /sdk/core/logger @xirzec @bterlson @chradek
@@ -62,10 +62,13 @@
 /sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/keyvault/ @jonathandturner @sadasant @maorleger
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+
+# PRLabel: %Synapse
+/sdk/synapse/ @jonathandturner
 
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
@@ -76,10 +79,10 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
+/sdk/textanalytics/ @deyaaeldeen @xirzec @witemple-msft
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng @willmtemple
+/sdk/formrecognizer/ @jeremymeng @witemple-msft
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
@@ -97,29 +100,29 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @KarishmaGhiya @mikeharder @mitchdenny @danieljurek
+/eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
 /**/tests.yml   @danieljurek
 /**/ci.yml      @mitchdenny
 
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @KarishmaGhiya @deyaaeldeen
-/common/ @mikeharder @KarishmaGhiya
+/.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
+/common/ @mikeharder @praveenkuttappan
 /common/config/rush/pnpm-lock.yaml @bterlson
 /common/git-hooks/ @deyaaeldeen
-/rush.json @mikeharder @KarishmaGhiya
-/tsconfig.json @mikeharder @KarishmaGhiya
+/rush.json @mikeharder @praveenkuttappan
+/tsconfig.json @mikeharder @praveenkuttappan
 /**/tsconfig.json @bterlson

@@ -13,7 +13,7 @@ export interface BeginRestoreSecretBackupOptions extends SecretPollerOptions {}
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * An interface representing the SecretClient. For internal use.
  */
 export interface TestSecretClientInterface {
@@ -53,8 +53,8 @@ export interface RestoreSecretBackupPollOperation
   extends PollOperation<RestoreSecretBackupPollOperationState, SecretProperties> {}
 
 /**
- * @summary Reaches to the service and updates the restore secret's poll operation.
- * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * Reaches to the service and updates the restore secret's poll operation.
+ * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
   this: RestoreSecretBackupPollOperation,
@@ -85,14 +85,14 @@ async function update(
 }
 
 /**
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
  */
 async function cancel(this: RestoreSecretBackupPollOperation): Promise<never> {
   throw new Error("Canceling the restoration of a secret is not supported.");
 }
 
 /**
- * @summary Serializes the create secret's poll operation
+ * Serializes the create secret's poll operation
  */
 function toString(this: RestoreSecretBackupPollOperation): string {
   return JSON.stringify({
@@ -101,8 +101,8 @@ function toString(this: RestoreSecretBackupPollOperation): string {
 }
 
 /**
- * @summary Builds a create secret's poll operation
- * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * Builds a create secret's poll operation
+ * @param state - A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeRestoreSecretBackupPollOperation(
   state: RestoreSecretBackupPollOperationState

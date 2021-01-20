@@ -4,9 +4,16 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isPlaybackMode
+} from "@azure/test-utils-recorder";
+import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
+import { DefaultAzureCredential } from "@azure/identity";
 
 if (isNode) {
   dotenv.config();
@@ -19,7 +26,11 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  INCLUDE_PHONENUMBER_LIVE_TESTS: "false"
+  INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
+  COMMUNICATION_ENDPOINT: "https://endpoint/",
+  AZURE_CLIENT_ID: "SomeClientId",
+  AZURE_CLIENT_SECRET: "SomeClientSecret",
+  AZURE_TENANT_ID: "SomeTenantId"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -65,6 +76,37 @@ export function createRecordedCommunicationIdentityClient(
   };
 }
 
+export function createRecordedCommunicationIdentityClientWithToken(
+  context: Context
+): RecordedClient<CommunicationIdentityClient> | undefined {
+  const recorder = record(context, environmentSetup);
+  let credential: TokenCredential;
+
+  if (isPlaybackMode()) {
+    credential = {
+      getToken: async (_scopes) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      }
+    };
+
+    return {
+      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
+      recorder
+    };
+  }
+
+  try {
+    credential = new DefaultAzureCredential();
+  } catch {
+    return undefined;
+  }
+
+  return {
+    client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
+    recorder
+  };
+}
+
 export function createRecordedPhoneNumberAdministrationClient(
   context: Context
 ): RecordedClient<PhoneNumberAdministrationClient> & {
@@ -78,3 +120,7 @@ export function createRecordedPhoneNumberAdministrationClient(
     includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
 }
+
+export const testPollerOptions = {
+  pollInterval: isPlaybackMode() ? 0 : undefined
+};

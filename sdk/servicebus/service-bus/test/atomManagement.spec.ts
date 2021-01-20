@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isNode } from "@azure/core-http";
 import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
@@ -10,10 +11,16 @@ import * as dotenv from "dotenv";
 import { parseServiceBusConnectionString } from "../src";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties, CreateRuleOptions } from "../src/serializers/ruleResourceSerializer";
-import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import {
+  CreateSubscriptionOptions,
+  SubscriptionProperties
+} from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
-import { EntityStatus, EntityAvailabilityStatus, isNode } from "../src/util/utils";
+import {
+  ServiceBusAdministrationClient,
+  WithResponse
+} from "../src/serviceBusAtomManagementClient";
+import { EntityStatus, EntityAvailabilityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
@@ -1322,75 +1329,94 @@ describe("Atom management - Authentication", function(): void {
 });
 
 // Subscription tests
-[
-  {
-    testCaseTitle: "Undefined subscription options",
-    input: undefined,
-    output: {
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      deadLetteringOnMessageExpiration: false,
-      deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
-      forwardDeadLetteredMessagesTo: undefined,
-      enableBatchedOperations: true,
-      forwardTo: undefined,
-      userMetadata: undefined,
-      lockDuration: "PT1M",
-      maxDeliveryCount: 10,
-      requiresSession: false,
-      status: "Active",
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-      availabilityStatus: "Available"
-    }
-  },
-  {
-    testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
-    input: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Available" as EntityAvailabilityStatus
+describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  const createSubscriptionTestCases: {
+    testCaseTitle: string;
+    input?: CreateSubscriptionOptions;
+    output: SubscriptionProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined subscription options",
+      input: undefined,
+      output: {
+        autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+        deadLetteringOnMessageExpiration: false,
+        deadLetteringOnFilterEvaluationExceptions: true,
+        defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
+        forwardDeadLetteredMessagesTo: undefined,
+        enableBatchedOperations: true,
+        forwardTo: undefined,
+        userMetadata: undefined,
+        lockDuration: "PT1M",
+        maxDeliveryCount: 10,
+        requiresSession: false,
+        status: "Active",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     },
-    output: {
-      lockDuration: "PT5M",
-      maxDeliveryCount: 20,
-      defaultMessageTimeToLive: "P2D",
-      autoDeleteOnIdle: "PT1H",
-      deadLetteringOnFilterEvaluationExceptions: false,
-      deadLetteringOnMessageExpiration: true,
-      enableBatchedOperations: false,
-      requiresSession: true,
-
-      forwardDeadLetteredMessagesTo: undefined,
-      forwardTo: undefined,
-      userMetadata: "test metadata",
-      status: "ReceiveDisabled",
-
-      subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-      availabilityStatus: "Available"
+    {
+      testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
+      input: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled" as EntityStatus,
+        availabilityStatus: "Available" as EntityAvailabilityStatus
+      },
+      output: {
+        lockDuration: "PT5M",
+        maxDeliveryCount: 20,
+        defaultMessageTimeToLive: "P2D",
+        autoDeleteOnIdle: "PT1H",
+        deadLetteringOnFilterEvaluationExceptions: false,
+        deadLetteringOnMessageExpiration: true,
+        enableBatchedOperations: false,
+        requiresSession: true,
+        forwardDeadLetteredMessagesTo: undefined,
+        forwardTo: undefined,
+        userMetadata: "test metadata",
+        status: "ReceiveDisabled",
+        subscriptionName: managementSubscription1,
+        topicName: managementTopic1,
+        availabilityStatus: "Available"
+      }
     }
-  }
-].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
-    beforeEach(async () => {
-      await createEntity(EntityType.TOPIC, managementTopic1);
-    });
+  ];
+  createSubscriptionTestCases.push({
+    testCaseTitle: "case-2 with defaultRuleOptions",
+    input: {
+      ...createSubscriptionTestCases[1].input,
+      defaultRuleOptions: {
+        name: "rule",
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'", sqlParameters: undefined }
+      }
+    },
+    output: { ...createSubscriptionTestCases[1].output }
+  });
 
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
+  beforeEach(async () => {
+    await createEntity(EntityType.TOPIC, managementTopic1);
+  });
 
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+
+  createSubscriptionTestCases.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
-      const response = await createEntity(
+      const response: WithResponse<SubscriptionProperties> = await createEntity(
         EntityType.SUBSCRIPTION,
         managementSubscription1,
         managementTopic1,
@@ -1406,12 +1432,16 @@ describe("Atom management - Authentication", function(): void {
         managementSubscription1,
         "Subscription name mismatch"
       );
-      assert.deepEqualExcluding(response, testCase.output, [
-        "_response",
-        "createdAt",
-        "modifiedAt",
-        "accessedAt"
-      ]);
+      assert.deepEqual(response, testCase.output);
+
+      if (testCase.input?.defaultRuleOptions) {
+        const ruleResponse = await serviceBusAtomManagementClient.getRule(
+          response.topicName,
+          response.subscriptionName,
+          testCase.input.defaultRuleOptions.name
+        );
+        assert.deepEqual(ruleResponse, testCase.input.defaultRuleOptions);
+      }
     });
   });
 });
@@ -1544,7 +1574,6 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1552,7 +1581,6 @@ describe("Atom management - Authentication", function(): void {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1578,7 +1606,6 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1586,7 +1613,6 @@ describe("Atom management - Authentication", function(): void {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1686,135 +1712,135 @@ describe("Atom management - Authentication", function(): void {
   });
 });
 
-// Rule tests
-const createRuleTests: {
-  testCaseTitle: string;
-  input: Omit<CreateRuleOptions, "name"> | undefined;
-  output: RuleProperties;
-}[] = [
-  {
-    testCaseTitle: "Undefined rule options",
-    input: undefined,
-    output: {
-      filter: {
-        sqlExpression: "1=1",
-        sqlParameters: undefined
-      },
-      action: {
-        sqlExpression: undefined,
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Sql Filter rule options",
-    input: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
-      },
-      action: { sqlExpression: "SET a='b'" }
-    },
-    output: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
-      },
-      action: {
-        sqlExpression: "SET a='b'",
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options with a single property",
-    input: {
-      filter: {
-        correlationId: "abcd",
-        applicationProperties: {
-          randomState: "WA"
-        }
-      },
-      action: { sqlExpression: "SET sys.label='GREEN'" }
-    },
-    output: {
-      filter: {
-        correlationId: "abcd",
-        contentType: "",
-        subject: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        applicationProperties: {
-          randomState: "WA"
-        }
-      },
-      action: {
-        sqlExpression: "SET sys.label='GREEN'",
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options with multiple properties",
-    input: {
-      filter: {
-        correlationId: "abcd",
-        applicationProperties: {
-          randomState: "WA",
-          randomCountry: "US",
-          randomInt: 25,
-          randomIntDisguisedAsDouble: 3.0,
-          randomDouble: 12.4,
-          randomBool: true,
-          randomDate: randomDate
-        }
-      },
-      action: { sqlExpression: "SET sys.label='GREEN'" }
-    },
-    output: {
-      filter: {
-        correlationId: "abcd",
-        contentType: "",
-        subject: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        applicationProperties: {
-          randomState: "WA",
-          randomCountry: "US",
-          randomInt: 25,
-          randomIntDisguisedAsDouble: 3.0,
-          randomDouble: 12.4,
-          randomBool: true,
-          randomDate: randomDate
-        }
-      },
-      action: {
-        sqlExpression: "SET sys.label='GREEN'",
-        sqlParameters: undefined
-      },
-      name: managementRule1
-    }
-  }
-];
-createRuleTests.forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
-    beforeEach(async () => {
-      await recreateTopic(managementTopic1);
-      await recreateSubscription(managementTopic1, managementSubscription1);
-    });
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
+describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  beforeEach(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+  });
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
 
+  // Rule tests
+  const createRuleTests: {
+    testCaseTitle: string;
+    input: Omit<CreateRuleOptions, "name"> | undefined;
+    output: RuleProperties;
+  }[] = [
+    {
+      testCaseTitle: "Undefined rule options",
+      input: undefined,
+      output: {
+        filter: {
+          sqlExpression: "1=1",
+          sqlParameters: undefined
+        },
+        action: {
+          sqlExpression: undefined,
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Sql Filter rule options",
+      input: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='b'" }
+      },
+      output: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
+        },
+        action: {
+          sqlExpression: "SET a='b'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Correlation Filter rule options with a single property",
+      input: {
+        filter: {
+          correlationId: "abcd",
+          applicationProperties: {
+            randomState: "WA"
+          }
+        },
+        action: { sqlExpression: "SET sys.label='GREEN'" }
+      },
+      output: {
+        filter: {
+          correlationId: "abcd",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: {
+            randomState: "WA"
+          }
+        },
+        action: {
+          sqlExpression: "SET sys.label='GREEN'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    },
+    {
+      testCaseTitle: "Correlation Filter rule options with multiple properties",
+      input: {
+        filter: {
+          correlationId: "abcd",
+          applicationProperties: {
+            randomState: "WA",
+            randomCountry: "US",
+            randomInt: 25,
+            randomIntDisguisedAsDouble: 3.0,
+            randomDouble: 12.4,
+            randomBool: true,
+            randomDate: randomDate
+          }
+        },
+        action: { sqlExpression: "SET sys.label='GREEN'" }
+      },
+      output: {
+        filter: {
+          correlationId: "abcd",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: {
+            randomState: "WA",
+            randomCountry: "US",
+            randomInt: 25,
+            randomIntDisguisedAsDouble: 3.0,
+            randomDouble: 12.4,
+            randomBool: true,
+            randomDate: randomDate
+          }
+        },
+        action: {
+          sqlExpression: "SET sys.label='GREEN'",
+          sqlParameters: undefined
+        },
+        name: managementRule1
+      }
+    }
+  ];
+  createRuleTests.forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
       const response = await createEntity(
         EntityType.RULE,
@@ -1853,7 +1879,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1861,7 +1886,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1885,7 +1909,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1893,7 +1916,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1929,7 +1951,6 @@ createRuleTests.forEach((testCase) => {
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1937,7 +1958,6 @@ createRuleTests.forEach((testCase) => {
           },
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -1996,7 +2016,6 @@ createRuleTests.forEach((testCase) => {
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2004,7 +2023,6 @@ createRuleTests.forEach((testCase) => {
         },
         {
           claimType: "SharedAccessKey",
-          claimValue: "None",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2282,74 +2300,68 @@ createRuleTests.forEach((testCase) => {
 });
 
 // Rule tests
-[
-  {
-    testCaseTitle: "Sql Filter rule options",
-    input: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: { "@stringParam": "b" }
+describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  beforeEach(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    await createEntity(EntityType.RULE, managementRule1, managementTopic1, managementSubscription1);
+  });
+
+  afterEach(async () => {
+    await deleteEntity(EntityType.TOPIC, managementTopic1);
+  });
+  [
+    {
+      testCaseTitle: "Sql Filter rule options",
+      input: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam",
+          sqlParameters: { "@stringParam": "b" }
+        },
+        action: { sqlExpression: "SET a='c'" }
       },
-      action: { sqlExpression: "SET a='c'" }
+      output: {
+        filter: {
+          sqlExpression: "stringValue = @stringParam",
+          sqlParameters: { "@stringParam": "b" }
+        },
+        action: {
+          sqlExpression: "SET a='c'",
+          sqlParameters: undefined
+        },
+
+        name: managementRule1
+      }
     },
-    output: {
-      filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: { "@stringParam": "b" }
+    {
+      testCaseTitle: "Correlation Filter rule options",
+      input: {
+        filter: {
+          correlationId: "defg"
+        },
+        action: { sqlExpression: "SET sys.label='RED'" }
       },
-      action: {
-        sqlExpression: "SET a='c'",
-        sqlParameters: undefined
-      },
+      output: {
+        filter: {
+          correlationId: "defg",
+          contentType: undefined,
+          subject: undefined,
+          messageId: undefined,
+          replyTo: undefined,
+          replyToSessionId: undefined,
+          sessionId: undefined,
+          to: undefined,
+          applicationProperties: undefined
+        },
+        action: {
+          sqlExpression: "SET sys.label='RED'",
+          sqlParameters: undefined
+        },
 
-      name: managementRule1
+        name: managementRule1
+      }
     }
-  },
-  {
-    testCaseTitle: "Correlation Filter rule options",
-    input: {
-      filter: {
-        correlationId: "defg"
-      },
-      action: { sqlExpression: "SET sys.label='RED'" }
-    },
-    output: {
-      filter: {
-        correlationId: "defg",
-        contentType: "",
-        subject: "",
-        messageId: "",
-        replyTo: "",
-        replyToSessionId: "",
-        sessionId: "",
-        to: "",
-        applicationProperties: undefined
-      },
-      action: {
-        sqlExpression: "SET sys.label='RED'",
-        sqlParameters: undefined
-      },
-
-      name: managementRule1
-    }
-  }
-].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
-    beforeEach(async () => {
-      await recreateTopic(managementTopic1);
-      await recreateSubscription(managementTopic1, managementSubscription1);
-      await createEntity(
-        EntityType.RULE,
-        managementRule1,
-        managementTopic1,
-        managementSubscription1
-      );
-    });
-
-    afterEach(async () => {
-      await deleteEntity(EntityType.TOPIC, managementTopic1);
-    });
-
+  ].forEach((testCase) => {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const response = await updateEntity(
@@ -2421,7 +2433,6 @@ async function createEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
@@ -2651,7 +2662,6 @@ async function updateEntity(
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
-            claimValue: "None",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",

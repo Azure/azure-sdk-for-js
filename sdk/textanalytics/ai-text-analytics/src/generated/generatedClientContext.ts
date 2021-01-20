@@ -41,7 +41,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     this.requestContentType = "application/json; charset=utf-8";
 
     this.baseUri =
-      options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.2";
+      options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.3";
 
     // Parameter assignments
     this.endpoint = endpoint;

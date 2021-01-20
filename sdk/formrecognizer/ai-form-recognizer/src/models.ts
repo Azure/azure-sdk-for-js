@@ -9,13 +9,17 @@ import {
   KeyValueElement as KeyValueElementModel,
   KeyValueType,
   KeyValuePair as KeyValuePairModel,
+  SelectionMarkState,
   Language,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
-  ModelStatus
+  ModelStatus,
+  Appearance,
+  Style,
+  TextStyle
 } from "./generated/models";
 
 export {
@@ -24,17 +28,21 @@ export {
   KeyValueElementModel,
   KeyValueType,
   KeyValuePairModel,
+  SelectionMarkState,
   Language,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
-  TrainingStatus
+  TrainingStatus,
+  Appearance,
+  Style,
+  TextStyle
 };
 
 /**
- * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch' (See {link @LengthUnit}).
+ * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch', @see {@link LengthUnit}.
  */
 export interface Point2D {
   /**
@@ -56,13 +64,13 @@ export interface FormElementCommon {
    */
   pageNumber: number;
   /**
-   * The text content of the word.
-   */
-  text: string;
-  /**
    * Bounding box of a recognized word.
    */
   boundingBox: Point2D[];
+  /**
+   * Optional text content of the form element.
+   */
+  text?: string;
 }
 
 /**
@@ -73,6 +81,10 @@ export interface FormWord extends FormElementCommon {
    * Element kind - "word"
    */
   kind: "word";
+  /**
+   * The text content of the word.
+   */
+  text: string;
   /**
    * Confidence value.
    */
@@ -93,27 +105,44 @@ export interface FormLine extends FormElementCommon {
    */
   // language?: Language;
   /**
+   * The text content of the line.
+   */
+  text: string;
+  /**
    * List of words in the text line.
    */
   words: FormWord[];
+  /**
+   * Text appearance properties, such as style.
+   */
+  appearance?: Appearance;
 }
 
 /**
- * Represents a recognized check box
+ * Represents a recognized selection mark.
+ *
+ * Selection marks include checkboxes, radio buttons, etc.
  */
-// export interface FormCheckBox extends FormElement {
-//   /**
-//    * Element kind - "checkbox"
-//    */
-//   kind: "checkbox";
-//   ...
-// }
+export interface FormSelectionMark extends FormElementCommon {
+  /**
+   * Element kind - "selectionMark"
+   */
+  kind: "selectionMark";
+  /**
+   * The state of the mark, either "selected" or "unselected".
+   */
+  state: SelectionMarkState;
+  /**
+   * Confidence value.
+   */
+  confidence?: number;
+}
 
 /**
  * Information about a recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type FormElement = FormWord | FormLine; // | FormCheckBox;
+export type FormElement = FormWord | FormLine | FormSelectionMark;
 
 /**
  * Represents a cell in recognized table
@@ -178,6 +207,13 @@ export interface FormTable {
    */
   columnCount: number;
   /**
+   * The bounding box of the recognized table
+   *
+   * Note: This may be `undefined` for FormTables recognized from from custom models trained
+   * without labels.
+   */
+  boundingBox?: Point2D[];
+  /**
    * List of cells in the data table
    */
   cells: FormTableCell[];
@@ -189,8 +225,8 @@ export interface FormTable {
 
 /**
  * Represents recognized elements of label-value pairs.
- * For example, "Work Address" is the label of
- * "Work Address: One Microsoft Way, Redmond, WA"
+ *
+ * For example, "Work Address" is the label of "Work Address: One Microsoft Way, Redmond, WA"
  */
 export interface FieldData {
   /**
@@ -272,6 +308,10 @@ export type FormField = {
       value?: Record<string, FormField>;
       valueType?: "object";
     }
+  | {
+      value?: SelectionMarkState;
+      valueType?: "selectionMark";
+    }
 );
 
 /**
@@ -327,9 +367,13 @@ export interface FormPage {
    */
   lines?: FormLine[];
   /**
-   * List of data tables recognized form the page
+   * List of data tables recognized in the page
    */
   tables?: FormTable[];
+  /**
+   * List of selection marks recognized in the page
+   */
+  selectionMarks?: FormSelectionMark[];
 }
 
 /**
@@ -342,9 +386,19 @@ export interface FormPageArray extends Array<FormPage> {}
  */
 export interface RecognizedForm {
   /**
-   * Document type.
+   * The type of the form.
    */
   formType: string;
+  /**
+   * Confidence in the correctness of the form type.
+   *
+   * For unlabeled models, this value will always be undefined.
+   */
+  formTypeConfidence?: number;
+  /**
+   * The model ID used to analyze the contents of this document.
+   */
+  modelId?: string;
   /**
    * First and last page number where the document is found.
    */
@@ -400,6 +454,10 @@ export interface TrainingDocumentInfo {
    */
   name: string;
   /**
+   * The model ID associated with this training document
+   */
+  modelId?: string;
+  /**
    * Total number of pages trained.
    */
   pageCount: number;
@@ -411,6 +469,16 @@ export interface TrainingDocumentInfo {
    * Status of the training operation.
    */
   status: TrainingStatus;
+}
+
+/**
+ * Optional properties of a custom form model.
+ */
+export interface CustomFormModelProperties {
+  /**
+   * Indicates whether or not the model was composed.
+   */
+  isComposedModel?: boolean;
 }
 
 /**
@@ -427,6 +495,10 @@ export interface CustomFormModelInfo {
    * Model names are not guaranteed to be unique.
    */
   modelName?: string;
+  /**
+   * Optional properties or flags associated with the model.
+   */
+  properties?: CustomFormModelProperties;
   /**
    * Status of the model.
    */
@@ -460,6 +532,10 @@ export interface CustomFormModelField {
  * Represents the model for a type of custom form from the training.
  */
 export interface CustomFormSubmodel {
+  /**
+   * The model ID associated with this submodel.
+   */
+  modelId?: string;
   /**
    * Estimated extraction accuracy for this field.
    */

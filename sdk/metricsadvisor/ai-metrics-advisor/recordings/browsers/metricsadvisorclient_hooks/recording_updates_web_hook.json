@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/dfec49ef-5c00-492b-a399-b8c46fa995cb",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/5039ea6c-fd43-49c2-8420-aa71c2dd92c4",
    "query": {},
    "requestBody": "{\"hookType\":\"Webhook\",\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\"}}",
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "d48e41c3-25d7-404c-8572-e8bdc97bca9c",
+    "apim-request-id": "35bd7553-d688-4e5d-9a47-e288310ca074",
     "content-length": "0",
-    "date": "Mon, 21 Sep 2020 23:39:34 GMT",
+    "date": "Fri, 13 Nov 2020 22:05:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "592",
-    "x-request-id": "d48e41c3-25d7-404c-8572-e8bdc97bca9c"
+    "x-request-id": "35bd7553-d688-4e5d-9a47-e288310ca074"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/dfec49ef-5c00-492b-a399-b8c46fa995cb",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/5039ea6c-fd43-49c2-8420-aa71c2dd92c4",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"hookId\":\"dfec49ef-5c00-492b-a399-b8c46fa995cb\",\"hookName\":\"js-test-webHook-160073156746900288\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"yumeng@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "response": "{\"hookId\":\"5039ea6c-fd43-49c2-8420-aa71c2dd92c4\",\"hookName\":\"js-test-webHook-160530509848001407\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
    "responseHeaders": {
-    "apim-request-id": "4de74f7a-cca1-4166-997f-357a595ba083",
-    "content-length": "352",
+    "apim-request-id": "690b513c-eeb4-43f0-80bb-74021a31e869",
+    "content-length": "353",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 21 Sep 2020 23:39:34 GMT",
+    "date": "Fri, 13 Nov 2020 22:05:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "136",
-    "x-request-id": "4de74f7a-cca1-4166-997f-357a595ba083"
+    "x-envoy-upstream-service-time": "161",
+    "x-request-id": "690b513c-eeb4-43f0-80bb-74021a31e869"
    }
   }
  ],
@@ -40,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "7c9fea21c01d1bced4c1b374c6266f9d"
+ "hash": "b24b7807e934bbb8ca716c14e17add8b"
 }

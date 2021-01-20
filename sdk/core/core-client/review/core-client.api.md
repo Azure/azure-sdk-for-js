@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { HttpMethods } from '@azure/core-https';
 import { HttpsClient } from '@azure/core-https';
+import { InternalPipelineOptions } from '@azure/core-https';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-https';
 import { PipelinePolicy } from '@azure/core-https';
@@ -34,6 +35,16 @@ export interface BaseMapper {
     xmlNamespacePrefix?: string;
 }
 
+// @public
+export interface ClientPipelineOptions extends InternalPipelineOptions {
+    credentialOptions?: {
+        credentialScopes: string | string[];
+        credential: TokenCredential;
+    };
+    deserializationOptions?: DeserializationPolicyOptions;
+    serializationOptions?: serializationPolicyOptions;
+}
+
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
     // (undocumented)
@@ -57,6 +68,9 @@ export interface CompositeMapperType {
     // (undocumented)
     uberParent?: string;
 }
+
+// @public
+export function createClientPipeline(options?: ClientPipelineOptions): Pipeline;
 
 // @public
 export function createSerializer(modelMappers?: {
@@ -84,9 +98,8 @@ export const deserializationPolicyName = "deserializationPolicy";
 // @public
 export interface DeserializationPolicyOptions {
     expectedContentTypes?: DeserializationContentTypes;
-    parseXML?: (str: string, opts?: {
-        includeRoot?: boolean;
-    }) => Promise<any>;
+    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
+    serializerOptions?: SerializerOptions;
 }
 
 // @public (undocumented)
@@ -189,7 +202,9 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
+    onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
+    serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
 }
 
@@ -206,10 +221,11 @@ export interface OperationQueryParameter extends OperationParameter {
 }
 
 // @public
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export type OperationRequest = PipelineRequest;
 
 // @public
 export interface OperationRequestInfo {
+    operationArguments?: OperationArguments;
     operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
@@ -224,13 +240,6 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
     timeout?: number;
-}
-
-// @public
-export interface OperationResponse {
-    // (undocumented)
-    [key: string]: any;
-    _response: FullOperationResponse;
 }
 
 // @public
@@ -282,6 +291,9 @@ export interface PolymorphicDiscriminator {
 // @public
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
+// @public
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {
     // (undocumented)
@@ -297,9 +309,21 @@ export interface SequenceMapperType {
 }
 
 // @public
+export function serializationPolicy(options?: serializationPolicyOptions): PipelinePolicy;
+
+// @public
+export const serializationPolicyName = "serializationPolicy";
+
+// @public
+export interface serializationPolicyOptions {
+    serializerOptions?: SerializerOptions;
+    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
+}
+
+// @public
 export interface Serializer {
     // (undocumented)
-    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
     // (undocumented)
     readonly isXML: boolean;
     // (undocumented)
@@ -307,28 +331,33 @@ export interface Serializer {
         [key: string]: any;
     };
     // (undocumented)
-    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
     // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 
 // @public
+export interface SerializerOptions {
+    xml: XmlOptions;
+}
+
+// @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-    }
+}
 
 // @public
 export interface ServiceClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
+    credentialScopes?: string | string[];
     httpsClient?: HttpsClient;
+    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;
     requestContentType?: string;
-    stringifyXML?: (obj: any, opts?: {
-        rootName?: string;
-    }) => string;
+    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
 
 // @public (undocumented)
@@ -341,6 +370,19 @@ export interface SimpleMapperType {
 export interface SpanConfig {
     namespace: string;
     packagePrefix: string;
+}
+
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "_";
+
+// @public
+export interface XmlOptions {
+    includeRoot?: boolean;
+    rootName?: string;
+    xmlCharKey?: string;
 }
 
 

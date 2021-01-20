@@ -1,85 +1,85 @@
 let nock = require('nock');
 
-module.exports.hash = "651943585b7f765da30b063517242c8c";
+module.exports.hash = "65f4da8bb715d1ed6e4003554d3d029c";
 
-module.exports.testInfo = {"uniqueName":{"container1":"container1159220870164604944","key":"key159220870319306639","key2":"key2159220870319306858","blobname1":"blobname1159220870319304275","val1":"val1159220870319502764","blobname2":"blobname2159220870349903988","val2":"val2159220870350101043"},"newDate":{"now":"2020-06-15T08:11:41.643Z","tmr":"2020-06-15T08:11:41.644Z"}}
+module.exports.testInfo = {"uniqueName":{"container1":"container1160587645053109512","key":"key160587645183702804","key2":"key2160587645183708754","blobname1":"blobname1160587645183708224","val1":"val1160587645183909250","blobname2":"blobname2160587645246900867","val2":"val2160587645247005754"},"newDate":{"now":"2020-11-20T12:47:30.528Z","tmr":"2020-11-20T12:47:30.529Z"}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container1159220870164604944')
+  .put('/container1160587645053109512')
   .query(true)
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Mon, 15 Jun 2020 08:11:42 GMT',
+  'Fri, 20 Nov 2020 12:47:31 GMT',
   'ETag',
-  '"0x8D81103BD1E4CBD"',
+  '"0x8D88D5272438848"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6eb6eed5-e01e-007c-66ec-42635f000000',
+  'cde1154e-a01e-0070-603b-bf6335000000',
   'x-ms-client-request-id',
-  '659c96af-b45b-4f27-944d-9ad55f6b5bbc',
+  'b30860f3-d57d-4682-a175-098c51cbfaca',
   'x-ms-version',
-  '2019-12-12',
+  '2020-04-08',
   'Date',
-  'Mon, 15 Jun 2020 08:11:42 GMT'
+  'Fri, 20 Nov 2020 12:47:31 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container1159220870164604944/blobname1159220870319304275')
+  .put('/container1160587645053109512/blobname1160587645183708224')
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Mon, 15 Jun 2020 08:11:43 GMT',
+  'Fri, 20 Nov 2020 12:47:32 GMT',
   'ETag',
-  '"0x8D81103BD6BBE41"',
+  '"0x8D88D5272A6D89C"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6eb6eff7-e01e-007c-77ec-42635f000000',
+  'cde11581-a01e-0070-093b-bf6335000000',
   'x-ms-client-request-id',
-  '35cb2ed1-d7c1-4e36-a2ad-6340ba60229b',
+  'fbf6f7f3-bffb-47bf-800a-3c55bd835d38',
   'x-ms-version',
-  '2019-12-12',
+  '2020-04-08',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-version-id',
-  '2020-06-15T08:11:43.3454145Z',
+  '2020-11-20T12:47:32.3296924Z',
   'Date',
-  'Mon, 15 Jun 2020 08:11:42 GMT'
+  'Fri, 20 Nov 2020 12:47:32 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container1159220870164604944/blobname2159220870349903988')
+  .put('/container1160587645053109512/blobname2160587645246900867')
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Mon, 15 Jun 2020 08:11:43 GMT',
+  'Fri, 20 Nov 2020 12:47:32 GMT',
   'ETag',
-  '"0x8D81103BD993F1A"',
+  '"0x8D88D5272D1C0FB"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6eb6f0b6-e01e-007c-31ec-42635f000000',
+  'cde1162a-a01e-0070-063b-bf6335000000',
   'x-ms-client-request-id',
-  '11320ca7-afd2-47ef-810a-a8d1ce13471c',
+  'f9dd0849-d267-4155-847b-3cfd355a763c',
   'x-ms-version',
-  '2019-12-12',
+  '2020-04-08',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-version-id',
-  '2020-06-15T08:11:43.6436250Z',
+  '2020-11-20T12:47:32.6108923Z',
   'Date',
-  'Mon, 15 Jun 2020 08:11:43 GMT'
+  'Fri, 20 Nov 2020 12:47:32 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
   .get('/')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Where>key159220870319306639=&apos;val1159220870319502764&apos;</Where><Blobs><Blob><Name>blobname1159220870319304275</Name><ContainerName>container1159220870164604944</ContainerName><TagValue>val1159220870319502764</TagValue></Blob></Blobs><NextMarker/></EnumerationResults>", [
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\"><Where>key160587645183702804=&apos;val1160587645183909250&apos;</Where><Blobs><Blob><Name>blobname1160587645183708224</Name><ContainerName>container1160587645053109512</ContainerName><Tags><TagSet><Tag><Key>key160587645183702804</Key><Value>val1160587645183909250</Value></Tag></TagSet></Tags></Blob></Blobs><NextMarker/></EnumerationResults>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -89,17 +89,17 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6eb6f53a-e01e-007c-75ec-42635f000000',
+  'cde117d1-a01e-0070-513b-bf6335000000',
   'x-ms-version',
-  '2019-12-12',
+  '2020-04-08',
   'x-ms-client-request-id',
-  '0f0f2d4e-7dfa-41ac-8112-b950dd4a6de8',
+  'bf772780-e60a-4bb7-b9d8-689ca33f4831',
   'Date',
-  'Mon, 15 Jun 2020 08:11:45 GMT'
+  'Fri, 20 Nov 2020 12:47:35 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container1159220870164604944')
+  .delete('/container1160587645053109512')
   .query(true)
   .reply(202, "", [
   'Content-Length',
@@ -107,11 +107,11 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6eb6f658-e01e-007c-01ec-42635f000000',
+  'cde1198e-a01e-0070-3c3b-bf6335000000',
   'x-ms-client-request-id',
-  '3b7bb3be-7d0b-4c3e-8abf-08fee458d84c',
+  'e1198b53-af46-421b-afd5-09dee6fbb7c2',
   'x-ms-version',
-  '2019-12-12',
+  '2020-04-08',
   'Date',
-  'Mon, 15 Jun 2020 08:11:46 GMT'
+  'Fri, 20 Nov 2020 12:47:36 GMT'
 ]);

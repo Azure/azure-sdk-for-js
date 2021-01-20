@@ -1,6 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { apiVersion } from "./generated/src/models/parameters";
-
-export const SDK_VERSION: string = apiVersion.mapper.defaultValue;
+export const SDK_VERSION: string = "1.0.0-beta.3";

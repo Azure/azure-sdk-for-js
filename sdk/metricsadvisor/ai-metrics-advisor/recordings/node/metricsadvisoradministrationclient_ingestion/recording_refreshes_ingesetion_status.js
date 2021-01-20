@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "3070de3f0d8335a1c26c3b11aa3a2027";
+module.exports.hash = "135ca41d063e560363416c1ac506473f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -12,19 +12,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '39ac2dd9-4433-4cb8-8c74-39a9732b7bc3',
+  '00f9cdb4-f157-4602-b6c9-799393318d78',
   'x-envoy-upstream-service-time',
-  '183',
+  '973',
   'apim-request-id',
-  '39ac2dd9-4433-4cb8-8c74-39a9732b7bc3',
+  '00f9cdb4-f157-4602-b6c9-799393318d78',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 23:14:38 GMT',
-  'Connection',
-  'close'
+  'Fri, 13 Nov 2020 22:02:33 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -33,19 +31,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'x-request-id',
-  'd085549c-95a6-4f6b-bcec-539502e25607',
+  'df47b8f6-b870-47d9-ba65-7c743638df4d',
   'x-envoy-upstream-service-time',
-  '267',
+  '261',
   'apim-request-id',
-  'd085549c-95a6-4f6b-bcec-539502e25607',
+  'df47b8f6-b870-47d9-ba65-7c743638df4d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 23:14:39 GMT',
-  'Connection',
-  'close'
+  'Fri, 13 Nov 2020 22:02:33 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -56,17 +52,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '1d636462-a88f-4366-9f3e-a17672aa6280',
+  'c163f19a-8f08-44d9-81ab-db0db1db3378',
   'x-envoy-upstream-service-time',
-  '162',
+  '215',
   'apim-request-id',
-  '1d636462-a88f-4366-9f3e-a17672aa6280',
+  'c163f19a-8f08-44d9-81ab-db0db1db3378',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 23:14:40 GMT',
-  'Connection',
-  'close'
+  'Fri, 13 Nov 2020 22:02:33 GMT'
 ]);

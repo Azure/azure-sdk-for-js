@@ -21,7 +21,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
+      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-11-21T05:33:46.8284313+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -34,7 +34,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
+      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-11-21T05:33:46.8284313+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -47,7 +47,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
+      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-11-21T05:33:46.8284313+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -60,46 +60,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://endpoint/administration/phonenumbers/searches/sanitized",
-      "query": {
-        "api-version": "2020-07-20-preview1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Pending\",\"phoneNumbers\":[]}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://endpoint/administration/phonenumbers/searches/sanitized",
-      "query": {
-        "api-version": "2020-07-20-preview1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"InProgress\",\"phoneNumbers\":[]}",
-      "responseHeaders": {
-        "content-type": "application/json; charset=utf-8"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://endpoint/administration/phonenumbers/searches/sanitized",
-      "query": {
-        "api-version": "2020-07-20-preview1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-10-07T20:48:15.1739576+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Reserved\",\"phoneNumbers\":[\"+18005551234\"],\"reservationExpiryDate\":\"2020-10-07T21:04:26.9032882+00:00\"}",
+      "response": "{\"searchId\":\"sanitized\",\"displayName\":\"LRO Test Search\",\"createdAt\":\"2020-11-21T05:33:46.8284313+00:00\",\"description\":\"Test search for JS phone number admin SDK.\",\"phonePlanIds\":[\"sanitized\",\"sanitized\"],\"areaCode\":\"205\",\"quantity\":1,\"locationOptions\":[],\"status\":\"Reserved\",\"phoneNumbers\":[\"+18005551234\"],\"reservationExpiryDate\":\"2020-11-21T05:49:52.1257401+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -109,5 +70,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "edba9905c768c0d30a37628567712508"
+  "hash": "90680ef4aa6dad53ada5eafde2ceb120"
 }

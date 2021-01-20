@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-invalid-this */
+
 import { assert } from "chai";
 import { Context } from "mocha";
 
@@ -28,20 +30,12 @@ matrix([[true, false]] as const, async (useAad) => {
     let recorder: Recorder;
 
     beforeEach(function(this: Context) {
-      // eslint-disable-next-line no-invalid-this
       recorder = createRecorder(this);
     });
 
     afterEach(async function() {
       await recorder.stop();
     });
-
-    const expectedDocumentInfo: TrainingDocumentInfo = {
-      name: "Form_1.jpg",
-      errors: [],
-      pageCount: 1,
-      status: "succeeded"
-    };
 
     // #region Model Training
 
@@ -98,6 +92,7 @@ matrix([[true, false]] as const, async (useAad) => {
             let _model: CustomFormModel;
 
             let modelName: string;
+            let expectedDocumentInfo: TrainingDocumentInfo;
 
             // We only want to create the model once, but because of the recorder's
             // precedence, we have to create it in a test, so one test will end up
@@ -115,6 +110,14 @@ matrix([[true, false]] as const, async (useAad) => {
                 _model = await poller.pollUntilDone();
 
                 assert.ok(_model.modelId);
+
+                expectedDocumentInfo = {
+                  name: "Form_1.jpg",
+                  modelId: _model.modelId,
+                  errors: [],
+                  pageCount: 1,
+                  status: "succeeded"
+                };
 
                 allModels.push(_model.modelId);
               }
@@ -136,17 +139,20 @@ matrix([[true, false]] as const, async (useAad) => {
               assert.isNotEmpty(model.submodels);
               const submodel = model.submodels![0];
 
-              const expectedFormType = `form-${useLabels ? model.modelId : "0"}`;
-
+              const expectedFormType = useLabels
+                ? `custom:${modelName}`
+                : `form-${useLabels ? model.modelId : "0"}`;
               assert.equal(submodel.formType, expectedFormType);
+
               if (useLabels) {
                 // When training with labels, we will have expectations for the names
                 assert.ok(
                   submodel.fields["Signature"],
                   "Expecting field with name 'Signature' to be valid"
                 );
-                // TODO: move this above this if statement, as it should work
-                // in unlabeled models pending a service fix.
+                assert.isNotTrue(model.properties?.isComposedModel);
+                // TODO: move this above as a known issue prevents unlabeled models from receiving
+                // modelName
                 assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
@@ -192,6 +198,14 @@ matrix([[true, false]] as const, async (useAad) => {
                 });
                 assert.isNotEmpty(form.pages);
 
+                const [page] = form.pages;
+                assert.isNotEmpty(page.tables);
+                const [table] = page.tables!;
+                /* TODO: service bug where boundingBox not defined for unlabeled model
+                 * assert.ok(table.boundingBox);
+                 */
+                assert.equal(table.pageNumber, 1);
+
                 if (useLabels) {
                   assert.ok(form.fields);
                   assert.ok(form.fields["Merchant"]);
@@ -227,7 +241,6 @@ matrix([[true, false]] as const, async (useAad) => {
        */
       describe("account properties", () => {
         it("has trained models and limits", async () => {
-          const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
           const properties = await trainingClient.getAccountProperties();
 
           // Model count should be >0 because we just trained several models
@@ -295,6 +308,60 @@ matrix([[true, false]] as const, async (useAad) => {
     });
 
     // #endregion
+
+    it("compose model", async function() {
+      const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
+
+      // Create two models using the same data set. This will still test our training
+      // client because the service's behavior here shouldn't affect it.
+
+      let allTrainingDocuments: TrainingDocumentInfo[] = [];
+
+      // Helper function to train/validate single model
+      async function makeModel(modelName: string): Promise<string> {
+        const poller = await trainingClient.beginTraining(containerSasUrl(), true, {
+          modelName,
+          ...testPollingOptions
+        });
+        const model = await poller.pollUntilDone();
+
+        assert.ok(model.modelId);
+        assert.equal(model.errors?.length, 0);
+        assert.equal(model.modelName, modelName);
+        assert.isNotEmpty(model.trainingDocuments);
+        assert.isNotEmpty(model.submodels);
+
+        allTrainingDocuments = allTrainingDocuments.concat(model.trainingDocuments ?? []);
+
+        return model.modelId;
+      }
+
+      const modelIds = await Promise.all([makeModel("input1"), makeModel("input2")]);
+
+      const modelName = recorder.getUniqueName("composedModelName");
+      const composePoller = await trainingClient.beginCreateComposedModel(modelIds, {
+        modelName,
+        ...testPollingOptions
+      });
+
+      const composedModel = await composePoller.pollUntilDone();
+      assert.ok(composedModel.modelId);
+      assert.equal(composedModel.errors?.length ?? 0, 0);
+      assert.equal(composedModel.modelName, modelName);
+      assert.ok(composedModel.properties);
+      assert.isTrue(composedModel.properties?.isComposedModel);
+
+      // Submodels
+      assert.equal(composedModel.submodels?.length, 2);
+      assert.isTrue(composedModel.submodels?.every((model) => modelIds.includes(model.modelId!)));
+
+      // Training Documents
+      assert.equal(composedModel.trainingDocuments?.length, allTrainingDocuments.length);
+      for (const info of composedModel.trainingDocuments ?? []) {
+        assert.isTrue(modelIds.includes(info.modelId!));
+        assert.isTrue(info.name.startsWith("Form_"));
+      }
+    });
 
     it("copy model", async function() {
       // Since this test is isolated, we'll create a fresh set of resources for it

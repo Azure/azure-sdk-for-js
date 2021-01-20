@@ -1056,7 +1056,6 @@ export const RemoteAddressMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1135,7 +1134,6 @@ export const RequestMethodMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1201,7 +1199,6 @@ export const QueryStringMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1265,7 +1262,6 @@ export const PostArgsMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       selector: {
-        required: true,
         serializedName: "selector",
         type: {
           name: "String"
@@ -1285,7 +1281,6 @@ export const PostArgsMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1362,7 +1357,6 @@ export const RequestUriMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1426,7 +1420,6 @@ export const RequestHeaderMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       selector: {
-        required: true,
         serializedName: "selector",
         type: {
           name: "String"
@@ -1446,7 +1439,6 @@ export const RequestHeaderMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1523,7 +1515,6 @@ export const RequestBodyMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1602,7 +1593,6 @@ export const RequestSchemeMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1668,7 +1658,6 @@ export const UrlPathMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1745,7 +1734,6 @@ export const UrlFileExtensionMatchConditionParameters: msRest.CompositeMapper = 
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1822,7 +1810,6 @@ export const UrlFileNameMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1901,7 +1888,6 @@ export const HttpVersionMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -1954,7 +1940,6 @@ export const CookiesMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       selector: {
-        required: true,
         serializedName: "selector",
         type: {
           name: "String"
@@ -1974,7 +1959,6 @@ export const CookiesMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -2053,7 +2037,6 @@ export const IsDeviceMatchConditionParameters: msRest.CompositeMapper = {
         }
       },
       matchValues: {
-        required: true,
         serializedName: "matchValues",
         type: {
           name: "Sequence",
@@ -3108,7 +3091,6 @@ export const KeyVaultCertificateSourceParameters: msRest.CompositeMapper = {
         }
       },
       secretVersion: {
-        required: true,
         serializedName: "secretVersion",
         type: {
           name: "String"

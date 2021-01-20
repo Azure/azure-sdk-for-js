@@ -92,25 +92,25 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
   const sbMessage = new ServiceBusMessageImpl(amqpMessage, fakeDelivery, false, "peekLock");
 
   it("headers match", () => {
-    assert.equal(sbMessage._amqpAnnotatedMessage.header?.firstAcquirer, amqpMessage.first_acquirer);
-    assert.equal(sbMessage._amqpAnnotatedMessage.header?.timeToLive, amqpMessage.ttl);
-    assert.equal(sbMessage._amqpAnnotatedMessage.header?.durable, amqpMessage.durable);
-    assert.equal(sbMessage._amqpAnnotatedMessage.header?.priority, amqpMessage.priority);
-    assert.equal(sbMessage._amqpAnnotatedMessage.header?.deliveryCount, amqpMessage.delivery_count);
+    assert.equal(sbMessage._rawAmqpMessage.header?.firstAcquirer, amqpMessage.first_acquirer);
+    assert.equal(sbMessage._rawAmqpMessage.header?.timeToLive, amqpMessage.ttl);
+    assert.equal(sbMessage._rawAmqpMessage.header?.durable, amqpMessage.durable);
+    assert.equal(sbMessage._rawAmqpMessage.header?.priority, amqpMessage.priority);
+    assert.equal(sbMessage._rawAmqpMessage.header?.deliveryCount, amqpMessage.delivery_count);
 
     assert.equal(sbMessage.deliveryCount, amqpMessage.delivery_count);
     assert.equal(sbMessage.timeToLive, amqpMessage.ttl);
   });
 
   it("message annotations match", () => {
-    if (!sbMessage._amqpAnnotatedMessage.messageAnnotations) {
+    if (!sbMessage._rawAmqpMessage.messageAnnotations) {
       throw new Error("Message Annotations should not be empty");
     }
 
     for (const key in message_annotations) {
       if (Object.prototype.hasOwnProperty.call(message_annotations, key)) {
         assert.equal(
-          sbMessage._amqpAnnotatedMessage.messageAnnotations[key],
+          sbMessage._rawAmqpMessage.messageAnnotations[key],
           message_annotations[key],
           `Unexpected value for key: ${key}`
         );
@@ -131,14 +131,14 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
   });
 
   it("delivery annotations match", () => {
-    if (!sbMessage._amqpAnnotatedMessage.deliveryAnnotations) {
+    if (!sbMessage._rawAmqpMessage.deliveryAnnotations) {
       throw new Error("Delivery Annotations should not be empty");
     }
 
     for (const key in delivery_annotations) {
       if (Object.prototype.hasOwnProperty.call(delivery_annotations, key)) {
         assert.equal(
-          sbMessage._amqpAnnotatedMessage.deliveryAnnotations[key],
+          sbMessage._rawAmqpMessage.deliveryAnnotations[key],
           delivery_annotations[key],
           `Unexpected value for key: ${key}`
         );
@@ -147,51 +147,36 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
   });
 
   it("properties match", () => {
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.messageId, amqpMessage.message_id);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.replyTo, amqpMessage.reply_to);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.to, amqpMessage.to);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.messageId, amqpMessage.message_id);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.replyTo, amqpMessage.reply_to);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.to, amqpMessage.to);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.correlationId, amqpMessage.correlation_id);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.contentType, amqpMessage.content_type);
     assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.correlationId,
-      amqpMessage.correlation_id
-    );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.contentType, amqpMessage.content_type);
-    assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.contentEncoding,
+      sbMessage._rawAmqpMessage.properties?.contentEncoding,
       amqpMessage.content_encoding
     );
     assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.absoluteExpiryTime,
+      sbMessage._rawAmqpMessage.properties?.absoluteExpiryTime,
       amqpMessage.absolute_expiry_time
     );
+    assert.equal(sbMessage._rawAmqpMessage.properties?.creationTime, amqpMessage.creation_time);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.groupId, amqpMessage.group_id);
     assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.creationTime,
-      amqpMessage.creation_time
-    );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.groupId, amqpMessage.group_id);
-    assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.replyToGroupId,
+      sbMessage._rawAmqpMessage.properties?.replyToGroupId,
       amqpMessage.reply_to_group_id
     );
-    assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.groupSequence,
-      amqpMessage.group_sequence
-    );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, amqpMessage.subject);
-    // assert.equal(sbMessage._amqpAnnotatedMessage.properties?.userId, amqpMessage.user_id);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.groupSequence, amqpMessage.group_sequence);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.subject, amqpMessage.subject);
+    // assert.equal(sbMessage._rawAmqpMessage.properties?.userId, amqpMessage.user_id);
 
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.messageId, sbMessage.messageId);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.replyTo, sbMessage.replyTo);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.to, sbMessage.to);
-    assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.correlationId,
-      sbMessage.correlationId
-    );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.contentType, sbMessage.contentType);
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.groupId, sbMessage.sessionId);
-    assert.equal(
-      sbMessage._amqpAnnotatedMessage.properties?.replyToGroupId,
-      sbMessage.replyToSessionId
-    );
-    assert.equal(sbMessage._amqpAnnotatedMessage.properties?.subject, sbMessage.subject);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.messageId, sbMessage.messageId);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.replyTo, sbMessage.replyTo);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.to, sbMessage.to);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.correlationId, sbMessage.correlationId);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.contentType, sbMessage.contentType);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.groupId, sbMessage.sessionId);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.replyToGroupId, sbMessage.replyToSessionId);
+    assert.equal(sbMessage._rawAmqpMessage.properties?.subject, sbMessage.subject);
   });
 });

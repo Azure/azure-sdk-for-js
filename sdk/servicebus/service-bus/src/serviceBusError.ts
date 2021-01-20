@@ -61,13 +61,13 @@ export type ServiceBusErrorCode =
   /**
    * The user doesn't have access to the entity.
    */
-  | "Unauthorized";
+  | "UnauthorizedAccess";
 
 /**
  * Translation between the MessagingErrorCodes into a ServiceBusCode
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusErrorCode> = new Map([
   ["MessagingEntityNotFoundError", "MessagingEntityNotFound"],
@@ -79,54 +79,67 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["QuotaExceededError", "QuotaExceeded"],
   ["ServerBusyError", "ServiceBusy"],
 
-  // not sure about these two.
-  ["MessageWaitTimeout", "ServiceTimeout"],
   ["OperationTimeoutError", "ServiceTimeout"],
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
   ["SessionLockLostError", "SessionLockLost"],
-  ["UnauthorizedError", "Unauthorized"]
+  ["UnauthorizedError", "UnauthorizedAccess"]
 ]);
 
 /**
- * Errors that occur within Service Bus
+ * Errors that occur within Service Bus.
  */
 export class ServiceBusError extends MessagingError {
   /**
    * The reason for the failure.
    *
-   * **GeneralError**: The exception was the result of a general error within the client library.
-   * **MessagingEntityNotFound**: A Service Bus resource cannot be found by the Service Bus service.
-   * **MessageLockLost**: The lock on the message is lost. Callers should attempt to receive and process the message again.
-   * **MessageNotFound**: The requested message was not found.
-   * **MessageSizeExceeded**: A message is larger than the maximum size allowed for its transport.
-   * **MessagingEntityAlreadyExists**: An entity with the same name exists under the same namespace.
-   * **MessagingEntityDisabled**: The Messaging Entity is disabled. Enable the entity again using Portal.
-   * **QuotaExceeded**: The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.
-   * **ServiceBusy**: The Azure Service Bus service reports that it is busy in response to a client request to perform an operation.
-   * **ServiceTimeout**: An operation or other request timed out while interacting with the Azure Service Bus service.
-   * **ServiceCommunicationProblem**: There was a general communications error encountered when interacting with the Azure Service Bus service.
-   * **SessionCannotBeLocked**: The requested session cannot be locked.
-   * **SessionLockLost**: The lock on the session has expired. Callers should request the session again.
-   * **Unauthorized"**: The user doesn't have access to the entity.
+   * - **GeneralError**: The exception was the result of a general error within the client library.
+   * - **MessagingEntityNotFound**: A Service Bus resource cannot be found by the Service Bus service.
+   * - **MessageLockLost**: The lock on the message is lost. Callers should attempt to receive and process the message again.
+   * - **MessageNotFound**: The requested message was not found.
+   * - **MessageSizeExceeded**: A message is larger than the maximum size allowed for its transport.
+   * - **MessagingEntityAlreadyExists**: An entity with the same name exists under the same namespace.
+   * - **MessagingEntityDisabled**: The Messaging Entity is disabled. Enable the entity again using Portal.
+   * - **QuotaExceeded**: The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.
+   * - **ServiceBusy**: The Azure Service Bus service reports that it is busy in response to a client request to perform an operation.
+   * - **ServiceTimeout**: An operation or other request timed out while interacting with the Azure Service Bus service.
+   * - **ServiceCommunicationProblem**: There was a general communications error encountered when interacting with the Azure Service Bus service.
+   * - **SessionCannotBeLocked**: The requested session cannot be locked.
+   * - **SessionLockLost**: The lock on the session has expired. Callers should request the session again.
+   * - **UnauthorizedAccess"**: The user doesn't have access to the entity.
    */
   // NOTE: make sure this list and the list above are properly kept in sync.
   code: ServiceBusErrorCode;
 
   /**
-   * @param {string} message The error message that provides more information about the error.
-   * @param messagingError An error whose properties will be copied to the MessagingError if the
-   * property matches one found on the Node.js `SystemError`.
+   * @param message The error message that provides more information about the error.
+   * @param code The reason for the failure.
    */
-  constructor(messagingError: MessagingError) {
-    super(messagingError.message);
+  constructor(message: string, code: ServiceBusErrorCode);
+  /**
+   * @param messagingError An error whose properties will be copied to the ServiceBusError.
+   */
+  constructor(messagingError: MessagingError);
+  constructor(messageOrError: string | MessagingError, code?: ServiceBusErrorCode) {
+    const message = typeof messageOrError === "string" ? messageOrError : messageOrError.message;
+    super(message);
 
-    for (const prop in messagingError) {
-      (this as any)[prop] = (messagingError as any)[prop];
+    if (typeof messageOrError === "string") {
+      this.code = code ?? "GeneralError";
+    } else {
+      for (const prop in messageOrError) {
+        (this as any)[prop] = (messageOrError as any)[prop];
+      }
+
+      this.code = ServiceBusError.normalizeMessagingCode(messageOrError.code);
+      // For GeneralErrors, prefix the error message with the MessagingError code to provide
+      // more context to the user.
+      if (this.code === "GeneralError" && messageOrError.code) {
+        this.message = `${messageOrError.code}: ${this.message}`;
+      }
     }
 
     this.name = "ServiceBusError";
-    this.code = ServiceBusError.normalizeMessagingCode(messagingError.code);
   }
 
   private static normalizeMessagingCode(oldCode?: string): ServiceBusErrorCode {
@@ -146,7 +159,7 @@ export class ServiceBusError extends MessagingError {
  * Service Bus specific handling of the error (falling back to default translate behavior otherwise).
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export function translateServiceBusError(err: AmqpError | Error): ServiceBusError | Error {
   if (isServiceBusError(err)) {
