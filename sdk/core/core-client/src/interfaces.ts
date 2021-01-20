@@ -50,10 +50,9 @@ export type RequiredSerializerOptions = {
 };
 
 /**
- * This interface extends a generic `PipelineRequest` to include
- * additional metadata about the request.
+ * A type alias for future proofing.
  */
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export type OperationRequest = PipelineRequest;
 
 /**
  * Metadata that is used to properly parse a response.
