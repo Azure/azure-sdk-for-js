@@ -7,21 +7,22 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { PhoneNumberRestClientOptionalParams } from "./models";
+import { PhoneNumbersClientOptionalParams } from "./models";
+import { lroPolicy } from "./lro";
 
 const packageName = "azure-communication-administration-phoneNumber";
 const packageVersion = "1.0.0-beta.4";
 
-export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
+export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the PhoneNumberRestClientContext class.
+   * Initializes a new instance of the PhoneNumbersClientContext class.
    * @param endpoint The endpoint of the Azure Communication resource.
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: PhoneNumberRestClientOptionalParams) {
+  constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -36,6 +37,14 @@ export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
+    const defaultPipelines = coreHttp.createPipelineFromOptions(options)
+      .requestPolicyFactories as coreHttp.RequestPolicyFactory[];
+
+    options = {
+      ...options,
+      requestPolicyFactories: [lroPolicy(), ...defaultPipelines]
+    };
+
     super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
@@ -46,6 +55,6 @@ export class PhoneNumberRestClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-07-20-preview1";
+    this.apiVersion = options.apiVersion || "2020-11-01-preview3";
   }
 }

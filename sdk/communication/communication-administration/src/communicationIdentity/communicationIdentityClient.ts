@@ -16,7 +16,7 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
-import { SDK_VERSION } from "./constants";
+import { SDK_VERSION } from "../common/constants";
 import { logger } from "../common/logger";
 import { createSpan } from "../common/tracing";
 import {

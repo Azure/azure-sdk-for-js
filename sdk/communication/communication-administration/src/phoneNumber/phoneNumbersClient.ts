@@ -20,109 +20,62 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "../common/logger";
 import { createSpan } from "../common/tracing";
 import {
-  PhoneNumberRestClient,
-  PhoneNumberAdministration
-} from "./generated/src/phoneNumberRestClient";
-import {
-  AcquiredPhoneNumber,
-  PhoneNumberCountry,
-  PhonePlanGroup,
-  PhonePlan,
-  PhoneNumberEntity,
-  UpdatePhoneNumberCapabilitiesResponse,
-  UpdateNumberCapabilitiesResponse,
-  PhoneNumberRelease,
-  AreaCodes,
-  NumberConfigurationResponse,
-  LocationOptionsResponse,
-  PhoneNumberReservation
-} from "./generated/src/models";
-import { SDK_VERSION } from "./constants";
-import {
-  GetAreaCodesOptions,
-  ConfigurePhoneNumberOptions,
-  ListSupportedCountriesOptions,
-  ListPhoneNumbersOptions,
-  ListPhonePlanGroupsOptions,
-  UpdateCapabilitiesOptions,
-  GetAreaCodesRequest,
-  PageableOptions,
-  ListPhonePlansRequest,
-  ListPhonePlansOptions,
-  GetPhonePlanLocationOptionsRequest,
-  GetPhonePlanLocationOptionsOptions,
-  ConfigurePhoneNumberRequest,
-  UpdateNumbersCapabilitiesResponse,
-  PhoneNumberCapabilitiesUpdates,
-  GetCapabilitiesUpdateResponse,
-  GetAreaCodesResponse,
-  GetPhoneNumberConfigurationResponse,
-  GetPhonePlanLocationOptionsResponse,
-  GetCapabilitiesUpdateOptions,
-  GetPhoneNumberConfigurationOptions,
-  UnconfigurePhoneNumberOptions,
-  CreateReservationRequest,
-  GetReservationOptions,
-  GetReservationResponse,
-  CancelReservationOptions
-} from "./models";
+  PhoneNumbers as GeneratedClient,
+  PhoneNumbersClient as PhoneNumbersGeneratedClient
+} from "./generated/src/phoneNumbersClient";
+import { } from "./generated/src/models";
+import { SDK_VERSION } from "../common/constants";
+import { } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
-import {
-  BeginPurchaseReservationOptions,
-  BeginReleasePhoneNumbersOptions,
-  BeginReservePhoneNumbersOptions
-} from "./lroModels";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { ReleasePhoneNumbersPoller } from "./lro/release/poller";
-import { ReservePhoneNumbersPoller } from "./lro/reserve/poller";
-import { PurchaseReservationPoller } from "./lro/purchase/poller";
 
 /**
- * Client options used to configure the UserTokenClient API requests.
+ * Client options used to configure the PhoneNumbersClient API requests.
  */
-export interface PhoneNumberAdministrationClientOptions extends PipelineOptions {}
+export interface PhoneNumbersClientOptions extends PipelineOptions {}
 
-const isPhoneNumberAdministrationClientOptions = (
+const isPhoneNumbersClientOptions = (
   options: any
-): options is PhoneNumberAdministrationClientOptions => options && !isKeyCredential(options);
+): options is PhoneNumbersClientOptions => options && !isKeyCredential(options);
 
 /**
- * Client class for interacting with Azure Communication Services PhoneNumber Administration.
+ * Client class for interacting with Azure Communication Services Phone Number Administration.
  */
-export class PhoneNumberAdministrationClient {
+export class PhoneNumbersClient {
   /**
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
-  private readonly client: PhoneNumberAdministration;
+  private readonly client: GeneratedClient;
 
   /**
-   * Initializes a new instance of the PhoneNumberAdministrationClient class.
-   * @param connectionString Connection string to connect to an Azure Communication Service resource.
-   *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
+   * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
+   * 
+   * @param connectionString Connection string to connect to an Azure Communication Service resource. (eg: endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret)
    * @param options Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
+  public constructor(connectionString: string, options?: PhoneNumbersClientOptions);
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * 
+   * @param url The endpoint of the service (eg: https://contoso.eastus.communications.azure.net)
    * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
    * @param options Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     url: string,
     credential: KeyCredential,
-    options?: PhoneNumberAdministrationClientOptions
+    options?: PhoneNumbersClientOptions
   );
 
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | PhoneNumberAdministrationClientOptions,
-    maybeOptions: PhoneNumberAdministrationClientOptions = {}
+    credentialOrOptions?: KeyCredential | PhoneNumbersClientOptions,
+    maybeOptions: PhoneNumbersClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isPhoneNumberAdministrationClientOptions(credentialOrOptions)
+    const options = isPhoneNumbersClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
     const libInfo = `azsdk-js-communication-administration/${SDK_VERSION}`;
@@ -148,7 +101,7 @@ export class PhoneNumberAdministrationClient {
 
     const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential as KeyCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new PhoneNumberRestClient(url, pipeline).phoneNumberAdministration;
+    this.client = new PhoneNumbersGeneratedClient(url, pipeline).phoneNumbers;
   }
 
   /**
