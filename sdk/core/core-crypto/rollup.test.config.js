@@ -1,13 +1,9 @@
-import * as base from "./rollup.base.config";
+import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
+import * as base from "./rollup.webworker.config";
 
-const inputs = [];
-
-if (!process.env.ONLY_BROWSER) {
-  inputs.push(base.nodeConfig(true));
-}
+const inputs = makeConfig(require("./package.json"));
 
 if (!process.env.ONLY_NODE) {
-  inputs.push(base.browserConfig(true));
   inputs.push(base.webworkerConfig());
 }
 
