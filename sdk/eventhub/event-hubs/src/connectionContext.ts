@@ -466,7 +466,7 @@ export function createConnectionContext(
       parsedCS.eventHubName !== eventHubNameOrOptions
     ) {
       throw new TypeError(
-        `The eventHubName "${parsedCS.eventHubName}" in connectionString: "${hostOrConnectionString}" ` +
+        `The entity path "${parsedCS.eventHubName}" in connectionString: "${hostOrConnectionString}" ` +
           `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
       );
     }
