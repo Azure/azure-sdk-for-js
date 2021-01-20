@@ -18,7 +18,7 @@ export interface EventHubConnectionStringProperties {
    */
   endpoint: string;
   /**
-   * The value for "EntityPath" in the connection string.
+   * The value for "EntityPath" in the connection string which would be the name of the event hub instance associated with the connection string.
    * Connection string from a Shared Access Policy created at the namespace level
    * will not have the EntityPath in it.
    */
