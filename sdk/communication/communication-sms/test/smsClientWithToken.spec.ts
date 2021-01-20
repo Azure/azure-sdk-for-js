@@ -6,7 +6,7 @@ import { SendRequest, SmsClient } from "../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import { parseConnectionString } from "../../communication-common/src/credential/connectionString";
+import { parseConnectionString } from "@azure/communication-common";
 import { createCredential, recorderConfiguration } from "./utils/recordedClient";
 
 if (isNode) {
