@@ -46,7 +46,8 @@ import {
   DataFeedStatus,
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration,
-  CreateAnomalyDetectionConfigurationResponse
+  CreateAnomalyDetectionConfigurationResponse,
+  CreateAnomalyAlertConfigurationResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -572,7 +573,6 @@ export class MetricsAdvisorAdministrationClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
       return { id: configId, _response: result._response };
-
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -686,7 +686,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<CreateAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createAlertConfig",
       options
@@ -703,7 +703,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getAlertConfig(configId);
+      return {id: configId, _response: result._response};
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

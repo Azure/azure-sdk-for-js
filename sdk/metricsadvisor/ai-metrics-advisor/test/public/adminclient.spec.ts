@@ -279,8 +279,8 @@ matrix([[true, false]] as const, async (useAad) => {
             hookIds: []
           };
 
-          const actual = await client.createAlertConfig(expectedAlertConfig);
-
+          const created = await client.createAlertConfig(expectedAlertConfig);
+          const actual = await client.getAlertConfig(created.id);
           assert.ok(actual.id, "Expecting valid alert config");
           createdAlertConfigId = actual.id;
           assert.equal(actual.name, expectedAlertConfig.name);

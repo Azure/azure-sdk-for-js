@@ -1111,6 +1111,17 @@ export interface MetricAlertConfiguration {
 }
 
 /**
+ * Represents created anomaly alert configuration.
+ */
+export interface CreatedAnomalyAlertConfiguration {
+  /**
+   * anomaly alerting configuration unique id
+   */
+  id: string;
+ 
+}
+
+/**
  * Represents an anomaly alert configuration.
  */
 export interface AnomalyAlertConfiguration {
@@ -1321,7 +1332,6 @@ export type CreateAnomalyDetectionConfigurationResponse = CreatedAnomalyDetectio
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-
     /**
      * The response body as parsed JSON or XML
      */
@@ -1345,6 +1355,23 @@ export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfigura
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
+  };
+};
+
+
+/**
+ * Contains response data for the createAnomalyAlertConfiguration operation.
+ */
+export type CreateAnomalyAlertConfigurationResponse = CreatedAnomalyAlertConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedHeaders: any;
   };
 };
 
