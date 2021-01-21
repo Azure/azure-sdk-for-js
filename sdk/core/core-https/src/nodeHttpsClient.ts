@@ -18,9 +18,18 @@ import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
 import { URL } from "./util/url";
 import { IncomingMessage } from "http";
+import { logger } from "./log";
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
+  return new Promise((resolve) => {
+    stream.on("close", resolve);
+    stream.on("end", resolve);
+    stream.on("error", resolve);
+  });
 }
 
 function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
@@ -92,6 +101,7 @@ export class NodeHttpsClient implements HttpsClient {
       }
     }
 
+    let responseStream: NodeJS.ReadableStream | undefined;
     try {
       const result = await new Promise<PipelineResponse>((resolve, reject) => {
         if (body && request.onUploadProgress) {
@@ -157,7 +167,23 @@ export class NodeHttpsClient implements HttpsClient {
     } finally {
       // clean up event listener
       if (request.abortSignal && abortListener) {
-        request.abortSignal.removeEventListener("abort", abortListener);
+        let uploadStreamDone = Promise.resolve();
+        if (isReadableStream(body)) {
+          uploadStreamDone = isStreamComplete(body as NodeJS.ReadableStream);
+        }
+        let downloadStreamDone = Promise.resolve();
+        if (isReadableStream(responseStream)) {
+          downloadStreamDone = isStreamComplete(responseStream);
+        }
+
+        Promise.all([uploadStreamDone, downloadStreamDone])
+          .then(() => {
+            request.abortSignal?.removeEventListener("abort", abortListener!);
+            return;
+          })
+          .catch((e) => {
+            logger.warning("Error when cleaning up abortListener on httpRequest", e);
+          });
       }
     }
   }
