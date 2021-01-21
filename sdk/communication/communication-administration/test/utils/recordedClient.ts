@@ -13,7 +13,7 @@ import {
 } from "@azure/test-utils-recorder";
 import { isNode, TokenCredential } from "@azure/core-http";
 import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
@@ -96,7 +96,11 @@ export function createRecordedCommunicationIdentityClientWithToken(
   }
 
   try {
-    credential = new DefaultAzureCredential();
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   } catch {
     return undefined;
   }
@@ -147,7 +151,11 @@ export function createRecordedPhoneNumberAdministrationClientWithToken(
   }
 
   try {
-    credential = new DefaultAzureCredential();
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   } catch {
     return undefined;
   }
