@@ -29,3 +29,5 @@ extends:
     Artifacts:
       - name: azure-test-utils-recorder
         safeName: azuretestutilsrecorder
+      - name: azure-test-utils-perfstress
+        safeName: azuretestutilsperfstress
