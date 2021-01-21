@@ -9,7 +9,8 @@ import {
   createPipelineFromOptions,
   isTokenCredential,
   operationOptionsToRequestOptionsBase,
-  signingPolicy
+  signingPolicy,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -34,7 +35,6 @@ import {
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
 import {
-  challengeBasedAuthenticationPolicy,
   createSpan,
   setParentSpan
 } from "../../keyvault-common/src";
@@ -223,7 +223,7 @@ export class KeyClient {
     };
 
     const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
+      ? bearerTokenAuthenticationPolicy(credential, "https://vault.azure.net/.default")
       : signingPolicy(credential);
 
     const internalPipelineOptions = {

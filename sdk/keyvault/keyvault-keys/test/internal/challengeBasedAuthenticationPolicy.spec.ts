@@ -9,7 +9,7 @@ import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../../../keyvault-common/src";
+} from "@azure/core-http";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -19,14 +19,14 @@ import TestClient from "../utils/testClient";
 // Once we move to a common folder, and after some refactoring,
 // we will be able to unit test the insides in detail.
 
-describe("Challenge based authentication tests", () => {
+describe.only("Challenge based authentication tests", () => {
   const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -34,13 +34,13 @@ describe("Challenge based authentication tests", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function() {
+  it("Authentication should work for parallel requests", async function () {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
@@ -71,7 +71,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", async function() {
+  it("Once authenticated, new requests should not authenticate again", async function () {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.

@@ -47,7 +47,11 @@ export { createSpanFunction, SpanConfig } from "./createSpan";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
-export { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
+export {
+  bearerTokenAuthenticationPolicy, AuthenticationChallengeCache,
+  AuthenticationChallenge,
+  parseWWWAuthenticate
+} from "./policies/bearerTokenAuthenticationPolicy";
 export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 export {
   BaseRequestPolicy,

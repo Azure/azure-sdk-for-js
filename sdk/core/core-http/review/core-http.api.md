@@ -50,6 +50,24 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 // @public
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
+// @public
+export class AuthenticationChallenge {
+    constructor(authorization: string, scope: string);
+    // (undocumented)
+    authorization: string;
+    equalTo(other: AuthenticationChallenge | undefined): boolean;
+    // (undocumented)
+    scope: string;
+}
+
+// @public
+export class AuthenticationChallengeCache {
+    // (undocumented)
+    challenge?: AuthenticationChallenge;
+    // (undocumented)
+    setCachedChallenge(challenge: AuthenticationChallenge): void;
+}
+
 // @public (undocumented)
 export type Authenticator = (challenge: unknown) => Promise<string>;
 
@@ -519,6 +537,11 @@ export interface ParameterValue {
     // (undocumented)
     value: any;
 }
+
+// Warning: (ae-forgotten-export) The symbol "ParsedWWWAuthenticate" needs to be exported by the entry point coreHttp.d.ts
+//
+// @public
+export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
 
 // @public
 export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;

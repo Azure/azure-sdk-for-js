@@ -10,14 +10,14 @@ import { Constants } from "../../src/util/constants";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { WebResource } from "../../src/webResource";
-import { BearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy";
+import { AuthenticationChallengeCache, BearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy";
 import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
 } from "../../src/credentials/accessTokenCache";
 import { AccessTokenRefresher } from "../../src/credentials/accessTokenRefresher";
 
-describe("BearerTokenAuthenticationPolicy", function() {
+describe("BearerTokenAuthenticationPolicy", function () {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
@@ -28,7 +28,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     }
   };
 
-  it("correctly adds an Authentication header with the Bearer token", async function() {
+  it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = fake.returns(Promise.resolve({ token: mockToken, expiresOn: new Date() }));
@@ -74,7 +74,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     }
   });
 
-  it("tests that AccessTokenRefresher is working", async function() {
+  it("tests that AccessTokenRefresher is working", async function () {
     const now = Date.now();
     const credentialToTest = new MockRefreshAzureCredential(now);
     const request = createRequest();
@@ -102,6 +102,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
       mockPolicy,
       new RequestPolicyOptions(),
       new ExpiringAccessTokenCache(),
+      new AuthenticationChallengeCache(),
       new AccessTokenRefresher(credential, scopes)
     );
   }
