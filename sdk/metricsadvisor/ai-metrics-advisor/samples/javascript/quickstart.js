@@ -31,7 +31,7 @@ async function main() {
   const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
   console.log(`Data feed created: ${created.id}`);
   console.log("  metrics: ");
-  console.log(created.schema.metrics);
+  console.log(datafeed.schema.metrics);
 
   console.log("Waiting for a minute before checking ingestion status...");
   await delay(60 * 1000);
@@ -44,7 +44,7 @@ async function main() {
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    const metricId = created.schema.metrics[0].id;
+    const metricId = datafeed.schema.metrics[0].id;
     const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
     console.log(`Detection configuration created: ${detectionConfig.id}`);
 

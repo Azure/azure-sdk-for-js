@@ -53,7 +53,7 @@ export async function main() {
       new Date(Date.UTC(2020, 8, 12))
     );
 
-    const metricId = created.schema.metrics[0].id!;
+    const metricId = datafeed.schema.metrics[0].id!;
     const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
     console.log(`Detection configuration created: ${detectionConfig.id!}`);
 
