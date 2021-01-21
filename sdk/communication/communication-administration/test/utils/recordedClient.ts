@@ -121,6 +121,41 @@ export function createRecordedPhoneNumberAdministrationClient(
   };
 }
 
+export function createRecordedPhoneNumberAdministrationClientWithToken(
+  context: Context
+): RecordedClient<PhoneNumberAdministrationClient> & {
+  includePhoneNumberLiveTests: boolean;
+} | undefined {
+  const recorder = record(context, environmentSetup);
+  let credential: TokenCredential;
+
+  if (isPlaybackMode()) {
+    credential = {
+      getToken: async (_scopes) => {
+        return { token: "testToken", expiresOnTimestamp: 11111 };
+      }
+    }; 
+
+    return {
+      client: new PhoneNumberAdministrationClient(env.COMMUNICATION_ENDPOINT, credential),
+      recorder,
+      includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+    };
+  }
+
+  try {
+    credential = new DefaultAzureCredential();
+  } catch {
+    return undefined;
+  }
+
+  return {
+    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_ENDPOINT, credential),
+    recorder,
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+  };
+}
+
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined
 };
