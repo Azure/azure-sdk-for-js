@@ -360,6 +360,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
     let errorWasThrown = false;
     try {
+      await delay(2000); // Add a delay after receiving the messages to make sure the msg.lockedUntil gets updated after the renewlock operation
       const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
       console.log({
         "locked_until before renewlock": lockedUntilBeforeRenewlock,
