@@ -777,11 +777,15 @@ export type FileSystemGetPropertiesResponse = FileSystemGetPropertiesHeaders & {
 // @public (undocumented)
 export interface FileSystemItem {
     // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
     metadata?: Metadata;
     // (undocumented)
     name: string;
     // (undocumented)
     properties: FileSystemProperties;
+    // (undocumented)
+    versionId?: string;
 }
 
 // @public
@@ -808,6 +812,8 @@ export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders 
 // @public (undocumented)
 export interface FileSystemProperties {
     // (undocumented)
+    deletedOn?: Date;
+    // (undocumented)
     etag: string;
     // (undocumented)
     hasImmutabilityPolicy?: boolean;
@@ -823,6 +829,8 @@ export interface FileSystemProperties {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     publicAccess?: PublicAccessType;
+    // (undocumented)
+    remainingRetentionDays?: number;
 }
 
 // @public
@@ -1759,6 +1767,7 @@ export { ServiceListContainersSegmentResponse }
 export interface ServiceListFileSystemsOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     // (undocumented)
     includeMetadata?: boolean;
     // (undocumented)

@@ -50,10 +50,12 @@
     "location": "[resourceGroup().location]",
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('dl', parameters('baseName'))]",
+    "datalakeSoftDeleteAccountName": "[concat('dls', parameters('baseName'))]",
     "fullAccountName": "[concat('f', parameters('baseName'))]",
     "premiumFileAccountName": "[concat('pf', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
     "datalakeAccountNameTidy": "[toLower(trim(variables('datalakeAccountName')))]",
+    "datalakeSoftDeleteAccountNameTidy": "[toLower(trim(variables('datalakeSoftDeleteAccountName')))]",
     "fullAccountNameTidy": "[toLower(trim(variables('fullAccountName')))]",
     "premiumFileAccountNameTidy": "[toLower(trim(variables('premiumFileAccountName')))]",
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
@@ -198,6 +200,38 @@
         "encryption": "[variables('encryption')]",
         "accessTier": "Hot"
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('datalakeSoftDeleteAccountName')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "isHnsEnabled": true,
+        "networkAcls": "[variables('networkAcls')]",
+        "supportsHttpsTrafficOnly": true,
+        "encryption": "[variables('encryption')]",
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "blobServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": ["[variables('datalakeSoftDeleteAccountName')]"],
+          "properties": {
+            "containerDeleteRetentionPolicy": {
+              "enabled": true,
+              "days": 7
+            }
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -364,6 +398,18 @@
     "DFS_ACCOUNT_SAS": {
       "type": "string",
       "value": "[concat('?', listAccountSas(variables('datalakeAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "DFS_SOFT_DELETE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('datalakeSoftDeleteAccountName')]"
+    },
+    "DFS_SOFT_DELETE_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('datalakeSoftDeleteAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "DFS_SOFT_DELETE_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('datalakeSoftDeleteAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     },
     "FULL_ACCOUNT_NAME": {
       "type": "string",

@@ -102,6 +102,7 @@ function toFileSystemAsyncIterableIterator(
           (val: ContainerItem): FileSystemItem => {
             return {
               ...val,
+              versionId: val.version,
               properties: {
                 ...val.properties,
                 publicAccess: toPublicAccessType(val.properties.publicAccess)
@@ -129,6 +130,7 @@ export function toFileSystemPagedAsyncIterableIterator(
         result.value.properties.publicAccess = toPublicAccessType(
           rawResult.value.properties.publicAccess
         );
+        result.value.versionId = rawResult.value.version;
       }
       return result;
     },

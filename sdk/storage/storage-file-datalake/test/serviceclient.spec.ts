@@ -7,7 +7,8 @@ import {
   getDataLakeServiceClient,
   getSASConnectionStringFromEnvironment,
   getTokenDataLakeServiceClient,
-  recorderEnvSetup
+  recorderEnvSetup,
+  getGenericDataLakeServiceClient
 } from "./utils";
 
 dotenv.config();
@@ -402,5 +403,96 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.getProperties();
 
     await newFileSystemClient.delete();
+  });
+
+  it("undelete and list deleted file system should work", async function() {
+    let serviceClient: DataLakeServiceClient;
+    try {
+      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const metadata = { a: "a" };
+    await fileSystemClient.setMetadata(metadata);
+
+    await fileSystemClient.delete();
+    await delay(30 * 1000);
+
+    let listed = false;
+    for await (const fileSystemItem of serviceClient.listFileSystems({
+      includeDeleted: true,
+      includeMetadata: true
+    })) {
+      if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
+        listed = true;
+        // verify list container response
+        assert.ok(fileSystemItem.versionId);
+        assert.ok(fileSystemItem.deleted);
+        assert.ok(fileSystemItem.properties.deletedOn);
+        assert.ok(fileSystemItem.properties.remainingRetentionDays);
+        assert.deepStrictEqual(fileSystemItem.metadata, metadata);
+
+        const restoreRes = await serviceClient.undeleteFileSystem(
+          fileSystemName,
+          fileSystemItem.versionId!
+        );
+        assert.equal(restoreRes.fileSystemClient.name, fileSystemName);
+        await restoreRes.fileSystemClient.delete();
+        break;
+      }
+    }
+    assert.ok(listed);
+  });
+
+  it("undelete file system to a new name", async function() {
+    let serviceClient: DataLakeServiceClient;
+    try {
+      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+    await fileSystemClient.delete();
+    await delay(30 * 1000);
+
+    let listed = false;
+    for await (const page of serviceClient
+      .listFileSystems({
+        includeDeleted: true
+      })
+      .byPage()) {
+      for (const fileSystemItem of page.fileSystemItems) {
+        if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
+          listed = true;
+          // verify list container response
+          assert.ok(fileSystemItem.versionId);
+          assert.ok(fileSystemItem.deleted);
+          assert.ok(fileSystemItem.properties.deletedOn);
+          assert.ok(fileSystemItem.properties.remainingRetentionDays);
+
+          const destinationFileSystemName = recorder.getUniqueName("newfilesystem");
+          const restoreRes = await serviceClient.undeleteFileSystem(
+            fileSystemName,
+            fileSystemItem.versionId!,
+            { destinationFileSystemName }
+          );
+          assert.equal(restoreRes.fileSystemClient.name, destinationFileSystemName);
+          await restoreRes.fileSystemClient.delete();
+          break;
+        }
+      }
+      if (listed) {
+        break;
+      }
+    }
+    assert.ok(listed);
   });
 });

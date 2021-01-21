@@ -234,6 +234,14 @@ export interface ServiceListFileSystemsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   prefix?: string;
   includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted File System should be included in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListFileSystemsOptions
+   */
+  includeDeleted?: boolean;
 }
 
 export type LeaseStatusType = "locked" | "unlocked";
@@ -250,12 +258,16 @@ export interface FileSystemProperties {
   publicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
+  deletedOn?: Date;
+  remainingRetentionDays?: number;
 }
 
 export interface FileSystemItem {
   name: string;
   properties: FileSystemProperties;
   metadata?: Metadata;
+  deleted?: boolean;
+  versionId?: string;
 }
 
 export interface ListFileSystemsSegmentResponse {
