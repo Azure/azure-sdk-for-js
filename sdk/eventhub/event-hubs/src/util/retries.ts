@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants, RetryOptions } from "@azure/core-amqp";
+import { isDefined } from "./typeGuards";
 
 /**
  * @internal
@@ -9,7 +10,7 @@ import { Constants, RetryOptions } from "@azure/core-amqp";
  */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =
-    retryOptions == undefined ||
+    !isDefined(retryOptions) ||
     typeof retryOptions.timeoutInMs !== "number" ||
     !isFinite(retryOptions.timeoutInMs) ||
     retryOptions.timeoutInMs < Constants.defaultOperationTimeoutInMs

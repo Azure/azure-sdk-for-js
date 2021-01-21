@@ -56,15 +56,15 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
   public events: { partitionId: string; event: ReceivedEventData }[] = [];
 
-  async processInitialize(context: PartitionContext) {
+  async processInitialize(context: PartitionContext): Promise<void> {
     this.data.set(context.partitionId, {});
   }
 
-  async processClose(reason: CloseReason, context: PartitionContext) {
+  async processClose(reason: CloseReason, context: PartitionContext): Promise<void> {
     this.data.get(context.partitionId)!.closeReason = reason;
   }
 
-  async processEvents(events: ReceivedEventData[], context: PartitionContext) {
+  async processEvents(events: ReceivedEventData[], context: PartitionContext): Promise<void> {
     // by default we don't fill out the lastEnqueuedEventInfo field (they have to enable it
     // explicitly in the options for the processor).
     should.not.exist(context.lastEnqueuedEventProperties);
@@ -79,7 +79,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     );
   }
 
-  async processError(err: Error, context: PartitionContext) {
+  async processError(err: Error, context: PartitionContext): Promise<void> {
     loggerForTest(`Error in partition ${context.partitionId}: ${err}`);
     should.exist(
       context.partitionId,
@@ -110,7 +110,8 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
     countOfExpectedEvents = countOfExpectedEvents || partitionIds.length;
 
-    while (true) {
+    let isWaiting = true;
+    while (isWaiting) {
       loggerForTest(`Received ${this.events.length} messages (need ${countOfExpectedEvents})`);
 
       if (this.events.length !== countOfExpectedEvents && !this.hasErrors(partitionIds)) {
@@ -122,15 +123,17 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
           );
         }
       } else {
-        this.events.sort((a, b) => {
-          const akey = `${a.partitionId}:${a.event.body}`;
-          const bkey = `${b.partitionId}:${b.event.body}`;
-          return akey.localeCompare(bkey);
-        });
-
-        return this.events;
+        isWaiting = false;
       }
     }
+
+    this.events.sort((a, b) => {
+      const akey = `${a.partitionId}:${a.event.body}`;
+      const bkey = `${b.partitionId}:${b.event.body}`;
+      return akey.localeCompare(bkey);
+    });
+
+    return this.events;
   }
 
   async waitForEvents(
@@ -147,7 +150,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     });
   }
 
-  clear() {
+  clear(): void {
     this.data = new Map();
     this.events = [];
   }

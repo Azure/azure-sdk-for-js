@@ -80,13 +80,13 @@ export class SBStressTestsBase {
     options?: CreateQueueOptions | undefined,
     testOptions?: Record<string, string | number | boolean>
   ) {
+    this.queueName =
+      (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
     this.reportFileName = `temp/report-${this.queueName}.txt`;
     this.errorsFileName = `temp/errors-${this.queueName}.txt`;
     this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
     if (testOptions) console.log(testOptions);
     await appendFile(this.reportFileName, JSON.stringify(testOptions, null, 2));
-    this.queueName =
-      (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
   }
 

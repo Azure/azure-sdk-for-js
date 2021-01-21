@@ -63,7 +63,7 @@ describe("EventHubConsumerClient", function(): void {
       let subscription: Subscription | undefined;
       await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
-          // @ts-expect-error
+          // @ts-expect-error Testing the value 0 can be provided as a number for JS users.
           0,
           {
             processEvents: async () => {
@@ -704,7 +704,9 @@ describe("EventHubConsumerClient", function(): void {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = badConsumerClient.subscribe({
-          processEvents: async () => {},
+          processEvents: async () => {
+            /* no-op */
+          },
           processError: async (err) => {
             resolve(err);
           }
@@ -723,7 +725,9 @@ describe("EventHubConsumerClient", function(): void {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = consumerClient.subscribe("boo", {
-          processEvents: async () => {},
+          processEvents: async () => {
+            /* no-op */
+          },
           processError: async (err) => {
             resolve(err);
           }
