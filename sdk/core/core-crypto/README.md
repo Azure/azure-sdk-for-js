@@ -1,4 +1,4 @@
-# Azure Core Crypto library for JavaScript (Experimental)
+# Azure Core Crypto client library for JavaScript (Experimental)
 
 This library is primarily intended to contain cryptographic helper functions for use by the Azure SDK for JavaScript.
 
