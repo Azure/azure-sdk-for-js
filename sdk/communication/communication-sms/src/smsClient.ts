@@ -59,6 +59,14 @@ export interface SendOptions extends OperationOptions {
    * Report.
    */
   tag?: string;
+  /**
+   * If specified, the client directs that the request is repeatable; that is, the client can make
+   * the request multiple times with the same Repeatability-Request-ID and get back an appropriate
+   * response without the server executing the request multiple times. The value of the
+   * Repeatability-Request-ID is an opaque string representing a client-generated, GUID, identifier
+   * for the request.
+   */
+  repeatabilityRequestID?: string;
 }
 
 /**
@@ -142,8 +150,7 @@ export class SmsClient {
    */
   public async send(
     sendRequest: SendRequest,
-    options: SendOptions = {},
-    _requestId?: String
+    options: SendOptions = {}
   ): Promise<RestResponse> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("SmsClient-send", operationOptions);
