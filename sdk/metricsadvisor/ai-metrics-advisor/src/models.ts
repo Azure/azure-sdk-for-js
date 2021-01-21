@@ -642,6 +642,13 @@ export type ChangeThresholdConditionUnion =
       suppressCondition: SuppressCondition;
     };
 
+
+export type CreateMetricFeedback = {
+/**
+   * feedback unique id
+   */
+  id: string;
+};
 /**
  * A union type of all metric feedback types.
  */
@@ -811,8 +818,6 @@ export type WebNotificationHook = {
   hookType: "Webhook";
   hookParameter: WebhookHookParameter;
 } & NotificationHook;
-
-
 
 /**
  * A union type of all supported hooks
@@ -1477,6 +1482,22 @@ export type GetIncidentRootCauseResponse = {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
+  };
+};
+
+/**
+ * Contains response data for the createFeedback operation.
+ */
+export type CreateFeedbackResponse = CreateMetricFeedback & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedHeaders: any;
   };
 };
 
