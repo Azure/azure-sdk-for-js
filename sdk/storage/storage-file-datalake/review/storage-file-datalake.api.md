@@ -8,6 +8,7 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import { ContainerRenameResponse } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -32,6 +33,7 @@ import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
+import { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
@@ -328,6 +330,10 @@ export class DataLakeServiceClient extends StorageClient {
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
+    RenameFileSystem(destinationFileSystemName: string, sourceFileSystemName: string, options?: ServiceRenameFileSystemOptions): Promise<{
+        fileSystemClient: DataLakeFileSystemClient;
+        fileSystemRenameResponse: FileSystemRenameResponse;
+    }>;
 }
 
 export { deserializationPolicy }
@@ -813,6 +819,9 @@ export interface FileSystemProperties {
     // (undocumented)
     publicAccess?: PublicAccessType;
 }
+
+// @public
+export type FileSystemRenameResponse = ContainerRenameResponse;
 
 // @public
 export class FileSystemSASPermissions {
@@ -1766,6 +1775,9 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
         parsedBody: ListFileSystemsSegmentResponse;
     };
 };
+
+// @public
+export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
 
 // @public (undocumented)
 export interface SignedIdentifier<T> {

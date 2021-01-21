@@ -7,9 +7,85 @@ import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel,
-  BlobQueryArrowConfiguration
+  BlobQueryArrowConfiguration,
+  ServiceRenameContainerOptions,
+  ContainerRenameResponse
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
+
+/**
+ * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
+ *
+ * @export
+ * @interface FileQueryArrowConfiguration
+ */
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
+
+/**
+ * Options to configure {@link DataLakeServiceClient.RenameFileSystem}.
+ *
+ * @export
+ * @interface ServiceRenameFileSystemOptions
+ */
+export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
+
+/**
+ * Contains response data for the {@link DataLakeServiceClient.RenameFileSystem} operation.
+ * @export
+ * @interface FileSystemRenameResponse
+ */
+export type FileSystemRenameResponse = ContainerRenameResponse;
+
+import {
+  FileSystemListPathsHeaders,
+  PathCreateResponse,
+  PathDeleteResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  PathList as PathListModel
+} from "./generated/src/models";
+import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
+import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
+import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
+import { SasIPRange } from "./sas/SasIPRange";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { CommonOptions } from "./StorageClient";
+
+export {
+  LeaseAccessConditions,
+  UserDelegationKeyModel,
+  ServiceListContainersSegmentResponse,
+  Lease,
+  LeaseOperationOptions,
+  LeaseOperationResponse
+} from "@azure/storage-blob";
+
+export {
+  FileSystemListPathsHeaders,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  FileSystemListPathsResponse as ListPathsSegmentResponse,
+  Path as PathModel,
+  PathList as PathListModel,
+  PathCreateHeaders,
+  PathDeleteHeaders,
+  PathDeleteResponse,
+  PathSetAccessControlHeaders,
+  PathSetAccessControlResponse,
+  PathSetAccessControlResponse as PathSetPermissionsResponse,
+  PathResourceType as PathResourceTypeModel,
+  PathUpdateHeaders,
+  PathAppendDataHeaders,
+  PathFlushDataHeaders,
+  PathAppendDataResponse as FileAppendResponse,
+  PathFlushDataResponse as FileFlushResponse,
+  PathFlushDataResponse as FileUploadResponse,
+  PathGetPropertiesAction as PathGetPropertiesActionModel,
+  PathRenameMode as PathRenameModeModel,
+  PathExpiryOptions as FileExpiryMode,
+  PathSetExpiryResponse as FileSetExpiryResponse,
+  PathSetExpiryHeaders as FileSetExpiryHeaders
+} from "./generated/src/models";
+
+export { PathCreateResponse };
 
 /**
  * Common options of the {@link FileSystemGenerateSasUrlOptions}, {@link DirectoryGenerateSasUrlOptions}
@@ -110,65 +186,6 @@ export interface CommonGenerateSasUrlOptions {
    */
   contentType?: string;
 }
-
-/**
- * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
- *
- * @export
- * @interface FileQueryArrowConfiguration
- */
-export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
-
-import {
-  FileSystemListPathsHeaders,
-  PathCreateResponse,
-  PathDeleteResponse,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  PathList as PathListModel
-} from "./generated/src/models";
-import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
-import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
-import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
-import { SasIPRange } from "./sas/SasIPRange";
-import { SASProtocol } from "./sas/SASQueryParameters";
-import { CommonOptions } from "./StorageClient";
-
-export {
-  LeaseAccessConditions,
-  UserDelegationKeyModel,
-  ServiceListContainersSegmentResponse,
-  Lease,
-  LeaseOperationOptions,
-  LeaseOperationResponse
-} from "@azure/storage-blob";
-
-export {
-  FileSystemListPathsHeaders,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  FileSystemListPathsResponse as ListPathsSegmentResponse,
-  Path as PathModel,
-  PathList as PathListModel,
-  PathCreateHeaders,
-  PathDeleteHeaders,
-  PathDeleteResponse,
-  PathSetAccessControlHeaders,
-  PathSetAccessControlResponse,
-  PathSetAccessControlResponse as PathSetPermissionsResponse,
-  PathResourceType as PathResourceTypeModel,
-  PathUpdateHeaders,
-  PathAppendDataHeaders,
-  PathFlushDataHeaders,
-  PathAppendDataResponse as FileAppendResponse,
-  PathFlushDataResponse as FileFlushResponse,
-  PathFlushDataResponse as FileUploadResponse,
-  PathGetPropertiesAction as PathGetPropertiesActionModel,
-  PathRenameMode as PathRenameModeModel,
-  PathExpiryOptions as FileExpiryMode,
-  PathSetExpiryResponse as FileSetExpiryResponse,
-  PathSetExpiryHeaders as FileSetExpiryHeaders
-} from "./generated/src/models";
-
-export { PathCreateResponse };
 
 /*************************************************************/
 /** DataLakeServiceClient option and response related models */

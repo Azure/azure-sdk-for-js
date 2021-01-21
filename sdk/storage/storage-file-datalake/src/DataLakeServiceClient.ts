@@ -12,9 +12,11 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
 import {
   FileSystemItem,
+  FileSystemRenameResponse,
   ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
-  ServiceListFileSystemsSegmentResponse
+  ServiceListFileSystemsSegmentResponse,
+  ServiceRenameFileSystemOptions
 } from "./models";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -356,5 +358,50 @@ export class DataLakeServiceClient extends StorageClient {
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Renames an existing File System.
+   *
+   * @param {string} destinationFileSystemName The name of the source File System.
+   * @param {string} destinationContainerName The new name of the File System.
+   * @memberof DataLakeServiceClient
+   */
+  public async RenameFileSystem(
+    destinationFileSystemName: string,
+    sourceFileSystemName: string,
+    options: ServiceRenameFileSystemOptions = {}
+  ): Promise<{
+    fileSystemClient: DataLakeFileSystemClient;
+    fileSystemRenameResponse: FileSystemRenameResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeServiceClient-RenameFileSystem",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.blobServiceClient.renameContainer(
+        sourceFileSystemName,
+        destinationFileSystemName,
+        {
+          ...options,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        }
+      );
+
+      const fileSystemClient = this.getFileSystemClient(destinationFileSystemName);
+      return {
+        fileSystemClient,
+        fileSystemRenameResponse: res.containerRenameResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

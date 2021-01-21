@@ -366,4 +366,41 @@ describe("DataLakeServiceClient", () => {
     await listIter.next();
     assert.ok(newClient.url.includes("dfs"));
   });
+
+  it("RenameFileSystem should work", async function() {
+    const serviceClient = getDataLakeServiceClient();
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    const renameRes = await serviceClient.RenameFileSystem(newFileSystemName, fileSystemName);
+
+    const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
+    assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
+    await newFileSystemClient.getProperties();
+
+    await newFileSystemClient.delete();
+  });
+
+  it("RenameFileSystem should work with source lease", async function() {
+    const serviceClient = getDataLakeServiceClient();
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const leaseClient = fileSystemClient.getDataLakeLeaseClient();
+    await leaseClient.acquireLease(-1);
+
+    const newFileSystemName = recorder.getUniqueName("newfilesystem");
+    const renameRes = await serviceClient.RenameFileSystem(newFileSystemName, fileSystemName, {
+      sourceCondition: { leaseId: leaseClient.leaseId }
+    });
+
+    const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
+    assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
+    await newFileSystemClient.getProperties();
+
+    await newFileSystemClient.delete();
+  });
 });
