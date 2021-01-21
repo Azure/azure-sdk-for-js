@@ -82,6 +82,9 @@ describe("KeyVaultBackupClient", () => {
       await delay(5000);
     });
 
+    // There is a service bug that prevents us from creating keys in a Managed HSM
+    // instance, tracked in IcM. Skipping this test until the service issue can be
+    // resolved.
     it.skip("selectiveRestore completes successfully", async function() {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
