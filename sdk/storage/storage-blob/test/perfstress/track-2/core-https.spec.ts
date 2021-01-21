@@ -7,7 +7,7 @@ import { drainStream } from "@azure/test-utils-perfstress";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   client: DefaultHttpsClient;
-  request: PipelineRequest<any>;
+  request: PipelineRequest;
   constructor() {
     super();
     this.client = new DefaultHttpsClient();
