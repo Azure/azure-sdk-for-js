@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
+import { isDefined, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`
@@ -51,15 +52,15 @@ export interface EventPosition {
 export function getEventPositionFilter(eventPosition: EventPosition): string {
   let result;
   // order of preference
-  if (eventPosition.offset != undefined) {
+  if (isDefined(eventPosition.offset)) {
     result = eventPosition.isInclusive
       ? `${Constants.offsetAnnotation} >= '${eventPosition.offset}'`
       : `${Constants.offsetAnnotation} > '${eventPosition.offset}'`;
-  } else if (eventPosition.sequenceNumber != undefined) {
+  } else if (isDefined(eventPosition.sequenceNumber)) {
     result = eventPosition.isInclusive
       ? `${Constants.sequenceNumberAnnotation} >= '${eventPosition.sequenceNumber}'`
       : `${Constants.sequenceNumberAnnotation} > '${eventPosition.sequenceNumber}'`;
-  } else if (eventPosition.enqueuedOn != undefined) {
+  } else if (isDefined(eventPosition.enqueuedOn)) {
     const time =
       eventPosition.enqueuedOn instanceof Date
         ? eventPosition.enqueuedOn.getTime()
@@ -113,8 +114,8 @@ export const latestEventPosition: EventPosition = {
  */
 export function validateEventPositions(
   position: EventPosition | { [partitionId: string]: EventPosition }
-) {
-  if (position == undefined) {
+): void {
+  if (!isDefined(position)) {
     return;
   }
 
@@ -146,33 +147,33 @@ export function validateEventPositions(
  * @hidden
  * @internal
  */
-export function isEventPosition(position: any): position is EventPosition {
+export function isEventPosition(position: unknown): position is EventPosition {
   if (!position) {
     return false;
   }
 
-  if (position.offset != undefined) {
+  if (objectHasProperty(position, "offset") && isDefined(position.offset)) {
     return true;
   }
 
-  if (position.sequenceNumber != undefined) {
+  if (objectHasProperty(position, "sequenceNumber") && isDefined(position.sequenceNumber)) {
     return true;
   }
 
-  if (position.enqueuedOn != undefined) {
+  if (objectHasProperty(position, "enqueuedOn") && isDefined(position.enqueuedOn)) {
     return true;
   }
 
   return false;
 }
 
-function validateEventPosition(position: EventPosition) {
-  if (position == undefined) {
+function validateEventPosition(position: EventPosition): void {
+  if (!isDefined(position)) {
     return;
   }
-  const offsetPresent = position.offset != undefined;
-  const sequenceNumberPresent = position.sequenceNumber != undefined;
-  const enqueuedOnPresent = position.enqueuedOn != undefined;
+  const offsetPresent = isDefined(position.offset);
+  const sequenceNumberPresent = isDefined(position.sequenceNumber);
+  const enqueuedOnPresent = isDefined(position.enqueuedOn);
 
   if (
     (offsetPresent && sequenceNumberPresent) ||

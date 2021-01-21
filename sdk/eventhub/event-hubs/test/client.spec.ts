@@ -283,7 +283,9 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
     let subscription: Subscription | undefined;
     const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
       subscription = client.subscribe({
-        processEvents: async () => {},
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err) => {
           resolve(err);
         }
@@ -426,7 +428,9 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
     let subscription: Subscription | undefined;
     const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
       subscription = client.subscribe({
-        processEvents: async () => {},
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err) => {
           resolve(err);
         }
@@ -586,7 +590,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
   });
 });
 
-function testUserAgentString(context: ConnectionContext, customValue?: string) {
+function testUserAgentString(context: ConnectionContext, customValue?: string): void {
   const packageVersion = packageJsonInfo.version;
   const properties = context.connection.options.properties;
   properties!["user-agent"].should.startWith(
@@ -673,7 +677,9 @@ describe("EventHubConsumerClient after close()", function(): void {
     let subscription: Subscription | undefined;
     const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
       subscription = client.subscribe({
-        processEvents: async () => {},
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err) => {
           resolve(err);
         }
