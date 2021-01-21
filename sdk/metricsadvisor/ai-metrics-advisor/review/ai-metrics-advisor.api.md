@@ -236,10 +236,22 @@ export type CreatedNotificationHook = {
 };
 
 // @public
+export type CreateFeedbackResponse = CreateMetricFeedback & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
 export type CreateHookResponse = CreatedNotificationHook & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: any;
     };
+};
+
+// @public (undocumented)
+export type CreateMetricFeedback = {
+    id: string;
 };
 
 // @public
@@ -1003,7 +1015,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 // @public
 export class MetricsAdvisorClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
-    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
+    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<CreateFeedbackResponse>;
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
