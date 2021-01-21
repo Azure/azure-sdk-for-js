@@ -573,7 +573,7 @@ describe("Event Processor", function(): void {
     }
   });
 
-  it.only("errors thrown from the user's handlers are reported to processError()", async () => {
+  it("errors thrown from the user's handlers are reported to processError()", async () => {
     const errors = new Set<Error>();
     const partitionIds = await consumerClient.getPartitionIds();
 
@@ -624,7 +624,7 @@ describe("Event Processor", function(): void {
         name: "waiting for errors thrown from user's handlers",
         timeBetweenRunsMs: 1000,
         maxTimes: 30,
-        until: async () => errors.size >= partitionIds.length * 2
+        until: async () => errors.size >= partitionIds.length
       });
       console.log("event processor loop completed");
       const messages = [...errors].map((e) => e.message);
@@ -1933,7 +1933,7 @@ describe("Event Processor", function(): void {
       }
     });
   });
-}).timeout(90000);
+}).timeout(100000);
 
 function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<string, string[]> {
   const partitionOwnershipMap: Map<string, string[]> = new Map();
