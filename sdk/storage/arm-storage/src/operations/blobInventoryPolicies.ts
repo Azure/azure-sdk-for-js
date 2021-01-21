@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/managementPoliciesMappers";
+import * as Mappers from "../models/blobInventoryPoliciesMappers";
 import * as Parameters from "../models/parameters";
 import { StorageManagementClientContext } from "../storageManagementClientContext";
 
-/** Class representing a ManagementPolicies. */
-export class ManagementPolicies {
+/** Class representing a BlobInventoryPolicies. */
+export class BlobInventoryPolicies {
   private readonly client: StorageManagementClientContext;
 
   /**
-   * Create a ManagementPolicies.
+   * Create a BlobInventoryPolicies.
    * @param {StorageManagementClientContext} client Reference to the service client.
    */
   constructor(client: StorageManagementClientContext) {
@@ -26,16 +26,16 @@ export class ManagementPolicies {
   }
 
   /**
-   * Gets the managementpolicy associated with the specified storage account.
+   * Gets the blob inventory policy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ManagementPoliciesGetResponse>
+   * @returns Promise<Models.BlobInventoryPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobInventoryPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -44,7 +44,7 @@ export class ManagementPolicies {
    * letters only.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
+  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.BlobInventoryPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
@@ -54,8 +54,8 @@ export class ManagementPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
-  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>, callback?: msRest.ServiceCallback<Models.ManagementPolicy>): Promise<Models.ManagementPoliciesGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BlobInventoryPolicy>): void;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BlobInventoryPolicy>, callback?: msRest.ServiceCallback<Models.BlobInventoryPolicy>): Promise<Models.BlobInventoryPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -63,46 +63,43 @@ export class ManagementPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ManagementPoliciesGetResponse>;
+      callback) as Promise<Models.BlobInventoryPoliciesGetResponse>;
   }
 
   /**
-   * Sets the managementpolicy to the specified storage account.
+   * Sets the blob inventory policy to the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in:
-   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+   * @param policy The storage account blob inventory policy object. It is composed of policy rules.
    * @param [options] The optional parameters
-   * @returns Promise<Models.ManagementPoliciesCreateOrUpdateResponse>
+   * @returns Promise<Models.BlobInventoryPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options?: msRest.RequestOptionsBase): Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.BlobInventoryPolicySchema, options?: Models.BlobInventoryPoliciesCreateOrUpdateOptionalParams): Promise<Models.BlobInventoryPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in:
-   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+   * @param policy The storage account blob inventory policy object. It is composed of policy rules.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.BlobInventoryPolicySchema, callback: msRest.ServiceCallback<Models.BlobInventoryPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
-   * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in:
-   * https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+   * @param policy The storage account blob inventory policy object. It is composed of policy rules.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagementPolicy>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.ManagementPolicySchema, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagementPolicy>, callback?: msRest.ServiceCallback<Models.ManagementPolicy>): Promise<Models.ManagementPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.BlobInventoryPolicySchema, options: Models.BlobInventoryPoliciesCreateOrUpdateOptionalParams, callback: msRest.ServiceCallback<Models.BlobInventoryPolicy>): void;
+  createOrUpdate(resourceGroupName: string, accountName: string, policy: Models.BlobInventoryPolicySchema, options?: Models.BlobInventoryPoliciesCreateOrUpdateOptionalParams | msRest.ServiceCallback<Models.BlobInventoryPolicy>, callback?: msRest.ServiceCallback<Models.BlobInventoryPolicy>): Promise<Models.BlobInventoryPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,11 +108,11 @@ export class ManagementPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ManagementPoliciesCreateOrUpdateResponse>;
+      callback) as Promise<Models.BlobInventoryPoliciesCreateOrUpdateResponse>;
   }
 
   /**
-   * Deletes the managementpolicy associated with the specified storage account.
+   * Deletes the blob inventory policy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -154,18 +151,59 @@ export class ManagementPolicies {
       deleteMethodOperationSpec,
       callback);
   }
+
+  /**
+   * Gets the blob inventory policy associated with the specified storage account.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.BlobInventoryPoliciesListResponse>
+   */
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.BlobInventoryPoliciesListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ListBlobInventoryPolicy>): void;
+  /**
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   * account names must be between 3 and 24 characters in length and use numbers and lower-case
+   * letters only.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListBlobInventoryPolicy>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListBlobInventoryPolicy>, callback?: msRest.ServiceCallback<Models.ListBlobInventoryPolicy>): Promise<Models.BlobInventoryPoliciesListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.BlobInventoryPoliciesListResponse>;
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.managementPolicyName
+    Parameters.blobInventoryPolicyName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -175,10 +213,10 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementPolicy
+      bodyMapper: Mappers.BlobInventoryPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -186,12 +224,12 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.managementPolicyName
+    Parameters.blobInventoryPolicyName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -201,19 +239,23 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      policy: "policy"
+      policy: "policy",
+      systemData: [
+        "options",
+        "systemData"
+      ]
     },
     mapper: {
-      ...Mappers.ManagementPolicy,
+      ...Mappers.BlobInventoryPolicy,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.ManagementPolicy
+      bodyMapper: Mappers.BlobInventoryPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -221,12 +263,12 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/{blobInventoryPolicyName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.managementPolicyName
+    Parameters.blobInventoryPolicyName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -238,7 +280,32 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListBlobInventoryPolicy
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
