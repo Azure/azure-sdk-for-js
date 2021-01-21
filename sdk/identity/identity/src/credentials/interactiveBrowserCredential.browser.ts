@@ -127,18 +127,24 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.msalObject = new msalBrowser.PublicClientApplication(this.msalConfig);
 
-    cachedRedirectResponse(this.msalObject)
-      .then((result) => {
-        if (result && result.account) {
-          logger.info(`MSAL Browser V2 redirect authentication successful.`);
-          this.account = result.account;
-        } else {
-          this.loadCachedAccount();
-        }
-      })
-      .catch((e) => {
-        logger.info(`Failed to acquire token through the MSAL redirect login method. ${e.message}`);
-      });
+    this.handleRedirectResponse();
+  }
+
+  /**
+   * Handles the redirect response based on the credentials available at page load.
+   */
+  private async handleRedirectResponse(): Promise<void> {
+    try {
+      const result = await cachedRedirectResponse(this.msalObject);
+      if (result && result.account) {
+        logger.info(`MSAL Browser V2 redirect authentication successful.`);
+        this.account = result.account;
+      } else {
+        this.loadCachedAccount();
+      }
+    } catch (e) {
+      logger.info(`Failed to acquire token through the MSAL redirect login method. ${e.message}`);
+    }
   }
 
   /**
@@ -148,12 +154,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private loadCachedAccount(): boolean {
     const accounts = this.msalObject.getAllAccounts();
 
-    const account = accounts.find((account) => {
-      const claims: any = account.idTokenClaims;
+    const account = accounts.find((acc) => {
+      const claims: any = acc.idTokenClaims;
       return (
         claims &&
         claims.aud === this.clientId && // Same target client ID
-        account.tenantId === this.tenantId // Same target tenant ID
+        acc.tenantId === this.tenantId // Same target tenant ID
       );
     });
 
@@ -204,13 +210,15 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
     }
 
+    let authPromise: MSALAuthenticationPromise | undefined;
+
     if (authResponse === undefined) {
       logger.info(
         `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
       );
       switch (this.loginStyle) {
         case "redirect":
-          const authPromise = this.msalObject.handleRedirectPromise();
+          authPromise = this.msalObject.handleRedirectPromise();
           this.msalObject.acquireTokenRedirect(authParams);
           authResponse = (await authPromise) || undefined;
           break;
