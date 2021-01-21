@@ -366,11 +366,15 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       );
       await receiver.completeMessage(msg);
     } catch (err) {
-      should.equal(
-        err.message,
-        `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
-        "Unexpected error thrown"
-      );
+      if (!entityNames.usesSessions) {
+        throw err;
+      } else {
+        should.equal(
+          err.message,
+          `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
+          "Unexpected error thrown"
+        );
+      }
       errorWasThrown = true;
     }
 

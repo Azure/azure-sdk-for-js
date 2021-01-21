@@ -2,77 +2,123 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
-import { getFolderName } from "../utils/common";
+import { getFolderName, getSasToken } from "../utils/common";
+import { delay } from "@azure/core-http";
 
 describe("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
+
   let recorder: Recorder;
+  let blobStorageUri: string;
+  let blobSasToken: string;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
     client = authentication.backupClient;
     recorder = authentication.recorder;
+    const sasTokenData = getSasToken();
+    blobStorageUri = sasTokenData.blobStorageUri;
+    blobSasToken = sasTokenData.blobSasToken;
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it.skip("beginBackup", async function() {
-    const blobStorageUri = `https://${env.BLOB_STORAGE_ACCOUNT_NAME}.blob.core.windows.net/backup`;
-    const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
-    console.log("blobStorageUri", blobStorageUri);
-    console.log("sasToken", sasToken);
-    const backupPoller = await client.beginBackup(blobStorageUri, sasToken, testPollerProperties);
-    const backupResult = await backupPoller.pollUntilDone();
-    assert.equal(backupResult, blobStorageUri);
+  describe("beginBackup", function() {
+    it("returns the correct backup result when successful", async function() {
+      const backupPoller = await client.beginBackup(
+        blobStorageUri,
+        blobSasToken,
+        testPollerProperties
+      );
+      const backupResult = await backupPoller.pollUntilDone();
+      assert.notExists(backupPoller.getOperationState().error);
+      assert.match(backupResult, new RegExp(blobStorageUri));
+    });
+
+    it("returns the correct backup result when fails to authenticate", async function() {
+      const backupPoller = await client.beginBackup(
+        blobStorageUri,
+        "invalid_sas_token",
+        testPollerProperties
+      );
+      const backupResult = await backupPoller.pollUntilDone();
+      assert.notExists(backupResult);
+      const operationState = backupPoller.getOperationState();
+      assert.isDefined(operationState.error);
+      assert.isNotEmpty(operationState.error?.message);
+    });
   });
 
-  it.skip("beginBackup, then beginRestore", async function() {
-    const blobStorageUri = env.BLOB_STORAGE_URI;
-    const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
-    const backupPoller = await client.beginBackup(blobStorageUri, sasToken, testPollerProperties);
-    const backupURI = await backupPoller.pollUntilDone();
-    assert.ok(!!backupURI.match(blobStorageUri));
+  describe("beginRestore", function() {
+    it("full restore completes successfully", async function() {
+      const backupPoller = await client.beginBackup(
+        blobStorageUri,
+        blobSasToken,
+        testPollerProperties
+      );
+      const backupURI = await backupPoller.pollUntilDone();
+      const folderName = getFolderName(backupURI);
 
-    const folderName = getFolderName(backupURI);
-    const restorePoller = await client.beginRestore(
-      blobStorageUri,
-      sasToken,
-      folderName,
-      testPollerProperties
-    );
-    await restorePoller.pollUntilDone();
-    const operationState = restorePoller.getOperationState();
-    assert.equal(operationState.isCompleted, true);
-    assert.equal(operationState.error, undefined);
-  });
+      const restorePoller = await client.beginRestore(
+        blobStorageUri,
+        blobSasToken,
+        folderName,
+        testPollerProperties
+      );
+      await restorePoller.pollUntilDone();
+      const operationState = restorePoller.getOperationState();
+      assert.equal(operationState.isCompleted, true);
+      assert.notExists(operationState.error);
+      // Restore is eventually consistent so while we work
+      // through the retry operations adding a delay here allows
+      // tests to pass the 5s polling delay.
+      await delay(5000);
+    });
 
-  it.skip("beginBackup, then beginSelectiveRestore", async function() {
-    const keyName = "rsa-1";
+    // There is a service bug that prevents us from creating keys in a Managed HSM
+    // instance, tracked in IcM. Skipping this test until the service issue can be
+    // resolved.
+    it.skip("selectiveRestore completes successfully", async function() {
+      const backupPoller = await client.beginBackup(
+        blobStorageUri,
+        blobSasToken,
+        testPollerProperties
+      );
+      const backupURI = await backupPoller.pollUntilDone();
+      const folderName = getFolderName(backupURI);
 
-    const blobStorageUri = env.BLOB_STORAGE_URI;
-    const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
-    const backupPoller = await client.beginBackup(blobStorageUri, sasToken, testPollerProperties);
-    const backupURI = await backupPoller.pollUntilDone();
-    assert.ok(!!backupURI.match(blobStorageUri));
+      const keyName = "rsa-1";
+      const selectiveRestorePoller = await client.beginSelectiveRestore(
+        blobStorageUri,
+        blobSasToken,
+        folderName,
+        keyName,
+        testPollerProperties
+      );
+      await selectiveRestorePoller.pollUntilDone();
+      const operationState = selectiveRestorePoller.getOperationState();
+      assert.equal(operationState.isCompleted, true);
+      assert.notExists(operationState.error);
+    });
 
-    const folderName = getFolderName(backupURI);
-    const selectiveRestorePoller = await client.beginSelectiveRestore(
-      blobStorageUri,
-      sasToken,
-      folderName,
-      keyName,
-      testPollerProperties
-    );
-    await selectiveRestorePoller.pollUntilDone();
-    const operationState = selectiveRestorePoller.getOperationState();
-    assert.equal(operationState.isCompleted, true);
-    assert.equal(operationState.error, undefined);
+    it("contains an error when fails to authenticate", async function() {
+      const restorePoller = await client.beginRestore(
+        blobStorageUri,
+        "bad_token",
+        "bad_folder",
+        testPollerProperties
+      );
+      await restorePoller.pollUntilDone();
+      const operationState = restorePoller.getOperationState();
+      assert.equal(operationState.isCompleted, true);
+      assert.isNotEmpty(operationState.error?.message);
+    });
   });
 });

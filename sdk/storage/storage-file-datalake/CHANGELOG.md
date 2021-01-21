@@ -1,5 +1,9 @@
 # Release History
 
+## 12.3.1 (Unreleased)
+
+- Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+
 ## 12.3.0 (2021-01-12)
 
 - Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).

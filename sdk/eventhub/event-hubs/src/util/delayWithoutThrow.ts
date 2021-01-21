@@ -16,5 +16,7 @@ export async function delayWithoutThrow(
 ): Promise<void> {
   try {
     await delay(delayInMs, abortSignal);
-  } catch {} // swallow AbortError
+  } catch {
+    /* no-op to swallow AbortError */
+  }
 }
