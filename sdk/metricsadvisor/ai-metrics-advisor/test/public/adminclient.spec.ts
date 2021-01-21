@@ -137,11 +137,10 @@ matrix([[true, false]] as const, async (useAad) => {
             seriesDetectionConditions: []
           };
 
-          const actual = await client.createDetectionConfig(expected);
-
+          const created = await client.createDetectionConfig(expected);
+          const actual = await client.getDetectionConfig(created.id);
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
-
           assert.equal(actual.name, expected.name);
           assert.strictEqual(actual.description, expected.description);
           assert.equal(actual.metricId, expected.metricId);

@@ -1176,6 +1176,16 @@ export interface AnomalyDetectionConfiguration {
 }
 
 /**
+ * Represents newly created metric anomaly detection configuration.
+ */
+export type CreatedAnomalyDetectionConfiguration = {
+  /**
+   * Anomaly detection configuration unique id
+   */
+  id: string;
+};
+
+/**
  * Represents the root cause of an incident.
  */
 export interface IncidentRootCause {
@@ -1303,6 +1313,21 @@ export type CreateDataFeedResponse = CreatedDataFeed & {
   };
 };
 
+/**
+ * Contains response data for the createAnomalyDetectionConfiguration operation.
+ */
+export type CreateAnomalyDetectionConfigurationResponse = CreatedAnomalyDetectionConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedHeaders: any;
+  };
+};
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.
  */

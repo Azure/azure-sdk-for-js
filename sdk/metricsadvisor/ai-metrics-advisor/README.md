@@ -319,7 +319,12 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createDetectionConfig(anomalyConfig);
+  const created = await adminClient.createDetectionConfig(anomalyConfig);
+
+   /* To get the full detection config object, you can call the get method and pass the id of the created detection config
+   */
+  const result = await adminClient.getDetectionConfig(created.id);
+  return result;
 }
 ```
 
