@@ -1,19 +1,19 @@
 let nock = require("nock");
 
-module.exports.hash = "71dd63e8f90b2c2eb44bc15618466368";
+module.exports.hash = "c114910037975ecd99c548006650f0e8";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
 nock("https://endpoint", { encodedQueryParams: true })
   .post("/identities")
   .query(true)
-  .reply(200, { identity: { id: "sanitized" }, accessToken: null }, [
+  .reply(201, { identity: { id: "sanitized" } }, [
     "Transfer-Encoding",
     "chunked",
     "Content-Type",
     "application/json; charset=utf-8",
     "MS-CV",
-    "mj+7liJX8EChXDb3DKuRww.0",
+    "sFLnVHTDiE69hSEswDBOXw.0",
     "Strict-Transport-Security",
     "max-age=2592000",
     "x-ms-client-request-id",
@@ -23,7 +23,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     "X-Processing-Time",
     "18ms",
     "X-Azure-Ref",
-    "0I/0GYAAAAABGg516wcR0Sa3Rue4/pfKLWVZSMzBFREdFMDMxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "0WuEJYAAAAACPXeTpLbHUSZ01mpNXCP+GV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
     "Date",
-    "Tue, 19 Jan 2021 15:39:15 GMT"
+    "Thu, 21 Jan 2021 20:17:30 GMT"
   ]);

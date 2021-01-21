@@ -49,7 +49,7 @@ export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 
 export const createUserHttpClient: HttpClient = createMockHttpClient<
   CommunicationIdentityAccessTokenResult
->(200, {
+>(201, {
   identity: { id: "identity" }
 });
 

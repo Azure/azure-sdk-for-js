@@ -27,6 +27,12 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
     assert.isString(user.communicationUserId);
   });
 
+  it("successfully creates a user and token", async function() {
+    const { user, token } = await client.createUserWithToken(["voip"]);
+    assert.isString(user.communicationUserId);
+    assert.isString(token);
+  });
+
   it("successfully issues a token for a user [single scope]", async function() {
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, ["chat"]);
     assert.isString(token);
