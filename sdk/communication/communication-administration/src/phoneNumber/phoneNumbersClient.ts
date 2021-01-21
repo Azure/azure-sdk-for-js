@@ -23,12 +23,14 @@ import {
   PhoneNumbers as GeneratedClient,
   PhoneNumbersClient as PhoneNumbersGeneratedClient
 } from "./generated/src/phoneNumbersClient";
-import {} from "./generated/src/models";
+import { AcquiredPhoneNumber, AcquiredPhoneNumberUpdate, PhoneNumberSearchRequest } from "./generated/src/models";
 import { SDK_VERSION } from "../common/constants";
-import {} from "./models";
+import { GetPhoneNumberOptions, GetPhoneNumberResponse, ListPhoneNumbersOptions, UpdatePhoneNumberOptions, UpdatePhoneNumberResponse } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { BeginReleasePhoneNumbersOptions, PhoneNumberRelease, BeginReservePhoneNumbersOptions, PhoneNumberReservation, BeginPurchaseReservationOptions } from "..";
+import { BeginSearchAvailablePhoneNumbersOptions } from "./lroModels";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -100,29 +102,57 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Updates the capabilities for a list of phone numbers.
-   * The response includes the id of the created update capabilities request,
-   * remember that id for subsequent calls to getCapabilitiesUpdate.
-   * @param phoneNumberCapabilitiesUpdates Dictionary containing a list of phone numbers and their capabilities updates.
-   * @param options Additional request options.
+   * Updates an acquired phone number.
+   * 
+   * @param {string} phoneNumber The E.164 formatted phone number to be updated. The leading plus can be either + or encoded as %2B.
+   * @param {AcquiredPhoneNumberUpdate} update The updated properties which will be applied to the phone number.
+   * @param {UpdatePhoneNumberOptions} options Additional request options.
    */
-  public async updatePhoneNumbersCapabilities(
-    phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
-    options: UpdateCapabilitiesOptions = {}
-  ): Promise<UpdateNumbersCapabilitiesResponse> {
+  public async updatePhoneNumber(
+    phoneNumber: string,
+    update: AcquiredPhoneNumberUpdate,
+    options: UpdatePhoneNumberOptions = {}
+  ): Promise<UpdatePhoneNumberResponse> {
     const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-updatePhoneNumbersCapabilities",
+      "PhoneNumbersClient-updatePhoneNumber",
       options
     );
     try {
-      const { capabilitiesUpdateId, _response } = await this.client.updateCapabilities(
-        {
-          phoneNumberCapabilitiesUpdate: phoneNumberCapabilitiesUpdates
-        },
+      const { _response, ...acquiredPhoneNumber } = await this.client.updatePhoneNumber(
+        phoneNumber,
+        update,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse<UpdateNumberCapabilitiesResponse>(
-        { capabilitiesUpdateId },
+      return attachHttpResponse<AcquiredPhoneNumber>(
+        acquiredPhoneNumber,
+        _response
+      );
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Gets an acquired phone number.
+   * 
+   * @param {string} phoneNumber The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
+   * @param {GetPhoneNumberOptions} options Additional request options.
+   */
+  public async getPhoneNumber(
+    phoneNumber: string, 
+    options: GetPhoneNumberOptions = {}
+  ): Promise<GetPhoneNumberResponse> {
+    const { span, updatedOptions } = createSpan("PhoneNumbersClient-getPhoneNumber", options);
+    try {
+      const { _response, ...acquiredPhoneNumber } = await this.client.getPhoneNumber(phoneNumber, updatedOptions);
+      return attachHttpResponse<AcquiredPhoneNumber>(
+        acquiredPhoneNumber,
         _response
       );
     } catch (e) {
@@ -139,250 +169,6 @@ export class PhoneNumbersClient {
   /**
    * @internal
    * @ignore
-   * Deals with the pagination of listSearches.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listSearchesPage(
-    continuationState: PageSettings,
-    options: PageableOptions = {}
-  ): AsyncIterableIterator<PhoneNumberEntity[]> {
-    if (!continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllSearches(options);
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.entities) {
-        yield currentResponse.entities;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllSearchesNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.entities) {
-        yield currentResponse.entities;
-      }
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the iteration of all the available results of listSearches.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listSearchesAll(
-    options: PageableOptions = {}
-  ): AsyncIterableIterator<PhoneNumberEntity> {
-    for await (const entities of this.listSearchesPage({}, options)) {
-      yield* entities;
-    }
-  }
-
-  /**
-   * Iterates the searches created by the Azure resource.
-   *
-   * Example usage:
-   * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
-   * for await (const entity of client.listSearches()) {
-   *   console.log("id: ", entity.id);
-   * }
-   * ```
-   * Gets all searches created by the Azure resource.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  public listSearches(
-    options: PageableOptions = {}
-  ): PagedAsyncIterableIterator<PhoneNumberEntity> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listSearches",
-      options
-    );
-    const iter = this.listSearchesAll(options);
-
-    span.end();
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listSearchesPage(settings, updatedOptions)
-    };
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the pagination of listReleases.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listReleasesPage(
-    continuationState: PageSettings,
-    options: PageableOptions = {}
-  ): AsyncIterableIterator<PhoneNumberEntity[]> {
-    if (continuationState.continuationToken == null) {
-      const currentResponse = await this.client.getAllReleases(options);
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.entities) {
-        yield currentResponse.entities;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllReleasesNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.entities) {
-        yield currentResponse.entities;
-      }
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the iteration of all the available results of listReleases.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listReleasesAll(
-    options: PageableOptions = {}
-  ): AsyncIterableIterator<PhoneNumberEntity> {
-    for await (const entities of this.listReleasesPage({}, options)) {
-      yield* entities;
-    }
-  }
-
-  /**
-   * Iterates the releases created by the Azure resource.
-   *
-   * Example usage:
-   * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
-   * for await (const entity of client.listReleases()) {
-   *   console.log("id: ", entity.id);
-   * }
-   * ```
-   * Gets all releases created by the Azure resource.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  public listReleases(
-    options: PageableOptions = {}
-  ): PagedAsyncIterableIterator<PhoneNumberEntity> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listReleases",
-      options
-    );
-    const iter = this.listReleasesAll(options);
-
-    span.end();
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listReleasesPage(settings, updatedOptions)
-    };
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the pagination of listSupportedCountries.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListSupportedCountriesOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listSupportedCountriesPage(
-    continuationState: PageSettings,
-    options: ListSupportedCountriesOptions = {}
-  ): AsyncIterableIterator<PhoneNumberCountry[]> {
-    if (continuationState.continuationToken == null) {
-      const currentResponse = await this.client.getAllSupportedCountries(options);
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.countries) {
-        yield currentResponse.countries;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllSupportedCountriesNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.countries) {
-        yield currentResponse.countries;
-      }
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the iteration of all the available results of listSupportedCountries.
-   * @param {ListSupportedCountriesOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listSupportedCountriesAll(
-    options: ListSupportedCountriesOptions = {}
-  ): AsyncIterableIterator<PhoneNumberCountry> {
-    for await (const countries of this.listSupportedCountriesPage({}, options)) {
-      yield* countries;
-    }
-  }
-
-  /**
-   * Iterates the supported countries.
-   *
-   * Example usage:
-   * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
-   * for await (const country of client.listSupportedCountries()) {
-   *   console.log("country name: ", country.localizedName);
-   * }
-   * ```
-   * @summary List all supported countries.
-   * @param {ListSupportedCountriesOptions} [options] The optional parameters.
-   */
-  public listSupportedCountries(
-    options: ListSupportedCountriesOptions = {}
-  ): PagedAsyncIterableIterator<PhoneNumberCountry> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listAllSupportedCountries",
-      options
-    );
-    const iter = this.listSupportedCountriesAll(options);
-
-    span.end();
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listSupportedCountriesPage(settings, updatedOptions)
-    };
-  }
-
-  /**
-   * @internal
-   * @ignore
    * Deals with the pagination of listPhoneNumbers.
    * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
    * @param {ListPhoneNumbersOptions} [options] Optional parameters for the underlying HTTP request.
@@ -392,23 +178,23 @@ export class PhoneNumbersClient {
     options: ListPhoneNumbersOptions = {}
   ): AsyncIterableIterator<AcquiredPhoneNumber[]> {
     if (continuationState.continuationToken == null) {
-      const currentResponse = await this.client.getAllPhoneNumbers(options);
+      const currentResponse = await this.client.listPhoneNumbers(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
-      if (currentResponse.phoneNumbers) {
-        yield currentResponse.phoneNumbers;
+      if (currentResponse.value) {
+        yield currentResponse.value;
       }
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllPhoneNumbersNext(
+      const currentResponse = await this.client.listPhoneNumbersNext(
         continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentResponse.nextLink;
 
-      if (currentResponse.phoneNumbers) {
-        yield currentResponse.phoneNumbers;
+      if (currentResponse.value) {
+        yield currentResponse.value;
       }
     }
   }
@@ -432,7 +218,7 @@ export class PhoneNumbersClient {
    *
    * Example usage:
    * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
+   * let client = new PhoneNumbersClient(credentials);
    * for await (const acquired of client.listPhoneNumbers()) {
    *   console.log("phone number: ", acquired.phoneNumber);
    * }
@@ -458,188 +244,6 @@ export class PhoneNumbersClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) => this.listPhoneNumbersPage(settings, updatedOptions)
-    };
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the pagination of listPhonePlanGroups.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param countryCode The ISO 3166-2 country code, for example "FR" or "CN".
-   * @param {ListPhonePlanGroupsOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listPhonePlanGroupsPage(
-    continuationState: PageSettings,
-    countryCode: string,
-    options: ListPhonePlanGroupsOptions = {}
-  ): AsyncIterableIterator<PhonePlanGroup[]> {
-    if (continuationState.continuationToken == null) {
-      const currentResponse = await this.client.getPhonePlanGroups(countryCode, options);
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.phonePlanGroups) {
-        yield currentResponse.phonePlanGroups;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getPhonePlanGroupsNext(
-        countryCode,
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.phonePlanGroups) {
-        yield currentResponse.phonePlanGroups;
-      }
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the iteration of all the available results of listPhonePlanGroups.
-   * @param countryCode The ISO 3166-2 country code, for example "FR" or "CN".
-   * @param {ListPlansForCountryOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listPhonePlanGroupsAll(
-    countryCode: string,
-    options: ListPhonePlanGroupsOptions = {}
-  ): AsyncIterableIterator<PhonePlanGroup> {
-    for await (const phonePlanGroups of this.listPhonePlanGroupsPage({}, countryCode, options)) {
-      yield* phonePlanGroups;
-    }
-  }
-
-  /**
-   * Iterates the available phone plan groups for a country.
-   *
-   * Example usage:
-   * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
-   * for await (const phonePlanGroup of client.listPhonePlanGroups("CA")) {
-   *   console.log("plan group id: ", phonePlanGroup.phonePlanGroupId);
-   * }
-   * ```
-   * @summary List all available phone plan groups for a country.
-   * @param {ListPhonePlanGroupsOptions} [options] The optional parameters.
-   */
-  public listPhonePlanGroups(
-    countryCode: string,
-    options: ListPhonePlanGroupsOptions = {}
-  ): PagedAsyncIterableIterator<PhonePlanGroup> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listPhonePlanGroups",
-      options
-    );
-    const iter = this.listPhonePlanGroupsAll(countryCode, options);
-
-    span.end();
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPhonePlanGroupsPage(settings, countryCode, updatedOptions)
-    };
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the pagination of listPhonePlans.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param planGroupInfo Information need to search for plans.
-   * @param {GetPhonePlansOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listPhonePlansPage(
-    continuationState: PageSettings,
-    planGroupInfo: ListPhonePlansRequest,
-    options: ListPhonePlansOptions = {}
-  ): AsyncIterableIterator<PhonePlan[]> {
-    if (continuationState.continuationToken == null) {
-      const currentResponse = await this.client.getPhonePlans(
-        planGroupInfo.countryCode,
-        planGroupInfo.phonePlanGroupId,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.phonePlans) {
-        yield currentResponse.phonePlans;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getPhonePlansNext(
-        planGroupInfo.countryCode,
-        planGroupInfo.phonePlanGroupId,
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.phonePlans) {
-        yield currentResponse.phonePlans;
-      }
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the iteration of all the available results of listPhonePlans.
-   * @param planGroupInfo Information need to search for plans.
-   * @param {ListPhonePlansOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listPhonePlansAll(
-    planGroupInfo: ListPhonePlansRequest,
-    options: ListPhonePlansOptions = {}
-  ): AsyncIterableIterator<PhonePlan> {
-    for await (const phonePlans of this.listPhonePlansPage({}, planGroupInfo, options)) {
-      yield* phonePlans;
-    }
-  }
-
-  /**
-   * Iterates the available phone plan for a plan group.
-   *
-   * Example usage:
-   * ```ts
-   * let client = new PhoneNumberAdministrationClient(credentials);
-   * for await (const phonePlan of client.listPhonePlanGroups(PLAN_GROUP_INFO)) {
-   *   console.log("plan id: ", phonePlan.phonePlanId);
-   * }
-   *
-   * Gets all available phone plans for a given plan group.
-   * @param planGroupInfo Information need to search for plans.
-   * @param options Additional request options.
-   */
-  public listPhonePlans(
-    planGroupInfo: ListPhonePlansRequest,
-    options: ListPhonePlansOptions = {}
-  ): PagedAsyncIterableIterator<PhonePlan> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumberAdministrationClient-listPhonePlans",
-      options
-    );
-    const iter = this.listPhonePlansAll(planGroupInfo, options);
-
-    span.end();
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPhonePlansPage(settings, planGroupInfo, updatedOptions)
     };
   }
 
@@ -699,23 +303,16 @@ export class PhoneNumbersClient {
    * console.log(results);
    * ```
    *
-   * @param {CreateReservationRequest} reservationRequest Request properties to constraint the search scope.
+   * @param {string} countryCode The ISO 3166-2 country code .
+   * @param {PhoneNumberSearchRequest} search Request properties to constraint the search scope.
    * @param {BeginReservePhoneNumbersOptions} options Additional request options.
    */
-  public async beginReservePhoneNumbers(
-    reservationRequest: CreateReservationRequest,
-    options: BeginReservePhoneNumbersOptions = {}
+  public async beginSearchAvailablePhoneNumbers(
+    countryCode: string,
+    search: PhoneNumberSearchRequest,
+    options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>> {
-    const { pollInterval, resumeFrom, ...requestOptions } = options;
-    const poller = new ReservePhoneNumbersPoller({
-      reservationRequest,
-      client: this.client,
-      pollInterval,
-      resumeFrom,
-      requestOptions
-    });
-
-    await poller.poll();
+    const poller = await this.client.searchAvailablePhoneNumbers(countryCode, search, options);
     return poller;
   }
 
