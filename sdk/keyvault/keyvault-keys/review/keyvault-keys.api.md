@@ -32,7 +32,6 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
 }
 
 // @public
-// Assuming we skip Exportable and ReleasePolicy?
 export interface CreateKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     readonly expiresOn?: Date;
@@ -54,6 +53,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 
 // @public
 export class CryptographyClient {
+    constructor(key: JsonWebKey);
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
@@ -203,7 +203,6 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-// Assuming we skip Exportable and ReleasePolicy?
 export interface KeyProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
@@ -245,9 +244,7 @@ export interface KeyVaultKeyId {
 
 // @public
 // Missing algos tracked by 
-// https://github.com/Azure/azure-sdk-for-js/issues/11262
-// https://github.com/Azure/azure-sdk-for-js/issues/11261
-export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256LW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" ;
 
 // @public
 export const enum KnownDeletionRecoveryLevel {
@@ -335,21 +332,6 @@ export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions {
 // @public
 export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions {
 }
-
-// @public
-export class LocalCryptographyClient {
-    constructor(key: JsonWebKey);
-    encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
-    key: JsonWebKey;
-    verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
-    wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
-    unwrapKey(algorithm: LocalSupportedAlgorithmName, encryptedKey: Uint8Array): Promise<UnwrapResult>;
-    decrypt(algorithm: LocalSupportedAlgorithmName, ciphertext: Uint8Array): Promise<DecryptResult>;
-    sign(algorithm: LocalSupportedAlgorithmName, digest: Uint8Array): Promise<SignResult>;
-}
-
-// @public
-export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
