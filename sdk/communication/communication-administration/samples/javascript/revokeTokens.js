@@ -20,7 +20,7 @@ async function main() {
   console.log("\n== Issue Token Javascript Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
-  const scopes = ["chat"];
+  const scopes = ["chat", "voip"];
 
   // Create user
   console.log("Creating User");
@@ -44,7 +44,7 @@ async function main() {
   // Revoke tokens
   console.log("Revoking Tokens");
 
-  await client.revokeTokens(user, new Date());
+  await client.revokeTokens(user);
 
   console.log("Tokens Revoked");
 }
