@@ -359,6 +359,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     try {
       const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
       const lockedUntilAfterRenewlock = await receiver.renewMessageLock(msg);
+      console.log(lockedUntilAfterRenewlock, lockedUntilBeforeRenewlock);
       should.equal(
         lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
         true,
@@ -367,6 +368,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       await receiver.completeMessage(msg);
     } catch (err) {
       if (!entityNames.usesSessions) {
+        console.log(err);
         throw err;
       } else {
         should.equal(
@@ -389,10 +391,14 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": Lock renewal for a message", async function(): Promise<void> {
-    await beforeEachTest(noSessionTestClientType);
-    await testRenewLock();
-  });
+  for (let index = 0; index < 1000; index++) {
+    it.only(`${index}. ${getRandomTestClientTypeWithNoSessions()}: Lock renewal for a message`, async function(): Promise<
+      void
+    > {
+      await beforeEachTest(noSessionTestClientType);
+      await testRenewLock();
+    });
+  }
 
   //   it(withSessionTestClientType + ": Lock renewal for session", async function(): Promise<void> {
   //     await beforeEachTest(withSessionTestClientType);
