@@ -23,13 +23,29 @@ import {
   PhoneNumbers as GeneratedClient,
   PhoneNumbersClient as PhoneNumbersGeneratedClient
 } from "./generated/src/phoneNumbersClient";
-import { AcquiredPhoneNumber, AcquiredPhoneNumberUpdate, PhoneNumberSearchRequest } from "./generated/src/models";
+import {
+  AcquiredPhoneNumber,
+  AcquiredPhoneNumberUpdate,
+  PhoneNumberSearchRequest
+} from "./generated/src/models";
 import { SDK_VERSION } from "../common/constants";
-import { GetPhoneNumberOptions, GetPhoneNumberResponse, ListPhoneNumbersOptions, UpdatePhoneNumberOptions, UpdatePhoneNumberResponse } from "./models";
+import {
+  GetPhoneNumberOptions,
+  GetPhoneNumberResponse,
+  ListPhoneNumbersOptions,
+  UpdatePhoneNumberOptions,
+  UpdatePhoneNumberResponse
+} from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { BeginReleasePhoneNumbersOptions, PhoneNumberRelease, BeginReservePhoneNumbersOptions, PhoneNumberReservation, BeginPurchaseReservationOptions } from "..";
+import {
+  BeginReleasePhoneNumbersOptions,
+  PhoneNumberRelease,
+  BeginReservePhoneNumbersOptions,
+  PhoneNumberReservation,
+  BeginPurchaseReservationOptions
+} from "..";
 import { BeginSearchAvailablePhoneNumbersOptions } from "./lroModels";
 
 /**
@@ -103,7 +119,7 @@ export class PhoneNumbersClient {
 
   /**
    * Updates an acquired phone number.
-   * 
+   *
    * @param {string} phoneNumber The E.164 formatted phone number to be updated. The leading plus can be either + or encoded as %2B.
    * @param {AcquiredPhoneNumberUpdate} update The updated properties which will be applied to the phone number.
    * @param {UpdatePhoneNumberOptions} options Additional request options.
@@ -113,20 +129,14 @@ export class PhoneNumbersClient {
     update: AcquiredPhoneNumberUpdate,
     options: UpdatePhoneNumberOptions = {}
   ): Promise<UpdatePhoneNumberResponse> {
-    const { span, updatedOptions } = createSpan(
-      "PhoneNumbersClient-updatePhoneNumber",
-      options
-    );
+    const { span, updatedOptions } = createSpan("PhoneNumbersClient-updatePhoneNumber", options);
     try {
       const { _response, ...acquiredPhoneNumber } = await this.client.updatePhoneNumber(
         phoneNumber,
         update,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse<AcquiredPhoneNumber>(
-        acquiredPhoneNumber,
-        _response
-      );
+      return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -140,21 +150,21 @@ export class PhoneNumbersClient {
 
   /**
    * Gets an acquired phone number.
-   * 
+   *
    * @param {string} phoneNumber The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
    * @param {GetPhoneNumberOptions} options Additional request options.
    */
   public async getPhoneNumber(
-    phoneNumber: string, 
+    phoneNumber: string,
     options: GetPhoneNumberOptions = {}
   ): Promise<GetPhoneNumberResponse> {
     const { span, updatedOptions } = createSpan("PhoneNumbersClient-getPhoneNumber", options);
     try {
-      const { _response, ...acquiredPhoneNumber } = await this.client.getPhoneNumber(phoneNumber, updatedOptions);
-      return attachHttpResponse<AcquiredPhoneNumber>(
-        acquiredPhoneNumber,
-        _response
+      const { _response, ...acquiredPhoneNumber } = await this.client.getPhoneNumber(
+        phoneNumber,
+        updatedOptions
       );
+      return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

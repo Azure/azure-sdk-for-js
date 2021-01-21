@@ -4,8 +4,10 @@
 import { OperationOptions } from "@azure/core-http";
 
 export interface PhoneNumberPollerOptionsBase {
-    pollInterval?: number;
-    resumeFrom?: string;
+  pollInterval?: number;
+  resumeFrom?: string;
 }
 
-export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions { }
+export interface BeginSearchAvailablePhoneNumbersOptions
+  extends PhoneNumberPollerOptionsBase,
+    OperationOptions {}

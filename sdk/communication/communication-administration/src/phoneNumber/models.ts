@@ -15,6 +15,4 @@ export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 export type ListPhoneNumbersOptions = OperationOptions;
 
-export {
-    AcquiredPhoneNumber
-} from "./generated/src/models";
+export { AcquiredPhoneNumber } from "./generated/src/models";
