@@ -9,7 +9,7 @@ Fortunately, there are a few options:
 - Use a back end server to route requests to Azure Key Vault.
 - Use [Azure API Management][azureapimanagement] to route requests to Azure Key Vault.
 
-> Rememeber: CORS is a _browser_ restriction, and is not a concern for Node applications.
+> Remember: CORS is a _browser_ restriction, and is not a concern for Node applications.
 
 Interested in enabling CORS in Key Vault? [Let us know!](https://feedback.azure.com/forums/906355-azure-key-vault/suggestions/34753195-enable-cors-for-key-vault)
 
