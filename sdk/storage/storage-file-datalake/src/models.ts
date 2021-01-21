@@ -22,7 +22,7 @@ export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTa
 export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
 
 /**
- * Options to configure {@link DataLakeServiceClient.RenameFileSystem}.
+ * Options to configure {@link DataLakeServiceClient.renameFileSystem}.
  *
  * @export
  * @interface ServiceRenameFileSystemOptions
@@ -30,7 +30,7 @@ export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
 export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
 
 /**
- * Contains response data for the {@link DataLakeServiceClient.RenameFileSystem} operation.
+ * Contains response data for the {@link DataLakeServiceClient.renameFileSystem} operation.
  * @export
  * @interface FileSystemRenameResponse
  */

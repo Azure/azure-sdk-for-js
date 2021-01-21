@@ -367,7 +367,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param {string} destinationContainerName The new name of the File System.
    * @memberof DataLakeServiceClient
    */
-  public async RenameFileSystem(
+  public async renameFileSystem(
     destinationFileSystemName: string,
     sourceFileSystemName: string,
     options: ServiceRenameFileSystemOptions = {}
@@ -376,7 +376,7 @@ export class DataLakeServiceClient extends StorageClient {
     fileSystemRenameResponse: FileSystemRenameResponse;
   }> {
     const { span, spanOptions } = createSpan(
-      "DataLakeServiceClient-RenameFileSystem",
+      "DataLakeServiceClient-renameFileSystem",
       options.tracingOptions
     );
     try {
