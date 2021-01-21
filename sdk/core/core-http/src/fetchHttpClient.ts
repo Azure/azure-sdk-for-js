@@ -10,6 +10,7 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { RestError } from "./restError";
 import { Readable, Transform } from "stream";
+import { logger } from "./log";
 
 interface FetchError extends Error {
   code?: string;
@@ -149,11 +150,12 @@ export abstract class FetchHttpClient implements HttpClient {
       ...platformSpecificRequestInit
     };
 
+    let operationResponse: HttpOperationResponse | undefined;
     try {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
-      const operationResponse: HttpOperationResponse = {
+      operationResponse = {
         headers: headers,
         request: httpRequest,
         status: response.status,
@@ -200,7 +202,23 @@ export abstract class FetchHttpClient implements HttpClient {
     } finally {
       // clean up event listener
       if (httpRequest.abortSignal && abortListener) {
-        httpRequest.abortSignal.removeEventListener("abort", abortListener);
+        let uploadStreamDone = Promise.resolve();
+        if (isReadableStream(body)) {
+          uploadStreamDone = isStreamComplete(body);
+        }
+        let downloadStreamDone = Promise.resolve();
+        if (isReadableStream(operationResponse?.readableStreamBody)) {
+          downloadStreamDone = isStreamComplete(operationResponse!.readableStreamBody);
+        }
+
+        Promise.all([uploadStreamDone, downloadStreamDone])
+          .then(() => {
+            httpRequest.abortSignal?.removeEventListener("abort", abortListener!);
+            return;
+          })
+          .catch((e) => {
+            logger.warning("Error when cleaning up abortListener on httpRequest", e);
+          });
       }
     }
   }
@@ -212,6 +230,14 @@ export abstract class FetchHttpClient implements HttpClient {
 
 function isReadableStream(body: any): body is Readable {
   return body && typeof body.pipe === "function";
+}
+
+function isStreamComplete(stream: Readable): Promise<void> {
+  return new Promise((resolve) => {
+    stream.on("close", resolve);
+    stream.on("end", resolve);
+    stream.on("error", resolve);
+  });
 }
 
 export function parseHeaders(headers: Headers): HttpHeadersLike {

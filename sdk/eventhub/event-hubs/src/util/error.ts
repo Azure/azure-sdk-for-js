@@ -3,6 +3,7 @@
 
 import { logErrorStackTrace, logger } from "../log";
 import { ConnectionContext } from "../connectionContext";
+import { isDefined } from "./typeGuards";
 
 /**
  * @internal
@@ -33,9 +34,9 @@ export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   methodName: string,
   parameterName: string,
-  parameterValue: any
+  parameterValue: unknown
 ): void {
-  if (parameterValue === undefined || parameterValue === null) {
+  if (!isDefined(parameterValue)) {
     const error = new TypeError(
       `${methodName} called without required argument "${parameterName}"`
     );

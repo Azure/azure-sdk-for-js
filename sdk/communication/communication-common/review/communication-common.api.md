@@ -63,6 +63,15 @@ export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCrede
 // @public
 export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
 
+// @internal
+export const _deserializeCommunicationIdentifier: (serializedIdentifier: _SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
+
+// @public
+export interface EndpointCredential {
+    credential: KeyCredential;
+    endpoint: string;
+}
+
 // @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
@@ -99,6 +108,9 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
 
 // @public
+export const parseConnectionString: (connectionString: string) => EndpointCredential;
+
+// @public
 export interface PhoneNumberIdentifier {
     phoneNumber: string;
 }
@@ -107,6 +119,21 @@ export interface PhoneNumberIdentifier {
 export interface PhoneNumberKind extends PhoneNumberIdentifier {
     kind: "PhoneNumber";
 }
+
+// @internal
+export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
+
+// @internal
+export interface _SerializedCommunicationIdentifier {
+    id?: string;
+    isAnonymous?: boolean;
+    kind: _SerializedCommunicationIdentifierKind;
+    microsoftTeamsUserId?: string;
+    phoneNumber?: string;
+}
+
+// @internal
+export type _SerializedCommunicationIdentifierKind = "unknown" | "communicationUser" | "phoneNumber" | "callingApplication" | "microsoftTeamsUser";
 
 // @public
 export interface UnknownIdentifier {

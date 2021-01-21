@@ -403,6 +403,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-crypto",
+      "projectFolder": "sdk/core/core-crypto",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
       "versionPolicyName": "core"

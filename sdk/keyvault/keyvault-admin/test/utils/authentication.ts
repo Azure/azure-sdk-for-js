@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureCliCredential } from "@azure/identity";
-import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { ClientSecretCredential } from "@azure/identity";
+import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
-import { getKeyvaultName, getKeyVaultUrl } from "./common";
 import { uniqueString } from "./recorder";
 
 export async function authenticate(that: any): Promise<any> {
@@ -23,14 +22,16 @@ export async function authenticate(that: any): Promise<any> {
   const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
+      AZURE_MANAGEDHSM_URL: "https://azure_managedhsm.managedhsm.azure.net",
       AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_TENANT_ID: "azure_tenant_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
-      BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
+      AZURE_TENANT_ID: "azure_tenant_id",
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net",
+      BLOB_CONTAINER_NAME: "uri",
+      BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
-      KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://eastus2.keyvault_name.managedhsm.azure.net"
+      BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
+      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -55,12 +56,19 @@ export async function authenticate(that: any): Promise<any> {
     queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
-  const credential = await new AzureCliCredential();
+  const credential = new ClientSecretCredential(
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
+  );
 
-  const keyVaultName = getKeyvaultName();
-  const keyVaultUrl = getKeyVaultUrl() || `https://${keyVaultName}.vault.azure.net`;
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultUrl, credential);
-  const backupClient = new KeyVaultBackupClient(keyVaultUrl, credential);
+  const keyVaultHsmUrl = env.AZURE_MANAGEDHSM_URL;
+  if (!keyVaultHsmUrl) {
+    throw new Error("Missing AZURE_MANAGEDHSM_URL environment variable.");
+  }
+
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
+  const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 
   return { recorder, accessControlClient, backupClient, suffix, generateFakeUUID };
 }
