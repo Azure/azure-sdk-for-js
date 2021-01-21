@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage } from "../src";
+import { ServiceBusAdministrationClient, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
@@ -13,13 +13,15 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
+  getConnectionString
 } from "./utils/testutils2";
 import {
   DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage
 } from "../src/serviceBusMessage";
+import { delay } from "rhea-promise";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -342,6 +344,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     const testMessages = entityNames.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
+    console.log(entityNames);
     const msg = await sendReceiveMsg(testMessages);
     const msgDeliveryLink = (msg as ServiceBusMessageImpl).delivery.link.name;
 
@@ -358,13 +361,23 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
+      console.log({
+        "locked_until before renewlock": lockedUntilBeforeRenewlock,
+        now: new Date()
+      });
       const lockedUntilAfterRenewlock = await receiver.renewMessageLock(msg);
-      console.log(lockedUntilAfterRenewlock, lockedUntilBeforeRenewlock);
-      should.equal(
-        lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
-        true,
-        "MessageLock did not get renewed!"
-      );
+      console.log({
+        "locked_until after renewlock": lockedUntilAfterRenewlock,
+        now: new Date()
+      });
+      // should.equal(
+      //   lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
+      //   true,
+      //   "MessageLock did not get renewed!"
+      // );
+      console.log(`${new Date()} wait for 10 seconds...`);
+      await delay(10000);
+      console.log(`${new Date()} Let's complete the message...`);
       await receiver.completeMessage(msg);
     } catch (err) {
       if (!entityNames.usesSessions) {
@@ -392,10 +405,20 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   }
 
   for (let index = 0; index < 1000; index++) {
-    it.only(`${index}. ${getRandomTestClientTypeWithNoSessions()}: Lock renewal for a message`, async function(): Promise<
-      void
-    > {
-      await beforeEachTest(noSessionTestClientType);
+    const entity = getRandomTestClientTypeWithNoSessions();
+    it.only(`${index}. ${entity}: Lock renewal for a message`, async function(): Promise<void> {
+      await beforeEachTest(entity);
+      console.log(
+        (entityNames.queue
+          ? await new ServiceBusAdministrationClient(getConnectionString()).getQueue(
+              entityNames.queue
+            )
+          : await new ServiceBusAdministrationClient(getConnectionString()).getSubscription(
+              entityNames.topic!,
+              entityNames.subscription!
+            )
+        ).lockDuration
+      );
       await testRenewLock();
     });
   }
