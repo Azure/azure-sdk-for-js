@@ -54,6 +54,15 @@ describe("Identifier model serializer", () => {
       { kind: "phoneNumber", phoneNumber: "+1234555000" }
     );
     assertSerialize(
+      { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14" },
+      {
+        kind: "microsoftTeamsUser",
+        microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+        isAnonymous: false,
+        cloud: "public"
+      }
+    );
+    assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", isAnonymous: false },
       {
         kind: "microsoftTeamsUser",
@@ -222,9 +231,18 @@ describe("Identifier model serializer", () => {
     assertThrowsMissingProperty(
       {
         kind: "microsoftTeamsUser",
-        microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14"
+        microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+        cloud: "public"
       },
       "isAnonymous"
+    );
+    assertThrowsMissingProperty(
+      {
+        kind: "microsoftTeamsUser",
+        microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+        isAnonymous: false
+      },
+      "cloud"
     );
     assertThrowsMissingProperty(
       {

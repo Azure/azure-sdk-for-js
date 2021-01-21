@@ -58,9 +58,9 @@ export interface MicrosoftTeamsUserIdentifier extends WithOptionalFullId {
   microsoftTeamsUserId: string;
 
   /**
-   * True if the user is anonymous, for example when joining a meeting with a share link.
+   * True if the user is anonymous, for example when joining a meeting with a share link. If missing, the user is not anonymous.
    */
-  isAnonymous: boolean;
+  isAnonymous?: boolean;
 
   /**
    * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".

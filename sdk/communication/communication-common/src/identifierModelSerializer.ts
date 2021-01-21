@@ -36,7 +36,7 @@ export interface _SerializedCommunicationIdentifier {
   /**
    * The cloud that the identifier belongs to.
    */
-  cloud?: _SerializedCommunicationCloud;
+  cloud?: _SerializedCommunicationCloudEnvironment;
 }
 
 /**
@@ -53,10 +53,10 @@ export type _SerializedCommunicationIdentifierKind =
 
 /**
  * @internal
- * Defines values for CommunicationCloud.
- * This type is the serialized format of the CommunicationCloud used in web requests and responses.
+ * Defines values for CommunicationCloudEnvironment.
+ * This type is the serialized format of the CommunicationCloudEnvironment used in web requests and responses.
  */
-export type _SerializedCommunicationCloud = "public" | "dod" | "gcch";
+export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
 const addIdIfExisting = <T>(identifier: T, id: string | undefined): T & { id?: string } => {
   return id === undefined ? identifier : { ...identifier, id };
@@ -86,7 +86,7 @@ export const _serializeCommunicationIdentifier = (
         {
           kind: "microsoftTeamsUser",
           microsoftTeamsUserId: identifierKind.microsoftTeamsUserId,
-          isAnonymous: identifierKind.isAnonymous,
+          isAnonymous: identifierKind.isAnonymous ?? false,
           cloud: identifierKind.cloud ?? "public"
         },
         identifierKind.id
