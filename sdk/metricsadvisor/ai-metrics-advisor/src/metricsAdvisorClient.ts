@@ -2128,7 +2128,8 @@ export class MetricsAdvisorClient {
    * @param metricId - Anomaly detection configuration id
    * @param dimensionName - Name of the dimension to list value
    * @param options - The options parameter.
-   */ public listMetricDimensionValues(
+   */
+  public listMetricDimensionValues(
     metricId: string,
     dimensionName: string,
     options: ListMetricDimensionValuesOptions = {}
