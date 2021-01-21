@@ -363,13 +363,14 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Renames an existing File System.
    *
-   * @param {string} destinationFileSystemName The name of the source File System.
+   * @param {string} sourceFileSystemName The name of the source File System.
    * @param {string} destinationContainerName The new name of the File System.
+   * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Rename operation.
    * @memberof DataLakeServiceClient
    */
   public async renameFileSystem(
-    destinationFileSystemName: string,
     sourceFileSystemName: string,
+    destinationFileSystemName: string,
     options: ServiceRenameFileSystemOptions = {}
   ): Promise<{
     fileSystemClient: DataLakeFileSystemClient;

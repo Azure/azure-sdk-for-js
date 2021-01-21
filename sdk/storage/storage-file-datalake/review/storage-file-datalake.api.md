@@ -330,7 +330,7 @@ export class DataLakeServiceClient extends StorageClient {
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
-    RenameFileSystem(destinationFileSystemName: string, sourceFileSystemName: string, options?: ServiceRenameFileSystemOptions): Promise<{
+    renameFileSystem(sourceFileSystemName: string, destinationFileSystemName: string, options?: ServiceRenameFileSystemOptions): Promise<{
         fileSystemClient: DataLakeFileSystemClient;
         fileSystemRenameResponse: FileSystemRenameResponse;
     }>;

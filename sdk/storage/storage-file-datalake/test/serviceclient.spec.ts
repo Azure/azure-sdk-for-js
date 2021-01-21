@@ -374,7 +374,7 @@ describe("DataLakeServiceClient", () => {
     await fileSystemClient.create();
 
     const newFileSystemName = recorder.getUniqueName("newfilesystem");
-    const renameRes = await serviceClient.renameFileSystem(newFileSystemName, fileSystemName);
+    const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
 
     const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
     assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
@@ -393,7 +393,7 @@ describe("DataLakeServiceClient", () => {
     await leaseClient.acquireLease(-1);
 
     const newFileSystemName = recorder.getUniqueName("newfilesystem");
-    const renameRes = await serviceClient.renameFileSystem(newFileSystemName, fileSystemName, {
+    const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
       sourceCondition: { leaseId: leaseClient.leaseId }
     });
 
