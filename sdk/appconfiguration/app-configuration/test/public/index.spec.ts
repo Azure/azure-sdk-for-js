@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
@@ -11,7 +11,7 @@ import {
   assertThrowsAbortError,
   startRecorder
 } from "./utils/testHelpers";
-import { AppConfigurationClient, ConfigurationSetting } from "../../src";
+import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { delay } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -431,6 +431,52 @@ describe("AppConfigurationClient", () => {
 
       assert.equal("value1", settingAtPointInTime.value);
     });
+
+    it("Using `select` via `fields`", async () => {
+      const settingToAdd: ConfigurationSettingParam = {
+        key: recorder.getUniqueName("getConfigTest"),
+        value: "value that will not be retrieved",
+        contentType: "a content type",
+        label: "a label"
+      };
+
+      await client.addConfigurationSetting(settingToAdd);
+      await client.setReadOnly(settingToAdd, true);
+
+      const retrievedSetting = await client.getConfigurationSetting(settingToAdd, {
+        fields: ["isReadOnly", "contentType", "lastModified", "label"]
+      });
+
+      assert.isOk(retrievedSetting.lastModified);
+
+      assert.deepEqual(
+        {
+          key: retrievedSetting.key,
+          value: retrievedSetting.value,
+          contentType: retrievedSetting.contentType,
+          etag: retrievedSetting.etag,
+          label: retrievedSetting.label,
+          tags: retrievedSetting.tags,
+          statusCode: retrievedSetting.statusCode,
+          isReadOnly: retrievedSetting.isReadOnly
+        },
+        {
+          contentType: "a content type",
+          isReadOnly: true,
+          label: "a label",
+
+          // this is an HTTP response field and is always included.
+          statusCode: 200,
+
+          // these values were purposefully omitted from my list of fields that I
+          // selected above.
+          key: undefined,
+          value: undefined,
+          etag: undefined,
+          tags: undefined
+        }
+      );
+    });
   });
 
   describe("listConfigurationSettings", () => {
@@ -438,14 +484,15 @@ describe("AppConfigurationClient", () => {
     let listConfigSettingA: ConfigurationSetting;
     let count = 0;
 
-    const productionASettingId: {
-      key: string;
-      label: string;
-      value: string;
-    } = {
+    /** Simulating a setting in production that will be made read only */
+    const productionASettingId: Pick<
+      ConfigurationSetting,
+      "key" | "label" | "value" | "contentType"
+    > = {
       key: "",
       label: "",
-      value: "[A] production value"
+      value: "[A] production value",
+      contentType: "a content type"
     };
 
     const keys: {
@@ -597,29 +644,47 @@ describe("AppConfigurationClient", () => {
       );
     });
 
-    it("filter on fields", async () => {
-      // only fill in the 'readOnly' field (which is really the locked field in the REST model)
+    it("Using `select` via `fields`", async () => {
       let byKeyIterator = client.listConfigurationSettings({
-        keyFilter: keys.listConfigSettingA,
-        fields: ["key", "label", "isReadOnly"]
+        keyFilter: productionASettingId.key,
+        labelFilter: productionASettingId.label,
+        fields: ["isReadOnly", "contentType", "lastModified", "label"]
       });
-      let settings = await toSortedArray(byKeyIterator);
+      const [retrievedSetting, ...otherValues] = await toSortedArray(byKeyIterator);
 
-      // the fields we retrieved
-      assert.equal(productionASettingId.key, settings[0].key);
-      assert.ok(settings[0].isReadOnly);
-      assert.equal(uniqueLabel, settings[0].label);
+      assert.isEmpty(otherValues);
+      assert.isOk(retrievedSetting.lastModified);
 
-      assert.ok(!settings[0].contentType);
-      assert.ok(!settings[0].value);
-      assert.ok(!settings[0].etag);
+      assert.deepEqual(
+        {
+          key: retrievedSetting.key,
+          value: retrievedSetting.value,
+          contentType: retrievedSetting.contentType,
+          etag: retrievedSetting.etag,
+          label: retrievedSetting.label,
+          tags: retrievedSetting.tags,
+          isReadOnly: retrievedSetting.isReadOnly
+        },
+        {
+          contentType: "a content type",
+          isReadOnly: true,
+          label: productionASettingId.label,
+
+          // these values were purposefully omitted from my list of fields that I
+          // selected above.
+          key: undefined,
+          value: undefined,
+          etag: undefined,
+          tags: undefined
+        }
+      );
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       byKeyIterator = client.listConfigurationSettings({
         keyFilter: keys.listConfigSettingA,
         fields: ["key", "label", "value"]
       });
-      settings = await toSortedArray(byKeyIterator);
+      const settings = await toSortedArray(byKeyIterator);
 
       // the fields we retrieved
       assert.equal(productionASettingId.key, settings[0].key);

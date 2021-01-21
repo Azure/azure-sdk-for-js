@@ -287,7 +287,6 @@ export const JsonWebKey: coreHttp.CompositeMapper = {
     modelProperties: {
       alg: {
         serializedName: "alg",
-        required: true,
         type: {
           name: "String"
         }
@@ -330,7 +329,6 @@ export const JsonWebKey: coreHttp.CompositeMapper = {
       },
       kid: {
         serializedName: "kid",
-        required: true,
         type: {
           name: "String"
         }
@@ -368,7 +366,6 @@ export const JsonWebKey: coreHttp.CompositeMapper = {
       },
       use: {
         serializedName: "use",
-        required: true,
         type: {
           name: "String"
         }
