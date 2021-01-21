@@ -642,9 +642,8 @@ export type ChangeThresholdConditionUnion =
       suppressCondition: SuppressCondition;
     };
 
-
 export type CreateMetricFeedback = {
-/**
+  /**
    * feedback unique id
    */
   id: string;
@@ -1493,7 +1492,6 @@ export type CreateFeedbackResponse = CreateMetricFeedback & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-
     /**
      * The response body as parsed JSON or XML
      */
