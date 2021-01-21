@@ -16,7 +16,7 @@ const should = chai.should();
 describe("EventHubConsumerClient", () => {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-    path: env[EnvVarKeys.EVENTHUB_NAME]
+    path: env[EnvVarKeys.EVENTHUB_NAME]!
   };
 
   before(() => {
