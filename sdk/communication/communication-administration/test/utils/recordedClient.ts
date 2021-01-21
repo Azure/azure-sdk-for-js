@@ -123,9 +123,11 @@ export function createRecordedPhoneNumberAdministrationClient(
 
 export function createRecordedPhoneNumberAdministrationClientWithToken(
   context: Context
-): RecordedClient<PhoneNumberAdministrationClient> & {
-  includePhoneNumberLiveTests: boolean;
-} | undefined {
+):
+  | (RecordedClient<PhoneNumberAdministrationClient> & {
+      includePhoneNumberLiveTests: boolean;
+    })
+  | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
 
@@ -134,7 +136,7 @@ export function createRecordedPhoneNumberAdministrationClientWithToken(
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
       }
-    }; 
+    };
 
     return {
       client: new PhoneNumberAdministrationClient(env.COMMUNICATION_ENDPOINT, credential),
