@@ -128,7 +128,7 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
-    enabled?: boolean; // 
+    enabled?: boolean;
     expiresOn?: Date;
     hardwareProtected?: boolean;
     notBefore?: Date;
@@ -203,7 +203,7 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-// Skipping exportable, ReleasePolic
+// Assuming we skip Exportable and ReleasePolicy?
 export interface KeyProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
