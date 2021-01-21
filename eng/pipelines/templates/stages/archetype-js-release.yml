@@ -152,7 +152,8 @@ stages:
                     steps:
                       - checkout: self
                       - pwsh: |
-                          $adjustedName = "${{artifact.name}}".Replace("azure-", "")
+                          [regex]$pattern = "azure-"
+                          $adjustedName = $pattern.replace("${{artifact.name}}", "", 1)
                           Write-Host "##vso[task.setvariable variable=Documentation.Zip]$adjustedName"
                         displayName: Set Documentation File Name
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
