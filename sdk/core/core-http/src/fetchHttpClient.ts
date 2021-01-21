@@ -160,7 +160,7 @@ export abstract class FetchHttpClient implements HttpClient {
         httpRequest.streamResponseStatusCodes?.has(response.status) ||
         httpRequest.streamResponseBody;
 
-      operationResponse: HttpOperationResponse = {
+      operationResponse = {
         headers: headers,
         request: httpRequest,
         status: response.status,
