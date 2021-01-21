@@ -26,16 +26,18 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-    curve?: KeyCurveName;
-    hsm?: boolean;
+    curve?: KeyCurveName; // Should we rename to curveName and deprecate curve?
+    hsm?: boolean; // Should we rename to hardwareProtected and deprecate hsm?
+    // Do we need Name?
 }
 
 // @public
+// Assuming we skip Exportable and ReleasePolicy?
 export interface CreateKeyOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     readonly expiresOn?: Date;
     keyOps?: KeyOperation[];
-    keySize?: number;
+    keySize?: number; // Not in dotnet
     notBefore?: Date;
     tags?: {
         [propertyName: string]: string;
@@ -44,8 +46,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
+    hsm?: boolean; // Should we rename to hardwareProtected and deprecate hsm?
     keySize?: number;
+    publicExponent?: number;
+    // Do we need Name?
 }
 
 // @public
@@ -56,7 +60,7 @@ export class CryptographyClient {
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
-    readonly vaultUrl: string;
+    readonly vaultUrl: string; // Do we need to add keyId?
     verify(algorithm: SignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: SignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
@@ -64,6 +68,7 @@ export class CryptographyClient {
 
 // @public
 export interface CryptographyClientOptions extends KeyClientOptions {
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public
@@ -123,7 +128,7 @@ export interface GetKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
-    enabled?: boolean;
+    enabled?: boolean; // 
     expiresOn?: Date;
     hardwareProtected?: boolean;
     notBefore?: Date;
@@ -198,11 +203,13 @@ export interface KeyPollerOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+// Skipping exportable, ReleasePolic
 export interface KeyProperties {
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
     id?: string;
+    managed: boolean;
     name: string;
     notBefore?: Date;
     recoverableDays?: number;
@@ -237,6 +244,9 @@ export interface KeyVaultKeyId {
 }
 
 // @public
+// Missing algos tracked by 
+// https://github.com/Azure/azure-sdk-for-js/issues/11262
+// https://github.com/Azure/azure-sdk-for-js/issues/11261
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -333,6 +343,9 @@ export class LocalCryptographyClient {
     key: JsonWebKey;
     verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
     wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
+    unwrapKey(algorithm: LocalSupportedAlgorithmName, encryptedKey: Uint8Array): Promise<UnwrapResult>;
+    decrypt(algorithm: LocalSupportedAlgorithmName, ciphertext: Uint8Array): Promise<DecryptResult>;
+    sign(algorithm: LocalSupportedAlgorithmName, digest: Uint8Array): Promise<SignResult>;
 }
 
 // @public
@@ -384,13 +397,16 @@ export interface UnwrapKeyOptions extends KeyOperationsOptions {
 export interface UnwrapResult {
     keyID?: string;
     result: Uint8Array;
+    algorithm: KeyWrapAlgorithm;
 }
 
 // @public
 export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     expiresOn?: Date;
+    managed?: boolean;
     keyOps?: KeyOperation[];
+    recoverableDays?: number;
     notBefore?: Date;
     tags?: {
         [propertyName: string]: string;
