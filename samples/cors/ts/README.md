@@ -1,6 +1,6 @@
 # Using Azure Key Vault in a Web Application
 
-Browser security prevents a web page from making requests to a different domain than the one that served the web page. This restriction is called the same-origin policy. The same-origin policy prevents a malicious site from reading sensitive data from another site. Sometimes, you might want to allow other sites to make cross-origin requests to your app. That's where Cross Origin Resource Sharing (CORS) policies become necessary.
+Browser security prevents a web page from making requests to a different domain than the one that served the web page. This restriction is called the same-origin policy. The same-origin policy prevents a malicious site from reading sensitive data from another site. Sometimes, you might want to allow other sites to make cross-origin requests to your app. That's where [Cross-Origin Resource Sharing (CORS)][cors] policies become necessary.
 
 While CORS is configurable for some Azure services, Azure Key Vault does not currently support CORS natively. So what can you do if you'd like to integrate with Azure Key Vault from a client side web application?
 
@@ -83,7 +83,9 @@ Take note of the service principal objectId:
 ```PowerShell
 az ad sp show --id <appId> --query objectId
 ```
+
 Output:
+
 ```
 "<your-service-principal-object-id>"
 ```
@@ -112,7 +114,7 @@ The values for `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`, and `AZURE_TENANT_ID` a
 
 You can find the value of `AZURE_KEYVAULT_NAME` in the outputs tab of your deployment.
 
-
+[cors]: https://developer.mozilla.org/docs/Web/HTTP/CORS
 [azureapimanagement]: https://docs.microsoft.com/azure/api-management/api-management-key-concepts
 [express]: https://expressjs.com/
 [keyvaultsecurity]: https://docs.microsoft.com/azure/key-vault/general/security-overview
