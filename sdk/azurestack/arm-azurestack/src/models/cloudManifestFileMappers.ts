@@ -7,7 +7,6 @@
  */
 
 export {
-  ActivationKeyResult,
   BaseResource,
   CloudManifestFileDeploymentData,
   CloudManifestFileProperties,
@@ -21,8 +20,6 @@ export {
   ProductLink,
   ProductProperties,
   Registration,
-  RegistrationList,
-  RegistrationParameter,
   Resource,
   TrackedResource
 } from "../models/mappers";
