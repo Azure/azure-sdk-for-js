@@ -148,10 +148,7 @@ export class SmsClient {
    * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options Additional request options
    */
-  public async send(
-    sendRequest: SendRequest,
-    options: SendOptions = {}
-  ): Promise<RestResponse> {
+  public async send(sendRequest: SendRequest, options: SendOptions = {}): Promise<RestResponse> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("SmsClient-send", operationOptions);
 
