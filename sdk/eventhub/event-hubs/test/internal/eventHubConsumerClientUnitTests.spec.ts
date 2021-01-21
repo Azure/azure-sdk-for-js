@@ -9,10 +9,11 @@ import { ConnectionContext } from "../../src/connectionContext";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 import chai from "chai";
-import { EnvVarKeys } from "../public/utils/testUtils";
-import { env } from "process";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 
 const should = chai.should();
+const env = getEnvVars();
+
 describe("EventHubConsumerClient", () => {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
