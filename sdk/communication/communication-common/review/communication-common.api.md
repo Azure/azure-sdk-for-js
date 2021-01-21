@@ -96,7 +96,7 @@ export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => ident
 // @public
 export interface MicrosoftTeamsUserIdentifier extends WithOptionalFullId {
     cloud?: "public" | "dod" | "gcch";
-    isAnonymous: boolean;
+    isAnonymous?: boolean;
     microsoftTeamsUserId: string;
 }
 
@@ -125,11 +125,11 @@ export interface PhoneNumberKind extends PhoneNumberIdentifier {
 export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
 
 // @internal
-export type _SerializedCommunicationCloud = "public" | "dod" | "gcch";
+export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
 // @internal
 export interface _SerializedCommunicationIdentifier {
-    cloud?: _SerializedCommunicationCloud;
+    cloud?: _SerializedCommunicationCloudEnvironment;
     id?: string;
     isAnonymous?: boolean;
     kind: _SerializedCommunicationIdentifierKind;
