@@ -19,8 +19,7 @@ export interface CommunicationIdentityOptions extends PipelineOptions {}
 /**
  * The issued token and the user it was issued for.
  */
-export interface CommunicationUserToken
-  extends Pick<CommunicationIdentityAccessToken, "token" | "expiresOn"> {
+export interface CommunicationUserToken extends CommunicationIdentityAccessToken {
   /**
    * Represents the user the token was issued for
    */

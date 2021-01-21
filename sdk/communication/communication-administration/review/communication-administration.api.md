@@ -98,7 +98,7 @@ export interface CommunicationIdentityOptions extends PipelineOptions {
 }
 
 // @public
-export interface CommunicationUserToken extends Pick<CommunicationIdentityAccessToken, "token" | "expiresOn"> {
+export interface CommunicationUserToken extends CommunicationIdentityAccessToken {
     user: CommunicationUserIdentifier;
 }
 

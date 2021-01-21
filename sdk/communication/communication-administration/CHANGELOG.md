@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 - Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
+- `CommunicationIdentityClient` method `revokeTokens` no longer accepts `tokensValidFrom` as an argument.
 
 ### Key bug fixes
 
