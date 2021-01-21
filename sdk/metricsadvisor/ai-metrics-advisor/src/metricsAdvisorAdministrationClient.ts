@@ -48,8 +48,6 @@ import {
   AnomalyAlertConfiguration,
   CreateAnomalyDetectionConfigurationResponse,
   CreateAnomalyAlertConfigurationResponse,
-  EmailCreateNotificationHook,
-  WebCreateNotificationHook,
   CreateHookResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
@@ -967,7 +965,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const hookId = result.location.substring(lastSlashIndex + 1);
-      return {id: hookId, _response: result._response};
+      return { id: hookId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

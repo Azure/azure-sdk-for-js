@@ -770,8 +770,6 @@ export type MetricPeriodFeedback = {
   periodValue: number;
 } & MetricFeedbackCommon;
 
-
-
 /**
  * Represents properties common to hooks.
  */
@@ -826,9 +824,9 @@ export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
  */
 export type CreatedNotificationHook = {
   /**
-* Hook unique id
-*/
-id: string;
+   * Hook unique id
+   */
+  id: string;
 };
 
 /**
@@ -1409,12 +1407,11 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
 /**
  * Contains response data for the createHook operation.
  */
-export type CreateHookResponse = CreatedNotificationHookUnion & {
+export type CreateHookResponse = CreatedNotificationHook & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-
     /**
      * The response body as parsed JSON or XML
      */
