@@ -417,7 +417,11 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAlertConfig(anomalyAlertConfig);
+  const created = await adminClient.createAlertConfig(anomalyAlertConfig);
+   /* To get the full alert config object, you can call the get method and pass the id of the created alert config
+   */
+  const result = await adminClient.getAlertConfig(created.id);
+  return result;
 }
 ```
 

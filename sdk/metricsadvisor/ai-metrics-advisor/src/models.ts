@@ -1118,7 +1118,6 @@ export interface CreatedAnomalyAlertConfiguration {
    * anomaly alerting configuration unique id
    */
   id: string;
- 
 }
 
 /**
@@ -1358,7 +1357,6 @@ export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfigura
   };
 };
 
-
 /**
  * Contains response data for the createAnomalyAlertConfiguration operation.
  */
@@ -1367,7 +1365,6 @@ export type CreateAnomalyAlertConfigurationResponse = CreatedAnomalyAlertConfigu
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-
     /**
      * The response body as parsed JSON or XML
      */
