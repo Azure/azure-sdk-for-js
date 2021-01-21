@@ -8,8 +8,8 @@
 
 export {
   discriminators,
-  CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  DatabaseRestoreResource,
+  DefaultErrorResponse,
+  ErrorResponse,
+  RestorableSqlResourcesListResult
 } from "../models/mappers";
