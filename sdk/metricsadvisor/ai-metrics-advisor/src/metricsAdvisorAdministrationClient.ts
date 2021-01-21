@@ -47,7 +47,10 @@ import {
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration,
   CreateAnomalyDetectionConfigurationResponse,
-  CreateAnomalyAlertConfigurationResponse
+  CreateAnomalyAlertConfigurationResponse,
+  EmailCreateNotificationHook,
+  WebCreateNotificationHook,
+  CreateHookResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -940,7 +943,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
-  ): Promise<GetHookResponse> {
+  ): Promise<CreateHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createHook",
       options
@@ -964,7 +967,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const hookId = result.location.substring(lastSlashIndex + 1);
-      return this.getHook(hookId);
+      return {id: hookId, _response: result._response};
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

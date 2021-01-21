@@ -770,6 +770,8 @@ export type MetricPeriodFeedback = {
   periodValue: number;
 } & MetricFeedbackCommon;
 
+
+
 /**
  * Represents properties common to hooks.
  */
@@ -812,10 +814,22 @@ export type WebNotificationHook = {
   hookParameter: WebhookHookParameter;
 } & NotificationHook;
 
+
+
 /**
  * A union type of all supported hooks
  */
 export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
+
+/**
+ * A union type of all supported created hooks
+ */
+export type CreatedNotificationHook = {
+  /**
+* Hook unique id
+*/
+id: string;
+};
 
 /**
  * Represents properties common to the patch input to the Update Hook operation.
@@ -1389,6 +1403,22 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
+  };
+};
+
+/**
+ * Contains response data for the createHook operation.
+ */
+export type CreateHookResponse = CreatedNotificationHookUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedHeaders: any;
   };
 };
 

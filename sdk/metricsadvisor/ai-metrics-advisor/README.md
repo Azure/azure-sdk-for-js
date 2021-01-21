@@ -365,7 +365,11 @@ async function createWebhookHook(adminClient) {
     }
   };
 
-  return await adminClient.createHook(hook);
+  const created = await adminClient.createHook(hook);
+  /* To get the full hook object, you can call the get method and pass the id of the created hook
+   */
+  const result = await adminClient.getHook(created.id);
+  return result;
 }
 ```
 
@@ -418,7 +422,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     description: "Alerting config description"
   };
   const created = await adminClient.createAlertConfig(anomalyAlertConfig);
-   /* To get the full alert config object, you can call the get method and pass the id of the created alert config
+  /* To get the full alert config object, you can call the get method and pass the id of the created alert config
    */
   const result = await adminClient.getAlertConfig(created.id);
   return result;
