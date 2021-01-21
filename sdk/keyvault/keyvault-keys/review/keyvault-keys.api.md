@@ -27,7 +27,7 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
     curve?: KeyCurveName; // Should we rename to curveName and deprecate curve?
-    hsm?: boolean; // Should we rename to hardwareProtected and deprecate hsm?
+    hsm?: boolean; // Should we rename to hardwareProtected and deprecate hsm (breaking change)?
     // Do we need Name?
 }
 
@@ -45,7 +45,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-    hsm?: boolean; // Should we rename to hardwareProtected and deprecate hsm?
+    hsm?: boolean; // Should we rename to hardwareProtected and deprecate hsm (breaking change)?
     keySize?: number;
     publicExponent?: number;
     // Do we need Name?
@@ -243,7 +243,6 @@ export interface KeyVaultKeyId {
 }
 
 // @public
-// Missing algos tracked by 
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256LW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" ;
 
 // @public
