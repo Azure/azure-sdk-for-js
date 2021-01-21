@@ -734,6 +734,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param {string} deletedContainerName Name of the previously deleted container.
    * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
+   * @param {ServiceUndeleteContainerOptions} [options] Options to configure Container Restore operation.
    * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */

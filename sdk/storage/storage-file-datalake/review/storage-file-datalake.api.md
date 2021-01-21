@@ -9,6 +9,7 @@ import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
 import { ContainerRenameResponse } from '@azure/storage-blob';
+import { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -333,6 +334,10 @@ export class DataLakeServiceClient extends StorageClient {
     renameFileSystem(sourceFileSystemName: string, destinationFileSystemName: string, options?: ServiceRenameFileSystemOptions): Promise<{
         fileSystemClient: DataLakeFileSystemClient;
         fileSystemRenameResponse: FileSystemRenameResponse;
+    }>;
+    undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
+        fileSystemClient: DataLakeFileSystemClient;
+        fileSystemUndeleteResponse: FileSystemUndeleteResponse;
     }>;
 }
 
@@ -900,6 +905,9 @@ export type FileSystemSetMetadataResponse = FileSystemSetMetadataHeaders & {
         parsedHeaders: FileSystemSetMetadataHeaders;
     };
 };
+
+// @public
+export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
@@ -1778,6 +1786,12 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
 
 // @public
 export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
+
+// @public
+export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    destinationFileSystemName?: string;
+}
 
 // @public (undocumented)
 export interface SignedIdentifier<T> {

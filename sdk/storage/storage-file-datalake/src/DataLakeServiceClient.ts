@@ -16,7 +16,9 @@ import {
   ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
   ServiceListFileSystemsSegmentResponse,
-  ServiceRenameFileSystemOptions
+  ServiceRenameFileSystemOptions,
+  ServiceUndeleteFileSystemOptions,
+  FileSystemUndeleteResponse
 } from "./models";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -394,6 +396,56 @@ export class DataLakeServiceClient extends StorageClient {
       return {
         fileSystemClient,
         fileSystemRenameResponse: res.containerRenameResponse
+      };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restore a previously deleted File System.
+   * This API is only functional if Container Soft Delete is enabled for the storage account.
+   *
+   * @param {string} deletedFileSystemName The name of the source File System.
+   * @param {string} deleteFileSystemVersion The new name of the File System.
+   * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Restore operation.
+   * @memberof DataLakeServiceClient
+   */
+  public async undeleteFileSystem(
+    deletedFileSystemName: string,
+    deleteFileSystemVersion: string,
+    options: ServiceUndeleteFileSystemOptions = {}
+  ): Promise<{
+    fileSystemClient: DataLakeFileSystemClient;
+    fileSystemUndeleteResponse: FileSystemUndeleteResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeServiceClient-undeleteFileSystem",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.blobServiceClient.undeleteContainer(
+        deletedFileSystemName,
+        deleteFileSystemVersion,
+        {
+          ...options,
+          destinationContainerName: options.destinationFileSystemName,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        }
+      );
+
+      const fileSystemClient = this.getFileSystemClient(
+        options.destinationFileSystemName || deletedFileSystemName
+      );
+      return {
+        fileSystemClient,
+        fileSystemUndeleteResponse: res.containerUndeleteResponse
       };
     } catch (e) {
       span.setStatus({

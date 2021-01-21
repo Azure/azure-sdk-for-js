@@ -9,7 +9,8 @@ import {
   UserDelegationKeyModel,
   BlobQueryArrowConfiguration,
   ServiceRenameContainerOptions,
-  ContainerRenameResponse
+  ContainerRenameResponse,
+  ContainerUndeleteResponse
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
@@ -35,6 +36,13 @@ export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
  * @interface FileSystemRenameResponse
  */
 export type FileSystemRenameResponse = ContainerRenameResponse;
+
+/**
+ * Contains response data for the {@link DataLakeServiceClient.undeleteFileSystem} operation.
+ * @export
+ * @interface FileSystemUndeleteResponse
+ */
+export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
 import {
   FileSystemListPathsHeaders,
@@ -312,6 +320,32 @@ export interface ServiceGenerateAccountSasUrlOptions {
    * @memberof ServiceGenerateAccountSasUrlOptions
    */
   ipRange?: SasIPRange;
+}
+
+/**
+ * Options to configure {@link DataLakeServiceClient.undeleteFileSystem}.
+ *
+ * @export
+ * @interface ServiceUndeleteFileSystemOptions
+ */
+export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceUndeleteFileSystemOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Optional. Specifies the new name of the restored File System.
+   * Will use its original name if this is not specified.
+   *
+   * @type {string}
+   * @memberof ServiceUndeleteFileSystemOptions
+   */
+  destinationFileSystemName?: string;
 }
 
 /****************************************************************/
