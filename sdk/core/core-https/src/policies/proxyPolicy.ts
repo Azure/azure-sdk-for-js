@@ -50,17 +50,19 @@ function isBypassed(uri: string): boolean | undefined {
     return byPassedList.get(host);
   }
   let isBypassedFlag = false;
-  for (const proxyString of noProxyList) {
-    if (proxyString[0] === ".") {
-      if (uri.endsWith(proxyString)) {
+  for (const pattern of noProxyList) {
+    if (pattern[0] === ".") {
+      // This should match either domain it self or any subdomain or host
+      // .foo.com will match foo.com it self or *.foo.com
+      if (host.endsWith(pattern)) {
         isBypassedFlag = true;
       } else {
-        if (host === proxyString.slice(1) && host.length === proxyString.length - 1) {
+        if (host.length === pattern.length - 1 && host === pattern.slice(1)) {
           isBypassedFlag = true;
         }
       }
     } else {
-      if (host === proxyString) {
+      if (host === pattern) {
         isBypassedFlag = true;
       }
     }
