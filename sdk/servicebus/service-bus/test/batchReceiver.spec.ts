@@ -876,10 +876,6 @@ describe("Batching Receiver", () => {
   for (let index = 0; index < 100; index++) {
     noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
     describe(`${index}. ${noSessionTestClientType}: Batch Receiver - disconnects`, function(): void {
-      let serviceBusClient: ServiceBusClientForTests;
-      let sender: ServiceBusSender;
-      let receiver: ServiceBusReceiver;
-
       async function beforeEachTest(
         receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
       ): Promise<void> {
