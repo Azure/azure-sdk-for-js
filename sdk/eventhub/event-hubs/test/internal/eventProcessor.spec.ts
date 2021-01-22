@@ -631,8 +631,11 @@ describe("Event Processor", function(): void {
       messages.sort();
       console.dir(messages);
       messages.should.deep.equal(expectedErrorMessages);
+      console.log("this check is completed");
     } finally {
+      console.log("attempting to stop");
       await eventProcessor.stop();
+      console.log("stopped");
     }
   });
 
