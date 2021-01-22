@@ -898,44 +898,49 @@ describe("Batching Receiver", () => {
       it.only(`can receive and settle messages after a disconnect`, async function(): Promise<
         void
       > {
-        // Create the sender and receiver.
-        await beforeEachTest();
+        try {
+          // Create the sender and receiver.
+          await beforeEachTest();
 
-        // Send a message so we can be sure when the receiver is open and active.
-        await sender.sendMessages(TestMessage.getSample());
+          // Send a message so we can be sure when the receiver is open and active.
+          await sender.sendMessages(TestMessage.getSample());
 
-        let settledMessageCount = 0;
+          let settledMessageCount = 0;
 
-        const messages1 = await receiver.receiveMessages(1);
-        for (const message of messages1) {
-          await receiver.completeMessage(message);
-          settledMessageCount++;
+          const messages1 = await receiver.receiveMessages(1);
+          for (const message of messages1) {
+            await receiver.completeMessage(message);
+            settledMessageCount++;
+          }
+
+          settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
+
+          const connectionContext = (receiver as any)["_context"];
+          const refreshConnection = connectionContext.refreshConnection;
+          let refreshConnectionCalled = 0;
+          connectionContext.refreshConnection = function(...args: any) {
+            refreshConnectionCalled++;
+            refreshConnection.apply(this, args);
+          };
+
+          // Simulate a disconnect being called with a non-retryable error.
+          (receiver as ServiceBusReceiverImpl)["_context"].connection["_connection"].idle();
+
+          // send a second message to trigger the message handler again.
+          await sender.sendMessages(TestMessage.getSample());
+
+          // wait for the 2nd message to be received.
+          const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1);
+          for (const message of messages2) {
+            await receiver.completeMessage(message);
+            settledMessageCount++;
+          }
+          settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
+          refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+        } catch (error) {
+          console.log(error);
+          throw error;
         }
-
-        settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-
-        const connectionContext = (receiver as any)["_context"];
-        const refreshConnection = connectionContext.refreshConnection;
-        let refreshConnectionCalled = 0;
-        connectionContext.refreshConnection = function(...args: any) {
-          refreshConnectionCalled++;
-          refreshConnection.apply(this, args);
-        };
-
-        // Simulate a disconnect being called with a non-retryable error.
-        (receiver as ServiceBusReceiverImpl)["_context"].connection["_connection"].idle();
-
-        // send a second message to trigger the message handler again.
-        await sender.sendMessages(TestMessage.getSample());
-
-        // wait for the 2nd message to be received.
-        const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1);
-        for (const message of messages2) {
-          await receiver.completeMessage(message);
-          settledMessageCount++;
-        }
-        settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
-        refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
       });
 
       it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
