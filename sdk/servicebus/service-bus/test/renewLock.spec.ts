@@ -59,7 +59,7 @@ describe("Message Lock Renewal", () => {
       await testStreamingReceiverManualLockRenewalHappyCase(sender);
     }
   );
-  
+
   for (let index = 0; index < 1000; index++) {
     testClientType = getRandomTestClientTypeWithNoSessions();
 
