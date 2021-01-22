@@ -7,14 +7,16 @@ products:
 urlFragment: communication-administration-identity-javascript
 ---
 
-# Azure Communication Service Administration client library sample for JavaScript
+# Azure Communication Service Administration Identity client library sample for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Communication Service Administration.
+These sample programs show how to use the JavaScript client libraries for Azure Communication Service Administration Identity to issue and refresh tokens.
 
-| **File Name**                                 | **Description**                                                     |
-| --------------------------------------------- | ------------------------------------------------------------------- |
-| [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number |
-| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers   |
+| **File Name**                                 | **Description**                                                                                            |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [issueToken.js][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
+| [revokeTokens.js][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
+| [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
+| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers                                          |
 
 ## Prerequisites
 
@@ -39,19 +41,21 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node purchasePhoneNumber.js
+node issueToken.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node purchasePhoneNumber.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node issueToken.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
+[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/issueToken.js
+[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/revokeTokens.js
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/purchasePhoneNumber.js
 [releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/releasePhoneNumbers.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-administration
