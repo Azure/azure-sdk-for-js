@@ -7,14 +7,31 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
-  CommunicationIdentityUpdateRequest as CommunicationIdentityUpdateRequestMapper,
-  CommunicationTokenRequest as CommunicationTokenRequestMapper
+  CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
+  CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: CommunicationIdentityCreateRequestMapper
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -31,7 +48,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-07-20-preview2",
+    defaultValue: "2021-03-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -51,36 +68,7 @@ export const id: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/merge-patch+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: CommunicationIdentityUpdateRequestMapper
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: CommunicationTokenRequestMapper
+  mapper: CommunicationIdentityAccessTokenRequestMapper
 };

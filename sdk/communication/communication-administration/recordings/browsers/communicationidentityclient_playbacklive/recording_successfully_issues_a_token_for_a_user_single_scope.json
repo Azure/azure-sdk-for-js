@@ -2,13 +2,13 @@
   "recordings": [
     {
       "method": "POST",
-      "url": "https://endpoint/identities/sanitized/token",
+      "url": "https://endpoint/identities/sanitized/:issueAccessToken",
       "query": {
-        "api-version": "2020-07-20-preview2"
+        "api-version": "2021-03-07"
       },
       "requestBody": "{\"scopes\":[\"chat\"]}",
       "status": 200,
-      "response": "{\"id\":\"sanitized\",\"token\":\"sanitized\",\"expiresOn\":\"2020-11-22T05:32:40.3888441+00:00\"}",
+      "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-01-22T20:17:37.6622899+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }

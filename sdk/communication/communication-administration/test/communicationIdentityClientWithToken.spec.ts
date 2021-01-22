@@ -32,7 +32,7 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
       this.skip();
     }
 
-    let user = await client.createUser();
+    const user = await client.createUser();
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, ["chat"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
@@ -44,10 +44,10 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
       this.skip();
     }
 
-    let user = await client.createUser();
+    const user = await client.createUser();
     const { token, expiresOn, user: receivedUser } = await client.issueToken(user, [
       "chat",
-      "pstn"
+      "voip"
     ]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);

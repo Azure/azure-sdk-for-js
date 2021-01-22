@@ -24,7 +24,8 @@ import {
   TokenScope,
   IssueTokenResponse,
   CreateUserResponse,
-  CommunicationUserToken
+  CommunicationUserToken,
+  CreateUserWithTokenResponse
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
@@ -127,7 +128,7 @@ export class CommunicationIdentityClient {
   ): Promise<IssueTokenResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      const { token, id, expiresOn, _response } = await this.client.issueToken(
+      const { token, expiresOn, _response } = await this.client.issueAccessToken(
         user.communicationUserId,
         { scopes },
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -135,7 +136,7 @@ export class CommunicationIdentityClient {
       const results: CommunicationUserToken = {
         token,
         expiresOn,
-        user: { communicationUserId: id }
+        user
       };
       return attachHttpResponse(results, _response);
     } catch (e) {
@@ -153,21 +154,16 @@ export class CommunicationIdentityClient {
    * Revokes all data and tokens created for a user.
    *
    * @param {CommunicationUser} user The user whose tokens are being revoked.
-   * @param {Date} tokensValidFrom Tokens issued before this time will be revoked.
    * @param {OperationOptions} [options={}] Additional options for the request.
    */
   public async revokeTokens(
     user: CommunicationUserIdentifier,
-    tokensValidFrom: Date = new Date(),
     options: OperationOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
     try {
-      const { _response } = await this.client.update(
+      const { _response } = await this.client.revokeAccessTokens(
         user.communicationUserId,
-        {
-          tokensValidFrom
-        },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse({}, _response);
@@ -190,11 +186,46 @@ export class CommunicationIdentityClient {
   public async createUser(options: OperationOptions = {}): Promise<CreateUserResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const { id, _response } = await this.client.create(
+      const { identity, _response } = await this.client.create(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const user: CommunicationUserIdentifier = { communicationUserId: id };
+      const user: CommunicationUserIdentifier = { communicationUserId: identity.id };
       return attachHttpResponse(user, _response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a single user and a token simultaneously.
+   *
+   * @param {TokenScope[]} scopes Scopes to include in the token.
+   * @param {OperationOptions} [options={}] Additional options for the request.
+   */
+  public async createUserWithToken(
+    scopes: TokenScope[],
+    options: OperationOptions = {}
+  ): Promise<CreateUserWithTokenResponse> {
+    const { span, updatedOptions } = createSpan(
+      "CommunicationIdentity-createUserWithToken",
+      options
+    );
+    try {
+      const { identity, accessToken, _response } = await this.client.create({
+        body: { createTokenWithScopes: scopes },
+        ...operationOptionsToRequestOptionsBase(updatedOptions)
+      });
+      const results: CommunicationUserToken = {
+        ...accessToken!,
+        user: { communicationUserId: identity.id }
+      };
+      return attachHttpResponse(results, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -234,5 +265,3 @@ export class CommunicationIdentityClient {
     }
   }
 }
-
-export { CommunicationTokenRequest, CommunicationIdentityToken } from "./generated/src/models";

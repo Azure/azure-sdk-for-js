@@ -32,7 +32,7 @@ export const main = async () => {
 
   // Issue tokens
   const { token: token1 } = await client.issueToken(user, ["chat"]);
-  const { token: token2 } = await client.issueToken(user, ["pstn"]);
+  const { token: token2 } = await client.issueToken(user, ["voip"]);
   const { token: token3 } = await client.issueToken(user, ["voip"]);
 
   console.log("Issued tokens:");
@@ -43,7 +43,7 @@ export const main = async () => {
   // Revoke tokens
   console.log("Revoking Tokens");
 
-  await client.revokeTokens(user, new Date());
+  await client.revokeTokens(user);
 
   console.log("Tokens Revoked");
 };
