@@ -11,6 +11,8 @@ import { NoOpTracer, TestTracer, setTracer } from "@azure/core-tracing";
 
 dotenv.config();
 
+declare const window: any;
+
 export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
@@ -26,7 +28,6 @@ function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    // @ts-ignore
     return window.__env__[name];
   }
 }

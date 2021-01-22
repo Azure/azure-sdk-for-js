@@ -16,6 +16,7 @@
   "browser": {
     "./dist-esm/storage-file-datalake/src/index.js": "./dist-esm/storage-file-datalake/src/index.browser.js",
     "./dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.browser.js",
+    "./dist-esm/storage-file-datalake/src/credentials/UserDelegationKeyCredential.js": "./dist-esm/storage-file-datalake/src/credentials/UserDelegationKeyCredential.browser.js",
     "./dist-esm/storage-file-datalake/src/utils/utils.node.js": "./dist-esm/storage-file-datalake/src/utils/utils.browser.js",
     "./dist-esm/storage-file-datalake/test/utils/index.js": "./dist-esm/storage-file-datalake/test/utils/index.browser.js",
     "./dist-esm/storage-common/src/index.js": "./dist-esm/storage-common/src/index.browser.js",
@@ -143,7 +144,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",

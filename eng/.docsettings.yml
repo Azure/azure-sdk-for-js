@@ -22,6 +22,8 @@ omitted_paths:
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
+  - sdk/storage/*/test/perfstress/track-1/*
+  - sdk/storage/*/test/perfstress/track-2/*
   - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
   - sdk/**/samples-*/*

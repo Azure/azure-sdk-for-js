@@ -5,9 +5,11 @@
 ### Added
 
 - Added `MicrosoftTeamsUserIdentifier` and `isMicrosoftTeamsUserIdentifier`.
+- Added optional `id` property to communication identifiers.
 
 ### Breaking Changes
 
+- Changed identifier `kind` property to use lowerCamelCase.
 - Renamed `CommunicationUserCredential` to `CommunicationTokenCredential`.
 - Renamed `RefreshOptions` to `CommunicationTokenRefreshOptions`.
 - Renamed `Identifier` to `CommunicationIdentifier`.
