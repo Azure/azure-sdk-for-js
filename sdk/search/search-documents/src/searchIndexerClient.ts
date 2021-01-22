@@ -128,7 +128,7 @@ export class SearchIndexerClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.apiVersion, this.endpoint, pipeline);
+    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
   }
 
   /**
@@ -574,7 +574,7 @@ export class SearchIndexerClient {
           ? indexer.etag
           : undefined;
 
-      await this.client.indexers.deleteMethod(indexerName, {
+      await this.client.indexers.delete(indexerName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
@@ -612,7 +612,7 @@ export class SearchIndexerClient {
           ? dataSourceConnection.etag
           : undefined;
 
-      await this.client.dataSources.deleteMethod(dataSourceConnectionName, {
+      await this.client.dataSources.delete(dataSourceConnectionName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
@@ -646,7 +646,7 @@ export class SearchIndexerClient {
           ? skillset.etag
           : undefined;
 
-      await this.client.skillsets.deleteMethod(skillsetName, {
+      await this.client.skillsets.delete(skillsetName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
