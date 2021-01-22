@@ -573,7 +573,7 @@ describe("Event Processor", function(): void {
     }
   });
 
-  it.only("errors thrown from the user's handlers are reported to processError()", async () => {
+  it.skip("errors thrown from the user's handlers are reported to processError()", async () => {
     const errors = new Set<Error>();
     const partitionIds = await consumerClient.getPartitionIds();
 
