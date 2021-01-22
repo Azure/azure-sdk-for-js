@@ -40,6 +40,7 @@ describe("BlobBatch", () => {
     blobServiceClient = getGenericBSU("");
     blobBatchClient = blobServiceClient.getBlobBatchClient();
     credential = getGenericCredential("");
+
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
