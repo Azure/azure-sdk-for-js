@@ -55,7 +55,8 @@
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/quantum.js.map'\" -o ./dist/quantum.min.js ./dist/quantum.js",
     "prepack": "npm install && npm run build",
     "extract-api": "api-extractor run --local",
-    "build:samples": "echo skip"
+    "build:samples": "echo skip",
+    "build:test": "echo skip"
   },
   "sideEffects": false
 }
