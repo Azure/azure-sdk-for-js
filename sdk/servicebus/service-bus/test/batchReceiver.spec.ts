@@ -21,6 +21,7 @@ import {
 import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
+import debug from "debug";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -865,7 +866,14 @@ describe("Batching Receiver", () => {
     );
   });
 
-  for (let index = 0; index < 1000; index++) {
+  afterEach(async () => {
+    if (serviceBusClient) {
+      await serviceBusClient.test.afterEach();
+      await serviceBusClient.test.after();
+    }
+  });
+
+  for (let index = 0; index < 100; index++) {
     noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
     describe(`${index}. ${noSessionTestClientType}: Batch Receiver - disconnects`, function(): void {
       let serviceBusClient: ServiceBusClientForTests;
@@ -887,13 +895,6 @@ describe("Batching Receiver", () => {
           serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
         );
       }
-
-      afterEach(async () => {
-        if (serviceBusClient) {
-          await serviceBusClient.test.afterEach();
-          await serviceBusClient.test.after();
-        }
-      });
 
       it.only(`can receive and settle messages after a disconnect`, async function(): Promise<
         void
@@ -921,6 +922,7 @@ describe("Batching Receiver", () => {
           connectionContext.refreshConnection = function(...args: any) {
             refreshConnectionCalled++;
             refreshConnection.apply(this, args);
+            debug.log("inside refreshConnection");
           };
 
           // Simulate a disconnect being called with a non-retryable error.
@@ -928,11 +930,15 @@ describe("Batching Receiver", () => {
 
           // send a second message to trigger the message handler again.
           await sender.sendMessages(TestMessage.getSample());
+          debug.log("after sendMessages");
+          process.stderr.write("after sendMessages\n");
 
           // wait for the 2nd message to be received.
           const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1);
+          debug.log("after receiveMessages");
           for (const message of messages2) {
             await receiver.completeMessage(message);
+            debug.log("after completeMessage - 2");
             settledMessageCount++;
           }
           settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
