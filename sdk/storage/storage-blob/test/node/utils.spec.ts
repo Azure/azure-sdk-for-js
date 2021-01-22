@@ -1,5 +1,4 @@
 import * as assert from "assert";
-import { AbortController } from "@azure/abort-controller";
 import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -473,26 +472,6 @@ describe("RetriableReadableStream", () => {
     assert.equal(cur, 2);
   });
 
-  it("abort should destroy underlying source", async () => {
-    const counter = new Counter();
-    const aborter = new AbortController();
-    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
-      abortSignal: aborter.signal
-    });
-
-    let aborted = false;
-    retriable.on("error", (err) => {
-      assert.deepStrictEqual(err.name, "AbortError");
-      aborted = true;
-    });
-
-    aborter.abort();
-    // spare time for events to fire
-    await delay(delayTimeInMs);
-    assert.ok(aborted);
-    assert.ok((counter as any).destroyed);
-  });
-
   it("retry should work on source error", async () => {
     const counter = new Counter();
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
@@ -512,31 +491,5 @@ describe("RetriableReadableStream", () => {
 
     const resBuf = await streamToBuffer3(retriable);
     assert.deepStrictEqual(resBuf.toString(), "0123456789");
-  });
-
-  it("should not emit abort error after already emit error", async () => {
-    const counter = new Counter();
-    const aborter = new AbortController();
-    const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
-      abortSignal: aborter.signal
-    });
-
-    let errorCaughtNum = 0;
-    retriable.on("error", (err) => {
-      assert.ok(
-        err.message.startsWith(
-          "Data corruption failure: received less data than required and reached maxRetires limitation."
-        )
-      );
-      errorCaughtNum++;
-    });
-
-    counter.destroy(new Error("Manual injected error."));
-    await delay(delayTimeInMs);
-
-    aborter.abort();
-    await delay(delayTimeInMs);
-
-    assert.deepStrictEqual(errorCaughtNum, 1);
   });
 });

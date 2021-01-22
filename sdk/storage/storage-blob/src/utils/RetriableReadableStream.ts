@@ -4,20 +4,9 @@
 import { TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
 
-import { AbortSignal, AbortSignalLike, AbortError } from "@azure/abort-controller";
-
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 
 export interface RetriableReadableStreamOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof RetriableReadableStreamOptions
-   */
-  abortSignal?: AbortSignalLike;
-
   /**
    * Max retry count (>=0), undefined or invalid value means no retry
    *
@@ -56,8 +45,6 @@ export interface RetriableReadableStreamOptions {
   highWaterMark?: number;
 }
 
-const ABORT_ERROR = new AbortError("The operation was aborted.");
-
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
@@ -67,7 +54,6 @@ const ABORT_ERROR = new AbortError("The operation was aborted.");
  * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
-  private aborter: AbortSignalLike;
   private start: number;
   private offset: number;
   private end: number;
@@ -77,9 +63,6 @@ export class RetriableReadableStream extends Readable {
   private maxRetryRequests: number;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private options: RetriableReadableStreamOptions;
-  private abortHandler = () => {
-    this.destroy(ABORT_ERROR);
-  };
 
   /**
    * Creates an instance of RetriableReadableStream.
@@ -100,7 +83,6 @@ export class RetriableReadableStream extends Readable {
     options: RetriableReadableStreamOptions = {}
   ) {
     super({ highWaterMark: options.highWaterMark });
-    this.aborter = options.abortSignal || AbortSignal.none;
     this.getter = getter;
     this.source = source;
     this.start = offset;
@@ -111,14 +93,11 @@ export class RetriableReadableStream extends Readable {
     this.onProgress = options.onProgress;
     this.options = options;
 
-    this.aborter.addEventListener("abort", this.abortHandler);
     this.setSourceEventHandlers();
   }
 
   public _read() {
-    if (!this.aborter.aborted) {
-      this.source.resume();
-    }
+    this.source.resume();
   }
 
   private setSourceEventHandlers() {
@@ -154,16 +133,19 @@ export class RetriableReadableStream extends Readable {
     }
   };
 
-  private sourceErrorOrEndHandler = () => {
-    this.removeSourceEventHandlers();
+  private sourceErrorOrEndHandler = (err?: Error) => {
+    if (err && err.name === "AbortError") {
+      this.destroy(err);
+      return;
+    }
 
     // console.log(
     //   `Source stream emits end or error, offset: ${
     //     this.offset
     //   }, dest end : ${this.end}`
     // );
+    this.removeSourceEventHandlers();
     if (this.offset - 1 === this.end) {
-      this.aborter.removeEventListener("abort", this.abortHandler);
       this.push(null);
     } else if (this.offset <= this.end) {
       // console.log(
@@ -177,12 +159,10 @@ export class RetriableReadableStream extends Readable {
             this.setSourceEventHandlers();
           })
           .catch((error) => {
-            this.emit("error", error);
+            this.destroy(error);
           });
       } else {
-        this.aborter.removeEventListener("abort", this.abortHandler);
-        this.emit(
-          "error",
+        this.destroy(
           new Error(
             // tslint:disable-next-line:max-line-length
             `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
@@ -193,9 +173,7 @@ export class RetriableReadableStream extends Readable {
         );
       }
     } else {
-      this.aborter.removeEventListener("abort", this.abortHandler);
-      this.emit(
-        "error",
+      this.destroy(
         new Error(
           `Data corruption failure: Received more data than original request, data needed offset is ${
             this.end
@@ -206,8 +184,6 @@ export class RetriableReadableStream extends Readable {
   };
 
   _destroy(error: Error | null, callback: (error?: Error) => void): void {
-    this.aborter.removeEventListener("abort", this.abortHandler);
-
     // remove listener from source and release source
     this.removeSourceEventHandlers();
     (this.source as Readable).destroy();
