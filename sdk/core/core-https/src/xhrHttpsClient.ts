@@ -98,20 +98,21 @@ export class XhrHttpsClient implements HttpsClient {
                     headers: parseHeaders(xhr)
                   });
                 } else {
-                  xhr.response
-                    .text()
-                    .then((text: string) => {
-                      resolve({
-                        request,
-                        status: xhr.status,
-                        headers: parseHeaders(xhr),
-                        bodyAsText: text
-                      });
-                      return;
-                    })
-                    .catch((e: any) => {
-                      reject(e);
+                  // Blob.text() is not supported in IE
+                  var reader = new FileReader();
+                  reader.onload = function(e) {
+                    var text = e.target?.result as string;
+                    resolve({
+                      request: request,
+                      status: xhr.status,
+                      headers: parseHeaders(xhr),
+                      bodyAsText: text
                     });
+                  };
+                  reader.onerror = function(_e) {
+                    reject(reader.error);
+                  };
+                  reader.readAsText(xhr.response, "UTF-8");
                 }
               });
             }
