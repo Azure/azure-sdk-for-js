@@ -2,6 +2,7 @@
 
 ## 1.2.3 (Unreleased)
 
+- Browser XML parser now lazily load parser error namespace into cache. Fixed [issue 13268](https://github.com/Azure/azure-sdk-for-js/issues/13268)
 
 ## 1.2.2 (2021-01-07)
 
