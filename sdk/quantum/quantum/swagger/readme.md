@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/quantum"
-generate-metadata: true
+generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/
