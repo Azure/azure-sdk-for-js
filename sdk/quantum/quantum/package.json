@@ -52,8 +52,6 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && mkdirp ./review &&  npm run extract-api",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/quantum.js.map'\" -o ./dist/quantum.min.js ./dist/quantum.js",
-    "prepack": "npm install && npm run build",
     "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
     "extract-api": "api-extractor run --local",
     "build:samples": "echo skip",
