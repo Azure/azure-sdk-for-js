@@ -75,8 +75,6 @@ import {
 
 import { CryptographyClient } from "./cryptographyClient";
 
-import { LocalCryptographyClient } from "./localCryptographyClient";
-
 import {
   DecryptResult,
   KeyCurveName,

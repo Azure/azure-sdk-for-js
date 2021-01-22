@@ -122,4 +122,10 @@ export class LocalCryptographyClient {
   constructor(key: JsonWebKey) {
     this.key = key;
   }
+
+  public vaultUrl: undefined;
+
+  public get keyId(): string | undefined {
+    return this.key.kid;
+  }
 }
