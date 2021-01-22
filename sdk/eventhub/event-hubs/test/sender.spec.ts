@@ -92,7 +92,7 @@ describe("EventHub Sender", function(): void {
 
     it("partitionId is set as expected when it is 0 i.e. falsy", async () => {
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionId: 0
       });
       should.equal(batch.partitionId, "0");
@@ -107,7 +107,7 @@ describe("EventHub Sender", function(): void {
 
     it("partitionKey is set as expected when it is 0 i.e. falsy", async () => {
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionKey: 0
       });
       should.equal(batch.partitionKey, "0");
@@ -129,18 +129,15 @@ describe("EventHub Sender", function(): void {
       should.not.exist(batch.partitionKey);
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
-      batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
+      should.equal(batch.tryAdd({ body: list[0] }), true);
+      should.equal(batch.tryAdd({ body: list[1] }), false); // The Mike message will be rejected - it's over the limit.
+      should.equal(batch.tryAdd({ body: list[2] }), true); // Marie should get added";
 
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        producerClient
+      );
 
-      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
-        startPosition
-      });
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, { startPosition });
       await producerClient.sendBatch(batch);
 
       let receivedEvents;
@@ -165,7 +162,7 @@ describe("EventHub Sender", function(): void {
       const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionId: 0
       });
 
@@ -173,17 +170,14 @@ describe("EventHub Sender", function(): void {
       should.not.exist(batch.partitionKey);
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.be.ok;
+      should.equal(batch.tryAdd({ body: list[0] }), true);
+      should.equal(batch.tryAdd({ body: list[1] }), true);
 
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        producerClient
+      );
 
-      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
-        startPosition
-      });
+      const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, { startPosition });
       await producerClient.sendBatch(batch);
 
       let receivedEvents;
@@ -206,7 +200,7 @@ describe("EventHub Sender", function(): void {
       const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
-        //@ts-expect-error
+        // @ts-expect-error Testing the value 0 is not ignored.
         partitionKey: 0
       });
 
@@ -214,13 +208,12 @@ describe("EventHub Sender", function(): void {
       should.not.exist(batch.partitionId);
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.be.ok;
+      should.equal(batch.tryAdd({ body: list[0] }), true);
+      should.equal(batch.tryAdd({ body: list[1] }), true);
 
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        producerClient
+      );
 
       const subscriber = consumerClient.subscribe(subscriptionEventHandler, {
         startPosition
@@ -255,13 +248,15 @@ describe("EventHub Sender", function(): void {
 
       batch.maxSizeInBytes.should.be.gt(0);
 
-      batch.tryAdd(list[0]).should.be.ok;
-      batch.tryAdd(list[1]).should.be.ok;
-      batch.tryAdd(list[2]).should.be.ok;
+      should.equal(batch.tryAdd(list[0]), true);
+      should.equal(batch.tryAdd(list[1]), true);
+      should.equal(batch.tryAdd(list[2]), true);
 
       const receivedEvents: ReceivedEventData[] = [];
-      let waitUntilEventsReceivedResolver: Function;
-      const waitUntilEventsReceived = new Promise((r) => (waitUntilEventsReceivedResolver = r));
+      let waitUntilEventsReceivedResolver: (value?: any) => void;
+      const waitUntilEventsReceived = new Promise(
+        (resolve) => (waitUntilEventsReceivedResolver = resolve)
+      );
 
       const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
         .lastEnqueuedSequenceNumber;
@@ -269,7 +264,9 @@ describe("EventHub Sender", function(): void {
       const subscriber = consumerClient.subscribe(
         "0",
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             if (receivedEvents.length >= 3) {
@@ -507,10 +504,9 @@ describe("EventHub Sender", function(): void {
 
   describe("Multiple sendBatch calls", function(): void {
     it("should be sent successfully in parallel", async function(): Promise<void> {
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(consumerClient);
+      const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
+        consumerClient
+      );
 
       const promises = [];
       for (let i = 0; i < 5; i++) {
@@ -740,12 +736,14 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully", async () => {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
-      let receivingResolver: Function;
+      let receivingResolver: (value?: unknown) => void;
 
-      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             receivingResolver();
@@ -769,11 +767,13 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully with partitionKey", async () => {
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
-      let receivingResolver: Function;
-      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      let receivingResolver: (value?: unknown) => void;
+      const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             receivingResolver();
@@ -801,12 +801,14 @@ describe("EventHub Sender", function(): void {
       const partitionId = "0";
       const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
       const receivedEvents: ReceivedEventData[] = [];
-      let receivingResolver: Function;
-      const receivingPromise = new Promise((r) => (receivingResolver = r));
+      let receivingResolver: (value?: unknown) => void;
+      const receivingPromise = new Promise((resolve) => (receivingResolver = resolve));
       const subscription = consumerClient.subscribe(
         partitionId,
         {
-          async processError() {},
+          async processError() {
+            /* no-op */
+          },
           async processEvents(events) {
             receivedEvents.push(...events);
             receivingResolver();
@@ -1033,7 +1035,7 @@ describe("EventHub Sender", function(): void {
       it("throws an error if partitionId and partitionKey are set and partitionId is 0 i.e. falsy", async () => {
         try {
           await producerClient.createBatch({
-            //@ts-expect-error
+            // @ts-expect-error Testing the value 0 is not ignored.
             partitionId: 0,
             partitionKey: "boo"
           });
@@ -1049,7 +1051,7 @@ describe("EventHub Sender", function(): void {
         try {
           await producerClient.createBatch({
             partitionId: "1",
-            //@ts-expect-error
+            // @ts-expect-error Testing the value 0 is not ignored.
             partitionKey: 0
           });
           throw new Error("Test failure");
@@ -1202,7 +1204,7 @@ describe("EventHub Sender", function(): void {
       it("throws an error if partitionId and partitionKey are set with partitionId set to 0 i.e. falsy", async () => {
         const badOptions: SendBatchOptions = {
           partitionKey: "foo",
-          //@ts-expect-error
+          // @ts-expect-error Testing the value 0 is not ignored.
           partitionId: 0
         };
         const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
@@ -1217,7 +1219,7 @@ describe("EventHub Sender", function(): void {
       });
       it("throws an error if partitionId and partitionKey are set with partitionKey set to 0 i.e. falsy", async () => {
         const badOptions: SendBatchOptions = {
-          //@ts-expect-error
+          // @ts-expect-error Testing the value 0 is not ignored.
           partitionKey: 0,
           partitionId: "0"
         };

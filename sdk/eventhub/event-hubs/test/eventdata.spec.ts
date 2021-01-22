@@ -35,12 +35,12 @@ const testSourceEventData: EventData = {
   properties: properties
 };
 
-const testEventData = fromRheaMessage(testMessage);
 const messageFromED = toRheaMessage(testSourceEventData);
 
 describe("EventData", function(): void {
   describe("fromRheaMessage", function(): void {
     it("populates body with the message body", function(): void {
+      const testEventData = fromRheaMessage(testMessage);
       testEventData.body.should.equal(testBody);
     });
 

@@ -35,7 +35,7 @@
       "defaultValue": "eastus2",
       "allowedValues": ["eastus2", "southcentralus", "northeurope", "westeurope"],
       "metadata": {
-        "description": "The location of the Managed HSM. By default, this is 'southcentralus'."
+        "description": "The location of the Managed HSM. By default, this is 'eastus2'."
       }
     },
     "enableHsm": {
@@ -58,6 +58,13 @@
       "metadata": {
         "description": "Key Vault SKU to deploy. The default is 'premium'"
       }
+    },
+    "baseTime": {
+      "type": "string",
+      "defaultValue": "[utcNow('u')]",
+      "metadata": {
+        "description": "The base time to add 2 hours to for SAS token expiration. The default is the current time."
+      }
     }
   },
   "variables": {
@@ -66,7 +73,7 @@
     "hsmApiVersion": "2020-04-01-preview",
     "hsmName": "[concat(parameters('baseName'), 'hsm')]",
     "mgmtApiVersion": "2019-04-01",
-    "blobContainerName": "backup",
+    "blobContainerName": "hsmbackups",
     "primaryAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'prim')]",
     "encryption": {
       "services": {
@@ -81,6 +88,14 @@
       "virtualNetworkRules": [],
       "ipRules": [],
       "defaultAction": "Allow"
+    },
+    "accountSasProperties": {
+      "signedServices": "b",
+      "signedPermission": "rwdlacu",
+      "signedProtocol": "https",
+      "signedExpiry": "[dateTimeAdd(parameters('baseTime'), 'PT2H')]",
+      "signedResourceTypes": "sco",
+      "keyToSign": "key1"
     }
   },
   "resources": [
@@ -219,7 +234,7 @@
       "type": "string",
       "value": "[reference(variables('kvName')).vaultUri]"
     },
-    "AZURE_MANAGEDHSM_URL": {
+    "AZURE_MANAGEDHSM_URI": {
       "type": "string",
       "condition": "[parameters('enableHsm')]",
       "value": "[reference(variables('hsmName')).hsmUri]"
@@ -239,6 +254,10 @@
     "BLOB_PRIMARY_STORAGE_ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(variables('primaryAccountName'), variables('mgmtApiVersion')).keys[0].value]"
+    },
+    "BLOB_STORAGE_SAS_TOKEN": {
+      "type": "string",
+      "value": "[listAccountSas(variables('primaryAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken]"
     },
     "BLOB_CONTAINER_NAME": {
       "type": "string",

@@ -60,7 +60,6 @@ module.exports = function(config) {
       "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
       "AZURE_PHONE_NUMBER",
       "TEST_MODE",
-      "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID"
