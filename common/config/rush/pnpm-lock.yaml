@@ -38,6 +38,7 @@ dependencies:
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/opentelemetry-exporter-azure-monitor': file:projects/opentelemetry-exporter-azure-monitor.tgz
+  '@rush-temp/quantum': file:projects/quantum.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
   '@rush-temp/search-documents': file:projects/search-documents.tgz
@@ -5109,6 +5110,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
+  /mkdirp/1.0.4:
+    dev: false
+    engines:
+      node: '>=10'
+    hasBin: true
+    resolution:
+      integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
   /mocha-junit-reporter/1.23.3_mocha@7.2.0:
     dependencies:
       debug: 2.6.9
@@ -9786,6 +9794,22 @@ packages:
       integrity: sha512-tRQxKK1wEKaiouodTlCH0qHRNsnv4vvOic2VIs8FZ5pvQkDrTF20avK00bpf7iBXMwvK7U11qwLIndCnh7uipQ==
       tarball: file:projects/opentelemetry-exporter-azure-monitor.tgz
     version: 0.0.0
+  file:projects/quantum.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.1.0
+      typescript: 4.1.2
+      uglify-js: 3.12.4
+    dev: false
+    name: '@rush-temp/quantum'
+    resolution:
+      integrity: sha512-6DoNUUys3OKWvSmCYcbjfgp3vlDH1ViWGfzDXwkEXPWSVuOJfbG3WRLpvko05YFYMDCNNxwCvEV06h+Mkq9UpA==
+      tarball: file:projects/quantum.tgz
+    version: 0.0.0
   file:projects/schema-registry-avro.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -10092,6 +10116,7 @@ packages:
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
+      '@types/node-fetch': 2.5.8
       assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.2.0
@@ -10116,6 +10141,7 @@ packages:
       karma-remap-istanbul: 0.6.0_karma@5.2.3
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      node-fetch: 2.6.1
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 3.3.0
@@ -10134,7 +10160,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-blob'
     resolution:
-      integrity: sha512-ANo4mmoPCyN/WlANRbNoW7OxTSHR1P/8u+cENKv0DfmYjrS3SLo4m478WvMD0fdJ+XiidDHTX4BDJ0KbQ+E4PQ==
+      integrity: sha512-rU6NFKPmPn9U/qHTsuCT5UYzWs1n6ppeTnCpyG/ySExrVElh8BwErLE9njGr3eGauhIWtSn/0S4HDI1KbIF0HQ==
       tarball: file:projects/storage-blob.tgz
     version: 0.0.0
   file:projects/storage-file-datalake.tgz:
@@ -10252,7 +10278,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-share'
     resolution:
-      integrity: sha512-EWcAbZhKxRWu1c+tbPXuqkzm8591VftpYXmmMZp3myfyJ0yg8DzxfibkNe3X7MFQ7l6WtXM5lY8ttmpzIOfBHQ==
+      integrity: sha512-mPeZ3yhsHvsflEJ9TVjBN8tyGEGu+vToPeh4eK5xW6UIh5y5Rk7Auz72tdz/bp+ewTUTuPbyWToqGTD5qoijOw==
       tarball: file:projects/storage-file-share.tgz
     version: 0.0.0
   file:projects/storage-internal-avro.tgz:
@@ -10672,6 +10698,7 @@ specifiers:
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/opentelemetry-exporter-azure-monitor': file:./projects/opentelemetry-exporter-azure-monitor.tgz
+  '@rush-temp/quantum': file:./projects/quantum.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
   '@rush-temp/search-documents': file:./projects/search-documents.tgz
