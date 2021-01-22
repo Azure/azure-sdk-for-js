@@ -378,6 +378,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-phone-numbers",
+      "projectFolder": "sdk/communication/communication-phone-numbers",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
