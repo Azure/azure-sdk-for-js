@@ -7,7 +7,7 @@ const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { delay } from "rhea-promise";
-import { TestMessage } from "./utils/testUtils";
+import { checkWithTimeout, TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -79,10 +79,24 @@ describe("Message Lock Renewal", () => {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
-      const [peekedMsg] = await receiver.peekMessages(1);
-      console.log(peekedMsg == undefined);
+      let peekedMsg: ServiceBusReceivedMessage | undefined;
+      let i = 0;
+      should.equal(
+        await checkWithTimeout(
+          async () => {
+            i++;
+            [peekedMsg] = await receiver.peekMessages(1);
+            console.log(`Tried ${i} times... got message = "${peekedMsg != undefined}"`);
+            return peekedMsg != undefined;
+          },
+          100,
+          5000
+        ),
+        true,
+        "Unable to peek messages in 5000 milliseconds"
+      );
       try {
-        await receiver.renewMessageLock(peekedMsg);
+        await receiver.renewMessageLock(peekedMsg!);
         assert.fail("renewMessageLock should have failed");
       } catch (error) {
         should.equal(error.message, InvalidOperationForPeekedMessage);
