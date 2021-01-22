@@ -60,10 +60,10 @@ module.exports = function(config) {
       "TEST_MODE",
       "COMMUNICATION_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_TESTS",
-      "COMMUNICATION_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "AZURE_PHONE_NUMBER"
     ],
 
     // test results reporter to use
