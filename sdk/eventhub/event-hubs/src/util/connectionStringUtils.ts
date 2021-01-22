@@ -52,13 +52,20 @@ export interface EventHubConnectionStringProperties {
 export function parseEventHubConnectionString(
   connectionString: string
 ): Readonly<EventHubConnectionStringProperties> {
-  const parsedResult = parseConnectionString<GenericConnectionStringProperties>(connectionString);
+  const parsedResult = parseConnectionString<{
+    Endpoint: string;
+    EntityPath?: string;
+    SharedAccessSignature?: string;
+    SharedAccessKey?: string;
+    SharedAccessKeyName?: string;
+  }>(connectionString);
 
-  const validationResult = validate(parsedResult);
-
-  if (!validationResult.isValid) {
-    throw new Error(validationResult.message);
-  }
+  validateProperties(
+    parsedResult.Endpoint,
+    parsedResult.SharedAccessSignature,
+    parsedResult.SharedAccessKey,
+    parsedResult.SharedAccessKeyName
+  );
 
   const output: EventHubConnectionStringProperties = {
     fullyQualifiedNamespace: (parsedResult.Endpoint.match(".*://([^/]*)") || [])[1],
@@ -85,55 +92,27 @@ export function parseEventHubConnectionString(
  * @internal
  * @ignore
  */
-type GenericConnectionStringProperties = {
-  Endpoint: string;
-  EntityPath?: string;
-  SharedAccessSignature?: string;
-  SharedAccessKey?: string;
-  SharedAccessKeyName?: string;
-};
-
-/**
- * @internal
- * @ignore
- */
-type ConnectionStringValidationResult =
-  | { isValid: true }
-  | {
-      isValid: false;
-      message: string;
-    };
-
-/**
- * @internal
- * @ignore
- */
-function validate(
-  parsedResult: GenericConnectionStringProperties
-): ConnectionStringValidationResult {
-  if (!parsedResult.Endpoint) {
-    return { isValid: false, message: "Connection string should have an Endpoint key." };
+function validateProperties(
+  endpoint?: string,
+  sharedAccessSignature?: string,
+  sharedAccessKey?: string,
+  sharedAccessKeyName?: string
+): void {
+  if (!endpoint) {
+    throw new Error("Connection string should have an Endpoint key.");
   }
 
-  if (parsedResult.SharedAccessSignature) {
-    if (parsedResult.SharedAccessKey || parsedResult.SharedAccessKeyName) {
-      return {
-        isValid: false,
-        message:
-          "Connection string cannot have both SharedAccessSignature and SharedAccessKey keys."
-      };
+  if (sharedAccessSignature) {
+    if (sharedAccessKey || sharedAccessKeyName) {
+      throw new Error(
+        "Connection string cannot have both SharedAccessSignature and SharedAccessKey keys."
+      );
     }
-  } else if (parsedResult.SharedAccessKey && !parsedResult.SharedAccessKeyName) {
-    return {
-      isValid: false,
-      message: "Connection string with SharedAccessKey should have SharedAccessKeyName."
-    };
-  } else if (!parsedResult.SharedAccessKey && parsedResult.SharedAccessKeyName) {
-    return {
-      isValid: false,
-      message: "Connection string with SharedAccessKeyName should have SharedAccessKey as well."
-    };
+  } else if (sharedAccessKey && !sharedAccessKeyName) {
+    throw new Error("Connection string with SharedAccessKey should have SharedAccessKeyName.");
+  } else if (!sharedAccessKey && sharedAccessKeyName) {
+    throw new Error(
+      "Connection string with SharedAccessKeyName should have SharedAccessKey as well."
+    );
   }
-
-  return { isValid: true };
 }

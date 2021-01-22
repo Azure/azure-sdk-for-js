@@ -53,7 +53,7 @@ describe("Create EventHubConsumerClient", function(): void {
     };
     test.should.throw(
       Error,
-      `The eventHubName "my-event-hub-name" in connectionString: "${connectionString}" ` +
+      `The entity path "my-event-hub-name" in connectionString: "${connectionString}" ` +
         `doesn't match with eventHubName: "${eventHubName}".`
     );
   });
@@ -156,7 +156,7 @@ describe("Create EventHubProducerClient", function(): void {
     };
     test.should.throw(
       Error,
-      `The eventHubName "my-event-hub-name" in connectionString: "${connectionString}" ` +
+      `The entity path "my-event-hub-name" in connectionString: "${connectionString}" ` +
         `doesn't match with eventHubName: "${eventHubName}".`
     );
   });

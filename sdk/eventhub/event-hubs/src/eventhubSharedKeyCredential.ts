@@ -80,10 +80,10 @@ export class SharedKeyCredential {
   static fromConnectionString(connectionString: string): SharedKeyCredential {
     const parsed = parseEventHubConnectionString(connectionString);
 
-    if (parsed.sharedAccessSignature) {
-      return new SharedAccessSignatureCredential(parsed.sharedAccessSignature);
-    } else {
+    if (parsed.sharedAccessSignature == null) {
       return new SharedKeyCredential(parsed.sharedAccessKeyName!, parsed.sharedAccessKey!);
+    } else {
+      return new SharedAccessSignatureCredential(parsed.sharedAccessSignature);
     }
   }
 }
