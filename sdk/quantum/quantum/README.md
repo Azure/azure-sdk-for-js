@@ -1,4 +1,4 @@
-## Azure QuantumClient SDK for JavaScript
+## Azure QuantumClient client library for JavaScript
 
 This package contains an isomorphic SDK for QuantumClient.
 
@@ -31,6 +31,10 @@ npm install @azure/quantum
 **TO BE FILLED**
 
 ## Related projects
+
+**TO BE FILLED**
+
+## Troubleshooting
 
 **TO BE FILLED**
 
