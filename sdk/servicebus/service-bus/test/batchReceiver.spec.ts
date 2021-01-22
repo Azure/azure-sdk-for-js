@@ -931,7 +931,6 @@ describe("Batching Receiver", () => {
           // send a second message to trigger the message handler again.
           await sender.sendMessages(TestMessage.getSample());
           debug.log("after sendMessages");
-          process.stderr.write("after sendMessages\n");
 
           // wait for the 2nd message to be received.
           const messages2 = await (receiver as ServiceBusReceiver).receiveMessages(1);
