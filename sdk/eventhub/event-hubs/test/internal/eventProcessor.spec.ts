@@ -624,15 +624,14 @@ describe("Event Processor", function(): void {
         name: "waiting for errors thrown from user's handlers",
         timeBetweenRunsMs: 1000,
         maxTimes: 30,
-        until: async () => errors.size >= partitionIds.length
+        until: async () => errors.size >= partitionIds.length * 3
       });
       console.log("event processor loop completed");
       const messages = [...errors].map((e) => e.message);
       messages.sort();
       console.dir(messages);
-      messages.should.deep.equal(expectedErrorMessages);
       console.dir(expectedErrorMessages);
-      console.log("this check is completed");
+      messages.should.deep.equal(expectedErrorMessages);
     } finally {
       console.log("attempting to stop");
       await eventProcessor.stop();
