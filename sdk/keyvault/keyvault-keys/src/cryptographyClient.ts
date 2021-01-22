@@ -536,9 +536,14 @@ export class CryptographyClient {
   }
 
   /**
-   * The base URL to the vault
+   * The base URL to the vault.
    */
   public readonly vaultUrl: string;
+
+  /**
+   * The ID of the key used to perform cryptographic operations for the client.
+   */
+  public readonly keyId?: string = this.getKeyID();
 
   /**
    * @internal
@@ -653,7 +658,7 @@ export class CryptographyClient {
       this.key = key;
       parsed = parseKeyVaultKeyId(this.key);
     } else if (key.key) {
-      this.key = key.key;
+      this.key = key.key!;
       parsed = parseKeyVaultKeyId(this.key.kid!);
     } else {
       throw new Error(
