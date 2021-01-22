@@ -51,11 +51,10 @@
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify && mkdirp ./review &&  npm run extract-api",
+    "build": "tsc && rollup -c rollup.config.js && mkdirp ./review &&  npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/quantum.js.map'\" -o ./dist/quantum.min.js ./dist/quantum.js",
     "prepack": "npm install && npm run build",
     "extract-api": "api-extractor run --local"
   },
-  "sideEffects": false,
-  "autoPublish": true
+  "sideEffects": false
 }
