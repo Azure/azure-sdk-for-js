@@ -10,9 +10,9 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusClient,
   ServiceBusMessage,
-  SqlRuleFilter
+  SqlRuleFilter,
+  ServiceBusAdministrationClient
 } from "../../src";
-import { ServiceBusAdministrationClient } from "../../src";
 import { DEFAULT_RULE_NAME } from "../../src/util/constants";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils";
 import { getConnectionString } from "../public/utils/testutils2";
