@@ -6,4 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./documents";
+export * from "./models";
+export { SearchServiceClient } from "./searchServiceClient";
+export { SearchServiceClientContext } from "./searchServiceClientContext";
