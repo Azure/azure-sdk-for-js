@@ -61,6 +61,10 @@ export class PerfStressProgram {
     }
   }
 
+  private getCompletedOperations(parallels: PerfStressParallel[]): number {
+    return parallels.reduce((sum, i) => sum + i.completedOperations, 0);
+  }
+
   /**
    * Does some calculations based on the parallel executions provided,
    * then logs them in a friendly way.
@@ -82,7 +86,7 @@ export class PerfStressProgram {
    * @param parallels Parallel executions
    */
   private logResults(parallels: PerfStressParallel[]): void {
-    const totalOperations = parallels.reduce((sum, i) => sum + i.completedOperations, 0);
+    const totalOperations = this.getCompletedOperations(parallels);
     const operationsPerSecond = parallels.reduce((sum, parallel) => {
       return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
     }, 0);
@@ -207,7 +211,7 @@ export class PerfStressProgram {
     console.log(`Since Last Log\t\tTotal`);
     let lastInIteration = 0;
     const logInterval = setInterval(() => {
-      const inTotal = parallels.reduce((sum, i) => sum + i.completedOperations, 0);
+      const inTotal = this.getCompletedOperations(parallels);
       const sinceLastLog = inTotal - lastInIteration;
       console.log(sinceLastLog + "\t\t\t" + inTotal);
       lastInIteration = inTotal;
