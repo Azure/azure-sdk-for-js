@@ -11,11 +11,11 @@ import {
   ServiceBusClient,
   ServiceBusMessage,
   SqlRuleFilter
-} from "../src";
-import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
-import { DEFAULT_RULE_NAME } from "../src/util/constants";
-import { recreateSubscription, recreateTopic } from "./utils/managementUtils";
-import { getConnectionString } from "./utils/testutils2";
+} from "../../src";
+import { ServiceBusAdministrationClient } from "../../src";
+import { DEFAULT_RULE_NAME } from "../../src/util/constants";
+import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils";
+import { getConnectionString } from "../public/utils/testutils2";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
