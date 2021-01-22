@@ -16,7 +16,7 @@ import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { challengeBasedAuthenticationPolicy, setParentSpan } from "../../keyvault-common/src";
+import { keyVaultChallengeAuthenticationPolicy, setParentSpan } from "../../keyvault-common/src";
 
 import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
 
@@ -628,7 +628,7 @@ export class CryptographyClient {
     };
 
     const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
+      ? keyVaultChallengeAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
     const internalPipelineOptions = {

@@ -51,4 +51,11 @@ export class AccessTokenRefresher {
 
     return this.promise;
   }
+
+  /**
+   * Allows setting the scope.
+   */
+  public setScopes(scopes: string | string[]): void {
+    this.scopes = scopes;
+  }
 }

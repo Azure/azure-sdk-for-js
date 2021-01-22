@@ -34,7 +34,7 @@ import {
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
 import {
-  challengeBasedAuthenticationPolicy,
+  keyVaultChallengeAuthenticationPolicy,
   createSpan,
   setParentSpan
 } from "../../keyvault-common/src";
@@ -223,7 +223,7 @@ export class KeyClient {
     };
 
     const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
+      ? keyVaultChallengeAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
     const internalPipelineOptions = {

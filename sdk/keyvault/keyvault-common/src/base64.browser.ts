@@ -6,18 +6,19 @@
  * @param value - The string to encode
  */
 export function encodeString(value: string): string {
-  return Buffer.from(value).toString("base64");
+  return btoa(value);
 }
 
 /**
  * Encodes a byte array in base64 format.
- * @param value - The Uint8Aray to encode
+ * @param value - The Uint8Array to encode
  */
 export function encodeByteArray(value: Uint8Array): string {
-  // Buffer.from accepts <ArrayBuffer> | <SharedArrayBuffer>-- the TypeScript definition is off here
-  // https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_arraybuffer_byteoffset_length
-  const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer as ArrayBuffer);
-  return bufferValue.toString("base64");
+  let str = "";
+  for (let i = 0; i < value.length; i++) {
+    str += String.fromCharCode(value[i]);
+  }
+  return btoa(str);
 }
 
 /**
@@ -25,12 +26,18 @@ export function encodeByteArray(value: Uint8Array): string {
  * @param value - The base64 string to decode
  */
 export function decodeString(value: string): Uint8Array {
-  return Buffer.from(value, "base64");
+  const byteString = atob(value);
+  const arr = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+    arr[i] = byteString.charCodeAt(i);
+  }
+  return arr;
 }
 
 /**
- * Converts a uint8Array to a string.
+ * Converts a uint8Array to a string. 
  */
 export function uint8ArrayToString(ab: Uint8Array): string {
-  return Buffer.from(ab).toString("utf-8");
+  const decoder = new TextDecoder("utf-8");
+  return decoder.decode(ab);
 }

@@ -2,46 +2,32 @@
 // Licensed under the MIT license.
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import { AccessToken, AccessTokenRefresher, TokenCredential, WebResourceLike } from "@azure/core-http";
+import { AccessTokenRefresher, CAEProperties, parseCAEChallenges, TokenCredential, WebResourceLike } from "@azure/core-http";
 import {
-  BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyOptions,
   RequestPolicyFactory
 } from "@azure/core-http";
-import { Constants } from "@azure/core-http";
-import { HttpOperationResponse } from "@azure/core-http";
-import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 import { BearerTokenAuthenticationPolicy } from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
+import { createClientLogger } from "@azure/logger";
 
-type ValidParsedWWWAuthenticateProperties =
-  // "authorization_uri" was used in the track 1 version of KeyVault.
-  // This is not a relevant property anymore, since the service is consistently answering with "authorization".
-  // | "authorization_uri"
-  | "authorization"
-  // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
-  | "resource"
-  | "scope";
-
-type ParsedWWWAuthenticate = {
-  [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
+export const logger = createClientLogger("ChallengeBasedAuthenticationPolicy");
 
 /**
  * Representation of the Authentication Challenge
  */
-export class AuthenticationChallenge {
+export class KeyVaultAuthenticationChallenge {
   constructor(public authorization: string, public scope: string) { }
 
   /**
-   * Checks that this AuthenticationChallenge is equal to another one given.
+   * Checks that this KeyVaultAuthenticationChallenge is equal to another one given.
    * Only compares the scope.
    * This is exactly what C# is doing, as we can see here:
    * https://github.com/Azure/azure-sdk-for-net/blob/70e54b878ff1d01a45266fb3674a396b4ab9c1d2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L143-L147
-   * @param other - The other AuthenticationChallenge
+   * @param other - The other KeyVaultAuthenticationChallenge
    */
-  public equalTo(other: AuthenticationChallenge | undefined): boolean {
+  public equalTo(other: KeyVaultAuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
       this.authorization.toLowerCase() === other.authorization.toLowerCase()
@@ -53,75 +39,39 @@ export class AuthenticationChallenge {
  * Helps keep a copy of any previous authentication challenges,
  * so that we can compare on any further request.
  */
-export class AuthenticationChallengeCache {
-  public challenge?: AuthenticationChallenge;
+export class KeyVaultAuthenticationChallengeCache {
+  public challenge?: KeyVaultAuthenticationChallenge;
 
-  public setCachedChallenge(challenge: AuthenticationChallenge): void {
+  public setCachedChallenge(challenge: KeyVaultAuthenticationChallenge): void {
     this.challenge = challenge;
   }
 }
-
-/**
- * The automated token refresh will only start to happen at the
- * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
- * which is by default 30 seconds.
- */
-const timeBetweenRefreshAttemptsInMs = 30000;
 
 /**
  * Creates a new ChallengeBasedAuthenticationPolicy factory.
  *
  * @param credential - The TokenCredential implementation that can supply the challenge token.
  */
-export function challengeBasedAuthenticationPolicy(
-  credential: TokenCredential,
-  scopes: string | string[]
+export function keyVaultChallengeAuthenticationPolicy(
+  credential: TokenCredential
 ): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   const tokenRefresher = new AccessTokenRefresher(
     credential,
-    scopes,
-    timeBetweenRefreshAttemptsInMs
+    "https://vault.azure.net/.default"
   );
-  const challengeCache = new AuthenticationChallengeCache();
+  const challengeCache = new KeyVaultAuthenticationChallengeCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ChallengeBasedAuthenticationPolicy(
         nextPolicy,
         options,
         tokenCache,
+        tokenRefresher,
         challengeCache
       );
     }
   };
-}
-
-/**
- * Parses an WWW-Authenticate response.
- * This transforms a string value like:
- * `Bearer authorization="some_authorization", resource="https://some.url"`
- * into an object like:
- * `{ authorization: "some_authorization", resource: "https://some.url" }`
- * @param wwwAuthenticate - String value in the WWW-Authenticate header
- */
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-  // First we split the string by either `, ` or ` `.
-  const parts = wwwAuthenticate.split(/,* +/);
-  // Then we only keep the strings with an equal sign after a word and before a quote.
-  // also splitting these sections by their equal sign
-  const keyValues = parts.reduce<string[][]>(
-    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
-    []
-  );
-  // Then we transform these key-value pairs back into an object.
-  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
-    (result, [key, value]: string[]) => ({
-      ...result,
-      [key]: value.slice(1, -1)
-    }),
-    {}
-  );
-  return parsed;
 }
 
 /**
@@ -132,120 +82,70 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
-  private originalBody: string | undefined;
+  private cachedBody: string | undefined;
+
+  /**
+   * Creates a new BearerTokenAuthenticationPolicy object.
+   *
+   * @param nextPolicy - The next RequestPolicy in the request pipeline.
+   * @param options - Options for this RequestPolicy.
+   * @param tokenCache - The cache for the most recent AccessToken returned from the TokenCredential.
+   * @param tokenRefresher - The AccessToken refresher.
+   * @param challengeCache - The Challenge cache.
+   */
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    protected tokenCache: AccessTokenCache,
+    protected tokenRefresher: AccessTokenRefresher,
+    protected challengeCache: KeyVaultAuthenticationChallengeCache
+  ) {
+    super(nextPolicy, options, tokenCache, tokenRefresher);
+  }
 
   // For Key Vault, we try a first request without a body to trigger the challenge based authentication flow.
   async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
     console.log("onBeforeRequest headers:\n", webResource.headers.headerNames().map(x => `x=${webResource.headers.get(x)}`).join("\n"));
     if (!this.tokenCache.getCachedToken()) {
-      this.originalBody = webResource.body;
+      this.cachedBody = webResource.body;
       webResource.body = "";
     }
   }
 
-  // For Key Vault, we have to both set the challenge as well as the body from the original request.
-  async onChallenge(webResource: WebResourceLike, challenge: string): Promise<boolean> {
-  }
-
   /**
-   * Gets or updates the token from the token cache into the headers of the received web resource.
+   * Authorizes request according to an authentication challenge.
+   * This base implementation only handles CAE claims directives,
+   * which means that the WWW-Authenticate header is expected to have
+   * only one challenge that must include a "claims" property.
+   * Clients expecting other challenges must override.
    */
-  private async loadToken(webResource: WebResource): Promise<void> {
-    let accessToken = this.tokenCache.getCachedToken();
-
-    // If there's no cached token in the cache, we try to get a new one.
-    if (accessToken === undefined) {
-      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope);
-      accessToken = receivedToken || undefined;
-      this.tokenCache.setCachedToken(accessToken);
+  async onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean> {
+    const parsedChallenges = parseCAEChallenges(challenges);
+    if (parsedChallenges.length !== 1) {
+      logger.info("No challenges received. Bypassing the challenge authentication policy.");
+      return false;
     }
-
-    if (accessToken) {
-      webResource.headers.set(
-        Constants.HeaderConstants.AUTHORIZATION,
-        `Bearer ${accessToken.token}`
-      );
-    }
-  }
-
-  /**
-   * Parses the given WWW-Authenticate header, generates a new AuthenticationChallenge,
-   * then if the challenge is different from the one cached, resets the token and forces
-   * a re-authentication, otherwise continues with the existing challenge and token.
-   * @param wwwAuthenticate - Value of the incoming WWW-Authenticate header.
-   * @param webResource - Ongoing HTTP request.
-   */
-  private async regenerateChallenge(
-    wwwAuthenticate: string,
-    webResource: WebResource
-  ): Promise<HttpOperationResponse> {
-    // The challenge based authentication will contain both:
-    // - An authorization URI with a token,
-    // - The resource to which that token is valid against (also called the scope).
-    const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
-    const authorization = parsedWWWAuth.authorization!;
-    const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
-
+    const parsedChallenge: Record<CAEProperties.KeyVault, string> = parsedChallenges[0];
+    const authorization = parsedChallenge.authorization;
+    const resource = parsedChallenge.resource || parsedChallenge.scope;
     if (!(authorization && resource)) {
-      return this._nextPolicy.sendRequest(webResource);
+      logger.info("The Key Vault challenge received is not valid. Bypassing the challenge authentication policy.");
+      return false;
     }
 
-    const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
+    const kvChallenge = new KeyVaultAuthenticationChallenge(authorization, resource + "/.default");
 
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
-    if (!this.challengeCache.challenge?.equalTo(challenge)) {
-      this.challengeCache.setCachedChallenge(challenge);
+    if (!this.challengeCache.challenge?.equalTo(kvChallenge)) {
+      this.challengeCache.setCachedChallenge(kvChallenge);
       this.tokenCache.setCachedToken(undefined);
     }
 
-    await this.loadToken(webResource);
-    return this._nextPolicy.sendRequest(webResource);
-  }
-
-  /**
-   * Applies the Bearer token to the request through the Authorization header.
-   * @param webResource - Ongoing HTTP request.
-   */
-  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    // Ensure that we're about to use a secure connection.
-    if (!webResource.url.startsWith("https:")) {
-      throw new Error("The resource address for authorization must use the 'https' protocol.");
-    }
-
-    // The next request will happen differently whether we have a challenge or not.
-    let response: HttpOperationResponse;
-
-    if (
-      this.challengeCache.challenge === undefined ||
-      this.challengeCache.challenge === undefined
-    ) {
-      // If there's no challenge in cache, a blank body will start the challenge.
-      const originalBody = webResource.body;
-      webResource.body = "";
-      response = await this._nextPolicy.sendRequest(webResource);
-      webResource.body = originalBody;
-    } else {
-      // If we did have a challenge in memory,
-      // we attempt to load the token from the cache into the request before we try to send the request.
-      await this.loadToken(webResource);
-      response = await this._nextPolicy.sendRequest(webResource);
-    }
-
-    // If we don't receive a response with a 401 status code,
-    // then we can assume this response has nothing to do with the challenge authentication process.
-    if (response.status !== 401) {
-      return response;
-    }
-
-    // If the response status is 401, we only re-authenticate if the WWW-Authenticate header is present.
-    const wwwAuthenticate = response.headers.get("WWW-Authenticate");
-    if (!wwwAuthenticate) {
-      return response;
-    }
-
-    // We re-generate the challenge and see if we have to re-authenticate.
-    return this.regenerateChallenge(wwwAuthenticate, webResource);
+    this.tokenRefresher.setScopes(resource);
+    this.loadToken(webResource);
+    webResource.body = this.cachedBody;
+    return true;
   }
 }

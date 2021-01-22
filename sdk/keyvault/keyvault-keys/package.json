@@ -37,7 +37,8 @@
     "os": false,
     "process": false,
     "./dist-esm/keyvault-keys/src/localCryptography/algorithms.js": "./dist-esm/keyvault-keys/src/localCryptography/algorithms.browser.js",
-    "./dist-esm/keyvault-keys/src/localCryptography/hash.js": "./dist-esm/keyvault-keys/src/localCryptography/hash.browser.js"
+    "./dist-esm/keyvault-keys/src/localCryptography/hash.js": "./dist-esm/keyvault-keys/src/localCryptography/hash.browser.js",
+    "./dist-esm/keyvault-common/src/base64.js": "./dist-esm/keyvault-common/src/base64.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

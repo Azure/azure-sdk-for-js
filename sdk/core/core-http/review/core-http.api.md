@@ -29,7 +29,8 @@ export class AccessTokenRefresher {
     constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
     isReady(): boolean;
     refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
-    }
+    setScopes(scopes: string | string[]): void;
+}
 
 // @public
 export interface ApiKeyCredentialOptions {
@@ -49,24 +50,6 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 
 // @public
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
-
-// @public
-export class AuthenticationChallenge {
-    constructor(authorization: string, scope: string);
-    // (undocumented)
-    authorization: string;
-    equalTo(other: AuthenticationChallenge | undefined): boolean;
-    // (undocumented)
-    scope: string;
-}
-
-// @public
-export class AuthenticationChallengeCache {
-    // (undocumented)
-    challenge?: AuthenticationChallenge;
-    // (undocumented)
-    setCachedChallenge(challenge: AuthenticationChallenge): void;
-}
 
 // @public (undocumented)
 export type Authenticator = (challenge: unknown) => Promise<string>;
@@ -116,6 +99,26 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
+
+// @public
+export type CAEChallenge = Record<CAEPropertiesAny, string>;
+
+// @public
+export namespace CAEProperties {
+    // (undocumented)
+    export type ARM = "authorization_uri" | "error" | "error_description";
+    // (undocumented)
+    export type InsufficientClaims = "authorization_uri" | "client_id" | "error" | "claims" | "realm";
+    // (undocumented)
+    export type IPPolicy = "authorization_uri" | "error" | "error_description" | "claims";
+    // (undocumented)
+    export type KeyVault = "authorization" | "resource" | "scope";
+    // (undocumented)
+    export type SessionRevoked = "authorization_uri" | "error" | "error_description" | "claims";
+}
+
+// @public
+export type CAEPropertiesAny = CAEProperties.InsufficientClaims | CAEProperties.SessionRevoked | CAEProperties.IPPolicy | CAEProperties.KeyVault | CAEProperties.ARM;
 
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
@@ -538,10 +541,8 @@ export interface ParameterValue {
     value: any;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ParsedWWWAuthenticate" needs to be exported by the entry point coreHttp.d.ts
-//
 // @public
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
+export function parseCAEChallenges(challenges: string): CAEChallenge[];
 
 // @public
 export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;

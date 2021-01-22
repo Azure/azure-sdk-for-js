@@ -5,14 +5,14 @@ import * as assert from "assert";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import {
-  AuthenticationChallengeCache,
-  AuthenticationChallenge,
-  parseWWWAuthenticate
-} from "@azure/core-http";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import {
+  KeyVaultAuthenticationChallenge,
+  KeyVaultAuthenticationChallengeCache
+} from "../../../keyvault-common";
+import { parseCAEChallenges } from "@azure/core-http";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -26,7 +26,7 @@ describe.only("Challenge based authentication tests", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -34,19 +34,19 @@ describe.only("Challenge based authentication tests", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function () {
+  it("Authentication should work for parallel requests", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
     const sandbox = createSandbox();
-    const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
-    const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
+    const spy = sandbox.spy(KeyVaultAuthenticationChallengeCache.prototype, "setCachedChallenge");
+    const spyEqualTo = sandbox.spy(KeyVaultAuthenticationChallenge.prototype, "equalTo");
 
     const promises = keyNames.map((name) => {
       const promise = client.createKey(name, "RSA");
@@ -71,13 +71,13 @@ describe.only("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it.only("Once authenticated, new requests should not authenticate again", async function () {
+  it.only("Once authenticated, new requests should not authenticate again", async function() {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.
 
     const sandbox = createSandbox();
-    const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
+    const spy = sandbox.spy(KeyVaultAuthenticationChallengeCache.prototype, "setCachedChallenge");
 
     // Now we run what would be a normal use of the client.
     // Here we will create two keys, then flush them.
@@ -103,14 +103,14 @@ describe.only("Challenge based authentication tests", () => {
   describe("parseWWWAuthenticate tests", () => {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      const parsed1 = parseCAEChallenges(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "some_authorization",
         resource: "https://some.url"
       });
 
       const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
-      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      const parsed2 = parseCAEChallenges(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
         authorization: "some_authorization",
         scope: "https://some.url"
@@ -119,7 +119,7 @@ describe.only("Challenge based authentication tests", () => {
 
     it("Should skip unexpected properties on the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
-      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      const parsed1 = parseCAEChallenges(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "some_authorization",
         a: "a",
@@ -127,7 +127,7 @@ describe.only("Challenge based authentication tests", () => {
       });
 
       const wwwAuthenticate2 = `scope="https://some.url", a="a", c="c"`;
-      const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
+      const parsed2 = parseCAEChallenges(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
         scope: "https://some.url",
         a: "a",
