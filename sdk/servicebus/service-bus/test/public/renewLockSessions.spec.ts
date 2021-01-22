@@ -6,12 +6,12 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
+import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions
-} from "../public/utils/testutils2";
+} from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusSessionReceiver } from "../../src";
 import { ServiceBusReceivedMessage } from "../../src";

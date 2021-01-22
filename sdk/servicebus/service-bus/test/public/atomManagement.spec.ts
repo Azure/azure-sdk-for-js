@@ -15,13 +15,9 @@ import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src";
 import { CreateTopicOptions } from "../../src";
 import { ServiceBusAdministrationClient, WithResponse } from "../../src";
 import { EntityStatus, EntityAvailabilityStatus } from "../../src";
-import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
-import {
-  recreateQueue,
-  recreateSubscription,
-  recreateTopic,
-} from "../public/utils/managementUtils";
-import { EntityNames } from "../public/utils/testUtils";
+import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
+import { EntityNames } from "./utils/testUtils";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -44,7 +40,7 @@ enum EntityType {
   QUEUE = "Queue",
   TOPIC = "Topic",
   SUBSCRIPTION = "Subscription",
-  RULE = "Rule",
+  RULE = "Rule"
 }
 
 const managementQueue1 = EntityNames.MANAGEMENT_QUEUE_1;
@@ -62,7 +58,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
 const randomDate = new Date();
 
-describe("Atom management - Namespace", function (): void {
+describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
@@ -73,7 +69,7 @@ describe("Atom management - Namespace", function (): void {
   });
 });
 
-describe("Listing methods - PagedAsyncIterableIterator", function (): void {
+describe("Listing methods - PagedAsyncIterableIterator", function(): void {
   const baseName = "random";
   const queueNames: string[] = [];
   const topicNames: string[] = [];
@@ -149,7 +145,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function (): void {
     "listTopicsRuntimeProperties",
     "listSubscriptions",
     "listSubscriptionsRuntimeProperties",
-    "listRules",
+    "listRules"
   ].forEach((methodName) => {
     describe(`${methodName}`, () => {
       function getIter() {
@@ -183,7 +179,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function (): void {
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
         const iter = getIter().byPage({
-          maxPageSize: 2,
+          maxPageSize: 2
         });
         for await (const response of iter) {
           for (const entity of response) {
@@ -213,7 +209,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function (): void {
         // Passing next marker as continuationToken
         iterator = getIter().byPage({
           continuationToken: marker,
-          maxPageSize: 5,
+          maxPageSize: 5
         });
         response = await iterator.next();
         // Gets up to 5 entity names
@@ -229,7 +225,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function (): void {
         // In case the namespace has too many entities and the newly created entities were not recovered
         if (marker) {
           for await (const response of getIter().byPage({
-            continuationToken: marker,
+            continuationToken: marker
           })) {
             for (const entity of response) {
               receivedEntities.push(
@@ -262,7 +258,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function (): void {
   });
 });
 
-describe("Atom management - Authentication", function (): void {
+describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
       const connectionStringProperties = parseServiceBusConnectionString(
@@ -283,7 +279,7 @@ describe("Atom management - Authentication", function (): void {
       const createQueue2Response = await serviceBusAdministrationClient.createQueue(
         managementQueue2,
         {
-          forwardTo: managementQueue1,
+          forwardTo: managementQueue1
         }
       );
       should.equal(
@@ -325,7 +321,7 @@ describe("Atom management - Authentication", function (): void {
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - List on "${entityType}" entities`, function (): void {
+    describe(`Atom management - List on "${entityType}" entities`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -443,22 +439,22 @@ describe("Atom management - Authentication", function (): void {
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: managementQueue1,
+    alwaysBeExistingEntity: managementQueue1
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: managementTopic1,
+    alwaysBeExistingEntity: managementTopic1
   },
   {
     entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: managementSubscription1,
+    alwaysBeExistingEntity: managementSubscription1
   },
   {
     entityType: EntityType.RULE,
-    alwaysBeExistingEntity: managementRule1,
-  },
+    alwaysBeExistingEntity: managementRule1
+  }
 ].forEach((testCase) => {
-  describe(`Atom management - Get on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Get on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -534,8 +530,8 @@ describe("Atom management - Authentication", function (): void {
       scheduledMessageCount: 0,
       transferMessageCount: 0,
       transferDeadLetterMessageCount: 0,
-      name: managementQueue1,
-    },
+      name: managementQueue1
+    }
   },
   {
     entityType: EntityType.TOPIC,
@@ -544,8 +540,8 @@ describe("Atom management - Authentication", function (): void {
       sizeInBytes: 0,
       subscriptionCount: 0,
       scheduledMessageCount: 0,
-      name: managementTopic1,
-    },
+      name: managementTopic1
+    }
   },
   {
     entityType: EntityType.SUBSCRIPTION,
@@ -557,11 +553,11 @@ describe("Atom management - Authentication", function (): void {
       transferMessageCount: 0,
       transferDeadLetterMessageCount: 0,
       topicName: managementTopic1,
-      subscriptionName: managementSubscription1,
-    },
-  },
+      subscriptionName: managementSubscription1
+    }
+  }
 ].forEach((testCase) => {
-  describe(`Atom management - Get runtime info on "${testCase.entityType}" entity`, function (): void {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entity`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -613,7 +609,7 @@ describe("Atom management - Authentication", function (): void {
         "_response",
         "createdAt",
         "modifiedAt",
-        "accessedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -632,8 +628,8 @@ describe("Atom management - Authentication", function (): void {
         scheduledMessageCount: 0,
         transferMessageCount: 0,
         transferDeadLetterMessageCount: 0,
-        name: managementQueue1,
-      },
+        name: managementQueue1
+      }
     },
     2: {
       alwaysBeExistingEntity: managementQueue2,
@@ -645,9 +641,9 @@ describe("Atom management - Authentication", function (): void {
         scheduledMessageCount: 0,
         transferMessageCount: 0,
         transferDeadLetterMessageCount: 0,
-        name: managementQueue2,
-      },
-    },
+        name: managementQueue2
+      }
+    }
   },
   {
     entityType: EntityType.TOPIC,
@@ -657,8 +653,8 @@ describe("Atom management - Authentication", function (): void {
         sizeInBytes: 0,
         subscriptionCount: 0,
         scheduledMessageCount: 0,
-        name: managementTopic1,
-      },
+        name: managementTopic1
+      }
     },
     2: {
       alwaysBeExistingEntity: managementTopic2,
@@ -666,9 +662,9 @@ describe("Atom management - Authentication", function (): void {
         sizeInBytes: 0,
         subscriptionCount: 0,
         scheduledMessageCount: 0,
-        name: managementTopic2,
-      },
-    },
+        name: managementTopic2
+      }
+    }
   },
   {
     entityType: EntityType.SUBSCRIPTION,
@@ -681,8 +677,8 @@ describe("Atom management - Authentication", function (): void {
         transferMessageCount: 0,
         transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
-        subscriptionName: managementSubscription1,
-      },
+        subscriptionName: managementSubscription1
+      }
     },
     2: {
       alwaysBeExistingEntity: managementSubscription2,
@@ -693,12 +689,12 @@ describe("Atom management - Authentication", function (): void {
         transferMessageCount: 0,
         transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
-        subscriptionName: managementSubscription2,
-      },
-    },
-  },
+        subscriptionName: managementSubscription2
+      }
+    }
+  }
 ].forEach((testCase) => {
-  describe(`Atom management - Get runtime info on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -761,22 +757,22 @@ describe("Atom management - Authentication", function (): void {
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: managementQueue1,
+    alwaysBeExistingEntity: managementQueue1
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: managementTopic1,
+    alwaysBeExistingEntity: managementTopic1
   },
   {
     entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: managementSubscription1,
+    alwaysBeExistingEntity: managementSubscription1
   },
   {
     entityType: EntityType.RULE,
-    alwaysBeExistingEntity: managementRule1,
-  },
+    alwaysBeExistingEntity: managementRule1
+  }
 ].forEach((testCase) => {
-  describe(`Atom management - "${testCase.entityType}" exists`, function (): void {
+  describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -856,22 +852,22 @@ describe("Atom management - Authentication", function (): void {
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: managementQueue1,
+    alwaysBeExistingEntity: managementQueue1
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: managementTopic1,
+    alwaysBeExistingEntity: managementTopic1
   },
   {
     entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: managementSubscription1,
+    alwaysBeExistingEntity: managementSubscription1
   },
   {
     entityType: EntityType.RULE,
-    alwaysBeExistingEntity: managementRule1,
-  },
+    alwaysBeExistingEntity: managementRule1
+  }
 ].forEach((testCase) => {
-  describe(`Atom management - Update on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Update on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -937,7 +933,7 @@ describe("Atom management - Authentication", function (): void {
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - Delete on "${entityType}" entities`, function (): void {
+    describe(`Atom management - Delete on "${entityType}" entities`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -998,22 +994,22 @@ describe("Atom management - Authentication", function (): void {
 [
   {
     entityType: EntityType.QUEUE,
-    alwaysBeExistingEntity: managementQueue1,
+    alwaysBeExistingEntity: managementQueue1
   },
   {
     entityType: EntityType.TOPIC,
-    alwaysBeExistingEntity: managementTopic1,
+    alwaysBeExistingEntity: managementTopic1
   },
   {
     entityType: EntityType.SUBSCRIPTION,
-    alwaysBeExistingEntity: managementSubscription1,
+    alwaysBeExistingEntity: managementSubscription1
   },
   {
     entityType: EntityType.RULE,
-    alwaysBeExistingEntity: managementRule1,
-  },
+    alwaysBeExistingEntity: managementRule1
+  }
 ].forEach((testCase) => {
-  describe(`Atom management - Create on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Create on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -1090,7 +1086,7 @@ describe("Atom management - Authentication", function (): void {
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - CRUD on non-existent entities for type "${entityType}"`, function (): void {
+    describe(`Atom management - CRUD on non-existent entities for type "${entityType}"`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -1264,8 +1260,8 @@ describe("Atom management - Authentication", function (): void {
       status: "Active",
       supportOrdering: true,
       name: managementTopic1,
-      availabilityStatus: "Available",
-    },
+      availabilityStatus: "Available"
+    }
   },
   {
     testCaseTitle: "all properties",
@@ -1280,7 +1276,7 @@ describe("Atom management - Authentication", function (): void {
       enableExpress: false,
       supportOrdering: false,
       userMetadata: "test metadata",
-      availabilityStatus: "Available" as EntityAvailabilityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       defaultMessageTimeToLive: "P2D",
@@ -1296,11 +1292,11 @@ describe("Atom management - Authentication", function (): void {
       authorizationRules: undefined,
       userMetadata: "test metadata",
       name: managementTopic1,
-      availabilityStatus: "Available",
-    },
-  },
+      availabilityStatus: "Available"
+    }
+  }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function (): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -1320,14 +1316,14 @@ describe("Atom management - Authentication", function (): void {
         "_response",
         "createdAt",
         "modifiedAt",
-        "accessedAt",
+        "accessedAt"
       ]);
     });
   });
 });
 
 // Subscription tests
-describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function (): void {
+describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
   const createSubscriptionTestCases: {
     testCaseTitle: string;
     input?: CreateSubscriptionOptions;
@@ -1351,8 +1347,8 @@ describe(`createSubscription() using different variations to the input parameter
         status: "Active",
         subscriptionName: managementSubscription1,
         topicName: managementTopic1,
-        availabilityStatus: "Available",
-      },
+        availabilityStatus: "Available"
+      }
     },
     {
       testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
@@ -1367,7 +1363,7 @@ describe(`createSubscription() using different variations to the input parameter
         requiresSession: true,
         userMetadata: "test metadata",
         status: "ReceiveDisabled" as EntityStatus,
-        availabilityStatus: "Available" as EntityAvailabilityStatus,
+        availabilityStatus: "Available" as EntityAvailabilityStatus
       },
       output: {
         lockDuration: "PT5M",
@@ -1384,9 +1380,9 @@ describe(`createSubscription() using different variations to the input parameter
         status: "ReceiveDisabled",
         subscriptionName: managementSubscription1,
         topicName: managementTopic1,
-        availabilityStatus: "Available",
-      },
-    },
+        availabilityStatus: "Available"
+      }
+    }
   ];
   createSubscriptionTestCases.push({
     testCaseTitle: "case-2 with defaultRuleOptions",
@@ -1396,12 +1392,12 @@ describe(`createSubscription() using different variations to the input parameter
         name: "rule",
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: { "@intParam": 1, "@stringParam": "b" },
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
         },
-        action: { sqlExpression: "SET a='b'", sqlParameters: undefined },
-      },
+        action: { sqlExpression: "SET a='b'", sqlParameters: undefined }
+      }
     },
-    output: { ...createSubscriptionTestCases[1].output },
+    output: { ...createSubscriptionTestCases[1].output }
   });
 
   beforeEach(async () => {
@@ -1449,7 +1445,7 @@ describe(`createSubscription() using different variations to the input parameter
     testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: managementQueue1,
-      forwardTo: managementQueue1,
+      forwardTo: managementQueue1
     },
     output: {
       lockDuration: "PT1M",
@@ -1477,22 +1473,22 @@ describe(`createSubscription() using different variations to the input parameter
       status: "Active",
       availabilityStatus: "Available",
       subscriptionName: managementSubscription1,
-      topicName: managementTopic1,
-    },
+      topicName: managementTopic1
+    }
   },
   {
     testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase(),
-      forwardTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase(),
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`.toUpperCase()
     },
     output: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1.toUpperCase()}`,
-      forwardTo: `${endpointWithProtocol}${managementQueue1.toUpperCase()}`,
-    },
-  },
+      forwardTo: `${endpointWithProtocol}${managementQueue1.toUpperCase()}`
+    }
+  }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function (): void {
+  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -1554,8 +1550,8 @@ describe(`createSubscription() using different variations to the input parameter
       status: "Active",
       forwardTo: undefined,
       userMetadata: undefined,
-      availabilityStatus: "Available",
-    },
+      availabilityStatus: "Available"
+    }
   },
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
@@ -1575,21 +1571,21 @@ describe(`createSubscription() using different variations to the input parameter
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-        },
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
       ],
       enablePartitioning: true,
       enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Available" as EntityAvailabilityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -1607,15 +1603,15 @@ describe(`createSubscription() using different variations to the input parameter
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-        },
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
       ],
       enablePartitioning: true,
       enableExpress: false,
@@ -1625,11 +1621,11 @@ describe(`createSubscription() using different variations to the input parameter
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       name: managementQueue1,
-      availabilityStatus: "Available",
-    },
-  },
+      availabilityStatus: "Available"
+    }
+  }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function (): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
@@ -1650,7 +1646,7 @@ describe(`createSubscription() using different variations to the input parameter
         "_response",
         "createdAt",
         "modifiedAt",
-        "accessedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1661,26 +1657,26 @@ describe(`createSubscription() using different variations to the input parameter
     testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: managementTopic1,
-      forwardTo: managementTopic1,
+      forwardTo: managementTopic1
     },
     output: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
-      forwardTo: `${endpointWithProtocol}${managementTopic1}`,
-    },
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    }
   },
   {
     testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
-      forwardTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
     },
     output: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
-      forwardTo: `${endpointWithProtocol}${managementTopic1}`,
-    },
-  },
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    }
+  }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions"`, function (): void {
+  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -1856,7 +1852,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
         "_response",
         "createdAt",
         "modifiedAt",
-        "accessedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1880,21 +1876,21 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-        },
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
       ],
       enablePartitioning: true,
       enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Available" as EntityAvailabilityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1910,15 +1906,15 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-        },
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
       ],
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
@@ -1930,11 +1926,11 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       enablePartitioning: true,
       enableExpress: false,
       name: managementQueue1,
-      availabilityStatus: "Available",
-    },
-  },
+      availabilityStatus: "Available"
+    }
+  }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function (): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1, {
         lockDuration: "PT45S",
@@ -1952,18 +1948,18 @@ describe(`createRule() using different variations to the input parameter "ruleOp
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
           },
           {
             claimType: "SharedAccessKey",
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-          },
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          }
         ],
         enablePartitioning: true,
-        enableExpress: false,
+        enableExpress: false
       });
     });
 
@@ -1986,7 +1982,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           "_response",
           "createdAt",
           "modifiedAt",
-          "accessedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2000,7 +1996,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
     testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: managementTopic1,
-      forwardTo: managementTopic1,
+      forwardTo: managementTopic1
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -2017,15 +2013,15 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         },
         {
           claimType: "SharedAccessKey",
           accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-        },
+          secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+        }
       ],
 
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
@@ -2047,22 +2043,22 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       isAnonymousAccessible: undefined,
       supportOrdering: undefined,
       enablePartitioning: true,
-      name: managementQueue1,
-    },
+      name: managementQueue1
+    }
   },
   {
     testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
-      forwardTo: `${endpointWithProtocol}${managementTopic1}`,
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
     },
     output: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
-      forwardTo: `${endpointWithProtocol}${managementTopic1}`,
-    },
-  },
+      forwardTo: `${endpointWithProtocol}${managementTopic1}`
+    }
+  }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions"`, function (): void {
+  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateQueue(managementQueue1);
@@ -2110,7 +2106,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
       maxSizeInMegabytes: 3072,
-      availabilityStatus: "Available" as EntityAvailabilityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       requiresDuplicateDetection: false,
@@ -2126,11 +2122,11 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       status: "SendDisabled",
       userMetadata: "test metadata",
       name: managementTopic1,
-      availabilityStatus: "Available",
-    },
-  },
+      availabilityStatus: "Available"
+    }
+  }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function (): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
     });
@@ -2154,7 +2150,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           "_response",
           "createdAt",
           "modifiedAt",
-          "accessedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2178,7 +2174,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       requiresSession: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Available" as EntityAvailabilityStatus,
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       lockDuration: "PT3M",
@@ -2195,11 +2191,11 @@ describe(`createRule() using different variations to the input parameter "ruleOp
       status: "ReceiveDisabled",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1,
-      availabilityStatus: "Available",
-    },
-  },
+      availabilityStatus: "Available"
+    }
+  }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function (): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
@@ -2226,7 +2222,7 @@ describe(`createRule() using different variations to the input parameter "ruleOp
           "_response",
           "createdAt",
           "modifiedAt",
-          "accessedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2240,26 +2236,26 @@ describe(`createRule() using different variations to the input parameter "ruleOp
     testCaseTitle: "pass in entity name for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: managementQueue1,
-      forwardTo: managementQueue1,
+      forwardTo: managementQueue1
     },
     output: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
-      forwardTo: `${endpointWithProtocol}${managementQueue1}`,
-    },
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`
+    }
   },
   {
     testCaseTitle: "pass in absolute URI for forwardTo and forwardDeadLetteredMessagesTo",
     input: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
-      forwardTo: `${endpointWithProtocol}${managementQueue1}`,
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`
     },
     output: {
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
-      forwardTo: `${endpointWithProtocol}${managementQueue1}`,
-    },
-  },
+      forwardTo: `${endpointWithProtocol}${managementQueue1}`
+    }
+  }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function (): void {
+  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -2378,7 +2374,7 @@ describe(`updateRule() using different variations to the input parameter "ruleOp
           "_response",
           "createdAt",
           "modifiedAt",
-          "accessedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2434,21 +2430,21 @@ async function createEntity(
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-          },
-        ],
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          }
+        ]
       };
     }
 
     if (topicOptions == undefined) {
       topicOptions = {
-        status: "Active",
+        status: "Active"
       };
     }
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M",
+        lockDuration: "PT1M"
       };
     }
 
@@ -2456,9 +2452,9 @@ async function createEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: { "@intParam": 1, "@stringParam": "b" },
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
         },
-        action: { sqlExpression: "SET a='b'" },
+        action: { sqlExpression: "SET a='b'" }
       };
     }
   }
@@ -2466,12 +2462,12 @@ async function createEntity(
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
-        ...queueOptions,
+        ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
-        ...topicOptions,
+        ...topicOptions
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
@@ -2484,7 +2480,7 @@ async function createEntity(
         topicPath,
         entityPath,
         {
-          ...subscriptionOptions,
+          ...subscriptionOptions
         }
       );
       return subscriptionResponse;
@@ -2663,21 +2659,21 @@ async function updateEntity(
             accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs=",
-          },
-        ],
+            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+          }
+        ]
       };
     }
 
     if (topicOptions == undefined) {
       topicOptions = {
-        status: "Active",
+        status: "Active"
       };
     }
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M",
+        lockDuration: "PT1M"
       };
     }
 
@@ -2687,10 +2683,10 @@ async function updateEntity(
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
           sqlParameters: {
             "@intParam": 1,
-            "@stringParam": "b",
-          },
+            "@stringParam": "b"
+          }
         },
-        action: { sqlExpression: "SET a='b'" },
+        action: { sqlExpression: "SET a='b'" }
       };
     }
   }
@@ -2700,14 +2696,14 @@ async function updateEntity(
       const getQueueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
         ...getQueueResponse,
-        ...queueOptions,
+        ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
       const getTopicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
         ...getTopicResponse,
-        ...topicOptions,
+        ...topicOptions
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
@@ -2722,7 +2718,7 @@ async function updateEntity(
       );
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
         ...getSubscriptionResponse,
-        ...subscriptionOptions,
+        ...subscriptionOptions
       });
       return subscriptionResponse;
     case EntityType.RULE:
@@ -2741,7 +2737,7 @@ async function updateEntity(
         subscriptionPath,
         {
           ...getRuleResponse,
-          ...ruleOptions,
+          ...ruleOptions
         }
       );
       return ruleResponse;
@@ -2799,13 +2795,13 @@ async function listEntities(
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient["getQueues"]({
         skip,
-        maxCount,
+        maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient["getTopics"]({
         skip,
-        maxCount,
+        maxCount
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:

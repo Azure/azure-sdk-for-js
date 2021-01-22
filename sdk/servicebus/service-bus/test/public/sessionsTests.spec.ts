@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusSessionReceiver } from "../../src";
 import {
@@ -17,7 +17,7 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
-} from "../public/utils/testutils2";
+} from "./utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;
