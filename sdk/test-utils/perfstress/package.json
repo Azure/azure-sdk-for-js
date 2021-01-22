@@ -1,6 +1,7 @@
 {
   "name": "@azure/test-utils-perfstress",
   "version": "1.0.0",
+  "sdk-type": "client",
   "description": "Performance and stress test framework for the Azure SDK for JavaScript and TypeScript",
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
