@@ -8,6 +8,45 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export const CommunicationIdentityCreateRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationIdentityCreateRequest",
+    modelProperties: {
+      createTokenWithScopes: {
+        serializedName: "createTokenWithScopes",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationIdentityAccessTokenResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationIdentityAccessTokenResult",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentity"
+        }
+      },
+      accessToken: {
+        serializedName: "accessToken",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentityAccessToken"
+        }
+      }
+    }
+  }
+};
+
 export const CommunicationIdentity: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -24,50 +63,11 @@ export const CommunicationIdentity: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationIdentityUpdateRequest: coreHttp.CompositeMapper = {
+export const CommunicationIdentityAccessToken: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationIdentityUpdateRequest",
+    className: "CommunicationIdentityAccessToken",
     modelProperties: {
-      tokensValidFrom: {
-        serializedName: "tokensValidFrom",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CommunicationTokenRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationTokenRequest",
-    modelProperties: {
-      scopes: {
-        serializedName: "scopes",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
-export const CommunicationIdentityToken: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationIdentityToken",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
       token: {
         serializedName: "token",
         required: true,
@@ -80,6 +80,86 @@ export const CommunicationIdentityToken: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationError: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "CommunicationError" }
+          }
+        }
+      },
+      innerError: {
+        serializedName: "innerError",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationIdentityAccessTokenRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationIdentityAccessTokenRequest",
+    modelProperties: {
+      scopes: {
+        serializedName: "scopes",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "String" } }
         }
       }
     }

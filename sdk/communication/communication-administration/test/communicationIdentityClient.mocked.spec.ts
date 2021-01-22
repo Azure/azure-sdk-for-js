@@ -10,7 +10,7 @@ import { assert } from "chai";
 import sinon from "sinon";
 import { CommunicationIdentityClient } from "../src";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
-import { issueTokenHttpClient, revokeTokensHttpClient } from "./utils/mockHttpClients";
+import { issueTokenHttpClient } from "./utils/mockHttpClients";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = isNode ? "date" : "x-ms-date";
@@ -53,7 +53,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     const spy = sinon.spy(issueTokenHttpClient, "sendRequest");
     const response = await client.issueTokenTest(user, ["chat"]);
 
-    assert.equal(response.user.communicationUserId, "identity");
+    assert.equal(response.user.communicationUserId, "ACS_ID");
     assert.equal(response.token, "token");
     assert.equal(response.expiresOn.toDateString(), new Date("2011/11/30").toDateString());
     sinon.assert.calledOnce(spy);
@@ -80,33 +80,5 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.isDefined(user._response);
     assert.isTrue(JSON.stringify(user).indexOf("id") > -1);
     assert.isFalse(JSON.stringify(user).indexOf("_response") > -1);
-  });
-
-  it("sends current datetime as value of tokensValidFrom if not passed to revokeTokens", async () => {
-    const client = new TestCommunicationIdentityClient();
-    const spy = sinon.spy(revokeTokensHttpClient, "sendRequest");
-
-    await client.revokeTokensTest(user);
-    sinon.assert.calledOnce(spy);
-
-    const request = spy.getCall(0).args[0];
-    const { tokensValidFrom: received } = JSON.parse(request.body);
-
-    assert.isNotNaN(Date.parse(received));
-  });
-
-  it("sends tokensValidFrom in revoke tokens request", async () => {
-    const client = new TestCommunicationIdentityClient();
-    const spy = sinon.spy(revokeTokensHttpClient, "sendRequest");
-    const tokensValidFrom = new Date("2011/11/30");
-
-    await client.revokeTokensTest(user, tokensValidFrom);
-    sinon.assert.calledOnce(spy);
-
-    const request = spy.getCall(0).args[0];
-    const { tokensValidFrom: received } = JSON.parse(request.body);
-    const expected = tokensValidFrom.toISOString();
-
-    assert.equal(received, expected);
   });
 });

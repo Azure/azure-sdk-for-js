@@ -39,16 +39,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
     (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    /**
-     * Must replace date saved to tokensValidFrom as to not
-     * break playback tests.
-     */
-    (recording: string): string => {
-      return recording.replace(
-        /"tokensValidFrom"\s?:\s?"[^"]*"/g,
-        `"tokensValidFrom":"2020-10-10T00:00:00.000Z"`
-      );
-    },
     (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
     (recording: string): string => {
       return recording.replace(

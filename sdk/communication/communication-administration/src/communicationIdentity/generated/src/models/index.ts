@@ -8,6 +8,27 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export interface CommunicationIdentityCreateRequest {
+  /**
+   * Also create access token for the created identity.
+   */
+  createTokenWithScopes?: CommunicationIdentityTokenScope[];
+}
+
+/**
+ * A communication identity with access token.
+ */
+export interface CommunicationIdentityAccessTokenResult {
+  /**
+   * A communication identity.
+   */
+  identity: CommunicationIdentity;
+  /**
+   * An access token.
+   */
+  accessToken?: CommunicationIdentityAccessToken;
+}
+
 /**
  * A communication identity.
  */
@@ -18,27 +39,12 @@ export interface CommunicationIdentity {
   id: string;
 }
 
-export interface CommunicationIdentityUpdateRequest {
+/**
+ * An access token.
+ */
+export interface CommunicationIdentityAccessToken {
   /**
-   * All tokens that are issued prior to this time will be revoked.
-   */
-  tokensValidFrom?: Date;
-}
-
-export interface CommunicationTokenRequest {
-  /**
-   * List of scopes attached to the token.
-   */
-  scopes: string[];
-}
-
-export interface CommunicationIdentityToken {
-  /**
-   * Identifier of the identity owning the token.
-   */
-  id: string;
-  /**
-   * The token issued for the identity.
+   * The access token issued for the identity.
    */
   token: string;
   /**
@@ -48,9 +54,64 @@ export interface CommunicationIdentityToken {
 }
 
 /**
+ * The Communication Services error.
+ */
+export interface CommunicationErrorResponse {
+  /**
+   * The Communication Services error.
+   */
+  error: CommunicationError;
+}
+
+/**
+ * The Communication Services error.
+ */
+export interface CommunicationError {
+  /**
+   * The error code.
+   */
+  code: string;
+  /**
+   * The error message.
+   */
+  message: string;
+  /**
+   * The error target.
+   */
+  readonly target?: string;
+  /**
+   * Further details about specific errors that led to this error.
+   */
+  readonly details?: CommunicationError[];
+  /**
+   * The Communication Services error.
+   */
+  innerError?: CommunicationError;
+}
+
+export interface CommunicationIdentityAccessTokenRequest {
+  /**
+   * List of scopes attached to the token.
+   */
+  scopes: CommunicationIdentityTokenScope[];
+}
+
+/**
+ * Defines values for CommunicationIdentityTokenScope.
+ */
+export type CommunicationIdentityTokenScope = "chat" | "voip";
+
+/**
+ * Optional parameters.
+ */
+export interface CommunicationIdentityCreateOptionalParams extends coreHttp.OperationOptions {
+  body?: CommunicationIdentityCreateRequest;
+}
+
+/**
  * Contains response data for the create operation.
  */
-export type CommunicationIdentityCreateResponse = CommunicationIdentity & {
+export type CommunicationIdentityCreateResponse = CommunicationIdentityAccessTokenResult & {
   /**
    * The underlying HTTP response.
    */
@@ -63,14 +124,14 @@ export type CommunicationIdentityCreateResponse = CommunicationIdentity & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: CommunicationIdentity;
+    parsedBody: CommunicationIdentityAccessTokenResult;
   };
 };
 
 /**
- * Contains response data for the issueToken operation.
+ * Contains response data for the issueAccessToken operation.
  */
-export type CommunicationIdentityIssueTokenResponse = CommunicationIdentityToken & {
+export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentityAccessToken & {
   /**
    * The underlying HTTP response.
    */
@@ -83,7 +144,7 @@ export type CommunicationIdentityIssueTokenResponse = CommunicationIdentityToken
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: CommunicationIdentityToken;
+    parsedBody: CommunicationIdentityAccessToken;
   };
 };
 

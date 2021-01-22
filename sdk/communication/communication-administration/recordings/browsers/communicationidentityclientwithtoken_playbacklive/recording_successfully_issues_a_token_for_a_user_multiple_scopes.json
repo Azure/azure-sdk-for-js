@@ -4,24 +4,24 @@
       "method": "POST",
       "url": "https://endpoint/identities",
       "query": {
-        "api-version": "2020-07-20-preview2"
+        "api-version": "2021-03-07"
       },
       "requestBody": null,
-      "status": 200,
-      "response": "{\"id\":\"sanitized\"}",
+      "status": 201,
+      "response": "{\"identity\":{\"id\":\"sanitized\"}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
     },
     {
       "method": "POST",
-      "url": "https://endpoint/identities/sanitized/token",
+      "url": "https://endpoint/identities/sanitized/:issueAccessToken",
       "query": {
-        "api-version": "2020-07-20-preview2"
+        "api-version": "2021-03-07"
       },
-      "requestBody": "{\"scopes\":[\"chat\",\"pstn\"]}",
+      "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
       "status": 200,
-      "response": "{\"id\":\"sanitized\",\"token\":\"sanitized\",\"expiresOn\":\"2021-01-09T00:30:24.5035871+00:00\"}",
+      "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-01-09T00:30:24.5035871+00:00\"}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }

@@ -6,7 +6,7 @@ import {
   AcquiredPhoneNumber,
   AcquiredPhoneNumbers,
   AreaCodes,
-  CommunicationIdentityToken,
+  CommunicationIdentityAccessToken,
   PhoneNumberCountries,
   PhoneNumberCountry,
   PhoneNumberEntities,
@@ -17,7 +17,7 @@ import {
   PhonePlansResponse,
   UpdateNumberCapabilitiesResponse
 } from "../../src";
-import { CommunicationIdentity } from "../../src/communicationIdentity/generated/src/models";
+import { CommunicationIdentityAccessTokenResult } from "../../src/communicationIdentity/generated/src/models";
 
 export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: T): HttpClient => {
   return {
@@ -42,14 +42,15 @@ const tokenResponse = {
   expiresOn: new Date("2011/11/30")
 };
 
-export const issueTokenHttpClient: HttpClient = createMockHttpClient<CommunicationIdentityToken>(
-  200,
-  tokenResponse
-);
+export const issueTokenHttpClient: HttpClient = createMockHttpClient<
+  CommunicationIdentityAccessToken
+>(200, tokenResponse);
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 
-export const createUserHttpClient: HttpClient = createMockHttpClient<CommunicationIdentity>(200, {
-  id: "identity"
+export const createUserHttpClient: HttpClient = createMockHttpClient<
+  CommunicationIdentityAccessTokenResult
+>(201, {
+  identity: { id: "identity" }
 });
 
 const phoneNumbers: AcquiredPhoneNumber[] = [
