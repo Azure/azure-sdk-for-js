@@ -43,7 +43,7 @@ const env = getEnvVars();
 describe("Event Processor", function(): void {
   const defaultOptions: FullEventProcessorOptions = {
     maxBatchSize: 1,
-    maxWaitTimeInSeconds: 60,
+    maxWaitTimeInSeconds: 1,
     ownerLevel: 0,
     loopIntervalInMs: 10000,
     loadBalancingStrategy: new UnbalancedLoadBalancingStrategy()
@@ -627,7 +627,7 @@ describe("Event Processor", function(): void {
         until: async () => {
           console.log(partitionIds.length);
           console.dir(errors);
-          return errors.size >= partitionIds.length * 3; 
+          return errors.size >= partitionIds.length * 3;
         }
       });
       console.log("event processor loop completed");
