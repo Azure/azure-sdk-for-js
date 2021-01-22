@@ -62,12 +62,13 @@ const connectionString = `endpoint=HOST;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
-### Using a `TokenCredential`
+### Using a Azure Active Directory Authentication
 
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { DefaultAzureCredential } from "@azure/identity";
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new CommunicationIdentityClient(HOST, credential);
 ```
 
@@ -139,7 +140,7 @@ import { PhoneNumberAdministrationClient } from "@azure/communication-administra
 const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
 ```
 
-#### Creating an instance of PhoneNumberAdministrationClient with TokenCredential
+#### Creating an instance of PhoneNumberAdministrationClient with Azure Active Directory Authentication
 
 ```typescript
 import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
