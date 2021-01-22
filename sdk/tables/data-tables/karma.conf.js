@@ -63,10 +63,10 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"],
+      "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      [`dist-test/${testMode}.index.browser.js`]: ["coverage"]
+      // [`dist-test/${testMode}.index.browser.js`]: ["coverage"]
     },
 
     // inject following environment values into browser testing with window.__env__

@@ -40,7 +40,7 @@ module.exports = function(config) {
 
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "dist-test/index.browser.js": ["coverage"],
+      // "dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
