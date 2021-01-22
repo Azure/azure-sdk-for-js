@@ -62,7 +62,7 @@ const connectionString = `endpoint=HOST;accessKey=KEY`;
 const client = new CommunicationIdentityClient(connectionString);
 ```
 
-### Using a Azure Active Directory Authentication
+### Using Azure Active Directory Authentication
 
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-administration";
