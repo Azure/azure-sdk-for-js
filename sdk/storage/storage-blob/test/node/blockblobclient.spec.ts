@@ -378,7 +378,7 @@ describe("syncUploadFromURL", () => {
     );
     await sourceBlob.upload(largeContent, largeContent.byteLength);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
-  });
+  }).timeout(10 * 60 * 1000);
 
   it("large content with timeout", async () => {
     recorder.skip(
