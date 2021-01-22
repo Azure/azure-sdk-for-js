@@ -145,7 +145,6 @@ export {
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
-  LocalCryptographyClient,
   LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,

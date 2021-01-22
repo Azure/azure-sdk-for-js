@@ -5,8 +5,7 @@ import {
   LocalSupportedAlgorithmName,
   KeyClient,
   CryptographyClient,
-  SignatureAlgorithm,
-  LocalCryptographyClient
+  SignatureAlgorithm
 } from "../../src";
 import * as chai from "chai";
 import { isNode } from "@azure/core-http";
@@ -50,7 +49,7 @@ describe("Local cryptography public tests", () => {
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
 
-    const localCryptoClient = new LocalCryptographyClient(keyVaultKey.key!);
+    const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const text = Buffer.from(this.test!.title);
     const encrypted = await localCryptoClient.encrypt("RSA1_5", text);
     const unwrapped = await cryptoClient.decrypt("RSA1_5", encrypted.result);
@@ -63,7 +62,7 @@ describe("Local cryptography public tests", () => {
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
 
-    const localCryptoClient = new LocalCryptographyClient(keyVaultKey.key!);
+    const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const text = Buffer.from(this.test!.title);
     const encrypted = await localCryptoClient.encrypt("RSA-OAEP", text);
     const unwrapped = await cryptoClient.decrypt("RSA-OAEP", encrypted.result);
@@ -77,7 +76,7 @@ describe("Local cryptography public tests", () => {
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
 
-    const localCryptoClient = new LocalCryptographyClient(keyVaultKey.key!);
+    const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const data = Buffer.from("arepa");
     const wrapped = await localCryptoClient.wrapKey("RSA1_5", data);
 
@@ -93,7 +92,7 @@ describe("Local cryptography public tests", () => {
     const keyVaultKey = await client.createKey(keyName, "RSA");
     const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
 
-    const localCryptoClient = new LocalCryptographyClient(keyVaultKey.key!);
+    const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
     const data = Buffer.from("arepa");
     const wrapped = await localCryptoClient.wrapKey("RSA-OAEP", data);
 
@@ -133,7 +132,7 @@ describe("Local cryptography public tests", () => {
         const signature = await cryptoClient.sign(localAlgorithmName as SignatureAlgorithm, digest);
 
         // Local Cryptography Client part
-        const localCryptoClient = new LocalCryptographyClient(keyVaultKey.key!);
+        const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
         const verifyResult = await localCryptoClient.verifyData(
           localAlgorithmName as LocalSupportedAlgorithmName,
           digest,

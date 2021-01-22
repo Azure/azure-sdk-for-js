@@ -353,6 +353,9 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
+
+  /** The public exponent for a RSA key. */
+  publicExponent?: number;
 }
 
 /**
