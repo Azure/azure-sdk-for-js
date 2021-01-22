@@ -13,6 +13,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -78,6 +79,7 @@ export interface CarrierDetails {
 export class CommunicationIdentityClient {
     constructor(connectionString: string, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
+    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
     createUser(options?: OperationOptions): Promise<CreateUserResponse>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
     issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;

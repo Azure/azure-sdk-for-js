@@ -129,12 +129,10 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       state.statusDetails = statusDetails;
       state.result = azureStorageBlobContainerUri;
 
-      if (endTime) {
-        state.isCompleted = true;
-      }
-      if (error && error.message) {
-        state.isCompleted = true;
-        state.error = new Error(error.message);
+      state.isCompleted = !!(endTime || error?.message);
+
+      if (error?.message || statusDetails) {
+        state.error = new Error(error?.message || statusDetails);
       }
     }
 
@@ -159,12 +157,10 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       state.statusDetails = statusDetails;
       state.result = azureStorageBlobContainerUri;
 
-      if (endTime) {
-        state.isCompleted = true;
-      }
-      if (error && error.message) {
-        state.isCompleted = true;
-        state.error = new Error(error.message);
+      state.isCompleted = !!(endTime || error?.message);
+
+      if (error?.message || statusDetails) {
+        state.error = new Error(error?.message || statusDetails);
       }
     }
 

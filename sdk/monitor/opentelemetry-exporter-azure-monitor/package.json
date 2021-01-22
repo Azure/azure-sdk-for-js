@@ -1,18 +1,18 @@
 {
   "name": "@azure/opentelemetry-exporter-azure-monitor",
-  "author": "appinsightssdk@microsoft.com",
+  "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
-  "main": "dist-esm/src/index.js",
+  "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/src/index.d.ts",
+  "types": "types/opentelemetry-exporter-azure-monitor.d.ts",
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:autorest": "autorest ./swagger/README.md --typescript --v3",
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
-    "build:node": "tsc -p .",
+    "build:node": "tsc -p . && rollup -c 2>&1",
     "build": "npm run build:node && npm run build:browser && api-extractor run --local",
     "extract-api": "tsc -p . && api-extractor run --local",
     "lint": "eslint . --ext .ts || exit 0",
@@ -20,10 +20,10 @@
     "test:node": "npm run unit-test:node",
     "test:browser": "npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "nyc ts-mocha -p ./tsconfig.json 'test/unit/**/*.test.ts'",
+    "unit-test:node": "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/unit/**/*.test.ts\"",
     "unit-test:node:no-timeout": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "functional-test": "ts-mocha -p ./tsconfig.json 'test/functional/**/*.test.ts'",
+    "functional-test": "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/functional/**/*.test.ts\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "npm run functional-test",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -32,26 +32,25 @@
     "prepare": "npm run build",
     "pack": "npm pack 2>&1",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
-    "node": ">=8.3.0"
+    "node": ">=8.5.0"
   },
   "files": [
     "dist-esm/src/",
     "dist/src/",
     "browser/src/",
-    "types/src/",
-    "src/",
+    "types/opentelemetry-exporter-azure-monitor.d.ts",
     "README.md",
     "SECURITY.md",
     "LICENSE"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor/",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
@@ -63,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@types/mocha": "^7.0.2",
@@ -75,18 +75,20 @@
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
     "sinon": "^9.0.2",
-    "ts-mocha": "^7.0.0",
+    "ts-node": "^8.3.0",
     "typescript": "4.1.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@opentelemetry/api": "^0.10.2",
-    "@opentelemetry/core": "^0.10.2",
-    "@opentelemetry/resources": "^0.10.2",
-    "@opentelemetry/semantic-conventions": "^0.10.2",
-    "@opentelemetry/tracing": "^0.10.2"
+    "@opentelemetry/api": "^0.14.0",
+    "@opentelemetry/core": "^0.14.0",
+    "@opentelemetry/resources": "^0.14.0",
+    "@opentelemetry/semantic-conventions": "^0.14.0",
+    "@opentelemetry/tracing": "^0.14.0",
+    "tslib": "^2.0.0"
   },
   "sideEffects": false,
   "keywords": [
@@ -96,6 +98,7 @@
     "javascript",
     "applicationinsights",
     "opentelemetry",
-    "exporter"
+    "exporter",
+    "cloud"
   ]
 }

@@ -124,6 +124,24 @@ describe("Queries", function() {
         "second batch element should be doc3"
       );
     });
+    it("fails with invalid continuation token", async function() {
+      let queryIterator = resources.container.items.readAll({
+        maxItemCount: 2
+      });
+      const firstResponse = await queryIterator.fetchNext();
+      assert(firstResponse.continuationToken);
+
+      queryIterator = resources.container.items.readAll({
+        maxItemCount: 2,
+        continuationToken: "junk"
+      });
+
+      try {
+        await queryIterator.fetchNext();
+      } catch (e) {
+        assert(e.message.includes("Invalid Continuation Token"));
+      }
+    });
 
     describe("SUM query iterator", function() {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);

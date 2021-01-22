@@ -1,7 +1,7 @@
 {
   "name": "@azure/identity",
   "sdk-type": "client",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "description": "Provides credential implementations for Azure SDK libraries that can authenticate with Azure Active Directory",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -45,7 +45,7 @@
     "unit-test:browser": "karma start",
     "unit-test:node": "mocha test-dist/**/*.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -83,9 +83,9 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "1.0.0-beta.1",
+    "@azure/msal-node": "1.0.0-beta.3",
     "@opentelemetry/api": "^0.10.2",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "msal": "^1.0.2",
@@ -140,6 +140,6 @@
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
     "mock-fs": "^4.10.4",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 5.4.0-beta.1 (Unreleased)
+## 5.4.0 (Unreleased)
 
 - Adds the `customEndpointAddress` field to `EventHubClientOptions`.
   This allows for specifying a custom endpoint to use when communicating

@@ -5,7 +5,7 @@
   "description": "An Azure Storage Blob solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/eventhubs-checkpointstore-blob/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -15,12 +15,12 @@
     "events"
   ],
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./typings/eventhubs-checkpointstore-blob.d.ts",
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
@@ -57,12 +57,12 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "dependencies": {
     "@azure/event-hubs": "^5.0.0",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.3.0",
+    "@azure/storage-blob": "^12.4.0",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
@@ -117,7 +117,7 @@
     "ts-node": "^8.3.0",
     "typescript": "4.1.2",
     "util": "^0.12.1",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true

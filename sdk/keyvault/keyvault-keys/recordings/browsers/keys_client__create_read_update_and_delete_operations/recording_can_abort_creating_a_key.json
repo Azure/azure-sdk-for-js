@@ -1,20 +1,20 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-canabortcreatingakey-/create",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": "",
-   "status": 0,
-   "response": "",
-   "responseHeaders": {}
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "5158095e0f7ecf781e7b7dc0b5d08cc3"
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-canabortcreatingakey-/create",
+      "query": {
+        "api-version": "7.1"
+      },
+      "requestBody": "",
+      "status": 0,
+      "response": "",
+      "responseHeaders": {}
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "5158095e0f7ecf781e7b7dc0b5d08cc3"
 }

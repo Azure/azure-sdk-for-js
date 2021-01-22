@@ -1,6 +1,10 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.5 (Unreleased)
+
+- Add `AzureSASCredential` and `SASCredential` for use by service clients which allow authenticiation using a shared access signature.
+
+## 1.1.4 (2021-01-07)
 
 - Removed direct dependency on `@opentelemetry/api` and `@azure/core-tracing`.
 

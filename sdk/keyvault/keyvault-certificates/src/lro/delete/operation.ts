@@ -14,7 +14,10 @@ import {
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import { DeleteCertificateResponse, GetDeletedCertificateResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteCertificateResponse,
+  KeyVaultClientGetDeletedCertificateResponse
+} from "../../generated/models";
 import { createSpan, setParentSpan } from "../../../../keyvault-common";
 
 /**
@@ -56,7 +59,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 
     const span = createSpan("generatedClient.deleteCertificate", requestOptions);
 
-    let response: DeleteCertificateResponse;
+    let response: KeyVaultClientDeleteCertificateResponse;
     try {
       response = await this.client.deleteCertificate(
         this.vaultUrl,
@@ -81,7 +84,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getDeletedCertificate", requestOptions);
 
-    let result: GetDeletedCertificateResponse;
+    let result: KeyVaultClientGetDeletedCertificateResponse;
     try {
       result = await this.client.getDeletedCertificate(
         this.vaultUrl,

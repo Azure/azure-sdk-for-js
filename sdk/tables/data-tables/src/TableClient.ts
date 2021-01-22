@@ -132,6 +132,7 @@ export class TableClient {
         ? credentialOrOptions
         : options) || {};
 
+    clientOptions.endpoint = clientOptions.endpoint || url;
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -151,15 +152,15 @@ export class TableClient {
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
       const internalPipelineOptions: InternalPipelineOptions = {
-        ...clientOptions,
-        ...{
-          loggingOptions: {
-            logger: logger.info,
-            allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
-          }
+        loggingOptions: {
+          logger: logger.info,
+          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
         }
       };
-      pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
+      pipeline = {
+        ...clientOptions,
+        ...createPipelineFromOptions(internalPipelineOptions, credential)
+      };
     }
 
     this.tableName = tableName;

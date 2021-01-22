@@ -2,7 +2,10 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { DataLakeServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-datalake");
+const {
+  DataLakeServiceClient,
+  StorageSharedKeyCredential
+} = require("@azure/storage-file-datalake");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -17,6 +20,7 @@ async function main() {
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // ONLY AVAILABLE IN NODE.JS RUNTIME
+  // If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
   // DefaultAzureCredential will first look for Azure Active Directory (AAD)
   // client secret credentials in the following environment variables:
   //
@@ -52,7 +56,10 @@ async function main() {
   const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
 
   const createFileSystemResponse = await fileSystemClient.create();
-  console.log(`Create filesystem ${fileSystemName} successfully`, createFileSystemResponse.requestId);
+  console.log(
+    `Create filesystem ${fileSystemName} successfully`,
+    createFileSystemResponse.requestId
+  );
 
   // Create a file
   const content = "hello";

@@ -62,7 +62,7 @@
 /sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/keyvault/ @jonathandturner @sadasant @maorleger
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
@@ -79,10 +79,10 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
+/sdk/textanalytics/ @deyaaeldeen @xirzec @witemple-msft
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng @willmtemple
+/sdk/formrecognizer/ @jeremymeng @witemple-msft
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
@@ -100,14 +100,14 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners @richardpark-msft
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 
 ###########
 # Eng Sys

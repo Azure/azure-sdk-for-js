@@ -1,7 +1,7 @@
 {
   "name": "@azure/logger",
   "sdk-type": "client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Microsoft Azure SDK for JavaScript - Logger",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -38,7 +38,7 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "types": "./types/logger.d.ts",
   "engine": {
@@ -113,6 +113,6 @@
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
     "typescript": "4.1.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

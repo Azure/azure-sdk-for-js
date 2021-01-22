@@ -59,7 +59,10 @@ module.exports = function(config) {
     envPreprocessor: [
       "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
       "AZURE_PHONE_NUMBER",
-      "TEST_MODE"
+      "TEST_MODE",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID"
     ],
 
     // test results reporter to use

@@ -41,7 +41,7 @@
     "uglify-js": "^3.4.9",
     "@opentelemetry/api": "^0.10.2",
     "@microsoft/api-extractor": "7.7.11",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -73,7 +73,7 @@
     "extract-api": "api-extractor run --local",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": true

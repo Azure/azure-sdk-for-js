@@ -16,7 +16,6 @@ import {
   TypingIndicatorReceivedEvent
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { ChatApiClient } from "./generated/src/chatApiClient";
 import {
   InternalPipelineOptions,
@@ -43,6 +42,7 @@ import {
 } from "./models/mappers";
 import { ChatThreadInfo } from "./generated/src/models";
 import { CreateChatThreadRequest } from "./models/requests";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
 export { ChatThreadInfo } from "./generated/src/models";
 
