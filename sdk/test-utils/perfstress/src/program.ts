@@ -97,9 +97,11 @@ export class PerfStressProgram {
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
-      `Completed ${totalOperations} operations in a weighted-average of ${weightedAverage.toFixed(
-        2
-      )}s` + ` (${operationsPerSecond.toFixed(2)} ops/s, ${secondsPerOperation.toFixed(3)} s/op)`
+      `Completed ${totalOperations.toLocaleString(undefined, { maximumFractionDigits: 0})} ` +
+      `operations in a weighted-average of ` +
+      `${weightedAverage.toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2})}s ` +
+      `(${operationsPerSecond.toLocaleString(undefined, { maximumFractionDigits: 2})} ops/s, ` +
+      `${secondsPerOperation.toLocaleString(undefined, { maximumFractionDigits: 3, minimumFractionDigits: 3})} s/op)`
     );
   }
 
