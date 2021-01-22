@@ -56,15 +56,3 @@ export const repeatabilityRequestId: coreHttp.OperationParameter = {
     }
   }
 };
-export const repeatabilityResult: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "repeatabilityResult"
-  ],
-  mapper: {
-    serializedName: "repeatability-result",
-    type: {
-      name: "String"
-    }
-  }
-};

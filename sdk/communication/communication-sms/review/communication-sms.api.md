@@ -13,9 +13,6 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface SendOptions extends OperationOptions {
     enableDeliveryReport?: boolean;
-    repeatabilityFirstSent?: string;
-    repeatabilityRequestId?: string;
-    repeatabilityResult?: string;
     tag?: string;
 }
 

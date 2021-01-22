@@ -142,3 +142,19 @@ export const SendSmsResponse: coreHttp.CompositeMapper = {
     }
   }
 };
+
+export const SmsSendHeaders: coreHttp.CompositeMapper = {
+  serializedName: "sms-send-headers",
+  type: {
+    name: "Composite",
+    className: "SmsSendHeaders",
+    modelProperties: {
+      repeatabilityResult: {
+        serializedName: "repeatability-result",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

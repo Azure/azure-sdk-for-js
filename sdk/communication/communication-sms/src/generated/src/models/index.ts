@@ -51,7 +51,7 @@ export interface SendMessageRequest {
  */
 export interface SendSmsResponseItem {
   /**
-   * The recipients' phone number in E.164 format
+   * The recipients's phone number in E.164 format.
    */
   to: string;
   /**
@@ -94,9 +94,15 @@ export interface SmsSendOptionalParams extends coreHttp.RequestOptionsBase {
    * 16:06:51 GMT
    */
   repeatabilityFirstSent?: string;
+}
+
+/**
+ * Defines headers for Send operation.
+ */
+export interface SmsSendHeaders {
   /**
-   * MUST be returned to clients for a request that is repeatable. This response header in the
-   * result of a repeatable request with one of the case-insensitive values accepted or rejected.
+   * Result of repeatibility request, if repeatability-request-id is provided.Values could be
+   * accepted or rejected.
    */
   repeatabilityResult?: string;
 }
@@ -104,11 +110,16 @@ export interface SmsSendOptionalParams extends coreHttp.RequestOptionsBase {
 /**
  * Contains response data for the send operation.
  */
-export type SmsSendResponse = SendSmsResponse & {
+export type SmsSendResponse = SendSmsResponse & SmsSendHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SmsSendHeaders;
+
       /**
        * The response body as text (string format)
        */
