@@ -22,7 +22,9 @@
   "paths": {
     "/sms": {
       "post": {
-        "tags": ["Sms"],
+        "tags": [
+          "Sms"
+        ],
         "summary": "Sends a SMS message from a phone number that belongs to the authenticated account.",
         "operationId": "Sms_Send",
         "x-ms-examples": {
@@ -30,8 +32,12 @@
             "$ref": "./examples/send.json"
           }
         },
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -51,20 +57,26 @@
           },
           {
             "in": "header",
-            "name": "repeatability-Request-ID",
-            "description": "If specified, the client directs that the request is repeatable; that is, the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, GUID, identifier for the request.",
+            "name": "repeatability-request-id",
+            "description": "If specified, the client directs that the request is repeatable; that is, the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, 36-character hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request.",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-first-sent",
+            "description": "MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019 16:06:51 GMT",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "repeatability-result",
+            "description": "MUST be returned to clients for a request that is repeatable. This response header in the result of a repeatable request with one of the case-insensitive values accepted or rejected.",
             "type": "string"
           }
         ],
         "responses": {
           "202": {
             "description": "Accepted",
-            "schema": {
-              "$ref": "#/definitions/SendSmsResponse"
-            }
-          },
-          "207": {
-            "description": "Multi Status",
             "schema": {
               "$ref": "#/definitions/SendSmsResponse"
             }
@@ -78,22 +90,26 @@
   },
   "definitions": {
     "SendSmsOptions": {
-      "description": "Optional configuration for sending SMS messages",
+      "description": "Optional configuration for sending SMS messages.",
       "type": "object",
       "properties": {
         "enableDeliveryReport": {
-          "description": "Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid",
+          "description": "Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid.",
           "type": "boolean"
         },
         "tag": {
-          "description": "Use this field to provide metadata that will then be send back in the corresponding Delivery Report.",
+          "description": "Use this field to provide metadata that will then be sent back in the corresponding Delivery Report.",
           "type": "string"
         }
       }
     },
     "SendMessageRequest": {
       "description": "Represents the properties of a send message request.",
-      "required": ["message", "to", "from"],
+      "required": [
+        "message",
+        "to",
+        "from"
+      ],
       "type": "object",
       "properties": {
         "from": {
@@ -101,7 +117,7 @@
           "type": "string"
         },
         "to": {
-          "description": "The recipients' phone number in E.164 format. In this version, a minimum of 1 and upto 100 recipients in the list are supported.",
+          "description": "The recipient's phone number in E.164 format. In this version, a minimum of 1 and upto 100 recipients in the list are supported.",
           "maxLength": 100,
           "minLength": 1,
           "type": "array",
@@ -122,7 +138,9 @@
     },
     "SendSmsResponse": {
       "description": "Response for a successful or multi status send Sms request.",
-      "required": ["value"],
+      "required": [
+        "value"
+      ],
       "type": "object",
       "properties": {
         "value": {
@@ -139,7 +157,10 @@
     },
     "SendSmsResponseItem": {
       "description": "Response for a single recipient.",
-      "required": ["httpStatusCode", "to"],
+      "required": [
+        "httpStatusCode",
+        "to"
+      ],
       "type": "object",
       "properties": {
         "to": {
@@ -147,15 +168,15 @@
           "type": "string"
         },
         "messageId": {
-          "description": "The identifier of the outgoing SMS message. Only present if message processed",
+          "description": "The identifier of the outgoing SMS message. Only present if message processed.",
           "type": "string"
         },
         "httpStatusCode": {
-          "description": "HTTP Status code",
+          "description": "HTTP Status code.",
           "type": "integer"
         },
         "errorMessage": {
-          "description": "Optional error message in case of 4xx or 5xx errors",
+          "description": "Optional error message in case of 4xx or 5xx errors.",
           "type": "string"
         }
       }

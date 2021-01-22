@@ -71,7 +71,9 @@ const sendOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.repeatabilityRequestID
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent,
+    Parameters.repeatabilityResult
   ],
   requestBody: {
     parameterPath: "sendMessageRequest",
@@ -82,9 +84,6 @@ const sendOperationSpec: coreHttp.OperationSpec = {
   },
   responses: {
     202: {
-      bodyMapper: Mappers.SendSmsResponse
-    },
-    207: {
       bodyMapper: Mappers.SendSmsResponse
     },
     default: {}

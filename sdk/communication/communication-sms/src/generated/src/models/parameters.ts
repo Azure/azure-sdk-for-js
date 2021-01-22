@@ -32,13 +32,37 @@ export const endpoint: coreHttp.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const repeatabilityRequestID: coreHttp.OperationParameter = {
+export const repeatabilityFirstSent: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "repeatabilityRequestID"
+    "repeatabilityFirstSent"
   ],
   mapper: {
-    serializedName: "repeatability-Request-ID",
+    serializedName: "repeatability-first-sent",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const repeatabilityRequestId: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "repeatabilityRequestId"
+  ],
+  mapper: {
+    serializedName: "repeatability-request-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const repeatabilityResult: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "repeatabilityResult"
+  ],
+  mapper: {
+    serializedName: "repeatability-result",
     type: {
       name: "String"
     }
