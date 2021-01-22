@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import { TokenCredential } from "@azure/core-http";
+import { AccessToken, AccessTokenRefresher, TokenCredential, WebResourceLike } from "@azure/core-http";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -13,6 +13,7 @@ import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
+import { BearerTokenAuthenticationPolicy } from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
 
 type ValidParsedWWWAuthenticateProperties =
   // "authorization_uri" was used in the track 1 version of KeyVault.
@@ -31,7 +32,7 @@ type ParsedWWWAuthenticate = {
  * Representation of the Authentication Challenge
  */
 export class AuthenticationChallenge {
-  constructor(public authorization: string, public scope: string) {}
+  constructor(public authorization: string, public scope: string) { }
 
   /**
    * Checks that this AuthenticationChallenge is equal to another one given.
@@ -43,7 +44,7 @@ export class AuthenticationChallenge {
   public equalTo(other: AuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
-          this.authorization.toLowerCase() === other.authorization.toLowerCase()
+      this.authorization.toLowerCase() === other.authorization.toLowerCase()
       : false;
   }
 }
@@ -61,21 +62,33 @@ export class AuthenticationChallengeCache {
 }
 
 /**
+ * The automated token refresh will only start to happen at the
+ * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
+ * which is by default 30 seconds.
+ */
+const timeBetweenRefreshAttemptsInMs = 30000;
+
+/**
  * Creates a new ChallengeBasedAuthenticationPolicy factory.
  *
  * @param credential - The TokenCredential implementation that can supply the challenge token.
  */
 export function challengeBasedAuthenticationPolicy(
-  credential: TokenCredential
+  credential: TokenCredential,
+  scopes: string | string[]
 ): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
+  const tokenRefresher = new AccessTokenRefresher(
+    credential,
+    scopes,
+    timeBetweenRefreshAttemptsInMs
+  );
   const challengeCache = new AuthenticationChallengeCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ChallengeBasedAuthenticationPolicy(
         nextPolicy,
         options,
-        credential,
         tokenCache,
         challengeCache
       );
@@ -118,27 +131,20 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
  * as a Bearer token.
  *
  */
-export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
-  private parseWWWAuthenticate: (
-    wwwAuthenticate: string
-  ) => ParsedWWWAuthenticate = parseWWWAuthenticate;
+export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
+  private originalBody: string | undefined;
 
-  /**
-   * Creates a new ChallengeBasedAuthenticationPolicy object.
-   *
-   * @param nextPolicy - The next RequestPolicy in the request pipeline.
-   * @param options - Options for this RequestPolicy.
-   * @param credential - The TokenCredential implementation that can supply the bearer token.
-   * @param tokenCache - The cache for the most recent AccessToken returned by the TokenCredential.
-   */
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    private credential: TokenCredential,
-    private tokenCache: AccessTokenCache,
-    private challengeCache: AuthenticationChallengeCache
-  ) {
-    super(nextPolicy, options);
+  // For Key Vault, we try a first request without a body to trigger the challenge based authentication flow.
+  async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
+    console.log("onBeforeRequest headers:\n", webResource.headers.headerNames().map(x => `x=${webResource.headers.get(x)}`).join("\n"));
+    if (!this.tokenCache.getCachedToken()) {
+      this.originalBody = webResource.body;
+      webResource.body = "";
+    }
+  }
+
+  // For Key Vault, we have to both set the challenge as well as the body from the original request.
+  async onChallenge(webResource: WebResourceLike, challenge: string): Promise<boolean> {
   }
 
   /**

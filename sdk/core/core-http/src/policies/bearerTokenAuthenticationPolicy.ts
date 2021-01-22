@@ -122,6 +122,29 @@ export function bearerTokenAuthenticationPolicy(
   };
 }
 
+namespace CAEProperties {
+  export type InsufficientClaims = "authorization_uri" | "client_id" | "error" | "claims" | "realm";
+  export type SessionRevoked = "authorization_uri" | "error" | "error_description" | "claims";
+}
+
+type CAEPropertiesAny = CAEProperties.InsufficientClaims | CAEProperties.SessionRevoked;
+
+type CAEChallenge = Record<CAEPropertiesAny, string>;
+
+// Parses multiple challenges into an array of objects.
+function parseCAEChallenges(header: string): CAEChallenge[] {
+  if (!header) return [{} as CAEChallenge];
+  return header.split("Bearer ").map(challenge =>
+    challenge.split(",").reduce((accumulator, property) => {
+      const separatorPosition = property.indexOf("=");
+      const key = property.slice(0, separatorPosition);
+      const value = property.slice(separatorPosition + 1);
+      accumulator[key as CAEPropertiesAny] = value;
+      return accumulator;
+    }, {} as CAEChallenge)
+  );
+}
+
 /**
  *
  * Provides a RequestPolicy that can request a token from a TokenCredential
@@ -142,11 +165,27 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private tokenCache: AccessTokenCache,
-    private challengeCache: AuthenticationChallengeCache,
-    private tokenRefresher: AccessTokenRefresher
+    protected tokenCache: AccessTokenCache,
+    protected challengeCache: AuthenticationChallengeCache,
+    protected tokenRefresher: AccessTokenRefresher
   ) {
     super(nextPolicy, options);
+  }
+
+  /**
+   * Allows configuration on the request before its sent.
+   */
+  async onBeforeRequest?(_webResource: WebResourceLike): Promise<void> {
+  }
+
+  /**
+   * Allows configuring the next request based on the challenge.
+   */
+  async onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean> {
+    const [challenge] = parseCAEChallenges(challenges);
+    if (!challenge.claims) {
+
+    }
   }
 
   /**
@@ -154,17 +193,21 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    */
   protected async handleChallenge(webResource: WebResourceLike, response: HttpOperationResponse): Promise<HttpOperationResponse> {
     const headerValue = response.headers.get("WWW-Authenticate");
+    console.log("HANDLE CHALLENGE", response.status);
     if (response.status !== 401 || !headerValue) return response;
 
     const challengeMatches = parseWWWAuthenticate(headerValue);
     const authorization = challengeMatches.authorization!;
     const resource = challengeMatches.resource! || challengeMatches.scope!;
 
+    console.log("HANDLE CHALLENGE authorization", authorization, "resource", resource);
     if (!(authorization && resource)) {
       return response;
     }
 
     const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
+    console.log("HANDLE CHALLENGE challenge", challenge);
+    console.log("HANDLE CHALLENGE cached challenge", this.challengeCache.challenge);
 
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
@@ -208,9 +251,12 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
         spanOptions: webResource.spanOptions
       }
     });
+    console.log("[core-http] set header Bearer", token);
     webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
 
+    console.log("[core-http] sendRequest before nextPolicy sendRequest");
     const response = await this._nextPolicy.sendRequest(webResource);
+    console.log("sendRequest nextPolicy sendRequest response status", response.status);
 
     if (response.status === 401 && response.headers.get("WWW-Authenticate")) {
       return this.handleChallenge(webResource, response);
@@ -229,7 +275,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     }
   }
 
-  private async getToken(options: GetTokenOptions): Promise<string | undefined> {
+  protected async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
       // Waiting for the next refresh only if the cache is unable to retrieve the access token,

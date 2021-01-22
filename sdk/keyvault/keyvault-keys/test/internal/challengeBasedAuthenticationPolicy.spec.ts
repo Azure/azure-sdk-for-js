@@ -71,7 +71,7 @@ describe.only("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", async function () {
+  it.only("Once authenticated, new requests should not authenticate again", async function () {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.
@@ -87,9 +87,9 @@ describe.only("Challenge based authentication tests", () => {
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
-    for (const name of keyNames) {
-      await testClient.flushKey(name);
-    }
+    // for (const name of keyNames) {
+    //   await testClient.flushKey(name);
+    // }
 
     // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);
