@@ -18,7 +18,7 @@ import { reorderLockToken } from "./util/utils";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export enum DispositionType {
   complete = "complete",
@@ -29,7 +29,7 @@ export enum DispositionType {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the delivery annotations for Service Bus.
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
@@ -57,7 +57,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the message annotations for Service Bus.
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
@@ -104,6 +104,9 @@ export interface DeadLetterOptions {
 export interface ServiceBusMessage {
   /**
    * @property The message body that needs to be sent or is received.
+   * If the application receiving the message is not using this SDK,
+   * convert your body payload to a byte array or Buffer for better
+   * cross-language compatibility.
    */
   body: any;
   /**
@@ -214,7 +217,7 @@ export interface ServiceBusMessage {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Gets the error message for when a property on given message is not of expected type
  */
 export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Error | undefined {
@@ -272,7 +275,7 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Converts given ServiceBusMessage to RheaMessage
  */
 export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
@@ -441,7 +444,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Converts given RheaMessage to ServiceBusReceivedMessage
  */
 export function fromRheaMessage(
@@ -560,7 +563,7 @@ export function fromRheaMessage(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
   return possible != null && typeof possible === "object" && "body" in possible;
@@ -570,7 +573,7 @@ export function isServiceBusMessage(possible: any): possible is ServiceBusMessag
  * Describes the message received from Service Bus.
  *
  * @internal
- * @ignore
+ * @hidden
  * @class ServiceBusMessageImpl
  * @implements {ServiceBusReceivedMessage}
  */

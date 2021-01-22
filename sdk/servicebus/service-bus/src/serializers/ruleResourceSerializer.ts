@@ -13,7 +13,7 @@ import { getString, getStringOrUndefined } from "../util/utils";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the rule object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawRule
@@ -28,7 +28,7 @@ export function buildRule(rawRule: any): RuleProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve `filter` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -62,7 +62,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve rule `action` value from given input.
  * @param value
  */
@@ -76,7 +76,7 @@ function getRuleAction(value: any): SqlRuleAction {
 /**
  * Represents the options to create a rule for a subscription.
  * @internal
- * @ignore
+ * @hidden
  */
 export interface CreateRuleOptions {
   /**
@@ -156,7 +156,7 @@ export interface SqlRuleFilter {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @interface InternalRuleOptions
  */
@@ -168,7 +168,7 @@ export interface InternalRuleOptions {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {CreateRuleOptions} rule
  */
@@ -246,7 +246,7 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
@@ -261,7 +261,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function isSqlRuleAction(action: any): action is SqlRuleAction {
   return action != null && typeof action === "object" && "sqlExpression" in action;
@@ -272,7 +272,7 @@ export function isSqlRuleAction(action: any): action is SqlRuleAction {
  * the request would fail otherwise.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 enum TypeMapForRequestSerialization {
   double = "l28:double",
@@ -284,7 +284,7 @@ enum TypeMapForRequestSerialization {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 enum TypeMapForResponseDeserialization {
   int = "int",
@@ -296,7 +296,7 @@ enum TypeMapForResponseDeserialization {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Internal representation of key-value pair
  */
 type RawKeyValuePair = {
@@ -306,7 +306,7 @@ type RawKeyValuePair = {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 interface InternalRawKeyValuePairs {
   KeyValueOfstringanyType: RawKeyValuePair[];
@@ -316,13 +316,13 @@ interface InternalRawKeyValuePairs {
  * Key-value pairs are supposed to be wrapped with this tag in the XML request, they are ignored otherwise.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 const keyValuePairXMLTag = "KeyValueOfstringanyType";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to retrieve the key-value pairs from the RawKeyValue object from given input,
  * or undefined if not passed in.
  * @param value
@@ -380,7 +380,7 @@ function getKeyValuePairsOrUndefined(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Helper utility to extract array of user properties key-value instances from given input,
  * or undefined if not passed in.
  * @param value

@@ -1,7 +1,19 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (Unreleased)
 
+- Adds the ability to configure the `amqpHostname` and `port` that a `ConnectionContextBase` will use when connecting to a service.
+  The `host` field refers to the DNS host or IP address of the service, whereas the `amqpHostname`
+  is the fully qualified host name of the service. Normally `host` and `amqpHostname` will be the same.
+  However if your network does not allow connecting to the service via the public host,
+  you can specify a custom host (e.g. an application gateway) via the `host` field and continue
+  using the public host as the `amqpHostname`.
+
+## 2.0.1 (2021-01-07)
+
+- Fixes the bug reported in issue [12610](https://github.com/Azure/azure-sdk-for-js/issues/12610).
+  Previously, `retry` would still sleep one more time after all retry attempts were exhausted before returning.
+  Now, `retry` will return immediately after all retry attempts are completed as necessary.
 
 ## 2.0.0 (2020-11-12)
 

@@ -29,7 +29,7 @@ export class IntegrationRuntimeStatusOperations {
    * Get the integration runtime status
    * @summary Get integration runtime status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeStatusGetResponse>
@@ -37,14 +37,14 @@ export class IntegrationRuntimeStatusOperations {
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeStatusGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeStatusResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param options The optional parameters
    * @param callback The callback

@@ -22,10 +22,6 @@ describe("PartitionPump", () => {
       public spanOptions: SpanOptions | undefined;
       public spanName: string | undefined;
 
-      constructor() {
-        super();
-      }
-
       startSpan(nameArg: string, optionsArg?: SpanOptions): TestSpan {
         this.spanName = nameArg;
         this.spanOptions = optionsArg;
@@ -105,10 +101,12 @@ describe("PartitionPump", () => {
       const tracer = new TestTracer();
       const span = tracer.startSpan("whatever");
 
-      await trace(async () => {}, span);
+      await trace(async () => {
+        /* no-op */
+      }, span);
 
       span.status!.code.should.equal(CanonicalCode.OK);
-      span.endCalled.should.be.ok;
+      should.equal(span.endCalled, true);
     });
 
     it("trace - throws", async () => {
@@ -121,7 +119,7 @@ describe("PartitionPump", () => {
 
       span.status!.code.should.equal(CanonicalCode.UNKNOWN);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
+      should.equal(span.endCalled, true);
     });
   });
 });

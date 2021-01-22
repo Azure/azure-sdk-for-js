@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUser } from "@azure/communication-common";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { HttpResponse } from "@azure/core-http";
 import {
   SendChatMessageResult,
@@ -38,9 +38,9 @@ export {
  */
 export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
   /**
-   * The CommunicationUser that identifies this chat message sender.
+   * The CommunicationUserIdentifier that identifies this chat message sender.
    */
-  sender?: CommunicationUser;
+  sender?: CommunicationUserIdentifier;
   /**
    * Content of a chat message.
    */
@@ -59,9 +59,9 @@ export interface ChatMessageContent extends Omit<RestChatMessageContent, "partic
  */
 export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
   /**
-   * The CommunicationUser that identifies this chat thread owner.
+   * The CommunicationUserIdentifier that identifies this chat thread owner.
    */
-  readonly createdBy?: CommunicationUser;
+  readonly createdBy?: CommunicationUserIdentifier;
 }
 
 /**
@@ -69,9 +69,9 @@ export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
  */
 export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
   /**
-   * The CommunicationUser that identifies this chat participant.
+   * The CommunicationUserIdentifier that identifies this chat participant.
    */
-  user: CommunicationUser;
+  user: CommunicationUserIdentifier;
 }
 
 /**
@@ -79,9 +79,9 @@ export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
  */
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
   /**
-   * The CommunicationUser that identifies this Read receipt sender.
+   * The CommunicationUserIdentifier that identifies this Read receipt sender.
    */
-  readonly sender?: CommunicationUser;
+  readonly sender?: CommunicationUserIdentifier;
 }
 
 /**

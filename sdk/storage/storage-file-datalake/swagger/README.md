@@ -132,3 +132,12 @@ directive:
     transform: >
       $.properties.Code = { "type": "string" };
 ```
+
+### Update service version from "2020-02-10" to "2020-04-08"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-04-08" ];
+```

@@ -7,8 +7,8 @@
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
-import { CommunicationUser } from '@azure/communication-common';
-import { CommunicationUserCredential } from '@azure/communication-common';
+import { CommunicationTokenCredential } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
@@ -40,7 +40,7 @@ export type AddParticipantsOptions = OperationOptions;
 
 // @public
 export class ChatClient {
-    constructor(url: string, credential: CommunicationUserCredential, options?: ChatClientOptions);
+    constructor(url: string, credential: CommunicationTokenCredential, options?: ChatClientOptions);
     createChatThread(request: CreateChatThreadRequest, options?: CreateChatThreadOptions): Promise<CreateChatThreadResponse>;
     deleteChatThread(threadId: string, options?: DeleteChatThreadOptions): Promise<OperationResponse>;
     getChatThread(threadId: string, options?: GetChatThreadOptions): Promise<GetChatThreadResponse>;
@@ -67,7 +67,7 @@ export interface ChatClientOptions extends PipelineOptions {
 // @public
 export interface ChatMessage extends Omit<RestChatMessage, "senderId" | "content"> {
     content?: ChatMessageContent;
-    sender?: CommunicationUser;
+    sender?: CommunicationUserIdentifier;
 }
 
 // @public (undocumented)
@@ -80,7 +80,7 @@ export type ChatMessagePriority = string;
 
 // @public
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
-    readonly sender?: CommunicationUser;
+    readonly sender?: CommunicationUserIdentifier;
 }
 
 // @public
@@ -88,17 +88,17 @@ export type ChatMessageType = string;
 
 // @public
 export interface ChatParticipant extends Omit<RestChatParticipant, "id"> {
-    user: CommunicationUser;
+    user: CommunicationUserIdentifier;
 }
 
 // @public
 export interface ChatThread extends Omit<RestChatThread, "createdBy"> {
-    readonly createdBy?: CommunicationUser;
+    readonly createdBy?: CommunicationUserIdentifier;
 }
 
 // @public
 export class ChatThreadClient {
-    constructor(threadId: string, url: string, credential: CommunicationUserCredential, options?: ChatThreadClientOptions);
+    constructor(threadId: string, url: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addParticipants(request: AddChatParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<OperationResponse>;
     dispose(): void;
@@ -106,7 +106,7 @@ export class ChatThreadClient {
     listMessages(options?: ListMessagesOptions): PagedAsyncIterableIterator<ChatMessage>;
     listParticipants(options?: ListParticipantsOptions): PagedAsyncIterableIterator<ChatParticipant>;
     listReadReceipts(options?: ListReadReceiptsOptions): PagedAsyncIterableIterator<ChatMessageReadReceipt>;
-    removeParticipant(participant: CommunicationUser, options?: RemoveParticipantOptions): Promise<OperationResponse>;
+    removeParticipant(participant: CommunicationUserIdentifier, options?: RemoveParticipantOptions): Promise<OperationResponse>;
     sendMessage(request: SendMessageRequest, options?: SendMessageOptions): Promise<SendChatMessageResponse>;
     sendReadReceipt(request: SendReadReceiptRequest, options?: SendReadReceiptOptions): Promise<OperationResponse>;
     sendTypingNotification(options?: SendTypingNotificationOptions): Promise<boolean>;

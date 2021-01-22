@@ -1,6 +1,11 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
+
+
+## 1.0.0-beta.4 (2021-01-12)
+
+- Fix issue that prevented support for Azure Storage Emulator and Azurite [#13165](https://github.com/Azure/azure-sdk-for-js/pull/13165)
 
 ### Breaking Changes
 

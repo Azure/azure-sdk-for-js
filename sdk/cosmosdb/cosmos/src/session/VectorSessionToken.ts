@@ -36,11 +36,7 @@ export class VectorSessionToken {
     }
   }
 
-  public static create(sessionToken: string): VectorSessionToken {
-    if (!sessionToken) {
-      return null;
-    }
-
+  public static create(sessionToken: string): VectorSessionToken | null {
     const [versionStr, globalLsnStr, ...regionSegments] = sessionToken.split(
       VectorSessionToken.SEGMENT_SEPARATOR
     );
@@ -150,7 +146,7 @@ export class VectorSessionToken {
 }
 
 /**
- * @ignore
+ * @hidden
  * @param int1
  * @param int2
  */

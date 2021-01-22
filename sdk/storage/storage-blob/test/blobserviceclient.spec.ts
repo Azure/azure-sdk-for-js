@@ -404,6 +404,7 @@ describe("BlobServiceClient", () => {
     const accountInfo = await blobServiceClient.getAccountInfo();
     assert.ok(accountInfo.accountKind);
     assert.ok(accountInfo.skuName);
+    assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
   it("createContainer and deleteContainer", async () => {
@@ -504,12 +505,17 @@ describe("BlobServiceClient", () => {
     // Wait for indexing tags
     await sleep(2);
 
+    const expectedTags1: Tags = {};
+    expectedTags1[key1] = tags1[key1];
     for await (const blob of blobServiceClient.findBlobsByTags(`${key1}='${tags1[key1]}'`)) {
       assert.deepStrictEqual(blob.containerName, containerName);
       assert.deepStrictEqual(blob.name, blobName1);
+      assert.deepStrictEqual(blob.tags, expectedTags1);
       assert.deepStrictEqual(blob.tagValue, tags1[key1]);
     }
 
+    const expectedTags2: Tags = {};
+    expectedTags2[key1] = tags2[key1];
     const blobs = [];
     for await (const blob of blobServiceClient.findBlobsByTags(`${key1}='${tags2[key1]}'`)) {
       blobs.push(blob);
@@ -517,6 +523,7 @@ describe("BlobServiceClient", () => {
     assert.deepStrictEqual(blobs.length, 1);
     assert.deepStrictEqual(blobs[0].containerName, containerName);
     assert.deepStrictEqual(blobs[0].name, blobName2);
+    assert.deepStrictEqual(blobs[0].tags, expectedTags2);
     assert.deepStrictEqual(blobs[0].tagValue, tags2[key1]);
 
     const blobsWithTag2 = [];
@@ -529,6 +536,15 @@ describe("BlobServiceClient", () => {
       }
     }
     assert.deepStrictEqual(blobsWithTag2.length, 3);
+
+    for await (const blob of blobServiceClient.findBlobsByTags(
+      `@container='${containerName}' AND ${key1}='${tags1[key1]}' AND ${key2}='default'`
+    )) {
+      assert.deepStrictEqual(blob.containerName, containerName);
+      assert.deepStrictEqual(blob.name, blobName1);
+      assert.deepStrictEqual(blob.tags, tags1);
+      assert.deepStrictEqual(blob.tagValue, "");
+    }
 
     await containerClient.delete();
   });

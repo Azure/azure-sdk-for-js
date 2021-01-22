@@ -52,7 +52,7 @@ import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface SendManagementRequestOptions extends SendRequestOptions {
   /**
@@ -131,7 +131,7 @@ export interface CorrelationRuleFilter {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 const correlationProperties = [
   "correlationId",
@@ -147,7 +147,7 @@ const correlationProperties = [
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options to set when updating the disposition status
  */
 export interface DispositionStatusOptions extends OperationOptionsBase {
@@ -174,7 +174,7 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Options passed to the constructor of ManagementClient
  */
 export interface ManagementClientOptions {
@@ -184,7 +184,7 @@ export interface ManagementClientOptions {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * @class ManagementClient
  * Describes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.

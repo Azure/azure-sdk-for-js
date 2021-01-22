@@ -159,10 +159,12 @@ export enum ConditionErrorNameMapper {
 
 // @public
 export interface ConnectionConfig {
+    amqpHostname?: string;
     connectionString: string;
     endpoint: string;
     entityPath?: string;
     host: string;
+    port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
     webSocket?: WebSocketImpl;
@@ -336,7 +338,7 @@ export interface CreateConnectionContextBaseParameters {
 export const defaultLock: AsyncLock;
 
 // @public
-export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T>;
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export enum ErrorNameConditionMapper {

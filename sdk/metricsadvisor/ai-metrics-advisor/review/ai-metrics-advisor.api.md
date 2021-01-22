@@ -478,7 +478,7 @@ export type GetIngestionProgressResponse = {
 };
 
 // @public
-export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
+export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
 
 // @public
 export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
@@ -489,7 +489,7 @@ export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnriche
 }
 
 // @public
-export type GetMetricSeriesDataOptions = {} & OperationOptions;
+export type GetMetricSeriesDataOptions = OperationOptions;
 
 // @public
 export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {

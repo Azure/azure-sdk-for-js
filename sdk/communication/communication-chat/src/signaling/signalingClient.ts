@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { SignalingClient } from "@azure/communication-signaling";
-import { CommunicationUserCredential } from "@azure/communication-common";
+import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
 
 export const getSignalingClient = (
-  _credential: CommunicationUserCredential,
+  _credential: CommunicationTokenCredential,
   _logger: AzureLogger
 ): SignalingClient | undefined => {
   return undefined;

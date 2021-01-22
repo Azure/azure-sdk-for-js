@@ -9,7 +9,7 @@ import { receiverLogger as logger } from "../log";
  * like credits, draining, etc...
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export class ReceiverHelper {
   private _isSuspended: boolean = false;

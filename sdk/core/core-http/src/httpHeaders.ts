@@ -35,14 +35,14 @@ export interface HttpHeadersLike {
   /**
    * Set a header in this collection with the provided name and value. The name is
    * case-insensitive.
-   * @param headerName The name of the header to set. This value is case-insensitive.
-   * @param headerValue The value of the header to set.
+   * @param headerName - The name of the header to set. This value is case-insensitive.
+   * @param headerValue - The value of the header to set.
    */
   set(headerName: string, headerValue: string | number): void;
   /**
    * Get the header value for the provided header name, or undefined if no header exists in this
    * collection with the provided name.
-   * @param headerName The name of the header.
+   * @param headerName - The name of the header.
    */
   get(headerName: string): string | undefined;
   /**
@@ -52,7 +52,7 @@ export interface HttpHeadersLike {
   /**
    * Remove the header with the provided headerName. Return whether or not the header existed and
    * was removed.
-   * @param headerName The name of the header to remove.
+   * @param headerName - The name of the header to remove.
    */
   remove(headerName: string): boolean;
   /**
@@ -82,25 +82,36 @@ export interface HttpHeadersLike {
   toJson(): RawHttpHeaders;
 }
 
-export function isHttpHeadersLike(object?: any): object is HttpHeadersLike {
-  if (!object || typeof object !== "object") {
-    return false;
+export function isHttpHeadersLike(object?: unknown): object is HttpHeadersLike {
+  if (object && typeof object === "object") {
+    const castObject = object as {
+      rawHeaders: unknown;
+      clone: unknown;
+      get: unknown;
+      set: unknown;
+      contains: unknown;
+      remove: unknown;
+      headersArray: unknown;
+      headerValues: unknown;
+      headerNames: unknown;
+      toJson: unknown;
+    };
+    if (
+      typeof castObject.rawHeaders === "function" &&
+      typeof castObject.clone === "function" &&
+      typeof castObject.get === "function" &&
+      typeof castObject.set === "function" &&
+      typeof castObject.contains === "function" &&
+      typeof castObject.remove === "function" &&
+      typeof castObject.headersArray === "function" &&
+      typeof castObject.headerValues === "function" &&
+      typeof castObject.headerNames === "function" &&
+      typeof castObject.toJson === "function"
+    ) {
+      return true;
+    }
   }
 
-  if (
-    typeof object.rawHeaders === "function" &&
-    typeof object.clone === "function" &&
-    typeof object.get === "function" &&
-    typeof object.set === "function" &&
-    typeof object.contains === "function" &&
-    typeof object.remove === "function" &&
-    typeof object.headersArray === "function" &&
-    typeof object.headerValues === "function" &&
-    typeof object.headerNames === "function" &&
-    typeof object.toJson === "function"
-  ) {
-    return true;
-  }
   return false;
 }
 
@@ -122,8 +133,8 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Set a header in this collection with the provided name and value. The name is
    * case-insensitive.
-   * @param headerName The name of the header to set. This value is case-insensitive.
-   * @param headerValue The value of the header to set.
+   * @param headerName - The name of the header to set. This value is case-insensitive.
+   * @param headerValue - The value of the header to set.
    */
   public set(headerName: string, headerValue: string | number): void {
     this._headersMap[getHeaderKey(headerName)] = {
@@ -135,7 +146,7 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Get the header value for the provided header name, or undefined if no header exists in this
    * collection with the provided name.
-   * @param headerName The name of the header.
+   * @param headerName - The name of the header.
    */
   public get(headerName: string): string | undefined {
     const header: HttpHeader = this._headersMap[getHeaderKey(headerName)];
@@ -152,7 +163,7 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Remove the header with the provided headerName. Return whether or not the header existed and
    * was removed.
-   * @param headerName The name of the header to remove.
+   * @param headerName - The name of the header to remove.
    */
   public remove(headerName: string): boolean {
     const result: boolean = this.contains(headerName);

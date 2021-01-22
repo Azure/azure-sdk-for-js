@@ -12,7 +12,7 @@ import { LocalAssertion, LocalSupportedAlgorithmsRecord } from "./models";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * The list of known assertions so far.
  * Assertions verify that the requirements to execute a local cryptography operation are met.
  */
@@ -34,7 +34,7 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
 
 /**
  * Checks whether a given algorithm name is supported or not.
- * @param algorithm string name of the algorithm
+ * @param algorithm - Name of the algorithm
  */
 export function isLocallySupported(_algorithm: string): boolean {
   return false;

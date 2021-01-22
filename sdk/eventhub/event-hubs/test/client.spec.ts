@@ -22,6 +22,15 @@ import { ConnectionContext } from "../src/connectionContext";
 import { getRuntimeInfo } from "../src/util/runtimeInfo";
 const env = getEnvVars();
 
+const testFailureMessage = "Test failure";
+function validateConnectionError<E extends Error & { code?: string }>(err: E): void {
+  should.exist(err.code, "Missing code on error object.");
+  if (!isNode) {
+    should.equal(err.code, "ServiceCommunicationError");
+  }
+  should.not.equal(err.message, testFailureMessage);
+}
+
 describe("Create EventHubConsumerClient", function(): void {
   it("throws when no EntityPath in connection string", function(): void {
     const connectionString = "Endpoint=sb://abc";
@@ -89,6 +98,40 @@ describe("Create EventHubConsumerClient", function(): void {
     should.equal(client.eventHubName, "my-event-hub-name");
     should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
   });
+
+  it("respects customEndpointAddress when using connection string", () => {
+    const client = new EventHubConsumerClient(
+      "dummy",
+      "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubConsumerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
+
+  it("respects customEndpointAddress when using credentials", () => {
+    const dummyCredential: TokenCredential = {
+      getToken: async () => {
+        return {
+          token: "boo",
+          expiresOnTimestamp: 12324
+        };
+      }
+    };
+    const client = new EventHubConsumerClient(
+      "dummy",
+      "test.servicebus.windows.net",
+      "my-event-hub-name",
+      dummyCredential,
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubConsumerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
 });
 
 describe("Create EventHubProducerClient", function(): void {
@@ -155,11 +198,42 @@ describe("Create EventHubProducerClient", function(): void {
     should.equal(client.eventHubName, "my-event-hub-name");
     should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
   });
+
+  it("respects customEndpointAddress when using connection string", () => {
+    const client = new EventHubProducerClient(
+      "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubProducerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
+
+  it("respects customEndpointAddress when using credentials", () => {
+    const dummyCredential: TokenCredential = {
+      getToken: async () => {
+        return {
+          token: "boo",
+          expiresOnTimestamp: 12324
+        };
+      }
+    };
+    const client = new EventHubProducerClient(
+      "test.servicebus.windows.net",
+      "my-event-hub-name",
+      dummyCredential,
+      { customEndpointAddress: "sb://foo.private.bar:111" }
+    );
+    client.should.be.an.instanceof(EventHubProducerClient);
+    client["_context"].config.host.should.equal("foo.private.bar");
+    client["_context"].config.amqpHostname!.should.equal("test.servicebus.windows.net");
+    client["_context"].config.port!.should.equal(111);
+  });
 });
 
 describe("EventHubConsumerClient with non existent namespace", function(): void {
   let client: EventHubConsumerClient;
-  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
     client = new EventHubConsumerClient(
       "$Default",
@@ -176,10 +250,10 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
@@ -188,20 +262,20 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
   it("should throw ServiceCommunicationError for getPartitionIds", async function(): Promise<void> {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
@@ -209,7 +283,9 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
     let subscription: Subscription | undefined;
     const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
       subscription = client.subscribe({
-        processEvents: async () => {},
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err) => {
           resolve(err);
         }
@@ -219,14 +295,13 @@ describe("EventHubConsumerClient with non existent namespace", function(): void 
       await subscription.close();
     }
     debug(caughtErr);
-    should.equal(caughtErr instanceof MessagingError && caughtErr.code, expectedErrCode);
+    validateConnectionError(caughtErr);
     await client.close();
   });
 });
 
 describe("EventHubProducerClient with non existent namespace", function(): void {
   let client: EventHubProducerClient;
-  const expectedErrCode = isNode ? "ENOTFOUND" : "ServiceCommunicationError";
   beforeEach(() => {
     client = new EventHubProducerClient(
       "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
@@ -242,10 +317,10 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
@@ -254,30 +329,30 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
   it("should throw ServiceCommunicationError for getPartitionIds", async function(): Promise<void> {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
   it("should throw ServiceCommunicationError while sending", async function(): Promise<void> {
     try {
       await client.sendBatch([{ body: "Hello World" }]);
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 
@@ -286,10 +361,10 @@ describe("EventHubProducerClient with non existent namespace", function(): void 
   > {
     try {
       await client.createBatch();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
-      should.equal(err.code, expectedErrCode);
+      validateConnectionError(err);
     }
   });
 });
@@ -316,7 +391,7 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -328,7 +403,7 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -340,7 +415,7 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -353,7 +428,9 @@ describe("EventHubConsumerClient with non existent event hub", function(): void 
     let subscription: Subscription | undefined;
     const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
       subscription = client.subscribe({
-        processEvents: async () => {},
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err) => {
           resolve(err);
         }
@@ -389,7 +466,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -401,7 +478,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -413,7 +490,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -423,7 +500,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   it("should throw MessagingEntityNotFoundError while sending", async function(): Promise<void> {
     try {
       await client.sendBatch([{ body: "Hello World" }]);
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -435,7 +512,7 @@ describe("EventHubProducerClient with non existent event hub", function(): void 
   > {
     try {
       await client.createBatch();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.code, expectedErrCode);
@@ -513,7 +590,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
   });
 });
 
-function testUserAgentString(context: ConnectionContext, customValue?: string) {
+function testUserAgentString(context: ConnectionContext, customValue?: string): void {
   const packageVersion = packageJsonInfo.version;
   const properties = context.connection.options.properties;
   properties!["user-agent"].should.startWith(
@@ -564,7 +641,7 @@ describe("EventHubConsumerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -577,7 +654,7 @@ describe("EventHubConsumerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -588,7 +665,7 @@ describe("EventHubConsumerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -600,7 +677,9 @@ describe("EventHubConsumerClient after close()", function(): void {
     let subscription: Subscription | undefined;
     const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
       subscription = client.subscribe({
-        processEvents: async () => {},
+        processEvents: async () => {
+          /* no-op */
+        },
         processError: async (err) => {
           resolve(err);
         }
@@ -645,7 +724,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getEventHubProperties();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -658,7 +737,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionProperties("0");
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -669,7 +748,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.getPartitionIds();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -680,7 +759,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.sendBatch([{ body: "Hello World" }]);
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
@@ -693,7 +772,7 @@ describe("EventHubProducerClient after close()", function(): void {
     await beforeEachTest();
     try {
       await client.createBatch();
-      throw new Error("Test failure");
+      throw new Error(testFailureMessage);
     } catch (err) {
       debug(err);
       should.equal(err.message, expectedErrorMsg);
