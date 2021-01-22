@@ -65,6 +65,12 @@ export class PerfStressProgram {
     return parallels.reduce((sum, i) => sum + i.completedOperations, 0);
   }
 
+  private getOperationsPerSecond(parallels: PerfStressParallel[]): number {
+    return parallels.reduce((sum, parallel) => {
+      return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
+    }, 0);
+  }
+
   /**
    * Does some calculations based on the parallel executions provided,
    * then logs them in a friendly way.
@@ -87,9 +93,7 @@ export class PerfStressProgram {
    */
   private logResults(parallels: PerfStressParallel[]): void {
     const totalOperations = this.getCompletedOperations(parallels);
-    const operationsPerSecond = parallels.reduce((sum, parallel) => {
-      return sum + parallel.completedOperations / (parallel.lastMillisecondsElapsed / 1000);
-    }, 0);
+    const operationsPerSecond = this.getOperationsPerSecond(parallels);
     const secondsPerOperation = 1 / operationsPerSecond;
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
@@ -208,13 +212,15 @@ export class PerfStressProgram {
       `\n=== ${title} mode, iteration ${iterationIndex}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Since Last Log\t\tTotal`);
-    let lastInIteration = 0;
+    console.log(`Current\t\tTotal\t\tAverage`);
+    let lastCompleted = 0;
     const logInterval = setInterval(() => {
-      const inTotal = this.getCompletedOperations(parallels);
-      const sinceLastLog = inTotal - lastInIteration;
-      console.log(sinceLastLog + "\t\t\t" + inTotal);
-      lastInIteration = inTotal;
+      const totalCompleted = this.getCompletedOperations(parallels);
+      const currentCompleted = totalCompleted - lastCompleted;
+      const averageCompleted = this.getOperationsPerSecond(parallels);
+
+      lastCompleted = totalCompleted;
+      console.log(`${totalCompleted}\t\t${currentCompleted}\t\t${averageCompleted.toFixed(2)}`);
     }, millisecondsToLog);
 
     const isAsync = !this.parsedDefaultOptions.sync.value;
