@@ -39,7 +39,7 @@ Phone numbers can be assigned to a callback URL via the update number API. As pa
 
 ## Authentication
 
-To create a client object to access the Communication Services API, you will need a `connection string` or the `endpoint` of your Communication Services resource and a `credential`. The Phone Numbers client can use either Azure Active Directory credentials or an API key credential to authenticate. 
+To create a client object to access the Communication Services API, you will need a `connection string` or the `endpoint` of your Communication Services resource and a `credential`. The Phone Numbers client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
 You can get a key and/or connection string from your Communication Services resource in the [Azure Portal][azure_portal]. You can also find the endpoint for your Communication Services resource in the [Azure Portal][azure_portal].
 
@@ -66,7 +66,7 @@ const connectionString = `endpoint=HOST;accessKey=KEY`;
 const client = new PhoneNumbersClient(connectionString);
 ```
 
-### Using an Azure Active Directory Credential 
+### Using an Azure Active Directory Credential
 
 Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the [`@azure/identity`][azure_identity] package:
 

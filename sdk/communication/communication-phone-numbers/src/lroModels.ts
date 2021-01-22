@@ -8,10 +8,18 @@ export interface PhoneNumberPollerOptionsBase {
   resumeFrom?: string;
 }
 
-export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {}
+export interface BeginSearchAvailablePhoneNumbersOptions
+  extends PhoneNumberPollerOptionsBase,
+    OperationOptions {}
 
-export interface BeginReleasePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {}
+export interface BeginReleasePhoneNumberOptions
+  extends PhoneNumberPollerOptionsBase,
+    OperationOptions {}
 
-export interface BeginPurchasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {}
+export interface BeginPurchasePhoneNumbersOptions
+  extends PhoneNumberPollerOptionsBase,
+    OperationOptions {}
 
-export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {}
+export interface BeginUpdatePhoneNumberOptions
+  extends PhoneNumberPollerOptionsBase,
+    OperationOptions {}

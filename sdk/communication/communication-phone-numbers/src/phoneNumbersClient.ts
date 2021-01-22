@@ -38,7 +38,12 @@ import {
   UpdatePhoneNumberResponse,
   VoidResponse
 } from "./models";
-import { BeginPurchasePhoneNumbersOptions, BeginReleasePhoneNumberOptions, BeginSearchAvailablePhoneNumbersOptions, BeginUpdatePhoneNumberOptions } from "./lroModels";
+import {
+  BeginPurchasePhoneNumbersOptions,
+  BeginReleasePhoneNumberOptions,
+  BeginSearchAvailablePhoneNumbersOptions,
+  BeginUpdatePhoneNumberOptions
+} from "./lroModels";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -370,6 +375,4 @@ export class PhoneNumbersClient {
   }
 }
 
-export {
-  
-} from "./generated/src/models";
+export {} from "./generated/src/models";

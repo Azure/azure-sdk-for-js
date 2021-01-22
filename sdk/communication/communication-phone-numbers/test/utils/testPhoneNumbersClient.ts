@@ -8,10 +8,7 @@ import {
   ListPhoneNumbersOptions,
   PhoneNumbersClient
 } from "../../src";
-import {
-  getPhoneNumberHttpClient,
-  listPhoneNumbersHttpClient,
-} from "./mockHttpClients";
+import { getPhoneNumberHttpClient, listPhoneNumbersHttpClient } from "./mockHttpClients";
 
 export class TestPhoneNumbersClient {
   private connectionString: string = "endpoint=https://contoso.spool.azure.local;accesskey=banana";

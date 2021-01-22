@@ -11,10 +11,10 @@ urlFragment: communication-phone-numbers-javascript
 
 These sample programs show how to use the JavaScript client library for Azure Communication Service Phone Numbers.
 
-| **File Name**                                 | **Description**                                                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
-| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers                                          |
+| **File Name**                                 | **Description**                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------- |
+| [purchasePhoneNumber.js][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number |
+| [releasePhoneNumbers.js][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers   |
 
 ## Prerequisites
 

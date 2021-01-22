@@ -16,7 +16,7 @@ describe("PhoneNumbersClient Constructor", () => {
 
   it("throws with invalid connection string", () => {
     assert.throws(() => {
-      new PhoneNumbersClient(`endpoints=${endpoint};accesskey=${accessKey}`)
+      new PhoneNumbersClient(`endpoints=${endpoint};accesskey=${accessKey}`);
     });
   });
 
