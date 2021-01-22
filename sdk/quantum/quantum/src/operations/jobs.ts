@@ -35,9 +35,7 @@ export class Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  public list(
-    options?: coreHttp.OperationOptions
-  ): PagedAsyncIterableIterator<JobDetails> {
+  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<JobDetails> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -77,16 +75,13 @@ export class Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  private _list(
-    options?: coreHttp.OperationOptions
-  ): Promise<JobsListResponse> {
+  private _list(options?: coreHttp.OperationOptions): Promise<JobsListResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<JobsListResponse>;
+    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
+      JobsListResponse
+    >;
   }
 
   /**
@@ -94,18 +89,14 @@ export class Jobs {
    * @param jobId Id of the job.
    * @param options The options parameters.
    */
-  get(
-    jobId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<JobsGetResponse> {
+  get(jobId: string, options?: coreHttp.OperationOptions): Promise<JobsGetResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getOperationSpec
-    ) as Promise<JobsGetResponse>;
+    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
+      JobsGetResponse
+    >;
   }
 
   /**
@@ -124,10 +115,9 @@ export class Jobs {
       job,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createOperationSpec
-    ) as Promise<JobsCreateResponse>;
+    return this.client.sendOperationRequest(operationArguments, createOperationSpec) as Promise<
+      JobsCreateResponse
+    >;
   }
 
   /**
@@ -135,18 +125,14 @@ export class Jobs {
    * @param jobId Id of the job.
    * @param options The options parameters.
    */
-  cancel(
-    jobId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
+  cancel(jobId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      cancelOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    return this.client.sendOperationRequest(operationArguments, cancelOperationSpec) as Promise<
+      coreHttp.RestResponse
+    >;
   }
 
   /**
@@ -162,10 +148,9 @@ export class Jobs {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listNextOperationSpec
-    ) as Promise<JobsListNextResponse>;
+    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
+      JobsListNextResponse
+    >;
   }
 }
 // Operation Specifications

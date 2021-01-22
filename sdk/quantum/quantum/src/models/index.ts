@@ -384,8 +384,7 @@ export type QuotasListNextResponse = QuotaList & {
 };
 
 /** Optional parameters. */
-export interface QuantumClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface QuantumClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */
