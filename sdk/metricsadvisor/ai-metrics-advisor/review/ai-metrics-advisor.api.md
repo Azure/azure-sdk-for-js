@@ -77,7 +77,7 @@ export interface AnomalyDetectionConfiguration {
 }
 
 // @public
-export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
+export type AnomalyDetectorDirection = string;
 
 // @public
 export interface AnomalyIncident {
@@ -98,7 +98,7 @@ export type AnomalySeverity = "Low" | "Medium" | "High";
 export type AnomalyStatus = "Active" | "Resolved";
 
 // @public
-export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
+export type AnomalyValue = string;
 
 // @public
 export type AzureApplicationInsightsDataFeedSource = {
@@ -208,13 +208,13 @@ export type DataFeed = {
 } & DataFeedOptions;
 
 // @public
-export type DataFeedAccessMode = "Private" | "Public";
+export type DataFeedAccessMode = "Private" | "Public" | string;
 
 // @public
 export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
-export type DataFeedDetailStatus = "Active" | "Paused";
+export type DataFeedDetailStatus = string;
 
 // @public
 export interface DataFeedDimension {
@@ -224,10 +224,11 @@ export interface DataFeedDimension {
 
 // @public
 export type DataFeedGranularity = {
-    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute" | "PerSecond";
+    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute" | "PerSecond" | string;
+    customGranularityValue?: number;
 } | {
     granularityType: "Custom";
-    customGranularityValue: number;
+    customGranularityValue?: number;
 };
 
 // @public (undocumented)
@@ -255,9 +256,10 @@ export interface DataFeedMetric {
 
 // @public
 export type DataFeedMissingDataPointFillSettings = {
-    fillType: "SmartFilling" | "PreviousValue" | "NoFilling";
+    fillType: "SmartFilling" | "PreviousValue" | "NoFilling" | string;
+    customFillValue?: number;
 } | {
-    fillType: "CustomValue";
+    fillType: "CustomValue" | string;
     customFillValue: number;
 };
 
@@ -285,7 +287,7 @@ export type DataFeedPatch = {
 };
 
 // @public
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count" | string;
 
 // @public
 export type DataFeedRollupSettings = {
@@ -325,7 +327,7 @@ export interface DataFeedsPageResponse extends Array<DataFeed> {
 }
 
 // @public (undocumented)
-export type DataFeedStatus = "Paused" | "Active";
+export type DataFeedStatus = "Paused" | "Active" | string;
 
 // @public
 export interface DataPointAnomaly {
@@ -340,7 +342,7 @@ export interface DataPointAnomaly {
 }
 
 // @public
-export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
+export type DataSourceType = string;
 
 // @public
 export interface DetectionConditionsCommon {
@@ -351,7 +353,7 @@ export interface DetectionConditionsCommon {
 }
 
 // @public
-export type DetectionConditionsOperator = "AND" | "OR";
+export type DetectionConditionsOperator = "AND" | "OR" | string;
 
 // @public
 export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
@@ -412,10 +414,10 @@ export interface EnrichmentStatus {
 }
 
 // @public
-export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
+export type FeedbackQueryTimeMode = string;
 
 // @public
-export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
+export type FeedbackType = string;
 
 // @public
 export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
@@ -588,7 +590,123 @@ export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
 }
 
 // @public
-export type IngestionStatusType = "NotStarted" | "Scheduled" | "Running" | "Succeeded" | "Failed" | "NoData" | "Error" | "Paused";
+export type IngestionStatusType = string;
+
+// @public
+export const enum KnownAnomalyDetectorDirection {
+    // (undocumented)
+    Both = "Both",
+    // (undocumented)
+    Down = "Down",
+    // (undocumented)
+    Up = "Up"
+}
+
+// @public
+export const enum KnownAnomalyValue {
+    // (undocumented)
+    Anomaly = "Anomaly",
+    // (undocumented)
+    AutoDetect = "AutoDetect",
+    // (undocumented)
+    NotAnomaly = "NotAnomaly"
+}
+
+// @public
+export const enum KnownDataFeedDetailStatus {
+    // (undocumented)
+    Active = "Active",
+    // (undocumented)
+    Paused = "Paused"
+}
+
+// @public
+export const enum KnownDataSourceType {
+    // (undocumented)
+    AzureApplicationInsights = "AzureApplicationInsights",
+    // (undocumented)
+    AzureBlob = "AzureBlob",
+    // (undocumented)
+    AzureCosmosDB = "AzureCosmosDB",
+    // (undocumented)
+    AzureDataExplorer = "AzureDataExplorer",
+    // (undocumented)
+    AzureDataLakeStorageGen2 = "AzureDataLakeStorageGen2",
+    // (undocumented)
+    AzureTable = "AzureTable",
+    // (undocumented)
+    Elasticsearch = "Elasticsearch",
+    // (undocumented)
+    HttpRequest = "HttpRequest",
+    // (undocumented)
+    InfluxDB = "InfluxDB",
+    // (undocumented)
+    MongoDB = "MongoDB",
+    // (undocumented)
+    MySql = "MySql",
+    // (undocumented)
+    PostgreSql = "PostgreSql",
+    // (undocumented)
+    SqlServer = "SqlServer"
+}
+
+// @public
+export const enum KnownFeedbackQueryTimeMode {
+    // (undocumented)
+    FeedbackCreatedTime = "FeedbackCreatedTime",
+    // (undocumented)
+    MetricTimestamp = "MetricTimestamp"
+}
+
+// @public
+export const enum KnownFeedbackType {
+    // (undocumented)
+    Anomaly = "Anomaly",
+    // (undocumented)
+    ChangePoint = "ChangePoint",
+    // (undocumented)
+    Comment = "Comment",
+    // (undocumented)
+    Period = "Period"
+}
+
+// @public
+export const enum KnownIngestionStatusType {
+    // (undocumented)
+    Error = "Error",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    NoData = "NoData",
+    // (undocumented)
+    NotStarted = "NotStarted",
+    // (undocumented)
+    Paused = "Paused",
+    // (undocumented)
+    Running = "Running",
+    // (undocumented)
+    Scheduled = "Scheduled",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
+export const enum KnownSeverity {
+    // (undocumented)
+    High = "High",
+    // (undocumented)
+    Low = "Low",
+    // (undocumented)
+    Medium = "Medium"
+}
+
+// @public
+export const enum KnownSnoozeScope {
+    // (undocumented)
+    Metric = "Metric",
+    // (undocumented)
+    Series = "Series"
+}
 
 // @public
 export type ListAlertsOptions = {
@@ -691,7 +809,7 @@ export interface MetricAlertConfiguration {
 }
 
 // @public
-export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR" | string;
 
 // @public
 export type MetricAnomalyAlertScope = {
@@ -709,7 +827,7 @@ export type MetricAnomalyFeedback = {
     feedbackType: "Anomaly";
     startTime: Date;
     endTime: Date;
-    value: "AutoDetect" | "Anomaly" | "NotAnomaly";
+    value: "AutoDetect" | "Anomaly" | "NotAnomaly" | string;
     readonly anomalyDetectionConfigurationId?: string;
     readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
 } & MetricFeedbackCommon;
@@ -737,7 +855,7 @@ export type MetricBoundaryCondition = {
 export type MetricChangePointFeedback = {
     feedbackType: "ChangePoint";
     startTime: Date;
-    value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
+    value: "AutoDetect" | "ChangePoint" | "NotChangePoint" | string;
 } & MetricFeedbackCommon;
 
 // @public
@@ -796,7 +914,7 @@ export type MetricFeedbackUnion = MetricAnomalyFeedback | MetricChangePointFeedb
 // @public
 export type MetricPeriodFeedback = {
     feedbackType: "Period";
-    periodType: "AutoDetect" | "AssignValue";
+    periodType: "AutoDetect" | "AssignValue" | string;
     periodValue: number;
 } & MetricFeedbackCommon;
 
@@ -943,10 +1061,12 @@ export type PostgreSqlDataFeedSource = {
     dataSourceParameter: SqlSourceParameter;
 };
 
+// @public
+export type Severity = string;
+
 // @public (undocumented)
 export interface SeverityCondition {
     maxAlertSeverity: Severity;
-    // Warning: (ae-forgotten-export) The symbol "Severity" needs to be exported by the entry point index.d.ts
     minAlertSeverity: Severity;
 }
 
@@ -965,7 +1085,7 @@ export interface SmartDetectionCondition {
 }
 
 // @public
-export type SnoozeScope = "Metric" | "Series";
+export type SnoozeScope = string;
 
 // @public
 export type SQLServerDataFeedSource = {
