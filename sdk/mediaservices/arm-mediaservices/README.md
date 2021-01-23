@@ -24,25 +24,83 @@ npm install @azure/arm-mediaservices
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
+##### Create a .env file to use with the sample code
+
+- Create a .env file in your project root to use with the "dotenv" module in the sample code block. 
+- Values for this file can be obtained in the Azure Media Services API Access page in the portal. 
+
+```
+# copy the content of this file to a file named ".env". It should be stored at the root of the repo.
+# The values can be obtained from the API Access page for your Media Services account in the portal.
+AZURE_CLIENT_ID=""
+AZURE_CLIENT_SECRET= ""
+AZURE_TENANT_ID= ""
+
+# Change this to match your AAD Tenant domain name. 
+AAD_TENANT_DOMAIN = "microsoft.onmicrosoft.com"
+
+# Set this to your Media Services Account name, resource group it is contained in, and location
+AZURE_MEDIA_ACCOUNT_NAME = ""
+AZURE_LOCATION= ""
+AZURE_RESOURCE_GROUP= ""
+
+# Set this to your Azure Subscription ID
+AZURE_SUBSCRIPTION_ID= ""
+
+# You must change these if you are using Gov Cloud, China, or other non standard cloud regions
+AZURE_ARM_AUDIENCE= "https://management.core.windows.net"
+AZURE_ARM_ENDPOINT="https://management.azure.com"
+```
+
 ##### Sample code
 
 ```typescript
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+//import { DefaultAzureCredential, ManagedIdentityCredential } from '@azure/identity';
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AzureMediaServices, AzureMediaServicesModels, AzureMediaServicesMappers } from "@azure/arm-mediaservices";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+import {AzureMediaServices, AzureMediaServicesModels, AzureMediaServicesMappers} from '@azure/arm-mediaservices';
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AzureMediaServices(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const accountName = "testaccountName";
-  client.accountFilters.list(resourceGroupName, accountName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+import { resourceUsage } from "process";
+dotenv.config();
+
+export async function main() {
+  // Copy the samples.env file and rename it to .env first, then populate it's values with the values obtained 
+  // from your Media Services account's API Access page in the Azure portal.
+  const clientId = process.env.AZURE_CLIENT_ID as string;
+  const secret  = process.env.AZURE_CLIENT_SECRET as string;
+  const tenantId = process.env.AZURE_TENANT_ID as string;
+  const tenantDomain = process.env.AAD_TENANT_DOMAIN as string;
+  const subscriptionId= process.env.AZURE_SUBSCRIPTION_ID as string;
+  const resourceGroup = process.env.AZURE_RESOURCE_GROUP as string;
+  const accountName = process.env.AZURE_MEDIA_ACCOUNT_NAME as string;
+
+
+  msRestNodeAuth.loginWithServicePrincipalSecret(clientId,secret,tenantDomain).then((creds) =>
+  {
+    const mediaClient = new AzureMediaServices(creds, subscriptionId);
+
+    // List Assets in Account
+    console.log("Listing Assets Names in account:")
+    mediaClient.assets.list(resourceGroup,accountName).then((assets) => {
+      assets.forEach(asset => {
+        console.log(asset.name);
+      });
+    });
+
+  }).catch((err) => {
+    console.error("Error logging in with Service Principal:", err.message);
+  });;
+
+}
+
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
 });
 ```
 
