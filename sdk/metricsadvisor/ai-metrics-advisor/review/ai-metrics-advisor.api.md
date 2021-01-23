@@ -228,7 +228,7 @@ export type DataFeedGranularity = {
     customGranularityValue?: number;
 } | {
     granularityType: "Custom";
-    customGranularityValue?: number;
+    customGranularityValue: number;
 };
 
 // @public (undocumented)
