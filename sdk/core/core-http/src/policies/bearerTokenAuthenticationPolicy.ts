@@ -16,7 +16,7 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/acces
 import { AccessTokenRefresher } from "../credentials/accessTokenRefresher";
 import { logger } from "../log";
 import { decodeString, uint8ArrayToString } from "../util/base64";
-import { CAEProperties, parseCAEChallenges } from "../CAE";
+import { CAEParsed, parseCAEChallenges } from "../CAE";
 
 /**
  * The automated token refresh will only start to happen at the
@@ -58,6 +58,16 @@ export function bearerTokenAuthenticationPolicy(
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   /**
+   * Local cache of the access token.
+   */
+  protected tokenCache: AccessTokenCache;
+
+  /**
+   * Optimization on the refreshing of tokens.
+   */
+  protected tokenRefresher: AccessTokenRefresher;
+
+  /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
    * @param nextPolicy - The next RequestPolicy in the request pipeline.
@@ -69,10 +79,12 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    protected tokenCache: AccessTokenCache,
-    protected tokenRefresher: AccessTokenRefresher
+    tokenCache: AccessTokenCache,
+    tokenRefresher: AccessTokenRefresher
   ) {
     super(nextPolicy, options);
+    this.tokenCache = tokenCache;
+    this.tokenRefresher = tokenRefresher;
   }
 
   /**
@@ -96,7 +108,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       logger.info("No challenges received. Bypassing CAE.");
       return false;
     }
-    const challenge: Record<CAEProperties.InsufficientClaims, string> = parsedChallenges[0];
+    const challenge = parsedChallenges[0] as CAEParsed.InsufficientClaims;
     const encodedClaims = challenge.claims;
     if (!encodedClaims) {
       logger.info("The CAE challenge received does not have claims. Bypassing CAE.");
@@ -161,6 +173,9 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     }
   }
 
+  /**
+   * Tries to retrieve the token from the cache, otherwise tries to refresh the token.
+   */
   protected async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {

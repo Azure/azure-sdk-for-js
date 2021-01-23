@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import { AccessTokenRefresher, CAEProperties, parseCAEChallenges, TokenCredential, WebResourceLike } from "@azure/core-http";
 import {
-  RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
+  AccessTokenRefresher,
+  CAEParsed,
+  parseCAEChallenges,
+  TokenCredential,
+  WebResourceLike
 } from "@azure/core-http";
+import { RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 import { BearerTokenAuthenticationPolicy } from "@azure/core-http";
 import { createClientLogger } from "@azure/logger";
@@ -18,7 +20,7 @@ export const logger = createClientLogger("KeyVaultChallengeBasedAuthenticationPo
  * Representation of the Authentication Challenge
  */
 export class KeyVaultAuthenticationChallenge {
-  constructor(public authorization: string, public scope: string) { }
+  constructor(public authorization: string, public scope: string) {}
 
   /**
    * Checks that this KeyVaultAuthenticationChallenge is equal to another one given.
@@ -30,7 +32,7 @@ export class KeyVaultAuthenticationChallenge {
   public equalTo(other: KeyVaultAuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
-      this.authorization.toLowerCase() === other.authorization.toLowerCase()
+          this.authorization.toLowerCase() === other.authorization.toLowerCase()
       : false;
   }
 }
@@ -56,10 +58,7 @@ export function keyVaultChallengeAuthenticationPolicy(
   credential: TokenCredential
 ): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const tokenRefresher = new AccessTokenRefresher(
-    credential,
-    "https://vault.azure.net/.default"
-  );
+  const tokenRefresher = new AccessTokenRefresher(credential, "https://vault.azure.net/.default");
   const challengeCache = new KeyVaultAuthenticationChallengeCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -76,17 +75,16 @@ export function keyVaultChallengeAuthenticationPolicy(
 
 /**
  * Provides support for Key Vault's challenge authentication.
- * 
+ *
  * This process gets triggered when the user triggers any request from any of the Key Vault clients.
  * The initial request gets overwritten by an empty one, which causes the service to begin the challenge authentication process.
  * If a challenge is indeed received, we use it to retrieve the token, then finally we send the originally intended request.
  *
  */
 export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
-
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
-   * 
+   *
    * @param nextPolicy - The next RequestPolicy in the request pipeline.
    * @param options - Options for this RequestPolicy.
    * @param tokenCache - The cache for the most recent AccessToken returned from the TokenCredential.
@@ -141,13 +139,18 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthe
       logger.info("No challenges received. Bypassing the challenge authentication policy.");
       return false;
     }
-    const parsedChallenge: Record<CAEProperties.KeyVault, string> = parsedChallenges[0];
 
-    const authorization = parsedChallenge.authorization;
-    const resource = parsedChallenge.resource || parsedChallenge.scope;
+    const resourceChallenge = parsedChallenges[0] as CAEParsed.KeyVaultResource;
+    const scopeChallenge = parsedChallenges[0] as CAEParsed.KeyVaultScope;
+
+    const authorization = resourceChallenge.authorization;
+    const resource = resourceChallenge.resource || scopeChallenge.scope;
     const scope = resource + "/.default";
+
     if (!(authorization && resource)) {
-      logger.info("The Key Vault challenge received is not valid. Bypassing the challenge authentication policy.");
+      logger.info(
+        "The Key Vault challenge received is not valid. Bypassing the challenge authentication policy."
+      );
       return false;
     }
 
@@ -157,7 +160,9 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthe
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
     if (!this.challengeCache.challenge?.equalTo(kvChallenge)) {
-      logger.info("The challenge received invalidated previous challenges. Ensuring a new token is requested.");
+      logger.info(
+        "The challenge received invalidated previous challenges. Ensuring a new token is requested."
+      );
       this.challengeCache.setCachedChallenge(kvChallenge);
       this.tokenCache.setCachedToken(undefined);
     }

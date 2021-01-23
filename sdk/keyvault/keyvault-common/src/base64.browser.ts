@@ -35,7 +35,7 @@ export function decodeString(value: string): Uint8Array {
 }
 
 /**
- * Converts a uint8Array to a string. 
+ * Converts a uint8Array to a string.
  */
 export function uint8ArrayToString(ab: Uint8Array): string {
   const decoder = new TextDecoder("utf-8");

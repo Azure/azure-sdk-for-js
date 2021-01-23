@@ -32,7 +32,7 @@ describe("Challenge based authentication tests", () => {
     subject: "cn=MyCert"
   };
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -40,13 +40,13 @@ describe("Challenge based authentication tests", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function () {
+  it("Authentication should work for parallel requests", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -84,7 +84,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", async function () {
+  it("Once authenticated, new requests should not authenticate again", async function() {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.

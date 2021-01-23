@@ -100,15 +100,12 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 // @public
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher);
-    // (undocumented)
     protected getToken(options: GetTokenOptions): Promise<string | undefined>;
     protected loadToken(webResource: WebResource, accessToken?: string): Promise<void>;
     onBeforeRequest(webResource: WebResourceLike): Promise<void>;
     onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean>;
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
-    // (undocumented)
     protected tokenCache: AccessTokenCache;
-    // (undocumented)
     protected tokenRefresher: AccessTokenRefresher;
     }
 
@@ -116,24 +113,35 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
 // @public
-export type CAEChallenge = Record<CAEPropertiesAny, string>;
+export type CAEChallengeAny = Record<CAEPropertiesAny, string>;
+
+// @public
+export type CAEChallengeEither = CAEParsed.InsufficientClaims | CAEParsed.SessionRevoked | CAEParsed.IPPolicy | CAEParsed.KeyVault | CAEParsed.ARM;
+
+// @public
+export namespace CAEParsed {
+    export type ARM = Record<CAEProperties.ARM, string>;
+    export type InsufficientClaims = Record<CAEProperties.InsufficientClaims, string>;
+    export type IPPolicy = Record<CAEProperties.IPPolicy, string>;
+    export type KeyVault = KeyVaultResource | KeyVaultScope;
+    export type KeyVaultResource = Record<CAEProperties.KeyVaultResource, string>;
+    export type KeyVaultScope = Record<CAEProperties.KeyVaultScope, string>;
+    export type SessionRevoked = Record<CAEProperties.SessionRevoked, string>;
+}
 
 // @public
 export namespace CAEProperties {
-    // (undocumented)
     export type ARM = "authorization_uri" | "error" | "error_description";
-    // (undocumented)
     export type InsufficientClaims = "authorization_uri" | "client_id" | "error" | "claims" | "realm";
-    // (undocumented)
     export type IPPolicy = "authorization_uri" | "error" | "error_description" | "claims";
+    export type KeyVaultResource = "authorization" | "resource";
     // (undocumented)
-    export type KeyVault = "authorization" | "resource" | "scope";
-    // (undocumented)
+    export type KeyVaultScope = "authorization" | "scope";
     export type SessionRevoked = "authorization_uri" | "error" | "error_description" | "claims";
 }
 
 // @public
-export type CAEPropertiesAny = CAEProperties.InsufficientClaims | CAEProperties.SessionRevoked | CAEProperties.IPPolicy | CAEProperties.KeyVault | CAEProperties.ARM;
+export type CAEPropertiesAny = CAEProperties.InsufficientClaims | CAEProperties.SessionRevoked | CAEProperties.IPPolicy | CAEProperties.KeyVaultResource | CAEProperties.KeyVaultScope | CAEProperties.ARM;
 
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
@@ -557,7 +565,7 @@ export interface ParameterValue {
 }
 
 // @public
-export function parseCAEChallenges(challenges: string): CAEChallenge[];
+export function parseCAEChallenges(challenges: string): CAEChallengeEither[];
 
 // @public
 export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
