@@ -81,6 +81,8 @@ export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle): void {
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
+ * This client will attempt to use a {@link LocalCryptographyClient} if possible
+ * and will defer to making the service call otherwise.
  */
 export class KeyVaultCryptographyClient {
   /**
@@ -288,7 +290,6 @@ export class KeyVaultCryptographyClient {
     const span = this.createSpan("unwrapKey", requestOptions);
 
     await this.checkPermissions("unwrapKey");
-    await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     // Default to the service
@@ -331,7 +332,6 @@ export class KeyVaultCryptographyClient {
     const span = this.createSpan("sign", requestOptions);
 
     await this.checkPermissions("sign");
-    await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     let result;
@@ -412,12 +412,11 @@ export class KeyVaultCryptographyClient {
     options: SignOptions = {}
   ): Promise<SignResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("unwrapKey", requestOptions);
+    const span = this.createSpan("signData", requestOptions);
 
     await this.checkPermissions("sign");
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
-    // TODO: what happens with these errors? Because you can still default to the service right?
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
     }
@@ -469,7 +468,7 @@ export class KeyVaultCryptographyClient {
   ): Promise<VerifyResult> {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = this.createSpan("decrypt", requestOptions);
+    const span = this.createSpan("verifyData", requestOptions);
 
     await this.checkPermissions("verify");
     await this.getLocalCryptographyClient();

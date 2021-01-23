@@ -49,7 +49,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
     publicExponent?: number;
 }
 
-// @public (undocumented)
+// @public
 export class CryptographyClient {
     constructor(key: JsonWebKey);
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
