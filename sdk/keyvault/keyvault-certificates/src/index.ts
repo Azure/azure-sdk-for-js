@@ -128,7 +128,7 @@ import { SDK_VERSION } from "./constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  challengeBasedAuthenticationPolicy,
+  keyVaultChallengeAuthenticationPolicy,
   createSpan,
   setParentSpan
 } from "../../keyvault-common/src";
@@ -289,7 +289,7 @@ export class CertificateClient {
     }
 
     const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
+      ? keyVaultChallengeAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
@@ -790,11 +790,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-              emailAddress: x.email,
-              phone: x.phone,
-              firstName: x.firstName,
-              lastName: x.lastName
-            }))
+            emailAddress: x.email,
+            phone: x.phone,
+            firstName: x.firstName,
+            lastName: x.lastName
+          }))
           : undefined
       };
     }
@@ -861,11 +861,11 @@ export class CertificateClient {
         id: options.organizationId,
         adminDetails: options.administratorContacts
           ? options.administratorContacts.map((x) => ({
-              emailAddress: x.email,
-              phone: x.phone,
-              firstName: x.firstName,
-              lastName: x.lastName
-            }))
+            emailAddress: x.email,
+            phone: x.phone,
+            firstName: x.firstName,
+            lastName: x.lastName
+          }))
           : undefined
       };
     }
