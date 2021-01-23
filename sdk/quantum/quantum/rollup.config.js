@@ -12,7 +12,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 
 /** @type {rollup.RollupFileOptions} */
 const config = {
-  input: "./dist-esm/quantumClient.js",
+  input: "./dist-esm/quantumJobClient.js",
   external: ["@azure/core-http"],
   output: {
     file: "./dist/quantum.js",

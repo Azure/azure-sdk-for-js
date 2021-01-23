@@ -7,12 +7,12 @@
  */
 
 import { Jobs, Providers, Storage, Quotas } from "./operations";
-import { QuantumClientContext } from "./quantumClientContext";
-import { QuantumClientOptionalParams } from "./models";
+import { QuantumJobClientContext } from "./quantumJobClientContext";
+import { QuantumJobClientOptionalParams } from "./models";
 
-export class QuantumClient extends QuantumClientContext {
+export class QuantumJobClient extends QuantumJobClientContext {
   /**
-   * Initializes a new instance of the QuantumClient class.
+   * Initializes a new instance of the QuantumJobClient class.
    * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000)
    * @param resourceGroupName Name of an Azure resource group.
@@ -23,7 +23,7 @@ export class QuantumClient extends QuantumClientContext {
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
-    options?: QuantumClientOptionalParams
+    options?: QuantumJobClientOptionalParams
   ) {
     super(subscriptionId, resourceGroupName, workspaceName, options);
     this.jobs = new Jobs(this);

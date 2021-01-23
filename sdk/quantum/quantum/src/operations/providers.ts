@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { QuantumClient } from "../quantumClient";
+import { QuantumJobClient } from "../quantumJobClient";
 import {
   ProviderStatus,
   ProvidersGetStatusResponse,
@@ -19,13 +19,13 @@ import {
 
 /** Class representing a Providers. */
 export class Providers {
-  private readonly client: QuantumClient;
+  private readonly client: QuantumJobClient;
 
   /**
    * Initialize a new instance of the class Providers class.
    * @param client Reference to the service client
    */
-  constructor(client: QuantumClient) {
+  constructor(client: QuantumJobClient) {
     this.client = client;
   }
 

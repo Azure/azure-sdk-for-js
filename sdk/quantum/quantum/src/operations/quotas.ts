@@ -10,18 +10,18 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { QuantumClient } from "../quantumClient";
+import { QuantumJobClient } from "../quantumJobClient";
 import { Quota, QuotasListResponse, QuotasListNextResponse } from "../models";
 
 /** Class representing a Quotas. */
 export class Quotas {
-  private readonly client: QuantumClient;
+  private readonly client: QuantumJobClient;
 
   /**
    * Initialize a new instance of the class Quotas class.
    * @param client Reference to the service client
    */
-  constructor(client: QuantumClient) {
+  constructor(client: QuantumJobClient) {
     this.client = client;
   }
 

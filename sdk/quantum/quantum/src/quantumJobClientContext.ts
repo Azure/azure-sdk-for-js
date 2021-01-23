@@ -7,19 +7,19 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { QuantumClientOptionalParams } from "./models";
+import { QuantumJobClientOptionalParams } from "./models";
 
-const packageName = "@azure/quantum";
+const packageName = "@azure/quantum-jobs";
 const packageVersion = "1.0.0-beta.1";
 
-export class QuantumClientContext extends coreHttp.ServiceClient {
+export class QuantumJobClientContext extends coreHttp.ServiceClient {
   $host: string;
   subscriptionId: string;
   resourceGroupName: string;
   workspaceName: string;
 
   /**
-   * Initializes a new instance of the QuantumClientContext class.
+   * Initializes a new instance of the QuantumJobClientContext class.
    * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000)
    * @param resourceGroupName Name of an Azure resource group.
@@ -30,7 +30,7 @@ export class QuantumClientContext extends coreHttp.ServiceClient {
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
-    options?: QuantumClientOptionalParams
+    options?: QuantumJobClientOptionalParams
   ) {
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
