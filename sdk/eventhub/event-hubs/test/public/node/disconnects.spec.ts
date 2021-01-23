@@ -6,7 +6,7 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
-import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../src";
+import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../../src";
 const env = getEnvVars();
 
 describe("disconnected", function() {

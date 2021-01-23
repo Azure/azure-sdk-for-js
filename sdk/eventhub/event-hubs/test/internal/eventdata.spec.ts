@@ -4,7 +4,7 @@
 import chai from "chai";
 chai.should();
 
-import { EventData, fromRheaMessage, toRheaMessage } from "../src/eventData";
+import { EventData, fromRheaMessage, toRheaMessage } from "../../src/eventData";
 import { Message } from "rhea-promise";
 
 const testAnnotations = {

@@ -18,32 +18,32 @@ import {
   latestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient
-} from "../src";
-import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
+} from "../../src";
+import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { Dictionary, generate_uuid } from "rhea-promise";
-import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
-import { Checkpoint } from "../src/partitionProcessor";
+import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
+import { Checkpoint } from "../../src/partitionProcessor";
 import { delay } from "@azure/core-amqp";
-import { PartitionContext } from "../src/eventHubConsumerClientModels";
-import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { loggerForTest } from "./utils/logHelpers";
+import { PartitionContext } from "../../src/eventHubConsumerClientModels";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
+import { loggerForTest } from "../public/utils/logHelpers";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
-} from "./utils/subscriptionHandlerForTests";
+} from "../public/utils/subscriptionHandlerForTests";
 import { AbortError, AbortSignal } from "@azure/abort-controller";
-import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
-import { isLatestPosition } from "../src/eventPosition";
+import { FakeSubscriptionEventHandlers } from "../public/utils/fakeSubscriptionEventHandlers";
+import { isLatestPosition } from "../../src/eventPosition";
 import { AbortController } from "@azure/abort-controller";
-import { UnbalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/unbalancedStrategy";
-import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
-import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
+import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
+import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
   const defaultOptions: FullEventProcessorOptions = {
     maxBatchSize: 1,
-    maxWaitTimeInSeconds: 60,
+    maxWaitTimeInSeconds: 1,
     ownerLevel: 0,
     loopIntervalInMs: 10000,
     loadBalancingStrategy: new UnbalancedLoadBalancingStrategy()
@@ -618,21 +618,28 @@ describe("Event Processor", function(): void {
     // errors that occur within the user's own event handlers will get
     // routed to their processError() handler
     eventProcessor.start();
-
+    console.log("event processor started");
     try {
       await loopUntil({
         name: "waiting for errors thrown from user's handlers",
         timeBetweenRunsMs: 1000,
         maxTimes: 30,
-        until: async () => errors.size >= partitionIds.length * 3
+        until: async () => {
+          console.log(partitionIds.length);
+          console.dir(errors);
+          return errors.size >= partitionIds.length * 3;
+        }
       });
-
+      console.log("event processor loop completed");
       const messages = [...errors].map((e) => e.message);
       messages.sort();
-
+      console.dir(messages);
+      console.dir(expectedErrorMessages);
       messages.should.deep.equal(expectedErrorMessages);
     } finally {
+      console.log("attempting to stop");
       await eventProcessor.stop();
+      console.log("stopped");
     }
   });
 
@@ -1933,7 +1940,7 @@ describe("Event Processor", function(): void {
       }
     });
   });
-}).timeout(90000);
+}).timeout(100000);
 
 function ownershipListToMap(partitionOwnership: PartitionOwnership[]): Map<string, string[]> {
   const partitionOwnershipMap: Map<string, string[]> = new Map();

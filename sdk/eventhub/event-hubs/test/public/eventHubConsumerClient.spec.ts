@@ -2,25 +2,25 @@
 // Licensed under the MIT license.
 
 import {
-  CheckpointStore,
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
   latestEventPosition,
   logger,
-  CloseReason
-} from "../src";
-import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
+  CloseReason,
+  EventHubConsumerClient,
+  EventData,
+  MessagingError,
+  ReceivedEventData,
+  earliestEventPosition
+} from "../../src";
+import debugModule from "debug";
+const debug = debugModule("azure:event-hubs:receiver-spec");
 import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
-import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
-import { SinonStubbedInstance, createStubInstance } from "sinon";
-import { ConnectionContext } from "../src/connectionContext";
-import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
-import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
+import { TestInMemoryCheckpointStore } from "./utils/testInMemoryCheckpointStore";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -30,6 +30,10 @@ describe("EventHubConsumerClient", () => {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
+
+  let producerClient: EventHubProducerClient;
+  let consumerClient: EventHubConsumerClient;
+  let partitionIds: string[];
 
   before(() => {
     should.exist(
@@ -42,442 +46,19 @@ describe("EventHubConsumerClient", () => {
     );
   });
 
-  describe("unit tests", () => {
-    it("isCheckpointStore", () => {
-      isCheckpointStore({
-        processEvents: async () => {
-          /* no-op */
-        },
-        processClose: async () => {
-          /* no-op */
-        }
-      }).should.not.equal(true);
+  beforeEach("Creating the clients", async () => {
+    producerClient = new EventHubProducerClient(service.connectionString, service.path);
+    consumerClient = new EventHubConsumerClient(
+      EventHubConsumerClient.defaultConsumerGroupName,
+      service.connectionString,
+      service.path
+    );
+    partitionIds = await producerClient.getPartitionIds({});
+  });
 
-      isCheckpointStore("hello").should.not.equal(true);
-
-      isCheckpointStore(new InMemoryCheckpointStore()).should.equal(true);
-    });
-
-    describe("subscribe() overloads route properly", () => {
-      let client: EventHubConsumerClient;
-      let clientWithCheckpointStore: EventHubConsumerClient;
-      let subscriptionHandlers: SubscriptionEventHandlers;
-      let fakeEventProcessor: SinonStubbedInstance<EventProcessor>;
-      let validateOptions: (options: FullEventProcessorOptions) => void;
-      const fakeEventProcessorConstructor = (
-        connectionContext: ConnectionContext,
-        subscriptionEventHandlers: SubscriptionEventHandlers,
-        checkpointStore: CheckpointStore,
-        options: FullEventProcessorOptions
-      ): SinonStubbedInstance<EventProcessor> => {
-        subscriptionEventHandlers.should.equal(subscriptionHandlers);
-        should.exist(connectionContext.managementSession);
-        isCheckpointStore(checkpointStore).should.equal(true);
-
-        validateOptions(options);
-
-        return fakeEventProcessor;
-      };
-
-      beforeEach(() => {
-        fakeEventProcessor = createStubInstance(EventProcessor);
-
-        client = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path
-        );
-
-        clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // it doesn't actually matter _what_ checkpoint store gets passed in
-          new InMemoryCheckpointStore()
-        );
-
-        subscriptionHandlers = {
-          processEvents: async () => {
-            /* no-op */
-          },
-          processError: async () => {
-            /* no-op */
-          }
-        };
-
-        (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-      });
-
-      it("conflicting subscribes", () => {
-        validateOptions = () => {
-          /* no-op */
-        };
-
-        client.subscribe(subscriptionHandlers);
-        // invalid - we're already subscribed to a conflicting partition
-        should.throw(
-          () => client.subscribe("0", subscriptionHandlers),
-          /Partition already has a subscriber/
-        );
-
-        clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
-        // invalid - we're already subscribed to a conflicting partition
-        should.throw(
-          () => clientWithCheckpointStore.subscribe(subscriptionHandlers),
-          /Partition already has a subscriber/
-        );
-      });
-
-      it("subscribe to single partition, no checkpoint store, no loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // when the user doesn't pass a checkpoint store we give them a really simple set of
-          // defaults:
-          //   - InMemoryCheckpointStore
-          //   - UnbalancedLoadBalancingStrategy
-          //   - loopIntervalInMs: 10000
-
-          // So we don't set an ownerlevel here - it's all in-memory and you can have as many
-          // as you want (the user still has the option to pass their own via SubscribeOptions).
-          should.not.exist(options.ownerLevel);
-
-          // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
-          // immediately so we use the UnbalancedLoadBalancingStrategy.
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "UnbalancedLoadBalancingStrategy"
-          );
-
-          options.loopIntervalInMs.should.equal(10000);
-          options.processingTarget!.should.equal("0");
-        };
-
-        const subscription = client.subscribe("0", subscriptionHandlers);
-
-        subscription.close();
-        fakeEventProcessor.stop.callCount.should.equal(1);
-      });
-
-      it("subscribe to single partition, no checkpoint store, WITH loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // When the user subscribes to a single partition, we always use the UnbalancedLoadBalancingStrategy.
-          // The loadBalancingOptions `strategy` and `partitionOwnershipExpirationIntervalInMs` fields are ignored.
-          //   - InMemoryCheckpointStore
-          //   - UnbalancedLoadBalancingStrategy
-          //   - loopIntervalInMs: 10000
-
-          // So we don't set an ownerlevel here - it's all in-memory and you can have as many
-          // as you want (the user still has the option to pass their own via SubscribeOptions).
-          should.not.exist(options.ownerLevel);
-
-          // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
-          // immediately so we use the UnbalancedLoadBalancingStrategy.
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "UnbalancedLoadBalancingStrategy"
-          );
-
-          options.loopIntervalInMs.should.equal(20);
-          options.processingTarget!.should.equal("0");
-        };
-
-        client = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          {
-            loadBalancingOptions: {
-              strategy: "greedy", // ignored
-              partitionOwnershipExpirationIntervalInMs: 100, // ignored
-              updateIntervalInMs: 20
-            }
-          }
-        );
-        (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        const subscription = client.subscribe("0", subscriptionHandlers);
-
-        subscription.close();
-        fakeEventProcessor.stop.callCount.should.equal(1);
-      });
-
-      it("subscribe to single partition, WITH checkpoint store, no loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // when the user gives us a checkpoint store but subscribes to a single partition,
-          // - they use their checkpoint store and the following defaults:
-          //   - UnbalancedLoadBalancingStrategy
-          //   - loopIntervalInMs: 10000
-
-          // To coordinate properly we set an owner level - this lets us
-          // cooperate properly with other consumers within this group.
-          options.ownerLevel!.should.equal(0);
-
-          options.processingTarget!.should.equal("0");
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "UnbalancedLoadBalancingStrategy"
-          );
-          options.loopIntervalInMs.should.equal(10000);
-        };
-
-        clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
-      });
-
-      it("subscribe to single partition, WITH checkpoint store, WITH loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // When the user subscribes to a single partition, we always use the UnbalancedLoadBalancingStrategy.
-          // The loadBalancingOptions `strategy` and `partitionOwnershipExpirationIntervalInMs` fields are ignored.
-          //   - UnbalancedLoadBalancingStrategy
-          //   - loopIntervalInMs: 10000
-
-          // To coordinate properly we set an owner level - this lets us
-          // cooperate properly with other consumers within this group.
-          options.ownerLevel!.should.equal(0);
-
-          options.processingTarget!.should.equal("0");
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "UnbalancedLoadBalancingStrategy"
-          );
-          options.loopIntervalInMs.should.equal(20);
-        };
-
-        clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // it doesn't actually matter _what_ checkpoint store gets passed in
-          new InMemoryCheckpointStore(),
-          {
-            loadBalancingOptions: {
-              strategy: "greedy", // ignored
-              partitionOwnershipExpirationIntervalInMs: 100, // ignored
-              updateIntervalInMs: 20
-            }
-          }
-        );
-        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, no checkpoint store, no loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // when the user doesn't pass a checkpoint store we give them a really simple set of
-          // defaults:
-          //   - InMemoryCheckpointStore
-          //   - UnbalancedLoadBalancingStrategy
-          //   - loopIntervalInMs: 10000
-          should.not.exist(options.ownerLevel);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "UnbalancedLoadBalancingStrategy"
-          );
-          options.loopIntervalInMs.should.equal(10000);
-        };
-
-        client.subscribe(subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, no checkpoint store, WITH loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // When the user doesn't provide a checkpoint store, we always use the UnbalancedLoadBalancingStrategy.
-          // The loadBalancingOptions `strategy` and `partitionOwnershipExpirationIntervalInMs` fields are ignored.
-          //   - InMemoryCheckpointStore
-          //   - UnbalancedLoadBalancingStrategy
-          should.not.exist(options.ownerLevel);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "UnbalancedLoadBalancingStrategy"
-          );
-          options.loopIntervalInMs.should.equal(20);
-        };
-
-        client = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          {
-            loadBalancingOptions: {
-              strategy: "greedy", // ignored
-              partitionOwnershipExpirationIntervalInMs: 100, // ignored
-              updateIntervalInMs: 20
-            }
-          }
-        );
-        (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        client.subscribe(subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, WITH checkpoint store, no loadBalancingOptions", () => {
-        validateOptions = (options) => {
-          // when the user gives us a checkpoint store we treat their consumer client as
-          // a "production" ready client - they use their checkpoint store and the following
-          // defaults:
-          //   - BalancedLoadBalancingStrategy
-          //   - loopIntervalInMs: 10000
-          //   - partitionOwnershipExpirationIntervalInMs: 60000
-          options.ownerLevel!.should.equal(0);
-          should.not.exist(options.processingTarget);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "BalancedLoadBalancingStrategy"
-          );
-          (options.loadBalancingStrategy as BalancedLoadBalancingStrategy)[
-            "_partitionOwnershipExpirationIntervalInMs"
-          ].should.equal(60000);
-          options.loopIntervalInMs.should.equal(10000);
-        };
-
-        clientWithCheckpointStore.subscribe(subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (greedy, updateInterval, expirationInterval)", () => {
-        validateOptions = (options) => {
-          // when the user gives us a checkpoint store and subscribes to all partitions,
-          // we use their loadBalancingOptions when provided.
-          options.ownerLevel!.should.equal(0);
-          should.not.exist(options.processingTarget);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "GreedyLoadBalancingStrategy"
-          );
-          (options.loadBalancingStrategy as GreedyLoadBalancingStrategy)[
-            "_partitionOwnershipExpirationIntervalInMs"
-          ].should.equal(100);
-          options.loopIntervalInMs.should.equal(20);
-        };
-
-        clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // it doesn't actually matter _what_ checkpoint store gets passed in
-          new InMemoryCheckpointStore(),
-          {
-            loadBalancingOptions: {
-              strategy: "greedy",
-              partitionOwnershipExpirationIntervalInMs: 100,
-              updateIntervalInMs: 20
-            }
-          }
-        );
-        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        clientWithCheckpointStore.subscribe(subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (balanced, updateInterval, expirationInterval)", () => {
-        validateOptions = (options) => {
-          // when the user gives us a checkpoint store and subscribes to all partitions,
-          // we use their loadBalancingOptions when provided.
-          options.ownerLevel!.should.equal(0);
-          should.not.exist(options.processingTarget);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "BalancedLoadBalancingStrategy"
-          );
-          (options.loadBalancingStrategy as BalancedLoadBalancingStrategy)[
-            "_partitionOwnershipExpirationIntervalInMs"
-          ].should.equal(100);
-          options.loopIntervalInMs.should.equal(20);
-        };
-
-        clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // it doesn't actually matter _what_ checkpoint store gets passed in
-          new InMemoryCheckpointStore(),
-          {
-            loadBalancingOptions: {
-              strategy: "balanced",
-              partitionOwnershipExpirationIntervalInMs: 100,
-              updateIntervalInMs: 20
-            }
-          }
-        );
-        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        clientWithCheckpointStore.subscribe(subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (updateInterval, expirationInterval)", () => {
-        validateOptions = (options) => {
-          // when the user gives us a checkpoint store and subscribes to all partitions,
-          // we use their loadBalancingOptions when provided.
-          options.ownerLevel!.should.equal(0);
-          should.not.exist(options.processingTarget);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "BalancedLoadBalancingStrategy"
-          );
-          (options.loadBalancingStrategy as BalancedLoadBalancingStrategy)[
-            "_partitionOwnershipExpirationIntervalInMs"
-          ].should.equal(100);
-          options.loopIntervalInMs.should.equal(20);
-        };
-
-        clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // it doesn't actually matter _what_ checkpoint store gets passed in
-          new InMemoryCheckpointStore(),
-          {
-            loadBalancingOptions: {
-              // default 'strategy' is 'balanced'
-              partitionOwnershipExpirationIntervalInMs: 100,
-              updateIntervalInMs: 20
-            }
-          }
-        );
-        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        clientWithCheckpointStore.subscribe(subscriptionHandlers);
-      });
-
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (strategy)", () => {
-        validateOptions = (options) => {
-          // when the user gives us a checkpoint store and subscribes to all partitions,
-          // we use their loadBalancingOptions when provided.
-          options.ownerLevel!.should.equal(0);
-          should.not.exist(options.processingTarget);
-          options.loadBalancingStrategy.constructor.name.should.equal(
-            "GreedyLoadBalancingStrategy"
-          );
-          (options.loadBalancingStrategy as GreedyLoadBalancingStrategy)[
-            "_partitionOwnershipExpirationIntervalInMs"
-          ].should.equal(60000);
-          options.loopIntervalInMs.should.equal(10000);
-        };
-
-        clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // it doesn't actually matter _what_ checkpoint store gets passed in
-          new InMemoryCheckpointStore(),
-          {
-            loadBalancingOptions: {
-              strategy: "greedy"
-              // defaults are used for the rest of the parameters.
-            }
-          }
-        );
-        (clientWithCheckpointStore as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-
-        clientWithCheckpointStore.subscribe(subscriptionHandlers);
-      });
-
-      it("multiple subscribe calls from the same eventhubconsumerclient use the same owner ID", async () => {
-        let ownerId: string | undefined = undefined;
-
-        validateOptions = (options) => {
-          should.exist(options.ownerId);
-
-          if (ownerId) {
-            options.ownerId!.should.equal(ownerId);
-            ownerId = options.ownerId;
-          } else {
-            ownerId = options.ownerId;
-          }
-        };
-
-        clientWithCheckpointStore.subscribe(subscriptionHandlers);
-      });
-    });
+  afterEach("Closing the clients", async () => {
+    await producerClient.close();
+    await consumerClient.close();
   });
 
   describe("functional tests", () => {
@@ -958,7 +539,7 @@ describe("EventHubConsumerClient", () => {
         ]
       );
 
-      const checkpointStore = new InMemoryCheckpointStore();
+      const checkpointStore = new TestInMemoryCheckpointStore();
 
       clients.push(
         new EventHubConsumerClient(
@@ -966,8 +547,8 @@ describe("EventHubConsumerClient", () => {
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
-          // also uses the BalancedLoadBalancingStrategy
           checkpointStore
+          // also uses the BalancedLoadBalancingStrategy
         )
       );
 
@@ -982,10 +563,9 @@ describe("EventHubConsumerClient", () => {
         new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
-          service.path,
+          service.path
           // specifying your own checkpoint store activates the "production ready" code path that
           // also uses the BalancedLoadBalancingStrategy
-          checkpointStore
         )
       );
 
@@ -1021,7 +601,7 @@ describe("EventHubConsumerClient", () => {
         ]
       );
 
-      const checkpointStore = new InMemoryCheckpointStore();
+      const checkpointStore = new TestInMemoryCheckpointStore();
 
       clients.push(
         new EventHubConsumerClient(
@@ -1029,7 +609,6 @@ describe("EventHubConsumerClient", () => {
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
-          checkpointStore,
           {
             loadBalancingOptions: {
               strategy: "greedy"
@@ -1234,4 +813,478 @@ describe("EventHubConsumerClient", () => {
       });
     });
   });
-});
+
+  describe("subscribe() with partitionId 0 as number", function(): void {
+    it("should not throw an error", async function(): Promise<void> {
+      let subscription: Subscription | undefined;
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          // @ts-expect-error
+          0,
+          {
+            processEvents: async () => {
+              resolve();
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: latestEventPosition,
+            maxWaitTimeInSeconds: 0 // Set timeout of 0 to resolve the promise ASAP
+          }
+        );
+      });
+      await subscription!.close();
+    });
+  });
+
+  describe("subscribe() with EventPosition specified as", function(): void {
+    let partitionId: string;
+    let eventSentBeforeSubscribe: EventData;
+    let eventsSentAfterSubscribe: EventData[];
+
+    beforeEach(async () => {
+      partitionId = partitionIds[0];
+
+      eventSentBeforeSubscribe = {
+        body: "Hello awesome world " + Math.random()
+      };
+      await producerClient.sendBatch([eventSentBeforeSubscribe], { partitionId });
+
+      eventsSentAfterSubscribe = [];
+      for (let i = 0; i < 5; i++) {
+        eventsSentAfterSubscribe.push({
+          body: "Hello awesome world " + Math.random(),
+          properties: {
+            stamp: Math.random()
+          }
+        });
+      }
+    });
+
+    it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
+      let subscription: Subscription | undefined;
+      let processEventsCalled = false;
+      const eventsReceived: ReceivedEventData[] = [];
+
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              if (!processEventsCalled) {
+                processEventsCalled = true;
+                should.equal(data.length, 0, "Received events when none were sent yet.");
+                await producerClient.sendBatch(eventsSentAfterSubscribe, { partitionId });
+                return;
+              }
+              eventsReceived.push(...data);
+              if (eventsReceived.length === eventsSentAfterSubscribe.length) {
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: latestEventPosition,
+            maxWaitTimeInSeconds: 30
+          }
+        );
+      });
+      await subscription!.close();
+
+      if (eventsReceived.find((event) => event.body === eventSentBeforeSubscribe.body)) {
+        should.fail("Received event sent before subscribe call with latestEventPosition.");
+      }
+
+      should.equal(
+        eventsReceived.length,
+        eventsSentAfterSubscribe.length,
+        "Not received the same number of events that were sent."
+      );
+      for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
+        eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
+        eventsReceived[i].properties!.stamp.should.equal(
+          eventsSentAfterSubscribe[i].properties!.stamp
+        );
+      }
+    });
+
+    it("'after a particular sequence number' should receive messages correctly", async function(): Promise<
+      void
+    > {
+      const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
+      let subscription: Subscription | undefined;
+      let processEventsCalled = false;
+      const eventsReceived: ReceivedEventData[] = [];
+
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              if (!processEventsCalled) {
+                processEventsCalled = true;
+                should.equal(data.length, 0, "Received events when none were sent yet.");
+                await producerClient.sendBatch(eventsSentAfterSubscribe, { partitionId });
+                return;
+              }
+              eventsReceived.push(...data);
+              if (eventsReceived.length === eventsSentAfterSubscribe.length) {
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber },
+            maxWaitTimeInSeconds: 30
+          }
+        );
+      });
+      await subscription!.close();
+
+      if (eventsReceived.find((event) => event.body === eventSentBeforeSubscribe.body)) {
+        should.fail("Received event sent before subscribe call with last sequence number.");
+      }
+
+      should.equal(
+        eventsReceived.length,
+        eventsSentAfterSubscribe.length,
+        "Not received the same number of events that were sent."
+      );
+      for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
+        eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
+        eventsReceived[i].properties!.stamp.should.equal(
+          eventsSentAfterSubscribe[i].properties!.stamp
+        );
+      }
+    });
+
+    it("'after a particular sequence number' with isInclusive should receive messages correctly", async function(): Promise<
+      void
+    > {
+      const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
+      let subscription: Subscription | undefined;
+      let processEventsCalled = false;
+      const eventsReceived: ReceivedEventData[] = [];
+
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              if (!processEventsCalled) {
+                processEventsCalled = true;
+                should.equal(data.length, 1, "Expected 1 event sent right before subscribe call.");
+                should.equal(
+                  data[0].body,
+                  eventSentBeforeSubscribe.body,
+                  "Should have received only the 1 event sent right before subscribe call."
+                );
+
+                await producerClient.sendBatch(eventsSentAfterSubscribe, { partitionId });
+                return;
+              }
+
+              eventsReceived.push(...data);
+              if (eventsReceived.length === eventsSentAfterSubscribe.length) {
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: {
+              sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber,
+              isInclusive: true
+            },
+            maxWaitTimeInSeconds: 30
+          }
+        );
+      });
+      await subscription!.close();
+
+      should.equal(
+        eventsReceived.length,
+        eventsSentAfterSubscribe.length,
+        "Not received the same number of events that were sent."
+      );
+
+      for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
+        eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
+        eventsReceived[i].properties!.stamp.should.equal(
+          eventsSentAfterSubscribe[i].properties!.stamp
+        );
+      }
+    });
+
+    it("'after a particular offset' should receive messages correctly", async function(): Promise<
+      void
+    > {
+      const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
+      let subscription: Subscription | undefined;
+      let processEventsCalled = false;
+      const eventsReceived: ReceivedEventData[] = [];
+
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              if (!processEventsCalled) {
+                processEventsCalled = true;
+                should.equal(data.length, 0, "Received events when none were sent yet.");
+                await producerClient.sendBatch(eventsSentAfterSubscribe, { partitionId });
+                return;
+              }
+              eventsReceived.push(...data);
+              if (eventsReceived.length === eventsSentAfterSubscribe.length) {
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: { offset: partitionInfo.lastEnqueuedOffset },
+            maxWaitTimeInSeconds: 30
+          }
+        );
+      });
+      await subscription!.close();
+
+      if (eventsReceived.find((event) => event.body === eventSentBeforeSubscribe.body)) {
+        should.fail("Received event sent before subscribe call with last offset.");
+      }
+
+      should.equal(
+        eventsReceived.length,
+        eventsSentAfterSubscribe.length,
+        "Not received the same number of events that were sent."
+      );
+      for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
+        eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
+        eventsReceived[i].properties!.stamp.should.equal(
+          eventsSentAfterSubscribe[i].properties!.stamp
+        );
+      }
+    });
+
+    it("'after a particular offset' with isInclusive should receive messages correctly", async function(): Promise<
+      void
+    > {
+      const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
+      let subscription: Subscription | undefined;
+      let processEventsCalled = false;
+      const eventsReceived: ReceivedEventData[] = [];
+
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              if (!processEventsCalled) {
+                processEventsCalled = true;
+                should.equal(data.length, 1, "Expected 1 event sent right before subscribe call.");
+                should.equal(
+                  data[0].body,
+                  eventSentBeforeSubscribe.body,
+                  "Should have received only the 1 event sent right before subscribe call."
+                );
+
+                await producerClient.sendBatch(eventsSentAfterSubscribe, {
+                  partitionId
+                });
+                return;
+              }
+
+              eventsReceived.push(...data);
+              if (eventsReceived.length === eventsSentAfterSubscribe.length) {
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: {
+              offset: partitionInfo.lastEnqueuedOffset,
+              isInclusive: true
+            },
+            maxWaitTimeInSeconds: 30
+          }
+        );
+      });
+      await subscription!.close();
+
+      should.equal(
+        eventsReceived.length,
+        eventsSentAfterSubscribe.length,
+        "Not received the same number of events that were sent."
+      );
+
+      for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
+        eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
+        eventsReceived[i].properties!.stamp.should.equal(
+          eventsSentAfterSubscribe[i].properties!.stamp
+        );
+      }
+    });
+
+    it("'after a particular enqueued time' should receive messages correctly", async function(): Promise<
+      void
+    > {
+      const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
+      let subscription: Subscription | undefined;
+      let processEventsCalled = false;
+      const eventsReceived: ReceivedEventData[] = [];
+
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              if (!processEventsCalled) {
+                processEventsCalled = true;
+                should.equal(data.length, 0, "Received events when none were sent yet.");
+                await producerClient.sendBatch(eventsSentAfterSubscribe, {
+                  partitionId
+                });
+                return;
+              }
+
+              eventsReceived.push(...data);
+              if (eventsReceived.length === eventsSentAfterSubscribe.length) {
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: { enqueuedOn: partitionInfo.lastEnqueuedOnUtc },
+            maxWaitTimeInSeconds: 30
+          }
+        );
+      });
+      await subscription!.close();
+
+      if (eventsReceived.find((event) => event.body === eventSentBeforeSubscribe.body)) {
+        should.fail("Received event sent before subscribe call with last offset.");
+      }
+
+      should.equal(
+        eventsReceived.length,
+        eventsSentAfterSubscribe.length,
+        "Not received the same number of events that were sent."
+      );
+      for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
+        eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
+        eventsReceived[i].properties!.stamp.should.equal(
+          eventsSentAfterSubscribe[i].properties!.stamp
+        );
+      }
+    });
+  });
+
+  describe("subscribe() with trackLastEnqueuedEventProperties", function(): void {
+    it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
+      const partitionId = partitionIds[0];
+
+      const eventData = { body: "Hello awesome world " + Math.random() };
+      await producerClient.sendBatch([eventData], { partitionId });
+      debug("sent: ", eventData);
+
+      const pInfo = await consumerClient.getPartitionProperties(partitionId);
+      debug("partition info: ", pInfo);
+
+      let subscription: Subscription | undefined;
+      await new Promise<void>((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          partitionId,
+          {
+            processEvents: async (data, context) => {
+              data.length.should.equal(1);
+              should.exist(context.lastEnqueuedEventProperties);
+              context.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
+              context.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(
+                pInfo.lastEnqueuedSequenceNumber
+              );
+              context
+                .lastEnqueuedEventProperties!.enqueuedOn!.getTime()
+                .should.equal(pInfo.lastEnqueuedOnUtc.getTime());
+              context
+                .lastEnqueuedEventProperties!.retrievedOn!.getTime()
+                .should.be.greaterThan(Date.now() - 60000);
+
+              resolve();
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: earliestEventPosition,
+            maxBatchSize: 1,
+            trackLastEnqueuedEventProperties: true
+          }
+        );
+      });
+      await subscription!.close();
+    });
+  });
+
+  describe("Negative scenarios", function(): void {
+    it("should throw MessagingEntityNotFoundError for non existing consumer group", async function(): Promise<
+      void
+    > {
+      const badConsumerClient = new EventHubConsumerClient(
+        "boo",
+        service.connectionString,
+        service.path
+      );
+      let subscription: Subscription | undefined;
+      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+        subscription = badConsumerClient.subscribe({
+          processEvents: async () => {},
+          processError: async (err) => {
+            resolve(err);
+          }
+        });
+      });
+      await subscription!.close();
+      await badConsumerClient.close();
+
+      should.exist(caughtErr);
+      should.equal((caughtErr as MessagingError).code, "MessagingEntityNotFoundError");
+    });
+
+    it(`should throw an invalid EventHub address error for invalid partition`, async function(): Promise<
+      void
+    > {
+      let subscription: Subscription | undefined;
+      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+        subscription = consumerClient.subscribe("boo", {
+          processEvents: async () => {},
+          processError: async (err) => {
+            resolve(err);
+          }
+        });
+      });
+      await subscription!.close();
+      should.exist(caughtErr);
+      should.equal((caughtErr as MessagingError).code, "ArgumentOutOfRangeError");
+    });
+  });
+}).timeout(120000);

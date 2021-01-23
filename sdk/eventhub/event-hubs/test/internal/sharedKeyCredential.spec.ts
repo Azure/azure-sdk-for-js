@@ -6,7 +6,7 @@ const should = chai.should();
 import {
   SharedKeyCredential,
   SharedAccessSignatureCredential
-} from "../src/eventhubSharedKeyCredential";
+} from "../../src/eventhubSharedKeyCredential";
 
 describe("SharedKeyCredential", function(): void {
   it("should work as expected with required parameters", async function(): Promise<void> {

@@ -12,7 +12,7 @@ const env = getEnvVars();
 
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph } from "@azure/core-tracing";
-import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../src";
+import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
 
 describe("RuntimeInformation", function(): void {
   let producerClient: EventHubProducerClient;

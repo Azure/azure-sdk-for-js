@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubConnectionConfig } from "../src/eventhubConnectionConfig";
+import { EventHubConnectionConfig } from "../../src/eventhubConnectionConfig";
 import chai from "chai";
 const should = chai.should();
 

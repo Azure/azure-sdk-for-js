@@ -16,14 +16,14 @@ import {
   EventHubProperties,
   ReceivedEventData,
   Subscription
-} from "../src";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+} from "../../src";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
-} from "../src/diagnostics/instrumentEventData";
+} from "../../src/diagnostics/instrumentEventData";
 import { TraceFlags } from "@opentelemetry/api";
-import { SubscriptionHandlerForTests } from "./utils/subscriptionHandlerForTests";
+import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 
 describe("Misc tests", function(): void {

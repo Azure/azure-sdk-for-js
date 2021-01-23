@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createProcessingSpan, trace } from "../src/partitionPump";
+import { createProcessingSpan, trace } from "../../src/partitionPump";
 import { NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
 import { CanonicalCode, SpanKind, SpanOptions } from "@opentelemetry/api";
 import chai from "chai";
-import { ReceivedEventData } from "../src/eventData";
-import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
-import { setTracerForTest } from "./utils/testUtils";
+import { ReceivedEventData } from "../../src/eventData";
+import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
+import { setTracerForTest } from "../public/utils/testUtils";
 
 const should = chai.should();
 

@@ -14,12 +14,12 @@ import {
   EventHubProducerClient,
   EventHubConsumerClient,
   Subscription
-} from "../src";
-import { packageJsonInfo } from "../src/util/constants";
-import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
+} from "../../src";
+import { packageJsonInfo } from "../../src/util/constants";
+import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
-import { ConnectionContext } from "../src/connectionContext";
-import { getRuntimeInfo } from "../src/util/runtimeInfo";
+import { ConnectionContext } from "../../src/connectionContext";
+import { getRuntimeInfo } from "../../src/util/runtimeInfo";
 const env = getEnvVars();
 
 const testFailureMessage = "Test failure";
