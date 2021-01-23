@@ -77,10 +77,11 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 
   /**
    * Allows configuration on the request before its sent.
+   * By default it simply attempts to load tokens into the request that is about to be sent.
    */
   async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
     await this.loadToken(webResource);
-  };
+  }
 
   /**
    * Authorizes request according to an authentication challenge.
@@ -106,7 +107,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       const decodedClaims = decodeString(`${encodedClaims}${"=".repeat(padding)}`);
       const claims = JSON.parse(uint8ArrayToString(decodedClaims));
       if (!claims.access_token) return false;
-      this.loadToken(webResource, claims.access_token);
+      await this.loadToken(webResource, claims.access_token);
       return true;
     } catch (e) {
       return false;
@@ -138,9 +139,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
     await this.onBeforeRequest(webResource);
 
-    console.log("[core-http] sendRequest before nextPolicy sendRequest");
     const response = await this._nextPolicy.sendRequest(webResource);
-    console.log("sendRequest nextPolicy sendRequest response status", response.status);
 
     const challenges = response.headers.get("WWW-Authenticate");
     if (response.status === 401 && challenges) {

@@ -19,7 +19,7 @@ import { parseCAEChallenges } from "@azure/core-http";
 // Once we move to a common folder, and after some refactoring,
 // we will be able to unit test the insides in detail.
 
-describe.only("Challenge based authentication tests", () => {
+describe("Challenge based authentication tests", () => {
   const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
@@ -40,7 +40,7 @@ describe.only("Challenge based authentication tests", () => {
 
   // The tests follow
 
-  it.only("Authentication should work for parallel requests", async function () {
+  it("Authentication should work for parallel requests", async function () {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
@@ -71,7 +71,7 @@ describe.only("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it.skip("Once authenticated, new requests should not authenticate again", async function () {
+  it("Once authenticated, new requests should not authenticate again", async function () {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.
@@ -87,9 +87,9 @@ describe.only("Challenge based authentication tests", () => {
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
-    // for (const name of keyNames) {
-    //   await testClient.flushKey(name);
-    // }
+    for (const name of keyNames) {
+      await testClient.flushKey(name);
+    }
 
     // The challenge should have been written to the cache exactly ONCE.
     assert.equal(spy.getCalls().length, 1);

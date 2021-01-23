@@ -12,7 +12,7 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 import { BearerTokenAuthenticationPolicy } from "@azure/core-http";
 import { createClientLogger } from "@azure/logger";
 
-export const logger = createClientLogger("ChallengeBasedAuthenticationPolicy");
+export const logger = createClientLogger("KeyVaultChallengeBasedAuthenticationPolicy");
 
 /**
  * Representation of the Authentication Challenge
@@ -48,7 +48,7 @@ export class KeyVaultAuthenticationChallengeCache {
 }
 
 /**
- * Creates a new ChallengeBasedAuthenticationPolicy factory.
+ * Creates a new KeyVaultChallengeBasedAuthenticationPolicy factory.
  *
  * @param credential - The TokenCredential implementation that can supply the challenge token.
  */
@@ -63,7 +63,7 @@ export function keyVaultChallengeAuthenticationPolicy(
   const challengeCache = new KeyVaultAuthenticationChallengeCache();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ChallengeBasedAuthenticationPolicy(
+      return new KeyVaultChallengeBasedAuthenticationPolicy(
         nextPolicy,
         options,
         tokenCache,
@@ -75,18 +75,18 @@ export function keyVaultChallengeAuthenticationPolicy(
 }
 
 /**
- *
- * Provides a RequestPolicy that can request a token from a TokenCredential
- * implementation and then apply it to the Authorization header of a request
- * as a Bearer token.
+ * Provides support for Key Vault's challenge authentication.
+ * 
+ * This process gets triggered when the user triggers any request from any of the Key Vault clients.
+ * The initial request gets overwritten by an empty one, which causes the service to begin the challenge authentication process.
+ * If a challenge is indeed received, we use it to retrieve the token, then finally we send the originally intended request.
  *
  */
-export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
-  private cachedBodies: Record<string, string> = {};
+export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
 
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
-   *
+   * 
    * @param nextPolicy - The next RequestPolicy in the request pipeline.
    * @param options - Options for this RequestPolicy.
    * @param tokenCache - The cache for the most recent AccessToken returned from the TokenCredential.
@@ -103,59 +103,70 @@ export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticatio
     super(nextPolicy, options, tokenCache, tokenRefresher);
   }
 
+  /**
+   * To match requests with their bodies, we use the x-ms-client-request-id header
+   * which we ensure is populated by default before the requests are sent.
+   */
   private getUniqueIdentifier(webResource: WebResourceLike): string {
     return webResource.headers.get("x-ms-client-request-id")!;
   }
 
-  // For Key Vault, we try a first request without a body to trigger the challenge based authentication flow.
+  private cachedBodies: Record<string, string> = {};
+
+  /**
+   * If there's no cached token, we save a copy of the request's body
+   * based on a unique identifier we can find on the request.
+   * @param webResource The network request.
+   */
   async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
-    console.log("onBeforeRequest get cached token", this.tokenCache.getCachedToken());
-    if (!this.tokenCache.getCachedToken()) {
-      console.log("=== NO CACHED TOKEN ON BEFORE REQUEST ===");
-      // We'll use the x-ms-client-request to keep track of which request body this belongs to.
+    if (this.tokenCache.getCachedToken()) {
+      logger.info("Cached token found.");
+      await this.loadToken(webResource);
+    } else {
+      logger.info("Cached token not found. Setting up an initial empty request.");
       const bodyId = this.getUniqueIdentifier(webResource);
-      console.log("onBeforeRequest, bodyId", bodyId);
       this.cachedBodies[bodyId] = webResource.body;
       webResource.body = "";
     }
   }
 
   /**
-   * Authorizes request according to an authentication challenge.
-   * This base implementation only handles CAE claims directives,
-   * which means that the WWW-Authenticate header is expected to have
-   * only one challenge that must include a "claims" property.
-   * Clients expecting other challenges must override.
+   * If a CAE challenge was found, we parse the challenge, then we compare it with the challenge cache
+   * (which helps in case we had concurrent requests), then we proceed to load the token based on the challenge received,
+   * and finally we return true, so that the BearerTokenAuthenticationPolicy can re-send the request.
    */
   async onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean> {
     const parsedChallenges = parseCAEChallenges(challenges);
-    console.log({ parsedChallenges });
     if (parsedChallenges.length !== 1) {
       logger.info("No challenges received. Bypassing the challenge authentication policy.");
       return false;
     }
     const parsedChallenge: Record<CAEProperties.KeyVault, string> = parsedChallenges[0];
-    console.log({ parsedChallenge });
+
     const authorization = parsedChallenge.authorization;
     const resource = parsedChallenge.resource || parsedChallenge.scope;
-    console.log({ authorization, resource });
+    const scope = resource + "/.default";
     if (!(authorization && resource)) {
       logger.info("The Key Vault challenge received is not valid. Bypassing the challenge authentication policy.");
       return false;
     }
 
-    const kvChallenge = new KeyVaultAuthenticationChallenge(authorization, resource + "/.default");
+    const kvChallenge = new KeyVaultAuthenticationChallenge(authorization, scope);
 
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
     if (!this.challengeCache.challenge?.equalTo(kvChallenge)) {
+      logger.info("The challenge received invalidated previous challenges. Ensuring a new token is requested.");
       this.challengeCache.setCachedChallenge(kvChallenge);
       this.tokenCache.setCachedToken(undefined);
     }
 
-    this.tokenRefresher.setScopes(resource);
-    this.loadToken(webResource);
+    logger.info("Loading the token.");
+    this.tokenRefresher.setScopes(scope);
+    await this.loadToken(webResource);
+
+    logger.info("Sending the original request.");
     const bodyId = this.getUniqueIdentifier(webResource);
     webResource.body = this.cachedBodies[bodyId];
     delete this.cachedBodies[bodyId];
