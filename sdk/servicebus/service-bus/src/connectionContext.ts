@@ -353,9 +353,7 @@ export namespace ConnectionContext {
         await Promise.all(detachCalls);
       }
 
-      // Calling onDetached on receiver for the same reasons as sender
-      // Batching receiver will be closed
-      // Streaming receiver will recover based on the logic at its own onDetached
+      // Calling onDetached on batching receiver for the same reasons as sender
       if (!state.wasConnectionCloseCalled && state.numReceivers) {
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
@@ -366,10 +364,12 @@ export namespace ConnectionContext {
         const detachCalls: Promise<void>[] = [];
 
         // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
-        // and streaming receivers can decide whether to reconnect or not.
         for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
           const receiver = connectionContext.messageReceivers[receiverName];
-          if (receiver) {
+          if (
+            receiver &&
+            (receiver.receiverType == "batching" || receiver.receiverType == "session")
+          ) {
             logger.verbose(
               "[%s] calling detached on %s receiver '%s'.",
               connectionContext.connection.id,
@@ -399,6 +399,43 @@ export namespace ConnectionContext {
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was at least one receiver link on the connection before it went down.
       logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
+
+      // Calling onDetached on streaming receiver
+      if (!state.wasConnectionCloseCalled && state.numReceivers) {
+        logger.verbose(
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
+            `receivers. We should reconnect.`
+        );
+        await delay(Constants.connectionReconnectDelay);
+
+        const detachCalls: Promise<void>[] = [];
+
+        // Call onDetached() on streaming receivers can recover
+        for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
+          const receiver = connectionContext.messageReceivers[receiverName];
+          if (receiver && receiver.receiverType == "streaming") {
+            logger.verbose(
+              "[%s] calling detached on %s receiver '%s'.",
+              connectionContext.connection.id,
+              receiver.receiverType,
+              receiver.name
+            );
+            detachCalls.push(
+              receiver.onDetached(connectionError || contextError).catch((err) => {
+                logger.logError(
+                  err,
+                  "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
+                  connectionContext.connection.id,
+                  receiver.receiverType,
+                  receiver.name
+                );
+              })
+            );
+          }
+        }
+
+        await Promise.all(detachCalls);
+      }
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
