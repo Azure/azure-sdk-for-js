@@ -862,7 +862,7 @@ describe("Streaming Receiver Tests", () => {
   );
 });
 
-describe(testClientType + ": Streaming - disconnects", function(): void {
+describe.only(testClientType + ": Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let receiver: ServiceBusReceiver;
