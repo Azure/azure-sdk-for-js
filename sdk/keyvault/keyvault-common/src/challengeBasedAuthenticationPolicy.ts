@@ -9,7 +9,7 @@ import {
   RequestPolicyFactory
 } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-import { BearerTokenAuthenticationPolicy } from "@azure/core-http/types/latest/src/policies/bearerTokenAuthenticationPolicy";
+import { BearerTokenAuthenticationPolicy } from "@azure/core-http";
 import { createClientLogger } from "@azure/logger";
 
 export const logger = createClientLogger("ChallengeBasedAuthenticationPolicy");
@@ -105,8 +105,10 @@ export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticatio
 
   // For Key Vault, we try a first request without a body to trigger the challenge based authentication flow.
   async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
-    console.log("onBeforeRequest headers:\n", webResource.headers.headerNames().map(x => `x=${webResource.headers.get(x)}`).join("\n"));
+    console.log("onBeforeRequest headers:\n", webResource.headers.headerNames().map(x => `${x}=${webResource.headers.get(x)}`).join("\n"));
+    // TODO: This header exists: x-ms-client-request I think we can use it.
     if (!this.tokenCache.getCachedToken()) {
+      console.log("=== NO CACHED TOKEN ON BEFORE REQUEST ===");
       this.cachedBody = webResource.body;
       webResource.body = "";
     }
@@ -121,13 +123,16 @@ export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticatio
    */
   async onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean> {
     const parsedChallenges = parseCAEChallenges(challenges);
+    console.log({ parsedChallenges });
     if (parsedChallenges.length !== 1) {
       logger.info("No challenges received. Bypassing the challenge authentication policy.");
       return false;
     }
     const parsedChallenge: Record<CAEProperties.KeyVault, string> = parsedChallenges[0];
+    console.log({ parsedChallenge });
     const authorization = parsedChallenge.authorization;
     const resource = parsedChallenge.resource || parsedChallenge.scope;
+    console.log({ authorization, resource });
     if (!(authorization && resource)) {
       logger.info("The Key Vault challenge received is not valid. Bypassing the challenge authentication policy.");
       return false;

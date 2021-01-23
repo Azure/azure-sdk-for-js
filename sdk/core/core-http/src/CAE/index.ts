@@ -52,18 +52,25 @@ export function parseCAEChallenges(challenges: string): CAEChallenge[] {
   if (!challenges) return [{} as CAEChallenge];
 
   // Each set of challenges will be separated by "Bearer ".
-  return challenges.split("Bearer ").map((challenge) =>
-    // Each key-value pair in a challenge will be separated by a comma.
-    challenge.split(",").reduce((accumulator, property) => {
-      // We can safely split key-value pairs by the equal sign "=".
-      const separatorPosition = property.indexOf("=");
-      const key = property.slice(0, separatorPosition).trim();
+  return challenges.split("Bearer ")
+    // Keeping only the non-empty segments.
+    .filter(x => x)
+    // Looping through each challenge.
+    .map((challenge) =>
+      console.log(challenge) as any ||
+      // Each key-value pair in a challenge will be separated by a comma.
+      challenge.split(",").reduce((accumulator, property) => {
+        console.log(property);
+        // We can safely split key-value pairs by the equal sign "=".
+        const separatorPosition = property.indexOf("=");
+        const key = property.slice(0, separatorPosition).trim();
 
-      // Will slice out the equal and the surrounding quotes.
-      const value = property.slice(separatorPosition + 2, -1).trim();
+        // Will slice out the equal and the surrounding quotes.
+        const value = property.slice(separatorPosition + 2, -1).trim();
+        console.log({ key, value });
 
-      accumulator[key as CAEPropertiesAny] = value;
-      return accumulator;
-    }, {} as CAEChallenge)
-  );
+        accumulator[key as CAEPropertiesAny] = value;
+        return accumulator;
+      }, {} as CAEChallenge)
+    );
 }

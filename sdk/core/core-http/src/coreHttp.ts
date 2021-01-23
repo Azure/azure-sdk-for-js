@@ -50,6 +50,7 @@ export { Constants } from "./util/constants";
 export { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 export { CAEProperties, CAEPropertiesAny, CAEChallenge, parseCAEChallenges } from "./CAE";
 export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
+export { BearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 export {
   BaseRequestPolicy,
   RequestPolicy,

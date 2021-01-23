@@ -98,6 +98,21 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 }
 
 // @public
+export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher);
+    // (undocumented)
+    protected getToken(options: GetTokenOptions): Promise<string | undefined>;
+    protected loadToken(webResource: WebResource, accessToken?: string): Promise<void>;
+    onBeforeRequest?(_webResource: WebResourceLike): Promise<void>;
+    onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean>;
+    sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
+    // (undocumented)
+    protected tokenCache: AccessTokenCache;
+    // (undocumented)
+    protected tokenRefresher: AccessTokenRefresher;
+    }
+
+// @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
 // @public
