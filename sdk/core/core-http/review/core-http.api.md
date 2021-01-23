@@ -103,7 +103,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     // (undocumented)
     protected getToken(options: GetTokenOptions): Promise<string | undefined>;
     protected loadToken(webResource: WebResource, accessToken?: string): Promise<void>;
-    onBeforeRequest?(_webResource: WebResourceLike): Promise<void>;
+    onBeforeRequest(webResource: WebResourceLike): Promise<void>;
     onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean>;
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
     // (undocumented)

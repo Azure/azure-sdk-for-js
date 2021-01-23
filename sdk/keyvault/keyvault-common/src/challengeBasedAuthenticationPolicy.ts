@@ -82,7 +82,7 @@ export function keyVaultChallengeAuthenticationPolicy(
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
-  private cachedBody: string | undefined;
+  private cachedBodies: Record<string, string> = {};
 
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
@@ -103,13 +103,19 @@ export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticatio
     super(nextPolicy, options, tokenCache, tokenRefresher);
   }
 
+  private getUniqueIdentifier(webResource: WebResourceLike): string {
+    return webResource.headers.get("x-ms-client-request-id")!;
+  }
+
   // For Key Vault, we try a first request without a body to trigger the challenge based authentication flow.
   async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
-    console.log("onBeforeRequest headers:\n", webResource.headers.headerNames().map(x => `${x}=${webResource.headers.get(x)}`).join("\n"));
-    // TODO: This header exists: x-ms-client-request I think we can use it.
+    console.log("onBeforeRequest get cached token", this.tokenCache.getCachedToken());
     if (!this.tokenCache.getCachedToken()) {
       console.log("=== NO CACHED TOKEN ON BEFORE REQUEST ===");
-      this.cachedBody = webResource.body;
+      // We'll use the x-ms-client-request to keep track of which request body this belongs to.
+      const bodyId = this.getUniqueIdentifier(webResource);
+      console.log("onBeforeRequest, bodyId", bodyId);
+      this.cachedBodies[bodyId] = webResource.body;
       webResource.body = "";
     }
   }
@@ -150,7 +156,9 @@ export class ChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticatio
 
     this.tokenRefresher.setScopes(resource);
     this.loadToken(webResource);
-    webResource.body = this.cachedBody;
+    const bodyId = this.getUniqueIdentifier(webResource);
+    webResource.body = this.cachedBodies[bodyId];
+    delete this.cachedBodies[bodyId];
     return true;
   }
 }

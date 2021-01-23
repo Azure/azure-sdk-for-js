@@ -78,7 +78,9 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   /**
    * Allows configuration on the request before its sent.
    */
-  onBeforeRequest?(_webResource: WebResourceLike): Promise<void>;
+  async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
+    await this.loadToken(webResource);
+  };
 
   /**
    * Authorizes request according to an authentication challenge.
@@ -134,18 +136,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
-    const token = await this.getToken({
-      abortSignal: webResource.abortSignal,
-      tracingOptions: {
-        spanOptions: webResource.spanOptions
-      }
-    });
-    console.log("[core-http] set header Bearer", token);
-    webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
-
-    if (this.onBeforeRequest) {
-      await this.onBeforeRequest(webResource);
-    }
+    await this.onBeforeRequest(webResource);
 
     console.log("[core-http] sendRequest before nextPolicy sendRequest");
     const response = await this._nextPolicy.sendRequest(webResource);
