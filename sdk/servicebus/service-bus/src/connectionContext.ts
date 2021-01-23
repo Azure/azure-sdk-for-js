@@ -325,7 +325,6 @@ export namespace ConnectionContext {
         //   by cleaning up the timers and closing the links.
         // We don't call onDetached for sender after `refreshConnection()`
         //   because any new send calls that potentially initialize links would also get affected if called later.
-        // TODO: do the same for batching receiver
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
             `senders. We should not reconnect.`
@@ -354,12 +353,9 @@ export namespace ConnectionContext {
         await Promise.all(detachCalls);
       }
 
-      await refreshConnection(connectionContext);
-      waitForConnectionRefreshResolve();
-      waitForConnectionRefreshPromise = undefined;
-      // The connection should always be brought back up if the sdk did not call connection.close()
-      // and there was at least one receiver link on the connection before it went down.
-      logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
+      // Calling onDetached on receiver for the same reasons as sender
+      // Batching receiver will be closed
+      // Streaming receiver will recover based on the logic at its own onDetached
       if (!state.wasConnectionCloseCalled && state.numReceivers) {
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
@@ -396,6 +392,13 @@ export namespace ConnectionContext {
 
         await Promise.all(detachCalls);
       }
+
+      await refreshConnection(connectionContext);
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
+      // The connection should always be brought back up if the sdk did not call connection.close()
+      // and there was at least one receiver link on the connection before it went down.
+      logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {
