@@ -83,7 +83,7 @@ export class CryptographyClient {
     } else {
       if (!isLocallySupported(algorithm)) {
         throw new LocalCryptographyUnsupportedError(
-          `Encryption algorithm ${algorithm} is not supported for a local JsonWebToken`
+          `Algorithm ${algorithm} is not supported for a local JsonWebKey.`
         );
       }
       return this.concreteClient.client.encrypt(
@@ -116,7 +116,7 @@ export class CryptographyClient {
     } else {
       // Todo: this need to be higher level / public API if not already?
       throw new LocalCryptographyUnsupportedError(
-        "Decryption of a local JsonWebKey is not supported"
+        "Decryption of a local JsonWebKey is not supported."
       );
     }
   }
@@ -143,7 +143,7 @@ export class CryptographyClient {
     } else {
       if (!isLocallySupported(algorithm)) {
         throw new LocalCryptographyUnsupportedError(
-          `Encryption algorithm ${algorithm} is not supported for a local JsonWebToken`
+          `Algorithm ${algorithm} is not supported for a local JsonWebKey.`
         );
       }
       return this.concreteClient.client.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
@@ -172,7 +172,7 @@ export class CryptographyClient {
     } else {
       // Todo: this need to be higher level / public API if not already?
       throw new LocalCryptographyUnsupportedError(
-        "Unwrapping of a local JsonWebKey is not supported"
+        "Unwrapping of a local JsonWebKey is not supported."
       );
     }
   }
@@ -249,8 +249,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.signData(algorithm, data, options);
     } else {
-      // Todo: this need to be higher level / public API if not already?
-      throw new LocalCryptographyUnsupportedError("Verifying a local JsonWebKey is not supported");
+      throw new LocalCryptographyUnsupportedError("Signing a local JsonWebKey is not supported");
     }
   }
 
@@ -278,7 +277,7 @@ export class CryptographyClient {
     } else {
       if (!isLocallySupported(algorithm)) {
         throw new LocalCryptographyUnsupportedError(
-          `Encryption algorithm ${algorithm} is not supported for a local JsonWebToken`
+          `Algorithm ${algorithm} is not supported for a local JsonWebKey.`
         );
       }
       return this.concreteClient.client.verifyData(
