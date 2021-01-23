@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+// import * as assert from "assert";
+import { assert } from "chai";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
 import { isRecordMode, Recorder, env } from "@azure/test-utils-recorder";
@@ -100,6 +101,14 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       assert.equal(text, decryptedText);
     });
   }
+
+  it("the CryptographyClient can be created from a local JsonWebKey object", async function() {
+    const customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
+    const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
+
+    assert.notExists(cryptoClientFromKey.vaultUrl);
+  });
 
   // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function(): Promise<void> {

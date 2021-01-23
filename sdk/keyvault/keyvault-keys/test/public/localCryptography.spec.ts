@@ -56,6 +56,7 @@ describe("Local cryptography public tests", () => {
     assert.deepEqual(unwrapped.result, text);
     await testClient.flushKey(keyName);
   });
+
   it("encrypt & decrypt RSA-OAEP", async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
