@@ -16,6 +16,10 @@
     {
       "placeholder": "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
       "_justification": "Secret used by test code, it is fake."
+    },
+    {
+      "placeholder": "5ETIzLYe9aa9Xx5512Uy6gJiCZ/CL2QzS3nDfN51nz8=",
+      "_justification": "Secret used by test code"
     }
   ]
 }
