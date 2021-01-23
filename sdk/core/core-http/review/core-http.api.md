@@ -135,7 +135,6 @@ export namespace CAEProperties {
     export type InsufficientClaims = "authorization_uri" | "client_id" | "error" | "claims" | "realm";
     export type IPPolicy = "authorization_uri" | "error" | "error_description" | "claims";
     export type KeyVaultResource = "authorization" | "resource";
-    // (undocumented)
     export type KeyVaultScope = "authorization" | "scope";
     export type SessionRevoked = "authorization_uri" | "error" | "error_description" | "claims";
 }

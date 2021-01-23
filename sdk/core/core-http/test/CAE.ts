@@ -105,7 +105,7 @@ const unique: Map = (a) =>
 const permutationsAndTails: Map = (a) =>
   unique(permutations(a).reduce((r: any[], v: any[]) => r.concat(tails(v)), []));
 
-describe.only("CAE", () => {
+describe("CAE", () => {
   describe("CAE test utilities", () => {
     it("permutationsAndTails", () => {
       const array = [1, 2, 3];
