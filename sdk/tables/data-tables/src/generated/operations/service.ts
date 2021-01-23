@@ -21,6 +21,7 @@ import {
 } from "../models";
 
 /** Class representing a Service. */
+/** @hidden */
 export class Service {
   private readonly client: GeneratedClient;
 

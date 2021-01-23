@@ -37,6 +37,7 @@ import {
 } from "../models";
 
 /** Class representing a Table. */
+/** @hidden */
 export class Table {
   private readonly client: GeneratedClient;
 
