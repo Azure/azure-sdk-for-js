@@ -2,19 +2,19 @@
   "tool": "Credential Scanner",
   "suppressions": [
     {
-      "hash": "efQ8O5wj+98pO9uoDas4uhlPwdp5GHCRs9N2Da2EC/g=",
+      "placeholder": "efQ8O5wj+98pO9uoDas4uhlPwdp5GHCRs9N2Da2EC/g=",
       "_justification": "Secret used by test code, it is fake."
     },
     {
-      "hash": "79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
+      "placeholder": "79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
       "_justification": "Secret used by test code, it is fake."
     },
     {
-      "hash": "AJ/qUoDtgLeA1A5ND2AS3uF7hsSe9O7imtXlkAj8VR4=",
+      "placeholder": "AJ/qUoDtgLeA1A5ND2AS3uF7hsSe9O7imtXlkAj8VR4=",
       "_justification": "Secret used by test code, it is fake."
     },
     {
-      "hash": "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
+      "placeholder": "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
       "_justification": "Secret used by test code, it is fake."
     }
   ]
