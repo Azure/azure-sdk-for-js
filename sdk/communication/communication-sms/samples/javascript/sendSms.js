@@ -33,7 +33,7 @@ async function main() {
   console.log("-- Sending Group SMS --");
 
   // Send SMS message
-  await client.send({ from, to, message }, { enableDeliveryReport: false, tag: "customTag" });
+  await client.send({ from, to, message }, { enableDeliveryReport: true, tag: "customTag" });
 
   console.log("Message sent!");
 }
