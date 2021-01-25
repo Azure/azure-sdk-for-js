@@ -4,7 +4,7 @@
 
 ```ts
 
-import { CommunicationUser } from '@azure/communication-common';
+import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
@@ -13,6 +13,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -78,31 +79,32 @@ export interface CarrierDetails {
 export class CommunicationIdentityClient {
     constructor(connectionString: string, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
+    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
     createUser(options?: OperationOptions): Promise<CreateUserResponse>;
-    deleteUser(user: CommunicationUser, options?: OperationOptions): Promise<VoidResponse>;
-    issueToken(user: CommunicationUser, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
-    revokeTokens(user: CommunicationUser, tokensValidFrom?: Date, options?: OperationOptions): Promise<VoidResponse>;
+    deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
+    issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
+    revokeTokens(user: CommunicationUserIdentifier, tokensValidFrom?: Date, options?: OperationOptions): Promise<VoidResponse>;
 }
 
 // @public
 export interface CommunicationIdentityOptions extends PipelineOptions {
 }
 
-// @public
+// @public (undocumented)
 export interface CommunicationIdentityToken {
     expiresOn: Date;
     id: string;
     token: string;
 }
 
-// @public
+// @public (undocumented)
 export interface CommunicationTokenRequest {
     scopes: string[];
 }
 
 // @public
 export interface CommunicationUserToken extends Pick<CommunicationIdentityToken, "token" | "expiresOn"> {
-    user: CommunicationUser;
+    user: CommunicationUserIdentifier;
 }
 
 // @public
@@ -141,10 +143,7 @@ export interface CreateReservationResponse {
 }
 
 // @public
-export type CreateUserResponse = WithResponse<CommunicationUser>;
-
-// @public
-export type CurrencyType = "USD";
+export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 
 // @public
 export type GetAreaCodesOptions = OperationOptions;
@@ -253,7 +252,6 @@ export interface LocationOptionsQuery {
 
 // @public
 export interface LocationOptionsResponse {
-    // (undocumented)
     locationOptions?: LocationOptions;
 }
 
@@ -263,13 +261,11 @@ export type LocationType = "CivicAddress" | "NotRequired" | "Selection";
 // @public
 export interface NumberConfiguration {
     phoneNumber: string;
-    // (undocumented)
     pstnConfiguration: PstnConfiguration;
 }
 
 // @public
 export interface NumberConfigurationResponse {
-    // (undocumented)
     pstnConfiguration: PstnConfiguration;
 }
 
@@ -293,6 +289,7 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: PhoneNumberAdministrationClientOptions);
     beginPurchaseReservation(reservationId: string, options?: BeginPurchaseReservationOptions): Promise<PollerLike<PollOperationState<void>, void>>;
     beginReleasePhoneNumbers(phoneNumbers: string[], options?: BeginReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
     beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>>;
@@ -416,7 +413,7 @@ export interface PhoneNumberRelease {
     status?: ReleaseStatus;
 }
 
-// @public
+// @public (undocumented)
 export interface PhoneNumberReleaseDetails {
     errorCode?: number;
     status?: PhoneNumberReleaseStatus;
@@ -456,13 +453,11 @@ export interface PhonePlan {
 
 // @public
 export interface PhonePlanGroup {
-    // (undocumented)
     carrierDetails?: CarrierDetails;
     localizedDescription: string;
     localizedName: string;
     phoneNumberType?: PhoneNumberType;
     phonePlanGroupId: string;
-    // (undocumented)
     rateInformation?: RateInformation;
 }
 
@@ -489,7 +484,7 @@ export type PurchaseReservationOptions = OperationOptions;
 
 // @public
 export interface RateInformation {
-    currencyType?: CurrencyType;
+    currencyType?: "USD";
     monthlyRate?: number;
     rateErrorMessage?: string;
 }

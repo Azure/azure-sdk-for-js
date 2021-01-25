@@ -21,8 +21,8 @@ export class MetricsAdvisorKeyCredential {
   /**
    * Creates an instance of MetricsAdvisorKeyCredential
    *
-   * @param subscriptionKey Subscription access key from the Azure portal
-   * @param apiKey API key from the Metrics Advisor web portal
+   * @param subscriptionKey - Subscription access key from the Azure portal
+   * @param apiKey - API key from the Metrics Advisor web portal
    */
   constructor(readonly subscriptionKey: string, readonly apiKey: string) {}
 }

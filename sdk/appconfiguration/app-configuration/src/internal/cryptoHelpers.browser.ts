@@ -5,7 +5,7 @@
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export async function sha256Digest(body: string | undefined): Promise<string> {
   const digest = await self.crypto.subtle.digest("SHA-256", new TextEncoder().encode(body || ""));
@@ -17,7 +17,7 @@ export async function sha256Digest(body: string | undefined): Promise<string> {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export async function sha256Hmac(secret: string, stringToSign: string): Promise<string> {
   const key = await self.crypto.subtle.importKey(

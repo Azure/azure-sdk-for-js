@@ -10,6 +10,7 @@ export {
   Block,
   BlockBlobCommitBlockListHeaders,
   BlockBlobGetBlockListHeaders,
+  BlockBlobPutBlobFromUrlHeaders,
   BlockBlobStageBlockFromURLHeaders,
   BlockBlobStageBlockHeaders,
   BlockBlobUploadHeaders,

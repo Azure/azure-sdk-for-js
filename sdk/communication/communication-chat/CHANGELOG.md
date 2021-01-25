@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.0-beta.4 (Unreleased)
+
+### Breaking Changes
+
+- Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
+- Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
+
 ## 1.0.0-beta.3 (2020-11-16)
 
 Updated `@azure/communication-chat` version.

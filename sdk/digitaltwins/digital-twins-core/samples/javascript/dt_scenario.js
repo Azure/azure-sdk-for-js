@@ -61,8 +61,8 @@ const { inspect } = require("util");
 // For the purpose of this example we will create temporary model and a temporay component model using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  // - AZURE_URL: The tenant ID in Azure Active Directory
-  const url = process.env.AZURE_URL;
+  // - AZURE_DIGITALTWINS_URL: The tenant ID in Azure Active Directory
+  const url = process.env.AZURE_DIGITALTWINS_URL;
 
   // - AZURE_EVENT_HUB_ENDPOINT_NAME
   const eventHubEndpointName = process.env.AZURE_EVENT_HUB_ENDPOINT_NAME;

@@ -29,28 +29,28 @@ export class IntegrationRuntimeMonitoringDataOperations {
    * Get monitoring data for an integration runtime
    * @summary Get integration runtime monitoring data
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
-   * @returns Promise<Models.IntegrationRuntimeMonitoringDataGetResponse>
+   * @returns Promise<Models.IntegrationRuntimeMonitoringDataListResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeMonitoringDataGetResponse>;
+  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeMonitoringDataListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
+  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
-  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): Promise<Models.IntegrationRuntimeMonitoringDataGetResponse> {
+  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): void;
+  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>, callback?: msRest.ServiceCallback<Models.IntegrationRuntimeMonitoringData>): Promise<Models.IntegrationRuntimeMonitoringDataListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,14 +58,14 @@ export class IntegrationRuntimeMonitoringDataOperations {
         integrationRuntimeName,
         options
       },
-      getOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeMonitoringDataGetResponse>;
+      listOperationSpec,
+      callback) as Promise<Models.IntegrationRuntimeMonitoringDataListResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const getOperationSpec: msRest.OperationSpec = {
+const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/monitoringData",
   urlParameters: [

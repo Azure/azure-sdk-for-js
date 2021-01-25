@@ -8,15 +8,22 @@ import {
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValueType,
+  KnownKeyValueType,
   KeyValuePair as KeyValuePairModel,
   SelectionMarkState,
+  KnownSelectionMarkState,
   Language,
+  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
-  ModelStatus
+  ModelStatus,
+  Appearance,
+  Style,
+  TextStyle,
+  KnownTextStyle
 } from "./generated/models";
 
 export {
@@ -24,19 +31,26 @@ export {
   KeysResult,
   KeyValueElementModel,
   KeyValueType,
+  KnownKeyValueType,
   KeyValuePairModel,
   SelectionMarkState,
+  KnownSelectionMarkState,
   Language,
+  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
-  TrainingStatus
+  TrainingStatus,
+  Appearance,
+  Style,
+  TextStyle,
+  KnownTextStyle
 };
 
 /**
- * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch' (See {link @LengthUnit}).
+ * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch', @see {@link LengthUnit}.
  */
 export interface Point2D {
   /**
@@ -106,6 +120,10 @@ export interface FormLine extends FormElementCommon {
    * List of words in the text line.
    */
   words: FormWord[];
+  /**
+   * Text appearance properties, such as style.
+   */
+  appearance?: Appearance;
 }
 
 /**
@@ -197,6 +215,13 @@ export interface FormTable {
    */
   columnCount: number;
   /**
+   * The bounding box of the recognized table
+   *
+   * Note: This may be `undefined` for FormTables recognized from from custom models trained
+   * without labels.
+   */
+  boundingBox?: Point2D[];
+  /**
    * List of cells in the data table
    */
   cells: FormTableCell[];
@@ -208,8 +233,8 @@ export interface FormTable {
 
 /**
  * Represents recognized elements of label-value pairs.
- * For example, "Work Address" is the label of
- * "Work Address: One Microsoft Way, Redmond, WA"
+ *
+ * For example, "Work Address" is the label of "Work Address: One Microsoft Way, Redmond, WA"
  */
 export interface FieldData {
   /**

@@ -20,7 +20,7 @@ export class OpenCensusTracerWrapper implements Tracer {
 
   /**
    * Create a new wrapper around a given OpenCensus Tracer.
-   * @param tracer The OpenCensus Tracer to wrap.
+   * @param tracer - The OpenCensus Tracer to wrap.
    */
   public constructor(tracer: OpenCensusTracer) {
     this._tracer = tracer;
@@ -28,8 +28,8 @@ export class OpenCensusTracerWrapper implements Tracer {
 
   /**
    * Starts a new Span.
-   * @param name The name of the span.
-   * @param options The SpanOptions used during Span creation.
+   * @param name - The name of the span.
+   * @param options - The SpanOptions used during Span creation.
    */
   startSpan(name: string, options?: SpanOptions): Span {
     return new OpenCensusSpanWrapper(this, name, options);
@@ -44,8 +44,8 @@ export class OpenCensusTracerWrapper implements Tracer {
 
   /**
    * Executes the given function within the context provided by a Span.
-   * @param _span The span that provides the context.
-   * @param _fn The function to be executed.
+   * @param _span - The span that provides the context.
+   * @param _fn - The function to be executed.
    */
   withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T> {
     throw new Error("Method not implemented.");
@@ -53,8 +53,8 @@ export class OpenCensusTracerWrapper implements Tracer {
 
   /**
    * Bind a Span as the target's scope
-   * @param target An object to bind the scope.
-   * @param _span A specific Span to use. Otherwise, use the current one.
+   * @param target - An object to bind the scope.
+   * @param _span - A specific Span to use. Otherwise, use the current one.
    */
   bind<T>(_target: T, _span?: Span): T {
     throw new Error("Method not implemented.");

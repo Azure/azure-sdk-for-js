@@ -10,7 +10,7 @@
 ## 2.1.0 (2019-08-06)
 
 - Added support for WebSockets. WebSockets enable Event processor Host to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
-  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/websockets.ts) sample to see how to use WebSockets.
+  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/typescript/src/websockets.ts) sample to see how to use WebSockets.
 - Fixed [bug 4363](https://github.com/Azure/azure-sdk-for-js/issues/4363) which stopped users from providing their own LeaseManager. If both a lease manager and the options for leaseDuration/leaseRenewInterval are provided, then the latter will be ignored in favor of the leaseDuration/leaseRenewInterval properties on the lease manager.
 
 ## 2.0.0 (2019-07-16)

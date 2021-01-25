@@ -8,7 +8,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * @param delayInMs The number of milliseconds to be delayed.
  * @param abortSignal The abortSignal associated with the containing operation.
  * @internal
- * @ignore
+ * @hidden
  */
 export async function delayWithoutThrow(
   delayInMs: number,
@@ -16,5 +16,7 @@ export async function delayWithoutThrow(
 ): Promise<void> {
   try {
     await delay(delayInMs, abortSignal);
-  } catch {} // swallow AbortError
+  } catch {
+    /* no-op to swallow AbortError */
+  }
 }

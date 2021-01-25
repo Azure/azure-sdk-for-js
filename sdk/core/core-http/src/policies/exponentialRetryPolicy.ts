@@ -43,7 +43,6 @@ export function exponentialRetryPolicy(
 
 /**
  * Describes the Retry Mode type. Currently supporting only Exponential.
- * @enum RetryMode
  */
 export enum RetryMode {
   Exponential
@@ -84,7 +83,6 @@ export const DefaultRetryOptions: RetryOptions = {
 };
 
 /**
- * @class
  * Instantiates a new "ExponentialRetryPolicyFilter" instance.
  */
 export class ExponentialRetryPolicy extends BaseRequestPolicy {
@@ -102,13 +100,12 @@ export class ExponentialRetryPolicy extends BaseRequestPolicy {
   maxRetryInterval: number;
 
   /**
-   * @constructor
-   * @param {RequestPolicy} nextPolicy The next RequestPolicy in the pipeline chain.
-   * @param {RequestPolicyOptions} options The options for this RequestPolicy.
-   * @param {number} [retryCount]        The client retry count.
-   * @param {number} [retryInterval]     The client retry interval, in milliseconds.
-   * @param {number} [minRetryInterval]  The minimum retry interval, in milliseconds.
-   * @param {number} [maxRetryInterval]  The maximum retry interval, in milliseconds.
+   * @param nextPolicy - The next RequestPolicy in the pipeline chain.
+   * @param options - The options for this RequestPolicy.
+   * @param retryCount - The client retry count.
+   * @param retryInterval - The client retry interval, in milliseconds.
+   * @param minRetryInterval - The minimum retry interval, in milliseconds.
+   * @param maxRetryInterval - The maximum retry interval, in milliseconds.
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -140,8 +137,8 @@ async function retry(
   retryData?: RetryData,
   requestError?: RetryError
 ): Promise<HttpOperationResponse> {
-  function shouldPolicyRetry(response?: HttpOperationResponse): boolean {
-    const statusCode = response?.status;
+  function shouldPolicyRetry(responseParam?: HttpOperationResponse): boolean {
+    const statusCode = responseParam?.status;
     if (
       statusCode === undefined ||
       (statusCode < 500 && statusCode !== 408) ||

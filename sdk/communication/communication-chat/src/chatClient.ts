@@ -5,7 +5,7 @@
 import { logger } from "./models/logger";
 import { EventEmitter } from "events";
 import { SDK_VERSION } from "./constants";
-import { CommunicationUserCredential } from "@azure/communication-common";
+import { CommunicationTokenCredential } from "@azure/communication-common";
 import {
   SignalingClient,
   ChatEventId,
@@ -16,7 +16,6 @@ import {
   TypingIndicatorReceivedEvent
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
-import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -47,6 +46,7 @@ import {
 } from "./models/mappers";
 import { ChatThreadInfo, ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
 export { ChatThreadInfo } from "./generated/src";
 
@@ -54,7 +54,7 @@ export { ChatThreadInfo } from "./generated/src";
  * The client to do chat operations
  */
 export class ChatClient {
-  private readonly tokenCredential: CommunicationUserCredential;
+  private readonly tokenCredential: CommunicationTokenCredential;
   private readonly clientOptions: ChatClientOptions;
   // private readonly api: Chat;
   private readonly client: ChatApiClient;
@@ -66,12 +66,12 @@ export class ChatClient {
    * Creates an instance of the ChatClient for a given resource and user.
    *
    * @param url The url of the Communication Services resouce.
-   * @param credential The user credential. Use AzureCommunicationUserCredential from @azure/communication-common to create a credential.
+   * @param credential The token credential. Use AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
    * @param options Additional client options.
    */
   constructor(
     private readonly url: string,
-    credential: CommunicationUserCredential,
+    credential: CommunicationTokenCredential,
     options: ChatClientOptions = {}
   ) {
     this.tokenCredential = credential;
@@ -99,7 +99,7 @@ export class ChatClient {
       }
     };
 
-    const authPolicy = createCommunicationUserCredentialPolicy(this.tokenCredential);
+    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.client = new ChatApiClient(this.url, pipeline);

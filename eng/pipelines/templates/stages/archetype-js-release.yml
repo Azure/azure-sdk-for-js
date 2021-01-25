@@ -99,7 +99,7 @@ stages:
               pool:
                 vmImage: windows-2019
               variables:
-                CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest'}]}"
+                CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest'}]}"
 
               strategy:
                 runOnce:
@@ -152,7 +152,7 @@ stages:
                     steps:
                       - checkout: self
                       - pwsh: |
-                          $adjustedName = "${{artifact.name}}".Replace("azure-", "")
+                          $adjustedName = "${{artifact.name}}" -replace "^azure-", ""
                           Write-Host "##vso[task.setvariable variable=Documentation.Zip]$adjustedName"
                         displayName: Set Documentation File Name
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml

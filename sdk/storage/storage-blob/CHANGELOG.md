@@ -1,7 +1,24 @@
 # Release History
 
-## 12.3.1 (Unreleased)
+## 12.4.1 (Unreleased)
 
+- Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+
+## 12.4.0 (2021-01-12)
+
+- Added a new `from(permissionLike)` function to `AccountSASPermissions`, `BlobSASPermissions` and `ContainerSASPermissions` for creating such a permission from a raw permission-like object. Addressed issue [9714](https://github.com/Azure/azure-sdk-for-js/issues/9714).
+
+## 12.4.0-beta.1 (2020-12-09)
+
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added a new interface `BlockBlobClient.syncUploadFromURL()` to support creating a new Block Blob where the contents of the blob are read from a given URL.
+- Blob Tags updates: `BlobClient.setTags()` and `BlobClient.getTags()` now support the `LeaseAccessConditions` and `BlobServiceClient.findBlobsByTags()` will return all matching tags for each blob.
+- Added `generateSasUrl` to `BlobClient` and `ContainerClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `BlobServiceClient` to generate an account-level SAS URI for the client.
+- Fixed a bug where the `credential` property of the `StorageClient` is not set correctly when using a Token credential. Fixed bug [12219](https://github.com/Azure/azure-sdk-for-js/issues/12219).
+- Blob Batch operations now reorder the subresponses in the client side to perserve the original input order. See `BlobBatchClient.submitBatch()` and [12335](https://github.com/Azure/azure-sdk-for-js/issues/12335).
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
+- Added `isHierarchicalNamespaceEnabled` to the response of `BlobServiceClient.getAccountInfo()`.
 
 ## 12.3.0 (2020-11-10)
 

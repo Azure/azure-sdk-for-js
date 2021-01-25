@@ -6,7 +6,7 @@ import { DeletedKey } from "../../keysModels";
 import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller";
 
 /**
- * Class that deletes a poller that waits until a key finishes being deleted
+ * Class that creates a poller that waits until a key finishes being deleted.
  */
 export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationState, DeletedKey> {
   constructor(options: KeyVaultKeyPollerOptions) {

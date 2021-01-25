@@ -20,7 +20,7 @@ export function hashV1PartitionKey(partitionKey: v1Key): string {
     .toUpperCase();
 }
 
-function prefixKeyByType(key: v1Key) {
+function prefixKeyByType(key: v1Key): Buffer {
   let bytes: Buffer;
   switch (typeof key) {
     case "string":
@@ -45,10 +45,12 @@ function prefixKeyByType(key: v1Key) {
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
       return Buffer.from(BytePrefix.Undefined, "hex");
+    default:
+      throw new Error(`Unexpected type: ${typeof key}`);
   }
 }
 
-function encodeByType(key: v1Key) {
+function encodeByType(key: v1Key): Buffer {
   switch (typeof key) {
     case "string":
       const truncated = key.substr(0, MAX_STRING_CHARS);
@@ -66,5 +68,7 @@ function encodeByType(key: v1Key) {
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
       return Buffer.from(BytePrefix.Undefined, "hex");
+    default:
+      throw new Error(`Unexpected type: ${typeof key}`);
   }
 }

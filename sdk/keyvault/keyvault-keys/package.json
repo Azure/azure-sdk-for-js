@@ -28,7 +28,6 @@
   "files": [
     "types/keyvault-keys.d.ts",
     "dist/",
-    "dist-browser/",
     "dist-esm/keyvault-keys/src",
     "dist-esm/keyvault-common/src",
     "README.md",
@@ -68,7 +67,8 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
     "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "//metadata": {
@@ -98,6 +98,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
+    "@azure/test-utils-multi-version": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
@@ -114,7 +115,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "fs-extra": "^8.1.0",
     "karma": "^5.1.0",
@@ -129,7 +130,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
@@ -144,7 +145,8 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.9.3",
-    "url": "^0.11.0"
+    "typescript": "4.1.2",
+    "url": "^0.11.0",
+    "typedoc": "0.15.2"
   }
 }

@@ -1,7 +1,16 @@
 # Release History
 
-## 5.3.2 (Unreleased)
+## 5.4.0 (Unreleased)
 
+- Adds the `customEndpointAddress` field to `EventHubClientOptions`.
+  This allows for specifying a custom endpoint to use when communicating
+  with the Event Hubs service, which is useful when your network does not
+  allow communicating to the standard Event Hubs endpoint.
+  Resolves [#12901](https://github.com/Azure/azure-sdk-for-js/issues/12901).
+
+- Updates documentation for `EventData` to call out that the `body` field
+  must be converted to a byte array or `Buffer` when cross-language
+  compatibility while receiving events is required.
 
 ## 5.3.1 (2020-11-12)
 

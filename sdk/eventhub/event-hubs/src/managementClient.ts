@@ -13,6 +13,7 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
+import { AccessToken } from "@azure/core-auth";
 import {
   EventContext,
   Message,
@@ -88,7 +89,7 @@ export interface PartitionProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface ManagementClientOptions {
   address?: string;
@@ -98,7 +99,7 @@ export interface ManagementClientOptions {
 /**
  * @class ManagementClient
  * @internal
- * @ignore
+ * @hidden
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
@@ -121,7 +122,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Instantiates the management client.
    * @constructor
-   * @ignore
+   * @hidden
    * @param context The connection context.
    * @param [address] The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
@@ -138,10 +139,10 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Gets the security token for the management application properties.
-   * @ignore
+   * @hidden
    * @internal
    */
-  async getSecurityToken() {
+  async getSecurityToken(): Promise<AccessToken | null> {
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
@@ -160,7 +161,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides the eventhub runtime information.
-   * @ignore
+   * @hidden
    */
   async getEventHubProperties(
     options: OperationOptions & { retryOptions?: RetryOptions } = {}
@@ -214,7 +215,7 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Provides information about the specified partition.
-   * @ignore
+   * @hidden
    * @param partitionId Partition ID for which partition information is required.
    */
   async getPartitionProperties(
@@ -287,8 +288,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Closes the AMQP management session to the Event Hub for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @ignore
-   * @returns
+   * @hidden
    */
   async close(): Promise<void> {
     try {
@@ -368,12 +368,12 @@ export class ManagementClient extends LinkEntity {
         await this._ensureTokenRenewal();
       }
     } catch (err) {
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
-        `[${this._context.connectionId}] An error occured while establishing the $management links: ${err?.name}: ${err?.message}`
+        `[${this._context.connectionId}] An error occured while establishing the $management links: ${translatedError?.name}: ${translatedError?.message}`
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 
@@ -394,14 +394,14 @@ export class ManagementClient extends LinkEntity {
     try {
       const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
-      const sendOperationPromise = () =>
+      const sendOperationPromise = (): Promise<Message> =>
         new Promise<Message>(async (resolve, reject) => {
           let count = 0;
 
           const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
           let timeTakenByInit = 0;
 
-          const rejectOnAbort = () => {
+          const rejectOnAbort = (): void => {
             const requestName = options.requestName;
             const desc: string =
               `[${this._context.connectionId}] The request "${requestName}" ` +
@@ -429,7 +429,7 @@ export class ManagementClient extends LinkEntity {
 
             const initOperationStartTime = Date.now();
 
-            const actionAfterTimeout = () => {
+            const actionAfterTimeout = (): void => {
               const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
               const e: Error = {
                 name: "OperationTimeoutError",
@@ -474,16 +474,15 @@ export class ManagementClient extends LinkEntity {
             const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
             resolve(result);
           } catch (err) {
-            err = translate(err);
+            const translatedError = translate(err);
             logger.warning(
-              "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %s",
+              "[%s] An error occurred during send on management request-response link with address '%s': %s",
               this._context.connectionId,
               this.address,
-              `${err?.name}: ${err?.message}`
+              `${translatedError?.name}: ${translatedError?.message}`
             );
-            logErrorStackTrace(err);
-            reject(err);
+            logErrorStackTrace(translatedError);
+            reject(translatedError);
           }
         });
 
@@ -496,12 +495,12 @@ export class ManagementClient extends LinkEntity {
       };
       return (await retry<Message>(config)).body;
     } catch (err) {
-      err = translate(err);
+      const translatedError = translate(err);
       logger.warning(
-        `An error occurred while making the request to $management endpoint: ${err?.name}: ${err?.message}`
+        `An error occurred while making the request to $management endpoint: ${translatedError?.name}: ${translatedError?.message}`
       );
-      logErrorStackTrace(err);
-      throw err;
+      logErrorStackTrace(translatedError);
+      throw translatedError;
     }
   }
 

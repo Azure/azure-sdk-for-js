@@ -147,7 +147,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `https://contoso.spool.azure.local/administration/phonenumbers/countries/${searchRequest.countryCode}/areacodes?locationType=${searchRequest.locationType}&phonePlanId=${searchRequest.phonePlanId}&api-version=${API_VERSION}`
+      `https://contoso.spool.azure.local/administration/phonenumbers/countries/${searchRequest.countryCode}/areacodes?api-version=${API_VERSION}&locationType=${searchRequest.locationType}&phonePlanId=${searchRequest.phonePlanId}`
     );
   });
 });
