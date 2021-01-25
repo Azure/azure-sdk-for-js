@@ -108,10 +108,10 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can create a RSA key with publicExponent", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options = {
-      publicExponent: 123
+      publicExponent: 3
     };
     const result = await client.createRsaKey(keyName, options);
-    assert.exists(result.id);
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
   });
 
