@@ -13,5 +13,5 @@ export interface PartitionKeyDefinition {
    */
   version?: number;
   systemKey?: boolean;
-  kind?: string
+  kind?: string;
 }
