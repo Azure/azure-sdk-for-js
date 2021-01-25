@@ -145,7 +145,7 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/public/*.spec.js", "dist-esm/test/internal/*.spec.js"];
 
     baseConfig.external.unshift(...["process"]);
 
