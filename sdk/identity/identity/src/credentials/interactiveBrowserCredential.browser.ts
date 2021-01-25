@@ -122,10 +122,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       } else {
         const accounts = this.msalObject.getAllAccounts();
         if (accounts.length > 1) {
-          logger.info(
-            `WARNING: More than one account was found. Cleaning the MSAL cache. A new login needs to be processed.`
+          throw new Error(
+            [
+              "More than one account was found authenticated for this Client ID and Tenant ID.",
+              "This scenario is not yet supported by @azure/identity.",
+              "For now, you can bypass this error by cleaning up your browser cache."
+            ].join("\n")
           );
-          // TODO: When available, use this.msalObject.localLogout()
         } else if (accounts.length === 1) {
           this.msalObject.setActiveAccount(accounts[0]);
         } else {
