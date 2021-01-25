@@ -65,7 +65,6 @@ import { AzureMediaServices, AzureMediaServicesModels, AzureMediaServicesMappers
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { resourceUsage } from "process";
 dotenv.config();
 
 export async function main() {
