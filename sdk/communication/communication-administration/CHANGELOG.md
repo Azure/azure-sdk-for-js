@@ -2,21 +2,18 @@
 
 ## 1.0.0-beta.4 (Unreleased)
 
+### Added
+
+- `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
+
 ### Breaking Changes
 
-- Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
-- `CommunicationIdentityClient` method `revokeTokens` no longer accepts `tokensValidFrom` as an argument.
+- `CommunicationIdentityClient` moved to the new `@azure/communication-identity` package.
 
 ### Key bug fixes
 
 - Fixed a bug where poller options were ignored for `beginReleasePhoneNumbers`, `beginReservePhoneNumbers` and `beginPurchaseReservation`.
 - Fixed paging for `listPhoneNumbers`, `listPhonePlanGroups`, `listPhonePlans`, `listReleases`, `listSearches`, `listSupportedCountries`.
-
-### Added
-
-- `CommunicationIdentityClient` added a constructor that supports `TokenCredential`.
-- `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
-- `CommunicationIdentityClient` added a new method `createUserWithToken`.
 
 ## 1.0.0-beta.3 (2020-11-16)
 

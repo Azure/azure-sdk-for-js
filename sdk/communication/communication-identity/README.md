@@ -1,6 +1,6 @@
 # Azure Communication Identity client library for JavaScript
 
-The administration library is used for managing users and tokens for Azure Communication Services.
+The identity library is used for managing users and tokens for Azure Communication Services.
 
 ## Getting started
 
@@ -51,7 +51,7 @@ const client = new CommunicationIdentityClient(connectionString);
 ```typescript
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new CommunicationIdentityClient(HOST, credential);
 ```
 
@@ -96,13 +96,11 @@ To refresh the user token, issue another token with the same user.
 
 #### Revoking tokens for a user
 
-Use the `revokeTokens` method to revoke all the issued tokens of a user.
+Use the `revokeTokens` method to revoke all issued tokens for a user.
 
 ```typescript
 await client.revokeTokens(user);
 ```
-
-`revokeTokens` takes an optional second argument, `tokensValidFrom`. If this date is provided, `revokeTokens` will revoke all tokens issued before it. Otherwise, all tokens will be revoked.
 
 #### Deleting a user
 

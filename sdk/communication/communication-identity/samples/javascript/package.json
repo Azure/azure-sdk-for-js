@@ -1,7 +1,7 @@
 {
-  "name": "azure-communication-configuration-user-token-samples-js",
+  "name": "azure-communication-identity-user-token-samples-js",
   "version": "0.1.0",
-  "description": "Azure Communication Service User Token Management client library samples for JavaScript",
+  "description": "Azure Communication Identity client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },

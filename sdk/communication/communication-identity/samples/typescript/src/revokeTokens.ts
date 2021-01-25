@@ -6,7 +6,7 @@
  * issue a new user token.
  */
 
-import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
