@@ -202,7 +202,6 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.unwrapKey(algorithm, encryptedKey, options);
     } else {
-      // Todo: this need to be higher level / public API if not already?
       throw new Error("Unwrapping a local JsonWebKey is not supported.");
     }
   }
