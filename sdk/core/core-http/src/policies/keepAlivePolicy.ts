@@ -41,9 +41,9 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of KeepAlivePolicy.
    *
-   * @param nextPolicy -
-   * @param options -
-   * @param keepAliveOptions -
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
+   * @param {KeepAliveOptions} [keepAliveOptions]
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -56,8 +56,9 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param request -
-   * @returns
+   * @param {WebResourceLike} request
+   * @returns {Promise<HttpOperationResponse>}
+   * @memberof KeepAlivePolicy
    */
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     request.keepAlive = this.keepAliveOptions.enable;

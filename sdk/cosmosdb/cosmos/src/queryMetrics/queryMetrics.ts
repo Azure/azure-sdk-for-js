@@ -28,7 +28,7 @@ export class QueryMetrics {
    * Gets the IndexHitRatio
    * @memberof QueryMetrics
    * @instance
-   * @hidden
+   * @ignore
    */
   public get indexHitRatio() {
     return this.retrievedDocumentCount === 0
@@ -95,7 +95,7 @@ export class QueryMetrics {
    * Output the QueryMetrics as a delimited string.
    * @memberof QueryMetrics
    * @instance
-   * @hidden
+   * @ignore
    */
   public toDelimitedString() {
     return (

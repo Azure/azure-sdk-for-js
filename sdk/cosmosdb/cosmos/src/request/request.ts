@@ -29,7 +29,7 @@ export function bodyFromData(data: Buffer | string | object) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 interface GetHeadersOptions {
   clientOptions: CosmosClientOptions;
@@ -47,7 +47,7 @@ interface GetHeadersOptions {
 const JsonContentType = "application/json";
 
 /**
- * @hidden
+ * @ignore
  * @param param0
  */
 export async function getHeaders({

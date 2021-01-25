@@ -30,17 +30,16 @@ export interface KeyVaultKeyPollOperationState<TResult> extends PollOperationSta
 /**
  * Common properties and methods of the Key Vault Key Pollers.
  */
-export abstract class KeyVaultKeyPoller<
-  TState extends KeyVaultKeyPollOperationState<TResult>,
-  TResult
-> extends Poller<TState, TResult> {
+export abstract class KeyVaultKeyPoller<TState, TResult> extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
+   * @memberof DeleteKeyPoller
    */
   public intervalInMs: number = 2000;
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
+   * @memberof DeleteKeyPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);
@@ -51,37 +50,37 @@ export abstract class KeyVaultKeyPoller<
  * Optional parameters to the KeyVaultKeyPollOperation
  */
 export interface KeyVaultKeyPollOperationOptions {
-  cancelMessage?: string;
+  cancelMessage: string;
 }
 
 /**
  * Common properties and methods of the Key Vault Key Poller operations.
  */
 export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
-  private cancelMessage: string = "";
+  private cancelMessage: string;
 
-  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions = {}) {
-    if (options.cancelMessage) {
-      this.cancelMessage = options.cancelMessage;
-    }
+  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions) {
+    this.cancelMessage = options.cancelMessage;
   }
 
   /**
-   * Meant to reach to the service and update the Poller operation.
+   * @summary Meant to reach to the service and update the Poller operation.
+   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
    */
   public async update(): Promise<PollOperation<TState, TResult>> {
     throw new Error("Operation not supported.");
   }
 
   /**
-   * Meant to reach to the service and cancel the Poller operation.
+   * @summary Meant to reach to the service and cancel the Poller operation.
+   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
    */
   public async cancel(): Promise<PollOperation<TState, TResult>> {
     throw new Error(this.cancelMessage);
   }
 
   /**
-   * Serializes the Poller operation.
+   * @summary Serializes the Poller operation.
    */
   public toString(): string {
     return JSON.stringify({

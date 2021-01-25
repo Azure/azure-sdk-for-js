@@ -207,21 +207,6 @@ export const blobContentType: coreHttp.OperationParameter = {
     }
   }
 };
-export const blobDeleteType: coreHttp.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "blobDeleteType"
-  ],
-  mapper: {
-    serializedName: "deletetype",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "Permanent"
-      ]
-    }
-  }
-};
 export const blobSequenceNumber: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -685,18 +670,6 @@ export const copySource: coreHttp.OperationParameter = {
     serializedName: "x-ms-copy-source",
     type: {
       name: "String"
-    }
-  }
-};
-export const copySourceBlobProperties: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "copySourceBlobProperties"
-  ],
-  mapper: {
-    serializedName: "x-ms-copy-source-blob-properties",
-    type: {
-      name: "Boolean"
     }
   }
 };
@@ -1707,7 +1680,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2020-04-08',
+    defaultValue: '2020-02-10',
     type: {
       name: "String"
     }

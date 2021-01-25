@@ -17,11 +17,11 @@ export type LocalCryptographyOperationName = "encrypt" | "wrapKey" | "createHash
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * Abstract representation of a assertion.
  * Assertions verify that the requirements to execute a local cryptography operation are met.
- * @param key - The JSON Web Key that will be used during the local operation.
- * @param operationName - The name of the operation, as in "encrypt", "decrypt", "sign", etc.
+ * @param key The JSON Web Key that will be used during the local operation.
+ * @param operationName The name of the operation, as in "encrypt", "decrypt", "sign", etc.
  */
 export type LocalAssertion = (
   key?: JsonWebKey,
@@ -43,16 +43,16 @@ export type LocalSupportedAlgorithmName =
 
 /**
  * Abstract representation of a Local Cryptography Operation function.
- * @param keyPEM - The string representation of a PEM key.
- * @param data - The data used on the cryptography operation, in Buffer type.
+ * @param keyPEM The string representation of a PEM key.
+ * @param data The data used on the cryptography operation, in Buffer type.
  */
 export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) => Promise<Buffer>;
 
 /**
  * Abstract representation of a Local Cryptography Operation function, this time with an additional signature buffer.
- * @param keyPEM - The string representation of a PEM key.
- * @param data - The data used on the cryptography operation, in Buffer type.
- * @param signature - The signature used on the cryptography operation, in Buffer type.
+ * @param keyPEM The string representation of a PEM key.
+ * @param data The data used on the cryptography operation, in Buffer type.
+ * @param signature The signature used on the cryptography operation, in Buffer type.
  */
 export type LocalCryptographyOperationFunctionWithSignature = (
   keyPEM: string,

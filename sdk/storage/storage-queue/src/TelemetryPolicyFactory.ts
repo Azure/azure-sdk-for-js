@@ -23,7 +23,7 @@ import { SDK_VERSION } from "./utils/constants";
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * @internal
-   * @hidden
+   * @ignore
    */
   public readonly telemetryString: string;
 
@@ -37,7 +37,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.userAgentPrefix || "";
+        const telemetryString = (telemetry.userAgentPrefix || "").replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }

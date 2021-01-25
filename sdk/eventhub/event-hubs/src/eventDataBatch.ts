@@ -9,7 +9,6 @@ import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { defaultDataTransformer } from "./dataTransformer";
-import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -28,11 +27,11 @@ const smallMessageMaxBytes = 255;
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
  * @param eventDataBatch The instance of `EventDataBatch` to verify.
  * @internal
- * @hidden
+ * @ignore
  */
-export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is EventDataBatch {
+export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
   return (
-    isObjectWithProperties(eventDataBatch, ["count", "sizeInBytes", "tryAdd"]) &&
+    eventDataBatch &&
     typeof eventDataBatch.tryAdd === "function" &&
     typeof eventDataBatch.count === "number" &&
     typeof eventDataBatch.sizeInBytes === "number"
@@ -64,7 +63,7 @@ export interface EventDataBatch {
    * set the partitionKey.
    * @readonly
    * @internal
-   * @hidden
+   * @ignore
    */
   readonly partitionKey?: string;
 
@@ -73,7 +72,7 @@ export interface EventDataBatch {
    * the `EventHubProducerClient` to set the partitionId.
    * @readonly
    * @internal
-   * @hidden
+   * @ignore
    */
   readonly partitionId?: string;
 
@@ -114,7 +113,7 @@ export interface EventDataBatch {
    * This is not meant for the user to use directly.
    *
    * @internal
-   * @hidden
+   * @ignore
    */
   _generateMessage(): Buffer;
 
@@ -122,7 +121,7 @@ export interface EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @hidden
+   * @ignore
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -132,7 +131,7 @@ export interface EventDataBatch {
  *
  * @class
  * @internal
- * @hidden
+ * @ignore
  */
 export class EventDataBatchImpl implements EventDataBatch {
   /**
@@ -183,7 +182,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Use the `createBatch()` method on your `EventHubProducer` instead.
    * @constructor
    * @internal
-   * @hidden
+   * @ignore
    */
   constructor(
     context: ConnectionContext,
@@ -193,8 +192,8 @@ export class EventDataBatchImpl implements EventDataBatch {
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
-    this._partitionKey = isDefined(partitionKey) ? String(partitionKey) : partitionKey;
-    this._partitionId = isDefined(partitionId) ? String(partitionId) : partitionId;
+    this._partitionKey = partitionKey != undefined ? String(partitionKey) : partitionKey;
+    this._partitionId = partitionId != undefined ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
     this._count = 0;
   }
@@ -245,7 +244,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
-   * @hidden
+   * @ignore
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;

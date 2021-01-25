@@ -17,9 +17,10 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
   /**
    * Creates a new BasicAuthenticationCredentials object.
    *
-   * @param userName - User name.
-   * @param password - Password.
-   * @param authorizationScheme - The authorization scheme.
+   * @constructor
+   * @param {string} userName User name.
+   * @param {string} password Password.
+   * @param {string} [authorizationScheme] The authorization scheme.
    */
   constructor(
     userName: string,
@@ -40,8 +41,8 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
   /**
    * Signs a request with the Authentication header.
    *
-   * @param webResource - The WebResourceLike to be signed.
-   * @returns The signed request object.
+   * @param {WebResourceLike} webResource The WebResourceLike to be signed.
+   * @returns {Promise<WebResourceLike>} The signed request object.
    */
   signRequest(webResource: WebResourceLike): Promise<WebResourceLike> {
     const credentials = `${this.userName}:${this.password}`;

@@ -12,11 +12,11 @@ urlFragment: keyvault-keys-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                  |
+| **File Name**                  | **Description**                                                 |
 | ------------------------------- | ---------------------------------------------------------------- |
 | [cryptography.js][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
 | [helloWorld.js][helloworld]     | creates, reads, lists, and deletes keys                          |
-| [purgeAllKeys.js][purgeallkeys] | purges all the keys of a Key Vault (useful for repeated tests)   |
+| [purgeAllKeys.js][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)    |
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ The samples are compatible with Node.js >= 8.0.0.
 
 You need [an Azure subscription][freesub] and [an Azure Key Vault][azkeyvault] to run these sample programs. To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftests-resources.json)
 
 If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [this page][kvsoftdelete] for more information.
 
@@ -62,7 +62,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript/cryptography.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
-[purgeallkeys]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/purgeAllKeys.js
+[purgeAllKeys]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/purgeAllKeys.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

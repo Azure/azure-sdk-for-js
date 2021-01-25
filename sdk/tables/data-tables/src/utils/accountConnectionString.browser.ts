@@ -7,10 +7,10 @@ import { ConnectionString } from "./internalModels";
 /**
  * Gets client parameters from an Account Connection String
  * Only supported in Node.js not supported for Browsers
- * @param _extractedCreds - parsed connection string
- * @param _options - TablesServiceClient options
+ * @param _extractedCreds parsed connection string
+ * @param _options TablesServiceClient options
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function fromAccountConnectionString(
   _connectionString: ConnectionString,
   _options?: TableServiceClientOptions

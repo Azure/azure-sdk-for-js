@@ -21,7 +21,6 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isDefined } from "./util/typeGuards";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 
 /**
@@ -70,6 +69,7 @@ export class EventHubProducerClient {
   }
 
   /**
+   * @constructor
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
@@ -81,8 +81,9 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(connectionString: string, options?: EventHubClientOptions);
   /**
+   * @constructor
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
@@ -95,8 +96,9 @@ export class EventHubProducerClient {
    * - `webSocketOptions`: Configures the channelling of the AMQP connection over Web Sockets.
    * - `userAgent`      : A string to append to the built in user agent string that is passed to the service.
    */
-  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions); // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
   /**
+   * @constructor
    * The `EventHubProducerClient` class is used to send events to an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
@@ -114,13 +116,13 @@ export class EventHubProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential,
-    options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options?: EventHubClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
     credentialOrOptions3?: TokenCredential | EventHubClientOptions,
-    options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options4?: EventHubClientOptions
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,
@@ -175,7 +177,7 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
 
-    if (isDefined(options.partitionId) && isDefined(options.partitionKey)) {
+    if (options.partitionId != undefined && options.partitionKey != undefined) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
 
@@ -261,7 +263,7 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>; // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
   async sendBatch(
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {}
@@ -317,16 +319,16 @@ export class EventHubProducerClient {
         }
       }
     }
-    if (isDefined(partitionId) && isDefined(partitionKey)) {
+    if (partitionId != undefined && partitionKey != undefined) {
       throw new Error(
         `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
       );
     }
 
-    if (isDefined(partitionId)) {
+    if (partitionId != undefined) {
       partitionId = String(partitionId);
     }
-    if (isDefined(partitionKey)) {
+    if (partitionKey != undefined) {
       partitionKey = String(partitionKey);
     }
 

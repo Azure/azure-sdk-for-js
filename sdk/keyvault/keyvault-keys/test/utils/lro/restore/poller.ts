@@ -27,6 +27,7 @@ export class RestoreKeyBackupPoller extends Poller<
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
+   * @memberof RestoreKeyBackupPoller
    */
   public intervalInMs: number;
 
@@ -53,6 +54,7 @@ export class RestoreKeyBackupPoller extends Poller<
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
+   * @memberof RestoreKeyBackupPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

@@ -10,9 +10,7 @@ import {
   RequestPolicyOptions
 } from "@azure/core-http";
 
-interface PerfStressPolicyOptions {
-  url: string;
-}
+type OptionNames = "url";
 
 const defaultResponse = {
   status: 200,
@@ -24,8 +22,8 @@ const defaultResponse = {
  * Tests the behavior of the PerfStressPolicy.
  * Similar to the tests available in the core-http package of the default policies provided.
  */
-export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions> {
-  public options: PerfStressOptionDictionary<PerfStressPolicyOptions> = {
+export class PerfStressPolicyTest extends PerfStressTest<OptionNames> {
+  public options: PerfStressOptionDictionary<OptionNames> = {
     url: {
       required: true,
       description: "URL that will replace any request's original targeted URL",
@@ -33,8 +31,8 @@ export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions
     }
   };
   async runAsync(): Promise<void> {
-    const targetUrl = url.parse(this.parsedOptions.url.value!);
-    const differentUrl = url.parse(this.parsedOptions.url.value!);
+    const targetUrl = url.parse(this.options.url.value! as string);
+    const differentUrl = url.parse(this.options.url.value! as string);
     differentUrl.host = `not-${differentUrl.host}`;
 
     const request = new WebResource(url.format(differentUrl));

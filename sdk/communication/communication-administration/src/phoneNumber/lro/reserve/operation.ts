@@ -53,17 +53,14 @@ export class ReservePhoneNumbersPollOperation extends PhoneNumberReservationPoll
     const { name, description, phonePlanIds, areaCode, quantity } = reservationRequest;
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-createReservation",
-      options
+      Object.assign(options, { quantity })
     );
     try {
       const { searchId, _response } = await this._client.createSearch(
-        {
-          displayName: name,
-          description,
-          phonePlanIds,
-          quantity,
-          areaCode
-        },
+        name,
+        description,
+        phonePlanIds,
+        areaCode,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<CreateReservationResponse>({ reservationId: searchId }, _response);

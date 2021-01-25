@@ -6,4 +6,6 @@ steps:
     inputs:
       versionSpec: "3.6"
 
+  - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
+
   - template: use-node-version.yml

@@ -35,6 +35,7 @@ export {
   ListSharesIncludeType,
   FileRange as RangeModel,
   ServiceGetPropertiesResponse,
+  ServiceListSharesSegmentResponse,
   ServiceSetPropertiesResponse,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
@@ -42,9 +43,9 @@ export {
   ShareDeleteResponse,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
-  ShareGetPropertiesResponse as ShareGetPropertiesResponseModel,
+  ShareGetPropertiesResponse,
   ShareGetStatisticsResponse as ShareGetStatisticsResponseModel,
-  ShareItemInternal,
+  ShareItem,
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
   ShareSetPropertiesResponse,
@@ -77,7 +78,7 @@ export {
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
   ServiceGetPropertiesHeaders,
-  ListSharesResponse as ListSharesResponseModel,
+  ListSharesResponse,
   RetentionPolicy,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,
@@ -90,7 +91,7 @@ export {
   ShareGetPropertiesHeaders,
   ShareStats,
   ShareGetStatisticsHeaders,
-  SharePropertiesInternal,
+  ShareProperties,
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,
   ShareSetPropertiesHeaders,
@@ -106,8 +107,7 @@ export {
   FileGetRangeListResponse as FileGetRangeListDiffResponse,
   ShareFileRangeList,
   ClearRange,
-  ShareAccessTier,
-  ShareRootSquash
+  ShareAccessTier
 } from "./generated/src/models";
 
 import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";

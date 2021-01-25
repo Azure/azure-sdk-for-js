@@ -71,7 +71,8 @@ function appendUserAgentPrefix(options?: StoragePipelineOptions): StoragePipelin
   if (options.userAgentOptions.userAgentPrefix === undefined) {
     options.userAgentOptions.userAgentPrefix = "";
   } else if (options.userAgentOptions.userAgentPrefix !== "") {
-    options.userAgentOptions.userAgentPrefix += " ";
+    // two spaces to work around as the TelemetryPolicyFactory in blob removes the first space now.
+    options.userAgentOptions.userAgentPrefix += "  ";
   }
   options.userAgentOptions.userAgentPrefix += `changefeed-js/${SDK_VERSION}`;
   return options;

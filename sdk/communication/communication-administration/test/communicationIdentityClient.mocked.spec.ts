@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-http";
-import {
-  CommunicationUserIdentifier,
-  isCommunicationUserIdentifier
-} from "@azure/communication-common";
+import { CommunicationUser, isCommunicationUser } from "@azure/communication-common";
 import { assert } from "chai";
 import sinon from "sinon";
 import { CommunicationIdentityClient } from "../src";
@@ -14,7 +11,7 @@ import { issueTokenHttpClient, revokeTokensHttpClient } from "./utils/mockHttpCl
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = isNode ? "date" : "x-ms-date";
-  const user: CommunicationUserIdentifier = { communicationUserId: "ACS_ID" };
+  const user: CommunicationUser = { communicationUserId: "ACS_ID" };
 
   afterEach(() => {
     sinon.restore();
@@ -75,7 +72,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     const client = new TestCommunicationIdentityClient();
     const user = await client.createUserTest();
 
-    assert.isTrue(isCommunicationUserIdentifier(user));
+    assert.isTrue(isCommunicationUser(user));
     assert.equal(user.communicationUserId, "identity");
     assert.isDefined(user._response);
     assert.isTrue(JSON.stringify(user).indexOf("id") > -1);

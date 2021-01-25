@@ -15,8 +15,8 @@ const { inspect } = require("util");
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  // - AZURE_DIGITALTWINS_URL: The tenant ID in Azure Active Directory
-  const url = process.env.AZURE_DIGITALTWINS_URL;
+  // - AZURE_URL: The tenant ID in Azure Active Directory
+  const url = process.env.AZURE_URL;
 
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory

@@ -107,6 +107,7 @@ export class EventHubConsumerClient {
   }
 
   /**
+   * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -125,6 +126,7 @@ export class EventHubConsumerClient {
     options?: EventHubConsumerClientOptions
   ); // #1
   /**
+   * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -147,6 +149,7 @@ export class EventHubConsumerClient {
     options?: EventHubConsumerClientOptions
   ); // #1.1
   /**
+   * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -167,6 +170,7 @@ export class EventHubConsumerClient {
     options?: EventHubConsumerClientOptions
   ); // #2
   /**
+   * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -191,6 +195,7 @@ export class EventHubConsumerClient {
     options?: EventHubConsumerClientOptions
   ); // #2.1
   /**
+   * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -213,6 +218,7 @@ export class EventHubConsumerClient {
     options?: EventHubConsumerClientOptions
   ); // #3
   /**
+   * @constructor
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
    * @param consumerGroup The name of the consumer group from which you want to process events.
@@ -533,7 +539,7 @@ export class EventHubConsumerClient {
   private createEventProcessorForAllPartitions(
     subscriptionEventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
-  ): { targetedPartitionId: string; eventProcessor: EventProcessor } {
+  ) {
     this._partitionGate.add("all");
 
     if (this._userChoseCheckpointStore) {
@@ -569,7 +575,7 @@ export class EventHubConsumerClient {
     partitionId: string,
     eventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
-  ): { targetedPartitionId: string; eventProcessor: EventProcessor } {
+  ) {
     this._partitionGate.add(partitionId);
 
     const subscribeOptions = options as SubscribeOptions | undefined;
@@ -607,7 +613,7 @@ export class EventHubConsumerClient {
     subscriptionEventHandlers: SubscriptionEventHandlers,
     checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
-  ): EventProcessor {
+  ) {
     return new EventProcessor(
       this._consumerGroup,
       connectionContext,
@@ -620,7 +626,7 @@ export class EventHubConsumerClient {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export function isCheckpointStore(possible: CheckpointStore | any): possible is CheckpointStore {
   if (!possible) {
@@ -639,7 +645,7 @@ export function isCheckpointStore(possible: CheckpointStore | any): possible is 
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 function isSubscriptionEventHandlers(
   possible: any | SubscriptionEventHandlers

@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "e8bd7a3cf9ff48ffe9aebfdc8afeb9f3";
+module.exports.hash = "e8997f13e4f73ef31dcb45c3b33d453d";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -19,13 +19,13 @@ nock("https://endpoint", { encodedQueryParams: true })
     "Content-Type",
     "application/json; charset=utf-8",
     "MS-CV",
-    "m0kdCToRjUqoOcdHOwc/pw.0",
+    "RyZDHb9sfE+0RIYj6p52aQ.0",
     "X-Processing-Time",
-    "853ms",
+    "1293ms",
     "X-Azure-Ref",
-    "0uIy4XwAAAAD7VPfbKAxeSLtJq8nsyorgWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "0Dzl+XwAAAAB4EmrVUdZAS64XzS8LK3hgWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "Date",
-    "Sat, 21 Nov 2020 03:42:48 GMT"
+    "Wed, 07 Oct 2020 21:54:24 GMT"
   ]);
 
 nock("https://endpoint", { encodedQueryParams: true })
@@ -36,7 +36,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -51,46 +51,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "jbLb08LGGUaZs7j5FmrOnw.0",
-      "X-Processing-Time",
-      "298ms",
-      "X-Azure-Ref",
-      "0uYy4XwAAAACXYKEAKP1yQ5RQP1dSy2H6WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-      "Date",
-      "Sat, 21 Nov 2020 03:42:49 GMT"
-    ]
-  );
-
-nock("https://endpoint", { encodedQueryParams: true })
-  .get("/administration/phonenumbers/searches/sanitized")
-  .query(true)
-  .reply(
-    200,
-    {
-      searchId: "sanitized",
-      displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
-      description: "Test search for JS phone number admin SDK.",
-      phonePlanIds: ["sanitized", "sanitized"],
-      areaCode: "205",
-      quantity: 1,
-      locationOptions: [],
-      status: "Pending",
-      phoneNumbers: []
-    },
-    [
-      "Transfer-Encoding",
-      "chunked",
-      "Content-Type",
-      "application/json; charset=utf-8",
-      "MS-CV",
-      "sZzehjIFv0yal2tQwxFkyQ.0",
+      "QKZntRnHNEyc0OhV2Wrxtw.0",
       "X-Processing-Time",
       "267ms",
       "X-Azure-Ref",
-      "0uYy4XwAAAACm51LZIR4dQaW94u0IcQ3OWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0EDl+XwAAAADAm8mi58tKT4Q0Rb0VO5yrWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:49 GMT"
+      "Wed, 07 Oct 2020 21:54:25 GMT"
     ]
   );
 
@@ -102,7 +69,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -117,13 +84,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "VZE5hk7mq0+q7VPsXoapMg.0",
+      "JVxePNuNXUiTDTjW5IydQA.0",
       "X-Processing-Time",
-      "262ms",
+      "309ms",
       "X-Azure-Ref",
-      "0u4y4XwAAAAA7j8/7FoU1R7/aNQWz6moEWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0ETl+XwAAAACmVMZjvn0PTJgaN8oyhlBcWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:51 GMT"
+      "Wed, 07 Oct 2020 21:54:25 GMT"
     ]
   );
 
@@ -135,7 +102,139 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "Pending",
+      phoneNumbers: []
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "9lwUImPVvEaYTZpm7g0biQ.0",
+      "X-Processing-Time",
+      "450ms",
+      "X-Azure-Ref",
+      "0Ezl+XwAAAADGbA0cA7UPSYUtGt9dUCKzWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:54:27 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "Pending",
+      phoneNumbers: []
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "x9ncE2jCjU6dl70g5RTHNw.0",
+      "X-Processing-Time",
+      "295ms",
+      "X-Azure-Ref",
+      "0Fjl+XwAAAABM8juYvtpHTrw9wt+AES1SWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:54:30 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "Pending",
+      phoneNumbers: []
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "VPjQjJekl0SunOkS7y+xjQ.0",
+      "X-Processing-Time",
+      "273ms",
+      "X-Azure-Ref",
+      "0GDl+XwAAAAC+Bl08i7QHSJrfGFCzqnJ0WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:54:32 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "InProgress",
+      phoneNumbers: []
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "XVEDwrSKx0GDtwGa97QkdQ.0",
+      "X-Processing-Time",
+      "296ms",
+      "X-Azure-Ref",
+      "0Gjl+XwAAAABoCGVkNVl8RJd00EoFT8x9WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:54:34 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -143,7 +242,7 @@ nock("https://endpoint", { encodedQueryParams: true })
       locationOptions: [],
       status: "Reserved",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -151,13 +250,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "M4Ae8fDW+kCiSsjh0fLNoA.0",
+      "ubXVUp5AlECKQMsG8OHV8A.0",
       "X-Processing-Time",
-      "270ms",
+      "274ms",
       "X-Azure-Ref",
-      "0voy4XwAAAACAZTu2ZtZQSIyGfkcIIMnTWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0HDl+XwAAAABu9uK5i2PHT6dIK07k5zeFWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:54 GMT"
+      "Wed, 07 Oct 2020 21:54:36 GMT"
     ]
   );
 
@@ -166,13 +265,13 @@ nock("https://endpoint", { encodedQueryParams: true })
   .query(true)
   .reply(202, "", [
     "MS-CV",
-    "93q1nb6fAESkFcWTjz7IHA.0",
+    "f4Bub1joEEauppmVObqE6A.0",
     "X-Processing-Time",
-    "622ms",
+    "876ms",
     "X-Azure-Ref",
-    "0voy4XwAAAAD2EG2ojVLjTYmGBH36RGLOWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "0HTl+XwAAAACDbyOSPlGTT4xkvSB+o6BRWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "Date",
-    "Sat, 21 Nov 2020 03:42:54 GMT",
+    "Wed, 07 Oct 2020 21:54:37 GMT",
     "Content-Length",
     "0"
   ]);
@@ -185,7 +284,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -193,7 +292,7 @@ nock("https://endpoint", { encodedQueryParams: true })
       locationOptions: [],
       status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -201,13 +300,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "5es3hChIaUeVTawGeefUag.0",
+      "miHu+dxBNEWU0Zc2IY7P6w.0",
       "X-Processing-Time",
-      "265ms",
+      "264ms",
       "X-Azure-Ref",
-      "0v4y4XwAAAADrwO5W4Rv8SrzwXRhISdV8WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Hjl+XwAAAABFih883l8tSa221ACeKHyvWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:55 GMT"
+      "Wed, 07 Oct 2020 21:54:37 GMT"
     ]
   );
 
@@ -219,7 +318,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -227,7 +326,7 @@ nock("https://endpoint", { encodedQueryParams: true })
       locationOptions: [],
       status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -235,13 +334,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "p8YjTXgTf0G8AwmfCmNjcA.0",
+      "RnlOx084yE2HYU0wbdCj8Q.0",
       "X-Processing-Time",
-      "280ms",
+      "266ms",
       "X-Azure-Ref",
-      "0v4y4XwAAAADNMMe6O4sSQqCp1iBoZop9WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Hjl+XwAAAAAFBoYjGffTT4sMQrgRAFK4WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:55 GMT"
+      "Wed, 07 Oct 2020 21:54:38 GMT"
     ]
   );
 
@@ -253,7 +352,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -261,7 +360,7 @@ nock("https://endpoint", { encodedQueryParams: true })
       locationOptions: [],
       status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -269,13 +368,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "f1fFQKFdJUKZSlhMe+k+ew.0",
+      "cQ6AHuNvUkW6PjKJbeekUg.0",
       "X-Processing-Time",
-      "610ms",
+      "263ms",
       "X-Azure-Ref",
-      "0wYy4XwAAAAAj1VTq20W/TKFnzCutdgvjWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0IDl+XwAAAAA8MRg64oHYTZLJUsugx7mPWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:57 GMT"
+      "Wed, 07 Oct 2020 21:54:40 GMT"
     ]
   );
 
@@ -287,7 +386,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -295,7 +394,7 @@ nock("https://endpoint", { encodedQueryParams: true })
       locationOptions: [],
       status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -303,13 +402,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "VZb7P4KEQUqxkhHxvEzgEg.0",
+      "PeNZl8PaMEmCrKQJfPscHQ.0",
       "X-Processing-Time",
-      "657ms",
+      "404ms",
       "X-Azure-Ref",
-      "0xIy4XwAAAACBuBXBeXhMSa+vcZZ5TtUXWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Izl+XwAAAAB7SE4zD1UmT7YE8NjRlPvtWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:00 GMT"
+      "Wed, 07 Oct 2020 21:54:42 GMT"
     ]
   );
 
@@ -321,15 +420,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -337,13 +436,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "iTJzlJWVaEyC/r2H/SkZWA.0",
+      "EbrNt+OM40u8TBeDmRwtWw.0",
       "X-Processing-Time",
-      "272ms",
+      "684ms",
       "X-Azure-Ref",
-      "0x4y4XwAAAAAG7TAx7kTlSqa+0A9uL3cRWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0JTl+XwAAAAD7hEG44L2jRojL/JH3EHDkWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:03 GMT"
+      "Wed, 07 Oct 2020 21:54:45 GMT"
     ]
   );
 
@@ -355,15 +454,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -371,13 +470,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "17T68kn2lUSFSZX4uN4C4A.0",
+      "vctZ9aVhmkuOtN2OKNrVLQ.0",
       "X-Processing-Time",
-      "284ms",
+      "298ms",
       "X-Azure-Ref",
-      "0yoy4XwAAAAAgTKQsFIbZRq6Ct0G4Eiv4WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0KDl+XwAAAAClkyjvtf5GT6pXoe4+mznRWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:05 GMT"
+      "Wed, 07 Oct 2020 21:54:47 GMT"
     ]
   );
 
@@ -389,15 +488,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -405,13 +504,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "4971ik3Pq0WVrs64KO450g.0",
+      "1utHr8TumkCJAJ+scYZdyA.0",
       "X-Processing-Time",
-      "382ms",
+      "266ms",
       "X-Azure-Ref",
-      "0zIy4XwAAAABn+omvgJ6wQIzGf4/QL7nSWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Kjl+XwAAAADQZ6xEvGklRIJ7e/y2lC9dWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:07 GMT"
+      "Wed, 07 Oct 2020 21:54:49 GMT"
     ]
   );
 
@@ -423,15 +522,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -439,47 +538,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "3JgsnYmxIk2IoPIIbYSggA.0",
-      "X-Processing-Time",
-      "412ms",
-      "X-Azure-Ref",
-      "0zoy4XwAAAADoTx4Ibu02T4UKfFlgraw0WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-      "Date",
-      "Sat, 21 Nov 2020 03:43:11 GMT"
-    ]
-  );
-
-nock("https://endpoint", { encodedQueryParams: true })
-  .get("/administration/phonenumbers/searches/sanitized")
-  .query(true)
-  .reply(
-    200,
-    {
-      searchId: "sanitized",
-      displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
-      description: "Test search for JS phone number admin SDK.",
-      phonePlanIds: ["sanitized", "sanitized"],
-      areaCode: "205",
-      quantity: 1,
-      locationOptions: [],
-      status: "PurchasePending",
-      phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
-    },
-    [
-      "Transfer-Encoding",
-      "chunked",
-      "Content-Type",
-      "application/json; charset=utf-8",
-      "MS-CV",
-      "ye15MMLM9EaKu3DLjg9a6w.0",
+      "W5+sEwylukKZ5GFgpJD2AQ.0",
       "X-Processing-Time",
       "324ms",
       "X-Azure-Ref",
-      "00Yy4XwAAAABM5T2ByvKlRK8jGgfDjf7FWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0LDl+XwAAAABkKQt7fUC4QofsWZ+TJTVFWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:13 GMT"
+      "Wed, 07 Oct 2020 21:54:52 GMT"
     ]
   );
 
@@ -491,15 +556,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -507,13 +572,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "0zp2P+bE6k+u6WOo4D+fVA.0",
+      "Sw8vr3kXFEyQxOA/lbnE4A.0",
       "X-Processing-Time",
-      "1175ms",
+      "580ms",
       "X-Azure-Ref",
-      "004y4XwAAAABgZXLJC+TcS7zM8/ual2p1WVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0Lzl+XwAAAABXfqZKMawaTKOtbIIEUrgQWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:16 GMT"
+      "Wed, 07 Oct 2020 21:54:54 GMT"
     ]
   );
 
@@ -525,15 +590,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -541,13 +606,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "ARNYhZnFC0ejq+r+aj0v0g.0",
+      "DXORuspEoU21k/PRf9JXjA.0",
       "X-Processing-Time",
-      "327ms",
+      "318ms",
       "X-Azure-Ref",
-      "01oy4XwAAAACopVa4cdIGS7VzX7NplZmqWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0MTl+XwAAAABmwEiPLU1PS6nvu8KZrK3mWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:19 GMT"
+      "Wed, 07 Oct 2020 21:54:58 GMT"
     ]
   );
 
@@ -559,15 +624,15 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
       quantity: 1,
       locationOptions: [],
-      status: "PurchasePending",
+      status: "Completing",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -575,13 +640,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "9HFp+iPg3Ue3UMriT+8ZZQ.0",
+      "ZC2GjrW5IU6kEUxnc1cZPA.0",
       "X-Processing-Time",
-      "270ms",
+      "280ms",
       "X-Azure-Ref",
-      "02Yy4XwAAAACqXvv6V9jKSJxwG6AdVsFkWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0NDl+XwAAAABZcyRrfrVtS4hAOuWQqiuMWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:21 GMT"
+      "Wed, 07 Oct 2020 21:55:00 GMT"
     ]
   );
 
@@ -593,7 +658,279 @@ nock("https://endpoint", { encodedQueryParams: true })
     {
       searchId: "sanitized",
       displayName: "LRO Test Search",
-      createdAt: "2020-11-21T03:42:48.6019273+00:00",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "Completing",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "O2dCh3NSdUuHIpe7dmuILw.0",
+      "X-Processing-Time",
+      "432ms",
+      "X-Azure-Ref",
+      "0Njl+XwAAAADDgWk2cpXCTqDgkqszrHv3WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:02 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "Completing",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "lrlXKWofPk6z8RSQLfP1MA.0",
+      "X-Processing-Time",
+      "338ms",
+      "X-Azure-Ref",
+      "0OTl+XwAAAAAy1nAW5Ch8T4B3nH/ZvDbKWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:05 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "PurchasePending",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "PrrJbUYeKEiZRaiZnYpWvg.0",
+      "X-Processing-Time",
+      "275ms",
+      "X-Azure-Ref",
+      "0Ozl+XwAAAABlON3OmXSVSojNjQOeftZXWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:07 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "PurchasePending",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "zYufa2LCfkGG1r2A3JiSqQ.0",
+      "X-Processing-Time",
+      "286ms",
+      "X-Azure-Ref",
+      "0PTl+XwAAAACFVqlGnDKnTZs6n1C+YchbWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:09 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "PurchasePending",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "oLEyrkr/iki2N8HrgGiHMg.0",
+      "X-Processing-Time",
+      "363ms",
+      "X-Azure-Ref",
+      "0Pzl+XwAAAABfAs/wFmgBQ7xW04zsME/BWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:12 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "PurchasePending",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "xaD8+JJ+lk+tG6dZzQVrww.0",
+      "X-Processing-Time",
+      "285ms",
+      "X-Azure-Ref",
+      "0Qjl+XwAAAAAbLju2/p1aQ5p4vv+CnmK0WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:14 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "PurchasePending",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "zsHtpjLJ6kODGcsmxcaFvw.0",
+      "X-Processing-Time",
+      "360ms",
+      "X-Azure-Ref",
+      "0RDl+XwAAAAAdO/C4r3nRTqMrLH/OL9KaWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:16 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
+      description: "Test search for JS phone number admin SDK.",
+      phonePlanIds: ["sanitized", "sanitized"],
+      areaCode: "205",
+      quantity: 1,
+      locationOptions: [],
+      status: "PurchasePending",
+      phoneNumbers: ["+18005551234"],
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "u1fLWDAatk+MRtUpdfEDdg.0",
+      "X-Processing-Time",
+      "274ms",
+      "X-Azure-Ref",
+      "0Rzl+XwAAAAAAEKGRN0JERIuV/Z8DmgMaWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:55:18 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/searches/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      searchId: "sanitized",
+      displayName: "LRO Test Search",
+      createdAt: "2020-10-07T21:54:24.2892469+00:00",
       description: "Test search for JS phone number admin SDK.",
       phonePlanIds: ["sanitized", "sanitized"],
       areaCode: "205",
@@ -601,7 +938,7 @@ nock("https://endpoint", { encodedQueryParams: true })
       locationOptions: [],
       status: "Success",
       phoneNumbers: ["+18005551234"],
-      reservationExpiryDate: "2020-11-21T03:58:53.7454446+00:00"
+      reservationExpiryDate: "2020-10-07T22:10:35.7019339+00:00"
     },
     [
       "Transfer-Encoding",
@@ -609,12 +946,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "quJNmAeq/UuBOgN9QKs70g.0",
+      "icMGtb6dQE6iBGMaqlL0EA.0",
       "X-Processing-Time",
-      "654ms",
+      "274ms",
       "X-Azure-Ref",
-      "024y4XwAAAACC7GQ6Gl3wSJbYmoK50+tjWVZSMzBFREdFMDMxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0STl+XwAAAADn4C4c+qRbQ5Fz38rhJPTsWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:24 GMT"
+      "Wed, 07 Oct 2020 21:55:21 GMT"
     ]
   );

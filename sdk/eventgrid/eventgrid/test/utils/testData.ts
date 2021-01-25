@@ -5,7 +5,7 @@ export class TestCase {
   public expected: any;
   public encodedEvent: string;
 
-  constructor(expected: unknown, encodedEvent?: string) {
+  constructor(expected: any, encodedEvent?: string) {
     this.expected = expected;
     this.encodedEvent = encodedEvent ?? JSON.stringify(expected);
   }

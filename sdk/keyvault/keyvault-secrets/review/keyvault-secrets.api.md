@@ -36,7 +36,7 @@ export interface DeletedSecret {
 }
 
 // @public
-export type DeletionRecoveryLevel = string;
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
 export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
@@ -60,17 +60,6 @@ export interface KeyVaultSecretId {
     sourceId: string;
     vaultUrl: string;
     version?: string;
-}
-
-// @public
-export const enum KnownDeletionRecoveryLevel {
-    CustomizedRecoverable = "CustomizedRecoverable",
-    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-    Purgeable = "Purgeable",
-    Recoverable = "Recoverable",
-    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-    RecoverablePurgeable = "Recoverable+Purgeable"
 }
 
 // @public

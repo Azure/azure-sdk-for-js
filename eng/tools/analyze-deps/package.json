@@ -9,11 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "argparse": "^2.0.1",
-    "handlebars": "^4.7.6",
+    "argparse": "^1.0.10",
+    "handlebars": "^4.5.3",
     "jju": "^1.4.0",
-    "js-yaml": "^4.0.0",
-    "semver": "^7.3.4",
-    "tar": "^6.1.0"
+    "js-yaml": "^3.13.1",
+    "semver": "^6.2.0",
+    "tar": "^4.4.10"
   }
 }

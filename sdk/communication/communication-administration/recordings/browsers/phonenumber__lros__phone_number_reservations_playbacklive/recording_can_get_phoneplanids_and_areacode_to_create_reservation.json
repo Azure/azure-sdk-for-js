@@ -5,6 +5,8 @@
       "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups",
       "query": {
         "locale": "en-US",
+        "includeRateInformation": "false",
+        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },
@@ -20,6 +22,7 @@
       "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans",
       "query": {
         "locale": "en-US",
+        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },
@@ -34,9 +37,9 @@
       "method": "POST",
       "url": "https://endpoint/administration/phonenumbers/countries/US/areacodes",
       "query": {
-        "api-version": "2020-07-20-preview1",
         "locationType": "selection",
-        "phonePlanId": "sanitized"
+        "phonePlanId": "sanitized",
+        "api-version": "2020-07-20-preview1"
       },
       "requestBody": "{\"locationOptions\":[{\"labelId\":\"state\",\"optionsValue\":\"AL\"},{\"labelId\":\"city\",\"optionsValue\":\"NOAM-US-AL-BI\"}]}",
       "status": 200,
@@ -50,5 +53,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "afa72f6de5c42c56e30047f524a4228c"
+  "hash": "b0a814d54eafea9644bc831932887409"
 }

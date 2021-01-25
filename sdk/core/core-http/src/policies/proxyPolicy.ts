@@ -16,7 +16,7 @@ import { getEnvironmentValue } from "../util/utils";
 
 let noProxyList: string[] = [];
 let isNoProxyInitalized = false;
-const byPassedList: Map<string, boolean> = new Map();
+let byPassedList = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
   if (!process) {
@@ -31,39 +31,39 @@ function loadEnvironmentProxyValue(): string | undefined {
 }
 
 // Check whether the given `uri` matches the noProxyList. If it matches, any request sent to that same `uri` won't set the proxy settings.
-function isBypassed(uri: string): boolean | undefined {
+function isBypassed(uri: string) {
   if (byPassedList.has(uri)) {
     return byPassedList.get(uri);
   }
   loadNoProxy();
-  let isBypassedFlag = false;
-  const host = URLBuilder.parse(uri).getHost()!;
+  let isBypassed = false;
+  let host = URLBuilder.parse(uri).getHost()!;
   for (const proxyString of noProxyList) {
     if (proxyString[0] === ".") {
       if (uri.endsWith(proxyString)) {
-        isBypassedFlag = true;
+        isBypassed = true;
       } else {
         if (host === proxyString.slice(1) && host.length === proxyString.length - 1) {
-          isBypassedFlag = true;
+          isBypassed = true;
         }
       }
     } else {
       if (host === proxyString) {
-        isBypassedFlag = true;
+        isBypassed = true;
       }
     }
   }
-  byPassedList.set(uri, isBypassedFlag);
-  return isBypassedFlag;
+  byPassedList.set(uri, isBypassed);
+  return isBypassed;
 }
 
-function loadNoProxy(): void {
+function loadNoProxy() {
   if (isNoProxyInitalized) {
     return;
   }
   const noProxy = getEnvironmentValue(Constants.NO_PROXY);
   if (noProxy) {
-    const list = noProxy.split(",");
+    let list = noProxy.split(",");
     noProxyList = list.map((item) => item.trim()).filter((item) => item.length);
   }
   isNoProxyInitalized = true;

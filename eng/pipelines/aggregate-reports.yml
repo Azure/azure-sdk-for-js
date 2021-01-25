@@ -19,23 +19,7 @@ jobs:
     displayName: 'Use Node 10.x'
     inputs:
       versionSpec: 10.x
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
-    displayName: 'Run CredScan'
-    inputs:
-      suppressionsFile: 'eng\CredScanSuppression.json'
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
-    displayName: 'Post Analysis'
-    inputs:
-      GdnBreakAllTools: false
-      GdnBreakGdnToolCredScan: true
-      GdnBreakGdnToolCredScanSeverity: Error
-      GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
-      GdnBreakBaselines: baseline
-    continueOnError: true
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
-    displayName: 'Publish Security Analysis Logs'
-    continueOnError: true
-    condition: succeededOrFailed()
+
   - template: ../common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: ""

@@ -88,7 +88,8 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "azurekeyvaultkeys",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
+        "@azure/core-http": "Azure.Core.HTTP",
+        "@azure/core-arm": "Azure.Core.ARM"
       },
       sourcemap: true
     },

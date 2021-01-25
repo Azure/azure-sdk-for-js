@@ -283,7 +283,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkspaceInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -331,7 +331,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkspaceInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -464,7 +464,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkspaceInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -488,7 +488,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.WorkspaceInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

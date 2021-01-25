@@ -10,7 +10,7 @@ import { MessagingError } from "@azure/core-amqp";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export interface BasicPartitionProperties {
   /**
@@ -209,10 +209,10 @@ export interface SubscribeOptions {
 export interface Subscription {
   /**
    * Stops the subscription from receiving more messages.
-   *
+   * 
    * If a checkpoint store has been configured this will also mark this subscription's
    * partitions as abandoned, freeing them up to be read by other consumers.
-   *
+   * 
    * @returns Promise<void>
    * @throws Error if the underlying connection encounters an error while closing.
    */

@@ -46,6 +46,42 @@ describe("Challenge based authentication tests", () => {
 
   // The tests follow
 
+  it("Once authenticated, new requests should not authenticate again", async function() {
+    // Our goal is to intercept how our pipelines are storing the challenge.
+    // The first network call should indeed set the challenge in memory.
+    // Subsequent network calls should not set new challenges.
+
+    const sandbox = createSandbox();
+    const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
+
+    // Now we run what would be a normal use of the client.
+    // Here we will create two keys, then flush them.
+    // testClient.flushCertificate deletes, then purges the keys.
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
+    const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
+    for (const name of certificateNames) {
+      const poller = await client.beginCreateCertificate(
+        name,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
+      await poller.pollUntilDone();
+    }
+    for (const name of certificateNames) {
+      await testClient.flushCertificate(name);
+    }
+
+    // The challenge should have been written to the cache exactly ONCE.
+    assert.equal(spy.getCalls().length, 1);
+
+    // Back to normal.
+    sandbox.restore();
+
+    // Note: Failing to authenticate will make network requests throw.
+  });
+
   it("Authentication should work for parallel requests", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
@@ -82,42 +118,6 @@ describe("Challenge based authentication tests", () => {
 
     // Back to normal.
     sandbox.restore();
-  });
-
-  it("Once authenticated, new requests should not authenticate again", async function() {
-    // Our goal is to intercept how our pipelines are storing the challenge.
-    // The first network call should indeed set the challenge in memory.
-    // Subsequent network calls should not set new challenges.
-
-    const sandbox = createSandbox();
-    const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
-
-    // Now we run what would be a normal use of the client.
-    // Here we will create two keys, then flush them.
-    // testClient.flushCertificate deletes, then purges the keys.
-    const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
-    );
-    const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
-    for (const name of certificateNames) {
-      const poller = await client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      await poller.pollUntilDone();
-    }
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
-    }
-
-    // The challenge should have been written to the cache exactly ONCE.
-    assert.equal(spy.getCalls().length, 1);
-
-    // Back to normal.
-    sandbox.restore();
-
-    // Note: Failing to authenticate will make network requests throw.
   });
 
   describe("parseWWWAuthenticate tests", () => {

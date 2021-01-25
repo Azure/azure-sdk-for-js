@@ -14,7 +14,7 @@ autorest --typescript --v3
 ## Configuration
 
 ```yaml
-package-name: "@azure/opentelemetry-exporter-azure-monitor"
+package-name: "@microsoft/opentelemetry-exporter-azure-monitor"
 title: ApplicationInsightsClient
 description: Application Insights Client
 generate-metadata: false

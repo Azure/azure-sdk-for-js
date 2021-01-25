@@ -3,8 +3,6 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import "@azure/core-asynciterator-polyfill";
-
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
@@ -108,9 +106,7 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
-  KnownInnerErrorCodeValue,
   WarningCode,
-  KnownWarningCode,
   LinkedEntity,
   Match,
   SentenceOpinion,
@@ -118,7 +114,6 @@ export {
   TokenSentimentValue,
   TextAnalyticsWarning,
   PiiTaskParametersDomain,
-  KnownPiiTaskParametersDomain,
   HealthcareEntity,
   HealthcareRelation,
   HealthcareEntityLink

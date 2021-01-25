@@ -31,11 +31,11 @@ export class UsernamePasswordCredential implements TokenCredential {
    * needed to authenticate against Azure Active Directory with a username
    * and password.
    *
-   * @param tenantIdOrName - The Azure Active Directory tenant (directory) ID or name.
-   * @param clientId - The client (application) ID of an App Registration in the tenant.
-   * @param username - The user account's e-mail address (user name).
-   * @param password - The user account's account password
-   * @param options - Options for configuring the client which makes the authentication request.
+   * @param tenantIdOrName The Azure Active Directory tenant (directory) ID or name.
+   * @param clientId The client (application) ID of an App Registration in the tenant.
+   * @param username The user account's e-mail address (user name).
+   * @param password The user account's account password
+   * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantIdOrName: string,
@@ -59,8 +59,8 @@ export class UsernamePasswordCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(

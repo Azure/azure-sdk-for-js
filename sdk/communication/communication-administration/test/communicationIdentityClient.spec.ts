@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { CommunicationUser } from "@azure/communication-common";
 import { assert } from "chai";
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
 import { createRecordedCommunicationIdentityClient } from "./utils/recordedClient";
 
 describe("CommunicationIdentityClient [Playback/Live]", function() {
-  let user: CommunicationUserIdentifier;
+  let user: CommunicationUser;
   let recorder: Recorder;
   let client: CommunicationIdentityClient;
 

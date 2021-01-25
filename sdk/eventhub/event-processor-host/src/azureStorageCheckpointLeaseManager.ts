@@ -25,7 +25,7 @@ import * as log from "./log";
 import path from "path";
 
 /**
- * @hidden
+ * @ignore
  */
 enum UploadActivity {
   create = "create",
@@ -35,7 +35,7 @@ enum UploadActivity {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export class AzureStorageCheckpointLeaseManager implements CheckpointManager, LeaseManager {
   leaseRenewInterval: number;

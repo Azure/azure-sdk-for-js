@@ -168,11 +168,6 @@ export function decorateOperation(
   ) {
     const pk = extractPartitionKey(operation.resourceBody, definition);
     return { ...operation, partitionKey: JSON.stringify(pk) } as Operation;
-  } else if (
-    operation.operationType === BulkOperationType.Read ||
-    operation.operationType === BulkOperationType.Delete
-  ) {
-    return { ...operation, partitionKey: "[{}]" };
   }
   return operation as Operation;
 }

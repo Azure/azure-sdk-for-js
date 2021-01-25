@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "171f4c6130b5a8d0cf96358460b6143d";
+module.exports.hash = "19775ca1462558f0d7191ae0930c93d1";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -13,13 +13,13 @@ nock("https://endpoint", { encodedQueryParams: true })
     "Content-Type",
     "application/json; charset=utf-8",
     "MS-CV",
-    "0IdYiiXvbkqN5YHknMz0uQ.0",
+    "TmdJGgAMEkG66WLJTYxqiQ.0",
     "X-Processing-Time",
-    "583ms",
+    "650ms",
     "X-Azure-Ref",
-    "03Yy4XwAAAABAs2HNTlRbQbo4t8NCCG0MWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "05Dl+XwAAAAA40OYinfkqQ7M7wG6n4dZIWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "Date",
-    "Sat, 21 Nov 2020 03:43:24 GMT"
+    "Wed, 07 Oct 2020 21:57:56 GMT"
   ]);
 
 nock("https://endpoint", { encodedQueryParams: true })
@@ -29,7 +29,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "Pending",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Pending" } }
     },
@@ -39,13 +39,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "47sN3nlzpkamdc9SY4cFcg.0",
+      "d9wWYa2yu0+SxNzn20bS9A.0",
       "X-Processing-Time",
-      "182ms",
+      "197ms",
       "X-Azure-Ref",
-      "03Yy4XwAAAABK4XLSR2qpTrTZzP8qfRMCWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "05Dl+XwAAAACET7hocjjaRrZcQm+em3hkWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:25 GMT"
+      "Wed, 07 Oct 2020 21:57:56 GMT"
     ]
   );
 
@@ -56,7 +56,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "Pending",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Pending" } }
     },
@@ -66,13 +66,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "8+5cOWfBdEW3UDA8Xi6pbg.0",
+      "xOjg6420Akqbe1oQK69QiA.0",
       "X-Processing-Time",
-      "249ms",
+      "207ms",
       "X-Azure-Ref",
-      "03Yy4XwAAAAAmyCw8jwrBR7vsTrobYLYwWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "05Tl+XwAAAADs2iEilyIwRKBw4i6hy/LoWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:25 GMT"
+      "Wed, 07 Oct 2020 21:57:56 GMT"
     ]
   );
 
@@ -83,8 +83,8 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
-      status: "InProgress",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
+      status: "Pending",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Pending" } }
     },
     [
@@ -93,13 +93,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "F5HCVMIvB0eOFY8hiKRY/w.0",
+      "BmfM2DSivUagA4Fc7gStRg.0",
       "X-Processing-Time",
-      "191ms",
+      "390ms",
       "X-Azure-Ref",
-      "04Iy4XwAAAACp79Q0DmgIQ6CmdRed+a7AWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "05zl+XwAAAABY4MPQQh8ETKaGb/vvwDLcWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:27 GMT"
+      "Wed, 07 Oct 2020 21:57:59 GMT"
     ]
   );
 
@@ -110,8 +110,8 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
-      status: "InProgress",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
+      status: "Pending",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Pending" } }
     },
     [
@@ -120,13 +120,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "I7uGAz1Lek+slomn9ttIrQ.0",
+      "cnUnOCRkSEe7J1H1yosl2A.0",
       "X-Processing-Time",
-      "260ms",
+      "192ms",
       "X-Azure-Ref",
-      "04oy4XwAAAAAeaPc7gm7IS7LTk10UypT9WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "06Tl+XwAAAAD9IVQVJcz9RL78GY8hLX6CWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:29 GMT"
+      "Wed, 07 Oct 2020 21:58:01 GMT"
     ]
   );
 
@@ -137,8 +137,8 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
-      status: "InProgress",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
+      status: "Pending",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Pending" } }
     },
     [
@@ -147,13 +147,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "TX+Xm/VnpUSlFYRTdAigoA.0",
+      "aNmSpeYlsUedi5K0ULA6NA.0",
       "X-Processing-Time",
       "194ms",
       "X-Azure-Ref",
-      "05Iy4XwAAAACx3zgj2PUIQo3K7vcFbe+OWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "07Dl+XwAAAAASuE/jxFwRTL9UEfFD+GMWWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:33 GMT"
+      "Wed, 07 Oct 2020 21:58:03 GMT"
     ]
   );
 
@@ -164,7 +164,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "InProgress",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Pending" } }
     },
@@ -174,13 +174,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "llpjEMXnKEOTvmm/FxaRDA.0",
+      "Sr1nrd8QAUyRM9BsL6MXQw.0",
       "X-Processing-Time",
       "198ms",
       "X-Azure-Ref",
-      "054y4XwAAAADSyouKTOpvQI/rf+b+R6WUWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "07jl+XwAAAAB2JiqRwZnXS7WnmRKdmwXaWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:35 GMT"
+      "Wed, 07 Oct 2020 21:58:05 GMT"
     ]
   );
 
@@ -191,7 +191,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "InProgress",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
     },
@@ -201,13 +201,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "TJqNBkvWEEKOy5o5qEQFgQ.0",
+      "MJ8PeqcwLEq6H49Pya7T8Q.0",
       "X-Processing-Time",
-      "184ms",
+      "205ms",
       "X-Azure-Ref",
-      "06Yy4XwAAAABf49bdyOePQqGQSCeLh+ywWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "08Dl+XwAAAAARBFMStcgnQ7f0iyXmSYVFWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:37 GMT"
+      "Wed, 07 Oct 2020 21:58:07 GMT"
     ]
   );
 
@@ -218,7 +218,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "InProgress",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
     },
@@ -228,13 +228,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "iKmilSNuMkSbKDjp4iE0xQ.0",
+      "MvfuQkl9PE+IdBM8OyryzQ.0",
       "X-Processing-Time",
-      "188ms",
+      "192ms",
       "X-Azure-Ref",
-      "064y4XwAAAAB8iDTliK9iToPM1ixYq7I0WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "08jl+XwAAAAA+ukfnG9M4TJ2GVxji76z+WVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:39 GMT"
+      "Wed, 07 Oct 2020 21:58:10 GMT"
     ]
   );
 
@@ -245,7 +245,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "InProgress",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
     },
@@ -255,13 +255,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "RuDo2PCvFUmCMNkm9SxBtw.0",
+      "nuSLFs6lik2ICeCqzuUw+A.0",
       "X-Processing-Time",
-      "185ms",
+      "198ms",
       "X-Azure-Ref",
-      "07Yy4XwAAAACPD/HuYzdVRI/rgHNBGqMrWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "09Dl+XwAAAAACn1za1CfYSriu5oH6EZvZWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:41 GMT"
+      "Wed, 07 Oct 2020 21:58:13 GMT"
     ]
   );
 
@@ -272,7 +272,7 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
       status: "InProgress",
       phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
     },
@@ -282,13 +282,13 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "CLXLFagGAEqPj2OjLJXuMA.0",
+      "fR7hv5AUbU2fFTL74f62og.0",
       "X-Processing-Time",
-      "186ms",
+      "192ms",
       "X-Azure-Ref",
-      "08Iy4XwAAAACqPZd2rb7dSZJUG2OsgM66WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "09zl+XwAAAADofxKeanRmSqDvyXSB2HovWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:44 GMT"
+      "Wed, 07 Oct 2020 21:58:15 GMT"
     ]
   );
 
@@ -299,9 +299,90 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       releaseId: "sanitized",
-      createdAt: "2020-11-21T03:43:25.2451855+00:00",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
+      status: "InProgress",
+      phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "h0mtGAmLfky94CjMCsE5gw.0",
+      "X-Processing-Time",
+      "196ms",
+      "X-Azure-Ref",
+      "0+Tl+XwAAAAAlapK1UvzKSo10zszZxUDFWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:58:17 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/releases/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      releaseId: "sanitized",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
+      status: "InProgress",
+      phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "Zp89cMopo0irAafdhwyjBw.0",
+      "X-Processing-Time",
+      "200ms",
+      "X-Azure-Ref",
+      "0+zl+XwAAAACgqKbeIIvWRoSHnKzUlRPnWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:58:19 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/releases/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      releaseId: "sanitized",
+      createdAt: "2020-10-07T21:57:56.4490674+00:00",
+      status: "InProgress",
+      phoneNumberReleaseStatusDetails: { "+18005551234": { status: "InProgress" } }
+    },
+    [
+      "Transfer-Encoding",
+      "chunked",
+      "Content-Type",
+      "application/json; charset=utf-8",
+      "MS-CV",
+      "mClENZu6Ak2wwQvwArbvzQ.0",
+      "X-Processing-Time",
+      "193ms",
+      "X-Azure-Ref",
+      "0/Tl+XwAAAAC4wrN8deNeRZoaultrAId6WVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "Date",
+      "Wed, 07 Oct 2020 21:58:21 GMT"
+    ]
+  );
+
+nock("https://endpoint", { encodedQueryParams: true })
+  .get("/administration/phonenumbers/releases/sanitized")
+  .query(true)
+  .reply(
+    200,
+    {
+      releaseId: "sanitized",
+      createdAt: "2020-10-07T21:52:10.3728653+00:00",
       status: "Complete",
-      phoneNumberReleaseStatusDetails: { "+18005551234": { status: "Success" } }
+      phoneNumberReleaseStatusDetails: { "+12052039872": { status: "Success" } }
     },
     [
       "Transfer-Encoding",
@@ -309,12 +390,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "DQz9Cczv0keII8ToEuxRFQ.0",
+      "NgpxIMQMUUuZRDCK/LQ3jA.0",
       "X-Processing-Time",
-      "282ms",
+      "235ms",
       "X-Azure-Ref",
-      "08oy4XwAAAADRvB9mR8azQ6iLpiXb72yKWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0ADp+XwAAAAD6m824RWd5QoaCTfIM8dciWVZSMzBFREdFMDMxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:43:46 GMT"
+      "Wed, 07 Oct 2020 21:58:23 GMT"
     ]
   );

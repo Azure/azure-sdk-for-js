@@ -277,7 +277,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -423,26 +423,4 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
   // Override protocol layer's default content-type
   (storageClientContext as any).requestContentType = undefined;
   return storageClientContext;
-}
-
-/**
- * Append a string to URL query.
- *
- * @export
- * @param {string} url Source URL string.
- * @param {string} queryParts String to be appended to the URL query.
- * @returns {string} An updated URL string.
- */
-export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
-
-  let query = urlParsed.getQuery();
-  if (query) {
-    query += "&" + queryParts;
-  } else {
-    query = queryParts;
-  }
-
-  urlParsed.setQuery(query);
-  return urlParsed.toString();
 }

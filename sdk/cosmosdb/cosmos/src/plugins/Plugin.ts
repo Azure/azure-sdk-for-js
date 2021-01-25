@@ -6,7 +6,7 @@ import { Response } from "../request/Response";
 /**
  * Used to specify which type of events to execute this plug in on.
  *
- * @hidden
+ * @ignore
  */
 export enum PluginOn {
   /**
@@ -22,7 +22,7 @@ export enum PluginOn {
 /**
  * Specifies which event to run for the specified plugin
  *
- * @hidden
+ * @ignore
  */
 export interface PluginConfig {
   /**
@@ -46,21 +46,21 @@ export interface PluginConfig {
  * RequestContext is an object which controls what operation is happening, against which endpoint, and more. Modifying this and passing it along via next is how
  * you modify future SDK behavior.
  *
- * @hidden
+ * @ignore
  */
 export type Plugin<T> = (context: RequestContext, next: Next<T>) => Promise<Response<T>>;
 
 /**
  * Next is a function which takes in requestContext returns a promise. You must await/then that promise which will contain the response from further plugins,
  * allowing you to log those results or handle errors.
- * @hidden
+ * @ignore
  */
 export type Next<T> = (context: RequestContext) => Promise<Response<T>>;
 
 /**
  * @internal
  * @hidden
- * @hidden
+ * @ignore
  * @param requestContext
  * @param next
  * @param on

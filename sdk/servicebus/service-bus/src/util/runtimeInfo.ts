@@ -5,7 +5,7 @@ import * as os from "os";
 
 /**
  * Returns information about the platform this function is being run on.
- * @hidden
+ * @ignore
  * @internal
  */
 export function getRuntimeInfo(): string {

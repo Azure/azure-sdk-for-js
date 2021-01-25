@@ -54,7 +54,7 @@ export class EnvironmentCredential implements TokenCredential {
    * environment variables are not found at this time, the getToken method
    * will return null when invoked.
    *
-   * @param options - Options for configuring the client which makes the authentication request.
+   * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(options?: TokenCredentialOptions) {
     // Keep track of any missing environment variables for error details
@@ -114,8 +114,8 @@ export class EnvironmentCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   async getToken(

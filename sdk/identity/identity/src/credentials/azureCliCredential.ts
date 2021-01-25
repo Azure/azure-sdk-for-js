@@ -32,7 +32,7 @@ const logger = credentialLogger("AzureCliCredential");
 export class AzureCliCredential implements TokenCredential {
   /**
    * Gets the access token from Azure CLI
-   * @param resource - The resource to use when getting the token
+   * @param resource The resource to use when getting the token
    */
   protected async getAzureCliAccessToken(
     resource: string
@@ -58,8 +58,8 @@ export class AzureCliCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(

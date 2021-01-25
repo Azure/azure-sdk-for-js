@@ -9,7 +9,7 @@ export const DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
 export const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
 export const DEFAULT_CLIENT_MIN_RETRY_INTERVAL = 1000 * 3;
 
-export function isNumber(n: unknown): n is number {
+export function isNumber(n: any): n is number {
   return typeof n === "number";
 }
 export interface RetryData {
@@ -28,10 +28,10 @@ export interface RetryError extends Error {
  * @internal
  * Determines if the operation should be retried.
  *
- * @param retryLimit - Specifies the max number of retries.
- * @param predicate - Initial chekck on whether to retry based on given responses or errors
- * @param retryData -  The retry data.
- * @returns True if the operation qualifies for a retry; false otherwise.
+ * @param {number} retryLimit Specifies the max number of retries.
+ * @param {(response?: HttpOperationResponse, error?: RetryError) => boolean} predicate Initial chekck on whether to retry based on given responses or errors
+ * @param {RetryData} retryData  The retry data.
+ * @return {boolean} True if the operation qualifies for a retry; false otherwise.
  */
 export function shouldRetry(
   retryLimit: number,
@@ -51,9 +51,9 @@ export function shouldRetry(
  * @internal
  * Updates the retry data for the next attempt.
  *
- * @param retryOptions - specifies retry interval, and its lower bound and upper bound.
- * @param retryData -  The retry data.
- * @param err - The operation"s error, if any.
+ * @param {RetryPolicyOptions} retryOptions specifies retry interval, and its lower bound and upper bound.
+ * @param {RetryData} [retryData]  The retry data.
+ * @param {RetryError} [err] The operation"s error, if any.
  */
 export function updateRetryData(
   retryOptions: { retryInterval: number; minRetryInterval: number; maxRetryInterval: number },

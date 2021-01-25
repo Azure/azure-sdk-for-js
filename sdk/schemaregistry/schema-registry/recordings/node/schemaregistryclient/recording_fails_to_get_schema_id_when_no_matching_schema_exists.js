@@ -22,25 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8acba693-116f-441d-ab94-110fcc264002',
+  '5181cea2-c7b2-49b4-b673-19acf5497100',
   'x-ms-ests-server',
-  '2.1.11328.13 - WUS2 ProdSlices',
+  '2.1.11086.7 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsQWjdtBmkJCtUzcLpL7DplvWe_NAQAAAFNRfNcOAAAA; expires=Wed, 27-Jan-2021 22:21:08 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AszGFwoG8hZNm38rm6OF0klJ4DFtAQAAALyHDdcOAAAA; expires=Wed, 04-Nov-2020 21:31:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 28 Dec 2020 22:21:08 GMT',
+  'Mon, 05 Oct 2020 21:31:41 GMT',
   'Content-Length',
   '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/$schemagroups/group/schemas/never-registered', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
+  .post('/$schemagroups/azsdk_js_test_group/schemas/never-registered', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
   .query(true)
-  .reply(404, {"Code":404,"Detail":"Schema group/never-registered does not exist. TrackingId:cabf813f-155d-419d-a8f6-c9a668b5f32c_G28, SystemTracker:NoSystemTracker, Timestamp:2020-12-28T22:21:09"}, [
+  .reply(404, {"Code":404,"Detail":"Schema azsdk_js_test_group/never-registered does not exist. TrackingId:a14afd8a-8c44-47e5-b546-a1f4cb5c26ac_G4, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/never-registered, Timestamp:2020-10-05T21:31:42"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Mon, 28 Dec 2020 22:21:09 GMT'
+  'Mon, 05 Oct 2020 21:31:42 GMT'
 ]);

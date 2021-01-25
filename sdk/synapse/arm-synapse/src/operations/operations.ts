@@ -132,7 +132,7 @@ export class Operations {
    * @param operationId Operation ID
    * @param callback The callback
    */
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationResource>): void;
+  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -140,8 +140,8 @@ export class Operations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationResource>): void;
-  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationResource>, callback?: msRest.ServiceCallback<Models.OperationResource>): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse> {
+  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<any>): void;
+  getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<any>, callback?: msRest.ServiceCallback<any>): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -208,7 +208,7 @@ const listOperationSpec: msRest.OperationSpec = {
       }
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -231,8 +231,6 @@ const getLocationHeaderResultOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorContract
@@ -261,8 +259,11 @@ const getAzureAsyncHeaderResultOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationResource
     },
     404: {},
-    default: {
+    500: {
       bodyMapper: Mappers.ErrorContract
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

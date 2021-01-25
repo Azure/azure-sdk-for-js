@@ -26,7 +26,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-sourcemap-loader",
+      "karma-remap-istanbul",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
@@ -46,7 +46,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["sourcemap", "env"],
+      "**/*.js": ["env"],
       "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
@@ -57,28 +57,37 @@ module.exports = function(config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
-      "AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING",
-      "AZURE_PHONE_NUMBER",
-      "TEST_MODE",
-      "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "COMMUNICATION_CONNECTION_STRING",
+      "FROM_PHONE_NUMBER",
+      "TO_PHONE_NUMBER",
+      "TEST_MODE"
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
       reporters: [
-        { type: "json", subdir: ".", file: "coverage.json" },
-        { type: "lcovonly", subdir: ".", file: "lcov.info" },
-        { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+        {
+          type: "json",
+          subdir: ".",
+          file: "coverage.json"
+        }
       ]
+    },
+
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
+      }
     },
 
     junitReporter: {

@@ -14,7 +14,7 @@ import { ConnectionContext } from "./connectionContext";
  * The PumpManager handles the creation and removal of PartitionPumps.
  * It also starts a PartitionPump when it is created, and stops a
  * PartitionPump when it is removed.
- * @hidden
+ * @ignore
  * @internal
  */
 export interface PumpManager {
@@ -24,7 +24,7 @@ export interface PumpManager {
    * @param eventHubClient The EventHubClient to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.
-   * @hidden
+   * @ignore
    */
   createPump(
     startPosition: EventPosition,
@@ -36,7 +36,7 @@ export interface PumpManager {
   /**
    * Indicates whether the pump manager is actively receiving events from a given partition.
    * @param partitionId The partition to check.
-   * @hidden
+   * @ignore
    * @internal
    */
   isReceivingFromPartition(partitionId: string): boolean;
@@ -44,7 +44,7 @@ export interface PumpManager {
   /**
    * Stops all PartitionPumps and removes them from the internal map.
    * @param reason The reason for removing the pump.
-   * @hidden
+   * @ignore
    */
   removeAllPumps(reason: CloseReason): Promise<void>;
 }
@@ -53,7 +53,7 @@ export interface PumpManager {
  * The PumpManager handles the creation and removal of PartitionPumps.
  * It also starts a PartitionPump when it is created, and stops a
  * PartitionPump when it is removed.
- * @hidden
+ * @ignore
  * @internal
  */
 export class PumpManagerImpl implements PumpManager {
@@ -64,7 +64,7 @@ export class PumpManagerImpl implements PumpManager {
   } = {};
 
   /**
-   * @hidden
+   * @ignore
    */
   constructor(eventProcessorName: string, eventProcessorOptions: CommonEventProcessorOptions) {
     this._eventProcessorName = eventProcessorName;
@@ -73,7 +73,7 @@ export class PumpManagerImpl implements PumpManager {
 
   /**
    * Returns a list of partitionIds that are actively receiving messages.
-   * @hidden
+   * @ignore
    */
   public receivingFromPartitions(): string[] {
     return Object.keys(this._partitionIdToPumps).filter((id) => {
@@ -85,7 +85,7 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * Indicates whether the pump manager is actively receiving events from a given partition.
    * @param partitionId
-   * @hidden
+   * @ignore
    * @internal
    */
   public isReceivingFromPartition(partitionId: string): boolean {
@@ -98,7 +98,7 @@ export class PumpManagerImpl implements PumpManager {
    * @param startPosition The position in the partition to start reading from.
    * @param connectionContext The ConnectionContext to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
-   * @hidden
+   * @ignore
    */
   public async createPump(
     startPosition: EventPosition,
@@ -154,7 +154,7 @@ export class PumpManagerImpl implements PumpManager {
    * Stop a PartitionPump and removes it from the internal map.
    * @param partitionId The partitionId to remove the associated PartitionPump from.
    * @param reason The reason for removing the pump.
-   * @hidden
+   * @ignore
    */
   public async removePump(partitionId: string, reason: CloseReason): Promise<void> {
     try {
@@ -179,7 +179,7 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * Stops all PartitionPumps and removes them from the internal map.
    * @param reason The reason for removing the pump.
-   * @hidden
+   * @ignore
    */
   public async removeAllPumps(reason: CloseReason): Promise<void> {
     const partitionIds = Object.keys(this._partitionIdToPumps);

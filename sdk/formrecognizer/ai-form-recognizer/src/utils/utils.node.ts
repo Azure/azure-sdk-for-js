@@ -7,9 +7,10 @@ const SIZE_ONE_MEGA = 1024 * 1024;
  * Reads a readable stream into buffer entirely. NodeJS only.
  * The maximum allowed size is specified in {@link MAX_INPUT_DOCUMENT_SIZE}.
  *
- * @param stream - A Node.js Readable stream
- * @returns The resultant buffer.
- * @throws If buffer size is not big enough.
+ * @export
+ * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
+ * @returns {Promise<Buffer>} The resultant buffer.
+ * @throws {Error} If buffer size is not big enough.
  */
 export async function streamToBuffer(
   stream: NodeJS.ReadableStream,

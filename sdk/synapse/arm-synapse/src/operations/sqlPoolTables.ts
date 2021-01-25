@@ -67,50 +67,6 @@ export class SqlPoolTables {
   }
 
   /**
-   * Get Sql pool table
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlPoolTablesGetResponse>
-   */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTablesGetResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, callback: msRest.ServiceCallback<Models.SqlPoolTable>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param schemaName The name of the schema.
-   * @param tableName The name of the table.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolTable>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolTable>, callback?: msRest.ServiceCallback<Models.SqlPoolTable>): Promise<Models.SqlPoolTablesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        sqlPoolName,
-        schemaName,
-        tableName,
-        options
-      },
-      getOperationSpec,
-      callback) as Promise<Models.SqlPoolTablesGetResponse>;
-  }
-
-  /**
    * Gets tables of a given schema in a SQL pool.
    * @summary Gets tables of a given schema in a SQL pool
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -162,34 +118,6 @@ const listBySchemaOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolTableListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}/tables/{tableName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName,
-    Parameters.schemaName,
-    Parameters.tableName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlPoolTable
     },
     default: {
       bodyMapper: Mappers.CloudError

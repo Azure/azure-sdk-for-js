@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 28 Dec 2020 22:21:22 GMT",
+    "date": "Mon, 05 Oct 2020 21:31:56 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - EUS ProdSlices",
-    "x-ms-request-id": "b69d4f2a-574a-49f8-b23d-23c088b11b02"
+    "x-ms-ests-server": "2.1.11086.7 - SCUS ProdSlices",
+    "x-ms-request-id": "38c27b57-286c-4b33-a980-8dd442b62101"
    }
   },
   {
@@ -30,10 +30,10 @@
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:c785b6ad-9f7b-4eec-94df-00ef28021812_G26, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2020-12-28T22:21:23\"}",
+   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:daa08d0b-0c49-4d6b-8fa1-9d4e57f535f7_G2, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2020-10-05T21:31:57\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Mon, 28 Dec 2020 22:21:23 GMT",
+    "date": "Mon, 05 Oct 2020 21:31:56 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"

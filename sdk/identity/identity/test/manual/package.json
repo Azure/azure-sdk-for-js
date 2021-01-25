@@ -10,8 +10,8 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "@azure/identity": "1.2.0",
-    "@azure/keyvault-keys": "4.1.0",
+    "@azure/identity": "../..",
+    "@azure/keyvault-keys": "../../../../keyvault/keyvault-keys",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "tslib": "^1.9.3"

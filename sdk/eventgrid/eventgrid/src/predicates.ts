@@ -209,7 +209,7 @@ export type KnownSystemEventTypes =
 /**
  * A mapping of event type names to event data type interfaces.
  *
- * @hidden
+ * @ignore
  */
 export interface SystemEventNameToEventData {
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
@@ -411,7 +411,7 @@ export interface SystemEventNameToEventData {
 /**
  * isCloudEventLike returns "true" when the event is a CloudEvent
  *
- * @param o - Either an EventGrid our CloudEvent event.
+ * @param o Either an EventGrid our CloudEvent event.
  */
 function isCloudEventLike(
   o: EventGridEvent<unknown> | CloudEvent<unknown>
@@ -424,8 +424,8 @@ function isCloudEventLike(
  * TypeScript, this function acts as a custom type guard and allows the TypeScript compiler to
  * identify the underlying data
  *
- * @param eventType - The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
- * @param event - The event to test.
+ * @param eventType The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
+ * @param event The event to test.
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
@@ -437,8 +437,8 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
  * TypeScript, this function acts as a custom type guard and allows the TypeScript compiler to
  * identify the underlying data
  *
- * @param eventType - The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
- * @param event - The event to test.
+ * @param eventType The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
+ * @param event The event to test.
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,

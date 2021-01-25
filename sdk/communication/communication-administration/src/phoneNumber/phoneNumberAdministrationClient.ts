@@ -3,11 +3,11 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
+  createCommunicationAccessKeyCredentialPolicy,
   parseClientArguments,
-  isKeyCredential,
-  createCommunicationAuthPolicy
+  isKeyCredential
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential } from "@azure/core-auth";
 import {
   PipelineOptions,
   InternalPipelineOptions,
@@ -116,21 +116,9 @@ export class PhoneNumberAdministrationClient {
     options?: PhoneNumberAdministrationClientOptions
   );
 
-  /**
-   * Initializes a new instance of the PhoneNumberAdministrationClient class using a TokenCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential TokenCredential that is used to authenticate requests to the service.
-   * @param options Optional. Options to configure the HTTP pipeline.
-   */
-  public constructor(
-    url: string,
-    credential: TokenCredential,
-    options?: PhoneNumberAdministrationClientOptions
-  );
-
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | TokenCredential | PhoneNumberAdministrationClientOptions,
+    credentialOrOptions?: KeyCredential | PhoneNumberAdministrationClientOptions,
     maybeOptions: PhoneNumberAdministrationClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -158,9 +146,9 @@ export class PhoneNumberAdministrationClient {
       }
     };
 
-    const authPolicy = createCommunicationAuthPolicy(credential);
+    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new PhoneNumberRestClient(url, pipeline).phoneNumberAdministration;
+    this.client = new PhoneNumberRestClient(SDK_VERSION, url, pipeline).phoneNumberAdministration;
   }
 
   /**
@@ -180,12 +168,10 @@ export class PhoneNumberAdministrationClient {
     try {
       const { _response } = await this.client.configureNumber(
         {
-          phoneNumber,
-          pstnConfiguration: {
-            callbackUrl: callbackUrl,
-            applicationId: updatedOptions.applicationId
-          }
+          callbackUrl: callbackUrl,
+          applicationId: updatedOptions.applicationId
         },
+        phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse({}, _response);
@@ -215,7 +201,7 @@ export class PhoneNumberAdministrationClient {
     );
     try {
       const { _response } = await this.client.unconfigureNumber(
-        { phoneNumber },
+        phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse({}, _response);
@@ -247,9 +233,7 @@ export class PhoneNumberAdministrationClient {
     );
     try {
       const { capabilitiesUpdateId, _response } = await this.client.updateCapabilities(
-        {
-          phoneNumberCapabilitiesUpdate: phoneNumberCapabilitiesUpdates
-        },
+        phoneNumberCapabilitiesUpdates,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<UpdateNumberCapabilitiesResponse>(
@@ -309,14 +293,13 @@ export class PhoneNumberAdministrationClient {
     const { countryCode: country, locationType, phonePlanId, locationOptionsQueries } = request;
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
-      options
+      Object.assign(options, locationOptionsQueries)
     );
     try {
       const { _response, ...rest } = await this.client.getAllAreaCodes(
         locationType,
         country,
         phonePlanId,
-        locationOptionsQueries,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<AreaCodes>(rest, _response);
@@ -346,7 +329,7 @@ export class PhoneNumberAdministrationClient {
     );
     try {
       const { pstnConfiguration, _response } = await this.client.getNumberConfiguration(
-        { phoneNumber },
+        phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<NumberConfigurationResponse>({ pstnConfiguration }, _response);
@@ -476,10 +459,7 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllSearchesNext(
-        continuationState.continuationToken,
-        options
-      );
+      const currentResponse = await this.client.getAllSearches(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
       if (currentResponse.entities) {
@@ -508,7 +488,7 @@ export class PhoneNumberAdministrationClient {
    * Example usage:
    * ```ts
    * let client = new PhoneNumberAdministrationClient(credentials);
-   * for await (const entity of client.listSearches()) {
+   * for await (const entity of client.listReleases()) {
    *   console.log("id: ", entity.id);
    * }
    * ```
@@ -557,10 +537,7 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllReleasesNext(
-        continuationState.continuationToken,
-        options
-      );
+      const currentResponse = await this.client.getAllReleases(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
       if (currentResponse.entities) {
@@ -638,10 +615,7 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllSupportedCountriesNext(
-        continuationState.continuationToken,
-        options
-      );
+      const currentResponse = await this.client.getAllSupportedCountries(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
       if (currentResponse.countries) {
@@ -720,10 +694,7 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getAllPhoneNumbersNext(
-        continuationState.continuationToken,
-        options
-      );
+      const currentResponse = await this.client.getAllPhoneNumbers(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
       if (currentResponse.phoneNumbers) {
@@ -803,11 +774,7 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getPhonePlanGroupsNext(
-        countryCode,
-        continuationState.continuationToken,
-        options
-      );
+      const currentResponse = await this.client.getPhonePlanGroups(countryCode, options);
       continuationState.continuationToken = currentResponse.nextLink;
 
       if (currentResponse.phonePlanGroups) {
@@ -895,10 +862,9 @@ export class PhoneNumberAdministrationClient {
     }
 
     while (continuationState.continuationToken) {
-      const currentResponse = await this.client.getPhonePlansNext(
+      const currentResponse = await this.client.getPhonePlans(
         planGroupInfo.countryCode,
         planGroupInfo.phonePlanGroupId,
-        continuationState.continuationToken,
         options
       );
       continuationState.continuationToken = currentResponse.nextLink;
@@ -986,13 +952,10 @@ export class PhoneNumberAdministrationClient {
     phoneNumbers: string[],
     options: BeginReleasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
-    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new ReleasePhoneNumbersPoller({
       phoneNumbers,
       client: this.client,
-      pollInterval,
-      resumeFrom,
-      requestOptions
+      requestOptions: options
     });
 
     await poller.poll();
@@ -1025,13 +988,10 @@ export class PhoneNumberAdministrationClient {
     reservationRequest: CreateReservationRequest,
     options: BeginReservePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>> {
-    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new ReservePhoneNumbersPoller({
       reservationRequest,
       client: this.client,
-      pollInterval,
-      resumeFrom,
-      requestOptions
+      requestOptions: options
     });
 
     await poller.poll();
@@ -1063,13 +1023,10 @@ export class PhoneNumberAdministrationClient {
     reservationId: string,
     options: BeginPurchaseReservationOptions = {}
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new PurchaseReservationPoller({
       reservationId,
       client: this.client,
-      pollInterval,
-      resumeFrom,
-      requestOptions
+      requestOptions: options
     });
 
     await poller.poll();
@@ -1116,6 +1073,7 @@ export {
   ReleaseStatus,
   PhoneNumberReleaseDetails,
   PhoneNumberEntity,
+  CurrencyType,
   PhoneNumberReleaseStatus,
   SearchStatus,
   LocationOptionsResponse,

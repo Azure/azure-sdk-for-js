@@ -1,0 +1,117 @@
+import { ReceiveMode, ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
+import { SBStressTestsBase } from "./stressTestsBase";
+import { delay } from "rhea-promise";
+import parsedArgs from "minimist";
+
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
+// Define connection string and related Service Bus entity names here
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+
+interface ScenarioReceiveBatchOptions {
+  testDurationInMs?: number;
+  receiveMode?: ReceiveMode;
+  receiveBatchMaxMessageCount?: number;
+  receiveBatchMaxWaitTimeInMs?: number;
+  delayBetweenReceivesInMs?: number;
+  numberOfMessagesPerSend?: number;
+  delayBetweenSendsInMs?: number;
+  totalNumberOfMessagesToSend?: number;
+  maxAutoLockRenewalDurationInMs?: number;
+  settleMessageOnReceive: boolean;
+}
+
+function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> {
+  const options = parsedArgs<ScenarioReceiveBatchOptions>(args, {
+    boolean: ["settleMessageOnReceive"],
+    default: { settleMessageOnReceive: false }
+  });
+  return {
+    testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
+    receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
+    receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
+    receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
+    delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
+    numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
+    delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
+    maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
+    settleMessageOnReceive: options.settleMessageOnReceive
+  };
+}
+
+export async function scenarioReceiveBatch() {
+  const testOptions = sanitizeOptions(process.argv);
+  const {
+    testDurationInMs,
+    receiveMode,
+    receiveBatchMaxMessageCount,
+    receiveBatchMaxWaitTimeInMs,
+    delayBetweenReceivesInMs,
+    numberOfMessagesPerSend,
+    delayBetweenSendsInMs,
+    totalNumberOfMessagesToSend,
+    maxAutoLockRenewalDurationInMs,
+    settleMessageOnReceive
+  } = testOptions;
+
+  // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
+  const testDurationForSendInMs = testDurationInMs * 0.7;
+
+  const startedAt = new Date();
+
+  const stressBase = new SBStressTestsBase({
+    snapshotFocus: ["send-info", "receive-info"]
+  });
+  const sbClient = new ServiceBusClient(connectionString);
+
+  await stressBase.init(undefined, undefined, testOptions);
+  const sender = sbClient.createSender(stressBase.queueName);
+  let receiver: ServiceBusReceiver;
+
+  if (receiveMode === "receiveAndDelete") {
+    receiver = sbClient.createReceiver(stressBase.queueName, {
+      receiveMode: "receiveAndDelete",
+      maxAutoLockRenewalDurationInMs
+    });
+  } else {
+    receiver = sbClient.createReceiver(stressBase.queueName, { maxAutoLockRenewalDurationInMs });
+  }
+
+  async function sendMessages() {
+    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+    while (
+      elapsedTime < testDurationForSendInMs &&
+      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+    ) {
+      await stressBase.sendMessages([sender], numberOfMessagesPerSend);
+      elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      await delay(delayBetweenSendsInMs);
+    }
+  }
+
+  async function receiveMessages() {
+    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+    while (elapsedTime < testDurationInMs) {
+      await stressBase.receiveMessages(
+        receiver,
+        receiveBatchMaxMessageCount,
+        receiveBatchMaxWaitTimeInMs,
+        settleMessageOnReceive
+      );
+      elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      await delay(delayBetweenReceivesInMs);
+    }
+  }
+
+  await Promise.all([sendMessages(), receiveMessages()]);
+  await sbClient.close();
+
+  await stressBase.end();
+}
+
+scenarioReceiveBatch().catch((err) => {
+  console.log("Error occurred: ", err);
+});

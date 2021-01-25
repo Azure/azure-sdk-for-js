@@ -15,7 +15,7 @@ export class MaxAggregator implements Aggregator {
   /**
    * Represents an aggregator for MAX operator.
    * @constructor MaxAggregator
-   * @hidden
+   * @ignore
    */
   constructor() {
     this.value = undefined;

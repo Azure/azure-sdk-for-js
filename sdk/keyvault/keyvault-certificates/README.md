@@ -16,7 +16,7 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 - Get all certificates.
 - Get all deleted certificates.
 
-> Note: This package cannot be used in the browser due to Azure Key Vault service limitations, please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples)
 
@@ -366,11 +366,11 @@ Let's evaluate the composition of a Key Vault Certificate:
 > key allows key operations and the Key Vault secret allows retrieval
 > of the certificate value as a secret. A Key Vault certificate
 > also contains public x509 certificate metadata.  
-> _Source: [Composition of a Certificate][composition-of-a-certificate]._
+> _Source: [Composition of a Certificate][Composition-of-a-Certificate]._
 
 Knowing that the private key is stored in a Key Vault Secret,
 with the public certificate included, we can retrieve it
-by using the [KeyVault Secrets client][keyvault-secrets-client].
+by using the [KeyVault Secrets client][KeyVault-Secrets-client].
 
 ```ts
 // Using the same credential object we used before,
@@ -390,7 +390,7 @@ fs.writeFileSync("myCertificate.p12", PKCS12Certificate);
 ```
 
 Note that, by default, the content type of the certificates
-is [PKCS 12][pkcs_12]. By specifying the content type
+is [PKCS 12][PKCS_12]. By specifying the content type
 of your certificate, you'll be able to retrieve it in PEM format.
 Before showing how to create PEM certificates,
 let's first explore how to retrieve a PEM secret key
@@ -411,7 +411,7 @@ openssl pkcs12 -in myCertificate.p12 -out myCertificate.key.pem -nocerts -nodes
 
 Note that in both cases, openssl will ask you for the
 password used to create the certificate. The sample code we've used
-so far hasn't specified a password, so you can append `-passin 'pass:'`
+so far hasn't specified a password, so you can append ` -passin 'pass:' `
 to the end of each command.
 
 ### Certificates in PEM format
@@ -615,9 +615,7 @@ async function main() {
   for await (let deletedCertificate of client.listDeletedCertificates()) {
     console.log("Deleted certificate: ", deletedCertificate);
   }
-  for await (let certificateProperties of client.listPropertiesOfCertificateVersions(
-    certificateName
-  )) {
+  for await (let certificateProperties of client.listPropertiesOfCertificateVersions(certificateName)) {
     console.log("Certificate properties: ", certificateProperties);
   }
 }

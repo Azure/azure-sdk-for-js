@@ -63,6 +63,11 @@ describe("The Secrets client should set the serviceVersion", () => {
   it("it should allow us to specify an API version from a specific set of versions", async function() {
     const versions: ApIVersions[] = ["7.0", "7.1"];
     for (const serviceVersion in versions) {
+      const credential = await new ClientSecretCredential(
+        env.AZURE_TENANT_ID!,
+        env.AZURE_CLIENT_ID!,
+        env.AZURE_CLIENT_SECRET!
+      );
       const client = new SecretClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient

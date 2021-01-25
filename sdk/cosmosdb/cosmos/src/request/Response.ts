@@ -3,7 +3,7 @@
 import { CosmosHeaders } from "../index";
 
 /**
- * @hidden
+ * @ignore
  */
 export interface Response<T> {
   headers: CosmosHeaders;

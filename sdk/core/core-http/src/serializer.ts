@@ -12,7 +12,7 @@ export class Serializer {
     public readonly isXML?: boolean
   ) {}
 
-  validateConstraints(mapper: Mapper, value: unknown, objectName: string): void {
+  validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (
       constraintName: keyof MapperConstraints,
       constraintValue: any
@@ -22,7 +22,6 @@ export class Serializer {
       );
     };
     if (mapper.constraints && value != undefined) {
-      const valueAsNumber = value as number;
       const {
         ExclusiveMaximum,
         ExclusiveMinimum,
@@ -36,32 +35,31 @@ export class Serializer {
         Pattern,
         UniqueItems
       } = mapper.constraints;
-      if (ExclusiveMaximum != undefined && valueAsNumber >= ExclusiveMaximum) {
+      if (ExclusiveMaximum != undefined && value >= ExclusiveMaximum) {
         failValidation("ExclusiveMaximum", ExclusiveMaximum);
       }
-      if (ExclusiveMinimum != undefined && valueAsNumber <= ExclusiveMinimum) {
+      if (ExclusiveMinimum != undefined && value <= ExclusiveMinimum) {
         failValidation("ExclusiveMinimum", ExclusiveMinimum);
       }
-      if (InclusiveMaximum != undefined && valueAsNumber > InclusiveMaximum) {
+      if (InclusiveMaximum != undefined && value > InclusiveMaximum) {
         failValidation("InclusiveMaximum", InclusiveMaximum);
       }
-      if (InclusiveMinimum != undefined && valueAsNumber < InclusiveMinimum) {
+      if (InclusiveMinimum != undefined && value < InclusiveMinimum) {
         failValidation("InclusiveMinimum", InclusiveMinimum);
       }
-      const valueAsArray = value as any[];
-      if (MaxItems != undefined && valueAsArray.length > MaxItems) {
+      if (MaxItems != undefined && value.length > MaxItems) {
         failValidation("MaxItems", MaxItems);
       }
-      if (MaxLength != undefined && valueAsArray.length > MaxLength) {
+      if (MaxLength != undefined && value.length > MaxLength) {
         failValidation("MaxLength", MaxLength);
       }
-      if (MinItems != undefined && valueAsArray.length < MinItems) {
+      if (MinItems != undefined && value.length < MinItems) {
         failValidation("MinItems", MinItems);
       }
-      if (MinLength != undefined && valueAsArray.length < MinLength) {
+      if (MinLength != undefined && value.length < MinLength) {
         failValidation("MinLength", MinLength);
       }
-      if (MultipleOf != undefined && valueAsNumber % MultipleOf !== 0) {
+      if (MultipleOf != undefined && value % MultipleOf !== 0) {
         failValidation("MultipleOf", MultipleOf);
       }
       if (Pattern) {
@@ -72,7 +70,7 @@ export class Serializer {
       }
       if (
         UniqueItems &&
-        valueAsArray.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
+        value.some((item: any, i: number, ar: Array<any>) => ar.indexOf(item) !== i)
       ) {
         failValidation("UniqueItems", UniqueItems);
       }
@@ -82,15 +80,19 @@ export class Serializer {
   /**
    * Serialize the given object based on its metadata defined in the mapper
    *
-   * @param mapper - The mapper which defines the metadata of the serializable object
-   * @param object - A valid Javascript object to be serialized
-   * @param objectName - Name of the serialized object
-   * @param options - additional options to deserialization
-   * @returns A valid serialized Javascript object
+   * @param {Mapper} mapper The mapper which defines the metadata of the serializable object
+   *
+   * @param {object|string|Array|number|boolean|Date|stream} object A valid Javascript object to be serialized
+   *
+   * @param {string} objectName Name of the serialized object
+   *
+   * @param {options} options additional options to deserialization
+   *
+   * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
    */
   serialize(
     mapper: Mapper,
-    object: unknown,
+    object: any,
     objectName?: string,
     options: SerializerOptions = {}
   ): any {
@@ -151,9 +153,9 @@ export class Serializer {
       ) {
         payload = serializeDateTypes(mapperType, object, objectName);
       } else if (mapperType.match(/^ByteArray$/i) !== null) {
-        payload = serializeByteArrayType(objectName, object as Uint8Array);
+        payload = serializeByteArrayType(objectName, object);
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
-        payload = serializeBase64UrlType(objectName, object as Uint8Array);
+        payload = serializeBase64UrlType(objectName, object);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
         payload = serializeSequenceType(
           this,
@@ -189,15 +191,19 @@ export class Serializer {
   /**
    * Deserialize the given object based on its metadata defined in the mapper
    *
-   * @param mapper - The mapper which defines the metadata of the serializable object
-   * @param responseBody - A valid Javascript entity to be deserialized
-   * @param objectName - Name of the deserialized object
-   * @param options - Controls behavior of XML parser and builder.
-   * @returns A valid deserialized Javascript object
+   * @param {object} mapper The mapper which defines the metadata of the serializable object
+   *
+   * @param {object|string|Array|number|boolean|Date|stream} responseBody A valid Javascript entity to be deserialized
+   *
+   * @param {string} objectName Name of the deserialized object
+   *
+   * @param options Controls behavior of XML parser and builder.
+   *
+   * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
    */
   deserialize(
     mapper: Mapper,
-    responseBody: unknown,
+    responseBody: any,
     objectName: string,
     options: SerializerOptions = {}
   ): any {
@@ -237,22 +243,18 @@ export class Serializer {
     } else {
       if (this.isXML) {
         const xmlCharKey = updatedOptions.xmlCharKey;
-        const castResponseBody = responseBody as Record<string, unknown>;
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
          * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
          * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
          */
-        if (
-          castResponseBody[XML_ATTRKEY] != undefined &&
-          castResponseBody[xmlCharKey] != undefined
-        ) {
-          responseBody = castResponseBody[xmlCharKey];
+        if (responseBody[XML_ATTRKEY] != undefined && responseBody[xmlCharKey] != undefined) {
+          responseBody = responseBody[xmlCharKey];
         }
       }
 
       if (mapperType.match(/^Number$/i) !== null) {
-        payload = parseFloat(responseBody as string);
+        payload = parseFloat(responseBody);
         if (isNaN(payload)) {
           payload = responseBody;
         }
@@ -267,13 +269,13 @@ export class Serializer {
       } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
         payload = responseBody;
       } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/i) !== null) {
-        payload = new Date(responseBody as string);
+        payload = new Date(responseBody);
       } else if (mapperType.match(/^UnixTime$/i) !== null) {
-        payload = unixTimeToDate(responseBody as number);
+        payload = unixTimeToDate(responseBody);
       } else if (mapperType.match(/^ByteArray$/i) !== null) {
-        payload = base64.decodeString(responseBody as string);
+        payload = base64.decodeString(responseBody);
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
-        payload = base64UrlToByteArray(responseBody as string);
+        payload = base64UrlToByteArray(responseBody);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
         payload = deserializeSequenceType(
           this,
@@ -597,9 +599,9 @@ function serializeDictionaryType(
 
 /**
  * Resolves the additionalProperties property from a referenced mapper
- * @param serializer - The serializer containing the entire set of mappers
- * @param mapper - The composite mapper to resolve
- * @param objectName - Name of the object being serialized
+ * @param serializer the serializer containing the entire set of mappers
+ * @param mapper the composite mapper to resolve
+ * @param objectName name of the object being serialized
  */
 function resolveAdditionalProperties(
   serializer: Serializer,
@@ -618,9 +620,9 @@ function resolveAdditionalProperties(
 
 /**
  * Finds the mapper referenced by className
- * @param serializer - The serializer containing the entire set of mappers
- * @param mapper - The composite mapper to resolve
- * @param objectName - Name of the object being serialized
+ * @param serializer the serializer containing the entire set of mappers
+ * @param mapper the composite mapper to resolve
+ * @param objectName name of the object being serialized
  */
 function resolveReferencedMapper(
   serializer: Serializer,
@@ -643,8 +645,8 @@ function resolveReferencedMapper(
 
 /**
  * Resolves a composite mapper's modelProperties.
- * @param serializer - The serializer containing the entire set of mappers
- * @param mapper - The composite mapper to resolve
+ * @param serializer the serializer containing the entire set of mappers
+ * @param mapper the composite mapper to resolve
  */
 function resolveModelProperties(
   serializer: Serializer,
@@ -791,7 +793,7 @@ function getXmlObjectValue(
   serializedValue: any,
   isXml: boolean,
   options: Required<SerializerOptions>
-): any {
+) {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
   }
@@ -1254,8 +1256,7 @@ export interface UrlParameterValue {
 }
 
 // TODO: why is this here?
-export function serializeObject(toSerialize: unknown): any {
-  const castToSerialize = toSerialize as Record<string, unknown>;
+export function serializeObject(toSerialize: any): any {
   if (toSerialize == undefined) return undefined;
   if (toSerialize instanceof Uint8Array) {
     toSerialize = base64.encodeByteArray(toSerialize);
@@ -1271,7 +1272,7 @@ export function serializeObject(toSerialize: unknown): any {
   } else if (typeof toSerialize === "object") {
     const dictionary: { [key: string]: any } = {};
     for (const property in toSerialize) {
-      dictionary[property] = serializeObject(castToSerialize[property]);
+      dictionary[property] = serializeObject(toSerialize[property]);
     }
     return dictionary;
   }
@@ -1289,7 +1290,6 @@ function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
   return result;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MapperType = strEnum([
   "Base64Url",
   "Boolean",

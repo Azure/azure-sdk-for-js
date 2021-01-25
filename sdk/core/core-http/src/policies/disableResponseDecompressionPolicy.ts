@@ -30,8 +30,8 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of DisableResponseDecompressionPolicy.
    *
-   * @param nextPolicy -
-   * @param options -
+   * @param {RequestPolicy} nextPolicy
+   * @param {RequestPolicyOptions} options
    */
   // The parent constructor is protected.
   /* eslint-disable-next-line @typescript-eslint/no-useless-constructor */
@@ -42,8 +42,8 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param request -
-   * @returns
+   * @param {WebResource} request
+   * @returns {Promise<HttpOperationResponse>}
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     request.decompressResponse = false;

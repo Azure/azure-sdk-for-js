@@ -12,7 +12,7 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export type ActionType = "EmailContacts" | "AutoRenew";
+export type ActionType = 'EmailContacts' | 'AutoRenew';
 
 // @public
 export interface AdministratorContact {
@@ -44,9 +44,6 @@ export type BeginDeleteCertificateOptions = CertificatePollerOptions;
 
 // @public
 export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
-
-// @public
-export type CancelCertificateOperationOptions = coreHttp.OperationOptions;
 
 // @public
 export class CertificateClient {
@@ -111,10 +108,10 @@ export interface CertificateIssuer extends IssuerProperties {
 }
 
 // @public
-export type CertificateKeyCurveName = string;
+export type CertificateKeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
-export type CertificateKeyType = string;
+export type CertificateKeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
 
 // @public
 export interface CertificateOperation {
@@ -141,7 +138,8 @@ export interface CertificateOperationError {
 }
 
 // @public
-export interface CertificateOperationState extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
+export interface CertificateOperationState extends PollOperationState<KeyVaultCertificateWithPolicy> {
+    certificateName: string;
     certificateOperation?: CertificateOperation;
 }
 
@@ -211,7 +209,7 @@ export interface CreateCertificateOptions extends CertificateProperties, coreHtt
 }
 
 // @public
-export type CreateCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
+export type CreateCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
 
 // @public
 export interface CreateIssuerOptions extends coreHttp.OperationOptions {
@@ -232,7 +230,7 @@ export const DefaultCertificatePolicy: {
 export type DeleteCertificateOperationOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeleteCertificateState = KeyVaultCertificatePollOperationState<DeletedCertificate>;
+export type DeleteCertificateState = PollOperationState<DeletedCertificate>;
 
 // @public
 export type DeleteContactsOptions = coreHttp.OperationOptions;
@@ -248,7 +246,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = string;
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
 export interface ErrorModel {
@@ -317,7 +315,7 @@ export interface IssuerProperties {
 }
 
 // @public
-export type KeyUsageType = string;
+export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
 
 // @public
 export interface KeyVaultCertificate {
@@ -338,55 +336,8 @@ export interface KeyVaultCertificateId {
 }
 
 // @public
-export interface KeyVaultCertificatePollOperationState<TResult> extends PollOperationState<TResult> {
-    certificateName: string;
-}
-
-// @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
-}
-
-// @public
-export const enum KnownCertificateKeyCurveNames {
-    P256 = "P-256",
-    P256K = "P-256K",
-    P384 = "P-384",
-    P521 = "P-521"
-}
-
-// @public
-export const enum KnownCertificateKeyTypes {
-    EC = "EC",
-    ECHSM = "EC-HSM",
-    Oct = "oct",
-    OctHSM = "oct-HSM",
-    RSA = "RSA",
-    RSAHSM = "RSA-HSM"
-}
-
-// @public
-export const enum KnownDeletionRecoveryLevels {
-    CustomizedRecoverable = "CustomizedRecoverable",
-    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-    Purgeable = "Purgeable",
-    Recoverable = "Recoverable",
-    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-    RecoverablePurgeable = "Recoverable+Purgeable"
-}
-
-// @public
-export const enum KnownKeyUsageTypes {
-    CRLSign = "cRLSign",
-    DataEncipherment = "dataEncipherment",
-    DecipherOnly = "decipherOnly",
-    DigitalSignature = "digitalSignature",
-    EncipherOnly = "encipherOnly",
-    KeyAgreement = "keyAgreement",
-    KeyCertSign = "keyCertSign",
-    KeyEncipherment = "keyEncipherment",
-    NonRepudiation = "nonRepudiation"
 }
 
 // @public
@@ -438,7 +389,7 @@ export { PollerLike }
 export type PurgeDeletedCertificateOptions = coreHttp.OperationOptions;
 
 // @public
-export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
+export type RecoverDeletedCertificateState = PollOperationState<KeyVaultCertificateWithPolicy>;
 
 // @public
 export type RequireAtLeastOne<T> = {

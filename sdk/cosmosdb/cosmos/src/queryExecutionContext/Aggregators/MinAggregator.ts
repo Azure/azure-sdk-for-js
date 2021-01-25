@@ -15,7 +15,7 @@ export class MinAggregator implements Aggregator {
   /**
    * Represents an aggregator for MIN operator.
    * @constructor MinAggregator
-   * @hidden
+   * @ignore
    */
   constructor() {
     this.value = undefined;

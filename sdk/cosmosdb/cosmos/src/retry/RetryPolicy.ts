@@ -4,7 +4,7 @@ import { ErrorResponse } from "../request";
 import { RetryContext } from "./RetryContext";
 
 /**
- * @hidden
+ * @ignore
  */
 export interface RetryPolicy {
   retryAfterInMs: number;

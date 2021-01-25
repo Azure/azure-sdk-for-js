@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   RequestPolicy,
@@ -14,15 +14,15 @@ import {
  * The sync token header, as described here:
  * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
  * @internal
- * @hidden
+ * @ignore
  */
 export const SyncTokenHeaderName = "sync-token";
 
 /**
  * A policy factory for injecting sync tokens properly into outgoing requests.
- * @param syncTokens - the sync tokens store to be used across requests.
+ * @param syncTokens
  * @internal
- * @hidden
+ * @ignore
  */
 export function syncTokenPolicy(syncTokens: SyncTokens): RequestPolicyFactory {
   return {
@@ -62,7 +62,7 @@ class SyncTokenPolicy extends BaseRequestPolicy {
  * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export class SyncTokens {
   private _currentSyncTokens = new Map<string, SyncToken>();
@@ -76,7 +76,7 @@ export class SyncTokens {
    * If given an empty value (or undefined) it clears the current list of sync tokens.
    * (indicates the service has properly absorbed values into the cluster).
    *
-   * @param syncTokenHeaderValue - The full value of the sync token header.
+   * @param syncTokenHeaderValue The full value of the sync token header.
    */
   addSyncTokenFromHeaderValue(syncTokenHeaderValue: string | undefined) {
     if (syncTokenHeaderValue == null || syncTokenHeaderValue === "") {
@@ -137,10 +137,10 @@ interface SyncToken {
 /**
  * Parses a single sync token into it's constituent parts.
  *
- * @param syncToken - A single sync token.
+ * @param syncToken A single sync token.
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export function parseSyncToken(syncToken: string): SyncToken {
   const matches = syncToken.match(syncTokenRegex);

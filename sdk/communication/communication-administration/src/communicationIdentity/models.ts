@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-http";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { CommunicationUser } from "@azure/communication-common";
 import { CommunicationIdentityToken } from "./generated/src/models";
 import { WithResponse } from "../common/models";
 
@@ -24,13 +24,13 @@ export interface CommunicationUserToken
   /**
    * Represents the user the token was issued for
    */
-  user: CommunicationUserIdentifier;
+  user: CommunicationUser;
 }
 
 /**
  * Represents the response from creating a user
  */
-export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
+export type CreateUserResponse = WithResponse<CommunicationUser>;
 
 /**
  * Represents the response from issuing a token

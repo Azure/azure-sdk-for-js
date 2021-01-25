@@ -37,11 +37,8 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max --TransitiveDep
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
     displayName: "Build libraries"
-  - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" --verbose
-    displayName: "Build samples"
 
   - pwsh: |
       eng/tools/check-api-warning.ps1

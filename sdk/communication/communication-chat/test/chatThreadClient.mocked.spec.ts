@@ -3,7 +3,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+import { AzureCommunicationUserCredential } from "@azure/communication-common";
 import {
   ChatThreadClient,
   UpdateThreadOptions,
@@ -35,7 +35,7 @@ describe("[Mocked] ChatThreadClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new ChatThreadClient(threadId, baseUri, new AzureCommunicationTokenCredential(generateToken()));
+    new ChatThreadClient(threadId, baseUri, new AzureCommunicationUserCredential(generateToken()));
   });
 
   it("makes successful update thread request", async () => {

@@ -10,8 +10,8 @@ dotenv.config();
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function updateAndUpsertEntities() {
-  console.log("== Update and Upsert entities Sample ==");
+async function createAndDeleteEntities() {
+  console.log("== Create and delete entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
   const tableName = "OfficeSupplies5p1";
@@ -57,8 +57,8 @@ interface Entity {
   brand?: string;
 }
 
-export async function main() {
-  await updateAndUpsertEntities();
+async function main() {
+  await createAndDeleteEntities();
 }
 
 main().catch((err) => {

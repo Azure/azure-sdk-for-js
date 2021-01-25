@@ -63,46 +63,6 @@ export class SqlPoolSchemas {
   }
 
   /**
-   * Get Sql Pool schema
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param schemaName The name of the schema.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlPoolSchemasGetResponse>
-   */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSchemasGetResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param schemaName The name of the schema.
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, callback: msRest.ServiceCallback<Models.SqlPoolSchema>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param schemaName The name of the schema.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlPoolSchema>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlPoolSchema>, callback?: msRest.ServiceCallback<Models.SqlPoolSchema>): Promise<Models.SqlPoolSchemasGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        sqlPoolName,
-        schemaName,
-        options
-      },
-      getOperationSpec,
-      callback) as Promise<Models.SqlPoolSchemasGetResponse>;
-  }
-
-  /**
    * Gets schemas of a given SQL pool.
    * @summary Gets schemas of a given SQL pool
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -153,33 +113,6 @@ const listOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SqlPoolSchemaListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/schemas/{schemaName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName,
-    Parameters.schemaName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlPoolSchema
     },
     default: {
       bodyMapper: Mappers.CloudError

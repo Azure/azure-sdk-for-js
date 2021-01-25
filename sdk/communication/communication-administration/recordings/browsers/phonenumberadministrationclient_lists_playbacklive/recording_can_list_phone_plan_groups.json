@@ -5,6 +5,8 @@
       "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups",
       "query": {
         "locale": "en-US",
+        "includeRateInformation": "false",
+        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },

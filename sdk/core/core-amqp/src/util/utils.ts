@@ -8,7 +8,7 @@ import { WebSocketImpl } from "rhea-promise";
 export { AsyncLock };
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Describes the options that can be provided to create an async lock.
  */
@@ -56,7 +56,7 @@ export interface WebSocketOptions {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * A constant that indicates whether the environment is node.js or browser based.
  */
@@ -117,7 +117,7 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Gets a new instance of the async lock with desired settings.
  * @param {AsyncLockOptions} [options] The async lock options.
@@ -134,7 +134,7 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
@@ -199,7 +199,7 @@ export function delay<T>(
   abortSignal?: AbortSignalLike,
   abortErrorMsg?: string,
   value?: T
-): Promise<T | void> {
+): Promise<T> {
   return new Promise((resolve, reject) => {
     const rejectOnAbort = (): void => {
       return reject(
@@ -236,7 +236,7 @@ export function delay<T>(
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Generates a random number between the given interval
  * @param {number} min Min number of the range (inclusive).
@@ -248,7 +248,7 @@ export function randomNumberFromInterval(min: number, max: number): number {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Type declaration for a Function type where T is the input to the function and V is the output
  * of the function.
@@ -257,7 +257,7 @@ export type Func<T, V> = (a: T) => V;
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Executes an array of promises sequentially. Inspiration of this method is here:
  * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
@@ -282,7 +282,7 @@ export function executePromisesSequentially(
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * Determines whether the given connection string is an iothub connection string.
  * @param {string} connectionString The connection string.
@@ -300,7 +300,7 @@ export function isIotHubConnectionString(connectionString: string): boolean {
 }
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export function isString(s: any): s is string {
@@ -308,7 +308,7 @@ export function isString(s: any): s is string {
 }
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export function isNumber(n: any): n is number {

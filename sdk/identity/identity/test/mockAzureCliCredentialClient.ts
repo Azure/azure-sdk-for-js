@@ -22,7 +22,7 @@ export class MockAzureCliCredentialClient extends AzureCliCredential {
    * Replace the work of getting the access token with a mocked method
    * that will used mocked data instead of the output from the real `az`
    * command.
-   * @param resource - The resources to use when accessing token
+   * @param resource The resources to use when accessing token
    */
   protected getAzureCliAccessToken(
     _resource: string

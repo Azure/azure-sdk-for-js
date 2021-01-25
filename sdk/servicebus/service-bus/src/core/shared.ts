@@ -1,23 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Delivery, ReceiverOptions, Source } from "rhea-promise";
+import { Delivery } from "rhea-promise";
 import { translateServiceBusError } from "../serviceBusError";
 import { receiverLogger } from "../log";
-import { ReceiveMode } from "../models";
 
 /**
  * @internal
- * @hidden
- */
-export type ReceiverHandlers = Pick<
-  ReceiverOptions,
-  "onMessage" | "onError" | "onClose" | "onSessionError" | "onSessionClose" | "onSettled"
->;
-
-/**
- * @internal
- * @hidden
+ * @ignore
  */
 export interface DeferredPromiseAndTimer {
   resolve: (value?: any) => void;
@@ -36,7 +26,7 @@ export interface DeferredPromiseAndTimer {
  * 5. User's code after the settlement continues.
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export function onMessageSettled(
   logPrefix: string,
@@ -77,37 +67,4 @@ export function onMessageSettled(
       return promise.resolve();
     }
   }
-}
-
-/**
- * Creates the options that need to be specified while creating an AMQP receiver link.
- *
- * @internal
- * @hidden
- * @param {string} name
- * @param {ReceiveMode} receiveMode
- * @param {Source} source
- * @param {ReceiverHandlers} handlers
- */
-export function createReceiverOptions(
-  name: string,
-  receiveMode: ReceiveMode,
-  source: Source,
-  handlers: ReceiverHandlers
-): ReceiverOptions {
-  const rcvrOptions: ReceiverOptions = {
-    name,
-    // "autoaccept" being true in the "receiveAndDelete" mode sets the "settled" flag to true on the deliveries
-    // which helps in clearing the circular buffer(size=2048) as it is needed to receive messages after 2048 of them are received.
-    autoaccept: receiveMode === "receiveAndDelete" ? true : false,
-    // receiveAndDelete -> first(0), peekLock -> second (1)
-    rcv_settle_mode: receiveMode === "receiveAndDelete" ? 0 : 1,
-    // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-    snd_settle_mode: receiveMode === "receiveAndDelete" ? 1 : 0,
-    source,
-    credit_window: 0,
-    ...handlers
-  };
-
-  return rcvrOptions;
 }

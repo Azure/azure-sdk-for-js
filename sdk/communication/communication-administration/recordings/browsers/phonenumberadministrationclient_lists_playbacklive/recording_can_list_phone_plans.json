@@ -5,6 +5,7 @@
       "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans",
       "query": {
         "locale": "en-US",
+        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },

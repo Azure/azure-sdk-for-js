@@ -2,12 +2,19 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
+import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
-import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../src/";
-import "./env";
+import { AzureKeyCredential, TextAnalyticsClient } from "../../src/";
+
+dotenv.config();
+
+export interface RecordedClient {
+  client: TextAnalyticsClient;
+  recorder: Recorder;
+}
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -18,6 +25,12 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
   ENDPOINT: "https://endpoint/"
 };
+
+export const testEnv = new Proxy(replaceableVariables, {
+  get: (target, key: string) => {
+    return env[key] || target[key];
+  }
+});
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
@@ -36,38 +49,25 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export type AuthMethod = "APIKey" | "AAD";
+export function createRecordedClient(
+  context: Context,
+  apiKey?: AzureKeyCredential
+): RecordedClient {
+  const recorder = record(context, environmentSetup);
 
-export function createClient(
-  authMethod: AuthMethod,
-  options?: TextAnalyticsClientOptions
-): TextAnalyticsClient {
   let credential: AzureKeyCredential | TokenCredential;
-  switch (authMethod) {
-    case "APIKey": {
-      credential = new AzureKeyCredential(env.TEXT_ANALYTICS_API_KEY);
-      break;
-    }
-    case "AAD": {
-      credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
-      );
-      break;
-    }
-    default: {
-      throw Error(`Unsupported authentication method: ${authMethod}`);
-    }
+  if (apiKey !== undefined) {
+    credential = apiKey;
+  } else {
+    credential = new ClientSecretCredential(
+      testEnv.AZURE_TENANT_ID,
+      testEnv.AZURE_CLIENT_ID,
+      testEnv.AZURE_CLIENT_SECRET
+    );
   }
-  return new TextAnalyticsClient(env.ENDPOINT, credential, options);
-}
 
-/**
- * creates the recorder and reads the environment variables from the `.env` file.
- * Should be called first in the test suite to make sure environment variables are
- * read before they are being used.
- */
-export function createRecorder(context: Context): Recorder {
-  return record(context, environmentSetup);
+  return {
+    client: new TextAnalyticsClient(testEnv.ENDPOINT, credential),
+    recorder
+  };
 }

@@ -123,8 +123,7 @@ export class BeginRecognizeContentPoller extends Poller<
 }
 /**
  * Creates a poll operation given the provided state.
- * @internal
- * @hidden
+ * @ignore
  */
 function makeBeginRecognizePollOperation(
   state: BeginRecognizeContentPollState
@@ -137,38 +136,38 @@ function makeBeginRecognizePollOperation(
     },
 
     async update(options = {}): Promise<BeginRecognizeContentPollerOperation> {
-      const pollerState = this.state;
-      const { client, source, contentType, analyzeOptions } = pollerState;
+      const state = this.state;
+      const { client, source, contentType, analyzeOptions } = state;
 
-      if (!pollerState.isStarted) {
+      if (!state.isStarted) {
         if (!source) {
           throw new Error("Expect a valid 'source'");
         }
 
-        pollerState.isStarted = true;
+        state.isStarted = true;
         const result = await client.beginRecognize(source, contentType, analyzeOptions || {});
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
         const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-        pollerState.resultId = result.operationLocation.substring(lastSlashIndex + 1);
+        state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
         // source is no longer needed
-        pollerState.source = undefined;
+        state.source = undefined;
       }
 
-      const response = await client.getRecognizeResult(pollerState.resultId!, {
+      const response = await client.getRecognizeResult(state.resultId!, {
         abortSignal: analyzeOptions?.abortSignal
       });
 
-      pollerState.status = response.status;
-      if (!pollerState.isCompleted) {
+      state.status = response.status;
+      if (!state.isCompleted) {
         if (typeof options.fireProgress === "function") {
-          options.fireProgress(pollerState);
+          options.fireProgress(state);
         }
 
         if (response.status === "succeeded") {
-          pollerState.result = response.pages;
-          pollerState.isCompleted = true;
+          state.result = response.pages;
+          state.isCompleted = true;
         } else if (response.status === "failed") {
           const errors = response.errors
             ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
@@ -181,7 +180,7 @@ ${errors || ""}
         }
       }
 
-      return makeBeginRecognizePollOperation(pollerState);
+      return makeBeginRecognizePollOperation(state);
     },
 
     toString() {

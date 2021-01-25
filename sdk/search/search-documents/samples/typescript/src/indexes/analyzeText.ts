@@ -22,7 +22,7 @@ export async function main() {
     return;
   }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
-  const index: SearchIndex = await client.getIndex("example-index");
+  const index:SearchIndex = await client.getIndex("example-index");
 
   index.tokenizers?.push({
     name: "example-tokenizer",
@@ -45,7 +45,7 @@ export async function main() {
   index.analyzers?.push({
     name: "example-analyzer",
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
-    tokenizer: "example-tokenizer",
+    tokenizerName: "example-tokenizer",
     charFilters: ["example-char-filter"],
     tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
   });
@@ -60,6 +60,7 @@ export async function main() {
   });
 
   console.log(result.tokens);
+
 }
 
 main().catch((err) => {

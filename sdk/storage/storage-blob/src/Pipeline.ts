@@ -40,7 +40,6 @@ import {
 } from "./utils/constants";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
-import { attachCredential } from "./utils/utils.common";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -218,10 +217,7 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
-          credential
-        )
+      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
       : credential
   );
 

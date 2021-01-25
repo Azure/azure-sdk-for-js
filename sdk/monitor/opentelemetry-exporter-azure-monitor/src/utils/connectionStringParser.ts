@@ -61,14 +61,12 @@ export class ConnectionStringParser {
           `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
         );
       }
-    } else {
-      logger.error(
-        "An invalid connection string was passed in. There may be telemetry loss",
-        connectionString
-      );
     }
 
-    
+    logger.error(
+      "An invalid connection string was passed in. There may be telemetry loss",
+      connectionString
+    );
     return result;
   }
 }

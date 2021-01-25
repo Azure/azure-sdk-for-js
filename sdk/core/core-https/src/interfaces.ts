@@ -61,6 +61,10 @@ export interface HttpHeaders extends Iterable<[string, string]> {
    */
   delete(name: string): void;
   /**
+   * Duplicates this collection.
+   */
+  clone(): HttpHeaders;
+  /**
    * Accesses a raw JS object that acts as a simple map
    * of header names to values.
    */
@@ -84,7 +88,7 @@ export type RequestBodyType =
 /**
  * Metadata about a request being made by the pipeline.
  */
-export interface PipelineRequest {
+export interface PipelineRequest<AdditionalInfo = any> {
   /**
    * The URL to make the request to.
    */
@@ -119,6 +123,12 @@ export interface PipelineRequest {
   requestId: string;
 
   /**
+   * Any additional information on the request that
+   * is policy or client specific.
+   */
+  additionalInfo?: AdditionalInfo;
+
+  /**
    * The HTTP body content (if any)
    */
   body?: RequestBodyType;
@@ -144,6 +154,11 @@ export interface PipelineRequest {
   keepAlive?: boolean;
 
   /**
+   * Disable automatic decompression based on Accept-Encoding header (Node only)
+   */
+  skipDecompressResponse?: boolean;
+
+  /**
    * Used to abort the request later.
    */
   abortSignal?: AbortSignalLike;
@@ -152,6 +167,11 @@ export interface PipelineRequest {
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Clone this request object.
+   */
+  clone(): PipelineRequest;
 
   /**
    * Callback which fires upon upload progress.

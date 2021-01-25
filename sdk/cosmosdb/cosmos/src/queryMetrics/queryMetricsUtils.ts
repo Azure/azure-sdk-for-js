@@ -3,7 +3,7 @@
 import { TimeSpan } from "./timeSpan";
 
 /**
- * @hidden
+ * @ignore
  * @param delimitedString
  */
 export function parseDelimitedString(delimitedString: string) {
@@ -31,7 +31,7 @@ export function parseDelimitedString(delimitedString: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  * @param metrics
  * @param key
  */
@@ -44,7 +44,7 @@ export function timeSpanFromMetrics(metrics: { [key: string]: any } /* TODO: any
 }
 
 /**
- * @hidden
+ * @ignore
  * @param input
  */
 export function isNumeric(input: any) {

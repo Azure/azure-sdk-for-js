@@ -8,137 +8,87 @@ import { AbortSignalLike } from '@azure/core-http';
 import { AccessToken } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { RequestPolicyFactory } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
+export class AzureCommunicationUserCredential implements CommunicationUserCredential {
     constructor(token: string);
-    constructor(refreshOptions: CommunicationTokenRefreshOptions);
+    constructor(refreshOptions: RefreshOptions);
     dispose(): void;
     getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
     }
 
 // @public
-export interface CallingApplicationIdentifier extends WithOptionalFullId {
+export interface CallingApplication {
     callingApplicationId: string;
 }
 
 // @public
-export interface CallingApplicationKind extends CallingApplicationIdentifier {
-    kind: "callingApplication";
+export interface CallingApplicationKind extends CallingApplication {
+    kind: "CallingApplication";
 }
 
 // @public
-export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
+export interface CommunicationUser {
+    communicationUserId: string;
+}
 
 // @public
-export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
-
-// @public
-export interface CommunicationTokenCredential {
+export interface CommunicationUserCredential {
     dispose(): void;
     getToken(abortSignal?: AbortSignalLike): Promise<AccessToken>;
 }
 
 // @public
-export interface CommunicationTokenRefreshOptions {
-    refreshProactively?: boolean;
-    token?: string;
-    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
-}
-
-// @public
-export interface CommunicationUserIdentifier extends WithOptionalFullId {
-    communicationUserId: string;
-}
-
-// @public
-export interface CommunicationUserKind extends CommunicationUserIdentifier {
-    kind: "communicationUser";
+export interface CommunicationUserKind extends CommunicationUser {
+    kind: "CommunicationUser";
 }
 
 // @public
 export const createCommunicationAccessKeyCredentialPolicy: (credential: KeyCredential) => RequestPolicyFactory;
 
 // @public
-export const createCommunicationAuthPolicy: (credential: KeyCredential | TokenCredential) => RequestPolicyFactory;
-
-// @internal
-export const _deserializeCommunicationIdentifier: (serializedIdentifier: _SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
+export const getIdentifierKind: (identifier: Identifier) => IdentifierKind;
 
 // @public
-export interface EndpointCredential {
-    credential: KeyCredential;
-    endpoint: string;
-}
+export type Identifier = CommunicationUser | PhoneNumber | CallingApplication | UnknownIdentifier;
 
 // @public
-export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
+export type IdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | UnknownIdentifierKind;
 
 // @public
-export const isCallingApplicationIdentifier: (identifier: CommunicationIdentifier) => identifier is CallingApplicationIdentifier;
+export const isCallingApplication: (identifier: Identifier) => identifier is CallingApplication;
 
 // @public
-export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
+export const isCommunicationUser: (identifier: Identifier) => identifier is CommunicationUser;
 
 // @public
 export const isKeyCredential: (credential: any) => credential is KeyCredential;
 
 // @public
-export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifier) => identifier is MicrosoftTeamsUserIdentifier;
+export const isPhoneNumber: (identifier: Identifier) => identifier is PhoneNumber;
 
 // @public
-export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => identifier is PhoneNumberIdentifier;
-
-// @public
-export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
-
-// @public
-export interface MicrosoftTeamsUserIdentifier extends WithOptionalFullId {
-    cloud?: "public" | "dod" | "gcch";
-    isAnonymous?: boolean;
-    microsoftTeamsUserId: string;
-}
-
-// @public
-export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
-    kind: "microsoftTeamsUser";
-}
+export const isUnknownIdentifier: (identifier: Identifier) => identifier is UnknownIdentifier;
 
 // @public
 export const parseClientArguments: (connectionStringOrUrl: string, credentialOrOptions?: any) => UrlWithCredential;
 
 // @public
-export const parseConnectionString: (connectionString: string) => EndpointCredential;
-
-// @public
-export interface PhoneNumberIdentifier extends WithOptionalFullId {
+export interface PhoneNumber {
     phoneNumber: string;
 }
 
 // @public
-export interface PhoneNumberKind extends PhoneNumberIdentifier {
-    kind: "phoneNumber";
+export interface PhoneNumberKind extends PhoneNumber {
+    kind: "PhoneNumber";
 }
 
-// @internal
-export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
-
-// @internal
-export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
-
-// @internal
-export interface _SerializedCommunicationIdentifier {
-    cloud?: _SerializedCommunicationCloudEnvironment;
-    id?: string;
-    isAnonymous?: boolean;
-    kind: _SerializedCommunicationIdentifierKind;
-    microsoftTeamsUserId?: string;
-    phoneNumber?: string;
+// @public
+export interface RefreshOptions {
+    initialToken?: string;
+    refreshProactively?: boolean;
+    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 }
-
-// @internal
-export type _SerializedCommunicationIdentifierKind = "unknown" | "communicationUser" | "phoneNumber" | "callingApplication" | "microsoftTeamsUser";
 
 // @public
 export interface UnknownIdentifier {
@@ -147,19 +97,14 @@ export interface UnknownIdentifier {
 
 // @public
 export interface UnknownIdentifierKind extends UnknownIdentifier {
-    kind: "unknown";
+    kind: "Unknown";
 }
 
 // @public
 export type UrlWithCredential = {
     url: string;
-    credential: TokenCredential | KeyCredential;
+    credential: KeyCredential;
 };
-
-// @public (undocumented)
-export interface WithOptionalFullId {
-    id?: string;
-}
 
 
 // (No @packageDocumentation comment for this package)

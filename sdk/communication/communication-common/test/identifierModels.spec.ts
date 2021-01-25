@@ -3,32 +3,27 @@
 
 import { assert } from "chai";
 import {
-  isCommunicationUserIdentifier,
-  isCallingApplicationIdentifier,
-  isPhoneNumberIdentifier,
+  isCommunicationUser,
+  isCallingApplication,
+  isPhoneNumber,
   getIdentifierKind,
-  PhoneNumberIdentifier,
-  isUnknownIdentifier,
-  isMicrosoftTeamsUserIdentifier
+  PhoneNumber,
+  isUnknownIdentifier
 } from "../src";
 
 describe("Identifier models", () => {
   it("type guards", () => {
     const communicationUser = { communicationUserId: "alice" };
-    assert.isTrue(isCommunicationUserIdentifier(communicationUser));
-    assert.isFalse(isCallingApplicationIdentifier(communicationUser));
-    assert.isFalse(isPhoneNumberIdentifier(communicationUser));
-    assert.isFalse(isMicrosoftTeamsUserIdentifier(communicationUser));
+    assert.isTrue(isCommunicationUser(communicationUser));
+    assert.isFalse(isCallingApplication(communicationUser));
+    assert.isFalse(isPhoneNumber(communicationUser));
     assert.isFalse(isUnknownIdentifier(communicationUser));
   });
 
   it("get kind", () => {
     const phoneNumber = { phoneNumber: "123" };
     const identifierKind = getIdentifierKind(phoneNumber);
-    assert.strictEqual(identifierKind.kind, "phoneNumber");
-    assert.strictEqual(
-      (identifierKind as PhoneNumberIdentifier).phoneNumber,
-      phoneNumber.phoneNumber
-    );
+    assert.strictEqual(identifierKind.kind, "PhoneNumber");
+    assert.strictEqual((identifierKind as PhoneNumber).phoneNumber, phoneNumber.phoneNumber);
   });
 });

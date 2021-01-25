@@ -19,7 +19,7 @@ import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
-import { attachCredential, getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
+import { getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
 import {
   HeaderConstants,
   BATCH_MAX_REQUEST,
@@ -402,10 +402,7 @@ class InnerBatchRequest {
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers
     if (!isAnonymousCreds) {
       factories[2] = isTokenCredential(credential)
-        ? attachCredential(
-            bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
-            credential
-          )
+        ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
         : credential;
     }
     factories[policyFactoryLength - 1] = new BatchRequestAssemblePolicyFactory(this); // Use batch assemble policy to assemble request and intercept request from going to wire

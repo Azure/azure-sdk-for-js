@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * @hidden
+ * @ignore
  */
 export const TimeoutErrorCode = "TimeoutError";
 

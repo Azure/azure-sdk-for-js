@@ -57,10 +57,10 @@ export interface FileSASSignatureValues {
    * Please refer to either {@link ShareSASPermissions} or {@link FileSASPermissions} depending on the resource
    * being accessed for help constructing the permissions string.
    *
-   * @type {FileSASPermissions | ShareSASPermissions}
+   * @type {FileSASPermissions}
    * @memberof FileSASSignatureValues
    */
-  permissions?: FileSASPermissions | ShareSASPermissions;
+  permissions?: FileSASPermissions;
 
   /**
    * Optional. IP ranges allowed in this SAS.
@@ -160,7 +160,8 @@ export function generateFileSASQueryParameters(
 ): SASQueryParameters {
   if (
     !fileSASSignatureValues.identifier &&
-    !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
+    !fileSASSignatureValues.permissions &&
+    !fileSASSignatureValues.expiresOn
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided."

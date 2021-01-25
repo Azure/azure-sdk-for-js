@@ -12,12 +12,6 @@
   ],
   "rules": {
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
-    "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }],
-    // OpenTelemetry requires a minimum node version of 8.5.0
-    // https://github.com/open-telemetry/opentelemetry-js#node-support
-    "@azure/azure-sdk/ts-package-json-engine-is-present": [
-      "error",
-      { "nodeVersionOverride": ">=8.5.0" }
-    ]
+    "node/no-unsupported-features/es-syntax": ["error", { "ignores": ["modules"] }]
   }
 }

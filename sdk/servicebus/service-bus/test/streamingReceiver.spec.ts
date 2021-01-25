@@ -18,9 +18,9 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
+import { isNode } from "../src/util/utils";
 import { verifyMessageCount } from "./utils/managementUtils";
 import sinon from "sinon";
-import { isNode } from "@azure/core-http";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

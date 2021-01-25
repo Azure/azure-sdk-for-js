@@ -11,7 +11,7 @@ import { FeedOptions } from "./FeedOptions";
 import { RequestOptions } from "./RequestOptions";
 
 /**
- * @hidden
+ * @ignore
  */
 export interface RequestContext {
   path?: string;

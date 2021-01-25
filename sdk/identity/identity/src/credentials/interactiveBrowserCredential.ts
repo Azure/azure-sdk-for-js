@@ -78,9 +78,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
-   *                  TokenCredential implementation might make.
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
+   *                TokenCredential implementation might make.
    */
   public getToken(
     scopes: string | string[],
@@ -137,22 +137,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
         try {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
           const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
-          if (authResponse && authResponse.expiresOn) {
-            const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
-            res.status(200).send(successMessage);
-            logger.getToken.info(formatSuccess(scopeArray));
+          const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
+          res.status(200).send(successMessage);
+          logger.getToken.info(formatSuccess(scopeArray));
 
-            resolve({
-              expiresOnTimestamp,
-              token: authResponse.accessToken
-            });
-          } else {
-            reject(
-              new Error(
-                `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
-              )
-            );
-          }
+          resolve({
+            expiresOnTimestamp,
+            token: authResponse.accessToken
+          });
         } catch (error) {
           const errorMessage = formatError(
             scopeArray,

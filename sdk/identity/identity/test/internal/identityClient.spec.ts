@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { assertRejects, MockAuthHttpClient } from "../authTestUtils";
+import { assertRejects } from "../authTestUtils";
+import { MockAuthHttpClient } from "../authTestUtils";
+import { AuthenticationError } from "../../src";
 import { IdentityClient } from "../../src/client/identityClient";
-import { ClientSecretCredential, AuthenticationError } from "../../src";
+import { ClientSecretCredential } from "../../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { isNode } from "@azure/core-http";
 

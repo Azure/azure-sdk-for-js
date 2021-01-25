@@ -29,4 +29,3 @@ export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-http";
 export { logger } from "./log";
-export * from "./sas/DirectorySASPermissions";

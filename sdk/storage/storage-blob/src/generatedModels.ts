@@ -93,8 +93,7 @@ export {
   ListBlobsIncludeItem,
   ListContainersIncludeType,
   ListContainersSegmentResponse,
-  FilterBlobItem as FilterBlobItemModel,
-  FilterBlobSegment as FilterBlobSegmentModel,
+  FilterBlobSegment,
   ServiceFilterBlobsHeaders,
   Logging,
   Metrics,
@@ -144,10 +143,10 @@ export {
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
+  ServiceFilterBlobsResponse as ServiceFindBlobsByTagsSegmentResponse,
+  FilterBlobItem,
   BlobQueryHeaders,
   BlobQueryResponse as BlobQueryResponseModel,
   ContainerRestoreResponse as ContainerUndeleteResponse,
-  ContainerRestoreHeaders as ContainerUndeleteHeaders,
-  BlockBlobPutBlobFromUrlResponse,
-  BlockBlobPutBlobFromUrlHeaders
+  ContainerRestoreHeaders as ContainerUndeleteHeaders
 } from "./generated/src/models";

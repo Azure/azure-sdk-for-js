@@ -1,4 +1,4 @@
-import { AzureMonitorTraceExporter } from "@azure/opentelemetry-exporter-azure-monitor";
+import { AzureMonitorTraceExporter } from "@microsoft/opentelemetry-exporter-azure-monitor";
 import { NodeTracerProvider } from "@opentelemetry/node";
 import { BatchSpanProcessor } from "@opentelemetry/tracing";
 import * as azureSdkTracing from "@azure/core-tracing";

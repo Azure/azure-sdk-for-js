@@ -1,1164 +1,1164 @@
 {
-  "recordings": [
-    {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/create",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": "",
-      "status": 401,
-      "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "87",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:55 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "401",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "03c9f7d0-519a-419e-a3ec-f60da823d124",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-      "query": {},
-      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
-      "status": 200,
-      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-      "responseHeaders": {
-        "cache-control": "no-cache, no-store",
-        "content-length": "1315",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:55 GMT",
-        "expires": "-1",
-        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-        "pragma": "no-cache",
-        "referrer-policy": "strict-origin-when-cross-origin",
-        "strict-transport-security": "max-age=31536000; includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
-        "x-ms-request-id": "2852e0b6-db65-4ead-99bf-d0ef7ddd0b00"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/create",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": "{\"kty\":\"RSA\"}",
-      "status": 200,
-      "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "742",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:56 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "8b20a7ef-42de-4eac-ab81-5892d4a92aff",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "DELETE",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219116,\"scheduledPurgeDate\":1600995116,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "938",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:56 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "631ac919-0bfc-4031-b6ff-8773ecc27344",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:56 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "0fc16c10-7d7f-4a6b-9e4d-1035e8666142",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:56 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "d0be00cf-78a6-496e-b8ff-146a640fbafd",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:51:58 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "f662dbef-2676-4b6e-93de-4147055d622a",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:00 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "8e2c6dfc-3fff-4555-8e1e-02b7c6f13c7c",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:02 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "4aefd7bb-c056-45b7-9c7d-3474b23bb8e7",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:04 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "d1c1059c-932e-422f-a98f-467b7784fe4e",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:05 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "4f9fef0a-a9ac-495a-8791-ebf922e7ab33",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219116,\"scheduledPurgeDate\":1600995116,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "938",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:08 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "eb82c6a5-dcc7-4bbe-b670-f4d8f38be75f",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:08 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "a77c301e-0189-4f51-9579-4751edfcf57a",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/recover",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "742",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:09 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "bd4588b8-d4d5-4ca8-b846-7359559cd997",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:09 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "ab14b6f9-39cc-4d4a-8771-f058a34c1950",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:09 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "18d1313b-35cd-4111-9b29-40f7ed3a5294",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:11 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "8049ea6d-734e-49e1-81f1-43a0caa9070b",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:13 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "bcd33c7a-52cf-48bc-858e-b1527b76e6b3",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:14 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "a7c11029-4551-4546-a8ed-7cac7ff5c3a6",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:17 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "d229c0c4-bae4-40c9-800c-bf50f8e53f6a",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:19 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "94e45aed-7bf1-4f94-8f23-fb4e16d8e7b9",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:21 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "e141f574-f52b-43f0-88e6-f4acddab7a2e",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:23 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "32a253dc-d39b-453d-898f-4d9dc81dacc5",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:25 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "a07d8d88-195d-4984-b5df-f5f4eeab07f6",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:26 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "e2b3060d-9de7-452e-9bc5-2bfb63bdec27",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:29 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "06b708fb-e7bf-4287-a06b-d72c3ba2489e",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:31 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "e042daf7-e8d2-4d39-a1b1-b5ae6d6cb1b5",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:33 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "65c4df00-5c56-4825-92de-6498924a84a1",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "356",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:35 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "f6928e73-25a9-424e-84c2-e5d6bcea06a6",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "742",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:37 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "62b697dd-2859-41fa-bd66-836e463c78c3",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "DELETE",
-      "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219157,\"scheduledPurgeDate\":1600995157,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "938",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:37 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "9ee538eb-420b-4e14-9c50-ad83d72a9dc3",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:37 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "7f454385-3faa-4622-8723-2b28dad8fce3",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:37 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "5baa7506-d193-4d81-a85e-f07fb09950c3",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:40 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "c09e6a8a-825d-4660-8cfd-9c031d83d85e",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:41 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "6eeaa043-9521-4308-839c-f202eb23c185",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:43 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "a5743132-a6b6-4089-ae05-dd8f1f3aefbd",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:45 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "ca18d63e-cdf6-43e1-b3dd-453d31e1eb22",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:47 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "4cc7e8a2-80d8-4eb5-a29b-3047d193266c",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:49 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "fe4093a3-05c0-44fc-97b3-28b57baf5f79",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:52 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "f11a1842-1b67-491e-9326-e24e00887b7d",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 404,
-      "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "136",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:54 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "404",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "d7fb6fa8-e1fa-4af6-b6ad-27d242c742c2",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219157,\"scheduledPurgeDate\":1600995157,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-length": "938",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Sat, 27 Jun 2020 00:52:56 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "200",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "a1c2b7b4-61d1-46a2-bd60-6efe014b13e7",
-        "x-powered-by": "ASP.NET"
-      }
-    },
-    {
-      "method": "DELETE",
-      "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
-      "query": {
-        "api-version": "7.1"
-      },
-      "requestBody": null,
-      "status": 204,
-      "response": "",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "date": "Sat, 27 Jun 2020 00:52:56 GMT",
-        "expires": "-1",
-        "pragma": "no-cache",
-        "status": "204",
-        "strict-transport-security": "max-age=31536000;includeSubDomains",
-        "x-aspnet-version": "4.0.30319",
-        "x-content-type-options": "nosniff",
-        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-        "x-ms-keyvault-region": "westus",
-        "x-ms-keyvault-service-version": "1.1.6.0",
-        "x-ms-request-id": "16cfbdd2-6756-4958-823f-43c7e30e6edb",
-        "x-powered-by": "ASP.NET"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/create",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:55 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "03c9f7d0-519a-419e-a3ec-f60da823d124",
+    "x-powered-by": "ASP.NET"
+   }
   },
-  "hash": "d142c807a197bd0ab9f305a2f59983fd"
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache, no-store",
+    "content-length": "1315",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:55 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
+    "x-ms-request-id": "2852e0b6-db65-4ead-99bf-d0ef7ddd0b00"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/create",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": "{\"kty\":\"RSA\"}",
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "742",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "8b20a7ef-42de-4eac-ab81-5892d4a92aff",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219116,\"scheduledPurgeDate\":1600995116,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "938",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "631ac919-0bfc-4031-b6ff-8773ecc27344",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "0fc16c10-7d7f-4a6b-9e4d-1035e8666142",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "d0be00cf-78a6-496e-b8ff-146a640fbafd",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:51:58 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "f662dbef-2676-4b6e-93de-4147055d622a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:00 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "8e2c6dfc-3fff-4555-8e1e-02b7c6f13c7c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:02 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "4aefd7bb-c056-45b7-9c7d-3474b23bb8e7",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:04 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "d1c1059c-932e-422f-a98f-467b7784fe4e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:05 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "4f9fef0a-a9ac-495a-8791-ebf922e7ab33",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219116,\"scheduledPurgeDate\":1600995116,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "938",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:08 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "eb82c6a5-dcc7-4bbe-b670-f4d8f38be75f",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:08 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "a77c301e-0189-4f51-9579-4751edfcf57a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/recover",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "742",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:09 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "bd4588b8-d4d5-4ca8-b846-7359559cd997",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:09 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "ab14b6f9-39cc-4d4a-8771-f058a34c1950",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:09 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "18d1313b-35cd-4111-9b29-40f7ed3a5294",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:11 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "8049ea6d-734e-49e1-81f1-43a0caa9070b",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:13 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "bcd33c7a-52cf-48bc-858e-b1527b76e6b3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:14 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "a7c11029-4551-4546-a8ed-7cac7ff5c3a6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:17 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "d229c0c4-bae4-40c9-800c-bf50f8e53f6a",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:19 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "94e45aed-7bf1-4f94-8f23-fb4e16d8e7b9",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:21 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "e141f574-f52b-43f0-88e6-f4acddab7a2e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:23 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "32a253dc-d39b-453d-898f-4d9dc81dacc5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:25 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "a07d8d88-195d-4984-b5df-f5f4eeab07f6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:26 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "e2b3060d-9de7-452e-9bc5-2bfb63bdec27",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:29 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "06b708fb-e7bf-4287-a06b-d72c3ba2489e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:31 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "e042daf7-e8d2-4d39-a1b1-b5ae6d6cb1b5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:33 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "65c4df00-5c56-4825-92de-6498924a84a1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) lroRecoverDeleteKeyName-canwaituntilakeyisrecovered- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "356",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:35 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "f6928e73-25a9-424e-84c2-e5d6bcea06a6",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "742",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:37 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "62b697dd-2859-41fa-bd66-836e463c78c3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219157,\"scheduledPurgeDate\":1600995157,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "938",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:37 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "9ee538eb-420b-4e14-9c50-ad83d72a9dc3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:37 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "7f454385-3faa-4622-8723-2b28dad8fce3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:37 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "5baa7506-d193-4d81-a85e-f07fb09950c3",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:40 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "c09e6a8a-825d-4660-8cfd-9c031d83d85e",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:41 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "6eeaa043-9521-4308-839c-f202eb23c185",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:43 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "a5743132-a6b6-4089-ae05-dd8f1f3aefbd",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:45 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "ca18d63e-cdf6-43e1-b3dd-453d31e1eb22",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:47 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "4cc7e8a2-80d8-4eb5-a29b-3047d193266c",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:49 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "fe4093a3-05c0-44fc-97b3-28b57baf5f79",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:52 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "f11a1842-1b67-491e-9326-e24e00887b7d",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "136",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:54 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "d7fb6fa8-e1fa-4af6-b6ad-27d242c742c2",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-\",\"deletedDate\":1593219157,\"scheduledPurgeDate\":1600995157,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-/f78b5c64ad684b37b512cfa303f13968\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"5gNBIiGZiw4WHEN_3U9LHdl9wYiJRimXJYKZ1Hd5srGCeEbTCXYH_nu8ChUEY-JjWXlbHDP4brWprZ8a2nAnSrjDD2F08BaOc1lGbbvB-b5yZ8yKA6sDC1gbWM0zt6fddXNn1E4HaaNJHF32348DvHFZkxrWumwXM_N0mIoFWwdKPFMASN4JJ7K5asmaTjd0ZYMFsjzNcLGtSAey_e1lFPZRs31UFbFq9VlDiWMkYmJu39M9BuS6BzD56zTmmkgu_qiMn95GDxJMHBlXrP0Cep3-xtRocN0QL6ba8Lon_QYupLfPC3DdabkGnHbVOg3O3CrYBxAPRwKVSDtG3EVJoQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593219116,\"updated\":1593219116,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "938",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 27 Jun 2020 00:52:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "a1c2b7b4-61d1-46a2-bd60-6efe014b13e7",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/lroRecoverDeleteKeyName-canwaituntilakeyisrecovered-",
+   "query": {
+    "api-version": "7.1"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "date": "Sat, 27 Jun 2020 00:52:56 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "204",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-aspnet-version": "4.0.30319",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "16cfbdd2-6756-4958-823f-43c7e30e6edb",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "d142c807a197bd0ab9f305a2f59983fd"
 }

@@ -23,7 +23,7 @@ import { SDK_VERSION } from "./utils/constants";
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * @internal
-   * @hidden
+   * @ignore
    */
   public readonly telemetryString: string;
 
@@ -37,7 +37,9 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
     if (isNode) {
       if (telemetry) {
-        const telemetryString = telemetry.userAgentPrefix || "";
+        // FIXME: replace() only replaces the first space. And we have no idea why we need to replace spaces in the first place.
+        // But fixing this would be a breaking change. Logged an issue here: https://github.com/Azure/azure-sdk-for-js/issues/10793
+        const telemetryString = (telemetry.userAgentPrefix || "").replace(" ", "");
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }

@@ -55,9 +55,7 @@ export class ReleasePhoneNumbersPollOperation extends PhoneNumberPollOperationBa
     );
     try {
       const { releaseId, _response } = await this.client.releasePhoneNumbers(
-        {
-          phoneNumbers
-        },
+        phoneNumbers,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return attachHttpResponse<ReleaseResponse>({ releaseId }, _response);

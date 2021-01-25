@@ -46,17 +46,11 @@ export async function main() {
     throw new Error("Expecting non-empty list of pages!");
   }
 
-  for (const page of pages) {
+  for (const page of pages!) {
     console.log(`- Page number: ${page.pageNumber}`);
     console.log("  Tables:");
     for (const table of page.tables ?? []) {
       console.log(`  - Table (${table.rowCount} x ${table.columnCount})`);
-
-      const tableBoundingBox = table.boundingBox
-        ? boundingBoxToString(table.boundingBox)
-        : "<undefined>";
-      console.log(`      boundingBox: ${tableBoundingBox}`);
-
       for (const cell of table.cells) {
         console.log(`    cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
       }

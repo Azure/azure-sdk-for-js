@@ -54,7 +54,6 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
     pageNumber,
     text: original.text,
     boundingBox: toBoundingBox(original.boundingBox),
-    appearance: original.appearance,
     words: original.words.map((w) => {
       return {
         kind: "word",
@@ -146,7 +145,6 @@ export function toFormTable(
   return {
     rowCount: original.rows,
     columnCount: original.columns,
-    boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
@@ -280,7 +278,8 @@ export function toFieldsFromFieldValue(
 ): { [propertyName: string]: FormField } {
   const result: { [propertyName: string]: FormField } = {};
   for (const key in original) {
-    if (Object.prototype.hasOwnProperty.call(original, key)) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (original.hasOwnProperty(key)) {
       if (!original[key]) {
         result[key] = { name: key };
         continue;

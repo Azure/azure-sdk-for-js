@@ -21,11 +21,6 @@ export interface AccountProperties {
     customModelLimit: number;
 }
 
-// @public
-export interface Appearance {
-    style: Style;
-}
-
 export { AzureKeyCredential }
 
 // @public
@@ -37,7 +32,9 @@ export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions & F
 };
 
 // @public
-export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
+export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
 
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
@@ -45,14 +42,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     onProgress?: (state: RecognizeContentOperationState) => void;
     resumeFrom?: string;
     contentType?: FormContentType;
-    language?: string;
-    pages?: string[];
 };
-
-// @public
-export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
-    contentType?: Exclude<FormContentType, "image/bmp">;
-}
 
 // @public
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
@@ -63,15 +53,9 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
-
-// @public
-export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
+export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
     locale?: string;
 }
-
-// @public
-export type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
 
 // @public
 export type BeginTrainingOptions = TrainingFileFilter & FormTrainingPollOperationOptions<TrainingOperationState> & {
@@ -156,7 +140,7 @@ export interface FieldData {
 }
 
 // @public
-export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
+export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
 export type FormElement = FormWord | FormLine | FormSelectionMark;
@@ -211,7 +195,6 @@ export interface FormFieldsReport {
 
 // @public
 export interface FormLine extends FormElementCommon {
-    appearance?: Appearance;
     kind: "line";
     text: string;
     words: FormWord[];
@@ -257,10 +240,8 @@ export class FormRecognizerClient {
     beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
-    beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
@@ -292,7 +273,6 @@ export interface FormSelectionMark extends FormElementCommon {
 
 // @public
 export interface FormTable {
-    boundingBox?: Point2D[];
     cells: FormTableCell[];
     columnCount: number;
     pageNumber: number;
@@ -379,54 +359,10 @@ export interface KeyValuePairModel {
 }
 
 // @public
-export type KeyValueType = string;
+export type KeyValueType = "string" | "selectionMark" | string;
 
 // @public
-export const enum KnownKeyValueType {
-    // (undocumented)
-    SelectionMark = "selectionMark",
-    // (undocumented)
-    String = "string"
-}
-
-// @public
-export const enum KnownLanguage {
-    // (undocumented)
-    De = "de",
-    // (undocumented)
-    En = "en",
-    // (undocumented)
-    Es = "es",
-    // (undocumented)
-    Fr = "fr",
-    // (undocumented)
-    It = "it",
-    // (undocumented)
-    Nl = "nl",
-    // (undocumented)
-    Pt = "pt",
-    // (undocumented)
-    ZhHans = "zh-Hans"
-}
-
-// @public
-export const enum KnownSelectionMarkState {
-    // (undocumented)
-    Selected = "selected",
-    // (undocumented)
-    Unselected = "unselected"
-}
-
-// @public
-export const enum KnownTextStyle {
-    // (undocumented)
-    Handwriting = "handwriting",
-    // (undocumented)
-    Other = "other"
-}
-
-// @public
-export type Language = string;
+export type Language = "en" | "es" | string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -517,16 +453,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 export { RestResponse }
 
 // @public
-export type SelectionMarkState = string;
-
-// @public
-export interface Style {
-    confidence: number;
-    name: TextStyle;
-}
-
-// @public
-export type TextStyle = string;
+export type SelectionMarkState = "selected" | "unselected" | string;
 
 // @public
 export interface TrainingDocumentInfo {

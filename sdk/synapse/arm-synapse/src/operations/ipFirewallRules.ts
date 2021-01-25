@@ -246,7 +246,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IpFirewallRuleInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -341,7 +341,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -398,7 +398,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IpFirewallRuleInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

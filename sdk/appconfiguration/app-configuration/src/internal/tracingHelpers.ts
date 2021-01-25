@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanKind, CanonicalCode } from "@opentelemetry/api";
@@ -9,7 +9,7 @@ import { RestError } from "@azure/core-http";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export interface Spannable {
   spanOptions?: SpanOptions;
@@ -17,7 +17,7 @@ export interface Spannable {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export class Spanner<TClient> {
   constructor(private baseOperationName: string) {}
@@ -25,10 +25,10 @@ export class Spanner<TClient> {
   /**
    * Traces an operation and properly handles reporting start, end and errors for a given span
    *
-   * @param operationName - Name of a method in the TClient type
-   * @param options - An options class, typically derived from \@azure/core-http/RequestOptionsBase
-   * @param fn - The function to call with an options class that properly propagates the span context
-   * @param translateToCanonicalCodeFn - An optional function to translate thrown errors into a CanonicalCode for the span
+   * @param operationName Name of a method in the TClient type
+   * @param options An options class, typically derived from @azure/core-http/RequestOptionsBase
+   * @param fn The function to call with an options class that properly propagates the span context
+   * @param translateToCanonicalCodeFn An optional function to translate thrown errors into a CanonicalCode for the span
    */
   async trace<OptionsT extends Spannable, ReturnT>(
     operationName: keyof TClient,

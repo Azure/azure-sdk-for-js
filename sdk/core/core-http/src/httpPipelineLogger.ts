@@ -15,8 +15,8 @@ export interface HttpPipelineLogger {
 
   /**
    * Log the provided message.
-   * @param logLevel - The HttpLogDetailLevel associated with this message.
-   * @param message - The message to log.
+   * @param logLevel The HttpLogDetailLevel associated with this message.
+   * @param message The message to log.
    */
   log(logLevel: HttpPipelineLogLevel, message: string): void;
 }
@@ -27,14 +27,14 @@ export interface HttpPipelineLogger {
 export class ConsoleHttpPipelineLogger implements HttpPipelineLogger {
   /**
    * Create a new ConsoleHttpPipelineLogger.
-   * @param minimumLogLevel - The log level threshold for what logs will be logged.
+   * @param minimumLogLevel The log level threshold for what logs will be logged.
    */
   constructor(public minimumLogLevel: HttpPipelineLogLevel) {}
 
   /**
    * Log the provided message.
-   * @param logLevel - The HttpLogDetailLevel associated with this message.
-   * @param message - The message to log.
+   * @param logLevel The HttpLogDetailLevel associated with this message.
+   * @param message The message to log.
    */
   log(logLevel: HttpPipelineLogLevel, message: string): void {
     const logMessage = `${HttpPipelineLogLevel[logLevel]}: ${message}`;

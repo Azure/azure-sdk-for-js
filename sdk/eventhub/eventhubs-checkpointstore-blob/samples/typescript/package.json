@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@azure/event-hubs": "^5.0.2",
-    "@azure/eventhubs-checkpointstore-blob": "latest",
+    "@azure/eventhubs-checkpointstore-blob": "^1.0.0",
     "@azure/storage-blob": "^12.1.1",
     "dotenv": "^8.2.0",
     "tslib": "^1.9.3"

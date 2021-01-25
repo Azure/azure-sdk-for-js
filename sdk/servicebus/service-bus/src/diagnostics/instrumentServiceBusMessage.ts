@@ -13,7 +13,7 @@ import { ServiceBusReceiver } from "../receivers/receiver";
 import { ServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
 
 /**
- * @hidden
+ * @ignore
  */
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
@@ -23,7 +23,7 @@ export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
  * has already been instrumented.
  * @param message The `ServiceBusMessage` to instrument.
  * @param span The `Span` containing the context to propagate tracing information.
- * @hidden
+ * @ignore
  * @internal
  */
 export function instrumentServiceBusMessage(
@@ -49,7 +49,7 @@ export function instrumentServiceBusMessage(
  * Extracts the `SpanContext` from an `ServiceBusMessage` if the context exists.
  * @param message An individual `ServiceBusMessage` object.
  * @internal
- * @hidden
+ * @ignore
  */
 export function extractSpanContextFromServiceBusMessage(
   message: ServiceBusMessage
@@ -68,7 +68,7 @@ export function extractSpanContextFromServiceBusMessage(
  *
  * @param receivedMessages A single message or a set of messages
  * @internal
- * @hidden
+ * @ignore
  */
 function* getReceivedMessages(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[]
@@ -92,7 +92,7 @@ function* getReceivedMessages(
  * give the message to the user.
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export function createProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
@@ -141,7 +141,7 @@ export function createProcessingSpan(
  * know the scope.
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export function createAndEndProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],

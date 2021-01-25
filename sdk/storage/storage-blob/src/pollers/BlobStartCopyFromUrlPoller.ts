@@ -52,7 +52,7 @@ export interface BlobBeginCopyFromUrlPollState
  *  - performing the initial startCopyFromURL
  *  - checking the copy status via getProperties
  *  - cancellation via abortCopyFromURL
- * @hidden
+ * @ignore
  */
 export interface BlobBeginCopyFromURLPollOperation
   extends PollOperation<BlobBeginCopyFromUrlPollState, BlobBeginCopyFromURLResponse> {}
@@ -61,7 +61,7 @@ export interface BlobBeginCopyFromURLPollOperation
  * The set of options used to configure the poller.
  * This is an internal interface populated by {@link BlobClient.beginCopyFromURL}.
  *
- * @hidden
+ * @ignore
  */
 export interface BlobBeginCopyFromUrlPollerOptions {
   blobClient: CopyPollerBlobClient;
@@ -76,7 +76,7 @@ export interface BlobBeginCopyFromUrlPollerOptions {
  * This is the poller returned by {@link BlobClient.beginCopyFromURL}.
  * This can not be instantiated directly outside of this package.
  *
- * @hidden
+ * @ignore
  */
 export class BlobBeginCopyFromUrlPoller extends Poller<
   BlobBeginCopyFromUrlPollState,
@@ -125,7 +125,7 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
  * Note: Intentionally using function expression over arrow function expression
  * so that the function can be invoked with a different context.
  * This affects what `this` refers to.
- * @hidden
+ * @ignore
  */
 const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cancel(
   this: BlobBeginCopyFromURLPollOperation,
@@ -155,7 +155,7 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
  * Note: Intentionally using function expression over arrow function expression
  * so that the function can be invoked with a different context.
  * This affects what `this` refers to.
- * @hidden
+ * @ignore
  */
 const update: BlobBeginCopyFromURLPollOperation["update"] = async function update(
   this: BlobBeginCopyFromURLPollOperation,
@@ -211,7 +211,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
  * Note: Intentionally using function expression over arrow function expression
  * so that the function can be invoked with a different context.
  * This affects what `this` refers to.
- * @hidden
+ * @ignore
  */
 const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toString(
   this: BlobBeginCopyFromURLPollOperation
@@ -227,7 +227,7 @@ const toString: BlobBeginCopyFromURLPollOperation["toString"] = function toStrin
 
 /**
  * Creates a poll operation given the provided state.
- * @hidden
+ * @ignore
  */
 function makeBlobBeginCopyFromURLPollOperation(
   state: BlobBeginCopyFromUrlPollState

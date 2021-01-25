@@ -25,7 +25,7 @@ export class ChainedTokenCredential implements TokenCredential {
   /**
    * Creates an instance of ChainedTokenCredential using the given credentials.
    *
-   * @param sources - `TokenCredential` implementations to be tried in order.
+   * @param sources `TokenCredential` implementations to be tried in order.
    *
    * Example usage:
    * ```javascript
@@ -47,8 +47,8 @@ export class ChainedTokenCredential implements TokenCredential {
    * This method is called automatically by Azure SDK client libraries. You may call this method
    * directly, but you must also handle token caching and token refreshing.
    *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
+   * @param scopes The list of scopes for which the token will have access.
+   * @param options The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
   async getToken(

@@ -15,7 +15,7 @@ export type SenderResult = { statusCode: number; result: string };
 
 export interface Sender {
   send(payload: unknown[]): Promise<SenderResult>;
-  shutdown(): Promise<void>;
+  shutdown(): void;
 }
 
 export interface PersistentStorage {

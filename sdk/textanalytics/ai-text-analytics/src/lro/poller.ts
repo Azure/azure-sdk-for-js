@@ -74,19 +74,19 @@ export abstract class AnalysisPollOperation<TState, TResult>
   constructor(public state: TState) {}
 
   /**
-   * Meant to reach to the service and update the Poller operation.
-   * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
+   * @summary Meant to reach to the service and update the Poller operation.
+   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
    */
   public abstract update(): Promise<PollOperation<TState, TResult>>;
 
   /**
-   * Meant to reach to the service and cancel the Poller operation.
-   * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
+   * @summary Meant to reach to the service and cancel the Poller operation.
+   * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
    */
   public abstract cancel(): Promise<PollOperation<TState, TResult>>;
 
   /**
-   * Serializes the Poller operation.
+   * @summary Serializes the Poller operation.
    */
   public toString(): string {
     return JSON.stringify({

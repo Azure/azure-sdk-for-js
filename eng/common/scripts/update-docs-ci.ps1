@@ -24,10 +24,10 @@ param (
   $Repository, # EG: "Maven", "PyPI", "NPM"
 
   [Parameter(Mandatory = $true)]
-  $DocRepoLocation, # the location of the cloned doc repo
+  $CIRepository,
 
   [Parameter(Mandatory = $true)]
-  $Configs # The configuration elements informing important locations within the cloned doc repo
+  $Configs
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
@@ -37,9 +37,7 @@ $targets = ($Configs | ConvertFrom-Json).targets
 #{
 # path_to_config:
 # mode:
-# monikerid:
-# content_folder:
-# suffix:
+# monikerid
 #}
 
 $apiUrl = "https://api.github.com/repos/$repoId"
@@ -52,19 +50,17 @@ foreach ($config in $targets) {
   if ($config.mode -eq "Preview") { $includePreview = $true } else { $includePreview = $false }
   $pkgsFiltered = $pkgs | ? { $_.IsPrerelease -eq $includePreview}
 
-  if ($pkgsFiltered) {
+  if ($pkgs) {
     Write-Host "Given the visible artifacts, CI updates against $($config.path_to_config) will be processed for the following packages."
     Write-Host ($pkgsFiltered | % { $_.PackageId + " " + $_.PackageVersion })
 
     if ($UpdateDocCIFn -and (Test-Path "Function:$UpdateDocCIFn"))
     {
-      &$UpdateDocCIFn -pkgs $pkgsFiltered -ciRepo $DocRepoLocation -locationInDocRepo $config.path_to_config -monikerId $config.monikerid
+      &$UpdateDocCIFn -pkgs $pkgsFiltered -ciRepo $CIRepository -locationInDocRepo $config.path_to_config -monikerId $config.monikerid
     }
     else
     {
-      LogWarning "The function for '$UpdateDocCIFn' was not found.`
-      Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
-      See https://github.com/Azure/azure-sdk-tools/blob/master/doc/common/common_engsys.md#code-structure"
+      LogWarning "The function '$UpdateDocCIFn' was not found."
     }
   }
 }

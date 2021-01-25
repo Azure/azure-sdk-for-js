@@ -2,6 +2,10 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
+  
   This sample demonstrates how to create a namespace using AAD token credentials
   obtained from using Service Principal Secrets.
 
@@ -27,7 +31,7 @@ dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICEBUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here

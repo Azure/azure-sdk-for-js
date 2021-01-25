@@ -44,7 +44,7 @@ export interface ErrorResponse {
 /**
  * Used for internal deserialization of OAuth responses. Public model is ErrorResponse
  * @internal
- * @hidden
+ * @ignore
  */
 export interface OAuthErrorResponse {
   error: string;
@@ -91,7 +91,6 @@ export class AuthenticationError extends Error {
    */
   public readonly errorResponse: ErrorResponse;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(statusCode: number, errorBody: object | string | undefined | null) {
     let errorResponse: ErrorResponse = {
       error: "unknown",

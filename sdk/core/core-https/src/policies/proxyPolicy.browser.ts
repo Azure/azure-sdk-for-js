@@ -14,8 +14,8 @@ export function getDefaultProxySettings(): never {
 }
 
 /**
- * proxyPolicy is not supported in the browser and attempting
- * to use it will raise an error.
+ * proxyPolicy is not supported in browser and attempting
+ * to use it will results in error being thrown.
  */
 export function proxyPolicy(): never {
   throw NotSupported;

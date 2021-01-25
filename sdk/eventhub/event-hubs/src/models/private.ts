@@ -11,7 +11,7 @@ import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingSt
  * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
  * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
  * A simple usage can be `{ "maxRetries": 4 }`.
- * @hidden
+ * @ignore
  * @internal
  */
 export interface EventHubProducerOptions {
@@ -32,13 +32,13 @@ export interface EventHubProducerOptions {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export interface CommonEventProcessorOptions
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
@@ -92,7 +92,7 @@ export interface CommonEventProcessorOptions
  * }
  * ```
  * @internal
- * @hidden
+ * @ignore
  */
 export interface EventHubConsumerOptions {
   /**

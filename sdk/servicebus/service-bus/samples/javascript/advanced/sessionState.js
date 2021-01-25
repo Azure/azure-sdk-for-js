@@ -2,6 +2,10 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
+  
   This sample demonstrates usage of SessionState.
 
   We take for example the context of an online shopping app and see how we can use Session State
@@ -23,7 +27,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
@@ -98,7 +102,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
     const message = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      subject: "Shopping Step"
+      label: "Shopping Step"
     };
     await sender.sendMessages(message);
   }
@@ -131,7 +135,9 @@ async function processMessageFromSession(sessionId) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
+        messages[0].body.event_details
+      }'`
     );
     await sessionReceiver.completeMessage(messages[0]);
   } else {

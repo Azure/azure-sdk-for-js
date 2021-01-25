@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
+import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 
 import {
   BlobQueryArrowConfiguration,
@@ -372,28 +372,6 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
- * Append a string to URL query.
- *
- * @export
- * @param {string} url Source URL string.
- * @param {string} queryParts String to be appended to the URL query.
- * @returns {string} An updated URL string.
- */
-export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
-
-  let query = urlParsed.getQuery();
-  if (query) {
-    query += "&" + queryParts;
-  } else {
-    query = queryParts;
-  }
-
-  urlParsed.setQuery(query);
-  return urlParsed.toString();
-}
-
-/**
  * Rounds a date off to seconds.
  *
  * @export
@@ -467,7 +445,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -762,17 +740,4 @@ export function parseObjectReplicationRecord(
     }
   }
   return orProperties;
-}
-
-/**
- * Attach a TokenCredential to an object.
- *
- * @export
- * @param {T} thing
- * @param {TokenCredential} credential
- * @returns {T}
- */
-export function attachCredential<T>(thing: T, credential: TokenCredential): T {
-  (thing as any).credential = credential;
-  return thing;
 }

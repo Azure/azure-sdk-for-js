@@ -406,36 +406,4 @@ describe("BlockBlobClient", () => {
 
     assert.ok(exceptionCaught);
   });
-
-  it("syncUploadFromURL with public source should work", async () => {
-    const metadata = {
-      key1: "val1",
-      key2: "val2"
-    };
-
-    await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
-      conditions: {
-        ifNoneMatch: "*"
-      },
-      metadata
-    });
-
-    const getRes = await blockBlobClient.getProperties();
-    assert.deepStrictEqual(getRes.metadata, metadata);
-
-    try {
-      await blockBlobClient.syncUploadFromURL(
-        "https://azure.github.io/azure-sdk-for-js/index.html",
-        {
-          conditions: {
-            ifNoneMatch: "*"
-          },
-          metadata
-        }
-      );
-      assert.fail();
-    } catch (err) {
-      assert.deepStrictEqual(err.code, "BlobAlreadyExists");
-    }
-  });
 });

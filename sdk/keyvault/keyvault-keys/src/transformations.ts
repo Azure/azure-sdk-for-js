@@ -7,12 +7,10 @@ import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation } from "./keysModels"
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * Shapes the exposed {@link KeyVaultKey} based on either a received key bundle or deleted key bundle.
  */
-export function getKeyFromKeyBundle(
-  bundle: KeyBundle | DeletedKeyBundle
-): KeyVaultKey | DeletedKey {
+export function getKeyFromKeyBundle(bundle: KeyBundle | DeletedKeyBundle): KeyVaultKey {
   const keyBundle = bundle as KeyBundle;
   const deletedKeyBundle = bundle as DeletedKeyBundle;
 
@@ -21,35 +19,39 @@ export function getKeyFromKeyBundle(
   const attributes: any = keyBundle.attributes || {};
   delete keyBundle.attributes;
 
-  const resultObject: KeyVaultKey | DeletedKey = {
+  const resultObject: KeyVaultKey & DeletedKey = {
     key: keyBundle.key as JsonWebKey,
     id: keyBundle.key ? keyBundle.key.kid : undefined,
     name: parsedId.name,
     keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
     keyType: keyBundle.key ? keyBundle.key.kty : undefined,
     properties: {
-      tags: keyBundle.tags,
-
-      enabled: attributes.enabled,
-      notBefore: attributes.notBefore,
       expiresOn: attributes.expires,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      recoverableDays: attributes.recoverableDays,
-      recoveryLevel: attributes.recoveryLevel,
-
-      vaultUrl: parsedId.vaultUrl,
-      version: parsedId.version,
-      name: parsedId.name,
-
+      ...keyBundle,
+      ...attributes,
+      ...parsedId,
       id: keyBundle.key ? keyBundle.key.kid : undefined
     }
   };
 
-  if (deletedKeyBundle.recoveryId) {
-    (resultObject as any).properties.recoveryId = deletedKeyBundle.recoveryId;
-    (resultObject as any).properties.scheduledPurgeDate = deletedKeyBundle.scheduledPurgeDate;
-    (resultObject as any).properties.deletedOn = deletedKeyBundle.deletedDate;
+  if (deletedKeyBundle.deletedDate) {
+    resultObject.properties.deletedOn = deletedKeyBundle.deletedDate;
+    delete (resultObject.properties as any).deletedDate;
+  }
+
+  if (attributes.vaultUrl) {
+    delete (resultObject.properties as any).vaultUrl;
+  }
+  if (attributes.expires) {
+    delete (resultObject.properties as any).expires;
+  }
+  if (attributes.created) {
+    delete (resultObject.properties as any).created;
+  }
+  if (attributes.updated) {
+    delete (resultObject.properties as any).updated;
   }
 
   return resultObject;

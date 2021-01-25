@@ -73,6 +73,13 @@ class HttpHeadersImpl implements HttpHeaders {
   }
 
   /**
+   * Create a deep clone/copy of this HttpHeaders collection.
+   */
+  public clone(): HttpHeaders {
+    return new HttpHeadersImpl(this.toJSON());
+  }
+
+  /**
    * Iterate over tuples of header [name, value] pairs.
    */
   [Symbol.iterator](): Iterator<[string, string]> {

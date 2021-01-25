@@ -4,7 +4,7 @@ languages:
   - javascript
 products:
   - azure
-  - azure-event-grid
+  - azure-eventgrid
 urlFragment: eventgrid-javascript
 ---
 

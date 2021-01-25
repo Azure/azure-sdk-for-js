@@ -9,8 +9,7 @@ const assert = chai.assert;
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  executeAtomXmlOperation,
-  sanitizeSerializableObject
+  executeAtomXmlOperation
 } from "../../src/util/atomXmlHelper";
 import * as Constants from "../../src/util/constants";
 import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
@@ -19,7 +18,6 @@ import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-htt
 import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionResourceSerializer } from "../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../src/serializers/ruleResourceSerializer";
-import { getXMLNSPrefix, isJSONLikeObject } from "../../src/util/utils";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -1121,181 +1119,6 @@ describe("ATOM Serializers", () => {
         "testSubscription"
       );
       assertEmptyArray(result);
-    });
-  });
-
-  describe("key-value pairs having undefined/null as the values to be sanitized with sanitizeSerializableObject", function() {
-    [
-      {
-        title: "queue options with undefined fields",
-        input: {
-          DefaultMessageTimeToLive: undefined,
-          MaxSizeInMegabytes: undefined,
-          RequiresDuplicateDetection: undefined,
-          DuplicateDetectionHistoryTimeWindow: undefined,
-          EnableBatchedOperations: undefined,
-          AuthorizationRules: undefined,
-          Status: undefined,
-          UserMetadata: undefined,
-          SupportOrdering: undefined,
-          AutoDeleteOnIdle: undefined,
-          EnablePartitioning: undefined,
-          EntityAvailabilityStatus: undefined,
-          EnableExpress: undefined
-        },
-        output: {}
-      },
-      {
-        title: "correlation filter with some fields undefined ",
-        input: {
-          Filter: {
-            CorrelationId: undefined,
-            Label: "new-subject",
-            To: undefined,
-            ReplyTo: undefined,
-            ReplyToSessionId: undefined,
-            ContentType: undefined,
-            SessionId: undefined,
-            MessageId: undefined,
-            Properties: undefined,
-            $: {
-              "p4:type": "CorrelationFilter",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
-          },
-          Action: {
-            $: {
-              "p4:type": "EmptyRuleAction",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
-          },
-          Name: "rule-name"
-        },
-        output: {
-          Filter: {
-            Label: "new-subject",
-            $: {
-              "p4:type": "CorrelationFilter",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
-          },
-          Action: {
-            $: {
-              "p4:type": "EmptyRuleAction",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
-          },
-          Name: "rule-name"
-        }
-      }
-    ].forEach((testCase) => {
-      it(testCase.title, () => {
-        sanitizeSerializableObject(testCase.input);
-        chai.assert.deepEqual(testCase.input, testCase.output as any);
-      });
-    });
-  });
-
-  describe("isJSONLikeObject helper method", () => {
-    [
-      { input: {}, output: true },
-      { input: { abc: 1, d: undefined }, output: true },
-      { input: { a: "2", b: { c: 3, d: "x" } }, output: true },
-      { input: ["a", "b"], output: false },
-      { input: [{ a: 1 }, { b: { c: 3, d: "x" } }], output: false },
-      { input: new Date(), output: false },
-      { input: 123, output: false },
-      { input: "abc", output: false }
-    ].forEach((testCase) => {
-      it(`${JSON.stringify(testCase.input)}`, () => {
-        chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
-      });
-    });
-  });
-
-  describe("getXMLNSPrefix helper method", () => {
-    [
-      {
-        title: `with "d3p1" as prefix`,
-        input: {
-          $: {
-            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          },
-          "d3p1:ActiveMessageCount": "3",
-          "d3p1:DeadLetterMessageCount": "0",
-          "d3p1:ScheduledMessageCount": "0",
-          "d3p1:TransferMessageCount": "0",
-          "d3p1:TransferDeadLetterMessageCount": "0"
-        },
-        output: { value: "d3p1", error: undefined }
-      },
-      {
-        title: `with "d2p1" as prefix`,
-        input: {
-          $: {
-            "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          },
-          "d2p1:DeadLetterMessageCount": "0"
-        },
-        output: { value: "d2p1", error: undefined }
-      },
-      {
-        title: `without the XML_METADATA_MARKER $`,
-        input: {
-          "d3p1:DeadLetterMessageCount": "0"
-        },
-        output: {
-          value: undefined,
-          error: `Error: Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object {"d3p1:DeadLetterMessageCount":"0"}`
-        }
-      },
-      {
-        title: `without multiple xmlns prefixes`,
-        input: {
-          $: {
-            "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
-            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          },
-          "d3p1:DeadLetterMessageCount": "0"
-        },
-        output: {
-          value: undefined,
-          error: `Error: Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at {"xmlns:d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus","xmlns:d3p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
-        }
-      },
-      {
-        title: `without "xmlns:" string`,
-        input: {
-          $: {
-            d2p1: "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          }
-        },
-        output: {
-          value: undefined,
-          error: `Error: Error occurred while parsing the response body - unexpected key at {"d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
-        }
-      },
-      {
-        title: `without xmlns prefix`,
-        input: {
-          $: {
-            "xmlns:": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          }
-        },
-        output: {
-          value: undefined,
-          error: `Error: Error occurred while parsing the response body - unexpected xmlns prefix at {"xmlns:":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
-        }
-      }
-    ].forEach((testCase) => {
-      it(`${testCase.title}`, () => {
-        try {
-          const xmlnsPrefix = getXMLNSPrefix(testCase.input);
-          chai.assert.equal(xmlnsPrefix, testCase.output.value);
-        } catch (error) {
-          chai.assert.equal(error, testCase.output.error, "Unexpected error thrown");
-        }
-      });
     });
   });
 });

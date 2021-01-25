@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "c58abc637aa52862ea5435cbdf1adea8";
+module.exports.hash = "7a3ba87cdf7a98b968983064f67f0184";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,45 +22,73 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '772467d3-7e89-4f81-8e50-d50ae99c1c02',
+  'f49473b9-aa98-4eff-b5d2-9c1afe0c2401',
   'x-ms-ests-server',
-  '2.1.11328.13 - EUS ProdSlices',
+  '2.1.11086.7 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AkOBaJLeghVLhnpItHNyCZJvWe_NAQAAAFNRfNcOAAAA; expires=Wed, 27-Jan-2021 22:21:07 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjXVec4rndNBop5Yt58N_2pJ4DFtAQAAALqHDdcOAAAA; expires=Wed, 04-Nov-2020 21:31:39 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 28 Dec 2020 22:21:06 GMT',
+  'Mon, 05 Oct 2020 21:31:38 GMT',
   'Content-Length',
   '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/$schemagroups/group/schemas/azsdk_js_test', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
+  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
   .query(true)
-  .reply(200, {"id":"f1675059e3c9410d8b06564af2eb4645"}, [
+  .reply(200, {"id":"ac88cdfed763412f805999ae0e04ca72"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json',
   'Location',
-  'https://endpoint:443/$schemagroups/group/schemas/azsdk_js_test/versions/1?api-version=2020-09-01-preview',
+  'https://endpoint:443/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions/41?api-version=2020-09-01-preview',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'Schema-Id',
-  'f1675059e3c9410d8b06564af2eb4645',
+  'ac88cdfed763412f805999ae0e04ca72',
   'Schema-Id-Location',
-  'https://endpoint:443/$schemagroups/getschemabyid/f1675059e3c9410d8b06564af2eb4645?api-version=2020-09-01-preview',
+  'https://endpoint:443/$schemagroups/getschemabyid/ac88cdfed763412f805999ae0e04ca72?api-version=2020-09-01-preview',
   'Serialization-Type',
   'Avro',
   'Schema-Version',
-  '1',
+  '41',
   'Schema-Versions-Location',
-  'https://endpoint:443/$schemagroups/group/schemas/azsdk_js_test/versions?api-version=2020-09-01-preview',
+  'https://endpoint:443/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions?api-version=2020-09-01-preview',
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Mon, 28 Dec 2020 22:21:07 GMT'
+  'Mon, 05 Oct 2020 21:31:40 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"secondFavoriteNumber","type":"int"}]})
+  .query(true)
+  .reply(200, {"id":"c117273dd2e3403aa5176317936fe205"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json',
+  'Location',
+  'https://endpoint:443/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions/42?api-version=2020-09-01-preview',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'Schema-Id',
+  'c117273dd2e3403aa5176317936fe205',
+  'Schema-Id-Location',
+  'https://endpoint:443/$schemagroups/getschemabyid/c117273dd2e3403aa5176317936fe205?api-version=2020-09-01-preview',
+  'Serialization-Type',
+  'Avro',
+  'Schema-Version',
+  '42',
+  'Schema-Versions-Location',
+  'https://endpoint:443/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022/versions?api-version=2020-09-01-preview',
+  'Strict-Transport-Security',
+  'max-age=31536000',
+  'Date',
+  'Mon, 05 Oct 2020 21:31:40 GMT'
 ]);

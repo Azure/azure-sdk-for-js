@@ -28,7 +28,7 @@
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek
 
 # PRLabel: %Azure.Core
 /sdk/core/logger @xirzec @bterlson @chradek
@@ -62,7 +62,7 @@
 /sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant @maorleger
+/sdk/keyvault/ @jonathandturner @sadasant
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
@@ -79,10 +79,10 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @xirzec @witemple-msft
+/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng @witemple-msft
+/sdk/formrecognizer/ @jeremymeng @willmtemple
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
@@ -100,14 +100,14 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @chradek
+/sdk/**/review/*api.md @bterlson @xirzec
 
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
+/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
 
 ###########
 # Eng Sys

@@ -1,0 +1,123 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"This was the best day of my life.\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"I did not like the hotel we stayed at. It was too expensive.\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"The restaurant was not as good as I hoped.\",\"language\":\"en\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "3ccd5559-6284-4802-a470-46dbcccccbdf",
+    "date": "Fri, 20 Nov 2020 00:36:19 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/80ec7866-e5de-43ec-81e5-7daad0de1f1f",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "231"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/80ec7866-e5de-43ec-81e5-7daad0de1f1f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"80ec7866-e5de-43ec-81e5-7daad0de1f1f\",\"lastUpdateDateTime\":\"2020-11-20T00:36:20Z\",\"createdDateTime\":\"2020-11-20T00:36:19Z\",\"expirationDateTime\":\"2020-11-21T00:36:19Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "3812b17f-7ce5-4614-9e96-0a07abaa29ce",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 00:36:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/80ec7866-e5de-43ec-81e5-7daad0de1f1f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"80ec7866-e5de-43ec-81e5-7daad0de1f1f\",\"lastUpdateDateTime\":\"2020-11-20T00:36:20Z\",\"createdDateTime\":\"2020-11-20T00:36:19Z\",\"expirationDateTime\":\"2020-11-21T00:36:19Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "4673223a-089f-446c-b52d-e11a3c770640",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 00:36:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/80ec7866-e5de-43ec-81e5-7daad0de1f1f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"80ec7866-e5de-43ec-81e5-7daad0de1f1f\",\"lastUpdateDateTime\":\"2020-11-20T00:36:20Z\",\"createdDateTime\":\"2020-11-20T00:36:19Z\",\"expirationDateTime\":\"2020-11-21T00:36:19Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "1fa74b1c-60aa-4776-bca9-dcbfd1d4468e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 00:36:22 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/80ec7866-e5de-43ec-81e5-7daad0de1f1f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"80ec7866-e5de-43ec-81e5-7daad0de1f1f\",\"lastUpdateDateTime\":\"2020-11-20T00:36:23Z\",\"createdDateTime\":\"2020-11-20T00:36:19Z\",\"expirationDateTime\":\"2020-11-21T00:36:19Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"2\",\"entities\":[],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-09-03\"}}",
+   "responseHeaders": {
+    "apim-request-id": "2615df87-3a31-46a9-a644-7bffe87a8b54",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 00:36:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "43"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/health/jobs/80ec7866-e5de-43ec-81e5-7daad0de1f1f",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"80ec7866-e5de-43ec-81e5-7daad0de1f1f\",\"lastUpdateDateTime\":\"2020-11-20T00:36:23Z\",\"createdDateTime\":\"2020-11-20T00:36:19Z\",\"expirationDateTime\":\"2020-11-21T00:36:19Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"2\",\"entities\":[],\"relations\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-09-03\"}}",
+   "responseHeaders": {
+    "apim-request-id": "5de9f449-8d95-474f-8bb9-941092a06498",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 20 Nov 2020 00:36:24 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "53"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0d6a2ff1d0cf01f50ae7049c19c55972"
+}

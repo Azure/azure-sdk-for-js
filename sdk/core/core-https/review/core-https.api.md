@@ -42,15 +42,15 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
-export function decompressResponsePolicy(): PipelinePolicy;
-
-// @public
-export const decompressResponsePolicyName = "decompressResponsePolicy";
-
-// @public
 export class DefaultHttpsClient implements HttpsClient {
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
+
+// @public
+export function disableResponseDecompressionPolicy(): PipelinePolicy;
+
+// @public
+export const disableResponseDecompressionPolicyName = "disableResponseDecompressionPolicy";
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
@@ -84,6 +84,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 
 // @public
 export interface HttpHeaders extends Iterable<[string, string]> {
+    clone(): HttpHeaders;
     delete(name: string): void;
     get(name: string): string | undefined;
     has(name: string): boolean;
@@ -101,7 +102,20 @@ export interface HttpsClient {
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
+    decompressResponse?: boolean;
     loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
+}
+
+// @public
+export function keepAlivePolicy(options?: KeepAlivePolicyOptions): PipelinePolicy;
+
+// @public
+export const keepAlivePolicyName = "keepAlivePolicy";
+
+// @public
+export interface KeepAlivePolicyOptions {
+    enable?: boolean;
 }
 
 // @public
@@ -138,14 +152,15 @@ export interface Pipeline {
 // @public
 export interface PipelineOptions {
     httpsClient?: HttpsClient;
+    keepAliveOptions?: KeepAlivePolicyOptions;
     proxyOptions?: ProxySettings;
-    redirectOptions?: RedirectPolicyOptions;
+    redirectOptions?: PipelineRedirectOptions;
     retryOptions?: ExponentialRetryPolicyOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
 // @public
-export type PipelinePhase = "Deserialize" | "Serialize" | "Retry";
+export type PipelinePhase = "Serialize" | "Retry";
 
 // @public
 export interface PipelinePolicy {
@@ -154,9 +169,16 @@ export interface PipelinePolicy {
 }
 
 // @public
-export interface PipelineRequest {
+export interface PipelineRedirectOptions extends RedirectPolicyOptions {
+    disable?: boolean;
+}
+
+// @public
+export interface PipelineRequest<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
+    clone(): PipelineRequest;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;
@@ -165,6 +187,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    skipDecompressResponse?: boolean;
     spanOptions?: SpanOptions;
     streamResponseBody?: boolean;
     timeout: number;
@@ -173,8 +196,9 @@ export interface PipelineRequest {
 }
 
 // @public
-export interface PipelineRequestOptions {
+export interface PipelineRequestOptions<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers?: HttpHeaders;

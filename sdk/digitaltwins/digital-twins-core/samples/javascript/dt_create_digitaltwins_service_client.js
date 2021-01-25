@@ -13,8 +13,8 @@ async function main() {
     // DefaultAzureCredential supports different authentication mechanisms and determines the appropriate credential type based of the environment it is executing in.
     // It attempts to use multiple credential types in an order until it finds a working credential.
 
-    // - AZURE_DIGITALTWINS_URL: The tenant ID in Azure Active Directory
-    const url = process.env.AZURE_DIGITALTWINS_URL;
+    // - AZURE_URL: The tenant ID in Azure Active Directory
+    const url = process.env.AZURE_URL;
 
     // DefaultAzureCredential expects the following three environment variables:
     // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory

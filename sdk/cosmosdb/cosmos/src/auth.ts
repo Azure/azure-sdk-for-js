@@ -23,7 +23,7 @@ export interface RequestInfo {
 export type TokenProvider = (requestInfo: RequestInfo) => Promise<string>;
 
 /**
- * @hidden
+ * @ignore
  * @param clientOptions
  * @param verb
  * @param path
@@ -73,7 +73,7 @@ export async function setAuthorizationHeader(
 
 /**
  * The default function for setting header token using the masterKey
- * @hidden
+ * @ignore
  */
 export async function setAuthorizationTokenHeaderUsingMasterKey(
   verb: HTTPMethod,
@@ -93,7 +93,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
 }
 
 /**
- * @hidden
+ * @ignore
  * @param resourceTokens
  * @param path
  * @param resourceId

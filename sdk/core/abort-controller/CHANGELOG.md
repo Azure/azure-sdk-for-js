@@ -1,12 +1,5 @@
 # Release History
 
-## 1.0.3 (Unreleased)
-
-
-## 1.0.2 (2020-01-07)
-
-Updates the `tslib` dependency to version 2.x.
-
 ## 1.0.1 (2019-12-04)
 
 Fixes the [bug 6271](https://github.com/Azure/azure-sdk-for-js/issues/6271) that can occur with angular prod builds due to triple-slash directives.

@@ -68,11 +68,11 @@ export class TableClient {
   /**
    * Creates a new instance of the TableClient class.
    *
-   * @param url - The URL of the service account that is the target of the desired operation., such as
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
    *                     "https://myaccount.table.core.windows.net".
-   * @param tableName - the name of the table
-   * @param credential - TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
-   * @param options - Optional. Options to configure the HTTP pipeline.
+   * @param {string} tableName the name of the table
+   * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param {TableClientOptions} options Optional. Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
@@ -97,11 +97,11 @@ export class TableClient {
   /**
    * Creates an instance of TableClient.
    *
-   * @param url - A Client string pointing to Azure Storage table service, such as
-   *              "https://myaccount.table.core.windows.net". You can append a SAS,
-   *              such as "https://myaccount.table.core.windows.net?sasString".
-   * @param tableName - the name of the table
-   * @param options - Options to configure the HTTP pipeline.
+   * @param {string} url A Client string pointing to Azure Storage table service, such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                      such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {string} tableName the name of the table
+   * @param {TableClientOptions} options Optional. Options to configure the HTTP pipeline.
    *
    * Example appending a SAS token:
    *
@@ -132,7 +132,6 @@ export class TableClient {
         ? credentialOrOptions
         : options) || {};
 
-    clientOptions.endpoint = clientOptions.endpoint || url;
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -152,15 +151,15 @@ export class TableClient {
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
       const internalPipelineOptions: InternalPipelineOptions = {
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        ...clientOptions,
+        ...{
+          loggingOptions: {
+            logger: logger.info,
+            allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          }
         }
       };
-      pipeline = {
-        ...clientOptions,
-        ...createPipelineFromOptions(internalPipelineOptions, credential)
-      };
+      pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
     }
 
     this.tableName = tableName;
@@ -171,7 +170,7 @@ export class TableClient {
 
   /**
    * Permanently deletes the current table with all of its entities.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async delete(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
@@ -188,7 +187,7 @@ export class TableClient {
 
   /**
    *  Creates the current table it it doesn't exist
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async create(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
@@ -205,9 +204,9 @@ export class TableClient {
 
   /**
    * Returns a single entity in the table.
-   * @param partitionKey - The partition key of the entity.
-   * @param rowKey - The row key of the entity.
-   * @param options - The options parameters.
+   * @param partitionKey The partition key of the entity.
+   * @param rowKey The row key of the entity.
+   * @param options The options parameters.
    */
   public async getEntity<T extends object>(
     partitionKey: string,
@@ -241,8 +240,8 @@ export class TableClient {
 
   /**
    * Queries entities in a table.
-   * @param tableName - The name of the table.
-   * @param options - The options parameters.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
    */
   public listEntities<T extends object>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -348,8 +347,8 @@ export class TableClient {
 
   /**
    * Insert entity in the table.
-   * @param entity - The properties for the table entity.
-   * @param options - The options parameters.
+   * @param entity The properties for the table entity.
+   * @param options The options parameters.
    */
   public async createEntity<T extends object>(
     entity: TableEntity<T>,
@@ -376,9 +375,9 @@ export class TableClient {
 
   /**
    * Deletes the specified entity in the table.
-   * @param partitionKey - The partition key of the entity.
-   * @param rowKey - The row key of the entity.
-   * @param options - The options parameters.
+   * @param partitionKey The partition key of the entity.
+   * @param rowKey The row key of the entity.
+   * @param options The options parameters.
    */
   public async deleteEntity(
     partitionKey: string,
@@ -411,11 +410,11 @@ export class TableClient {
 
   /**
    * Update an entity in the table.
-   * @param entity - The properties of the entity to be updated.
-   * @param mode - The different modes for updating the entity:
-   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *               - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options - The options parameters.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
    */
   public async updateEntity<T extends object>(
     entity: TableEntity<T>,
@@ -457,12 +456,12 @@ export class TableClient {
 
   /**
    * Upsert an entity in the table.
-   * @param tableName - The name of the table.
-   * @param entity - The properties for the table entity.
-   * @param mode - The different modes for updating the entity:
-   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *               - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options - The options parameters.
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
    */
   public async upsertEntity<T extends object>(
     entity: TableEntity<T>,
@@ -504,7 +503,7 @@ export class TableClient {
 
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createBatch(partitionKey: string): TableBatch {
@@ -536,14 +535,14 @@ export class TableClient {
    *
    * Creates an instance of TableClient from connection string.
    *
-   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
-   *                           [ Note - Account connection string can only be used in NODE.JS runtime. ]
-   *                           Account connection string example -
-   *                           `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
-   *                           SAS connection string example -
-   *                           `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param options - Options to configure the HTTP pipeline.
-   * @returns A new TableClient from the given connection string.
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param {TableClientOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {TableClient} A new TableClient from the given connection string.
    */
   public static fromConnectionString(
     connectionString: string,

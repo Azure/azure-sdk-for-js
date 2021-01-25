@@ -56,12 +56,12 @@ export class TestSpan extends NoOpSpan {
 
   /**
    * Starts a new Span.
-   * @param parentTracer-  The tracer that created this Span
-   * @param name - The name of the span.
-   * @param context - The SpanContext this span belongs to
-   * @param kind - The SpanKind of this Span
-   * @param parentSpanId - The identifier of the parent Span
-   * @param startTime - The startTime of the event (defaults to now)
+   * @param parentTracer The tracer that created this Span
+   * @param name The name of the span.
+   * @param context The SpanContext this span belongs to
+   * @param kind The SpanKind of this Span
+   * @param parentSpanId The identifier of the parent Span
+   * @param startTime The startTime of the event (defaults to now)
    */
   constructor(
     parentTracer: Tracer,
@@ -101,7 +101,7 @@ export class TestSpan extends NoOpSpan {
 
   /**
    * Marks the end of Span execution.
-   * @param _endTime - The time to use as the Span's end time. Defaults to
+   * @param _endTime The time to use as the Span's end time. Defaults to
    * the current time.
    */
   end(_endTime?: number): void {
@@ -110,7 +110,7 @@ export class TestSpan extends NoOpSpan {
 
   /**
    * Sets a status on the span. Overrides the default of CanonicalCode.OK.
-   * @param status - The status to set.
+   * @param status The status to set.
    */
   setStatus(status: Status): this {
     this.status = status;
@@ -126,8 +126,8 @@ export class TestSpan extends NoOpSpan {
 
   /**
    * Sets an attribute on the Span
-   * @param key - The attribute key
-   * @param value - The attribute value
+   * @param key the attribute key
+   * @param value the attribute value
    */
   setAttribute(key: string, value: unknown): this {
     this.attributes[key] = value;
@@ -136,7 +136,7 @@ export class TestSpan extends NoOpSpan {
 
   /**
    * Sets attributes on the Span
-   * @param attributes - The attributes to add
+   * @param attributes the attributes to add
    */
   setAttributes(attributes: Attributes): this {
     for (const key of Object.keys(attributes)) {

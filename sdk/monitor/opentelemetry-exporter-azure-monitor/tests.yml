@@ -4,7 +4,7 @@ extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
     TimeoutInMinutes: 15
-    PackageName: "@azure/opentelemetry-exporter-azure-monitor"
+    PackageName: "@microsoft/opentelemetry-exporter-azure-monitor"
     ResourceServiceDirectory: monitor
     TestSamples: false
     PostIntegrationSteps: monitor-additional-steps

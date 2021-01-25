@@ -29,7 +29,7 @@ export class IntegrationRuntimeAuthKeysOperations {
    * Regenerate the authentication key for an integration runtime
    * @summary Regenerate integration runtime authentication key
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param regenerateKeyParameters The parameters for regenerating integration runtime
    * authentication key.
@@ -39,7 +39,7 @@ export class IntegrationRuntimeAuthKeysOperations {
   regenerate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeAuthKeysRegenerateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param regenerateKeyParameters The parameters for regenerating integration runtime
    * authentication key.
@@ -48,7 +48,7 @@ export class IntegrationRuntimeAuthKeysOperations {
   regenerate(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, regenerateKeyParameters: Models.IntegrationRuntimeRegenerateKeyParameters, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param regenerateKeyParameters The parameters for regenerating integration runtime
    * authentication key.
@@ -73,7 +73,7 @@ export class IntegrationRuntimeAuthKeysOperations {
    * List authentication keys in an integration runtime
    * @summary List integration runtime authentication keys
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeAuthKeysListResponse>
@@ -81,14 +81,14 @@ export class IntegrationRuntimeAuthKeysOperations {
   list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeAuthKeysListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeAuthKeys>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param options The optional parameters
    * @param callback The callback

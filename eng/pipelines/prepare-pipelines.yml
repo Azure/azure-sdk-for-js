@@ -7,4 +7,4 @@ extends:
     Prefix: js
     CIConventionOptions: ''
     UPConventionOptions: '--variablegroup 24 --variablegroup 58 --variablegroup 76 --variablegroup 56'
-    TestsConventionOptions: '--variablegroup 64'
+    TestsConventionOptions: ''

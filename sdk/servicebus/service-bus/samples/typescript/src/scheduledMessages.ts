@@ -2,6 +2,10 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
+  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
+For samples using the current stable version (v1) of the package, please use the link below:
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
+  
   This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
@@ -22,7 +26,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const listOfScientists = [
@@ -54,12 +58,10 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
   // createSender() handles sending to a queue or a topic
   const sender = sbClient.createSender(queueName);
 
-  const messages: ServiceBusMessage[] = listOfScientists.map(
-    (scientist): ServiceBusMessage => ({
-      body: `${scientist.firstName} ${scientist.lastName}`,
-      subject: "Scientist"
-    })
-  );
+  const messages: ServiceBusMessage[] = listOfScientists.map((scientist) => ({
+    body: `${scientist.firstName} ${scientist.lastName}`,
+    label: "Scientist"
+  }));
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);

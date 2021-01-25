@@ -27,6 +27,7 @@ export class RestoreSecretBackupPoller extends Poller<
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
+   * @memberof RestoreSecretBackupPoller
    */
   public intervalInMs: number;
 
@@ -53,6 +54,7 @@ export class RestoreSecretBackupPoller extends Poller<
 
   /**
    * The method used by the poller to wait before attempting to update its operation.
+   * @memberof RestoreSecretBackupPoller
    */
   async delay(): Promise<void> {
     return delay(this.intervalInMs);

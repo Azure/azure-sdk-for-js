@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * @hidden
+ * @ignore
  */
 export const StatusCodes = {
   // Success
@@ -35,7 +35,7 @@ export const StatusCodes = {
 };
 
 /**
- * @hidden
+ * @ignore
  */
 export const SubStatusCodes = {
   Unknown: 0 as 0,

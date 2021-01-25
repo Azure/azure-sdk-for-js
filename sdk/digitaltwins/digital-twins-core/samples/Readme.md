@@ -23,7 +23,7 @@ The samples project demonstrates the following:
 ## Creating the digital twins client
 
 To create a new digital twins client, you need the endpoint to an Azure Digital Twin instance and credentials.
-For the samples below, the `AZURE_DIGITALTWINS_URL`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET` environment variables have to be set.
+For the samples below, the `AZURE_URL`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET` environment variables have to be set.
 The client requires an instance of [TokenCredential](https://docs.microsoft.com/dotnet/api/azure.core.tokencredential?view=azure-dotnet) or [ServiceClientCredentials](https://docs.microsoft.com/dotnet/api/microsoft.rest.serviceclientcredentials?view=azure-dotnet).
 In this samples, we illustrate how to use one derived class: [DefaultAzureCredentials](https://docs.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet).
 
@@ -34,8 +34,8 @@ In this samples, we illustrate how to use one derived class: [DefaultAzureCreden
 // DefaultAzureCredential supports different authentication mechanisms and determines the appropriate credential type based of the environment it is executing in.
 // It attempts to use multiple credential types in an order until it finds a working credential.
 
-// - AZURE_DIGITALTWINS_URL: The tenant ID in Azure Active Directory
-const url = process.env.AZURE_DIGITALTWINS_URL;
+// - AZURE_URL: The tenant ID in Azure Active Directory
+const url = process.env.AZURE_URL;
 
 // DefaultAzureCredential expects the following three environment variables:
 // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory

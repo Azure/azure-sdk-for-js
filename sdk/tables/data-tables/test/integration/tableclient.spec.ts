@@ -87,7 +87,7 @@ describe("TableClient", () => {
       }
 
       assert.lengthOf(all, totalItems);
-    }).timeout(10000);
+    });
 
     it("should list by page", async function() {
       const totalItems = 21;

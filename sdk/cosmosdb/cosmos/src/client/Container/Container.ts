@@ -185,7 +185,7 @@ export class Container {
 
   /**
    * Gets the partition key definition first by looking into the cache otherwise by reading the collection.
-   * @hidden
+   * @ignore
    * @param {string} collectionLink   - Link to the collection whose partition key needs to be extracted.
    * @param {function} callback       - \
    * The arguments to the callback are(in order): error, partitionKeyDefinition, response object and response headers

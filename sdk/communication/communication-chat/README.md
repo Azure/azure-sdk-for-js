@@ -9,7 +9,7 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 ## Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
+- An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 - [Node.js](https://nodejs.org)
 
 ### Installing
@@ -37,14 +37,14 @@ A chat conversation is represented by a thread. Each user in the thread is calle
 Use resource url and user access token to initialize chat client.
 
 ```JavaScript
-import { ChatClient } from '@azure/communication-chat';
-import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+import { ChatClient } from '@azure/communicationservices-chat';
+import { AzureCommunicationUserCredential } from "@azure/communication-common";
 
 // Your unique Azure Communication service endpoint
 let endpointUrl = '<ENDPOINT>';
 let userAccessToken = '<USER_ACCESS_TOKEN>';
-let tokenCredential = new AzureCommunicationTokenCredential(userAccessToken);
-let chatClient = new ChatClient(endpointUrl, tokenCredential);
+let userCredential = new AzureCommunicationUserCredential(userAccessToken);
+let chatClient = new ChatClient(endpointUrl, userCredential);
 
 ```
 
@@ -186,4 +186,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice

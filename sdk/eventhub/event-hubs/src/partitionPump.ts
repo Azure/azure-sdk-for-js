@@ -17,7 +17,7 @@ import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export class PartitionPump {
@@ -155,9 +155,9 @@ export class PartitionPump {
         // forward error to user's processError and swallow errors they may throw
         try {
           await this._partitionProcessor.processError(err);
-        } catch (errorFromUser) {
+        } catch (err) {
           // Using verbose over warning because this error is swallowed.
-          logger.verbose("An error was thrown by user's processError method: ", errorFromUser);
+          logger.verbose("An error was thrown by user's processError method: ", err);
         }
 
         // close the partition processor if a non-retryable error was encountered
@@ -170,11 +170,11 @@ export class PartitionPump {
             }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
-          } catch (errorFromStop) {
+          } catch (err) {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
-              errorFromStop
+              err
             );
           }
         }
@@ -209,7 +209,7 @@ export class PartitionPump {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
@@ -249,7 +249,7 @@ export function createProcessingSpan(
 }
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {

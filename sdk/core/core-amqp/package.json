@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "2.1.0",
+  "version": "2.0.1",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -56,8 +56,7 @@
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 --reporter ../../../common/tools/mocha-multi-reporter.js ./test/**/*.spec.ts",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -108,7 +107,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^7.15.0",
+    "eslint": "^6.1.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-mocha": "^2.0.1",
@@ -124,8 +123,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
-    "ws": "^7.1.1",
-    "typedoc": "0.15.2"
+    "typescript": "~3.9.3",
+    "ws": "^7.1.1"
   }
 }

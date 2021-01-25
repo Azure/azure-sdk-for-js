@@ -43,7 +43,7 @@ const examplePackageGood = `{
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "@azure/amqp-common": "^1.0.0-beta.5",
+    "@azure/amqp-common": "^1.0.0-preview.5",
     "@types/is-buffer": "^2.0.0",
     "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/long": "^4.0.0",
@@ -156,7 +156,7 @@ const examplePackageBad = `{
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "@azure/amqp-common": "^1.0.0-beta.5",
+    "@azure/amqp-common": "^1.0.0-preview.5",
     "@types/is-buffer": "^2.0.0",
     "@azure/ms-rest-nodeauth": "^0.9.2",
     "@types/long": "^4.0.0",
@@ -283,6 +283,18 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json"
     },
     {
+      code: '{"version": "1.1.10-preview.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-preview.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-preview.10"}',
+      filename: "package.json"
+    },
+    {
       code: '{"version": "1.1.10-beta.0"}',
       filename: "package.json"
     },
@@ -292,6 +304,18 @@ ruleTester.run("ts-versioning-semver", rule, {
     },
     {
       code: '{"version": "1.1.10-beta.10"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20200728.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20210128.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20200728.10"}',
       filename: "package.json"
     },
     {
@@ -402,13 +426,40 @@ ruleTester.run("ts-versioning-semver", rule, {
         }
       ]
     },
-    // beta violations
+    // preview and beta violations
     {
-      code: '{"version": "1.0.0-preview.1"}',
+      code: '{"version": "1.0.0-Preview-1"}',
       filename: "package.json",
       errors: [
         {
-          message: "unrecognized version syntax: preview.1"
+          message: "unrecognized version syntax: Preview-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-preview-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "preview format is not x.y.z-preview.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-preview1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "preview format is not x.y.z-preview.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-preview.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "preview format is not x.y.z-preview.i"
         }
       ]
     },
@@ -448,13 +499,49 @@ ruleTester.run("ts-versioning-semver", rule, {
         }
       ]
     },
-    // alpha violations
+    // dev and alpha violations
     {
-      code: '{"version": "1.0.0-dev.20200728.1"}',
+      code: '{"version": "1.0.0-Dev-1"}',
       filename: "package.json",
       errors: [
         {
-          message: "unrecognized version syntax: dev.20200728.1"
+          message: "unrecognized version syntax: Dev-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev.2.1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
         }
       ]
     },
@@ -513,16 +600,16 @@ ruleTester.run("ts-versioning-semver", rule, {
         }
       ]
     },
-    // major version 0 and beta violations
+    // major version 0 and preview violations
     {
-      code: '{"version": "0.1.0-beta1"}',
+      code: '{"version": "0.1.0-preview1"}',
       filename: "package.json",
       errors: [
         {
           message: "major version should not be set to 0"
         },
         {
-          message: "beta format is not x.y.z-beta.i"
+          message: "preview format is not x.y.z-preview.i"
         }
       ]
     },

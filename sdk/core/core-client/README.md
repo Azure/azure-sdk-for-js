@@ -14,23 +14,7 @@ This package is primarily used in generated code and not meant to be consumed di
 
 ## Key concepts
 
-### ServiceClient
-
-This is the common base class for generated clients. It provides the methods `sendOperationRequest` and `sendRequest`.
-
-`sendRequest` simply makes an HTTP request using a `Pipeline` (see `@azure/core-https` for details.)
-
-`sendOperationRequest` is used by generated code to make a request using an `OperationSpec` and `OperationArguments`. An `OperationSpec` is a translation of request requirements from the OpenAPI/Swagger file that describes the service.
-
-### createClientPipeline
-
-This method is used to create a `Pipeline` instance that is customized with extra policies that perform serialization and deserialization. The bulk of the work is in converting requests into the right HTTP message that a service expects and then converting the HTTP response payload into the response shape described by the service's OpenAPI specification file.
-
-### Mappers / createSerializer
-
-`Mapper`s are used to encode and decode data into HTTP headers and bodies. They describe all request and response fields. They are referenced by `OperationSpec`s.
-
-The method `createSerializer` creates a `Serializer` that is used to do the bulk of the work transforming data when making a request or processing a response. Given a corpus of `Mapper`s and the appropriate `OperationSpec` it can manufacture an HTTP request object from a user provided input or convert an HTTP response object into a user-friendly form.
+TODO: talk about OperationSpec?
 
 ## Examples
 
@@ -38,9 +22,7 @@ Examples can be found in the `samples` folder.
 
 ## Next steps
 
-You can build and run the tests locally by executing `rushx test`. Explore the `test` folder to see advanced usage and behavior of the public classes.
-
-Learn more about [AutoRest](https://github.com/Azure/autorest) and the [autorest.typescript extension](https://github.com/Azure/autorest.typescript) for generating a compatible client on top of this package.
+TODO: need some good content here
 
 ## Troubleshooting
 

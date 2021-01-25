@@ -126,13 +126,13 @@ export interface CheckpointStore {
  * }
  * ```
  * @internal
- * @hidden
+ * @ignore
  */
 export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal
-   * @hidden
+   * @ignore
    */
   pumpManager?: PumpManager;
   /**
@@ -175,7 +175,7 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  *
  * @class EventProcessor
  * @internal
- * @hidden
+ * @ignore
  */
 export class EventProcessor {
   private _processorOptions: FullEventProcessorOptions;
@@ -301,7 +301,7 @@ export class EventProcessor {
     }
   }
 
-  private async _startPump(partitionId: string, abortSignal: AbortSignalLike): Promise<void> {
+  private async _startPump(partitionId: string, abortSignal: AbortSignalLike) {
     if (abortSignal.aborted) {
       logger.verbose(
         `[${this._id}] The subscription was closed before starting to read from ${partitionId}.`
@@ -402,15 +402,14 @@ export class EventProcessor {
   private async _runLoopWithLoadBalancing(
     loadBalancingStrategy: LoadBalancingStrategy,
     abortSignal: AbortSignalLike
-  ): Promise<void> {
+  ) {
     let cancelLoopResolver;
     // This provides a mechanism for exiting the loop early
     // if the subscription has had `close` called.
-    const cancelLoopPromise = new Promise<void>((resolve) => {
+    const cancelLoopPromise = new Promise((resolve) => {
       cancelLoopResolver = resolve;
       if (abortSignal.aborted) {
-        resolve();
-        return;
+        return resolve();
       }
 
       abortSignal.addEventListener("abort", resolve);
@@ -453,7 +452,7 @@ export class EventProcessor {
     loadBalancingStrategy: LoadBalancingStrategy,
     partitionIds: string[],
     abortSignal: AbortSignalLike
-  ): Promise<void> {
+  ) {
     if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
 
     // Retrieve current partition ownership details from the datastore.
@@ -500,7 +499,9 @@ export class EventProcessor {
 
     const uniquePartitionsToClaim = new Set(partitionsToClaim);
     for (const partitionToClaim of uniquePartitionsToClaim) {
-      const partitionOwnershipRequest = this._createPartitionOwnershipRequest(
+      let partitionOwnershipRequest: PartitionOwnership;
+
+      partitionOwnershipRequest = this._createPartitionOwnershipRequest(
         partitionOwnershipMap,
         partitionToClaim
       );
@@ -525,13 +526,11 @@ export class EventProcessor {
           eventHubName: this._eventHubName,
           consumerGroup: this._consumerGroup,
           partitionId: "",
-          updateCheckpoint: async () => {
-            /* no-op */
-          }
+          updateCheckpoint: async () => {}
         });
-      } catch (errorFromUser) {
+      } catch (err) {
         logger.verbose(
-          `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`
+          `[${this._id}] An error was thrown from the user's processError handler: ${err}`
         );
       }
     }
@@ -573,7 +572,7 @@ export class EventProcessor {
     }
   }
 
-  isRunning(): boolean {
+  isRunning() {
     return this._isRunning;
   }
 
@@ -613,7 +612,7 @@ export class EventProcessor {
     }
   }
 
-  private async abandonPartitionOwnerships(): Promise<PartitionOwnership[]> {
+  private async abandonPartitionOwnerships() {
     logger.verbose(`[${this._id}] Abandoning owned partitions`);
     const allOwnerships = await this._checkpointStore.listOwnership(
       this._fullyQualifiedNamespace,

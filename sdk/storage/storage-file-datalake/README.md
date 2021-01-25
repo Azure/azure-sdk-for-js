@@ -512,13 +512,15 @@ main();
 ### Download a file and convert it to a string (Browsers)
 
 ```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
 const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
 
 const account = "<account>";
-const sas="<sas token>"
+const defaultAzureCredential = new DefaultAzureCredential();
 
 const datalakeServiceClient = new DataLakeServiceClient(
-  `https://${account}.dfs.core.windows.net${sas}`
+  `https://${account}.dfs.core.windows.net`,
+  defaultAzureCredential
 );
 
 const fileSystemName = "<file system name>";

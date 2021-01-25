@@ -4,12 +4,9 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  KeyVaultClientGetKeyResponse,
-  KeyVaultClientRecoverDeletedKeyResponse
-} from "../../generated/models";
+import { GetKeyResponse, RecoverDeletedKeyResponse } from "../../generated/models";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
+import { createSpan, setParentSpan } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
@@ -35,12 +32,15 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   /**
    * The getKey method gets a specified key and is applicable to any key stored in Azure Key Vault.
    * This operation requires the keys/get permission.
+   * @summary Get a specified key from a given key vault.
+   * @param {string} name The name of the key.
+   * @param {GetKeyOptions} [options] The optional parameters.
    */
   private async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getKey", requestOptions);
+    const span = createSpan("getKey", requestOptions);
 
-    let response: KeyVaultClientGetKeyResponse;
+    let response: GetKeyResponse;
     try {
       response = await this.client.getKey(
         this.vaultUrl,
@@ -58,15 +58,17 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   /**
    * Sends a request to recover a deleted Key Vault Key based on the given name.
    * Since the Key Vault Key won't be immediately recover the deleted key, we have {@link beginRecoverDeletedKey}.
+   * @param {string} name The name of the Key Vault Key.
+   * @param {RecoverDeletedKeyOptions} [options] Optional parameters for the underlying HTTP request.
    */
   private async recoverDeletedKey(
     name: string,
     options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.recoverDeletedKey", requestOptions);
+    const span = createSpan("recoverDeletedKey", requestOptions);
 
-    let response: KeyVaultClientRecoverDeletedKeyResponse;
+    let response: RecoverDeletedKeyResponse;
     try {
       response = await this.client.recoverDeletedKey(
         this.vaultUrl,
@@ -81,7 +83,8 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   }
 
   /**
-   * Reaches to the service and updates the delete key's poll operation.
+   * @summary Reaches to the service and updates the delete key's poll operation.
+   * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
    */
   public async update(
     options: {

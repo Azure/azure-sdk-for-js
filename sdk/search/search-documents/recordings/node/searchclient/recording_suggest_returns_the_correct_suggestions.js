@@ -7,8 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/indexes(%27hotel-live-test1%27)/docs/search.post.suggest', {"search":"WiFi","suggesterName":"sg"})
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bd5ffcd1efd9e4593d9d8fdbfc5dfbd1a38f5e679779ba5ea56d95dedff9ddd3eafc3c6deb6c56b445b5ccca745eb579d98cd3f4599de7e9778b67c528bda8f3ac4dcb6a9aa151ba2478e9acba5ab6f4ff517abe2ecbf46dd14ee739fd759535f3bc4e7f613aabaff37a94eeeddf7d9036ebd5aaaadb513aa9aeca6279916665995fd3ab45bbcc9b269de6cb965eca96b37451d5f9f8a3d1478cc7d98c10deddf9e8977cff97fc3f4bd5b195d2000000"], [
-  'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bd5ffcd1efd9e4593d9d8fdbfc5dfbd1a38f5e679779ba5ea56d95dedff9ddd3eafc3c6deb6c56b445b5ccca745eb579d98cd3f4599de7e9778b67c528bda8f3ac4dcb6a9aa151ba2478e9acba5ab6f4ff517abe2ecbf46dd14ee739fd759535f3bc4e7f613aabaff37a94eeeddf7d9036ebd5aaaadb513aa9aeca6279916665995fd3ab45bbcc9b269de6cb965eca96b37451d5f9f8a3d1478cc7d98c10deddf9e8977cff97fc3f4bd5b195d2000000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -21,9 +20,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '1fdac2f5-997b-4f02-8b76-71119e59d4b9',
+  'eb23c788-6d59-4b93-b447-a2327171a32e',
   'elapsed-time',
-  '104',
+  '197',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,7 +30,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Fri, 22 Jan 2021 00:06:53 GMT',
+  'Wed, 04 Nov 2020 08:15:10 GMT',
   'Content-Length',
-  '295'
-]);
+  '295' ]);

@@ -53,7 +53,7 @@ if (logLevelFromEnv) {
 
 /**
  * Immediately enables logging at the specified log level.
- * @param level - The log level to enable for logging.
+ * @param level The log level to enable for logging.
  * Options from most verbose to least verbose are:
  * - verbose
  * - info
@@ -95,7 +95,6 @@ const levelMap = {
 /**
  * Defines the methods available on the SDK-facing logger.
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export interface AzureLogger {
   /**
    * Used for failures the program is unlikely to recover from,
@@ -122,8 +121,8 @@ export interface AzureLogger {
 
 /**
  * Creates a logger for use by the Azure SDKs that inherits from `AzureLogger`.
- * @param namespace - The name of the SDK package.
- * @hidden
+ * @param namespace The name of the SDK package.
+ * @ignore
  */
 export function createClientLogger(namespace: string): AzureLogger {
   const clientRootLogger: AzureClientLogger = AzureLogger.extend(namespace);

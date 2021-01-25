@@ -5,20 +5,7 @@ extends:
   parameters:
     PackageName: "@azure/keyvault-admin"
     ResourceServiceDirectory: keyvault
-    # KV HSM limitation prevents us from running live tests
-    # against multiple platforms in parallel (we're limited to a single
-    # instance per region per subscription) so we're only running
-    # live tests against a single instance.
-    TestMinMax: false
-    TestBrowser: false
-    testSamples: false
-    ArmTemplateParameters: "@{ enableHsm = $true }"
-    Matrix:
-      Linux Node 10 with Managed HSM:
-        Pool: azsdk-pool-mms-ubuntu-1804-general
-        OSVmImage: MMSUbuntu18.04
-        TestType: "node"
-        NodeTestVersion: "10.x"
+    TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

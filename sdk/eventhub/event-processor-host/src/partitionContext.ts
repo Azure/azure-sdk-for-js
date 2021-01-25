@@ -118,7 +118,7 @@ export class PartitionContext {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   async getInitialOffset(): Promise<EventPosition> {
     const startingCheckpoint = await this._context.checkpointManager.getCheckpoint(
@@ -158,7 +158,7 @@ export class PartitionContext {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   private async _persistCheckpoint(checkpoint: CheckpointInfo): Promise<void> {
     const withHostAndPartiton = this._context.withHostAndPartition;

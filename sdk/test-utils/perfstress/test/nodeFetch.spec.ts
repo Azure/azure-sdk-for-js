@@ -6,25 +6,20 @@ import { PerfStressTest, PerfStressOptionDictionary } from "../src";
 import fetch from "node-fetch";
 import * as http from "http";
 
-interface NodeFetchOptions {
-  url: string;
-}
+type OptionNames = "url";
 
-export class NodeFetchTest extends PerfStressTest<NodeFetchOptions> {
+export class NodeFetchTest extends PerfStressTest<string> {
   private static fetchOptions = {
     agent: new http.Agent({ keepAlive: true })
   };
 
   private url: string = "";
 
-  public options: PerfStressOptionDictionary<NodeFetchOptions> = {
+  public options: PerfStressOptionDictionary<OptionNames> = {
     url: {
       required: true,
       description: "Required option",
-      shortName: "u",
-      longName: "url",
-      defaultValue: "http://bing.com",
-      value: "http://bing.com"
+      shortName: "u"
     }
   };
 

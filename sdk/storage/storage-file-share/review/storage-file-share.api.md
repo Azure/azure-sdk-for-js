@@ -107,21 +107,6 @@ export interface CloseHandlesInfo {
 }
 
 // @public
-export interface CommonGenerateSasUrlOptions {
-    cacheControl?: string;
-    contentDisposition?: string;
-    contentEncoding?: string;
-    contentLanguage?: string;
-    contentType?: string;
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
-}
-
-// @public
 export interface CommonOptions {
     // (undocumented)
     tracingOptions?: OperationTracingOptions;
@@ -653,11 +638,6 @@ export type FileForceCloseHandlesResponse = CloseHandlesInfo & FileCloseHandlesH
 };
 
 // @public
-export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
-    permissions?: FileSASPermissions;
-}
-
-// @public
 export interface FileGetPropertiesHeaders {
     cacheControl?: string;
     contentDisposition?: string;
@@ -860,7 +840,7 @@ export interface FileSASSignatureValues {
     filePath?: string;
     identifier?: string;
     ipRange?: SasIPRange;
-    permissions?: FileSASPermissions | ShareSASPermissions;
+    permissions?: FileSASPermissions;
     protocol?: SASProtocol;
     shareName: string;
     startsOn?: Date;
@@ -1170,22 +1150,6 @@ export interface ListSharesResponse {
 }
 
 // @public
-export interface ListSharesResponseModel {
-    // (undocumented)
-    continuationToken: string;
-    // (undocumented)
-    marker?: string;
-    // (undocumented)
-    maxResults?: number;
-    // (undocumented)
-    prefix?: string;
-    // (undocumented)
-    serviceEndpoint: string;
-    // (undocumented)
-    shareItems?: ShareItemInternal[];
-}
-
-// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 // @public (undocumented)
@@ -1280,14 +1244,6 @@ export class SASQueryParameters {
 }
 
 // @public
-export interface ServiceGenerateAccountSasUrlOptions {
-    ipRange?: SasIPRange;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
-}
-
-// @public
 export interface ServiceGetPropertiesHeaders {
     // (undocumented)
     errorCode?: string;
@@ -1328,10 +1284,10 @@ export interface ServiceListSharesSegmentHeaders {
 
 // @public
 export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListSharesSegmentHeaders & {
-    _response: HttpResponse & {
+    _response: coreHttp.HttpResponse & {
         parsedHeaders: ServiceListSharesSegmentHeaders;
         bodyAsText: string;
-        parsedBody: ListSharesResponseModel;
+        parsedBody: ListSharesResponse;
     };
 };
 
@@ -1391,7 +1347,6 @@ export class ShareClient extends StorageClient {
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
     deleteIfExists(options?: ShareDeleteMethodOptions): Promise<ShareDeleteIfExistsResponse>;
     exists(options?: ShareExistsOptions): Promise<boolean>;
-    generateSasUrl(options: ShareGenerateSasUrlOptions): string;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
@@ -1430,9 +1385,7 @@ export interface ShareCreateOptions extends CommonOptions {
     metadata?: {
         [propertyName: string]: string;
     };
-    protocols?: ShareProtocols;
     quota?: number;
-    rootSquash?: ShareRootSquash;
 }
 
 // @public
@@ -1578,7 +1531,6 @@ export class ShareFileClient extends StorageClient {
     exists(options?: FileExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: FileForceCloseHandlesOptions): Promise<CloseHandlesInfo>;
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
-    generateSasUrl(options: FileGenerateSasUrlOptions): string;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
@@ -1608,11 +1560,6 @@ export interface ShareFileRangeList {
     clearRanges?: ClearRange[];
     // (undocumented)
     ranges?: RangeModel[];
-}
-
-// @public
-export interface ShareGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
-    permissions?: ShareSASPermissions;
 }
 
 // @public
@@ -1672,7 +1619,6 @@ export interface ShareGetPropertiesHeaders {
     accessTierChangeTime?: Date;
     accessTierTransitionState?: string;
     date?: Date;
-    enabledProtocols?: string;
     // (undocumented)
     errorCode?: string;
     etag?: string;
@@ -1690,7 +1636,6 @@ export interface ShareGetPropertiesHeaders {
     provisionedIops?: number;
     quota?: number;
     requestId?: string;
-    rootSquash?: ShareRootSquash;
     version?: string;
 }
 
@@ -1701,12 +1646,7 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ShareGetPropertiesResponse = ShareGetPropertiesResponseModel & {
-    protocols?: ShareProtocols;
-};
-
-// @public
-export type ShareGetPropertiesResponseModel = ShareGetPropertiesHeaders & {
+export type ShareGetPropertiesResponse = ShareGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ShareGetPropertiesHeaders;
     };
@@ -1762,24 +1702,6 @@ export interface ShareItem {
 }
 
 // @public
-export interface ShareItemInternal {
-    // (undocumented)
-    deleted?: boolean;
-    // (undocumented)
-    metadata?: {
-        [propertyName: string]: string;
-    };
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    properties: SharePropertiesInternal;
-    // (undocumented)
-    snapshot?: string;
-    // (undocumented)
-    version?: string;
-}
-
-// @public
 export class ShareLeaseClient {
     constructor(client: ShareFileClient, leaseId?: string);
     acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
@@ -1797,12 +1719,7 @@ export interface SharePermission {
 }
 
 // @public
-export type ShareProperties = SharePropertiesInternal & {
-    protocols?: ShareProtocols;
-};
-
-// @public
-export interface SharePropertiesInternal {
+export interface ShareProperties {
     // (undocumented)
     accessTier?: string;
     // (undocumented)
@@ -1811,8 +1728,6 @@ export interface SharePropertiesInternal {
     accessTierTransitionState?: string;
     // (undocumented)
     deletedTime?: Date;
-    // (undocumented)
-    enabledProtocols?: string;
     // (undocumented)
     etag: string;
     // (undocumented)
@@ -1832,22 +1747,12 @@ export interface SharePropertiesInternal {
     quota: number;
     // (undocumented)
     remainingRetentionDays?: number;
-    rootSquash?: ShareRootSquash;
-}
-
-// @public
-export interface ShareProtocols {
-    nfsEnabled?: boolean;
-    smbEnabled?: boolean;
 }
 
 // @public
 export interface ShareProtocolSettings {
     smb?: ShareSmbSettings;
 }
-
-// @public
-export type ShareRootSquash = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
 
 // @public
 export class ShareSASPermissions {
@@ -1870,7 +1775,6 @@ export class ShareServiceClient extends StorageClient {
     }>;
     deleteShare(shareName: string, options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): ShareServiceClient;
-    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getShareClient(shareName: string): ShareClient;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
@@ -1943,7 +1847,6 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
     accessTier?: ShareAccessTier;
     leaseAccessConditions?: LeaseAccessConditions;
     quotaInGB?: number;
-    rootSquash?: ShareRootSquash;
 }
 
 // @public

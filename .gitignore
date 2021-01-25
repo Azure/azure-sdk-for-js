@@ -118,7 +118,6 @@ Thumbs.db
 *.cer
 *.pfx
 *.pem
-*.key
 
 # WebStorm #
 .idea/

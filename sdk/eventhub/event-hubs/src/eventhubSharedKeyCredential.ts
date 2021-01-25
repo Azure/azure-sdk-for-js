@@ -97,7 +97,7 @@ export class SharedKeyCredential {
  * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export class SharedAccessSignatureCredential extends SharedKeyCredential {
   private _accessToken: AccessToken;

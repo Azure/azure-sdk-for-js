@@ -8,7 +8,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [recognizeReceipt.ts][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                                                                  |
 | [recognizeReceiptFromUrl.ts][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                                                   |
 | [recognizeBusinessCard.ts][recognizebusinesscard]                 | Recognize data from a file of a business card using a prebuilt model                                                                                     |
-| [recognizeInvoice.ts][recognizeinvoice]                           | Recognize data from a file of an invoice using a prebuilt model                                                                                          |
 | [recognizeCustomForm.ts][recognizecustomform]                     | Recognize forms with your custom model                                                                                                                   |
 | [trainLabeledModel.ts][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                                                   |
 | [trainUnlabeledModel.ts][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                                                                 |
@@ -67,7 +66,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceipt.ts
 [recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceiptFromUrl.ts
 [recognizebusinesscard]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeBusinessCard.ts
-[recognizeinvoice]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeInvoice.ts
 [recognizecontent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeContent.ts
 [recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeCustomForm.ts
 [trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts

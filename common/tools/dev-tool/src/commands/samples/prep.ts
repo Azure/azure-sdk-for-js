@@ -36,12 +36,7 @@ export const commandInfo = makeCommandInfo(
  * @param pkgName name of the package to use when looking for package-local imports
  * @param usePackages uses package dependencies if true, uses source dependencies if false
  */
-async function enableLocalRun(
-  fileName: string,
-  baseDir: string,
-  pkgName: string,
-  usePackages: boolean
-) {
+async function enableLocalRun(fileName: string, baseDir: string, pkgName: string, usePackages: boolean) {
   const fileContents = await fs.readFile(fileName, { encoding: "utf-8" });
   const isTs = fileName.endsWith(".ts");
 
@@ -58,6 +53,7 @@ async function enableLocalRun(
       log.warn(`skipping ${fileName} because it did not contain a matching import/require`);
       return;
     }
+
 
     const relativeDir = path.dirname(fileName.replace(baseDir, ""));
 
@@ -103,7 +99,7 @@ export default leafCommand(commandInfo, async (options) => {
   // Create dist-samples and copy to it
   const outputDir = path.join(pkg.path, "dist-samples");
   if (fs.existsSync(outputDir)) {
-    log.info("Cleaning up old dist-samples folder.");
+    log.warn("Cleaning up old dist-samples folder.");
     await fs.remove(outputDir);
   }
   await fs.copy(path.join(pkg.path, "samples"), outputDir);

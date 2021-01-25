@@ -4,10 +4,7 @@
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumberAdministrationClient, PhoneNumberRelease } from "../src";
-import {
-  createRecordedPhoneNumberAdministrationClient,
-  testPollerOptions
-} from "./utils/recordedClient";
+import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
 describe("PhoneNumber - LROs - Release [Playback/Live]", function() {
   let recorder: Recorder;
@@ -45,7 +42,7 @@ describe("PhoneNumber - LROs - Release [Playback/Live]", function() {
       this.skip();
     }
 
-    const poller = await client.beginReleasePhoneNumbers([phoneNumberToRelease], testPollerOptions);
+    const poller = await client.beginReleasePhoneNumbers([phoneNumberToRelease]);
     assert.ok(poller.getOperationState().isStarted);
 
     const release: PhoneNumberRelease = await poller.pollUntilDone();

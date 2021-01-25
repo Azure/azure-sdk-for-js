@@ -63,8 +63,8 @@ describe("Tracing tests", () => {
 
     br["_createAndEndProcessingSpan"] = createSpanStub;
 
-    br["_receiveMessagesImpl"] = (_receiver, _args, resolve, _reject) => {
-      resolve(([
+    br["_receiveMessagesImpl"] = async () => {
+      return ([
         {
           applicationProperties: {
             "Diagnostic-Id": "diagnostic id 1"
@@ -75,7 +75,7 @@ describe("Tracing tests", () => {
             "Diagnostic-Id": "diagnostic id 2"
           }
         }
-      ] as any) as ServiceBusMessageImpl[]);
+      ] as any) as ServiceBusMessageImpl[];
     };
 
     await br.receiveMessages({

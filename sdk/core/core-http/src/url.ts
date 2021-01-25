@@ -3,8 +3,6 @@
 
 import { replaceAll } from "./util/utils";
 
-export { URL } from "./util/url";
-
 type URLQueryParseState = "ParameterName" | "ParameterValue";
 
 /**
@@ -32,15 +30,10 @@ export class URLQuery {
    * empty, then this will attempt to remove an existing query parameter with the provided
    * parameterName.
    */
-  public set(parameterName: string, parameterValue: unknown): void {
-    const caseParameterValue = parameterValue as {
-      toString: () => string;
-    };
+  public set(parameterName: string, parameterValue: any): void {
     if (parameterName) {
-      if (caseParameterValue !== undefined && caseParameterValue !== null) {
-        const newValue = Array.isArray(caseParameterValue)
-          ? caseParameterValue
-          : caseParameterValue.toString();
+      if (parameterValue !== undefined && parameterValue !== null) {
+        const newValue = Array.isArray(parameterValue) ? parameterValue : parameterValue.toString();
         this._rawQuery[parameterName] = newValue;
       } else {
         delete this._rawQuery[parameterName];
@@ -274,7 +267,7 @@ export class URLBuilder {
    * query parameter value is undefined or empty, then the query parameter will be removed if it
    * existed.
    */
-  public setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void {
+  public setQueryParameter(queryParameterName: string, queryParameterValue: any): void {
     if (queryParameterName) {
       if (!this._query) {
         this._query = new URLQuery();

@@ -122,7 +122,7 @@ describe("Message session unit tests", () => {
               }
             );
 
-            const { receiveIsReady, emitter } = setupFakeReceiver(receiver, clock);
+            const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
             const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
             await receiveIsReady;
@@ -218,7 +218,7 @@ describe("Message session unit tests", () => {
               }
             );
 
-            const { receiveIsReady, emitter } = setupFakeReceiver(receiver, clock);
+            const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
             let wasCalled = false;
 
@@ -264,8 +264,7 @@ describe("Message session unit tests", () => {
     });
 
     function setupFakeReceiver(
-      batchingReceiver: MessageSession,
-      clock?: ReturnType<typeof sinon.useFakeTimers>
+      batchingReceiver: MessageSession
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
@@ -315,7 +314,6 @@ describe("Message session unit tests", () => {
           if (_credits === 1 && fakeRheaReceiver.drain === true) {
             // special case - if we're draining we should initiate a drain
             emitter.emit(ReceiverEvents.receiverDrained, undefined);
-            clock?.runAll();
           } else {
             credits += _credits;
           }

@@ -18,7 +18,7 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
-   * @hidden
+   * @ignore
    */
   constructor(
     clientContext: ClientContext,
@@ -36,7 +36,7 @@ export class ParallelQueryExecutionContext extends ParallelQueryExecutionContext
   /**
    * Provides a Comparator for document producers using the min value of the corresponding target partition.
    * @returns {object}        - Comparator Function
-   * @hidden
+   * @ignore
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer) {
     return docProd1.generation - docProd2.generation;
