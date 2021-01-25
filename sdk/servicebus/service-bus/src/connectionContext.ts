@@ -177,6 +177,28 @@ async function callOnDetachedOnReceivers(
 /**
  * @internal
  * @hidden
+ * Helper method to get the number of receivers of specified type from the connectionContext.
+ */
+async function getNumberOfReceivers(
+  connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
+  receiverType: ReceiverType
+) {
+  if (receiverType === "session") {
+    const receivers = connectionContext.messageSessions;
+    return Object.keys(receivers).length;
+  }
+  const receivers = connectionContext.messageReceivers;
+  const receiverNames = Object.keys(receivers);
+  const count = receiverNames.reduce(
+    (acc, name) => (receivers[name].receiverType === receiverType ? ++acc : acc),
+    0
+  );
+  return count;
+}
+
+/**
+ * @internal
+ * @hidden
  */
 export namespace ConnectionContext {
   export function create(
@@ -397,11 +419,12 @@ export namespace ConnectionContext {
         await Promise.all(detachCalls);
       }
 
-      // Calling onDetached on batching receiver and session receiver for the same reasons as sender
-      if (!state.wasConnectionCloseCalled && state.numReceivers) {
+      // Calling onDetached on batching receivers for the same reasons as sender
+      const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
+      if (!state.wasConnectionCloseCalled && numBatchingReceivers) {
         logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
-            `receivers. We should reconnect.`
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
+            `batching receivers. We should reconnect.`
         );
 
         // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
@@ -412,7 +435,7 @@ export namespace ConnectionContext {
         );
 
         // TODO:
-        //  `callOnDetachedOnReceivers` handles connectionContext.messageReceivers.
+        //  `callOnDetachedOnReceivers` handles "connectionContext.messageReceivers".
         //  ...What to do for sessions (connectionContext.messageSessions) ??
       }
 
@@ -423,11 +446,12 @@ export namespace ConnectionContext {
       // and there was at least one receiver link on the connection before it went down.
       logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
 
-      // Calling onDetached on streaming receiver
-      if (!state.wasConnectionCloseCalled && state.numReceivers) {
+      // Calling onDetached on streaming receivers
+      const numStreamingReceivers = getNumberOfReceivers(connectionContext, "streaming");
+      if (!state.wasConnectionCloseCalled && numStreamingReceivers) {
         logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
-            `receivers. We should reconnect.`
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numStreamingReceivers} ` +
+            `streaming receivers. We should reconnect.`
         );
 
         // Call onDetached() on streaming receivers so that they can recover
