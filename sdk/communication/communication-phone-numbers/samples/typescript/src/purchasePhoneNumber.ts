@@ -18,6 +18,11 @@ const connectionString =
 
 export const main = async () => {
   console.log("\n== Purchase Phone Number Typescript Sample ==\n");
+
+  // create new client
+  const client = new PhoneNumbersClient(connectionString);
+
+  return client;
 };
 
 main().catch((error) => {

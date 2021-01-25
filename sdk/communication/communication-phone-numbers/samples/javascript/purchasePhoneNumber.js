@@ -18,6 +18,11 @@ const connectionString =
 
 async function main() {
   console.log("\n== Purchase Phone Number Javascript Sample ==\n");
+
+  // create new client
+  const client = new PhoneNumbersClient(connectionString);
+
+  return client;
 }
 
 main().catch((error) => {

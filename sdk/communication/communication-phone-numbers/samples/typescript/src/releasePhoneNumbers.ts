@@ -6,7 +6,7 @@
  * to release phone numbers.
  */
 
-import { PhoneNumberAdministrationClient } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -18,6 +18,11 @@ const connectionString =
 
 export const main = async () => {
   console.log("\n== Release Phone Numbers Typescript Sample ==\n");
+
+  // create new client
+  const client = new PhoneNumbersClient(connectionString);
+
+  return client;
 };
 
 main().catch((error) => {
