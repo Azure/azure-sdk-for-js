@@ -196,7 +196,7 @@ export type DataFeedMissingDataPointFillSettings =
       customFillValue?: number;
     }
   | {
-      fillType: "CustomValue" | string;
+      fillType: "CustomValue";
       /**
        * the value of fill missing point for anomaly detection
        */
