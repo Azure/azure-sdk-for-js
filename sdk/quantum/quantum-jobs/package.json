@@ -87,8 +87,6 @@
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
   ],
   "scripts": {
     "build": "npm run build:node && npm run build:browser",
