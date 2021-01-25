@@ -410,11 +410,10 @@ export namespace ConnectionContext {
           connectionError || contextError,
           "batching"
         );
-        await callOnDetachedOnReceivers(
-          connectionContext,
-          connectionError || contextError,
-          "session"
-        );
+
+        // TODO:
+        //  `callOnDetachedOnReceivers` handles connectionContext.messageReceivers.
+        //  ...What to do for sessions (connectionContext.messageSessions) ??
       }
 
       await refreshConnection(connectionContext);
