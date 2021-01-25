@@ -308,7 +308,7 @@ export class KeyVaultCryptographyClient {
       span.end();
     }
 
-    return { result: result.result!, keyID: this.getKeyID() };
+    return { result: result.result!, algorithm, keyID: this.getKeyID() };
   }
 
   /**

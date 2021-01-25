@@ -22,14 +22,11 @@ import {
   SignOptions,
   VerifyOptions
 } from "./cryptographyClientModels";
-import {
-  LocalCryptographyUnsupportedError,
-  LocalSupportedAlgorithmName
-} from "./localCryptography/models";
+import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
 
 /**
- * A client used to perform cryptographic operations with wither Azure Key vault keys
+ * A client used to perform cryptographic operations on an Azure Key vault key
  * or a local {@link JsonWebKey}.
  */
 export class CryptographyClient {
@@ -55,7 +52,7 @@ export class CryptographyClient {
   }
 
   private isRemote(key: string | KeyVaultKey | JsonWebKey): key is string | KeyVaultKey {
-    if (typeof key === "string" || (key as KeyVaultKey).name) {
+    if (typeof key === "string" || (key as KeyVaultKey)?.key) {
       return true;
     }
     return false;
@@ -82,9 +79,7 @@ export class CryptographyClient {
       return this.concreteClient.client.encrypt(algorithm, plaintext, options);
     } else {
       if (!isLocallySupported(algorithm)) {
-        throw new LocalCryptographyUnsupportedError(
-          `Algorithm ${algorithm} is not supported for a local JsonWebKey.`
-        );
+        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
       }
       return this.concreteClient.client.encrypt(
         algorithm as LocalSupportedAlgorithmName,
@@ -114,10 +109,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.decrypt(algorithm, ciphertext, options);
     } else {
-      // Todo: this need to be higher level / public API if not already?
-      throw new LocalCryptographyUnsupportedError(
-        "Decryption of a local JsonWebKey is not supported."
-      );
+      throw new Error("Decrypting a local JsonWebKey is not supported.");
     }
   }
 
@@ -142,9 +134,7 @@ export class CryptographyClient {
       return this.concreteClient.client.wrapKey(algorithm, key, options);
     } else {
       if (!isLocallySupported(algorithm)) {
-        throw new LocalCryptographyUnsupportedError(
-          `Algorithm ${algorithm} is not supported for a local JsonWebKey.`
-        );
+        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
       }
       return this.concreteClient.client.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
     }
@@ -171,9 +161,7 @@ export class CryptographyClient {
       return this.concreteClient.client.unwrapKey(algorithm, encryptedKey, options);
     } else {
       // Todo: this need to be higher level / public API if not already?
-      throw new LocalCryptographyUnsupportedError(
-        "Unwrapping of a local JsonWebKey is not supported."
-      );
+      throw new Error("Unwrapping a local JsonWebKey is not supported.");
     }
   }
 
@@ -198,7 +186,7 @@ export class CryptographyClient {
       return this.concreteClient.client.sign(algorithm, digest, options);
     } else {
       // Todo: this need to be higher level / public API if not already?
-      throw new LocalCryptographyUnsupportedError("Signing a local JsonWebKey is not supported");
+      throw new Error("Signing a local JsonWebKey is not supported.");
     }
   }
 
@@ -224,8 +212,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.verify(algorithm, digest, signature, options);
     } else {
-      // Todo: this need to be higher level / public API if not already?
-      throw new LocalCryptographyUnsupportedError("Verifying a local JsonWebKey is not supported");
+      throw new Error("Verifying a local JsonWebKey is not supported.");
     }
   }
 
@@ -249,7 +236,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.signData(algorithm, data, options);
     } else {
-      throw new LocalCryptographyUnsupportedError("Signing a local JsonWebKey is not supported");
+      throw new Error("Signing a local JsonWebKey is not supported.");
     }
   }
 
@@ -276,9 +263,7 @@ export class CryptographyClient {
       return this.concreteClient.client.verifyData(algorithm, data, signature, options);
     } else {
       if (!isLocallySupported(algorithm)) {
-        throw new LocalCryptographyUnsupportedError(
-          `Algorithm ${algorithm} is not supported for a local JsonWebKey.`
-        );
+        throw new Error(`Algorithm ${algorithm} is not supported for a local JsonWebKey.`);
       }
       return this.concreteClient.client.verifyData(
         algorithm as LocalSupportedAlgorithmName,

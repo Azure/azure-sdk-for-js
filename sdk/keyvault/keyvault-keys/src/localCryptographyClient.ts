@@ -20,6 +20,8 @@ import { EncryptionAlgorithm } from ".";
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
+ * @internal
+ * @hidden
  */
 export class LocalCryptographyClient {
   /**

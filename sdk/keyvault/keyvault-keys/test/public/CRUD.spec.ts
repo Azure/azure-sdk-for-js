@@ -98,7 +98,8 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("can create a RSA key with size", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options = {
-      keySize: 2048
+      keySize: 2048,
+      publicExponent: 123
     };
     const result = await client.createRsaKey(keyName, options);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");

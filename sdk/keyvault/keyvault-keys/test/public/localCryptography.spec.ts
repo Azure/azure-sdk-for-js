@@ -17,7 +17,6 @@ import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { localSupportedAlgorithms } from "../../src/localCryptography/algorithms";
 import { throwsAsync } from "../utils/utils.common";
-import { LocalCryptographyUnsupportedError } from "../../src/localCryptography/models";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
@@ -62,25 +61,23 @@ describe("Local cryptography public tests", () => {
       assert.equal(cryptoClientFromKey.keyId, customKeyVaultKey.id);
     });
 
-    describe.only("when using an unsupported algorithm", function() {
-      const expectedError = new LocalCryptographyUnsupportedError(
-        `Algorithm foo is not supported for a local JsonWebKey.`
-      );
+    describe("when using an unsupported algorithm", function() {
+      const expectedError = new Error(`Algorithm foo is not supported for a local JsonWebKey.`);
 
       it("throws on encyrpt", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.encrypt("foo", Buffer.from("bar"));
+          await cryptoClientFromKey.encrypt("foo", Buffer.from("bar"));
         }, expectedError);
       });
 
       it("throws on wrapKey", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar"));
-        }, new LocalCryptographyUnsupportedError("Algorithm A128KW is not supported for a local JsonWebKey."));
+          await cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar"));
+        }, new Error("Algorithm A128KW is not supported for a local JsonWebKey."));
       });
       it("throws on verifyData", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.verifyData("foo", Buffer.from("bar"), Buffer.from("baz"));
+          await cryptoClientFromKey.verifyData("foo", Buffer.from("bar"), Buffer.from("baz"));
         }, expectedError);
       });
     });
@@ -88,31 +85,32 @@ describe("Local cryptography public tests", () => {
     describe("when using an unsupported operation", function() {
       it("throws on decrypt", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar"));
-        }, new LocalCryptographyUnsupportedError("Decryption of a local JsonWebKey is not supported."));
+          await cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar"));
+        }, new Error("Decrypting a local JsonWebKey is not supported."));
       });
+
       it("throws on unwrapKey", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar"));
-        }, new LocalCryptographyUnsupportedError("Unwrapping of a local JsonWebKey is not supported."));
+          await cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar"));
+        }, new Error("Unwrapping a local JsonWebKey is not supported."));
       });
 
       it("throws on sign", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar"));
-        }, new LocalCryptographyUnsupportedError("Signing of a local JsonWebKey is not supported."));
+          await cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar"));
+        }, new Error("Signing a local JsonWebKey is not supported."));
       });
 
       it("throws on verify", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.verify("RSA1_5", Buffer.from("bar"), Buffer.from("baz"));
-        }, new LocalCryptographyUnsupportedError("Verifying of a local JsonWebKey is not supported."));
+          await cryptoClientFromKey.verify("RSA1_5", Buffer.from("bar"), Buffer.from("baz"));
+        }, new Error("Verifying a local JsonWebKey is not supported."));
       });
 
       it("throws on signData", async function() {
         await throwsAsync(async () => {
-          cryptoClientFromKey.signData("RSA1_5", Buffer.from("bar"));
-        }, new LocalCryptographyUnsupportedError("Signing of a local JsonWebKey is not supported."));
+          await cryptoClientFromKey.signData("RSA1_5", Buffer.from("bar"));
+        }, new Error("Signing a local JsonWebKey is not supported."));
       });
     });
   });

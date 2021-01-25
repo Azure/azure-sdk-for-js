@@ -80,6 +80,10 @@ export interface UnwrapResult {
    * The ID of the Key Vault Key used to unwrap the data.
    */
   keyID?: string;
+  /**
+   * The {@link KeyWrapAlgorithm} used to unwrap the data.
+   */
+  algorithm: KeyWrapAlgorithm;
 }
 /**
  * Result of the {@link decrypt} operation.
