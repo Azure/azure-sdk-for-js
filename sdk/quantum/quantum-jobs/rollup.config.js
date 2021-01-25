@@ -17,7 +17,7 @@ const config = {
   output: {
     file: "./dist/quantum-jobs.js",
     format: "umd",
-    name: "Azure.Quantum",
+    name: "Azure.QuantumJobs",
     sourcemap: true,
     globals: {
       "@azure/core-http": "coreHttp"
