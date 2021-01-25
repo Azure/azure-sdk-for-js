@@ -212,7 +212,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   $packageDir = Join-Path $artifactDir $pkgName "temp"
   if (-not (Test-Path $packageDir))
   {
-    Write-Error "Temp directory is not found in package root. Verify if docmodel is enabled in api-extractor.json."
+    Write-Host "Temp directory is not found in package root. Verify if docmodel is enabled in api-extractor.json."
     return $null
   }
   Write-Host "Searching for *.api.json in path $($packageDir)"
