@@ -78,14 +78,8 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
+    "dist/",
+    "dist-esm/src/",
     "README.md",
     "LICENSE.txt"
   ],
