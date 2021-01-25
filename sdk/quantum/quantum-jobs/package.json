@@ -20,7 +20,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "types": "./types/latest/quantum-jobs.d.ts",
   "devDependencies": {
     "rollup-plugin-node-resolve": "^3.4.0",
     "mkdirp": "^1.0.4",
