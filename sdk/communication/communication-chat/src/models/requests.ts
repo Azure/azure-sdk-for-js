@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChatThreadMember } from "./models";
+import { ChatParticipant } from "./models";
 import {
   CreateChatThreadRequest as RestCreateChatThreadRequest,
   SendChatMessageRequest as RestSendMessageRequest,
-  AddChatThreadMembersRequest as RestAddMembersRequest
+  AddChatParticipantsRequest as RestAddChatParticipantsRequest
 } from "../generated/src/models";
-export { RestCreateChatThreadRequest, RestSendMessageRequest, RestAddMembersRequest };
+export { RestCreateChatThreadRequest, RestSendMessageRequest, RestAddChatParticipantsRequest };
 
 /**
  * An interface representing CreateMessageRequest.
@@ -18,19 +18,20 @@ export interface SendMessageRequest
 /**
  * Request payload for creating a chat thread.
  */
-export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "members"> {
+export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "participants"> {
   /**
-   * Members to add to a chat thread.
+   * Participants to add to a chat thread.
    */
-  members: ChatThreadMember[];
+  participants: ChatParticipant[];
 }
 
 /**
- * Thread members to be added to the thread.
+ * Thread participants to be added to the thread.
  */
-export interface AddMembersRequest extends Omit<RestAddMembersRequest, "members"> {
+export interface AddChatParticipantsRequest
+  extends Omit<RestAddChatParticipantsRequest, "participants"> {
   /**
-   * Members to add to a chat thread.
+   * Participants to add to a chat thread.
    */
-  members: ChatThreadMember[];
+  participants: ChatParticipant[];
 }
