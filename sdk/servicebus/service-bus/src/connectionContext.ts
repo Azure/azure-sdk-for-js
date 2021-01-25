@@ -139,11 +139,7 @@ type ConnectionContextMethods = Omit<
 /**
  * @internal
  * @hidden
- * Helper method to call onDetached on the receivers from the connection connect upon seeing an error.
- *
- * @param {ConnectionContext} connectionContext
- * @param {(Error | ConnectionError | AmqpError | undefined)} contextOrConnectionError
- * @param {ReceiverType} receiverType
+ * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
  */
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
