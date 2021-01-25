@@ -77,6 +77,24 @@ const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API k
 const client = new MetricsAdvisorClient("<endpoint>", credential);
 const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
 ```
+We also support Authentication by Azure Active Directoty Credential. You will need the Azure Tenant ID, Azure Client ID and Azure Client Secret as environment variables.
+
+```javascript
+const {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorClient,
+  MetricsAdvisorAdministrationClient
+} = require("@azure/ai-metrics-advisor");
+import { ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+        process.env["AZURE_TENANT_ID"],
+        process.env["AZURE_CLIENT_ID"],
+        process.env["AZURE_CLIENT_SECRET"]
+      );
+const client = new MetricsAdvisorClient("<endpoint>", credential);
+const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+
+```
 
 ## Key concepts
 
