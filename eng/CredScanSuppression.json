@@ -20,6 +20,10 @@
     {
       "placeholder": "1cb763e7c4b9a3c4811c4560af6827c2",
       "_justification": "Secret used by test code"
+    },
+    {
+      "hash": "5ETIzLYe9aa9Xx5512Uy6gJiCZ/CL2QzS3nDfN51nz8=",
+      "_justification": "Secret used by test code"
     }
   ]
 }
