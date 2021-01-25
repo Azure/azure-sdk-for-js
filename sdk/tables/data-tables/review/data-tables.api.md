@@ -109,7 +109,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable" | string;
+export type GeoReplicationStatusType = string;
 
 // @public
 export interface GetAccessPolicyOptions extends coreHttp.OperationOptions {
@@ -173,6 +173,16 @@ export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
         parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
     };
 };
+
+// @public
+export const enum KnownGeoReplicationStatusType {
+    // (undocumented)
+    Bootstrap = "bootstrap",
+    // (undocumented)
+    Live = "live",
+    // (undocumented)
+    Unavailable = "unavailable"
+}
 
 // @public
 export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
@@ -355,15 +365,6 @@ export interface TableCreateHeaders {
 }
 
 // @public
-export interface TableCreateHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    preferenceApplied?: string;
-    requestId?: string;
-    version?: string;
-}
-
-// @public
 export interface TableDeleteEntityHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -411,17 +412,6 @@ export type TableEntityResult<T> = T & {
 export interface TableGetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
-    requestId?: string;
-    version?: string;
-}
-
-// @public
-export interface TableInsertEntityHeaders {
-    clientRequestId?: string;
-    contentType?: string;
-    date?: Date;
-    etag?: string;
-    preferenceApplied?: string;
     requestId?: string;
     version?: string;
 }

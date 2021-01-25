@@ -363,6 +363,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/quantum",
+      "projectFolder": "sdk/quantum/quantum",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-administration",
       "projectFolder": "sdk/communication/communication-administration",
       "versionPolicyName": "client"
