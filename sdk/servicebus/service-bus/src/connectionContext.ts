@@ -154,7 +154,7 @@ async function callOnDetachedOnReceivers(
       logger.verbose(
         "[%s] calling detached on %s receiver '%s'.",
         connectionContext.connection.id,
-        receiverType,
+        receiver.receiverType,
         receiver.name
       );
       detachCalls.push(
@@ -163,7 +163,7 @@ async function callOnDetachedOnReceivers(
             err,
             "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
             connectionContext.connection.id,
-            receiverType,
+            receiver.receiverType,
             receiver.name
           );
         })
