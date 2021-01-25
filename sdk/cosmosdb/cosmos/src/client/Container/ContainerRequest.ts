@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ContainerDefinition } from "./ContainerDefinition";
-import { PartitionKeyDefinition } from "../../documents";
 import { VerboseOmit } from "../../utils/types";
+import { PartitionKeyInput } from "./PartitionKeyInput";
 
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
   /* Throughput for this container. Cannot use with maxThroughput */
@@ -15,5 +15,5 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
       incrementPercent: number;
     };
   };
-  partitionKey?: string | PartitionKeyDefinition;
+  partitionKey?: PartitionKeyInput;
 }

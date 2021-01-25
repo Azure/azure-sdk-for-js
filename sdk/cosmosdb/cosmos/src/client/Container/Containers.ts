@@ -20,6 +20,7 @@ import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
+import { isSubpartitioned } from "./PartitionKeyInput";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -145,6 +146,19 @@ export class Containers {
       }
       body.partitionKey = {
         paths: [body.partitionKey]
+      };
+    }
+
+    let partitionKeyPaths: string[] = [];
+    if (isSubpartitioned(body.partitionKey)) {
+      body.partitionKey.forEach((subpartitionKey) => {
+        if (!subpartitionKey.startsWith("/")) {
+          throw new Error("Subpartition keys must start with '/'");
+        }
+      });
+      partitionKeyPaths = body.partitionKey;
+      body.partitionKey = {
+        paths: partitionKeyPaths
       };
     }
 

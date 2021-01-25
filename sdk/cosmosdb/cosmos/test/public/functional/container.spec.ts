@@ -13,6 +13,7 @@ import {
 } from "../common/TestHelpers";
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
+import { isSubpartitioned } from "../../../src/client/Container/PartitionKeyInput";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -42,7 +43,8 @@ describe("Containers", function() {
       assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
       if (containerDef.partitionKey) {
         const comparePaths =
-          typeof containerDefinition.partitionKey === "string"
+          typeof containerDefinition.partitionKey === "string" ||
+          isSubpartitioned(containerDefinition.partitionKey)
             ? [containerDefinition.partitionKey]
             : containerDefinition.partitionKey.paths;
         assert.deepEqual(containerDef.partitionKey.paths, comparePaths);
@@ -480,6 +482,21 @@ describe("container.create", function() {
       id: "sample",
       throughput: 400,
       maxThroughput: 400
+    };
+    assertThrowsAsync(() => database.containers.create(containerRequest));
+  });
+  it("can create subpartitioned container", async function() {
+    const containerRequest: ContainerRequest = {
+      id: "subpartition sample",
+      partitionKey: ["/topLevel", "/lowerLevel"]
+    };
+    const { container } = await database.containers.create(containerRequest);
+    assert.equal(container.id, "subpartition sample");
+  });
+  it("throws for subpartitioned keys without leading slash", async function() {
+    const containerRequest: ContainerRequest = {
+      id: "subpartition sample",
+      partitionKey: ["/topLevel", "lowerLevel"]
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
   });
