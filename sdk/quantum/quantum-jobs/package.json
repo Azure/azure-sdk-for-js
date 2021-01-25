@@ -107,7 +107,7 @@
     "pack": "npm pack 2>&1",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
