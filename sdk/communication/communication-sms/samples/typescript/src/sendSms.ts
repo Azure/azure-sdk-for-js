@@ -25,15 +25,15 @@ export const main = async () => {
   const from = "+12345678901";
 
   // The list of E.164 formatted phone numbers to which message is being send
-  const to = ["+12345678901"];
+  const to = ["+12345678901", "+14251234567", "+12061234567"];
 
   // The message being sent
   const message = "Hey!";
 
-  console.log("-- Sending SMS --");
+  console.log("-- Sending Group SMS --");
 
   // Send SMS message
-  await client.send({ from, to, message });
+  await client.send({ from, to, message }, { enableDeliveryReport: true, tag: "customTag" });
 
   console.log("Message sent!");
 };
