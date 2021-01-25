@@ -210,6 +210,11 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   [regex]$pattern = "azure-"
   $pkgName = $pattern.replace($packageName, "", 1)
   $packageDir = Join-Path $artifactDir $pkgName "temp"
+  if (-not (Test-Path $packageDir))
+  {
+    Write-Error "Temp directory is not found in package root. Verify if docmodel is enabled in api-extractor.json."
+    return $null
+  }
   Write-Host "Searching for *.api.json in path $($packageDir)"
   $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
   if (!$files)
