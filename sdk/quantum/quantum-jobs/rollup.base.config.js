@@ -145,14 +145,6 @@ export function browserConfig(test = false) {
 
     baseConfig.external.unshift(...["process"]);
 
-    baseConfig.output.globals = {
-      ...baseConfig.output.globals,
-      fs: "fs-extra",
-      "fs-extra": "fs",
-      process: "process",
-      path: "path"
-    };
-
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.plugins.unshift(
       ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
