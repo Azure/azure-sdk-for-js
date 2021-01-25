@@ -18,7 +18,7 @@
       "metadata": {
         "description": "The client OID to grant access to test resources."
       }
-    }
+    },
   },
   "variables": {
     "uniqueSubDomainName": "[format('{0}-{1}', parameters('baseName'), parameters('endpointPrefix'))]",
@@ -46,10 +46,6 @@
     }
   ],
   "outputs": {
-    "COMMUNICATION_ENDPOINT": {
-      "type": "string",
-      "value": "[concat('https://', parameters('baseName'), '-', parameters('endpointPrefix'), '.communication.azure.com')]"
-    },
     "COMMUNICATION_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Communication/CommunicationServices',variables('uniqueSubDomainName')), '2020-08-20-preview').primaryConnectionString]"

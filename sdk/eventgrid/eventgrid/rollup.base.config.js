@@ -19,7 +19,7 @@ export function nodeConfig(test = false) {
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
-    output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    output: { file: "dist/src/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),

@@ -14,7 +14,7 @@ const endpoint = process.env["EVENT_GRID_ENDPOINT"] || "";
 // Navigate to Settings > Access keys in your Event Grid topic's menu blade to see both access keys (you may use either).
 const accessKey = process.env["EVENT_GRID_ACCESS_KEY"] || "";
 
-export async function main(): Promise<void> {
+async function main(): Promise<void> {
   // Create the client used to publish events to the Event Grid Service
   const client = new EventGridPublisherClient(endpoint, new AzureKeyCredential(accessKey));
 

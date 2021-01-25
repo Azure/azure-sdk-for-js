@@ -1,24 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
-import {
-  getUserAgentPrefix,
-  InternalAppConfigurationClientOptions,
-  packageVersion
-} from "../../src/appConfigurationClient";
+import { getUserAgentPrefix, packageVersion } from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
   startRecorder
-} from "../public/utils/testHelpers";
-
+} from "../testHelpers";
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -34,12 +26,11 @@ describe("http request related tests", function() {
       });
 
       it("throws on invalid sync tokens", () => {
-        for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"]) {
+        for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"])
           assert.throws(
             () => parseSyncToken(invalidToken),
             new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`)
           );
-        }
       });
     });
 
@@ -155,7 +146,7 @@ describe("http request related tests", function() {
       syncTokens = new SyncTokens();
 
       client =
-        createAppConfigurationClientForTests<InternalAppConfigurationClientOptions>({
+        createAppConfigurationClientForTests({
           syncTokens: syncTokens
         }) || this.skip();
 

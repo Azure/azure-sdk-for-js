@@ -20,8 +20,9 @@ import {
   ServiceGetStatisticsResponse
 } from "../models";
 
-/** Class representing a Service. */
-/** @hidden */
+/**
+ * Class representing a Service.
+ */
 export class Service {
   private readonly client: GeneratedClient;
 
@@ -43,12 +44,11 @@ export class Service {
     tableServiceProperties: TableServiceProperties,
     options?: ServiceSetPropertiesOptionalParams
   ): Promise<ServiceSetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      tableServiceProperties,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.client.sendOperationRequest(
-      operationArguments,
+      { tableServiceProperties, options: operationOptions },
       setPropertiesOperationSpec
     ) as Promise<ServiceSetPropertiesResponse>;
   }
@@ -61,11 +61,11 @@ export class Service {
   getProperties(
     options?: ServiceGetPropertiesOptionalParams
   ): Promise<ServiceGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options: operationOptions },
       getPropertiesOperationSpec
     ) as Promise<ServiceGetPropertiesResponse>;
   }
@@ -78,16 +78,17 @@ export class Service {
   getStatistics(
     options?: ServiceGetStatisticsOptionalParams
   ): Promise<ServiceGetStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options: operationOptions },
       getStatisticsOperationSpec
     ) as Promise<ServiceGetStatisticsResponse>;
   }
 }
 // Operation Specifications
+
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
 
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
@@ -109,7 +110,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.requestId,
     Parameters.contentType2,
-    Parameters.accept3
+    Parameters.accept5
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
@@ -134,7 +135,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept2
+    Parameters.accept4
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -157,7 +158,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.accept2
+    Parameters.accept4
   ],
   isXML: true,
   serializer: xmlSerializer

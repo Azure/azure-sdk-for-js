@@ -362,7 +362,6 @@ export class QueueClient extends StorageClient {
     deleteIfExists(options?: QueueDeleteOptions): Promise<QueueDeleteIfExistsResponse>;
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     exists(options?: QueueExistsOptions): Promise<boolean>;
-    generateSasUrl(options: QueueGenerateSasUrlOptions): string;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
     get name(): string;
@@ -440,17 +439,6 @@ export type QueueDeleteResponse = QueueDeleteHeaders & {
 // @public
 export interface QueueExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-}
-
-// @public
-export interface QueueGenerateSasUrlOptions {
-    expiresOn?: Date;
-    identifier?: string;
-    ipRange?: SasIPRange;
-    permissions?: QueueSASPermissions;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public
@@ -593,7 +581,6 @@ export class QueueServiceClient extends StorageClient {
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
-    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -710,14 +697,6 @@ export class SASQueryParameters {
     readonly startsOn?: Date;
     toString(): string;
     readonly version: string;
-}
-
-// @public
-export interface ServiceGenerateAccountSasUrlOptions {
-    ipRange?: SasIPRange;
-    protocol?: SASProtocol;
-    startsOn?: Date;
-    version?: string;
 }
 
 // @public

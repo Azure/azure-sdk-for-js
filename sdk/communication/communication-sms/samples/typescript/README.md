@@ -4,6 +4,8 @@ languages:
   - typescript
 products:
   - azure
+  - azure-communication-service
+  - azure-communication-sms
 urlFragment: communication-sms-typescript
 ---
 

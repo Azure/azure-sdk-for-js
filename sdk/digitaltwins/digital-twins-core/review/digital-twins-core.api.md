@@ -98,7 +98,7 @@ export class DigitalTwinsClient {
     listIncomingRelationships(digitalTwinId: string, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
     listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse>;
     listRelationships(digitalTwinId: string, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
-    publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: string, messageId: string, options?: OperationOptions): Promise<RestResponse>;
+    publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     publishTelemetry(digitalTwinId: string, payload: any, messageId: string, options?: OperationOptions): Promise<RestResponse>;
     queryTwins(query: string, resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
     updateComponent(digitalTwinId: string, componentName: string, jsonPatch: any[], options?: DigitalTwinsUpdateComponentOptionalParams): Promise<DigitalTwinsUpdateComponentResponse>;

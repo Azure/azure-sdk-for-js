@@ -16,17 +16,10 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/acces
 import { AccessTokenRefresher } from "../credentials/accessTokenRefresher";
 
 /**
- * The automated token refresh will only start to happen at the
- * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
- * which is by default 30 seconds.
- */
-const timeBetweenRefreshAttemptsInMs = 30000;
-
-/**
  * Creates a new BearerTokenAuthenticationPolicy factory.
  *
- * @param credential - The TokenCredential implementation that can supply the bearer token.
- * @param scopes - The scopes for which the bearer token applies.
+ * @param credential The TokenCredential implementation that can supply the bearer token.
+ * @param scopes The scopes for which the bearer token applies.
  */
 export function bearerTokenAuthenticationPolicy(
   credential: TokenCredential,
@@ -47,6 +40,13 @@ export function bearerTokenAuthenticationPolicy(
 }
 
 /**
+ * The automated token refresh will only start to happen at the
+ * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
+ * which is by default 30 seconds.
+ */
+const timeBetweenRefreshAttemptsInMs = 30000;
+
+/**
  *
  * Provides a RequestPolicy that can request a token from a TokenCredential
  * implementation and then apply it to the Authorization header of a request
@@ -57,11 +57,11 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
-   * @param nextPolicy - The next RequestPolicy in the request pipeline.
-   * @param options - Options for this RequestPolicy.
-   * @param credential - The TokenCredential implementation that can supply the bearer token.
-   * @param scopes - The scopes for which the bearer token applies.
-   * @param tokenCache - The cache for the most recent AccessToken returned from the TokenCredential.
+   * @param nextPolicy The next RequestPolicy in the request pipeline.
+   * @param options Options for this RequestPolicy.
+   * @param credential The TokenCredential implementation that can supply the bearer token.
+   * @param scopes The scopes for which the bearer token applies.
+   * @param tokenCache The cache for the most recent AccessToken returned from the TokenCredential.
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -74,6 +74,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 
   /**
    * Applies the Bearer token to the request through the Authorization header.
+   * @param webResource
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();

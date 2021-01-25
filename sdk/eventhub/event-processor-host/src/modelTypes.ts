@@ -13,7 +13,7 @@ import { CheckpointManager } from "./checkpointManager";
 import { LeaseManager } from "./leaseManager";
 
 /**
- * @hidden
+ * @ignore
  */
 export enum CloseReason {
   leaseLost = "LeaseLost",

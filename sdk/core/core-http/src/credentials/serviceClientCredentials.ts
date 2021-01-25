@@ -7,8 +7,8 @@ export interface ServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
    *
-   * @param webResource - The WebResourceLike/request to be signed.
-   * @returns The signed request object;
+   * @param {WebResourceLike} webResource The WebResourceLike/request to be signed.
+   * @returns {Promise<WebResourceLike>} The signed request object;
    */
   signRequest(webResource: WebResourceLike): Promise<WebResourceLike>;
 }

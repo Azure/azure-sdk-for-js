@@ -4,7 +4,7 @@
 
 ## Libraries for resource management
 
-To manage your Azure Service Bus resources like namespaces, queues, topics, subscriptions and rules via the Azure Resource Manager, you would use the below package.
+To manage your Azure Service Bus resources via the Azure Resource Manager, you would use the below package.
 
 | NPM Package                                                              | Reference                                                                                                  |
 | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
@@ -13,7 +13,6 @@ To manage your Azure Service Bus resources like namespaces, queues, topics, subs
 ## Libraries for data access
 
 To send and receive messages from an Azure Service Bus queue, topic or subscription, you would use the below package.
-This also allows to manage your Azure Service Bus resources like queues, topics, subscriptions and rules, but not the namespace itself.
 
 | NPM Package                                                        | Reference                                                                                            | Samples                                                                                                                              |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |

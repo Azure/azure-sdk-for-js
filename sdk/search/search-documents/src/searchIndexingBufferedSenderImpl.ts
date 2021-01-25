@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SearchClient } from "./searchClient";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   IndexDocumentsAction,
@@ -9,8 +10,7 @@ import {
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
-  SearchIndexingBufferedSenderFlushDocumentsOptions,
-  IndexDocumentsOptions
+  SearchIndexingBufferedSenderFlushDocumentsOptions
 } from "./indexModels";
 import { IndexDocumentsResult } from "./generated/data/models";
 import { RestError, OperationOptions } from "@azure/core-http";
@@ -20,13 +20,6 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
 import { delay } from "@azure/core-http";
 import { getRandomIntegerInclusive } from "./serviceUtils";
-
-interface IndexDocumentsClient<T> {
-  indexDocuments(
-    batch: IndexDocumentsBatch<T>,
-    options: IndexDocumentsOptions
-  ): Promise<IndexDocumentsResult>;
-}
 
 /**
  * Default Batch Size
@@ -57,7 +50,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Search Client used to call the underlying IndexBatch operations.
    */
-  private client: IndexDocumentsClient<T>;
+  private client: SearchClient<T>;
   /**
    * Indicates if autoFlush is enabled.
    */
@@ -98,11 +91,11 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Creates a new instance of SearchIndexingBufferedSender.
    *
-   * @param client - Search Client used to call the underlying IndexBatch operations.
-   * @param options - Options to modify auto flush.
+   * @param client Search Client used to call the underlying IndexBatch operations.
+   * @param options Options to modify auto flush.
    *
    */
-  constructor(client: IndexDocumentsClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
+  constructor(client: SearchClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
     this.client = client;
     // General Configuration properties
     this.autoFlush = options.autoFlush ?? false;
@@ -126,8 +119,8 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Uploads the documents/Adds the documents to the upload queue.
    *
-   * @param documents - Documents to be uploaded.
-   * @param options - Upload options.
+   * @param documents Documents to be uploaded.
+   * @param options Upload options.
    */
   public async uploadDocuments(
     documents: T[],
@@ -158,8 +151,8 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Merges the documents/Adds the documents to the merge queue.
    *
-   * @param documents - Documents to be merged.
-   * @param options - Upload options.
+   * @param documents Documents to be merged.
+   * @param options Upload options.
    */
   public async mergeDocuments(
     documents: T[],
@@ -190,8 +183,8 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Merges/Uploads the documents/Adds the documents to the merge/upload queue.
    *
-   * @param documents - Documents to be merged/uploaded.
-   * @param options - Upload options.
+   * @param documents Documents to be merged/uploaded.
+   * @param options Upload options.
    */
   public async mergeOrUploadDocuments(
     documents: T[],
@@ -222,8 +215,8 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Deletes the documents/Adds the documents to the delete queue.
    *
-   * @param documents - Documents to be deleted.
-   * @param options - Upload options.
+   * @param documents Documents to be deleted.
+   * @param options Upload options.
    */
   public async deleteDocuments(
     documents: T[],
@@ -254,7 +247,7 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Flushes the queue manually.
    *
-   * @param options - Flush options.
+   * @param options Flush options.
    */
   public async flush(
     options: SearchIndexingBufferedSenderFlushDocumentsOptions = {}
@@ -290,29 +283,29 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Attach Batch Added Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public on(event: "batchAdded", listener: (e: { action: string; documents: T[] }) => void): void;
   /**
    * Attach Batch Sent Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public on(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
   /**
    * Attach Batch Succeeded Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
   /**
    * Attach Batch Failed Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public on(event: "batchFailed", listener: (e: RestError) => void): void;
   public on(
@@ -325,29 +318,29 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
   /**
    * Detach Batch Added Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public off(event: "batchAdded", listener: (e: { action: string; documents: T[] }) => void): void;
   /**
    * Detach Batch Sent Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public off(event: "beforeDocumentSent", listener: (e: IndexDocumentsAction<T>) => void): void;
   /**
    * Detach Batch Succeeded Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
   /**
    * Detach Batch Failed Event
    *
-   * @param event - Event to be emitted
-   * @param listener - Event Listener
+   * @param event Event to be emitted
+   * @param listener Event Listener
    */
   public off(event: "batchFailed", listener: (e: RestError) => void): void;
   public off(
@@ -413,12 +406,12 @@ class SearchIndexingBufferedSenderImpl<T> implements SearchIndexingBufferedSende
 }
 /**
  * Creates an object that satisfies the `SearchIndexingBufferedSender` interface.
- * @param client - Search Client used to call the underlying IndexBatch operations.
- * @param options - Options to modify auto flush.
+ * @param client Search Client used to call the underlying IndexBatch operations.
+ * @param options Options to modify auto flush.
  */
 export function createSearchIndexingBufferedSender<T>(
-  indexDocumentsClient: IndexDocumentsClient<T>,
+  searchClient: SearchClient<T>,
   options: SearchIndexingBufferedSenderOptions = {}
 ): SearchIndexingBufferedSender<T> {
-  return new SearchIndexingBufferedSenderImpl(indexDocumentsClient, options);
+  return new SearchIndexingBufferedSenderImpl(searchClient, options);
 }

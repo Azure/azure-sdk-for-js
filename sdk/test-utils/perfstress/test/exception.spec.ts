@@ -8,7 +8,7 @@ import { PerfStressTest } from "../src";
  * If the option "sync" is passed, errors will be thrown on every test call, where the test being called is simple function.
  * Otherwise, errors thrown on every test call, where the test being called is a function returning a promise (an asynchronous function).
  */
-export class Exception extends PerfStressTest {
+export class Exception extends PerfStressTest<string> {
   public options = {};
 
   run(): void {

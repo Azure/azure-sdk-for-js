@@ -130,7 +130,7 @@ export function exponentialRetryPolicy(
       logger.info(`Retrying request in ${retryData.retryInterval}`);
       try {
         await delay(retryData.retryInterval);
-        const res = await next(request);
+        const res = await next(request.clone());
         return retry(next, retryData, request, res);
       } catch (e) {
         return retry(next, retryData, request, response, e);

@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { AzureDigitalTwinsAPIOptionalParams } from "./models";
 
 const packageName = "@azure/digital-twins-core";
-const packageVersion = "1.0.3";
+const packageVersion = "1.0.0";
 
 export class AzureDigitalTwinsAPIContext extends coreHttp.ServiceClient {
   $host: string;

@@ -9,7 +9,7 @@ import { OnReceivedMessage, OnReceivedError, CloseReason } from "./modelTypes";
 import { PartitionScanner } from "./partitionScanner";
 
 /**
- * @hidden
+ * @ignore
  */
 export class PartitionManager {
   private _context: HostContextWithPumpManager;
@@ -24,7 +24,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   async start(onMessage: OnReceivedMessage, onError: OnReceivedError): Promise<void> {
     validateType("onMessage", onMessage, true, "function");
@@ -48,7 +48,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   async stop(): Promise<void> {
     const withHost = this._context.withHost;
@@ -69,7 +69,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   shouldStop(): boolean {
     if (this._isCancelRequested) {
@@ -84,7 +84,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   private _reset(): void {
     const withHost = this._context.withHost;
@@ -97,7 +97,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   private async _run(): Promise<void> {
     const withHost = this._context.withHost;
@@ -134,7 +134,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   private async _cachePartitionIds(): Promise<void> {
     const hostName = this._context.hostName;
@@ -154,7 +154,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   private async _initializeStores(): Promise<void> {
     const hostName = this._context.hostName;
@@ -224,7 +224,7 @@ export class PartitionManager {
   }
 
   /**
-   * @hidden
+   * @ignore
    */
   private async _scan(isFirst: boolean): Promise<void> {
     const withHost = this._context.withHost;

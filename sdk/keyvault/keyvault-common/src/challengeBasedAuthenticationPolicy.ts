@@ -38,7 +38,7 @@ export class AuthenticationChallenge {
    * Only compares the scope.
    * This is exactly what C# is doing, as we can see here:
    * https://github.com/Azure/azure-sdk-for-net/blob/70e54b878ff1d01a45266fb3674a396b4ab9c1d2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L143-L147
-   * @param other - The other AuthenticationChallenge
+   * @param other The other AuthenticationChallenge
    */
   public equalTo(other: AuthenticationChallenge | undefined): boolean {
     return other
@@ -63,7 +63,7 @@ export class AuthenticationChallengeCache {
 /**
  * Creates a new ChallengeBasedAuthenticationPolicy factory.
  *
- * @param credential - The TokenCredential implementation that can supply the challenge token.
+ * @param credential The TokenCredential implementation that can supply the challenge token.
  */
 export function challengeBasedAuthenticationPolicy(
   credential: TokenCredential
@@ -89,7 +89,7 @@ export function challengeBasedAuthenticationPolicy(
  * `Bearer authorization="some_authorization", resource="https://some.url"`
  * into an object like:
  * `{ authorization: "some_authorization", resource: "https://some.url" }`
- * @param wwwAuthenticate - String value in the WWW-Authenticate header
+ * @param wwwAuthenticate string value in the WWW-Authenticate header
  */
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
   // First we split the string by either `, ` or ` `.
@@ -97,7 +97,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
   // Then we only keep the strings with an equal sign after a word and before a quote.
   // also splitting these sections by their equal sign
   const keyValues = parts.reduce<string[][]>(
-    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
+    (parts, str) => (str.match(/\w="/) ? [...parts, str.split("=")] : parts),
     []
   );
   // Then we transform these key-value pairs back into an object.
@@ -126,10 +126,10 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
   /**
    * Creates a new ChallengeBasedAuthenticationPolicy object.
    *
-   * @param nextPolicy - The next RequestPolicy in the request pipeline.
-   * @param options - Options for this RequestPolicy.
-   * @param credential - The TokenCredential implementation that can supply the bearer token.
-   * @param tokenCache - The cache for the most recent AccessToken returned by the TokenCredential.
+   * @param nextPolicy The next RequestPolicy in the request pipeline.
+   * @param options Options for this RequestPolicy.
+   * @param credential The TokenCredential implementation that can supply the bearer token.
+   * @param tokenCache The cache for the most recent AccessToken returned by the TokenCredential.
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -166,8 +166,8 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
    * Parses the given WWW-Authenticate header, generates a new AuthenticationChallenge,
    * then if the challenge is different from the one cached, resets the token and forces
    * a re-authentication, otherwise continues with the existing challenge and token.
-   * @param wwwAuthenticate - Value of the incoming WWW-Authenticate header.
-   * @param webResource - Ongoing HTTP request.
+   * @param wwwAuthenticate Value of the incoming WWW-Authenticate header.
+   * @param webResource Ongoing HTTP request.
    */
   private async regenerateChallenge(
     wwwAuthenticate: string,
@@ -200,7 +200,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
   /**
    * Applies the Bearer token to the request through the Authorization header.
-   * @param webResource - Ongoing HTTP request.
+   * @param webResource Ongoing HTTP request.
    */
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
     // Ensure that we're about to use a secure connection.

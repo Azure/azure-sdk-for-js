@@ -5,12 +5,13 @@
       "url": "https://endpoint/administration/phonenumbers/countries",
       "query": {
         "locale": "en-US",
+        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"countries\":[{\"localizedName\":\"Canada\",\"countryCode\":\"CA\"},{\"localizedName\":\"United States\",\"countryCode\":\"US\"}],\"nextLink\":null}",
+      "response": "{\"countries\":[{\"localizedName\":\"Australia\",\"countryCode\":\"AU\"},{\"localizedName\":\"Japan\",\"countryCode\":\"JP\"},{\"localizedName\":\"United States\",\"countryCode\":\"US\"}],\"nextLink\":null}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }

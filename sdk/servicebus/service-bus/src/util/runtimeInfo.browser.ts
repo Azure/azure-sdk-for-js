@@ -3,7 +3,7 @@
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 interface NavigatorEx extends Navigator {
   // oscpu is not yet standards-compliant, but can not be undefined in TypeScript 3.6.2
@@ -12,7 +12,7 @@ interface NavigatorEx extends Navigator {
 
 /**
  * Returns information about the platform this function is being run on.
- * @hidden
+ * @ignore
  * @internal
  */
 export function getRuntimeInfo(): string {

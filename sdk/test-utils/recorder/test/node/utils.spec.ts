@@ -1,14 +1,14 @@
 import {
   generateTestRecordingFilePath,
+  nodeRequireRecordingIfExists,
   isBrowser,
+  findRecordingsFolderPath,
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture
 } from "../../src/utils";
-
-import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
-
-import chai, { expect } from "chai";
+import chai from "chai";
+const { expect } = chai;
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
@@ -49,6 +49,7 @@ describe("NodeJS utils", () => {
     it("should throw if the file at a given recording path doesn't exist", function() {
       if (isBrowser()) {
         this.skip();
+        return;
       }
 
       // Require shouldn't be mocked in this test since we should be preventing require from being reached.

@@ -24,6 +24,7 @@ import { logger } from "../log";
  *
  * @export
  * @param {StorageRetryOptions} retryOptions
+ * @returns
  */
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory {
   return {

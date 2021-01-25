@@ -59,7 +59,6 @@ export async function main() {
       );
       console.log("    Tables");
       for (const table of page.tables || []) {
-        console.log(`      Table within bounding box ${table.boundingBox}`);
         for (const cell of table.cells) {
           console.log(
             `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`

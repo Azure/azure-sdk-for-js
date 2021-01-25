@@ -58,7 +58,7 @@ export interface InnerBatchRequest {
   createPipeline(): RequestPolicyFactory[];
   /**
    * Adds an operation to add to the batch body
-   * @param request - The operation to add
+   * @param request the operation to add
    */
   appendSubRequestToBody(request: WebResourceLike): void;
   /**
@@ -81,18 +81,18 @@ export interface TableClientLike {
   readonly tableName: string;
   /**
    *  Creates the current table it it doesn't exist
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey - partitionKey to which the batch operations will be targetted to
+   * @param partitionKey partitionKey to which the batch operations will be targetted to
    */
   createBatch(partitionKey: string): TableBatch;
   /**
    * Insert entity in the table.
-   * @param entity - The properties for the table entity.
-   * @param options - The options parameters.
+   * @param entity The properties for the table entity.
+   * @param options The options parameters.
    */
   createEntity<T extends object>(
     entity: TableEntity<T>,
@@ -100,14 +100,14 @@ export interface TableClientLike {
   ): Promise<CreateTableEntityResponse>;
   /**
    * Permanently deletes the current table with all of its entities.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
   /**
    * Deletes the specified entity in the table.
-   * @param partitionKey - The partition key of the entity.
-   * @param rowKey - The row key of the entity.
-   * @param options - The options parameters.
+   * @param partitionKey The partition key of the entity.
+   * @param rowKey The row key of the entity.
+   * @param options The options parameters.
    */
   deleteEntity(
     partitionKey: string,
@@ -116,9 +116,9 @@ export interface TableClientLike {
   ): Promise<DeleteTableEntityResponse>;
   /**
    * Returns a single entity in the table.
-   * @param partitionKey - The partition key of the entity.
-   * @param rowKey - The row key of the entity.
-   * @param options - The options parameters.
+   * @param partitionKey The partition key of the entity.
+   * @param rowKey The row key of the entity.
+   * @param options The options parameters.
    */
   getEntity<T extends object>(
     partitionKey: string,
@@ -127,19 +127,19 @@ export interface TableClientLike {
   ): Promise<GetTableEntityResponse<T>>;
   /**
    * Queries entities in a table.
-   * @param tableName - The name of the table.
-   * @param options - The options parameters.
+   * @param tableName The name of the table.
+   * @param options The options parameters.
    */
   listEntities<T extends object>(
     options?: ListTableEntitiesOptions
   ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
   /**
    * Update an entity in the table.
-   * @param entity - The properties of the entity to be updated.
-   * @param mode - The different modes for updating the entity:
-   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *               - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options - The options parameters.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
    */
   updateEntity<T extends object>(
     entity: TableEntity<T>,
@@ -148,12 +148,12 @@ export interface TableClientLike {
   ): Promise<UpdateEntityResponse>;
   /**
    * Upsert an entity in the table.
-   * @param tableName - The name of the table.
-   * @param entity - The properties for the table entity.
-   * @param mode - The different modes for updating the entity:
-   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *               - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options - The options parameters.
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
    */
   upsertEntity<T extends object>(
     entity: TableEntity<T>,

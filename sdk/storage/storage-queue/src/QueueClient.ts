@@ -40,17 +40,12 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
   truncatedISO8061Date,
-  getStorageClientContext,
-  appendToURLQuery
+  getStorageClientContext
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
-import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
-import { SasIPRange } from "./SasIPRange";
-import { QueueSASPermissions } from "./QueueSASPermissions";
-import { SASProtocol } from "./SASQueryParameters";
 
 /**
  * Options to configure {@link QueueClient.create} operation
@@ -464,74 +459,6 @@ export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
    * @memberof QueueDeleteIfExistsResponse
    */
   succeeded: boolean;
-}
-
-/**
- * Options to configure {@link QueueClient.generateSasUrl} operation.
- *
- * @export
- * @interface QueueGenerateSasUrlOptions
- */
-export interface QueueGenerateSasUrlOptions {
-  /**
-   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
-   * library.
-   *
-   * @type {string}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  version?: string;
-
-  /**
-   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
-   *
-   * @type {SASProtocol}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  protocol?: SASProtocol;
-
-  /**
-   * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  startsOn?: Date;
-
-  /**
-   * Optional only when identifier is provided. The time after which the SAS will no longer work.
-   *
-   * @type {Date}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  expiresOn?: Date;
-
-  /**
-   * Optional only when identifier is provided.
-   * Please refer to {@link QueueSASPermissions} for help constructing the permissions string.
-   *
-   * @type {QueueSASPermissions}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  permissions?: QueueSASPermissions;
-
-  /**
-   * Optional. IP ranges allowed in this SAS.
-   *
-   * @type {SasIPRange}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  ipRange?: SasIPRange;
-
-  /**
-   * Optional. The name of the access policy on the queue this SAS references if any.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
-   *
-   * @type {string}
-   * @memberof QueueGenerateSasUrlOptions
-   */
-  identifier?: string;
 }
 
 /**
@@ -1405,35 +1332,5 @@ export class QueueClient extends StorageClient {
     } catch (error) {
       throw new Error("Unable to extract queueName with provided information.");
     }
-  }
-
-  /**
-   * Only available for QueueClient constructed with a shared key credential.
-   *
-   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
-   * and parameters passed in. The SAS is signed by the shared key credential of the client.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
-   *
-   * @param {QueueGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof QueueClient
-   */
-  public generateSasUrl(options: QueueGenerateSasUrlOptions): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential"
-      );
-    }
-
-    const sas = generateQueueSASQueryParameters(
-      {
-        queueName: this.name,
-        ...options
-      },
-      this.credential
-    ).toString();
-
-    return appendToURLQuery(this.url, sas);
   }
 }

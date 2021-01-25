@@ -39,7 +39,7 @@ export abstract class StorageClient {
    * Request policy pipeline.
    *
    * @internal
-   * @hidden
+   * @ignore
    * @type {Pipeline}
    * @memberof StorageClient
    */
@@ -89,13 +89,10 @@ export abstract class StorageClient {
     for (const factory of this.pipeline.factories) {
       if (
         (isNode && factory instanceof StorageSharedKeyCredential) ||
-        factory instanceof AnonymousCredential
+        factory instanceof AnonymousCredential ||
+        isTokenCredential(factory)
       ) {
         this.credential = factory;
-      } else if (isTokenCredential((factory as any).credential)) {
-        // Only works if the factory has been attached a "credential" property.
-        // We do that in newPipeline() when using TokenCredential.
-        this.credential = (factory as any).credential;
       }
     }
 

@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 export {
-  AzureCommunicationTokenCredential,
-  CommunicationTokenCredential
-} from "./communicationTokenCredential";
-export { CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential";
+  AzureCommunicationUserCredential,
+  CommunicationUserCredential
+} from "./communicationUserCredential";
+export { RefreshOptions } from "./autoRefreshUserCredential";
 export * from "./credential";
 export * from "./identifierModels";
-export * from "./identifierModelSerializer";

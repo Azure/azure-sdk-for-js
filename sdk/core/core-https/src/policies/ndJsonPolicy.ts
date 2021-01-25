@@ -5,7 +5,7 @@ import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
- * The programmatic identifier of the ndJsonPolicy.
+ * The programmatic identifier of the keepAlivePolicy.
  */
 export const ndJsonPolicyName = "ndJsonPolicy";
 

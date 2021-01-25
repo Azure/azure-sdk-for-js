@@ -29,7 +29,7 @@ export class IntegrationRuntimeNodeIpAddressOperations {
    * Get the IP address of an integration runtime node
    * @summary Get integration runtime node IP address
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param [options] The optional parameters
@@ -38,7 +38,7 @@ export class IntegrationRuntimeNodeIpAddressOperations {
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodeIpAddressGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param callback The callback
@@ -46,7 +46,7 @@ export class IntegrationRuntimeNodeIpAddressOperations {
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeNodeIpAddress>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param options The optional parameters

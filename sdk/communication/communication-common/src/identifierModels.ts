@@ -2,26 +2,14 @@
 // Licensed under the MIT license.
 
 /**
- * Identifies a communication participant.
+ * Identifies a communication user.
  */
-export type CommunicationIdentifier =
-  | CommunicationUserIdentifier
-  | PhoneNumberIdentifier
-  | CallingApplicationIdentifier
-  | MicrosoftTeamsUserIdentifier
-  | UnknownIdentifier;
-
-export interface WithOptionalFullId {
-  /**
-   * Optional full id of the identifier.
-   */
-  id?: string;
-}
+export type Identifier = CommunicationUser | PhoneNumber | CallingApplication | UnknownIdentifier;
 
 /**
  * An Azure Communication user.
  */
-export interface CommunicationUserIdentifier extends WithOptionalFullId {
+export interface CommunicationUser {
   /**
    * Id of the CommunicationUser as returned from the Communication Service.
    */
@@ -31,7 +19,7 @@ export interface CommunicationUserIdentifier extends WithOptionalFullId {
 /**
  * A phone number.
  */
-export interface PhoneNumberIdentifier extends WithOptionalFullId {
+export interface PhoneNumber {
   /**
    * The phone number in E.164 format.
    */
@@ -41,31 +29,11 @@ export interface PhoneNumberIdentifier extends WithOptionalFullId {
 /**
  * A calling application, i.e. a non-human participant in communication.
  */
-export interface CallingApplicationIdentifier extends WithOptionalFullId {
+export interface CallingApplication {
   /**
    * Id of the CallingApplication.
    */
   callingApplicationId: string;
-}
-
-/**
- * A Microsoft Teams user.
- */
-export interface MicrosoftTeamsUserIdentifier extends WithOptionalFullId {
-  /**
-   * Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
-   */
-  microsoftTeamsUserId: string;
-
-  /**
-   * True if the user is anonymous, for example when joining a meeting with a share link. If missing, the user is not anonymous.
-   */
-  isAnonymous?: boolean;
-
-  /**
-   * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".
-   */
-  cloud?: "public" | "dod" | "gcch";
 }
 
 /**
@@ -79,46 +47,29 @@ export interface UnknownIdentifier {
 }
 
 /**
- * Tests an Identifier to determine whether it implements CommunicationUserIdentifier.
+ * Tests an Identifier to determine whether it implements CommunicationUser.
  *
- * @param identifier The assumed CommunicationUserIdentifier to be tested.
+ * @param identifier The assumed CommunicationUser to be tested.
  */
-export const isCommunicationUserIdentifier = (
-  identifier: CommunicationIdentifier
-): identifier is CommunicationUserIdentifier => {
+export const isCommunicationUser = (identifier: Identifier): identifier is CommunicationUser => {
   return typeof (identifier as any).communicationUserId === "string";
 };
 
 /**
- * Tests an Identifier to determine whether it implements PhoneNumberIdentifier.
+ * Tests an Identifier to determine whether it implements PhoneNumber.
  *
- * @param identifier The assumed PhoneNumberIdentifier to be tested.
+ * @param identifier The assumed PhoneNumber to be tested.
  */
-export const isPhoneNumberIdentifier = (
-  identifier: CommunicationIdentifier
-): identifier is PhoneNumberIdentifier => {
+export const isPhoneNumber = (identifier: Identifier): identifier is PhoneNumber => {
   return typeof (identifier as any).phoneNumber === "string";
 };
 
 /**
- * Tests an Identifier to determine whether it implements MicrosoftTeamsUserIdentifier.
+ * Tests an Identifier to determine whether it implements CallingApplication.
  *
- * @param identifier The assumed available to be tested.
+ * @param identifier The assumed CallingApplication to be tested.
  */
-export const isMicrosoftTeamsUserIdentifier = (
-  identifier: CommunicationIdentifier
-): identifier is MicrosoftTeamsUserIdentifier => {
-  return typeof (identifier as any).microsoftTeamsUserId === "string";
-};
-
-/**
- * Tests an Identifier to determine whether it implements MicrosoftTeamsUserIdentifier.
- *
- * @param identifier The assumed CallingApplicationIdentifier to be tested.
- */
-export const isCallingApplicationIdentifier = (
-  identifier: CommunicationIdentifier
-): identifier is CallingApplicationIdentifier => {
+export const isCallingApplication = (identifier: Identifier): identifier is CallingApplication => {
   return typeof (identifier as any).callingApplicationId === "string";
 };
 
@@ -127,60 +78,47 @@ export const isCallingApplicationIdentifier = (
  *
  * @param identifier The assumed UnknownIdentifier to be tested.
  */
-export const isUnknownIdentifier = (
-  identifier: CommunicationIdentifier
-): identifier is UnknownIdentifier => {
+export const isUnknownIdentifier = (identifier: Identifier): identifier is UnknownIdentifier => {
   return typeof (identifier as any).id === "string";
 };
 
 /**
- * The CommunicationIdentifierKind is a discriminated union that adds a property `kind` to an Identifier.
+ * The IdentifierKind is a discriminated union that adds a property `kind` to an Identifier.
  */
-export type CommunicationIdentifierKind =
+export type IdentifierKind =
   | CommunicationUserKind
   | PhoneNumberKind
   | CallingApplicationKind
-  | MicrosoftTeamsUserKind
   | UnknownIdentifierKind;
 
 /**
- * IdentifierKind for a CommunicationUserIdentifier.
+ * IdentifierKind for a CommunicationUser identifier.
  */
-export interface CommunicationUserKind extends CommunicationUserIdentifier {
+export interface CommunicationUserKind extends CommunicationUser {
   /**
    * The identifier kind.
    */
-  kind: "communicationUser";
+  kind: "CommunicationUser";
 }
 
 /**
- * IdentifierKind for a PhoneNumberIdentifier.
+ * IdentifierKind for a PhoneNumber identifier.
  */
-export interface PhoneNumberKind extends PhoneNumberIdentifier {
+export interface PhoneNumberKind extends PhoneNumber {
   /**
    * The identifier kind.
    */
-  kind: "phoneNumber";
+  kind: "PhoneNumber";
 }
 
 /**
- * IdentifierKind for a CallingApplicationIdentifier.
+ * IdentifierKind for a CallingApplication identifier.
  */
-export interface CallingApplicationKind extends CallingApplicationIdentifier {
+export interface CallingApplicationKind extends CallingApplication {
   /**
    * The identifier kind.
    */
-  kind: "callingApplication";
-}
-
-/**
- * IdentifierKind for a MicrosoftTeamsUserIdentifier.
- */
-export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
-  /**
-   * The identifier kind.
-   */
-  kind: "microsoftTeamsUser";
+  kind: "CallingApplication";
 }
 
 /**
@@ -190,28 +128,23 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "unknown";
+  kind: "Unknown";
 }
 
 /**
- * Returns the CommunicationIdentifierKind for a given CommunicationIdentifier. Returns undefined if the kind couldn't be inferred.
+ * Returns the IdentifierKind for a given Identifier. Returns undefined if the kind couldn't be inferred.
  *
  * @param identifier The identifier whose kind is to be inferred.
  */
-export const getIdentifierKind = (
-  identifier: CommunicationIdentifier
-): CommunicationIdentifierKind => {
-  if (isCommunicationUserIdentifier(identifier)) {
-    return { ...identifier, kind: "communicationUser" };
+export const getIdentifierKind = (identifier: Identifier): IdentifierKind => {
+  if (isCommunicationUser(identifier)) {
+    return { ...identifier, kind: "CommunicationUser" };
   }
-  if (isPhoneNumberIdentifier(identifier)) {
-    return { ...identifier, kind: "phoneNumber" };
+  if (isPhoneNumber(identifier)) {
+    return { ...identifier, kind: "PhoneNumber" };
   }
-  if (isCallingApplicationIdentifier(identifier)) {
-    return { ...identifier, kind: "callingApplication" };
+  if (isCallingApplication(identifier)) {
+    return { ...identifier, kind: "CallingApplication" };
   }
-  if (isMicrosoftTeamsUserIdentifier(identifier)) {
-    return { ...identifier, kind: "microsoftTeamsUser" };
-  }
-  return { ...identifier, kind: "unknown" };
+  return { ...identifier, kind: "Unknown" };
 };

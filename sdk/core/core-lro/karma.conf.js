@@ -16,7 +16,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-sourcemap-loader",
+      "karma-remap-istanbul",
       "karma-junit-reporter"
     ],
 
@@ -31,21 +31,26 @@ module.exports = function(config) {
     exclude: [],
 
     preprocessors: {
-      "**/*.js": ["sourcemap", "env"],
+      "**/*.js": ["env"],
       "dist-test/index.browser.js": ["coverage"]
     },
 
-    reporters: ["mocha", "coverage", "junit"],
+    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [
-        { type: "json", subdir: ".", file: "coverage.json" },
-        { type: "lcovonly", subdir: ".", file: "lcov.info" },
-        { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-      ]
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
+    },
+
+    remapIstanbulReporter: {
+      src: "coverage-browser/coverage.json",
+      reports: {
+        lcovonly: "coverage-browser/lcov.info",
+        html: "coverage-browser/html/report",
+        "text-summary": null,
+        cobertura: "./coverage-browser/cobertura-coverage.xml"
+      }
     },
 
     junitReporter: {

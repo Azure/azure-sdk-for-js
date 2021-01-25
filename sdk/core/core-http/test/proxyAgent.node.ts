@@ -3,7 +3,7 @@
 
 import "chai/register-should";
 import { should } from "chai";
-import Tunnel from "tunnel";
+import tunnel from "tunnel";
 import https from "https";
 
 import { HttpHeaders } from "../src/coreHttp";
@@ -14,9 +14,9 @@ describe("proxyAgent", () => {
     type HttpsAgent = https.Agent & {
       defaultPort: number | undefined;
       options: {
-        proxy: Tunnel.ProxyOptions;
+        proxy: tunnel.ProxyOptions;
       };
-      proxyOptions: Tunnel.ProxyOptions;
+      proxyOptions: tunnel.ProxyOptions;
     };
 
     [
@@ -115,13 +115,13 @@ describe("proxyAgent", () => {
     type HttpsAgent = https.Agent & {
       defaultPort: number | undefined;
       options: {
-        proxy: Tunnel.ProxyOptions;
+        proxy: tunnel.ProxyOptions;
       };
     };
 
     [true, false].forEach((value) => {
       it(`returns HTTP agent for HTTP request and HTTP${value ? "S" : ""} proxy`, function() {
-        const tunnelConfig: Tunnel.HttpsOverHttpsOptions = {
+        const tunnelConfig: tunnel.HttpsOverHttpsOptions = {
           proxy: {
             host: defaultProxySettings.host,
             port: defaultProxySettings.port,
@@ -138,7 +138,7 @@ describe("proxyAgent", () => {
 
     [true, false].forEach((value) => {
       it(`returns HTTPS agent for HTTPS request and HTTP${value ? "S" : ""} proxy`, function() {
-        const tunnelConfig: Tunnel.HttpsOverHttpsOptions = {
+        const tunnelConfig: tunnel.HttpsOverHttpsOptions = {
           proxy: {
             host: defaultProxySettings.host,
             port: defaultProxySettings.port,

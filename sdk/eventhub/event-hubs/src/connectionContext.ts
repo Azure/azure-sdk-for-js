@@ -25,7 +25,7 @@ import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
@@ -77,7 +77,7 @@ export interface ConnectionContext extends ConnectionContextBase {
 /**
  * Describes the members on the ConnectionContext that are only
  * used by it internally.
- * @hidden
+ * @ignore
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
@@ -101,7 +101,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
@@ -111,7 +111,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
 /**
  * Helper type to get the names of all the functions on an object.
  */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/ban-types
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * Helper type to get the types of all the functions on an object.
  */
@@ -130,7 +130,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export namespace ConnectionContext {
   /**
@@ -387,7 +387,7 @@ export namespace ConnectionContext {
       }
     };
 
-    function addConnectionListeners(connection: Connection): void {
+    function addConnectionListeners(connection: Connection) {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, onDisconnected);
@@ -395,32 +395,35 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    function cleanConnectionContext(context: ConnectionContext): Promise<void> {
+    function cleanConnectionContext(connectionContext: ConnectionContext) {
       // Remove listeners from the connection object.
-      context.connection.removeListener(ConnectionEvents.connectionOpen, onConnectionOpen);
-      context.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
-      context.connection.removeListener(ConnectionEvents.protocolError, protocolError);
-      context.connection.removeListener(ConnectionEvents.error, error);
+      connectionContext.connection.removeListener(
+        ConnectionEvents.connectionOpen,
+        onConnectionOpen
+      );
+      connectionContext.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
+      connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
+      connectionContext.connection.removeListener(ConnectionEvents.error, error);
       // Close the connection
-      return context.connection.close();
+      return connectionContext.connection.close();
     }
 
-    async function refreshConnection(context: ConnectionContext): Promise<void> {
-      const originalConnectionId = context.connectionId;
+    async function refreshConnection(connectionContext: ConnectionContext) {
+      const originalConnectionId = connectionContext.connectionId;
       try {
-        await cleanConnectionContext(context);
+        await cleanConnectionContext(connectionContext);
       } catch (err) {
         logger.verbose(
-          `[${context.connectionId}] There was an error closing the connection before reconnecting: %O`,
+          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
           err
         );
       }
 
       // Create a new connection, id, locks, and cbs client.
-      context.refreshConnection();
-      addConnectionListeners(context.connection);
+      connectionContext.refreshConnection();
+      addConnectionListeners(connectionContext.connection);
       logger.verbose(
-        `The connection "${originalConnectionId}" has been updated to "${context.connectionId}".`
+        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
       );
     }
 
@@ -435,7 +438,7 @@ export namespace ConnectionContext {
  * Helper method to create a ConnectionContext from the input passed to either
  * EventHubProducerClient or EventHubConsumerClient constructors
  *
- * @hidden
+ * @ignore
  * @internal
  */
 export function createConnectionContext(
@@ -496,10 +499,6 @@ export function createConnectionContext(
     if (!host.endsWith("/")) host += "/";
     connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
     config = EventHubConnectionConfig.create(connectionString);
-  }
-
-  if (options?.customEndpointAddress) {
-    EventHubConnectionConfig.setCustomEndpointAddress(config, options.customEndpointAddress);
   }
 
   ConnectionConfig.validate(config);

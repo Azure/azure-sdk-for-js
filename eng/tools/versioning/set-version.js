@@ -11,12 +11,6 @@ let argv = require("yargs")
       describe: "package version string",
       demandOption: true
     },
-    "release-date": {
-      type: "string",
-      default: new Date().toISOString().slice(0, 10),
-      describe: "the date of intended release",
-      demandOption: false
-    },
     "repo-root": {
       type: "string",
       default: "../../../",
@@ -36,23 +30,24 @@ const packageUtils = require("eng-package-utils");
 async function main(argv) {
   const artifactName = argv["artifact-name"];
   const newVersion = argv["new-version"];
-  const releaseDate = argv["release-date"];
   const repoRoot = argv["repo-root"];
   const dryRun = argv["dry-run"];
 
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
 
   const targetPackage = rushSpec.projects.find(
-    (packageSpec) => packageSpec.packageName.replace("@", "").replace("/", "-") == artifactName
+    packageSpec => packageSpec.packageName.replace("@", "").replace("/", "-") == packageName
   );
 
   const targetPackagePath = path.join(repoRoot, targetPackage.projectFolder);
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
+  const packageJsonContents = await packageUtils.readFileJson(
+    packageJsonLocation
+  );
 
   const oldVersion = packageJsonContents.version;
-  console.log(`${packageJsonContents.name}: ${oldVersion} -> ${newVersion}`);
+  console.log(`${packageName}: ${oldVersion} -> ${newVersion}`);
 
   if (dryRun) {
     console.log("Dry run only, no changes");
@@ -65,17 +60,13 @@ async function main(argv) {
   };
   await packageUtils.writePackageJson(packageJsonLocation, updatedPackageJson);
 
-  await versionUtils.updatePackageConstants(targetPackagePath, packageJsonContents, newVersion);
-
-  const updateStatus = versionUtils.updateChangelog(
+  await versionUtils.updatePackageConstants(
     targetPackagePath,
-    artifactName,
-    repoRoot,
-    newVersion,
-    false,
-    true,
-    releaseDate
+    packageJsonContents,
+    newVersion
   );
+
+  const updateStatus = versionUtils.updateChangelog(targetPackagePath, repoRoot, newVersion, false, true);
   if (!updateStatus) {
     process.exit(1);
   }

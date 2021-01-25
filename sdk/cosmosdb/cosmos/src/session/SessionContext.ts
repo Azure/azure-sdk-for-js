@@ -3,7 +3,7 @@
 import { OperationType, ResourceType } from "../common";
 
 /**
- * @hidden
+ * @ignore
  */
 export interface SessionContext {
   resourceId?: string;

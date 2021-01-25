@@ -30,7 +30,7 @@ const QueryJsonContentType = "application/query+json";
 
 /**
  * @hidden
- * @hidden
+ * @ignore
  */
 export class ClientContext {
   private readonly sessionContainer: SessionContainer;
@@ -45,7 +45,7 @@ export class ClientContext {
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
   }
-  /** @hidden */
+  /** @ignore */
   public async read<T>({
     path,
     resourceType,

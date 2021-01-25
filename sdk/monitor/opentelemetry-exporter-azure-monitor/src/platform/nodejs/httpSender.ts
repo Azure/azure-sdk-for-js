@@ -35,7 +35,7 @@ export class HttpSender implements Sender {
     }
   }
 
-  async shutdown(): Promise<void> {
+  shutdown(): void {
     this._logger.info("HttpSender shutting down");
   }
 }

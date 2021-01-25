@@ -38,11 +38,10 @@ export interface BaseMapper {
 // @public
 export interface ClientPipelineOptions extends InternalPipelineOptions {
     credentialOptions?: {
-        credentialScopes: string | string[];
-        credential: TokenCredential;
+        baseUri?: string;
+        credential?: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
-    serializationOptions?: serializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -202,7 +201,6 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
-    onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
     serializerOptions?: SerializerOptions;
     tracingOptions?: OperationTracingOptions;
@@ -221,11 +219,10 @@ export interface OperationQueryParameter extends OperationParameter {
 }
 
 // @public
-export type OperationRequest = PipelineRequest;
+export type OperationRequest = PipelineRequest<OperationRequestInfo>;
 
 // @public
 export interface OperationRequestInfo {
-    operationArguments?: OperationArguments;
     operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
@@ -240,6 +237,13 @@ export interface OperationRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
     timeout?: number;
+}
+
+// @public
+export interface OperationResponse {
+    // (undocumented)
+    [key: string]: any;
+    _response: FullOperationResponse;
 }
 
 // @public
@@ -291,9 +295,6 @@ export interface PolymorphicDiscriminator {
 // @public
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
-// @public
-export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
-
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {
     // (undocumented)
@@ -306,18 +307,6 @@ export interface SequenceMapperType {
     element: Mapper;
     // (undocumented)
     name: "Sequence";
-}
-
-// @public
-export function serializationPolicy(options?: serializationPolicyOptions): PipelinePolicy;
-
-// @public
-export const serializationPolicyName = "serializationPolicy";
-
-// @public
-export interface serializationPolicyOptions {
-    serializerOptions?: SerializerOptions;
-    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }
 
 // @public
@@ -344,15 +333,14 @@ export interface SerializerOptions {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
+    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-}
+    }
 
 // @public
 export interface ServiceClientOptions {
     baseUri?: string;
     credential?: TokenCredential;
-    credentialScopes?: string | string[];
     httpsClient?: HttpsClient;
     parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
     pipeline?: Pipeline;

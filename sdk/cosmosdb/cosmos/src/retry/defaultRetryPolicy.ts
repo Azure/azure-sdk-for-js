@@ -6,84 +6,84 @@ import { TimeoutErrorCode } from "../request/TimeoutError";
 import { RetryPolicy } from "./RetryPolicy";
 
 /**
- * @hidden
+ * @ignore
  */
 // Windows Socket Error Codes
 const WindowsInterruptedFunctionCall = 10004;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsFileHandleNotValid = 10009;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsPermissionDenied = 10013;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsBadAddress = 10014;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsInvalidArgumnet = 10022;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsResourceTemporarilyUnavailable = 10035;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsOperationNowInProgress = 10036;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsAddressAlreadyInUse = 10048;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsConnectionResetByPeer = 10054;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsCannotSendAfterSocketShutdown = 10058;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsConnectionTimedOut = 10060;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsConnectionRefused = 10061;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsNameTooLong = 10063;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsHostIsDown = 10064;
 /**
- * @hidden
+ * @ignore
  */
 const WindowsNoRouteTohost = 10065;
 /**
- * @hidden
+ * @ignore
  */
 
 // Linux Error Codes
 /**
- * @hidden
+ * @ignore
  */
 const LinuxConnectionReset = "ECONNRESET";
 
 // Node Error Codes
 /**
- * @hidden
+ * @ignore
  */
 const BrokenPipe = "EPIPE";
 
 /**
- * @hidden
+ * @ignore
  */
 const CONNECTION_ERROR_CODES = [
   WindowsInterruptedFunctionCall,
@@ -107,7 +107,7 @@ const CONNECTION_ERROR_CODES = [
 ];
 
 /**
- * @hidden
+ * @ignore
  */
 function needsRetry(operationType: OperationType, code: number | string) {
   if (
@@ -124,7 +124,7 @@ function needsRetry(operationType: OperationType, code: number | string) {
  * This class implements the default connection retry policy for requests.
  * @property {int} currentRetryAttemptCount           - Current retry attempt count.
  * @hidden
- * @hidden
+ * @ignore
  */
 export class DefaultRetryPolicy implements RetryPolicy {
   private maxTries: number = 10;

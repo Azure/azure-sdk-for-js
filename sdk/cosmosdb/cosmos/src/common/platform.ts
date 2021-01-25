@@ -4,7 +4,7 @@ import { getUserAgent as userAgent } from "universal-user-agent";
 import { Constants } from "./constants";
 
 /**
- * @hidden
+ * @ignore
  */
 export function getUserAgent(suffix?: string) {
   const ua = `${userAgent()} ${Constants.SDKName}/${Constants.SDKVersion}`;

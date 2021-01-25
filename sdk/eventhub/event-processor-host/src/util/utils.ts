@@ -60,7 +60,7 @@ export function validateType(
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export interface StorageErrorInfo {
   name: string;
@@ -71,7 +71,7 @@ export interface StorageErrorInfo {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function getStorageError(err: StorageError): StorageErrorInfo {
   return {
@@ -84,7 +84,7 @@ export function getStorageError(err: StorageError): StorageErrorInfo {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export interface RetryConfig<T> {
   hostName: string;
@@ -97,7 +97,7 @@ export interface RetryConfig<T> {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export enum EPHActionStrings {
   acquireLease = "Acquire Lease",
@@ -123,7 +123,7 @@ export enum EPHActionStrings {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   let createdOK: boolean = false;

@@ -2,21 +2,21 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models",
    "query": {
     "op": "summary"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"summary\":{\"count\":13,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-11-20T14:33:15Z\"}}",
+   "response": "{\"summary\":{\"count\":77,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-11-02T18:27:38Z\"}}",
    "responseHeaders": {
-    "apim-request-id": "244dfd45-ddfe-43c6-a266-cf50e9f3d83e",
-    "content-length": "82",
+    "apim-request-id": "59aace7f-944c-4dbf-b54f-7ca59a296278",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 20 Nov 2020 14:33:14 GMT",
+    "date": "Mon, 02 Nov 2020 18:27:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "11"
+    "x-envoy-upstream-service-time": "20"
    }
   }
  ],

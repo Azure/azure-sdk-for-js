@@ -1,10 +1,10 @@
 import { RecorderEnvironmentSetup, windowLens } from "../../src/utils";
 import { record, TestContextInterface, TestContext, TestContextTest } from "../../src";
-import { consoleLog, setConsoleLogForTesting } from "../../src/customConsoleLog";
-
-import { expect } from "chai";
-import MD5 from "md5";
 import xhrMock from "xhr-mock";
+import MD5 from "md5";
+import chai from "chai";
+import { consoleLog, setConsoleLogForTesting } from "../../src/customConsoleLog";
+const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
 

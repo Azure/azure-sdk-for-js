@@ -10,7 +10,6 @@ import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { RestError } from "./restError";
 import { Readable, Transform } from "stream";
-import { logger } from "./log";
 
 interface FetchError extends Error {
   code?: string;
@@ -34,7 +33,7 @@ export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
 
 export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
-  _transform(chunk: string | Buffer, _encoding: string, callback: (arg: any) => void): void {
+  _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
     this.progressCallback!({ loadedBytes: this.loadedBytes });
@@ -83,11 +82,8 @@ export abstract class FetchHttpClient implements HttpClient {
         if (typeof value === "function") {
           value = value();
         }
-        if (
-          value &&
-          Object.prototype.hasOwnProperty.call(value, "value") &&
-          Object.prototype.hasOwnProperty.call(value, "options")
-        ) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
           requestForm.append(key, value.value, value.options);
         } else {
           requestForm.append(key, value);
@@ -150,12 +146,11 @@ export abstract class FetchHttpClient implements HttpClient {
       ...platformSpecificRequestInit
     };
 
-    let operationResponse: HttpOperationResponse | undefined;
     try {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
-      operationResponse = {
+      const operationResponse: HttpOperationResponse = {
         headers: headers,
         request: httpRequest,
         status: response.status,
@@ -202,42 +197,18 @@ export abstract class FetchHttpClient implements HttpClient {
     } finally {
       // clean up event listener
       if (httpRequest.abortSignal && abortListener) {
-        let uploadStreamDone = Promise.resolve();
-        if (isReadableStream(body)) {
-          uploadStreamDone = isStreamComplete(body);
-        }
-        let downloadStreamDone = Promise.resolve();
-        if (isReadableStream(operationResponse?.readableStreamBody)) {
-          downloadStreamDone = isStreamComplete(operationResponse!.readableStreamBody);
-        }
-
-        Promise.all([uploadStreamDone, downloadStreamDone])
-          .then(() => {
-            httpRequest.abortSignal?.removeEventListener("abort", abortListener!);
-            return;
-          })
-          .catch((e) => {
-            logger.warning("Error when cleaning up abortListener on httpRequest", e);
-          });
+        httpRequest.abortSignal.removeEventListener("abort", abortListener);
       }
     }
   }
 
-  abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-  abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-  abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
+  abstract async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
+  abstract async processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+  abstract async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
 }
 
 function isReadableStream(body: any): body is Readable {
   return body && typeof body.pipe === "function";
-}
-
-function isStreamComplete(stream: Readable): Promise<void> {
-  return new Promise((resolve) => {
-    stream.on("close", resolve);
-    stream.on("end", resolve);
-    stream.on("error", resolve);
-  });
 }
 
 export function parseHeaders(headers: Headers): HttpHeadersLike {

@@ -197,9 +197,9 @@ export function deserializeResponseBody(
               "operationRes.parsedBody",
               options
             );
-          } catch (innerError) {
+          } catch (error) {
             const restError = new RestError(
-              `Error ${innerError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
+              `Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
               undefined,
               parsedResponse.status,
               parsedResponse.request,

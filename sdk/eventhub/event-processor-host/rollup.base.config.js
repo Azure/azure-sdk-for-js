@@ -6,6 +6,7 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
+import { uglify } from "rollup-plugin-uglify";
 import sourcemaps from "rollup-plugin-sourcemaps";
 
 import path from "path";
@@ -13,6 +14,7 @@ import path from "path";
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
 const input = "dist-esm/src/index.js";
+const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "util"];
@@ -64,6 +66,8 @@ export function nodeConfig(test = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
+  } else if (production) {
+    baseConfig.plugins.push(uglify());
   }
 
   return baseConfig;
@@ -113,6 +117,8 @@ export function browserConfig(test = false) {
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
+  } else if (production) {
+    baseConfig.plugins.push(uglify());
   }
 
   return baseConfig;

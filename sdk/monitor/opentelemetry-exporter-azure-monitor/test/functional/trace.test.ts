@@ -39,7 +39,7 @@ describe("Trace Exporter Scenarios", () => {
         .run()
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
-          return scenario.flush().then(() => {
+          return scenario.flush(() => {
             assertExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
             done();

@@ -119,8 +119,8 @@ function enabled(namespace: string): boolean {
       return false;
     }
   }
-  for (const enabledNamespace of enabledNamespaces) {
-    if (enabledNamespace.test(namespace)) {
+  for (const enabled of enabledNamespaces) {
+    if (enabled.test(namespace)) {
       return true;
     }
   }

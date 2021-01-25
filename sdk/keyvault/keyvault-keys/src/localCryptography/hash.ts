@@ -5,7 +5,7 @@ import { createHash as cryptoCreateHash } from "crypto";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * Use the platform-local hashing functionality
  */
 export async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {

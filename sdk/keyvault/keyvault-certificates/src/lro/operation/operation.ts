@@ -2,36 +2,23 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { PollOperationState, PollOperation } from "@azure/core-lro";
+import { RequestOptionsBase } from "@azure/core-http";
 import {
-  CancelCertificateOperationOptions,
   CertificateOperation,
-  GetCertificateOptions,
-  GetPlainCertificateOperationOptions,
+  CertificateClientInterface,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import {
-  cleanState,
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
-} from "../keyVaultCertificatePoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  getCertificateOperationFromCoreOperation,
-  getCertificateWithPolicyFromCertificateBundle
-} from "../../transformations";
-import { setParentSpan, createSpan } from "../../../../keyvault-common";
-import {
-  KeyVaultClientGetCertificateOperationResponse,
-  KeyVaultClientGetCertificateResponse,
-  KeyVaultClientUpdateCertificateOperationResponse
-} from "../../generated/models";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
  */
 export interface CertificateOperationState
-  extends KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy> {
+  extends PollOperationState<KeyVaultCertificateWithPolicy> {
+  /**
+   * The name of the certificate.
+   */
+  certificateName: string;
   /**
    * The operation of the certificate
    */
@@ -39,179 +26,137 @@ export interface CertificateOperationState
 }
 
 /**
- * An interface representing the active operation of a certificate's creation,
- * which is represented locally as the "operation" of an active LRO Poller.
+ * An interface representing the state of a create certificate's poll operation
+ * @internal
  */
-export class CertificateOperationPollOperation extends KeyVaultCertificatePollOperation<
-  CertificateOperationState,
+export interface CertificateOperationPollOperationState
+  extends PollOperationState<KeyVaultCertificateWithPolicy> {
+  /**
+   * The name of the certificate.
+   */
+  certificateName: string;
+  /**
+   * The operation of the certificate
+   */
+  certificateOperation?: CertificateOperation;
+  /**
+   * Options for the core-http requests.
+   */
+  requestOptions?: RequestOptionsBase;
+  /**
+   * An interface representing a CertificateClient. For internal use.
+   */
+  client?: CertificateClientInterface;
+}
+
+/**
+ * An interface representing a create certificate's poll operation
+ * @internal
+ */
+export type CertificateOperationPollOperation = PollOperation<
+  CertificateOperationPollOperationState,
   KeyVaultCertificateWithPolicy
-> {
-  constructor(
-    public state: CertificateOperationState,
-    private vaultUrl: string,
-    private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
-  ) {
-    super(state);
+>;
+
+/**
+ * @summary Reaches to the service and updates the create certificate's poll operation.
+ * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @internal
+ */
+async function update(
+  this: CertificateOperationPollOperation,
+  options: {
+    abortSignal?: AbortSignalLike;
+    fireProgress?: (state: CertificateOperationPollOperationState) => void;
+  } = {}
+): Promise<CertificateOperationPollOperation> {
+  const state = this.state;
+  const client = state.client!;
+  const certificateName = state.certificateName!;
+
+  const requestOptions = state.requestOptions || {};
+  if (options.abortSignal) {
+    requestOptions.abortSignal = options.abortSignal;
   }
 
-  /**
-   * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
-   */
-  private async cancelCertificateOperation(
-    certificateName: string,
-    options: CancelCertificateOperationOptions = {}
-  ): Promise<CertificateOperation> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.cancelCertificateOperation", requestOptions);
-
-    let result: KeyVaultClientUpdateCertificateOperationResponse;
-    try {
-      result = await this.client.updateCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        true,
-        setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return getCertificateOperationFromCoreOperation(
+  if (!state.isStarted) {
+    state.isStarted = true;
+    state.result = await client.getCertificate(certificateName, requestOptions);
+    state.certificateOperation = await client.getPlainCertificateOperation(
       certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
+      requestOptions
+    );
+  } else if (!state.isCompleted) {
+    state.certificateOperation = await client.getPlainCertificateOperation(
+      certificateName,
+      requestOptions
     );
   }
 
-  /**
-   * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
-   */
-  private async getCertificate(
-    certificateName: string,
-    options: GetCertificateOptions = {}
-  ): Promise<KeyVaultCertificateWithPolicy> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getCertificate", requestOptions);
-
-    let result: KeyVaultClientGetCertificateResponse;
-
-    try {
-      result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
+  if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
+    state.isCompleted = true;
+    state.result = await client.getCertificate(certificateName, requestOptions);
+    if (state.certificateOperation.error) {
+      state.error = new Error(state.certificateOperation.error.message);
     }
-
-    return getCertificateWithPolicyFromCertificateBundle(result);
   }
 
-  /**
-   * Gets the certificate operation.
-   */
-  private async getPlainCertificateOperation(
-    certificateName: string,
-    options?: GetPlainCertificateOperationOptions
-  ): Promise<CertificateOperation> {
-    const span = createSpan("generatedClient.getPlainCertificateOperation", options);
+  return makeCertificateOperationPollOperation(state);
+}
 
-    let result: KeyVaultClientGetCertificateOperationResponse;
+/**
+ * @summary Reaches to the service and cancels the certificate's operation, also updating the certificate's poll operation
+ * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @internal
+ */
+async function cancel(
+  this: CertificateOperationPollOperation,
+  options: { abortSignal?: AbortSignal } = {}
+): Promise<CertificateOperationPollOperation> {
+  const state = this.state;
+  const client = state.client!;
+  const certificateName = state.certificateName!;
 
-    try {
-      result = await this.client.getCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        setParentSpan(span, options)
-      );
-    } finally {
-      span.end();
-    }
-
-    return getCertificateOperationFromCoreOperation(
-      certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
-    );
+  const requestOptions = state.requestOptions || {};
+  if (options.abortSignal) {
+    requestOptions.abortSignal = options.abortSignal;
   }
 
-  /**
-   * Reaches to the service and updates the poll operation.
-   */
-  async update(
-    options: {
-      abortSignal?: AbortSignalLike;
-      fireProgress?: (state: CertificateOperationState) => void;
-    } = {}
-  ): Promise<CertificateOperationPollOperation> {
-    const state = this.state;
-    const certificateName = state.certificateName!;
+  state.certificateOperation = await client.cancelCertificateOperation(
+    certificateName,
+    requestOptions
+  );
 
-    if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
-    }
+  return makeCertificateOperationPollOperation({
+    ...this.state,
+    isCancelled: true
+  });
+}
 
-    if (!state.isStarted) {
-      state.isStarted = true;
-      state.result = await this.getCertificate(certificateName, this.requestOptions);
-      state.certificateOperation = await this.getPlainCertificateOperation(
-        certificateName,
-        this.requestOptions
-      );
-    } else if (!state.isCompleted) {
-      state.certificateOperation = await this.getPlainCertificateOperation(
-        certificateName,
-        this.requestOptions
-      );
-    }
+/**
+ * @summary Serializes the create certificate's poll operation
+ * @internal
+ */
+function toString(this: CertificateOperationPollOperation): string {
+  return JSON.stringify({
+    state: this.state
+  });
+}
 
-    if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
-      state.isCompleted = true;
-      state.result = await this.getCertificate(certificateName, this.requestOptions);
-      if (state.certificateOperation.error) {
-        state.error = new Error(state.certificateOperation.error.message);
-      }
-    }
-
-    return this;
-  }
-
-  /**
-   * Reaches to the service and cancels the certificate's operation, also updating the poll operation.
-   */
-  async cancel(
-    this: CertificateOperationPollOperation,
-    options: { abortSignal?: AbortSignal } = {}
-  ): Promise<CertificateOperationPollOperation> {
-    const state = this.state;
-    const certificateName = state.certificateName!;
-
-    if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
-    }
-
-    state.certificateOperation = await this.cancelCertificateOperation(
-      certificateName,
-      this.requestOptions
-    );
-
-    this.state.isCancelled = true;
-    return this;
-  }
-
-  /**
-   * Serializes the certificate's poll operation
-   */
-  public toString(): string {
-    const state: CertificateOperationState = {
-      certificateOperation: this.state.certificateOperation,
-      ...cleanState(this.state)
-    };
-    return JSON.stringify({
-      state
-    });
-  }
+/**
+ * @summary Builds a create certificate's poll operation
+ * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * @internal
+ */
+export function makeCertificateOperationPollOperation(
+  state: CertificateOperationPollOperationState
+): CertificateOperationPollOperation {
+  return {
+    state: {
+      ...state
+    },
+    update,
+    cancel,
+    toString
+  };
 }

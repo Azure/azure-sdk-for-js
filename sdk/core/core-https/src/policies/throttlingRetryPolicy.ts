@@ -33,7 +33,7 @@ export function throttlingRetryPolicy(): PipelinePolicy {
         const delayInMs = parseRetryAfterHeader(retryAfterHeader);
         if (delayInMs) {
           await delay(delayInMs);
-          return next(request);
+          return next(request.clone());
         }
       }
 

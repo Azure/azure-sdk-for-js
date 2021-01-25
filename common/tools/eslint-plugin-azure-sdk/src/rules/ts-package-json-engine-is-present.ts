@@ -9,12 +9,6 @@
 import { Rule } from "eslint";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
 
-/**
- * definition of LTS Node versions
- * * needs updating as definitions change
- */
-const LTS = ">=8.0.0";
-
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
@@ -23,27 +17,19 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-engine-is-present",
     "force Node support for all LTS versions",
-    "code",
-    [
-      {
-        type: "object",
-        properties: {
-          nodeVersionOverride: {
-            type: "string",
-            default: LTS,
-            description: "Allows specifying a different node version than the current default"
-          }
-        }
-      }
-    ]
+    "code"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
-    const options = context.options[0] || {};
+    /**
+     * definition of LTS Node versions
+     * * needs updating as definitions change
+     */
+    const LTS = ">=8.0.0";
 
     const verifiers = getVerifiers(context, {
       outer: "engines",
       inner: "node",
-      expected: options.nodeVersionOverride || LTS
+      expected: LTS
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({

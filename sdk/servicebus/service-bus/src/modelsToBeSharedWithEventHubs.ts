@@ -16,7 +16,7 @@ export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "traci
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export function getParentSpan(
   options?: OperationTracingOptions
@@ -26,7 +26,7 @@ export function getParentSpan(
 
 /**
  * @internal
- * @hidden
+ * @ignore
  *
  * @param {(Span | SpanContext | null)} [parentSpan]
  * @param {SpanContext[]} [spanContextsToLink=[]]
@@ -71,7 +71,7 @@ export interface TryAddOptions {
  * Runs the `fn` passed in and marks the span as completed with an error (and the
  * corresponding message) or as OK.
  *
- * @hidden
+ * @ignore
  * @internal
  */
 export async function trace<T>(fn: () => Promise<T>, span: Span): Promise<T> {

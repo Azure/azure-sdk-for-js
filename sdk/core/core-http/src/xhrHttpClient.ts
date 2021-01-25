@@ -43,11 +43,8 @@ export class XhrHttpClient implements HttpClient {
       const formData = request.formData;
       const requestForm = new FormData();
       const appendFormValue = (key: string, value: any): void => {
-        if (
-          value &&
-          Object.prototype.hasOwnProperty.call(value, "value") &&
-          Object.prototype.hasOwnProperty.call(value, "options")
-        ) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
           requestForm.append(key, value.value, value.options);
         } else {
           requestForm.append(key, value);
@@ -89,7 +86,6 @@ export class XhrHttpClient implements HttpClient {
         xhr.addEventListener("readystatechange", () => {
           // Resolve as soon as headers are loaded
           if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-            // eslint-disable-next-line @typescript-eslint/no-shadow
             const blobBody = new Promise<Blob>((resolve, reject) => {
               xhr.addEventListener("load", () => {
                 resolve(xhr.response);

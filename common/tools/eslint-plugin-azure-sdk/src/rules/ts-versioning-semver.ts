@@ -42,9 +42,7 @@ export = {
             const version = nodeValue.value as string;
 
             // check for violations specific to semver
-            const versionMatch = version.match(
-              /^(0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(.+)|$)/
-            );
+            const versionMatch = version.match(/^(0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(.+)|$)/);
             if (versionMatch === null) {
               context.report({
                 node: nodeValue,
@@ -60,13 +58,13 @@ export = {
                 message: "major version should not be set to 0"
               });
             }
-
-            // check that if alpha or beta is in proper syntax if provided
+            
+            // check that if preview or dev is in proper syntax if provided
             const secondPart = versionMatch[2];
             if (secondPart === undefined) {
               return;
             }
-            const ver = secondPart.match(/^(alpha|beta)(.*)/);
+            const ver = secondPart.match(/^(dev|preview|alpha|beta)(.*)/);
             if (ver === null) {
               context.report({
                 node: nodeValue,
@@ -78,6 +76,7 @@ export = {
             const verKeyword = ver[1];
             const verNumber = ver[2];
             switch (verKeyword) {
+              case "preview":
               case "beta":
                 if (!/^\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
@@ -87,6 +86,7 @@ export = {
                   return;
                 }
                 break;
+              case "dev":
               case "alpha":
                 if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({

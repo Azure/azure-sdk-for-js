@@ -37,7 +37,6 @@ import {
   GeneratedClientSentimentResponse
 } from "./models";
 
-/** @hidden */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -56,11 +55,11 @@ export class GeneratedClient extends GeneratedClientContext {
   analyze(
     options?: GeneratedClientAnalyzeOptionalParams
   ): Promise<GeneratedClientAnalyzeResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { options: operationOptions },
       analyzeOperationSpec
     ) as Promise<GeneratedClientAnalyzeResponse>;
   }
@@ -76,12 +75,11 @@ export class GeneratedClient extends GeneratedClientContext {
     jobId: string,
     options?: GeneratedClientAnalyzeStatusOptionalParams
   ): Promise<GeneratedClientAnalyzeStatusResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { jobId, options: operationOptions },
       analyzeStatusOperationSpec
     ) as Promise<GeneratedClientAnalyzeStatusResponse>;
   }
@@ -95,12 +93,11 @@ export class GeneratedClient extends GeneratedClientContext {
     jobId: string,
     options?: GeneratedClientHealthStatusOptionalParams
   ): Promise<GeneratedClientHealthStatusResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { jobId, options: operationOptions },
       healthStatusOperationSpec
     ) as Promise<GeneratedClientHealthStatusResponse>;
   }
@@ -114,12 +111,11 @@ export class GeneratedClient extends GeneratedClientContext {
     jobId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientCancelHealthJobResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { jobId, options: operationOptions },
       cancelHealthJobOperationSpec
     ) as Promise<GeneratedClientCancelHealthJobResponse>;
   }
@@ -134,12 +130,11 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientHealthOptionalParams
   ): Promise<GeneratedClientHealthResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       healthOperationSpec
     ) as Promise<GeneratedClientHealthResponse>;
   }
@@ -156,12 +151,11 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientEntitiesRecognitionGeneralOptionalParams
   ): Promise<GeneratedClientEntitiesRecognitionGeneralResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       entitiesRecognitionGeneralOperationSpec
     ) as Promise<GeneratedClientEntitiesRecognitionGeneralResponse>;
   }
@@ -179,12 +173,11 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientEntitiesRecognitionPiiOptionalParams
   ): Promise<GeneratedClientEntitiesRecognitionPiiResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       entitiesRecognitionPiiOperationSpec
     ) as Promise<GeneratedClientEntitiesRecognitionPiiResponse>;
   }
@@ -200,12 +193,11 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientEntitiesLinkingOptionalParams
   ): Promise<GeneratedClientEntitiesLinkingResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       entitiesLinkingOperationSpec
     ) as Promise<GeneratedClientEntitiesLinkingResponse>;
   }
@@ -221,12 +213,11 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientKeyPhrasesOptionalParams
   ): Promise<GeneratedClientKeyPhrasesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       keyPhrasesOperationSpec
     ) as Promise<GeneratedClientKeyPhrasesResponse>;
   }
@@ -243,12 +234,11 @@ export class GeneratedClient extends GeneratedClientContext {
     input: LanguageBatchInput,
     options?: GeneratedClientLanguagesOptionalParams
   ): Promise<GeneratedClientLanguagesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       languagesOperationSpec
     ) as Promise<GeneratedClientLanguagesResponse>;
   }
@@ -264,17 +254,17 @@ export class GeneratedClient extends GeneratedClientContext {
     input: MultiLanguageBatchInput,
     options?: GeneratedClientSentimentOptionalParams
   ): Promise<GeneratedClientSentimentResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      input,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { input, options: operationOptions },
       sentimentOperationSpec
     ) as Promise<GeneratedClientSentimentResponse>;
   }
 }
 // Operation Specifications
+
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const analyzeOperationSpec: coreHttp.OperationSpec = {
@@ -321,7 +311,7 @@ const analyzeStatusOperationSpec: coreHttp.OperationSpec = {
     Parameters.skip
   ],
   urlParameters: [Parameters.endpoint, Parameters.jobId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const healthStatusOperationSpec: coreHttp.OperationSpec = {
@@ -346,7 +336,7 @@ const healthStatusOperationSpec: coreHttp.OperationSpec = {
     Parameters.skip
   ],
   urlParameters: [Parameters.endpoint, Parameters.jobId1],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const cancelHealthJobOperationSpec: coreHttp.OperationSpec = {
@@ -366,7 +356,7 @@ const cancelHealthJobOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.jobId1],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const healthOperationSpec: coreHttp.OperationSpec = {

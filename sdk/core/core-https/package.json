@@ -7,7 +7,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/defaultHttpsClient.js": "./dist-esm/src/defaultHttpsClient.browser.js",
-    "./dist-esm/src/policies/decompressResponsePolicy.js": "./dist-esm/src/policies/decompressResponsePolicy.browser.js",
+    "./dist-esm/src/policies/disableResponseDecompressionPolicy.js": "./dist-esm/src/policies/disableResponseDecompressionPolicy.browser.js",
     "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
@@ -26,7 +26,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "npm run build:ts && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "npm run build:ts && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "echo Skipped.",
+    "build:samples": "cd samples && tsc -p .",
     "build:test": "npm run build:ts && npm run bundle:test",
     "build:test:browser": "npm run build:ts && npm run bundle:test:browser",
     "build:test:node": "npm run build:ts && npm run bundle:test:node",
@@ -53,8 +53,7 @@
     "test": "npm run clean && npm run build:ts && npm run bundle:test:node && npm run unit-test:node && npm run bundle:test:browser && npm run unit-test:browser && npm run integration-test:node && npm run integration-test:browser",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
@@ -114,7 +113,7 @@
     "chai": "^4.2.0",
     "downlevel-dts": "~0.4.0",
     "cross-env": "^7.0.2",
-    "eslint": "^7.15.0",
+    "eslint": "^6.1.0",
     "inherits": "^2.0.3",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -126,7 +125,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
+    "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",
@@ -137,8 +136,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "4.1.2",
-    "util": "^0.12.1",
-    "typedoc": "0.15.2"
+    "typescript": "~3.9.3",
+    "util": "^0.12.1"
   }
 }

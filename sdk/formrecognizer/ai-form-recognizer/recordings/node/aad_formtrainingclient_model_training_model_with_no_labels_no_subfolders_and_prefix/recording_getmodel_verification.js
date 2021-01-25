@@ -6,11 +6,13 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1500',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,37 +24,35 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '1f56ba11-a3ef-47c0-8d56-cde199c22500',
+  '87363196-653f-4094-8873-252792a2a000',
   'x-ms-ests-server',
-  '2.1.11251.20 - NCUS ProdSlices',
+  '2.1.11198.13 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AgLu8bUkmShGvinvsr3D_GDGLH8mAQAAAN4_StcOAAAA; expires=Sun, 20-Dec-2020 22:53:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AiO5yu78tr1FjRAflP8r6GH0CyfMAQAAAC5CMtcOAAAA; expires=Wed, 02-Dec-2020 18:08:47 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 22:53:18 GMT',
-  'Content-Length',
-  '1331'
+  'Mon, 02 Nov 2020 18:08:46 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/ee77b711-af30-4e5b-9db4-4d90cd3e3362')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/de8234ae-6b7c-495b-ae52-d0071df494f7')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"ee77b711-af30-4e5b-9db4-4d90cd3e3362","status":"ready","createdDateTime":"2020-11-20T22:53:02Z","lastUpdatedDateTime":"2020-11-20T22:53:14Z"},"keys":{"clusters":{"0":["Additional Notes:","Address:","Company Name:","Company Phone:","Dated As:","Details","Email:","Ft Lauderdale, FL Phone:","Hero Limited","Name:","Phone:","Purchase Order","Purchase Order #:","Quantity","SUBTOTAL","Seattle, WA 93849 Phone:","Shipped From","Shipped To","TAX","TOTAL","Total","Unit Price","Vendor Name:","Website:"]}},"trainResult":{"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"errors":[],"status":"succeeded"}],"errors":[]}}, [
-  'Content-Length',
-  '939',
+  .reply(200, {"modelInfo":{"modelId":"de8234ae-6b7c-495b-ae52-d0071df494f7","status":"ready","createdDateTime":"2020-11-02T18:08:20Z","lastUpdatedDateTime":"2020-11-02T18:08:37Z"},"keys":{"clusters":{"0":["Additional Notes:","Address:","Company Name:","Company Phone:","Dated As:","Details","Email:","Ft Lauderdale, FL Phone:","Hero Limited","Name:","Phone:","Purchase Order","Purchase Order #:","Quantity","SUBTOTAL","Seattle, WA 93849 Phone:","Shipped From","Shipped To","TAX","TOTAL","Total","Unit Price","Vendor Name:","Website:"]}},"trainResult":{"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"errors":[],"status":"succeeded"}],"errors":[]}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '48',
+  '21',
   'apim-request-id',
-  '1bc9c578-a196-4094-aea7-856be8957a8f',
+  '39926925-2867-4461-87c2-413cf7a3e753',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:53:18 GMT'
+  'Mon, 02 Nov 2020 18:08:47 GMT'
 ]);

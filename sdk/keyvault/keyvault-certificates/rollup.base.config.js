@@ -89,6 +89,7 @@ export function browserConfig(test = false) {
       name: "azurekeyvaultcertificates",
       globals: {
         "@azure/core-http": "Azure.Core.HTTP",
+        "@azure/core-arm": "Azure.Core.ARM",
         "@azure/keyvault-keys": "Azure.KeyVault.Keys",
         "@azure/keyvault-secrets": "Azure.KeyVault.Secrets"
       },

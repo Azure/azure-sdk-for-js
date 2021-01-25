@@ -36,7 +36,7 @@ function read_series_from_file(path: string): Array<TimeSeriesPoint> {
   return result;
 }
 
-export async function main() {
+async function main() {
   // create client
   const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
 

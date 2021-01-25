@@ -53,7 +53,7 @@ const minMilliSeconds = Number.MIN_SAFE_INTEGER / ticksPerMillisecond;
  * @param {number} minutes              - Number of minutes.
  * @param {number} seconds              - Number of seconds.
  * @param {number} milliseconds         - Number of milliseconds.
- * @hidden
+ * @ignore
  */
 export class TimeSpan {
   // tslint:disable-next-line:variable-name

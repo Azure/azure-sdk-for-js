@@ -8,7 +8,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [recognizeReceipt.js][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                               |
 | [recognizeReceiptFromUrl.js][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                |
 | [recognizeBusinessCard.js][recognizebusinesscard]                 | Recognize data from a file of a business card using a prebuilt model                                                  |
-| [recognizeInvoice.js][recognizeinvoice]                           | Recognize data from a file of an invoice using a prebuilt model                                                       |
 | [recognizeCustomForm.js][recognizecustomform]                     | Recognize forms with your custom model                                                                                |
 | [trainLabeledModel.js][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                |
 | [trainUnlabeledModel.js][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                              |

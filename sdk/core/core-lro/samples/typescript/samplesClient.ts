@@ -215,7 +215,7 @@ class Client {
 
 // Now let's see how the client is used.
 
-export async function main(): Promise<void> {
+async function main(): Promise<void> {
   const client = new Client();
   let poller = await client.beginLongOperation();
   console.log(poller.getResult()); // Should show: { value: 1 }

@@ -26,25 +26,7 @@ import {
   BM25Similarity,
   ClassicSimilarity,
   TokenFilterUnion,
-  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
-  ConditionalSkill,
-  KeyPhraseExtractionSkill,
-  OcrSkill,
-  ImageAnalysisSkill,
-  LanguageDetectionSkill,
-  ShaperSkill,
-  MergeSkill,
-  EntityRecognitionSkill,
-  SentimentSkill,
-  SplitSkill,
-  CustomEntityLookupSkill,
-  TextTranslationSkill,
-  WebApiSkill,
-  LuceneStandardAnalyzer,
-  StopAnalyzer,
-  PatternAnalyzer as GeneratedPatternAnalyzer,
-  CustomAnalyzer,
-  PatternTokenizer
+  SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -66,8 +48,7 @@ import {
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
   SimilarityAlgorithm,
-  SearchResourceEncryptionKey,
-  PatternAnalyzer
+  SearchResourceEncryptionKey
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
@@ -82,46 +63,8 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
 
   const result: SearchIndexerSkill[] = [];
   for (const skill of skills) {
-    switch (skill.odatatype) {
-      case "#Microsoft.Skills.Util.ConditionalSkill":
-        result.push(skill as ConditionalSkill);
-        break;
-      case "#Microsoft.Skills.Text.KeyPhraseExtractionSkill":
-        result.push(skill as KeyPhraseExtractionSkill);
-        break;
-      case "#Microsoft.Skills.Vision.OcrSkill":
-        result.push(skill as OcrSkill);
-        break;
-      case "#Microsoft.Skills.Vision.ImageAnalysisSkill":
-        result.push(skill as ImageAnalysisSkill);
-        break;
-      case "#Microsoft.Skills.Text.LanguageDetectionSkill":
-        result.push(skill as LanguageDetectionSkill);
-        break;
-      case "#Microsoft.Skills.Util.ShaperSkill":
-        result.push(skill as ShaperSkill);
-        break;
-      case "#Microsoft.Skills.Text.MergeSkill":
-        result.push(skill as MergeSkill);
-        break;
-      case "#Microsoft.Skills.Text.EntityRecognitionSkill":
-        result.push(skill as EntityRecognitionSkill);
-        break;
-      case "#Microsoft.Skills.Text.SentimentSkill":
-        result.push(skill as SentimentSkill);
-        break;
-      case "#Microsoft.Skills.Text.SplitSkill":
-        result.push(skill as SplitSkill);
-        break;
-      case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
-        result.push(skill as CustomEntityLookupSkill);
-        break;
-      case "#Microsoft.Skills.Text.TranslationSkill":
-        result.push(skill as TextTranslationSkill);
-        break;
-      case "#Microsoft.Skills.Custom.WebApiSkill":
-        result.push(skill as WebApiSkill);
-        break;
+    if (skill.odatatype !== "SearchIndexerSkill") {
+      result.push(skill);
     }
   }
   return result;
@@ -189,7 +132,7 @@ export function convertAnalyzersToGenerated(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: analyzer.tokenizer
+          tokenizer: analyzer.tokenizerName
         });
         break;
     }
@@ -208,24 +151,20 @@ export function convertAnalyzersToPublic(
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
       case "#Microsoft.Azure.Search.StandardAnalyzer":
-        result.push(analyzer as LuceneStandardAnalyzer);
-        break;
       case "#Microsoft.Azure.Search.StopAnalyzer":
-        result.push(analyzer as StopAnalyzer);
+        result.push(analyzer);
         break;
       case "#Microsoft.Azure.Search.PatternAnalyzer":
         result.push({
           ...analyzer,
-          flags: (analyzer as GeneratedPatternAnalyzer).flags
-            ? ((analyzer as GeneratedPatternAnalyzer).flags!.split("|") as RegexFlags[])
-            : undefined
-        } as PatternAnalyzer);
+          flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
+        });
         break;
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: (analyzer as CustomAnalyzer).tokenizer
-        } as CustomAnalyzer);
+          tokenizerName: analyzer.tokenizer
+        });
         break;
     }
   }
@@ -242,9 +181,9 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
     if (field.type === "Collection(Edm.ComplexType)" || field.type === "Edm.ComplexType") {
       result = field as ComplexField;
     } else {
-      const anayzerName: LexicalAnalyzerName | undefined | null = field.analyzer;
-      const searchAnalyzerName: LexicalAnalyzerName | undefined | null = field.searchAnalyzer;
-      const indexAnalyzerName: LexicalAnalyzerName | undefined | null = field.indexAnalyzer;
+      const anayzerName: LexicalAnalyzerName | undefined = field.analyzer;
+      const searchAnalyzerName: LexicalAnalyzerName | undefined = field.searchAnalyzer;
+      const indexAnalyzerName: LexicalAnalyzerName | undefined = field.indexAnalyzer;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
 
       const { retrievable, ...restField } = field;
@@ -320,11 +259,9 @@ export function convertTokenizersToPublic(
     if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       result.push({
         ...tokenizer,
-        flags: (tokenizer as PatternTokenizer).flags
-          ? ((tokenizer as PatternTokenizer).flags!.split("|") as RegexFlags[])
-          : undefined
+        flags: tokenizer.flags ? (tokenizer.flags.split("|") as RegexFlags[]) : undefined
       });
-    } else {
+    } else if (tokenizer.odatatype !== "LexicalTokenizer") {
       result.push(tokenizer);
     }
   }
@@ -374,8 +311,8 @@ export function extractOperationOptions<T extends OperationOptions>(
 }
 
 export function convertEncryptionKeyToPublic(
-  encryptionKey?: GeneratedSearchResourceEncryptionKey | null
-): SearchResourceEncryptionKey | undefined | null {
+  encryptionKey?: GeneratedSearchResourceEncryptionKey
+): SearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -395,8 +332,8 @@ export function convertEncryptionKeyToPublic(
 }
 
 export function convertEncryptionKeyToGenerated(
-  encryptionKey?: SearchResourceEncryptionKey | null
-): GeneratedSearchResourceEncryptionKey | undefined | null {
+  encryptionKey?: SearchResourceEncryptionKey
+): GeneratedSearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -545,7 +482,6 @@ export function generatedSynonymMapToPublicSynonymMap(synonymMap: GeneratedSynon
 export function publicSynonymMapToGeneratedSynonymMap(synonymMap: SynonymMap): GeneratedSynonymMap {
   const result: GeneratedSynonymMap = {
     name: synonymMap.name,
-    format: "solr",
     encryptionKey: convertEncryptionKeyToGenerated(synonymMap.encryptionKey),
     etag: synonymMap.etag,
     synonyms: synonymMap.synonyms.join("\n")
@@ -613,8 +549,8 @@ export function generatedDataSourceToPublicDataSource(
 }
 
 export function convertDataChangeDetectionPolicyToPublic(
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null
-): DataChangeDetectionPolicy | undefined | null {
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion
+): DataChangeDetectionPolicy | undefined {
   if (!dataChangeDetectionPolicy) {
     return dataChangeDetectionPolicy;
   }
@@ -630,8 +566,8 @@ export function convertDataChangeDetectionPolicyToPublic(
 }
 
 export function convertDataDeletionDetectionPolicyToPublic(
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion | null
-): DataDeletionDetectionPolicy | undefined | null {
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion
+): DataDeletionDetectionPolicy | undefined {
   if (!dataDeletionDetectionPolicy) {
     return dataDeletionDetectionPolicy;
   }

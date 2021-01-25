@@ -8,18 +8,12 @@ import {
   AccessControlChanges,
   DataLakeFileClient,
   DataLakeFileSystemClient,
-  DataLakeSASPermissions,
   DataLakeServiceClient,
   PathAccessControlItem,
   PathPermissions
 } from "../../src";
 import { toAcl, toRemoveAcl } from "../../src/transforms";
-import {
-  bodyToString,
-  getDataLakeServiceClient,
-  recorderEnvSetup,
-  getDataLakeFileSystemClientWithSASCredential
-} from "../utils";
+import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 
 dotenv.config();
 
@@ -338,58 +332,6 @@ describe("DataLakePathClient Node.js only", () => {
 
     await destFileClient.getProperties();
     await destFileSystemClient.delete();
-  });
-
-  it("move should not encode / in the source", async () => {
-    await fileSystemClient.getDirectoryClient("path").create();
-    const destFileName = recorder.getUniqueName("path/slash");
-    const destFileClient = fileSystemClient.getFileClient(destFileName);
-    await fileClient.move(encodeURIComponent(destFileName));
-    await destFileClient.getProperties();
-    await destFileClient.move(fileName);
-    await fileClient.getProperties();
-  });
-
-  it("move with destination path encoded", async () => {
-    await fileSystemClient.getDirectoryClient("dest file with & and 1").create();
-    const destFileName = recorder.getUniqueName("dest file with & and 1/char");
-    const destFileClient = fileSystemClient.getFileClient(destFileName);
-    await fileClient.move(encodeURIComponent(destFileName));
-    await destFileClient.getProperties();
-  });
-
-  it("move with destination path not encoded", async () => {
-    await fileSystemClient.getDirectoryClient("dest file with & and 2").create();
-    const destFileName = recorder.getUniqueName("dest file with & and 2/char");
-    const destFileClient = fileSystemClient.getFileClient(destFileName);
-    await fileClient.move(destFileName);
-    await destFileClient.getProperties();
-  });
-
-  it("move with shared key to authenticate source, SAS to authenticate destination", async () => {
-    let destFileName = recorder.getUniqueName("destfile");
-    const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
-      fileSystemName: fileSystemClient.name,
-      pathName: destFileName,
-      expiresOn: new Date(Date.now() + 60 * 1000),
-      permissions: DataLakeSASPermissions.parse("rwm")
-    });
-    const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
-    await fileClient.move(destFileName);
-    await sasDestFileClient.getProperties();
-  });
-
-  it("move with SAS to authenticate source, SAS to authenticate destination", async () => {
-    let destFileName = recorder.getUniqueName("destfile");
-    const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
-      fileSystemName: fileSystemClient.name,
-      expiresOn: new Date(Date.now() + 60 * 1000),
-      permissions: DataLakeSASPermissions.parse("rwdm")
-    });
-    const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
-    const sasSourceFileClient = sasFileSystemClient.getFileClient(fileClient.name);
-    await sasSourceFileClient.move(destFileName);
-    await sasDestFileClient.getProperties();
   });
 
   it("quick query should work", async () => {

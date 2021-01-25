@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-http";
-import { TokenCredential } from "./communicationTokenCredential";
+import { UserCredential } from "./communicationUserCredential";
 
 /**
  * StaticTokenCredential
  */
-export class StaticTokenCredential implements TokenCredential {
+export class StaticTokenCredential implements UserCredential {
   constructor(private readonly token: AccessToken) {}
 
   public async getToken(): Promise<AccessToken> {

@@ -151,8 +151,8 @@ matrix([[true, false]] as const, async (useAad) => {
                   "Expecting field with name 'Signature' to be valid"
                 );
                 assert.isNotTrue(model.properties?.isComposedModel);
-                // TODO: move this above as a known issue prevents unlabeled models from receiving
-                // modelName
+                // TODO: move this above this if statement, as it should work
+                // in unlabeled models pending a service fix.
                 assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
@@ -198,14 +198,6 @@ matrix([[true, false]] as const, async (useAad) => {
                 });
                 assert.isNotEmpty(form.pages);
 
-                const [page] = form.pages;
-                assert.isNotEmpty(page.tables);
-                const [table] = page.tables!;
-                /* TODO: service bug where boundingBox not defined for unlabeled model
-                 * assert.ok(table.boundingBox);
-                 */
-                assert.equal(table.pageNumber, 1);
-
                 if (useLabels) {
                   assert.ok(form.fields);
                   assert.ok(form.fields["Merchant"]);
@@ -241,6 +233,7 @@ matrix([[true, false]] as const, async (useAad) => {
        */
       describe("account properties", () => {
         it("has trained models and limits", async () => {
+          const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
           const properties = await trainingClient.getAccountProperties();
 
           // Model count should be >0 because we just trained several models
@@ -310,6 +303,12 @@ matrix([[true, false]] as const, async (useAad) => {
     // #endregion
 
     it("compose model", async function() {
+      if (useAad) {
+        // TODO
+        this.test!.title = `${this.test?.title} (Issue with service deployment blocks AAD)`;
+        this.skip();
+      }
+
       const trainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
 
       // Create two models using the same data set. This will still test our training

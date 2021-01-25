@@ -6,11 +6,13 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1500',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,239 +24,237 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e983f489-39bb-4463-9b91-f754ab6a2500',
+  'e2b33f2e-3095-4544-87e8-46a44b2c9900',
   'x-ms-ests-server',
-  '2.1.11251.20 - SCUS ProdSlices',
+  '2.1.11198.13 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AmVLMPVikaBDsUPNxUf9UcTGLH8mAQAAAA1AStcOAAAA; expires=Sun, 20-Dec-2020 22:54:06 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgpH8DcSfBNPjU4EEl-GqhU; expires=Wed, 02-Dec-2020 18:09:36 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 22:54:05 GMT',
-  'Content-Length',
-  '1331'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.2/custom/models/c01ea28a-8731-4262-b2cd-ef75057a8e4e')
+  .delete('/formrecognizer/v2.1-preview.1/custom/models/891fe24d-c3dd-4ae1-b0f5-6e05733a160d')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '38',
+  '70',
   'apim-request-id',
-  '0287fb63-fb1b-43a5-ab46-015a2ca96254',
+  'f955099a-e2e2-48ea-af6c-04ba34eb8ccc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:05 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.2/custom/models/323be9ed-dbc2-4309-a3f7-e13c72aa8203')
+  .delete('/formrecognizer/v2.1-preview.1/custom/models/de8234ae-6b7c-495b-ae52-d0071df494f7')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '47',
+  '32',
   'apim-request-id',
-  '7ed4d857-2c42-4ad6-ac12-2132a2ed9fb7',
+  'e42a1936-13b8-4b1d-907a-85ead3c7f49e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.2/custom/models/9327203f-7648-4ebe-851c-630c82d8485f')
+  .delete('/formrecognizer/v2.1-preview.1/custom/models/58dfd72d-2863-4fdb-96dc-46cf3f08a610')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '71',
+  '25',
   'apim-request-id',
-  'c1feda4c-48e3-4f51-8a6a-65ccbc34218a',
+  'fbe1b32a-6831-46dd-8dba-f03612747946',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.2/custom/models/ee77b711-af30-4e5b-9db4-4d90cd3e3362')
+  .delete('/formrecognizer/v2.1-preview.1/custom/models/b7f4fcb0-cc76-4f46-975b-e2d4823ee621')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '60',
+  '83',
   'apim-request-id',
-  '1f58baa6-7ebd-40ba-9981-64774d8dde9f',
+  '41710e06-9a5e-4795-b4be-52afb4d92b01',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.2/custom/models/09d65ded-18c8-4ce6-b3d0-a1a87919f199')
+  .delete('/formrecognizer/v2.1-preview.1/custom/models/2e6ed808-e037-4eff-868b-189a17dfb98a')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '99',
+  '29',
   'apim-request-id',
-  'a874a733-e0d0-4d26-b587-59f53d3d0642',
+  'c67b8b5e-fe8a-4182-bf1e-19a6034ef1e1',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/formrecognizer/v2.1-preview.2/custom/models/07809340-33cb-4b2f-a155-48980a95b0a9')
+  .delete('/formrecognizer/v2.1-preview.1/custom/models/352faec2-1189-4e2f-8c90-33991667e644')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-envoy-upstream-service-time',
-  '87',
+  '39',
   'apim-request-id',
-  '2b761e0d-9b26-4675-9c97-4b1b2841415f',
+  '12d5dd63-324b-4c56-a348-286494770fa5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/9327203f-7648-4ebe-851c-630c82d8485f')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/891fe24d-c3dd-4ae1-b0f5-6e05733a160d')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=9327203f-7648-4ebe-851c-630c82d8485f' not found."}}, [
-  'Content-Length',
-  '101',
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=891fe24d-c3dd-4ae1-b0f5-6e05733a160d' not found."}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '24',
+  '17',
   'apim-request-id',
-  '07ac4bae-1e8b-4dec-8850-817a71c23a28',
+  '5bdf918d-4f30-4625-83ff-b4d0a268d12e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:05 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/ee77b711-af30-4e5b-9db4-4d90cd3e3362')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/352faec2-1189-4e2f-8c90-33991667e644')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=ee77b711-af30-4e5b-9db4-4d90cd3e3362' not found."}}, [
-  'Content-Length',
-  '101',
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=352faec2-1189-4e2f-8c90-33991667e644' not found."}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
   '15',
   'apim-request-id',
-  'fab1f06b-3ef9-442a-bb81-48c8385a29c2',
+  '238602a9-39ac-43d3-a0db-755f6618d541',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:37 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/07809340-33cb-4b2f-a155-48980a95b0a9')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/2e6ed808-e037-4eff-868b-189a17dfb98a')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=07809340-33cb-4b2f-a155-48980a95b0a9' not found."}}, [
-  'Content-Length',
-  '101',
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=2e6ed808-e037-4eff-868b-189a17dfb98a' not found."}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '18',
+  '15',
   'apim-request-id',
-  '92b36b62-a6a4-42a2-8de2-e4684fec4da1',
+  '19a4d695-e80b-4a3f-a1ca-02ce73c58ae8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:37 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/09d65ded-18c8-4ce6-b3d0-a1a87919f199')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/b7f4fcb0-cc76-4f46-975b-e2d4823ee621')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=09d65ded-18c8-4ce6-b3d0-a1a87919f199' not found."}}, [
-  'Content-Length',
-  '101',
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=b7f4fcb0-cc76-4f46-975b-e2d4823ee621' not found."}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '60',
+  '16',
   'apim-request-id',
-  '9ed3ccef-b3ba-457d-86f5-16151e8749fb',
+  'bcf4f80c-de00-488c-9df6-95c65df197f3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/c01ea28a-8731-4262-b2cd-ef75057a8e4e')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/58dfd72d-2863-4fdb-96dc-46cf3f08a610')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=c01ea28a-8731-4262-b2cd-ef75057a8e4e' not found."}}, [
-  'Content-Length',
-  '101',
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=58dfd72d-2863-4fdb-96dc-46cf3f08a610' not found."}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '53',
+  '14',
   'apim-request-id',
-  '08b62317-c85a-4bff-ba39-8ac2a30d24a4',
+  '829f4398-e121-4917-9208-c49de9212336',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/323be9ed-dbc2-4309-a3f7-e13c72aa8203')
+  .get('/formrecognizer/v2.1-preview.1/custom/models/de8234ae-6b7c-495b-ae52-d0071df494f7')
   .query(true)
-  .reply(404, {"error":{"code":"1022","message":"Model with 'id=323be9ed-dbc2-4309-a3f7-e13c72aa8203' not found."}}, [
-  'Content-Length',
-  '101',
+  .reply(404, {"error":{"code":"1022","message":"Model with 'id=de8234ae-6b7c-495b-ae52-d0071df494f7' not found."}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '70',
+  '15',
   'apim-request-id',
-  '30674a4e-0fb9-4101-b26f-eacf640ebb6c',
+  '6ffcb1b8-55cd-45ed-8e76-3408ae49e656',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:54:06 GMT'
+  'Mon, 02 Nov 2020 18:09:36 GMT'
 ]);

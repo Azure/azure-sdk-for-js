@@ -30,10 +30,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /**
    * Creates a new client for Azure Schema Registry service.
    *
-   * @param endpoint - The Schema Registry service endpoint URL, for example
-   *                   https://mynamespace.servicebus.windows.net.
-   * @param credential - Credential to authenticate requests to the service.
-   * @param options - Options to configure API requests to the service.
+   * @param endpoint The Schema Registry service endpoint URL, for example
+   *                 https://mynamespace.servicebus.windows.net.
+   * @param credential Credential to authenticate requests to the service.
+   * @param options Options to configure API requests to the service.
    */
   constructor(
     endpoint: string,
@@ -52,8 +52,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * is created at version 1. If schema of specified name exists already in
    * specified group, schema is created at latest version + 1.
    *
-   * @param schema - Schema to register.
-   * @returns Registered schema's ID.
+   * @param schema Schema to register.
+   * @return Registered schema's ID.
    */
   async registerSchema(
     schema: SchemaDescription,
@@ -73,8 +73,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * Gets the ID of an existing schema with matching name, group, type, and
    * content.
    *
-   * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @param schema Schema to match.
+   * @return Matched schema's ID.
    */
   async getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId> {
     const response = await this.client.schema.queryIdByContent(
@@ -91,8 +91,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * Gets the ID of an existing schema with matching name, group, type, and
    * content.
    *
-   * @param schema - Schema to match.
-   * @returns Matched schema's ID.
+   * @param schema Schema to match.
+   * @return Matched schema's ID.
    */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema> {
     const response = await this.client.schema.getById(id, options);

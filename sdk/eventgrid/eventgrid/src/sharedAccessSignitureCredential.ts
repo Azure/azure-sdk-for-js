@@ -31,7 +31,7 @@ export class EventGridSharedAccessSignatureCredential implements SignatureCreden
    * Create an instance of an EventGridSharedAccessSignatureCredential for use
    * with a service client.
    *
-   * @param signature - The signature to use in authentication
+   * @param {string} signature the signature to use in authentication
    */
   constructor(signature: string) {
     if (!signature) {
@@ -47,7 +47,7 @@ export class EventGridSharedAccessSignatureCredential implements SignatureCreden
    * Updates will take effect upon the next request after
    * updating the signature value.
    *
-   * @param newSignature - The new signature value to be used
+   * @param {string} newSignature the new signature value to be used
    */
   public update(newSignature: string): void {
     this._signature = newSignature;

@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { AbortController, AbortSignal, AbortError } from "../src";
 
 describe("AbortController", () => {
-  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<void> {
+  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<number> {
     const s = Date.now();
     return new Promise((resolve, reject) => {
       // check status every 10 ms.

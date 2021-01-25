@@ -29,7 +29,7 @@ export class IntegrationRuntimeNodes {
    * Get an integration runtime node
    * @summary Get integration runtime node
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param [options] The optional parameters
@@ -38,7 +38,7 @@ export class IntegrationRuntimeNodes {
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param callback The callback
@@ -46,7 +46,7 @@ export class IntegrationRuntimeNodes {
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param options The optional parameters
@@ -70,7 +70,7 @@ export class IntegrationRuntimeNodes {
    * Create an integration runtime node
    * @summary Create integration runtime node
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param updateIntegrationRuntimeNodeRequest The parameters for updating an integration runtime
@@ -81,7 +81,7 @@ export class IntegrationRuntimeNodes {
   update(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeNodesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param updateIntegrationRuntimeNodeRequest The parameters for updating an integration runtime
@@ -91,7 +91,7 @@ export class IntegrationRuntimeNodes {
   update(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, updateIntegrationRuntimeNodeRequest: Models.UpdateIntegrationRuntimeNodeRequest, callback: msRest.ServiceCallback<Models.SelfHostedIntegrationRuntimeNode>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param updateIntegrationRuntimeNodeRequest The parameters for updating an integration runtime
@@ -118,7 +118,7 @@ export class IntegrationRuntimeNodes {
    * Delete an integration runtime node
    * @summary Delete integration runtime node
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param [options] The optional parameters
@@ -127,7 +127,7 @@ export class IntegrationRuntimeNodes {
   deleteMethod(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param callback The callback
@@ -135,7 +135,7 @@ export class IntegrationRuntimeNodes {
   deleteMethod(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, nodeName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param nodeName Integration runtime node name
    * @param options The optional parameters

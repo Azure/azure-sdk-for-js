@@ -15,7 +15,7 @@ export function hashV2PartitionKey(partitionKey: v2Key): string {
   return reverseBuff.toString("hex").toUpperCase();
 }
 
-function prefixKeyByType(key: v2Key): Buffer {
+function prefixKeyByType(key: v2Key) {
   let bytes: Buffer;
   switch (typeof key) {
     case "string":
@@ -39,8 +39,6 @@ function prefixKeyByType(key: v2Key): Buffer {
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
       return Buffer.from(BytePrefix.Undefined, "hex");
-    default:
-      throw new Error(`Unexpected type: ${typeof key}`);
   }
 }
 

@@ -25,19 +25,19 @@ import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * The amount of bytes to reserve as overhead for a small message.
  */
 const smallMessageOverhead = 5;
 /**
  * @internal
- * @hidden
+ * @ignore
  * The amount of bytes to reserve as overhead for a large message.
  */
 const largeMessageOverhead = 8;
 /**
  * @internal
- * @hidden
+ * @ignore
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;
@@ -86,7 +86,7 @@ export interface ServiceBusMessageBatch {
    *
    * @readonly
    * @internal
-   * @hidden
+   * @ignore
    */
   _generateMessage(): Buffer;
 
@@ -94,7 +94,7 @@ export interface ServiceBusMessageBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @hidden
+   * @ignore
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -104,7 +104,7 @@ export interface ServiceBusMessageBatch {
  *
  * @class
  * @internal
- * @hidden
+ * @ignore
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
@@ -124,7 +124,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * Use the `createBatch()` method on your `Sender` instead.
    * @constructor
    * @internal
-   * @hidden
+   * @ignore
    */
   constructor(private _context: ConnectionContext, private _maxSizeInBytes: number) {
     this._sizeInBytes = 0;
@@ -159,7 +159,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * Gets the "message" span contexts that were created when adding messages to the batch.
    * @internal
-   * @hidden
+   * @ignore
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;

@@ -49,7 +49,8 @@ class FetchHttpMock implements HttpMockFacade {
 
   // returns the locally mocked fetch instance
   getFetch(): typeof node_fetch {
-    return (this._fetch as unknown) as typeof node_fetch;
+    /// @ts-ignore
+    return this._fetch as typeof node_fetch;
   }
 
   setup(): void {
@@ -91,12 +92,12 @@ class FetchHttpMock implements HttpMockFacade {
 
     if (typeof response === "function") {
       const mockFunction: MockResponseFunction = response;
-      mockResponse = (async (urlParam: string, opts: any) => {
+      mockResponse = (async (url: string, opts: any) => {
         if (opts.body && typeof opts.body.pipe === "function") {
           opts.body = await this.convertStreamToBuffer(opts.body);
         }
 
-        return mockFunction(urlParam, method, opts.body, opts.headers);
+        return mockFunction(url, method, opts.body, opts.headers);
       }) as fetch.MockResponseFunction;
     }
 

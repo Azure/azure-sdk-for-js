@@ -21,7 +21,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -34,7 +34,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -47,7 +47,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Pending\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -60,7 +60,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -73,7 +73,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -86,7 +86,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -99,7 +99,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Pending\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -112,7 +112,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -125,7 +125,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -138,7 +138,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"InProgress\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"InProgress\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -151,7 +151,7 @@
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-11-21T05:33:23.4930964+00:00\",\"status\":\"Complete\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Success\"}}}",
+      "response": "{\"releaseId\":\"sanitized\",\"createdAt\":\"2020-10-07T21:52:10.3728653+00:00\",\"status\":\"Complete\",\"phoneNumberReleaseStatusDetails\":{\"+18005551234\":{\"status\":\"Success\"}}}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -161,5 +161,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "725ad0383f3fdf95d9c9fa77eee48f10"
+  "hash": "ab703dbbc76631d8f46d18953b311965"
 }

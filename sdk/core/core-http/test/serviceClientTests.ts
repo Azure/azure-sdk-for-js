@@ -23,172 +23,12 @@ import {
   deserializationPolicy,
   RestResponse,
   isNode,
-  OperationSpec,
-  TokenCredential,
-  ServiceClientCredentials,
-  ServiceClientOptions
+  OperationSpec
 } from "../src/coreHttp";
 import { ParameterPath } from "../src/operationParameter";
 import * as Mappers from "./testMappers";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function() {
-  describe("Auth scopes", () => {
-    const testArgs = {
-      metadata: {
-        alpha: "hello",
-        beta: "world"
-      },
-      unrelated: 42
-    };
-
-    const testOperationSpec: OperationSpec = {
-      httpMethod: "GET",
-      baseUrl: "httpbin.org",
-      serializer: new Serializer(),
-      headerParameters: [
-        {
-          parameterPath: "metadata",
-          mapper: {
-            serializedName: "metadata",
-            type: {
-              name: "Dictionary",
-              value: {
-                type: {
-                  name: "String"
-                }
-              }
-            },
-            headerCollectionPrefix: "foo-bar-"
-          } as DictionaryMapper
-        },
-        {
-          parameterPath: "unrelated",
-          mapper: {
-            serializedName: "unrelated",
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      ],
-      responses: {
-        200: {}
-      }
-    };
-
-    it("should throw when there is a non fqdm as credentialScopes", async () => {
-      const cred: TokenCredential = {
-        getToken: async (_scopes) => {
-          return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
-      };
-      let request: WebResource;
-      try {
-        const client = new ServiceClient(cred, {
-          httpClient: {
-            sendRequest: (req) => {
-              request = req;
-              return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-            }
-          },
-          credentialScopes: ["/lalala//", "https://microsoft.com"]
-        });
-        await client.sendOperationRequest(testArgs, testOperationSpec);
-        assert.fail("Expected to throw");
-      } catch (error) {
-        assert.include(error.message, `Invalid URL`);
-      }
-    });
-
-    it("should throw when there is no credentialScopes or baseUri", async () => {
-      const cred: TokenCredential = {
-        getToken: async (_scopes) => {
-          return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
-      };
-      let request: WebResource;
-      try {
-        const client = new ServiceClient(cred, {
-          httpClient: {
-            sendRequest: (req) => {
-              request = req;
-              return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-            }
-          }
-        });
-        await client.sendOperationRequest(testArgs, testOperationSpec);
-        assert.fail("Expected to throw");
-      } catch (error) {
-        assert.equal(
-          error.message,
-          `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
-        );
-      }
-    });
-
-    it("should use the provided scope", async () => {
-      const scope = "https://microsoft.com/.default";
-      const cred: TokenCredential = {
-        getToken: async (scopes) => {
-          assert.equal(scopes, scope);
-          return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
-      };
-      let request: WebResource;
-      const client = new ServiceClient(cred, {
-        httpClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-          }
-        },
-        credentialScopes: scope
-      });
-
-      await client.sendOperationRequest(testArgs, testOperationSpec);
-
-      assert(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
-    });
-
-    it("should use the baseUri to build scope", async () => {
-      const scope = "https://microsoft.com/wrappedClient";
-      class MockService extends ServiceClient {
-        constructor(
-          credentials?: TokenCredential | ServiceClientCredentials,
-          /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-          options?: ServiceClientOptions
-        ) {
-          super(credentials, options);
-          this.baseUri = scope;
-        }
-      }
-
-      const cred: TokenCredential = {
-        getToken: async (scopes) => {
-          assert.equal(scopes, `${scope}/.default`);
-          return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
-      };
-
-      let request: WebResource;
-      const client = new MockService(cred, {
-        httpClient: {
-          sendRequest: (req) => {
-            request = req;
-            return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-          }
-        }
-      });
-
-      await client.sendOperationRequest(testArgs, testOperationSpec);
-
-      assert(request!);
-      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
-    });
-  });
-
   it("should serialize headerCollectionPrefix", async function() {
     const expected = {
       "foo-bar-alpha": "hello",
@@ -1993,11 +1833,6 @@ describe("ServiceClient", function() {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }
-  });
-
-  it("should re-use the common instance of DefaultHttpClient", function() {
-    const client = new ServiceClient();
-    assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
   });
 });
 

@@ -10,7 +10,7 @@
  * continually steals/overwrites checkpointing and ownership with itself.
  *
  * @internal
- * @hidden
+ * @ignore
  */
 export class PartitionGate {
   private _partitions = new Set<string>();
@@ -21,7 +21,7 @@ export class PartitionGate {
    *
    * @param partitionId A partition ID or the constant "all"
    */
-  add(partitionId: string | "all"): void {
+  add(partitionId: string | "all") {
     if (
       (partitionId === "all" && this._partitions.size > 0) ||
       this._partitions.has(partitionId) ||
@@ -38,7 +38,7 @@ export class PartitionGate {
    *
    * @param partitionId A partition ID or the constant "all"
    */
-  remove(partitionId: string | "all"): void {
+  remove(partitionId: string | "all") {
     this._partitions.delete(partitionId);
   }
 }

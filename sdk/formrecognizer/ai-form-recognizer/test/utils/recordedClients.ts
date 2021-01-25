@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
+import * as dotenv from "dotenv";
 
 import {
   env,
@@ -14,6 +15,8 @@ import {
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
 import { TokenCredential } from "@azure/core-auth";
+
+dotenv.config();
 
 export interface RecordedTrainingClient {
   client: FormTrainingClient;

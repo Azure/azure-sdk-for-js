@@ -6,7 +6,7 @@ import { BlobService as StorageBlobService } from "azure-storage";
 import { Dictionary } from "@azure/event-hubs";
 
 /**
- * @hidden
+ * @ignore
  */
 export class AzureBlob {
   private _blobService: BlobService;

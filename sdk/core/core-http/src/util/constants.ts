@@ -4,42 +4,65 @@
 export const Constants = {
   /**
    * The core-http version
+   * @const
+   * @type {string}
    */
-  coreHttpVersion: "1.2.3",
+  coreHttpVersion: "1.2.1",
 
   /**
    * Specifies HTTP.
+   *
+   * @const
+   * @type {string}
    */
   HTTP: "http:",
 
   /**
    * Specifies HTTPS.
+   *
+   * @const
+   * @type {string}
    */
   HTTPS: "https:",
 
   /**
    * Specifies HTTP Proxy.
+   *
+   * @const
+   * @type {string}
    */
   HTTP_PROXY: "HTTP_PROXY",
 
   /**
    * Specifies HTTPS Proxy.
+   *
+   * @const
+   * @type {string}
    */
   HTTPS_PROXY: "HTTPS_PROXY",
 
   /**
    * Specifies NO Proxy.
+   *
+   * @const
+   * @type {string}
    */
   NO_PROXY: "NO_PROXY",
 
   /**
    * Specifies ALL Proxy.
+   *
+   * @const
+   * @type {string}
    */
   ALL_PROXY: "ALL_PROXY",
 
   HttpConstants: {
     /**
      * Http Verbs
+     *
+     * @const
+     * @enum {string}
      */
     HttpVerbs: {
       PUT: "PUT",
@@ -62,6 +85,9 @@ export const Constants = {
   HeaderConstants: {
     /**
      * The Authorization header.
+     *
+     * @const
+     * @type {string}
      */
     AUTHORIZATION: "authorization",
 
@@ -71,11 +97,17 @@ export const Constants = {
      * The Retry-After response-header field can be used with a 503 (Service
      * Unavailable) or 349 (Too Many Requests) responses to indicate how long
      * the service is expected to be unavailable to the requesting client.
+     *
+     * @const
+     * @type {string}
      */
     RETRY_AFTER: "Retry-After",
 
     /**
      * The UserAgent header.
+     *
+     * @const
+     * @type {string}
      */
     USER_AGENT: "User-Agent"
   }

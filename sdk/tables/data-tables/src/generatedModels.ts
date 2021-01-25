@@ -31,7 +31,6 @@ export {
   ServiceGetPropertiesHeaders,
   ServiceGetStatisticsHeaders,
   GeoReplicationStatusType,
-  KnownGeoReplicationStatusType,
   GeoReplication,
   TableServiceStats,
   TableQueryEntitiesHeaders,

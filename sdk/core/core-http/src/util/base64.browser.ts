@@ -3,7 +3,7 @@
 
 /**
  * Encodes a string in base64 format.
- * @param value - The string to encode
+ * @param value the string to encode
  */
 export function encodeString(value: string): string {
   return btoa(value);
@@ -11,7 +11,7 @@ export function encodeString(value: string): string {
 
 /**
  * Encodes a byte array in base64 format.
- * @param value - The Uint8Aray to encode
+ * @param value the Uint8Aray to encode
  */
 export function encodeByteArray(value: Uint8Array): string {
   let str = "";
@@ -23,7 +23,7 @@ export function encodeByteArray(value: Uint8Array): string {
 
 /**
  * Decodes a base64 string into a byte array.
- * @param value - The base64 string to decode
+ * @param value the base64 string to decode
  */
 export function decodeString(value: string): Uint8Array {
   const byteString = atob(value);

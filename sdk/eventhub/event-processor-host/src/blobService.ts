@@ -12,7 +12,7 @@ import { validateType, getStorageError } from "./util/utils";
 import { defaultMaximumExecutionTimeInMs } from "./util/constants";
 import path from "path";
 /**
- * @hidden
+ * @ignore
  */
 export interface CreateContainerResult {
   created: StorageBlobService.ContainerResult;
@@ -20,7 +20,7 @@ export interface CreateContainerResult {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export enum LeaseState {
   /**
@@ -55,7 +55,7 @@ export enum LeaseState {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export class BlobService {
   private _hostName: string;
@@ -144,7 +144,7 @@ export class BlobService {
             containerName,
             result.exists
           );
-          resolve(Boolean(result.exists));
+          resolve(result.exists);
         }
       });
     });
@@ -177,7 +177,7 @@ export class BlobService {
             containerName,
             result.exists
           );
-          resolve(Boolean(result.exists));
+          resolve(result.exists);
         }
       });
     });

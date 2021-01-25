@@ -50,7 +50,7 @@ export interface DetectRequest {
    */
   granularity: TimeGranularity;
   /**
-   * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as `{"granularity":"minutely", "customInterval":5}`.
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
    */
   customInterval?: number;
   /**
@@ -77,7 +77,7 @@ export interface DetectChangePointRequest {
    */
   granularity: TimeGranularity;
   /**
-   * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as `{"granularity":"minutely", "customInterval":5}`.
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
    */
   customInterval?: number;
   /**

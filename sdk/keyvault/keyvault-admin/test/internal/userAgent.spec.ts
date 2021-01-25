@@ -8,18 +8,16 @@ import { isNode } from "@azure/core-http";
 import path from "path";
 import fs from "fs";
 
-describe("Key Vault Admin's user agent (only in Node, because of fs)", function() {
-  beforeEach(function() {
-    if (!isNode) {
-      this.skip();
-    }
-  });
-
+describe("Secrets Admin's user agent (only in Node, because of fs)", () => {
   it("SDK_VERSION and packageVersion should match", async function() {
     assert.equal(SDK_VERSION, packageVersion);
   });
 
   it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function() {
+    if (!isNode) {
+      this.skip();
+      return;
+    }
     let version: string;
     try {
       const fileContents = JSON.parse(

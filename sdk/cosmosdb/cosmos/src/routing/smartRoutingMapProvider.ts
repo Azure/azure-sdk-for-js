@@ -68,7 +68,7 @@ export class SmartRoutingMapProvider {
    *                              takes two parameters error, partition key ranges
    * @param collectionLink
    * @param sortedRanges
-   * @hidden
+   * @ignore
    */
   public async getOverlappingRanges(
     collectionLink: string,

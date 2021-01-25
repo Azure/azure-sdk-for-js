@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential } from "@azure/core-auth";
 import { URLBuilder } from "@azure/core-http";
 import { parseConnectionString } from "./connectionString";
 
@@ -36,7 +36,7 @@ export const isKeyCredential = (credential: any): credential is KeyCredential =>
  */
 export type UrlWithCredential = {
   url: string;
-  credential: TokenCredential | KeyCredential;
+  credential: KeyCredential;
 };
 
 /**
@@ -49,7 +49,7 @@ export const parseClientArguments = (
   connectionStringOrUrl: string,
   credentialOrOptions?: any
 ): UrlWithCredential => {
-  if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
+  if (isKeyCredential(credentialOrOptions)) {
     assertValidEndpoint(connectionStringOrUrl);
     return { url: connectionStringOrUrl, credential: credentialOrOptions };
   } else {

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { KeyVaultAccessControlClient, KeyVaultRoleDefinition } from "../../src";
+import { KeyVaultAccessControlClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 
 describe("KeyVaultAccessControlClient", () => {
@@ -23,6 +23,8 @@ describe("KeyVaultAccessControlClient", () => {
   afterEach(async function() {
     await recorder.stop();
   });
+
+  // The tests follow
 
   it("listRoleDefinitions", async function() {
     const expectedType = "Microsoft.Authorization/roleDefinitions";
@@ -70,45 +72,41 @@ describe("KeyVaultAccessControlClient", () => {
   });
 
   it("createRoleAssignment, getRoleAssignment and deleteRoleAssignment", async function() {
-    const assignmentName = generateFakeUUID();
-    const roleName = "Managed HSM Crypto User";
-
-    let roleDefinition: KeyVaultRoleDefinition | undefined;
-
-    // Find the right role definition to use
-    for await (const definition of client.listRoleDefinitions(globalScope)) {
-      if (definition.roleName === roleName) {
-        roleDefinition = definition;
+    // First, deleting any existing assignment, just in case.
+    for await (const roleAssignment of client.listRoleAssignments(globalScope)) {
+      // Removing all roles from this object ID might kick us out of the system.
+      // IMPORTANT: Make sure CLIENT_OBJECT_ID isn't the Object ID of the principal used to authenticate.
+      if (roleAssignment.properties.principalId === env.CLIENT_OBJECT_ID) {
+        await client.deleteRoleAssignment(globalScope, roleAssignment.name);
       }
     }
 
-    if (!roleDefinition) {
-      assert.fail(`Unable to find role definition with name ${roleName}`);
-    }
+    const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
+    const name = generateFakeUUID();
 
     let assignment = await client.createRoleAssignment(
       globalScope,
-      assignmentName,
-      roleDefinition.id,
+      name,
+      roleDefinition.id!,
       env.CLIENT_OBJECT_ID
     );
-    assert.equal(assignment.name, assignmentName);
+    assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
     assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
 
-    assignment = await client.getRoleAssignment(globalScope, assignmentName);
-    assert.equal(assignment.name, assignmentName);
+    assignment = await client.getRoleAssignment(globalScope, name);
+    assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
     assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
 
-    assignment = await client.deleteRoleAssignment(globalScope, assignmentName);
-    assert.equal(assignment.name, assignmentName);
+    assignment = await client.deleteRoleAssignment(globalScope, name);
+    assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
     assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
 
     let error: Error;
     try {
-      await client.getRoleAssignment(globalScope, generateFakeUUID());
+      await client.getRoleAssignment(globalScope, name);
     } catch (e) {
       error = e;
     }

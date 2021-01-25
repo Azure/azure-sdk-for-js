@@ -8,7 +8,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/integrationRuntimeObjectMetadataMappers";
 import * as Parameters from "../models/parameters";
@@ -30,28 +29,28 @@ export class IntegrationRuntimeObjectMetadata {
    * Get object metadata from an integration runtime
    * @summary Get integration runtime object metadata
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
-   * @returns Promise<Models.IntegrationRuntimeObjectMetadataListResponse>
+   * @returns Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataListOptionalParams): Promise<Models.IntegrationRuntimeObjectMetadataListResponse>;
+  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
+  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimeObjectMetadataListOptionalParams, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
-  list(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataListOptionalParams | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): Promise<Models.IntegrationRuntimeObjectMetadataListResponse> {
+  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: Models.IntegrationRuntimeObjectMetadataGetOptionalParams, callback: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): void;
+  get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: Models.IntegrationRuntimeObjectMetadataGetOptionalParams | msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataListResponse>): Promise<Models.IntegrationRuntimeObjectMetadataGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,49 +58,51 @@ export class IntegrationRuntimeObjectMetadata {
         integrationRuntimeName,
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.IntegrationRuntimeObjectMetadataListResponse>;
+      getOperationSpec,
+      callback) as Promise<Models.IntegrationRuntimeObjectMetadataGetResponse>;
   }
 
   /**
    * Refresh the object metadata in an integration runtime
    * @summary Refresh integration runtime object metadata
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>
    */
-  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
-    return this.beginRefresh(resourceGroupName,workspaceName,integrationRuntimeName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
-  }
-
+  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
   /**
-   * Refresh the object metadata in an integration runtime
-   * @summary Refresh integration runtime object metadata
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
+   * @param workspaceName The name of the workspace
    * @param integrationRuntimeName Integration runtime name
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @param callback The callback
    */
-  beginRefresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
+  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param integrationRuntimeName Integration runtime name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>): void;
+  refresh(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>, callback?: msRest.ServiceCallback<Models.SsisObjectMetadataStatusResponse>): Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse> {
+    return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         integrationRuntimeName,
         options
       },
-      beginRefreshOperationSpec,
-      options);
+      refreshOperationSpec,
+      callback) as Promise<Models.IntegrationRuntimeObjectMetadataRefreshResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata",
   urlParameters: [
@@ -134,7 +135,7 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginRefreshOperationSpec: msRest.OperationSpec = {
+const refreshOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/refreshObjectMetadata",
   urlParameters: [

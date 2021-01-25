@@ -16,7 +16,6 @@ import {
   DirectoryCreateIfNotExistsResponse,
   DirectoryCreateOptions,
   DirectoryCreateResponse,
-  DirectoryGenerateSasUrlOptions,
   FileAppendOptions,
   FileAppendResponse,
   FileCreateIfNotExistsOptions,
@@ -26,7 +25,6 @@ import {
   FileExpiryMode,
   FileFlushOptions,
   FileFlushResponse,
-  FileGenerateSasUrlOptions,
   FileParallelUploadOptions,
   FileQueryOptions,
   FileReadOptions,
@@ -68,7 +66,6 @@ import {
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 import { StorageClient } from "./StorageClient";
 import {
   toAccessControlChangeFailureArray,
@@ -89,13 +86,7 @@ import {
 } from "./utils/constants";
 import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
 import { createSpan } from "./utils/tracing";
-import {
-  appendToURLPath,
-  appendToURLQuery,
-  getURLPathAndQuery,
-  setURLPath,
-  setURLQueries
-} from "./utils/utils.common";
+import { appendToURLPath, setURLPath } from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
 
 /**
@@ -886,8 +877,7 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file".
-   *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
+   * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file"
    * @param {PathMoveOptions} [options] Optional. Options when moving directory or file.
    * @returns {Promise<PathMoveResponse>}
    * @memberof DataLakePathClient
@@ -901,7 +891,6 @@ export class DataLakePathClient extends StorageClient {
    *
    * @param {string} destinationFileSystem Destination file system like "filesystem".
    * @param {string} destinationPath Destination directory path like "directory" or file path "directory/file"
-   *                                 If the destinationPath is authenticated with SAS, add the SAS to the destination path like "directory/file?sasToken".
    * @param {PathMoveOptions} [options] Optional. Options when moving directory or file.
    * @returns {Promise<PathMoveResponse>}
    * @memberof DataLakePathClient
@@ -933,21 +922,12 @@ export class DataLakePathClient extends StorageClient {
 
     const { span, spanOptions } = createSpan("DataLakePathClient-move", options.tracingOptions);
 
-    const renameSource = getURLPathAndQuery(this.dfsEndpointUrl);
+    // Be aware that decodeURIComponent("%27") = "'"; but encodeURIComponent("'") = "'".
+    // But since both ' and %27 work with the service here so we omit replace(/'/g, "%27").
+    const renameSource = `/${this.fileSystemName}/${encodeURIComponent(this.name)}`;
+    const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
 
-    const split: string[] = destinationPath.split("?");
-    let destinationUrl: string;
-    if (split.length === 2) {
-      const renameDestination = `/${destinationFileSystem}/${split[0]}`;
-      destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
-      destinationUrl = setURLQueries(destinationUrl, split[1]);
-    } else if (split.length === 1) {
-      const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
-      destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
-    } else {
-      throw new RangeError("Destination path should not contain more than one query string");
-    }
-
+    const destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
 
     try {
@@ -1143,40 +1123,6 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       appendToURLPath(this.url, encodeURIComponent(fileName)),
       this.pipeline
     );
-  }
-
-  /**
-   * Only available for clients constructed with a shared key credential.
-   *
-   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
-   * and parameters passed in. The SAS is signed by the shared key credential of the client.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
-   *
-   * @param {DirectoryGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeDirectoryClient
-   */
-  public generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string> {
-    return new Promise((resolve) => {
-      if (!(this.credential instanceof StorageSharedKeyCredential)) {
-        throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential"
-        );
-      }
-
-      const sas = generateDataLakeSASQueryParameters(
-        {
-          fileSystemName: this.fileSystemName,
-          pathName: this.name,
-          isDirectory: true,
-          ...options
-        },
-        this.credential
-      ).toString();
-
-      resolve(appendToURLQuery(this.url, sas));
-    });
   }
 }
 
@@ -2147,38 +2093,5 @@ export class DataLakeFileClient extends DataLakePathClient {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Only available for clients constructed with a shared key credential.
-   *
-   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
-   * and parameters passed in. The SAS is signed by the shared key credential of the client.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
-   *
-   * @param {FileGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeFileClient
-   */
-  public generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string> {
-    return new Promise((resolve) => {
-      if (!(this.credential instanceof StorageSharedKeyCredential)) {
-        throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential"
-        );
-      }
-
-      const sas = generateDataLakeSASQueryParameters(
-        {
-          fileSystemName: this.fileSystemName,
-          pathName: this.name,
-          ...options
-        },
-        this.credential
-      ).toString();
-
-      resolve(appendToURLQuery(this.url, sas));
-    });
   }
 }

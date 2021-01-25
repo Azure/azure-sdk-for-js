@@ -218,25 +218,9 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
-          credential
-        )
+      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
       : credential
   );
 
   return new Pipeline(factories, pipelineOptions);
-}
-
-/**
- * Attach a TokenCredential to an object.
- *
- * @export
- * @param {T} thing
- * @param {TokenCredential} credential
- * @returns {T}
- */
-function attachCredential<T>(thing: T, credential: TokenCredential): T {
-  (thing as any).credential = credential;
-  return thing;
 }

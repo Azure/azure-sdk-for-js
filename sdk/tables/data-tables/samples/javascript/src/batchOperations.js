@@ -58,16 +58,19 @@ async function batchOperations() {
   // [
   //   {
   //     status: 204,
+  //     body: undefined,
   //     rowKey: 'A1',
   //     etag: `W/"datetime'2020-10-02T03%3A31%3A09.9324186Z'"`
   //   },
   //   {
   //     status: 204,
+  //     body: undefined,
   //     rowKey: 'A2',
   //     etag: `W/"datetime'2020-10-02T03%3A31%3A09.9324186Z'"`
   //   },
   //   {
   //     status: 204,
+  //     body: undefined,
   //     rowKey: 'A3',
   //     etag: `W/"datetime'2020-10-02T03%3A31%3A09.9324186Z'"`
   //   }

@@ -1,6 +1,6 @@
 {
     "include": [
-      "dist-esm/keyvault-secrets/src/**/*.js"
+      "dist-esm/src/**/*.js"
     ],
     "exclude": [
       "**/*.d.ts"

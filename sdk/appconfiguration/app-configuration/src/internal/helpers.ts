@@ -17,7 +17,7 @@ import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generat
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
- * @hidden
+ * @ignore
  */
 export function quoteETag(etag: string | undefined): string | undefined {
   // https://tools.ietf.org/html/rfc7232#section-3.1
@@ -39,9 +39,9 @@ export function quoteETag(etag: string | undefined): string | undefined {
 /**
  * Checks the onlyIfChanged/onlyIfUnchanged properties to make sure we haven't specified both
  * and throws an Error. Otherwise, returns the properties properly quoted.
- * @param options - An options object with onlyIfChanged/onlyIfUnchanged fields
+ * @param options An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
- * @hidden
+ * @ignore
  */
 export function checkAndFormatIfAndIfNoneMatch(
   configurationSetting: ConfigurationSettingId,
@@ -69,18 +69,27 @@ export function checkAndFormatIfAndIfNoneMatch(
 }
 
 /**
- * Transforms some of the key fields in ListConfigurationSettingsOptions and ListRevisionsOptions
- * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
- * - `options.acceptDateTime` is converted into an ISO string
- * - `select` is populated with the proper field names from `options.fields`
- * - keyFilter and labelFilter are moved to key and label, respectively.
+ * Transforms the keys/labels parameters in the listConfigurationSettings and listRevisions
+ * into the format the REST call will need.
  *
  * @internal
- * @hidden
+ * @ignore
  */
-export function formatFiltersAndSelect(
+export function formatWildcards(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
 ): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+  let fieldsToGet: (keyof KeyValue)[] | undefined;
+
+  if (listConfigOptions.fields) {
+    fieldsToGet = listConfigOptions.fields.map((opt) => {
+      if (opt === "isReadOnly") {
+        return "locked";
+      }
+
+      return opt;
+    });
+  }
+
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -91,15 +100,15 @@ export function formatFiltersAndSelect(
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
     acceptDatetime,
-    select: formatFieldsForSelect(listConfigOptions.fields)
+    select: fieldsToGet
   };
 }
 
 /**
  * Handles translating a Date acceptDateTime into a string as needed by the API
- * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
+ * @param newOptions A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
- * @hidden
+ * @ignore
  */
 export function formatAcceptDateTime(newOptions: {
   acceptDateTime?: Date;
@@ -113,11 +122,11 @@ export function formatAcceptDateTime(newOptions: {
  * Take the URL that gets returned from next link and extract the 'after' token needed
  * to get the next page of results.
  * @internal
- * @hidden
+ * @ignore
  */
 export function extractAfterTokenFromNextLink(nextLink: string) {
-  const parsedLink = URLBuilder.parse(nextLink);
-  const afterToken = parsedLink.getQueryParameterValue("after");
+  let parsedLink = URLBuilder.parse(nextLink);
+  let afterToken = parsedLink.getQueryParameterValue("after");
 
   if (afterToken == null || Array.isArray(afterToken)) {
     throw new Error("Invalid nextLink - invalid after token");
@@ -131,7 +140,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.
  *
- * @param configurationSetting - The configuration setting to alter
+ * @param configurationSetting The configuration setting to alter
  */
 export function makeConfigurationSettingEmpty(
   configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
@@ -152,7 +161,7 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
@@ -166,7 +175,7 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -181,7 +190,7 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export function transformKeyValueResponse<
@@ -206,37 +215,4 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
   delete newResponse.eTag;
 
   return newResponse;
-}
-
-/**
- * Translates user-facing field names into their `select` equivalents (these can be
- * seen in the `KnownEnum5`)
- *
- * @param fieldNames fieldNames from users.
- * @returns The field names translated into the `select` field equivalents.
- *
- * @hidden
- * @internal
- */
-export function formatFieldsForSelect(
-  fieldNames: (keyof ConfigurationSetting)[] | undefined
-): string[] | undefined {
-  if (fieldNames == null) {
-    return undefined;
-  }
-
-  const mappedFieldNames = fieldNames.map((fn) => {
-    switch (fn) {
-      case "lastModified":
-        return "last_modified";
-      case "contentType":
-        return "content_type";
-      case "isReadOnly":
-        return "locked";
-      default:
-        return fn;
-    }
-  });
-
-  return mappedFieldNames;
 }

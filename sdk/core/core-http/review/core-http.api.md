@@ -48,10 +48,10 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 }
 
 // @public
-export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
+export function applyMixins(targetCtor: any, sourceCtors: any[]): void;
 
 // @public (undocumented)
-export type Authenticator = (challenge: unknown) => Promise<string>;
+export type Authenticator = (challenge: object) => Promise<string>;
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -180,7 +180,7 @@ export class DefaultHttpClient extends FetchHttpClient {
     }
 
 // @public
-export function delay<T>(t: number, value?: T): Promise<T | void>;
+export function delay<T>(t: number, value?: T): Promise<T>;
 
 // @public
 export interface DeserializationContentTypes {
@@ -236,7 +236,7 @@ export interface EnumMapperType {
 }
 
 // @public
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: unknown): Promise<any>;
+export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any): Promise<any>;
 
 // @public
 export class ExpiringAccessTokenCache implements AccessTokenCache {
@@ -545,10 +545,10 @@ export interface PolymorphicDiscriminator {
 }
 
 // @public @deprecated
-export function promiseToCallback(promise: Promise<any>): (cb: Function) => void;
+export function promiseToCallback(promise: Promise<any>): Function;
 
 // @public
-export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): (cb: ServiceCallback<T>) => void;
+export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): Function;
 
 // @public (undocumented)
 export type ProxyOptions = ProxySettings;
@@ -641,7 +641,7 @@ export interface RequestPrepareOptions {
     baseUrl?: string;
     body?: any;
     bodyIsStream?: boolean;
-    deserializationMapper?: Record<string, unknown>;
+    deserializationMapper?: object;
     disableClientRequestId?: boolean;
     disableJsonStringifyOnBody?: boolean;
     // (undocumented)
@@ -727,23 +727,23 @@ export interface SequenceMapperType {
 }
 
 // @public (undocumented)
-export function serializeObject(toSerialize: unknown): any;
+export function serializeObject(toSerialize: any): any;
 
 // @public (undocumented)
 export class Serializer {
     constructor(modelMappers?: {
         [key: string]: any;
     }, isXML?: boolean | undefined);
-    deserialize(mapper: Mapper, responseBody: unknown, objectName: string, options?: SerializerOptions): any;
+    deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
     // (undocumented)
     readonly isXML?: boolean | undefined;
     // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    serialize(mapper: Mapper, object: unknown, objectName?: string, options?: SerializerOptions): any;
+    serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
     // (undocumented)
-    validateConstraints(mapper: Mapper, value: unknown, objectName: string): void;
+    validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 
 // @public
@@ -775,7 +775,6 @@ export interface ServiceClientCredentials {
 // @public
 export interface ServiceClientOptions {
     clientRequestIdHeaderName?: string;
-    credentialScopes?: string | string[];
     deserializationContentTypes?: DeserializationContentTypes;
     generateClientRequestIdHeader?: boolean;
     httpClient?: HttpClient;
@@ -805,7 +804,7 @@ export interface SpanConfig {
 }
 
 // @public
-export function stringifyXML(obj: unknown, opts?: SerializerOptions): string;
+export function stringifyXML(obj: any, opts?: SerializerOptions): string;
 
 // @public
 export function stripRequest(request: WebResourceLike): WebResourceLike;
@@ -862,7 +861,7 @@ export class URLBuilder {
     setPath(path: string | undefined): void;
     setPort(port: number | string | undefined): void;
     setQuery(query: string | undefined): void;
-    setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void;
+    setQueryParameter(queryParameterName: string, queryParameterValue: any): void;
     setScheme(scheme: string | undefined): void;
     // (undocumented)
     toString(): string;
@@ -882,7 +881,7 @@ export class URLQuery {
     get(parameterName: string): string | string[] | undefined;
     keys(): string[];
     static parse(text: string): URLQuery;
-    set(parameterName: string, parameterValue: unknown): void;
+    set(parameterName: string, parameterValue: any): void;
     toString(): string;
 }
 
@@ -897,7 +896,7 @@ export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFac
 
 // @public
 export class WebResource implements WebResourceLike {
-    constructor(url?: string, method?: HttpMethods, body?: unknown, query?: {
+    constructor(url?: string, method?: HttpMethods, body?: any, query?: {
         [key: string]: any;
     }, headers?: {
         [key: string]: any;

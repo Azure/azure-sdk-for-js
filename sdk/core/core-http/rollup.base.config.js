@@ -14,7 +14,7 @@ const input = "./es/src/coreHttp.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["http", "https", "util", "os", "stream", "crypto", "url"];
+  const externalNodeBuiltins = ["http", "https", "util", "os", "stream", "crypto"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),

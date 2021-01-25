@@ -7,8 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/indexes(%27hotel-live-test1%27)/docs/search.post.autocomplete', {"search":"garbxyz","suggesterName":"sg"})
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bdefff92ff0742ea40440c000000"], [
-  'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bdefff92ff0742ea40440c000000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -21,9 +20,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '2b52bd90-b5f9-466b-af71-aa633e893085',
+  '116f5a67-9fe1-4219-97ab-48954881e3a7',
   'elapsed-time',
-  '23',
+  '22',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,7 +30,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Fri, 22 Jan 2021 00:06:03 GMT',
+  'Wed, 04 Nov 2020 08:14:15 GMT',
   'Content-Length',
-  '133'
-]);
+  '133' ]);

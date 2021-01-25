@@ -30,8 +30,8 @@ export class LocalCryptographyClient {
    * let client = new LocalCryptographyClient(jsonWebKey);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
-   * @param algorithm - The algorithm to use.
-   * @param plaintext - The text to encrypt.
+   * @param {LocalSupportedAlgorithmName} algorithm The algorithm to use.
+   * @param {Uint8Array} plaintext The text to encrypt.
    */
   public async encrypt(
     algorithm: LocalSupportedAlgorithmName,
@@ -58,9 +58,9 @@ export class LocalCryptographyClient {
    * let client = new LocalCryptographyClient(jsonWebKey);
    * let result = await client.wrapKey("RSA1_5", keyToWrap);
    * ```
-   * @param algorithm - The encryption algorithm to use to wrap the given key.
-   * @param key - The key to wrap.
-   * @param options - Additional options.
+   * @param {LocalSupportedAlgorithmName} algorithm The encryption algorithm to use to wrap the given key.
+   * @param {Uint8Array} key The key to wrap.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async wrapKey(
     algorithm: LocalSupportedAlgorithmName,
@@ -79,10 +79,10 @@ export class LocalCryptographyClient {
    * let client = new LocalCryptographyClient(jsonWebKey, credentials);
    * let result = await client.verifyData("RS256", signedMessage, signature);
    * ```
-   * @param algorithm - The algorithm to use to verify with.
-   * @param data - The signed block of data to verify.
-   * @param signature - The signature to verify the block against.
-   * @param options - Additional options.
+   * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
+   * @param {Uint8Array} data The signed block of data to verify.
+   * @param {Uint8Array} signature The signature to verify the block against.
+   * @param {EncryptOptions} [options] Additional options.
    */
   public async verifyData(
     algorithm: LocalSupportedAlgorithmName,
@@ -117,7 +117,8 @@ export class LocalCryptographyClient {
    * };
    * const client = new LocalCryptographyClient(jsonWebKey);
    * ```
-   * @param key - The JsonWebKey to use during cryptography operations.
+   * @param key The JsonWebKey to use during cryptography operations.
+   * @memberof CryptographyClient
    */
   constructor(key: JsonWebKey) {
     this.key = key;

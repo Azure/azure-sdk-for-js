@@ -13,13 +13,12 @@ if (isNode) {
 
 const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
-    AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-    AZURE_PHONE_NUMBER: "+18005551234"
+    COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+    FROM_PHONE_NUMBER: "+18005555555",
+    TO_PHONE_NUMBER: "+18005551234"
   },
   customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    (recording: string): string =>
-      recording.replace(/"messageId"\s?:\s?"[^"]*"/g, `"messageId":"Sanitized"`)
+    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint/")
   ],
   queryParametersToSkip: []
 };
@@ -37,10 +36,10 @@ describe("SmsClient", async () => {
     }
   });
 
-  it("sends a SMS message", async () => {
-    const connectionString = env["AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"] as string;
-    const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
-    const toNumber = env["AZURE_PHONE_NUMBER"] as string;
+  it("sends an SMS message", async () => {
+    const connectionString = env["COMMUNICATION_CONNECTION_STRING"] as string;
+    const fromNumber = env["FROM_PHONE_NUMBER"] as string;
+    const toNumber = env["TO_PHONE_NUMBER"] as string;
 
     const smsClient = new SmsClient(connectionString);
     const sendRequest: SendRequest = {

@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "94f2c2c93cfee83a172c03480cae9dba";
+module.exports.hash = "63210f723fc2dda20fd80ea70727d02f";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -11,7 +11,8 @@ nock("https://endpoint", { encodedQueryParams: true })
     200,
     {
       countries: [
-        { localizedName: "Canada", countryCode: "CA" },
+        { localizedName: "Australia", countryCode: "AU" },
+        { localizedName: "Japan", countryCode: "JP" },
         { localizedName: "United States", countryCode: "US" }
       ],
       nextLink: null
@@ -22,12 +23,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "KSew2XXuJUmhVRXHsdoRjg.0",
+      "ShzCBK46mkeS1wWflDDpfg.0",
       "X-Processing-Time",
-      "810ms",
+      "400ms",
       "X-Azure-Ref",
-      "0tIy4XwAAAABf7te5cDbfSKQtpjstPRjfWVZSMzBFREdFMDMxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0ZSl+XwAAAADJexyonDyOQqfbsLPQ1iLVWVZSMzBFREdFMDMxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Sat, 21 Nov 2020 03:42:44 GMT"
+      "Wed, 07 Oct 2020 20:47:32 GMT"
     ]
   );

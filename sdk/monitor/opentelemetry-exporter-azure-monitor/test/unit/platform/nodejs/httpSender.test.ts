@@ -10,7 +10,7 @@ import {
   partialBreezeResponse
 } from "../../breezeTestUtils";
 import { TelemetryItem as Envelope } from "../../../../src/generated";
-import nock from "nock";
+import nock = require("nock");
 
 describe("HttpSender", () => {
   const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");

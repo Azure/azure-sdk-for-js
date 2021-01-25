@@ -66,7 +66,7 @@ const getTypeOfParam = (
   ) as TypeReference;
 
   // if array, extract type from array
-  const typeNode = typeChecker.typeToTypeNode(type, undefined, undefined);
+  const typeNode = typeChecker.typeToTypeNode(type);
   if (typeNode !== undefined && isArrayTypeNode(typeNode)) {
     const elementTypeReference = typeNode.elementType as TypeReferenceNode;
     const typeName = elementTypeReference.typeName as any;
@@ -105,7 +105,7 @@ const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: Type
     .getPropertiesOfType(typeChecker.getDeclaredTypeOfSymbol(symbol))
     .forEach((element: TSSymbol): void => {
       const memberType = typeChecker.getTypeAtLocation(element.valueDeclaration);
-      const memberTypeNode = typeChecker.typeToTypeNode(memberType, undefined, undefined);
+      const memberTypeNode = typeChecker.typeToTypeNode(memberType);
 
       // extract type of member
       let memberSymbol: TSSymbol | undefined;

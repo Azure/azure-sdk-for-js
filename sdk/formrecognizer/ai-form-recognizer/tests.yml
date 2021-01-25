@@ -6,7 +6,7 @@ parameters:
 - name: Location
   displayName: Location
   type: string
-  default: canadacentral
+  default: westus2
 
 trigger: none
 
@@ -17,7 +17,6 @@ extends:
     ResourceServiceDirectory: formrecognizer
     TestSamples: false
     ResourceGroupLocation: "${{ parameters.Location }}"
-    TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

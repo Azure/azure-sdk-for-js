@@ -3,10 +3,8 @@
 
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
-import {
-  CommunicationUserIdentifier,
-  CommunicationTokenCredential
-} from "@azure/communication-common";
+import { CommunicationUser, CommunicationUserCredential } from "@azure/communication-common";
+import { createCommunicationUserCredentialPolicy } from "./credential/communicationUserCredentialPolicy";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -47,7 +45,6 @@ import {
   mapToChatParticipantSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 
 export { ChatMessagePriority, SendReadReceiptRequest } from "./generated/src/models";
 
@@ -62,7 +59,7 @@ export class ChatThreadClient {
    */
   readonly threadId: string;
 
-  private readonly tokenCredential: CommunicationTokenCredential;
+  private readonly tokenCredential: CommunicationUserCredential;
   private readonly client: ChatApiClient;
   private disposed = false;
 
@@ -71,7 +68,7 @@ export class ChatThreadClient {
   constructor(
     threadId: string,
     private readonly url: string,
-    credential: CommunicationTokenCredential,
+    credential: CommunicationUserCredential,
     options: ChatThreadClientOptions = {}
   ) {
     this.threadId = threadId;
@@ -99,7 +96,7 @@ export class ChatThreadClient {
       }
     };
 
-    const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
+    const authPolicy = createCommunicationUserCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.client = new ChatApiClient(this.url, pipeline);
@@ -425,7 +422,7 @@ export class ChatThreadClient {
    * @param options Operation options.
    */
   public async removeParticipant(
-    participant: CommunicationUserIdentifier,
+    participant: CommunicationUser,
     options: RemoveParticipantOptions = {}
   ): Promise<OperationResponse> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-RemoveParticipant", options);

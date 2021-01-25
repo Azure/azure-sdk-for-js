@@ -161,47 +161,15 @@ describe("HttpsPipeline", function() {
       sendRequest: (request, next) => next(request),
       name: "test3"
     };
-    const testPolicy4: PipelinePolicy = {
-      sendRequest: (request, next) => next(request),
-      name: "test4"
-    };
     pipeline.addPolicy(testPolicy, { phase: "Retry" });
     pipeline.addPolicy(testPolicy2, { phase: "Serialize" });
     pipeline.addPolicy(testPolicy3);
-    pipeline.addPolicy(testPolicy4, { phase: "Deserialize" });
 
     const policies = pipeline.getOrderedPolicies();
-    assert.strictEqual(policies.length, 4);
-    assert.strictEqual(policies[0], testPolicy2);
-    assert.strictEqual(policies[1], testPolicy3);
-    assert.strictEqual(policies[2], testPolicy4);
-    assert.strictEqual(policies[3], testPolicy);
-  });
-
-  it("prevents phases from getting out of order", function() {
-    const pipeline = createEmptyPipeline();
-    const testPolicy: PipelinePolicy = {
-      sendRequest: (request, next) => next(request),
-      name: "test"
-    };
-    const testPolicy2: PipelinePolicy = {
-      sendRequest: (request, next) => next(request),
-      name: "test2"
-    };
-    const testPolicy3: PipelinePolicy = {
-      sendRequest: (request, next) => next(request),
-      name: "test3"
-    };
-    pipeline.addPolicy(testPolicy, { phase: "Serialize" });
-    pipeline.addPolicy(testPolicy2, {
-      beforePolicies: [testPolicy.name],
-      afterPhase: "Deserialize"
-    });
-    pipeline.addPolicy(testPolicy3, { phase: "Deserialize" });
-
-    assert.throws(() => {
-      pipeline.getOrderedPolicies();
-    }, /cycle/);
+    assert.strictEqual(policies.length, 3);
+    assert.strictEqual(policies[0], testPolicy3);
+    assert.strictEqual(policies[1], testPolicy2);
+    assert.strictEqual(policies[2], testPolicy);
   });
 
   it("addPolicy throws on both phase and afterPhase specified", function() {
@@ -229,8 +197,10 @@ describe("HttpsPipeline", function() {
 
     assert.throws(() => {
       pipeline.addPolicy(testPolicy, { afterPhase: "Cerealize" as any });
-    }, /Invalid afterPhase name/);
+    }, /Invalid phase name/);
   });
+
+  // bad phase name should throw
 
   it("removePolicy removes named policy", function() {
     const pipeline = createEmptyPipeline();

@@ -59,7 +59,7 @@ export type ListIncidentsForDetectionConfigurationOptions = {
  * Options for retreiving metric enriched series data
  */
 
-export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
+export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
 
 /**
  * Options for listing anomalies for detection configurations
@@ -142,7 +142,7 @@ export type ListMetricSeriesDefinitionsOptions = {
  * Options for retreiving metric series data
  */
 
-export type GetMetricSeriesDataOptions = OperationOptions;
+export type GetMetricSeriesDataOptions = {} & OperationOptions;
 
 /**
  * Options for listing alerts
@@ -183,14 +183,14 @@ export class MetricsAdvisorClient {
 
   /**
    * @internal
-   * @hidden
+   * @ignore
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
    * @internal
-   * @hidden
+   * @ignore
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -207,9 +207,9 @@ export class MetricsAdvisorClient {
    *    new MetricsAdvisorKeyCredential("<subscription key>", "<api key>")
    * );
    * ```
-   * @param endpointUrl - Url to an Azure Metrics Advisor service endpoint
-   * @param credential - Used to authenticate requests to the service.
-   * @param options - Used to configure the Metrics Advisor client.
+   * @param {string} endpointUrl Url to an Azure Metrics Advisor service endpoint
+   * @param {MetricsAdvisorKeyCredential} credential Used to authenticate requests to the service.
+   * @param {MetricsAdvisorClientOptions} [options] Used to configure the Metrics Advisor client.
    */
   constructor(
     endpointUrl: string,
@@ -222,8 +222,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * List alert segments for alerting configuration
    */
   private async *listSegmentOfAlerts(
@@ -300,8 +299,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * List alert items for alerting configuration
    */
   private async *listItemsOfAlerts(
@@ -376,11 +374,11 @@ export class MetricsAdvisorClient {
    * }
    *
    * ```
-   * @param alertConfigId - Anomaly alerting configuration unique id
-   * @param startTime - The start of time range to query alert items for alerting configuration
-   * @param endTime - The end of time range to query alert items for alerting configuration
-   * @param timeMode - Query time mode - "AnomalyTime" | "CreatedTime" | "ModifiedTime"
-   * @param options - The options parameter.
+   * @param alertConfigId  anomaly alerting configuration unique id
+   * @param startTime The start of time range to query alert items for alerting configuration
+   * @param endTime The end of time range to query alert items for alerting configuration
+   * @param timeMode Query time mode - "AnomalyTime" | "CreatedTime" | "ModifiedTime"
+   * @param options The options parameter.
    */
 
   public listAlerts(
@@ -399,19 +397,19 @@ export class MetricsAdvisorClient {
     );
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns an AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfAlerts(
@@ -428,8 +426,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * List anomalies for alerting configuration - segments
    */
   private async *listSegmentsOfAnomaliesForAlert(
@@ -509,8 +506,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * listing anomalies for alerting configuration - items
    */
   private async *listItemsOfAnomaliesForAlert(
@@ -538,19 +534,19 @@ export class MetricsAdvisorClient {
     const iter = this.listItemsOfAnomaliesForAlert(alert.alertConfigId, alert.id, options);
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfAnomaliesForAlert(
@@ -565,8 +561,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * listing incidents for alert - segments
    */
   private async *listSegmentsOfIncidentsForAlert(
@@ -647,7 +642,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
+   * @private
    * listing incidents for alert - items
    */
   private async *listItemsOfIncidentsForAlert(
@@ -714,8 +709,8 @@ export class MetricsAdvisorClient {
    *  page = await pages.next();
    * }
    * ```
-   * @param alert - Anomaly alert containing alertConfigId and id
-   * @param options - The options parameter.
+   * @param alert Anomaly alert containing alertConfigId and id
+   * @param options The options parameter.
    */
   public listIncidents(
     alert: AnomalyAlert,
@@ -770,10 +765,10 @@ export class MetricsAdvisorClient {
    *  page = await pages.next();
    * }
    * ```
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param startTime - The start of time range to query for incidents
-   * @param endTime - The end of time range to query for incidents
-   * @param options - The options parameter.
+   * @param detectionConfigId  Anomaly detection configuration id
+   * @param startTime The start of time range to query for incidents
+   * @param endTime The end of time range to query for incidents
+   * @param options The options parameter.
    */
   public listIncidents(
     detectionConfigId: string,
@@ -817,19 +812,19 @@ export class MetricsAdvisorClient {
     const iter = this.listItemsOfIncidentsForAlert(alert.alertConfigId, alert.id, options);
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfIncidentsForAlert(
@@ -846,11 +841,11 @@ export class MetricsAdvisorClient {
   /**
    * Retrieves enriched metric series data for a detection configuration
    *
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param startTime - The start of time range to query metric enriched series data
-   * @param endTime - The end of time range to query metric enriched series data
-   * @param seriesToFilter - Series to retrieve their data
-   * @param options - The options parameter.
+   * @param detectionConfigId Anomaly detection configuration id
+   * @param startTime The start of time range to query metric enriched series data
+   * @param endTime The end of time range to query metric enriched series data
+   * @param seriesToFilter Series to retrieve their data
+   * @param options The options parameter.
    */
   public async getMetricEnrichedSeriesData(
     detectionConfigId: string,
@@ -891,8 +886,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * listing anomalies for detection config - segments
    */
 
@@ -983,8 +977,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
+   * @private
    * listing anomalies for detection config - items
    */
 
@@ -1022,19 +1015,19 @@ export class MetricsAdvisorClient {
     );
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfAnomaliesForDetectionConfig(
@@ -1095,8 +1088,8 @@ export class MetricsAdvisorClient {
    * }
    *
    * ```
-   * @param alert - Anomaly alert containing alertConfigId and id
-   * @param options - The options parameter.
+   * @param alert Anomaly alert containing alertConfigId and id
+   * @param options The options parameter.
    */
   public listAnomalies(
     alert: AnomalyAlert,
@@ -1152,10 +1145,10 @@ export class MetricsAdvisorClient {
    * }
    *
    * ```
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param startTime - The start of time range to query anomalies
-   * @param endTime - The end of time range to query anomalies
-   * @param options - The options parameter.
+   * @param detectionConfigId Anomaly detection configuration id
+   * @param startTime The start of time range to query anomalies
+   * @param endTime The end of time range to query anomalies
+   * @param options The options parameter.
    */
   public listAnomalies(
     detectionConfigId: string,
@@ -1326,10 +1319,10 @@ export class MetricsAdvisorClient {
    *   page = await pages.next();
    * }
    * ```
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param startTime - The start of time range to query anomalies
-   * @param endTime - The end of time range to query anomalies
-   * @param options - The options parameter.
+   * @param detectionConfigId  Anomaly detection configuration id
+   * @param startTime The start of time range to query anomalies
+   * @param endTime The end of time range to query anomalies
+   * @param options The options parameter.
    */
   public listDimensionValuesForDetectionConfig(
     detectionConfigId: string,
@@ -1347,19 +1340,19 @@ export class MetricsAdvisorClient {
     );
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfDimensionValuesForDetectionConfig(
@@ -1497,19 +1490,19 @@ export class MetricsAdvisorClient {
     );
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfIncidentsForDetectionConfig(
@@ -1527,9 +1520,9 @@ export class MetricsAdvisorClient {
   /**
    * Gets the root causes of an incident.
    *
-   * @param detectionConfigId - Anomaly detection configuration id
-   * @param incidentId - Incident id
-   * @param options - The options parameter
+   * @param detectionConfigId Anomaly detection configuration id
+   * @param incidentId Incident id
+   * @param options The options parameter
    */
   public async getIncidentRootCauses(
     detectionConfigId: string,
@@ -1574,8 +1567,8 @@ export class MetricsAdvisorClient {
   /**
    * Creates a metric feedback.
    *
-   * @param feedback - Content of the feedback
-   * @param options - The options parameter
+   * @param feedback content of the feedback
+   * @param options The options parameter
    */
   public async createFeedback(
     feedback: MetricFeedbackUnion,
@@ -1608,9 +1601,9 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * Retrieves a metric feedback for the given feedback id.
-   * @param id - Id of the feedback to retrieve
-   * @param options - The options parameter
+   * Retrives a metric feedback for the given feedback id.
+   * @param id Id of the feedback to retrieve
+   * @param options The options parameter
    */
   public async getFeedback(
     id: string,
@@ -1769,8 +1762,8 @@ export class MetricsAdvisorClient {
    *  page = await pages.next();
    * }
    * ```
-   * @param metricId - Metric id
-   * @param options - The options parameter
+   * @param metricId Metric id
+   * @param options The options parameter
    */
   public listFeedback(
     metricId: string,
@@ -1779,19 +1772,19 @@ export class MetricsAdvisorClient {
     const iter = this.listItemsOfFeedback(metricId, options);
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns an AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfFeedback(
@@ -1808,11 +1801,11 @@ export class MetricsAdvisorClient {
 
   /**
    * Gets the time series data for a metric
-   * @param metricId - Metric id
-   * @param startTime - The start of the time range to retrieve series data
-   * @param endTime - The end of the time range to retrieve series data
-   * @param seriesToFilter - A list of time series to retrieve their data
-   * @param options - The options parameter
+   * @param metricId Metric id
+   * @param startTime The start of the time range to retrieve series data
+   * @param endTime The end of the time range to retrieve series data
+   * @param seriesToFilter A list of time series to retrieve their data
+   * @param options The options parameter
    */
   public async getMetricSeriesData(
     metricId: string,
@@ -1969,9 +1962,9 @@ export class MetricsAdvisorClient {
    *   page = await pages.next();
    * }
    * ```
-   * @param metricId - Metric id
-   * @param activeSince - Definitions of series ingested after this time are returned
-   * @param options - The options parameter.
+   * @param metricId Metric id
+   * @param activeSince Definitions of series ingested after this time are returned
+   * @param options The options parameter.
    */
   public listMetricSeriesDefinitions(
     metricId: string,
@@ -1985,19 +1978,19 @@ export class MetricsAdvisorClient {
     );
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfMetricSeriesDefinitions(
@@ -2125,9 +2118,9 @@ export class MetricsAdvisorClient {
    *   page = await pages.next();
    * }
    * ```
-   * @param metricId - Anomaly detection configuration id
-   * @param dimensionName - Name of the dimension to list value
-   * @param options - The options parameter.
+   * @param metricId  Anomaly detection configuration id
+   * @param dimensionName Name of the dimension to list value
+   * @param options The options parameter.
    */ public listMetricDimensionValues(
     metricId: string,
     dimensionName: string,
@@ -2137,19 +2130,19 @@ export class MetricsAdvisorClient {
 
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfMetricDimensionValues(
@@ -2300,10 +2293,10 @@ export class MetricsAdvisorClient {
    *  page = await pages.next();
    * }
    * ```
-   * @param metricId - Metric id
-   * @param startTime - The start of time range to query for enrichment status
-   * @param endTime - The end of time range to query for enrichment status
-   * @param options - The options parameter.
+   * @param metricId Metric id
+   * @param startTime The start of time range to query for enrichment status
+   * @param endTime The end of time range to query for enrichment status
+   * @param options The options parameter.
    */
   public listMetricEnrichmentStatus(
     metricId: string,
@@ -2319,19 +2312,19 @@ export class MetricsAdvisorClient {
     );
     return {
       /**
-       * The next method, part of the iteration protocol
+       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * The connection to the async iterator, part of the iteration protocol
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @returns An AsyncIterableIterator that works a page at a time
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentsOfMetricEnrichmentStatus(

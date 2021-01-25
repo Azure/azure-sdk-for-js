@@ -63,47 +63,6 @@ export class SqlPoolReplicationLinks {
   }
 
   /**
-   * Get SQL pool replication link by name.
-   * @summary Get SQL pool replication link by name
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param linkId The ID of the replication link.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.SqlPoolReplicationLinksGetByNameResponse>
-   */
-  getByName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolReplicationLinksGetByNameResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param linkId The ID of the replication link.
-   * @param callback The callback
-   */
-  getByName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, linkId: string, callback: msRest.ServiceCallback<Models.ReplicationLink>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
-   * @param sqlPoolName SQL pool name
-   * @param linkId The ID of the replication link.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getByName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, linkId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReplicationLink>): void;
-  getByName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, linkId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReplicationLink>, callback?: msRest.ServiceCallback<Models.ReplicationLink>): Promise<Models.SqlPoolReplicationLinksGetByNameResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        sqlPoolName,
-        linkId,
-        options
-      },
-      getByNameOperationSpec,
-      callback) as Promise<Models.SqlPoolReplicationLinksGetByNameResponse>;
-  }
-
-  /**
    * Lists a Sql pool's replication links.
    * @summary Get SQL pool replication links
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -155,34 +114,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ReplicationLinkListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  serializer
-};
-
-const getByNameOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/replicationLinks/{linkId}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.sqlPoolName,
-    Parameters.linkId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReplicationLink
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -206,7 +138,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ReplicationLinkListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

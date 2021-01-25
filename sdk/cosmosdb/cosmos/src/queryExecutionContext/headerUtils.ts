@@ -29,7 +29,7 @@ export function getRequestChargeIfAny(headers: CosmosHeaders | number): number {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function getInitialHeader(): CosmosHeaders {
   const headers: CosmosHeaders = {};
@@ -39,7 +39,7 @@ export function getInitialHeader(): CosmosHeaders {
 }
 
 /**
- * @hidden
+ * @ignore
  * @param headers
  * @param toBeMergedHeaders
  */

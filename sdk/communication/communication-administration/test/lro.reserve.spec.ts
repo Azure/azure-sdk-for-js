@@ -10,10 +10,7 @@ import {
   PhoneNumberAdministrationClient,
   PhoneNumberReservation
 } from "../src";
-import {
-  createRecordedPhoneNumberAdministrationClient,
-  testPollerOptions
-} from "./utils/recordedClient";
+import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
 
 describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", function() {
   let recorder: Recorder;
@@ -82,7 +79,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
       }
     });
     areaCode = primaryAreaCodes ? primaryAreaCodes[0] : "";
-  }).timeout(30000);
+  });
 
   it("can wait until a search is completed", async function() {
     if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
@@ -96,7 +93,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
       areaCode,
       quantity: 1
     };
-    poller = await client.beginReservePhoneNumbers(reservationRequest, testPollerOptions);
+    poller = await client.beginReservePhoneNumbers(reservationRequest);
     assert.ok(poller.getOperationState().isStarted);
 
     const reservation: PhoneNumberReservation = await poller.pollUntilDone();

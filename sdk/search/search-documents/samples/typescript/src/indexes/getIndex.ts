@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SearchIndexClient, AzureKeyCredential, SearchIndex } from "@azure/search-documents";
+import {
+  SearchIndexClient,
+  AzureKeyCredential,
+  SearchIndex
+} from "@azure/search-documents";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -16,7 +20,7 @@ export async function main() {
   }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Get Index example-index`);
-  const index: SearchIndex = await client.getIndex("example-index");
+  const index:SearchIndex = await client.getIndex("example-index");
   console.log(`Name: ${index.name}`);
   console.log(`Similarity Algorithm: ${index.similarity?.odatatype}`);
 }

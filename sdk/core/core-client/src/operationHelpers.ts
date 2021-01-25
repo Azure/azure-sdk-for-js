@@ -6,13 +6,11 @@ import {
   OperationParameter,
   Mapper,
   CompositeMapper,
-  ParameterPath,
-  OperationRequestInfo,
-  OperationRequest
+  ParameterPath
 } from "./interfaces";
 
 /**
- * @internal @hidden
+ * @internal @ignore
  * Retrieves the value to use for a given operation argument
  * @param operationArguments The arguments passed from the generated client
  * @param parameter The parameter description
@@ -104,16 +102,4 @@ function getPropertyFromParameterPath(
     result.propertyFound = true;
   }
   return result;
-}
-
-const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>();
-
-export function getOperationRequestInfo(request: OperationRequest): OperationRequestInfo {
-  let info = operationRequestMap.get(request);
-
-  if (!info) {
-    info = {};
-    operationRequestMap.set(request, info);
-  }
-  return info;
 }

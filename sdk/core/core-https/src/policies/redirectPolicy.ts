@@ -60,16 +60,17 @@ async function handleRedirect(
     currentRetries < maxRetries
   ) {
     const url = new URL(locationHeader, request.url);
-    request.url = url.toString();
+    const req = request.clone();
+    req.url = url.toString();
 
     // POST request with Status code 303 should be converted into a
     // redirected GET request if the redirect url is present in the location header
     if (status === 303) {
-      request.method = "GET";
-      delete request.body;
+      req.method = "GET";
+      delete req.body;
     }
 
-    const res = await next(request);
+    const res = await next(req);
     return handleRedirect(next, res, maxRetries, currentRetries + 1);
   }
 

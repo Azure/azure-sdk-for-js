@@ -5,12 +5,13 @@
       "url": "https://endpoint/administration/phonenumbers/phonenumbers",
       "query": {
         "locale": "en-US",
+        "skip": "0",
         "take": "100",
         "api-version": "2020-07-20-preview1"
       },
       "requestBody": null,
       "status": 200,
-      "response": "{\"phoneNumbers\":[{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"InboundCalling\",\"UserAssignment\",\"Geographic\",\"OutboundCalling\"],\"availableCapabilities\":[\"UserAssignment\",\"InboundCalling\",\"OutboundCalling\",\"Geographic\",\"Office365\",\"Azure\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Birmingham, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"InboundA2PSms\",\"OutboundA2PSms\",\"TollFree\"],\"availableCapabilities\":[\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"ConferenceAssignment\",\"FirstPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"},{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"ThirdPartyAppAssignment\",\"InboundA2PSms\",\"OutboundA2PSms\",\"TollFree\"],\"availableCapabilities\":[\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\",\"ThirdPartyAppAssignment\",\"ConferenceAssignment\",\"FirstPartyAppAssignment\",\"TollFree\",\"InboundA2PSms\",\"OutboundA2PSms\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Toll-Free, United States\",\"activationState\":\"Activated\"}],\"nextLink\":null}",
+      "response": "{\"phoneNumbers\":[{\"phoneNumber\":\"+18005551234\",\"acquiredCapabilities\":[\"Azure\",\"InboundCalling\",\"UserAssignment\",\"Geographic\",\"OutboundCalling\"],\"availableCapabilities\":[\"UserAssignment\",\"Geographic\",\"Azure\",\"Office365\",\"InboundCalling\",\"OutboundCalling\"],\"assignmentStatus\":\"Unassigned\",\"placeName\":\"Birmingham, United States\",\"activationState\":\"Activated\"}],\"nextLink\":null}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }
@@ -20,5 +21,5 @@
     "uniqueName": {},
     "newDate": {}
   },
-  "hash": "555a50270925ae99f8dda47aa3d1fd3f"
+  "hash": "cfeccafb622f2df9d7e8ca9e42e7c809"
 }

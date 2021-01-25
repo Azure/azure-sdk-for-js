@@ -13,8 +13,8 @@ export const isNode =
  * @param {T} value The value to be resolved with after a timeout of t milliseconds.
  * @returns {Promise<T>} Resolved promise
  */
-export function delay<T>(t: number, value?: T): Promise<T | void> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
+export function delay<T>(t: number, value?: T): Promise<T> {
+  return new Promise<T>((resolve) => setTimeout(() => resolve(value), t));
 }
 
 /**
@@ -24,7 +24,7 @@ export function delay<T>(t: number, value?: T): Promise<T | void> {
  * this for any kind of security purpose, find a better source of random.
  * @param min The smallest integer value allowed.
  * @param max The largest integer value allowed.
- * @hidden @internal
+ * @ignore @internal
  */
 export function getRandomIntegerInclusive(min: number, max: number): number {
   // Make sure inputs are integers.

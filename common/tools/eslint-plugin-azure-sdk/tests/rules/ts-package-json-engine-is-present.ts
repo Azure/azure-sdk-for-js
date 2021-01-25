@@ -269,16 +269,6 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       // incorrect format but in a file we don't care about
       code: '{"engines": { "node": ">=6.0.0" }}',
       filename: "not_package.json"
-    },
-    {
-      // different than the default but with an override
-      code: '{"engines": { "node": ">=8.5.0" }}',
-      filename: "package.json",
-      options: [
-        {
-          nodeVersionOverride: ">=8.5.0"
-        }
-      ]
     }
   ],
   invalid: [
@@ -332,22 +322,6 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
         }
       ],
       output: examplePackageGood
-    },
-    {
-      // override was provided but the version does not match
-      code: '{"engines": { "node": ">=8.0.0" }}',
-      filename: "package.json",
-      errors: [
-        {
-          message: "engines.node is set to >=8.0.0 when it should be set to >=6.5.0"
-        }
-      ],
-      options: [
-        {
-          nodeVersionOverride: ">=6.5.0"
-        }
-      ],
-      output: '{"engines": { "node": ">=6.5.0" }}'
     }
   ]
 });

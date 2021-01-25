@@ -6,7 +6,7 @@ import { logger } from "../log";
 
 /**
  * Checks whether a network connection is detected.
- * @hidden
+ * @ignore
  * @internal
  */
 export function checkNetworkConnection(host: string): Promise<boolean> {

@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { Logger } from "@opentelemetry/api";
-import { ConsoleLogger, LogLevel, ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { ConsoleLogger, LogLevel, ExportResult } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
-import { RestError } from "@azure/core-http";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
 import {
@@ -65,14 +64,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
   private async _persist(envelopes: unknown[]): Promise<ExportResult> {
     try {
       const success = await this._persister.push(envelopes);
-      return success
-        ? { code: ExportResultCode.SUCCESS }
-        : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
-    } catch (ex) {
-      return { code: ExportResultCode.FAILED, error: ex };
+      return success ? ExportResult.FAILED_RETRYABLE : ExportResult.FAILED_NOT_RETRYABLE;
+    } catch (e) {
+      return ExportResult.FAILED_NOT_RETRYABLE;
     }
   }
 
@@ -90,7 +84,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           }, this._options.batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
-        return { code: ExportResultCode.SUCCESS };
+        return ExportResult.SUCCESS;
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (result) {
@@ -108,24 +102,15 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         }
       } else {
         // Failed -- not retriable
-        return {
-          code: ExportResultCode.FAILED
-        };
+        return ExportResult.FAILED_NOT_RETRYABLE;
       }
     } catch (senderErr) {
-      if (this._isNetworkError(senderErr)) {
-        this._logger.error(
-          "Retrying due to transient client side error. Error message:",
-          senderErr.message
-        );
-        return await this._persist(envelopes);
-      } else {
-        this._logger.error(
-          "Envelopes could not be exported and are not retriable. Error message:",
-          senderErr.message
-        );
-        return { code: ExportResultCode.FAILED, error: senderErr };
-      }
+      // Request failed -- always retry
+      this._logger.error(
+        "Envelopes could not be exported and are not retriable. Error message:",
+        senderErr.message
+      );
+      return ExportResult.FAILED_NOT_RETRYABLE;
     }
   }
 
@@ -140,9 +125,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     resultCallback(await this.exportEnvelopes(envelopes));
   }
 
-  async shutdown(): Promise<void> {
+  shutdown(): void {
     this._logger.info("Azure Monitor Trace Exporter shutting down");
-    return this._sender.shutdown();
+    this._sender.shutdown();
   }
 
   private async _sendFirstPersistedFile(): Promise<void> {
@@ -154,14 +139,5 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     } catch (err) {
       this._logger.warn(`Failed to fetch persisted file`, err);
     }
-  }
-
-  private _isNetworkError(error: Error): boolean {
-    if (error instanceof RestError) {
-      if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
-        return true;
-      }
-    }
-    return false;
   }
 }

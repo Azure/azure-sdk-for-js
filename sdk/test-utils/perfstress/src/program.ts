@@ -7,7 +7,7 @@ import {
   PerfStressOptionDictionary,
   parsePerfStressOption,
   defaultPerfStressOptions,
-  DefaultPerfStressOptions
+  DefaultPerfStressOptionNames
 } from "./options";
 import { PerfStressParallel } from "./parallel";
 
@@ -35,9 +35,9 @@ export type TestType = "";
  */
 export class PerfStressProgram {
   private testName: string;
-  private parsedDefaultOptions: Required<PerfStressOptionDictionary<DefaultPerfStressOptions>>;
+  private options: PerfStressOptionDictionary<DefaultPerfStressOptionNames>;
   private parallelNumber: number;
-  private tests: PerfStressTest[];
+  private tests: PerfStressTest<string>[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -47,16 +47,17 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestConstructor) {
+  constructor(testClass: PerfStressTestConstructor<string>) {
     this.testName = testClass.name;
-    this.parsedDefaultOptions = parsePerfStressOption(defaultPerfStressOptions);
-    this.parallelNumber = Number(this.parsedDefaultOptions.parallel.value);
+    this.options = parsePerfStressOption(defaultPerfStressOptions);
+    this.parallelNumber = Number(this.options.parallel.value);
 
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<DefaultPerfStressOptions>>(this.parallelNumber);
+    this.tests = new Array<PerfStressTest<string>>(this.parallelNumber);
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
+      test.parseOptions();
       this.tests[i] = test;
     }
   }
@@ -107,7 +108,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private runLoopSync(
-    test: PerfStressTest,
+    test: PerfStressTest<string>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -148,7 +149,7 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoopAsync(
-    test: PerfStressTest,
+    test: PerfStressTest<string>,
     parallel: PerfStressParallel,
     durationMilliseconds: number,
     abortController: AbortController
@@ -194,12 +195,12 @@ export class PerfStressProgram {
     // For this reason, we also check if the time has passed inside of runLoop.
     setTimeout(() => abortController.abort(), durationMilliseconds);
 
-    const parallel = Number(this.parsedDefaultOptions.parallel.value);
+    const parallel = Number(this.options.parallel.value);
 
     // This is how we customize how frequently we log how many completed operations have been executed.
     // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
     // of operations running.
-    const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
+    const millisecondsToLog = Number(this.options["milliseconds-to-log"].value);
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex}. Logs every ${millisecondsToLog /
         1000}s ===`
@@ -213,7 +214,7 @@ export class PerfStressProgram {
       lastInIteration = inTotal;
     }, millisecondsToLog);
 
-    const isAsync = !this.parsedDefaultOptions.sync.value;
+    const isAsync = !this.options.sync.value;
     const runLoop = isAsync ? this.runLoopAsync : this.runLoopSync;
 
     // Unhandled exceptions should stop the whole PerfStress process.
@@ -278,15 +279,18 @@ export class PerfStressProgram {
   public async run(): Promise<void> {
     // There should be no test execution if the help option is passed.
     // --help, or -h
-    if (this.parsedDefaultOptions.help.value) {
+    if (this.options.help.value) {
       console.log(`=== Help: Options that can be sent to ${this.testName} ===`);
-      console.table(this.tests[0].parsedOptions);
+      console.table(this.tests[0].options);
       return;
     }
 
-    const options = this.tests[0].parsedOptions;
+    const options = this.options;
     console.log("=== Parsed options ===");
-    console.table(options);
+    console.table({
+      ...options,
+      ...this.tests[0].options
+    });
 
     if (this.tests[0].globalSetup) {
       console.log(
@@ -307,7 +311,7 @@ export class PerfStressProgram {
       await this.runTest(0, Number(options.warmup.value), "warmup");
     }
 
-    const iterations = Number(options.iterations.value);
+    const iterations = Number(this.options.iterations.value);
     for (let i = 0; i < iterations; i++) {
       await this.runTest(i, Number(options.duration.value), "test");
     }

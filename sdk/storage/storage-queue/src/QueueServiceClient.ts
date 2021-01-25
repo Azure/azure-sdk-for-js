@@ -25,20 +25,11 @@ import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  appendToURLPath,
-  appendToURLQuery,
-  extractConnectionStringParts
-} from "./utils/utils.common";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
-import { AccountSASPermissions } from "./AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
-import { AccountSASServices } from "./AccountSASServices";
-import { SASProtocol } from "./SASQueryParameters";
-import { SasIPRange } from "./SasIPRange";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
@@ -158,46 +149,6 @@ export interface ServiceListQueuesOptions extends CommonOptions {
    * body.
    */
   includeMetadata?: boolean;
-}
-
-/**
- * Options to configure {@link QueueServiceClient.generateAccountSasUrl} operation.
- *
- * @export
- * @interface ServiceGenerateAccountSasUrlOptions
- */
-export interface ServiceGenerateAccountSasUrlOptions {
-  /**
-   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
-   * library.
-   *
-   * @type {string}
-   * @memberof ServiceGenerateAccountSasUrlOptions
-   */
-  version?: string;
-
-  /**
-   * Optional. SAS protocols allowed.
-   *
-   * @type {SASProtocol}
-   * @memberof ServiceGenerateAccountSasUrlOptions
-   */
-  protocol?: SASProtocol;
-
-  /**
-   * Optional. When the SAS will take effect.
-   *
-   * @type {Date}
-   * @memberof ServiceGenerateAccountSasUrlOptions
-   */
-  startsOn?: Date;
-  /**
-   * Optional. IP range allowed.
-   *
-   * @type {SasIPRange}
-   * @memberof ServiceGenerateAccountSasUrlOptions
-   */
-  ipRange?: SasIPRange;
 }
 
 /**
@@ -454,9 +405,7 @@ export class QueueServiceClient extends StorageClient {
 
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
-      if (segment.queueItems) {
-        yield* segment.queueItems;
-      }
+      yield* segment.queueItems;
     }
   }
 
@@ -740,51 +689,5 @@ export class QueueServiceClient extends StorageClient {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Only available for QueueServiceClient constructed with a shared key credential.
-   *
-   * Generates an account Shared Access Signature (SAS) URI based on the client properties
-   * and parameters passed in. The SAS is signed by the shared key credential of the client.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
-   *
-   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
-   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
-   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
-   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
-   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof QueueServiceClient
-   */
-  public generateAccountSasUrl(
-    expiresOn?: Date,
-    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
-    resourceTypes: string = "sco",
-    options: ServiceGenerateAccountSasUrlOptions = {}
-  ): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the account SAS when the client is initialized with a shared key credential"
-      );
-    }
-
-    if (expiresOn === undefined) {
-      const now = new Date();
-      expiresOn = new Date(now.getTime() + 3600 * 1000);
-    }
-
-    const sas = generateAccountSASQueryParameters(
-      {
-        permissions,
-        expiresOn,
-        resourceTypes,
-        services: AccountSASServices.parse("q").toString(),
-        ...options
-      },
-      this.credential
-    ).toString();
-
-    return appendToURLQuery(this.url, sas);
   }
 }

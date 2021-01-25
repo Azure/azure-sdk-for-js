@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions, RestResponse } from "@azure/core-http";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { CommunicationUser } from "@azure/communication-common";
 import {
   CommunicationIdentityClient,
   TokenScope,
@@ -19,7 +19,7 @@ export class TestCommunicationIdentityClient {
   private connectionString: string = "endpoint=https://contoso.spool.azure.local;accesskey=banana";
 
   public async issueTokenTest(
-    user: CommunicationUserIdentifier,
+    user: CommunicationUser,
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<IssueTokenResponse> {
@@ -30,7 +30,7 @@ export class TestCommunicationIdentityClient {
   }
 
   public async revokeTokensTest(
-    user: CommunicationUserIdentifier,
+    user: CommunicationUser,
     revocationTime?: Date,
     options: OperationOptions = {}
   ): Promise<RestResponse> {

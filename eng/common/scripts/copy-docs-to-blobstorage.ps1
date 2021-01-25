@@ -216,15 +216,13 @@ function Upload-Blobs
    
     LogDebug "Uploading $($PkgName)/$($DocVersion) to $($DocDest)..."
     & $($AzCopy) cp "$($DocDir)/**" "$($DocDest)/$($PkgName)/$($DocVersion)$($SASKey)" --recursive=true --cache-control "max-age=300, must-revalidate"
-    
+
     LogDebug "Handling versioning files under $($DocDest)/$($PkgName)/versioning/"
     $versionsObj = (Update-Existing-Versions -PkgName $PkgName -PkgVersion $DocVersion -DocDest $DocDest)
-    $latestVersion = $versionsObj.LatestGAPackage 
-    if (!$latestVersion) {
-        $latestVersion = $versionsObj.LatestPreviewPackage 
-    }
-    LogDebug "Fetching the latest version $latestVersion"
-    
+
+    # we can safely assume we have AT LEAST one version here. Reason being we just completed Update-Existing-Versions
+    $latestVersion = ($versionsObj.SortedVersionArray | Select-Object -First 1).RawVersion
+
     if ($UploadLatest -and ($latestVersion -eq $DocVersion))
     {
         LogDebug "Uploading $($PkgName) to latest folder in $($DocDest)..."
@@ -232,14 +230,13 @@ function Upload-Blobs
     }
 }
 
+
 if ($PublishGithubIODocsFn -and (Test-Path "Function:$PublishGithubIODocsFn"))
 {
     &$PublishGithubIODocsFn -DocLocation $DocLocation -PublicArtifactLocation $PublicArtifactLocation
 }
 else
 {
-    LogWarning "The function for '$PublishGithubIODocsFn' was not found.`
-    Make sure it is present in eng/scripts/Language-Settings.ps1 and referenced in eng/common/scripts/common.ps1.`
-    See https://github.com/Azure/azure-sdk-tools/blob/master/doc/common/common_engsys.md#code-structure"
+    LogWarning "The function '$PublishGithubIODocsFn' was not found."
 }
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { createClientLogger } from "@azure/logger";
-import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The @azure/logger configuration for this package.
@@ -13,10 +12,10 @@ export const logger = createClientLogger("event-hubs");
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
  * @param error Error containing a stack trace.
- * @hidden
+ * @ignore
  */
-export function logErrorStackTrace(error: unknown): void {
-  if (isObjectWithProperties(error, ["stack"]) && error.stack) {
+export function logErrorStackTrace(error: any) {
+  if (error && error.stack) {
     logger.verbose(error.stack);
   }
 }

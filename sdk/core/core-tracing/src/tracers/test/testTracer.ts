@@ -76,7 +76,7 @@ export class TestTracer extends NoOpTracer {
   /**
    * Return all Spans for a particular trace, grouped by their
    * parent Span in a tree-like structure
-   * @param traceId - The traceId to return the graph for
+   * @param traceId The traceId to return the graph for
    */
   getSpanGraph(traceId: string): SpanGraph {
     const traceSpans = this.knownSpans.filter((span) => {
@@ -113,8 +113,8 @@ export class TestTracer extends NoOpTracer {
 
   /**
    * Starts a new Span.
-   * @param name - The name of the span.
-   * @param options - The SpanOptions used during Span creation.
+   * @param name The name of the span.
+   * @param options The SpanOptions used during Span creation.
    */
   startSpan(name: string, options: SpanOptions = {}): TestSpan {
     const parentContext = this._getParentContext(options);

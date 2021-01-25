@@ -51,9 +51,9 @@ export class TableBatchImpl implements TableBatch {
   public readonly partitionKey: string;
 
   /**
-   * @param url - Tables account url
-   * @param partitionKey - partition key
-   * @param credential - credential to authenticate the batch request
+   * @param url Tables account url
+   * @param partitionKey partition key
+   * @param credential credential to authenticate the batch request
    */
   constructor(
     url: string,
@@ -87,7 +87,7 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds a createEntity operation to the batch
-   * @param entity - Entity to create
+   * @param entity Entity to create
    */
   public createEntity<T extends object>(entity: TableEntity<T>): void {
     this.checkPartitionKey(entity.partitionKey);
@@ -96,10 +96,10 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds a createEntity operation to the batch per each entity in the entities array
-   * @param entities - Array of entities to create
+   * @param entitites Array of entities to create
    */
-  public createEntities<T extends object>(entities: TableEntity<T>[]): void {
-    for (const entity of entities) {
+  public createEntities<T extends object>(entitites: TableEntity<T>[]): void {
+    for (const entity of entitites) {
       this.checkPartitionKey(entity.partitionKey);
       this.pendingOperations.push(this.interceptClient.createEntity(entity));
     }
@@ -107,9 +107,9 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds a deleteEntity operation to the batch
-   * @param partitionKey - Partition key of the entity to delete
-   * @param rowKey - Row key of the entity to delete
-   * @param options - Options for the delete operation
+   * @param partitionKey partition key of the entity to delete
+   * @param rowKey row key of the entity to delete
+   * @param options options for the delete operation
    */
   public deleteEntity(
     partitionKey: string,
@@ -122,9 +122,9 @@ export class TableBatchImpl implements TableBatch {
 
   /**
    * Adds an updateEntity operation to the batch
-   * @param entity - Entity to update
-   * @param mode - Update mode (Merge or Replace)
-   * @param options - Options for the update operation
+   * @param entity entity to update
+   * @param mode update mode (Merge or Replace)
+   * @param options options for the update operation
    */
   public updateEntity<T extends object>(
     entity: TableEntity<T>,
@@ -204,9 +204,9 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
     if (statusMatch?.length !== 2) {
       throw new Error(`Couldn't extract status from sub-response:\n ${subResponse}`);
     }
-    const subResponseStatus = Number.parseInt(statusMatch[1]);
-    if (!Number.isInteger(subResponseStatus)) {
-      throw new Error(`Expected sub-response status to be an integer ${subResponseStatus}`);
+    const status = Number.parseInt(statusMatch[1]);
+    if (!Number.isInteger(status)) {
+      throw new Error(`Expected sub-response status to be an integer ${status}`);
     }
 
     const bodyMatch = subResponse.match(/\{(.*)\}/);
@@ -216,13 +216,7 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
       if (parsedError && parsedError["odata.error"]) {
         const error: TableServiceErrorOdataError = parsedError["odata.error"];
         const message = error.message?.value || "One of the batch operations failed";
-        throw new RestError(
-          message,
-          error.code,
-          subResponseStatus,
-          batchResponse.request,
-          batchResponse
-        );
+        throw new RestError(message, error.code, status, batchResponse.request, batchResponse);
       }
     }
 
@@ -230,7 +224,7 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
     const rowKeyMatch = subResponse.match(/RowKey='(.*)'/);
 
     return {
-      status: subResponseStatus,
+      status,
       ...(rowKeyMatch?.length === 2 && { rowKey: rowKeyMatch[1] }),
       ...(etagMatch?.length === 2 && { etag: etagMatch[1] })
     };
@@ -245,7 +239,9 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
 
 /**
  * Prepares the operation url to be added to the body, removing the SAS token if present
- * @param url - Source URL string
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
  */
 function getSubRequestUrl(url: string): string {
   const sasTokenParts = ["sv", "ss", "srt", "sp", "se", "st", "spr", "sig"];
@@ -256,7 +252,7 @@ function getSubRequestUrl(url: string): string {
 
 /**
  * This method creates a batch request object that provides functions to build the envelope and body for a batch request
- * @param batchGuid - Id of the batch
+ * @param batchGuid Id of the batch
  */
 export function createInnerBatchRequest(batchGuid: string, changesetId: string): InnerBatchRequest {
   const HTTP_LINE_ENDING = "\r\n";

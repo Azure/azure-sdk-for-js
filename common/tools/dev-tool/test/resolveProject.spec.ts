@@ -19,13 +19,12 @@ describe("Project Resolution", async () => {
     await assert.isRejected(resolveProject(p), /filesystem root/);
   });
 
-  // Issue: https://github.com/Azure/azure-sdk-for-js/issues/13202
-  it.skip("resolution finds dev-tool package", async () => {
+  it("resolution finds dev-tool package", async () => {
     const packageInfo = await resolveProject(__dirname);
     assert.equal(packageInfo.name, "@azure/dev-tool");
     assert.match(
       packageInfo.path,
-      new RegExp(`.*${path.sep}${path.join("common", "tools", "dev-tool")}`)
+      new RegExp(`.*${path.sep}${path.join("azure-sdk-for-js", "common", "tools", "dev-tool")}`)
     );
   });
 });

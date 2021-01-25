@@ -10,7 +10,7 @@ import { logger } from "./log";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 
 /**
- * @hidden
+ * @ignore
  */
 export interface LinkEntityOptions {
   /**
@@ -35,7 +35,7 @@ export interface LinkEntityOptions {
 /**
  * Describes the base class for entities like EventHub Sender, Receiver and Management link.
  * @internal
- * @hidden
+ * @ignore
  * @class LinkEntity
  */
 export class LinkEntity {
@@ -96,7 +96,7 @@ export class LinkEntity {
   protected _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
-   * @hidden
+   * @ignore
    * @constructor
    * @param context The connection context.
    * @param [options] Options that can be provided while creating the LinkEntity.
@@ -112,7 +112,7 @@ export class LinkEntity {
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @hidden
+   * @ignore
    * @param [setTokenRenewal] Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
@@ -187,7 +187,8 @@ export class LinkEntity {
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
-   * @hidden
+   * @ignore
+   * @returns
    */
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeoutInMs) {
@@ -227,7 +228,7 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
-   * @hidden
+   * @ignore
    * @param [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
@@ -235,7 +236,7 @@ export class LinkEntity {
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     if (link) {
       try {
-        // Closing the link and its underlying session if the link is open. This should also
+        // Closing the link and its underlying session if the link is open. This should also
         // remove them from the internal map.
         await link.close();
         logger.verbose(

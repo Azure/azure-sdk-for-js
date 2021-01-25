@@ -26,7 +26,7 @@ import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
 
 /**
- * @hidden
+ * @ignore
  * @param options
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {

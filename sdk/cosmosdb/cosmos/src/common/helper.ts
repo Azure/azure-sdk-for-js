@@ -17,7 +17,7 @@ export function jsonStringifyAndEscapeNonASCII(arg: any) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function parseLink(resourcePath: string) {
   if (resourcePath.length === 0) {
@@ -72,14 +72,14 @@ export function parseLink(resourcePath: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function isReadRequest(operationType: OperationType): boolean {
   return operationType === OperationType.Read || operationType === OperationType.Query;
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function sleep(time: number): Promise<void> {
   return new Promise((resolve) => {
@@ -90,7 +90,7 @@ export function sleep(time: number): Promise<void> {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function getContainerLink(link: string) {
   return link
@@ -100,21 +100,21 @@ export function getContainerLink(link: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function trimSlashes(source: string) {
   return source.replace(trimLeftSlashes, "").replace(trimRightSlashes, "");
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function getHexaDigit() {
   return Math.floor(Math.random() * 16).toString(16);
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function parsePath(path: string) {
   const pathParts = [];
@@ -181,7 +181,7 @@ export function parsePath(path: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function isResourceValid(resource: any, err: any) {
   // TODO: any TODO: code smell
@@ -208,13 +208,13 @@ export function isResourceValid(resource: any, err: any) {
   return true;
 }
 
-/** @hidden */
+/** @ignore */
 export function getIdFromLink(resourceLink: string) {
   resourceLink = trimSlashes(resourceLink);
   return resourceLink;
 }
 
-/** @hidden */
+/** @ignore */
 export function getPathFromLink(resourceLink: string, resourceType?: string) {
   resourceLink = trimSlashes(resourceLink);
   if (resourceType) {
@@ -225,7 +225,7 @@ export function getPathFromLink(resourceLink: string, resourceType?: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function isStringNullOrEmpty(inputString: string) {
   // checks whether string is null, undefined, empty or only contains space
@@ -233,7 +233,7 @@ export function isStringNullOrEmpty(inputString: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function trimSlashFromLeftAndRight(inputString: string) {
   if (typeof inputString !== "string") {
@@ -244,7 +244,7 @@ export function trimSlashFromLeftAndRight(inputString: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function validateResourceId(resourceId: string) {
   // if resourceId is not a string or is empty throw an error
@@ -266,7 +266,7 @@ export function validateResourceId(resourceId: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  * @param resourcePath
  */
 export function getResourceIdFromPath(resourcePath: string) {
@@ -286,7 +286,7 @@ export function getResourceIdFromPath(resourcePath: string) {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 interface ConnectionObject {
   AccountEndpoint: string;
@@ -294,7 +294,7 @@ interface ConnectionObject {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export function parseConnectionString(connectionString: string): CosmosClientOptions {
   const keyValueStrings = connectionString.split(";");

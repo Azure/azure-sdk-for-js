@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
-import { isDefined, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`
@@ -45,22 +44,22 @@ export interface EventPosition {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * Gets the expression to be set as the filter clause when creating the receiver
  * @return {string} filterExpression
  */
 export function getEventPositionFilter(eventPosition: EventPosition): string {
   let result;
   // order of preference
-  if (isDefined(eventPosition.offset)) {
+  if (eventPosition.offset != undefined) {
     result = eventPosition.isInclusive
       ? `${Constants.offsetAnnotation} >= '${eventPosition.offset}'`
       : `${Constants.offsetAnnotation} > '${eventPosition.offset}'`;
-  } else if (isDefined(eventPosition.sequenceNumber)) {
+  } else if (eventPosition.sequenceNumber != undefined) {
     result = eventPosition.isInclusive
       ? `${Constants.sequenceNumberAnnotation} >= '${eventPosition.sequenceNumber}'`
       : `${Constants.sequenceNumberAnnotation} > '${eventPosition.sequenceNumber}'`;
-  } else if (isDefined(eventPosition.enqueuedOn)) {
+  } else if (eventPosition.enqueuedOn != undefined) {
     const time =
       eventPosition.enqueuedOn instanceof Date
         ? eventPosition.enqueuedOn.getTime()
@@ -79,7 +78,7 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export function isLatestPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === "@latest") {
@@ -109,13 +108,13 @@ export const latestEventPosition: EventPosition = {
 };
 
 /**
- * @hidden
+ * @ignore
  * @internal
  */
 export function validateEventPositions(
   position: EventPosition | { [partitionId: string]: EventPosition }
-): void {
-  if (!isDefined(position)) {
+) {
+  if (position == undefined) {
     return;
   }
 
@@ -144,36 +143,36 @@ export function validateEventPositions(
  * Determines whether a position is an EventPosition.
  * Does not validate that the position is allowed.
  * @param position
- * @hidden
+ * @ignore
  * @internal
  */
-export function isEventPosition(position: unknown): position is EventPosition {
+export function isEventPosition(position: any): position is EventPosition {
   if (!position) {
     return false;
   }
 
-  if (objectHasProperty(position, "offset") && isDefined(position.offset)) {
+  if (position.offset != undefined) {
     return true;
   }
 
-  if (objectHasProperty(position, "sequenceNumber") && isDefined(position.sequenceNumber)) {
+  if (position.sequenceNumber != undefined) {
     return true;
   }
 
-  if (objectHasProperty(position, "enqueuedOn") && isDefined(position.enqueuedOn)) {
+  if (position.enqueuedOn != undefined) {
     return true;
   }
 
   return false;
 }
 
-function validateEventPosition(position: EventPosition): void {
-  if (!isDefined(position)) {
+function validateEventPosition(position: EventPosition) {
+  if (position == undefined) {
     return;
   }
-  const offsetPresent = isDefined(position.offset);
-  const sequenceNumberPresent = isDefined(position.sequenceNumber);
-  const enqueuedOnPresent = isDefined(position.enqueuedOn);
+  const offsetPresent = position.offset != undefined;
+  const sequenceNumberPresent = position.sequenceNumber != undefined;
+  const enqueuedOnPresent = position.enqueuedOn != undefined;
 
   if (
     (offsetPresent && sequenceNumberPresent) ||

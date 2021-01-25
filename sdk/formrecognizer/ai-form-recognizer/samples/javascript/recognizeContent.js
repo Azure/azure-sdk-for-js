@@ -51,12 +51,6 @@ async function main() {
     console.log("  Tables:");
     for (const table of page.tables || []) {
       console.log(`  - Table (${table.rowCount} x ${table.columnCount})`);
-
-      const tableBoundingBox = table.boundingBox
-        ? boundingBoxToString(table.boundingBox)
-        : "<undefined>";
-      console.log(`      boundingBox: ${tableBoundingBox}`);
-
       for (const cell of table.cells) {
         console.log(`    cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
       }

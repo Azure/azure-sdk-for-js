@@ -58,6 +58,18 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json, text/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const jobId: OperationURLParameter = {
   parameterPath: "jobId",
   mapper: {

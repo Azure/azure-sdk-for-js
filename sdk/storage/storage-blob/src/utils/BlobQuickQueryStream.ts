@@ -46,7 +46,6 @@ export class BlobQuickQueryStream extends Readable {
   private source: NodeJS.ReadableStream;
   private avroReader: AvroReader;
   private avroIter: AsyncIterableIterator<Object | null>;
-  private avroPaused: boolean = true;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private onError?: (error: BlobQueryError) => void;
 
@@ -67,27 +66,19 @@ export class BlobQuickQueryStream extends Readable {
   }
 
   public _read() {
-    if (this.avroPaused) {
-      this.readInternal().catch((err) => {
-        this.emit("error", err);
-      });
-    }
+    this.readInternal().catch((err) => {
+      this.emit("error", err);
+    });
   }
 
   private async readInternal() {
-    this.avroPaused = false;
-    let avroNext;
-    do {
-      avroNext = await this.avroIter.next();
-      if (avroNext.done) {
-        break;
-      }
-      const obj = avroNext.value;
+    for await (const obj of this.avroIter) {
       const schema = (obj as any).$schema;
       if (typeof schema !== "string") {
         throw Error("Missing schema in avro record.");
       }
 
+      let exit = false;
       switch (schema) {
         case "com.microsoft.azure.storage.queryBlobContents.resultData":
           const data = (obj as any).data;
@@ -95,7 +86,7 @@ export class BlobQuickQueryStream extends Readable {
             throw Error("Invalid data in avro result record.");
           }
           if (!this.push(Buffer.from(data))) {
-            this.avroPaused = true;
+            exit = true;
           }
           break;
         case "com.microsoft.azure.storage.queryBlobContents.progress":
@@ -146,6 +137,10 @@ export class BlobQuickQueryStream extends Readable {
         default:
           throw Error(`Unknown schema ${schema} in avro progress record.`);
       }
-    } while (!avroNext.done && !this.avroPaused);
+
+      if (exit) {
+        break;
+      }
+    }
   }
 }

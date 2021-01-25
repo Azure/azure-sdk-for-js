@@ -195,6 +195,47 @@ export class SqlPools {
   }
 
   /**
+   * Rename a SQL pool.
+   * @summary Rename a SQL pool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param parameters The resource move definition for renaming this Sql pool.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param parameters The resource move definition for renaming this Sql pool.
+   * @param callback The callback
+   */
+  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param parameters The resource move definition for renaming this Sql pool.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        parameters,
+        options
+      },
+      renameOperationSpec,
+      callback);
+  }
+
+  /**
    * Create a SQL pool
    * @summary Create SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -332,7 +373,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlPool
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -366,7 +407,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -391,7 +432,38 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlPoolInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const renameOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/move",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.ResourceMoveDefinition,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -498,7 +570,7 @@ const beginPauseOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -530,7 +602,7 @@ const beginResumeOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -554,7 +626,7 @@ const listByWorkspaceNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlPoolInfoListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

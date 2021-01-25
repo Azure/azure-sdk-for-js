@@ -5,7 +5,7 @@ import { PerfStressTest } from "../src";
 import { delay } from "@azure/core-http";
 
 // Used for verifying the perf framework correctly computes average throughput across parallel tests of different speed
-export class SleepTest extends PerfStressTest {
+export class SleepTest extends PerfStressTest<string> {
   private static instanceCount: number = 0;
   private secondsPerOperation: number = 0;
 

@@ -8,7 +8,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/workspaceManagedIdentitySqlControlSettingsMappers";
 import * as Parameters from "../models/parameters";
@@ -66,29 +65,32 @@ export class WorkspaceManagedIdentitySqlControlSettings {
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,managedIdentitySqlControlSettings,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
-  }
-
+  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
   /**
-   * @summary Create or update Managed Identity Sql Control Settings
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param managedIdentitySqlControlSettings Managed Identity Sql Control Settings
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @param callback The callback
    */
-  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
+  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param managedIdentitySqlControlSettings Managed Identity Sql Control Settings
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
+  createOrUpdate(resourceGroupName: string, workspaceName: string, managedIdentitySqlControlSettings: Models.ManagedIdentitySqlControlSettingsModel, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>, callback?: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         managedIdentitySqlControlSettings,
         options
       },
-      beginCreateOrUpdateOperationSpec,
-      options);
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>;
   }
 }
 
@@ -119,7 +121,7 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/managedIdentitySqlControlSettings/default",
   urlParameters: [
@@ -144,7 +146,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
     },
-    201: {},
     default: {
       bodyMapper: Mappers.ErrorContract
     }

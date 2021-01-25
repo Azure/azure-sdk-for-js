@@ -6,9 +6,6 @@ import { fromAccountConnectionString, getAccountConnectionString } from "./accou
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { URL } from "./url";
 
-const DevelopmentConnectionString =
-  "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1";
-
 /**
  * This function parses a connection string into a set of
  * parameters to pass to be passed to TableClientService,
@@ -16,16 +13,14 @@ const DevelopmentConnectionString =
  * contain:
  * - Account Connection String:  A pipeline to sign the request with a SharedKey
  * - SAS Connection String: Attach a SAS token to the storage account url for authentication
- * @param connectionString - Connection string to parse
- * @param options - TableService client options
+ * @param connectionString connection string to parse
+ * @param options TableService client options
+ * @returns
  */
 export function getClientParamsFromConnectionString(
   connectionString: string,
   options?: TableServiceClientOptions
 ): ClientParamsFromConnectionString {
-  if (connectionString.toLowerCase().indexOf("usedevelopmentstorage=true") !== -1) {
-    connectionString = DevelopmentConnectionString;
-  }
   const extractedCreds = extractConnectionStringParts(connectionString);
   if (extractedCreds.kind === "AccountConnString") {
     return fromAccountConnectionString(extractedCreds, options);
@@ -44,8 +39,9 @@ export function getClientParamsFromConnectionString(
 /**
  * Extracts the parts of an Storage account connection string.
  *
- * @param connectionString - Connection string.
- * @returns String key value pairs of the storage account's url and credentials.
+ * @export
+ * @param {string} connectionString Connection string.
+ * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   // Matching TableEndpoint in the Account connection string
@@ -106,8 +102,8 @@ function getValueInConnString(
 
 /**
  * Extracts account name from the url
- * @param url - URL to extract the account name from
- * @returns The account name
+ * @param {string} url url to extract the account name from
+ * @returns {string} with the account name
  */
 function getAccountNameFromUrl(url: string): string {
   if (!url) {

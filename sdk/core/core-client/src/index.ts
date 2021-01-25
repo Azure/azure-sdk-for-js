@@ -36,14 +36,14 @@ export {
   OperationRequestInfo,
   QueryCollectionFormat,
   ParameterPath,
+  OperationResponse,
   FullOperationResponse,
   PolymorphicDiscriminator,
   SpanConfig,
   XML_ATTRKEY,
   XML_CHARKEY,
   XmlOptions,
-  SerializerOptions,
-  RawResponseCallback
+  SerializerOptions
 } from "./interfaces";
 export {
   deserializationPolicy,
@@ -51,8 +51,3 @@ export {
   DeserializationPolicyOptions,
   DeserializationContentTypes
 } from "./deserializationPolicy";
-export {
-  serializationPolicy,
-  serializationPolicyName,
-  serializationPolicyOptions
-} from "./serializationPolicy";

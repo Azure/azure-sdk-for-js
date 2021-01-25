@@ -31,10 +31,6 @@ import {
   GeneratedClientAnalyzeBusinessCardAsync$jsonOptionalParams,
   GeneratedClientAnalyzeBusinessCardAsyncResponse,
   GeneratedClientGetAnalyzeBusinessCardResultResponse,
-  GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams,
-  GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams,
-  GeneratedClientAnalyzeInvoiceAsyncResponse,
-  GeneratedClientGetAnalyzeInvoiceResultResponse,
   GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams,
   GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams,
   GeneratedClientAnalyzeReceiptAsyncResponse,
@@ -48,7 +44,6 @@ import {
   GeneratedClientListCustomModelsNextResponse
 } from "./models";
 
-/** @hidden */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -76,12 +71,11 @@ export class GeneratedClient extends GeneratedClientContext {
     trainRequest: TrainRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientTrainCustomModelAsyncResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      trainRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { trainRequest, options: operationOptions },
       trainCustomModelAsyncOperationSpec
     ) as Promise<GeneratedClientTrainCustomModelAsyncResponse>;
   }
@@ -95,12 +89,11 @@ export class GeneratedClient extends GeneratedClientContext {
     modelId: string,
     options?: GeneratedClientGetCustomModelOptionalParams
   ): Promise<GeneratedClientGetCustomModelResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { modelId, options: operationOptions },
       getCustomModelOperationSpec
     ) as Promise<GeneratedClientGetCustomModelResponse>;
   }
@@ -114,12 +107,11 @@ export class GeneratedClient extends GeneratedClientContext {
     modelId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { modelId, options: operationOptions },
       deleteCustomModelOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -179,7 +171,6 @@ export class GeneratedClient extends GeneratedClientContext {
     let operationArguments: coreHttp.OperationArguments;
     if (
       args[1] === "application/pdf" ||
-      args[1] === "image/bmp" ||
       args[1] === "image/jpeg" ||
       args[1] === "image/png" ||
       args[1] === "image/tiff"
@@ -203,9 +194,6 @@ export class GeneratedClient extends GeneratedClientContext {
         `"contentType" must be a valid value but instead was "${args[1]}".`
       );
     }
-    operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
-    );
     return this.sendOperationRequest(
       operationArguments,
       operationSpec
@@ -223,13 +211,11 @@ export class GeneratedClient extends GeneratedClientContext {
     resultId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetAnalyzeFormResultResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { modelId, resultId, options: operationOptions },
       getAnalyzeFormResultOperationSpec
     ) as Promise<GeneratedClientGetAnalyzeFormResultResponse>;
   }
@@ -246,13 +232,11 @@ export class GeneratedClient extends GeneratedClientContext {
     copyRequest: CopyRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientCopyCustomModelResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      copyRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { modelId, copyRequest, options: operationOptions },
       copyCustomModelOperationSpec
     ) as Promise<GeneratedClientCopyCustomModelResponse>;
   }
@@ -268,13 +252,11 @@ export class GeneratedClient extends GeneratedClientContext {
     resultId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetCustomModelCopyResultResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      modelId,
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { modelId, resultId, options: operationOptions },
       getCustomModelCopyResultOperationSpec
     ) as Promise<GeneratedClientGetCustomModelCopyResultResponse>;
   }
@@ -286,11 +268,11 @@ export class GeneratedClient extends GeneratedClientContext {
   generateModelCopyAuthorization(
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGenerateModelCopyAuthorizationResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { options: operationOptions },
       generateModelCopyAuthorizationOperationSpec
     ) as Promise<GeneratedClientGenerateModelCopyAuthorizationResponse>;
   }
@@ -306,12 +288,11 @@ export class GeneratedClient extends GeneratedClientContext {
     composeRequest: ComposeRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientComposeCustomModelsAsyncResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      composeRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { composeRequest, options: operationOptions },
       composeCustomModelsAsyncOperationSpec
     ) as Promise<GeneratedClientComposeCustomModelsAsyncResponse>;
   }
@@ -365,7 +346,6 @@ export class GeneratedClient extends GeneratedClientContext {
     let operationArguments: coreHttp.OperationArguments;
     if (
       args[0] === "application/pdf" ||
-      args[0] === "image/bmp" ||
       args[0] === "image/jpeg" ||
       args[0] === "image/png" ||
       args[0] === "image/tiff"
@@ -378,15 +358,15 @@ export class GeneratedClient extends GeneratedClientContext {
       };
     } else if (args[0] === "application/json") {
       operationSpec = analyzeBusinessCardAsync$jsonOperationSpec;
-      operationArguments = { contentType: args[0], options: args[1] };
+      operationArguments = {
+        contentType: args[0],
+        options: args[1]
+      };
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[0]}".`
       );
     }
-    operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
-    );
     return this.sendOperationRequest(
       operationArguments,
       operationSpec
@@ -402,110 +382,13 @@ export class GeneratedClient extends GeneratedClientContext {
     resultId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetAnalyzeBusinessCardResultResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      getAnalyzeBusinessCardResultOperationSpec
-    ) as Promise<GeneratedClientGetAnalyzeBusinessCardResultResponse>;
-  }
-
-  /**
-   * Extract field text and semantic values from a given invoice document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
-   * @param contentType Upload file type
-   * @param fileStream .json, .pdf, .jpg, .png or .tiff type file stream.
-   * @param options The options parameters.
-   */
-  analyzeInvoiceAsync(
-    contentType: ContentType,
-    fileStream: coreHttp.HttpRequestBody,
-    options?: GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams
-  ): Promise<GeneratedClientAnalyzeInvoiceAsyncResponse>;
-  /**
-   * Extract field text and semantic values from a given invoice document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
-   * @param contentType Body Parameter content-type
-   * @param options The options parameters.
-   */
-  analyzeInvoiceAsync(
-    contentType: "application/json",
-    options?: GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams
-  ): Promise<GeneratedClientAnalyzeInvoiceAsyncResponse>;
-  /**
-   * Extract field text and semantic values from a given invoice document. The input document must be of
-   * one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
-   * Alternatively, use 'application/json' type to specify the location (Uri) of the document to be
-   * analyzed.
-   * @param args Includes all the parameters for this operation.
-   */
-  analyzeInvoiceAsync(
-    ...args:
-      | [
-          ContentType,
-          coreHttp.HttpRequestBody,
-          GeneratedClientAnalyzeInvoiceAsync$binaryOptionalParams?
-        ]
-      | [
-          "application/json",
-          GeneratedClientAnalyzeInvoiceAsync$jsonOptionalParams?
-        ]
-  ): Promise<GeneratedClientAnalyzeInvoiceAsyncResponse> {
-    let operationSpec: coreHttp.OperationSpec;
-    let operationArguments: coreHttp.OperationArguments;
-    if (
-      args[0] === "application/pdf" ||
-      args[0] === "image/bmp" ||
-      args[0] === "image/jpeg" ||
-      args[0] === "image/png" ||
-      args[0] === "image/tiff"
-    ) {
-      operationSpec = analyzeInvoiceAsync$binaryOperationSpec;
-      operationArguments = {
-        contentType: args[0],
-        fileStream: args[1],
-        options: args[2]
-      };
-    } else if (args[0] === "application/json") {
-      operationSpec = analyzeInvoiceAsync$jsonOperationSpec;
-      operationArguments = { contentType: args[0], options: args[1] };
-    } else {
-      throw new TypeError(
-        `"contentType" must be a valid value but instead was "${args[0]}".`
-      );
-    }
-    operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
     return this.sendOperationRequest(
-      operationArguments,
-      operationSpec
-    ) as Promise<GeneratedClientAnalyzeInvoiceAsyncResponse>;
-  }
-
-  /**
-   * Track the progress and obtain the result of the analyze invoice operation.
-   * @param resultId Analyze operation result identifier.
-   * @param options The options parameters.
-   */
-  getAnalyzeInvoiceResult(
-    resultId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientGetAnalyzeInvoiceResultResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      getAnalyzeInvoiceResultOperationSpec
-    ) as Promise<GeneratedClientGetAnalyzeInvoiceResultResponse>;
+      { resultId, options: operationOptions },
+      getAnalyzeBusinessCardResultOperationSpec
+    ) as Promise<GeneratedClientGetAnalyzeBusinessCardResultResponse>;
   }
 
   /**
@@ -557,7 +440,6 @@ export class GeneratedClient extends GeneratedClientContext {
     let operationArguments: coreHttp.OperationArguments;
     if (
       args[0] === "application/pdf" ||
-      args[0] === "image/bmp" ||
       args[0] === "image/jpeg" ||
       args[0] === "image/png" ||
       args[0] === "image/tiff"
@@ -570,15 +452,15 @@ export class GeneratedClient extends GeneratedClientContext {
       };
     } else if (args[0] === "application/json") {
       operationSpec = analyzeReceiptAsync$jsonOperationSpec;
-      operationArguments = { contentType: args[0], options: args[1] };
+      operationArguments = {
+        contentType: args[0],
+        options: args[1]
+      };
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[0]}".`
       );
     }
-    operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
-    );
     return this.sendOperationRequest(
       operationArguments,
       operationSpec
@@ -594,19 +476,18 @@ export class GeneratedClient extends GeneratedClientContext {
     resultId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetAnalyzeReceiptResultResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { resultId, options: operationOptions },
       getAnalyzeReceiptResultOperationSpec
     ) as Promise<GeneratedClientGetAnalyzeReceiptResultResponse>;
   }
 
   /**
    * Extract text and layout information from a given document. The input document must be of one of the
-   * supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or 'image/bmp'.
+   * supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
    * Alternatively, use 'application/json' type to specify the location (Uri or local path) of the
    * document to be analyzed.
    * @param contentType Upload file type
@@ -620,7 +501,7 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
   /**
    * Extract text and layout information from a given document. The input document must be of one of the
-   * supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or 'image/bmp'.
+   * supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
    * Alternatively, use 'application/json' type to specify the location (Uri or local path) of the
    * document to be analyzed.
    * @param contentType Body Parameter content-type
@@ -632,7 +513,7 @@ export class GeneratedClient extends GeneratedClientContext {
   ): Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
   /**
    * Extract text and layout information from a given document. The input document must be of one of the
-   * supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or 'image/bmp'.
+   * supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
    * Alternatively, use 'application/json' type to specify the location (Uri or local path) of the
    * document to be analyzed.
    * @param args Includes all the parameters for this operation.
@@ -653,7 +534,6 @@ export class GeneratedClient extends GeneratedClientContext {
     let operationArguments: coreHttp.OperationArguments;
     if (
       args[0] === "application/pdf" ||
-      args[0] === "image/bmp" ||
       args[0] === "image/jpeg" ||
       args[0] === "image/png" ||
       args[0] === "image/tiff"
@@ -666,15 +546,15 @@ export class GeneratedClient extends GeneratedClientContext {
       };
     } else if (args[0] === "application/json") {
       operationSpec = analyzeLayoutAsync$jsonOperationSpec;
-      operationArguments = { contentType: args[0], options: args[1] };
+      operationArguments = {
+        contentType: args[0],
+        options: args[1]
+      };
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[0]}".`
       );
     }
-    operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
-    );
     return this.sendOperationRequest(
       operationArguments,
       operationSpec
@@ -690,12 +570,11 @@ export class GeneratedClient extends GeneratedClientContext {
     resultId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetAnalyzeLayoutResultResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { resultId, options: operationOptions },
       getAnalyzeLayoutResultOperationSpec
     ) as Promise<GeneratedClientGetAnalyzeLayoutResultResponse>;
   }
@@ -707,11 +586,11 @@ export class GeneratedClient extends GeneratedClientContext {
   listCustomModels(
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientListCustomModelsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { options: operationOptions },
       listCustomModelsOperationSpec
     ) as Promise<GeneratedClientListCustomModelsResponse>;
   }
@@ -723,11 +602,11 @@ export class GeneratedClient extends GeneratedClientContext {
   getCustomModels(
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetCustomModelsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { options: operationOptions },
       getCustomModelsOperationSpec
     ) as Promise<GeneratedClientGetCustomModelsResponse>;
   }
@@ -741,17 +620,17 @@ export class GeneratedClient extends GeneratedClientContext {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientListCustomModelsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
     return this.sendOperationRequest(
-      operationArguments,
+      { nextLink, options: operationOptions },
       listCustomModelsNextOperationSpec
     ) as Promise<GeneratedClientListCustomModelsNextResponse>;
   }
 }
 // Operation Specifications
+
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const trainCustomModelAsyncOperationSpec: coreHttp.OperationSpec = {
@@ -784,7 +663,7 @@ const getCustomModelOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.includeKeys],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const deleteCustomModelOperationSpec: coreHttp.OperationSpec = {
@@ -797,7 +676,7 @@ const deleteCustomModelOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const analyzeWithCustomModel$binaryOperationSpec: coreHttp.OperationSpec = {
@@ -814,7 +693,7 @@ const analyzeWithCustomModel$binaryOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.fileStream,
   queryParameters: [Parameters.includeTextDetails],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -848,7 +727,7 @@ const getAnalyzeFormResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const copyCustomModelOperationSpec: coreHttp.OperationSpec = {
@@ -880,7 +759,7 @@ const getCustomModelCopyResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const generateModelCopyAuthorizationOperationSpec: coreHttp.OperationSpec = {
@@ -897,7 +776,7 @@ const generateModelCopyAuthorizationOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const composeCustomModelsAsyncOperationSpec: coreHttp.OperationSpec = {
@@ -913,7 +792,7 @@ const composeCustomModelsAsyncOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.composeRequest,
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.contentType, Parameters.accept3],
   mediaType: "json",
   serializer
 };
@@ -931,7 +810,7 @@ const analyzeBusinessCardAsync$binaryOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.fileStream,
   queryParameters: [Parameters.includeTextDetails, Parameters.locale],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -965,58 +844,7 @@ const getAnalyzeBusinessCardResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.resultId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const analyzeInvoiceAsync$binaryOperationSpec: coreHttp.OperationSpec = {
-  path: "/prebuilt/invoice/analyze",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.GeneratedClientAnalyzeInvoiceAsyncHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "binary",
-  serializer
-};
-const analyzeInvoiceAsync$jsonOperationSpec: coreHttp.OperationSpec = {
-  path: "/prebuilt/invoice/analyze",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.GeneratedClientAnalyzeInvoiceAsyncHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.includeTextDetails, Parameters.locale],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType2],
-  mediaType: "json",
-  serializer
-};
-const getAnalyzeInvoiceResultOperationSpec: coreHttp.OperationSpec = {
-  path: "/prebuilt/invoice/analyzeResults/{resultId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AnalyzeOperationResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.resultId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const analyzeReceiptAsync$binaryOperationSpec: coreHttp.OperationSpec = {
@@ -1033,7 +861,7 @@ const analyzeReceiptAsync$binaryOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.fileStream,
   queryParameters: [Parameters.includeTextDetails, Parameters.locale],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -1067,7 +895,7 @@ const getAnalyzeReceiptResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.resultId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const analyzeLayoutAsync$binaryOperationSpec: coreHttp.OperationSpec = {
@@ -1082,9 +910,8 @@ const analyzeLayoutAsync$binaryOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream,
-  queryParameters: [Parameters.language, Parameters.pages],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
@@ -1100,7 +927,6 @@ const analyzeLayoutAsync$jsonOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.fileStream1,
-  queryParameters: [Parameters.language, Parameters.pages],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType2],
   mediaType: "json",
@@ -1118,7 +944,7 @@ const getAnalyzeLayoutResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.resultId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listCustomModelsOperationSpec: coreHttp.OperationSpec = {
@@ -1134,7 +960,7 @@ const listCustomModelsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.op],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const getCustomModelsOperationSpec: coreHttp.OperationSpec = {
@@ -1150,7 +976,7 @@ const getCustomModelsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.op1],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listCustomModelsNextOperationSpec: coreHttp.OperationSpec = {
@@ -1166,6 +992,6 @@ const listCustomModelsNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.op],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept1],
   serializer
 };

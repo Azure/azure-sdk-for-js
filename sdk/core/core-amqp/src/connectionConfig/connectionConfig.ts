@@ -26,22 +26,9 @@ export interface ConnectionConfig {
    */
   endpoint: string;
   /**
-   * The DNS hostname or IP address of the service.
-   * Typically of the form "<yournamespace>.servicebus.windows.net" unless connecting
-   * to the service through an intermediary.
+   * @property {string} host - The host "<yournamespace>.servicebus.windows.net".
    */
   host: string;
-  /**
-   * The fully qualified name of the host to connect to.
-   * This field can be used by AMQP proxies to determine the correct back-end service to
-   * connect the client to.
-   * Typically of the form "<yournamespace>.servicebus.windows.net".
-   */
-  amqpHostname?: string;
-  /**
-   * The port number.
-   */
-  port?: number;
   /**
    * @property {string} connectionString - The connection string.
    */
@@ -148,7 +135,7 @@ export const ConnectionConfig = {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
     if (config.entityPath != undefined) {
-      config.entityPath = String(config.entityPath);
+       config.entityPath = String(config.entityPath);
     }
 
     if (!isSharedAccessSignature(config.connectionString)) {
@@ -167,7 +154,7 @@ export const ConnectionConfig = {
 
 /**
  * @internal
- * @hidden
+ * @ignore
  */
 export function isSharedAccessSignature(connectionString: string): boolean {
   return connectionString.match(/;{0,1}SharedAccessSignature=SharedAccessSignature /) != null;

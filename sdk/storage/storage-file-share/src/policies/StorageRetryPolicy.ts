@@ -24,6 +24,7 @@ import { logger } from "../log";
  *
  * @export
  * @param {StorageRetryOptions} retryOptions
+ * @returns
  */
 export function NewStorageRetryPolicyFactory(
   retryOptions?: StorageRetryOptions
@@ -272,6 +273,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
    * @param {AbortSignalLike} [abortSignal]
+   * @returns
    * @memberof StorageRetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {

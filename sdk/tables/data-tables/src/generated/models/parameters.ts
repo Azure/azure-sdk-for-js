@@ -90,9 +90,7 @@ export const format: OperationQueryParameter = {
 export const top: OperationQueryParameter = {
   parameterPath: ["options", "queryOptions", "top"],
   mapper: {
-    constraints: {
-      InclusiveMinimum: 0
-    },
+    constraints: {},
     serializedName: "$top",
     xmlName: "$top",
     type: {
@@ -151,6 +149,18 @@ export const tableProperties: OperationParameter = {
   mapper: TablePropertiesMapper
 };
 
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json;odata=minimalmetadata",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const responsePreference: OperationParameter = {
   parameterPath: ["options", "responsePreference"],
   mapper: {
@@ -162,7 +172,7 @@ export const responsePreference: OperationParameter = {
   }
 };
 
-export const accept1: OperationParameter = {
+export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
@@ -189,9 +199,7 @@ export const table: OperationURLParameter = {
 export const timeout: OperationQueryParameter = {
   parameterPath: ["options", "timeout"],
   mapper: {
-    constraints: {
-      InclusiveMinimum: 0
-    },
+    constraints: {},
     serializedName: "timeout",
     xmlName: "timeout",
     type: {
@@ -270,6 +278,18 @@ export const tableEntityProperties: OperationParameter = {
   }
 };
 
+export const accept3: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const ifMatch: OperationParameter = {
   parameterPath: ["options", "ifMatch"],
   mapper: {
@@ -293,7 +313,7 @@ export const ifMatch1: OperationParameter = {
   }
 };
 
-export const accept2: OperationParameter = {
+export const accept4: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/xml",
@@ -338,17 +358,12 @@ export const tableAcl: OperationParameter = {
     xmlElementName: "SignedIdentifier",
     type: {
       name: "Sequence",
-      element: {
-        type: {
-          name: "Composite",
-          className: "SignedIdentifier"
-        }
-      }
+      element: { type: { name: "Composite", className: "SignedIdentifier" } }
     }
   }
 };
 
-export const accept3: OperationParameter = {
+export const accept5: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/xml",

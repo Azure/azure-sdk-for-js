@@ -44,7 +44,7 @@ interface Entity {
   quantity: number;
 }
 
-export async function main() {
+async function main() {
   await createAndDeleteEntities();
 }
 

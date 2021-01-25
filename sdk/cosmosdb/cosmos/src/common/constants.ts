@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @hidden
+ * @ignore
  */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
@@ -218,7 +218,7 @@ export const Constants = {
 };
 
 /**
- * @hidden
+ * @ignore
  */
 export enum ResourceType {
   none = "",
@@ -236,7 +236,7 @@ export enum ResourceType {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export enum HTTPMethod {
   get = "GET",
@@ -246,7 +246,7 @@ export enum HTTPMethod {
 }
 
 /**
- * @hidden
+ * @ignore
  */
 export enum OperationType {
   Create = "create",

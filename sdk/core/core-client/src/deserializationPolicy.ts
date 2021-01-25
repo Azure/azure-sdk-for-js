@@ -20,7 +20,6 @@ import {
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { isStreamOperation } from "./interfaceHelpers";
-import { getOperationRequestInfo } from "./operationHelpers";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
 const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
@@ -105,13 +104,12 @@ function getOperationResponseMap(
 ): undefined | OperationResponseMap {
   let result: OperationResponseMap | undefined;
   const request: OperationRequest = parsedResponse.request;
-  const operationInfo = getOperationRequestInfo(request);
-  const operationSpec = operationInfo?.operationSpec;
+  const operationSpec = request.additionalInfo?.operationSpec;
   if (operationSpec) {
-    if (!operationInfo?.operationResponseGetter) {
+    if (!request.additionalInfo?.operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {
-      result = operationInfo?.operationResponseGetter(operationSpec, parsedResponse);
+      result = request.additionalInfo?.operationResponseGetter(operationSpec, parsedResponse);
     }
   }
   return result;
@@ -119,8 +117,7 @@ function getOperationResponseMap(
 
 function shouldDeserializeResponse(parsedResponse: PipelineResponse): boolean {
   const request: OperationRequest = parsedResponse.request;
-  const operationInfo = getOperationRequestInfo(request);
-  const shouldDeserialize = operationInfo?.shouldDeserialize;
+  const shouldDeserialize = request.additionalInfo?.shouldDeserialize;
   let result: boolean;
   if (shouldDeserialize === undefined) {
     result = true;
@@ -150,8 +147,7 @@ async function deserializeResponseBody(
     return parsedResponse;
   }
 
-  const operationInfo = getOperationRequestInfo(parsedResponse.request);
-  const operationSpec = operationInfo?.operationSpec;
+  const operationSpec = parsedResponse.request.additionalInfo?.operationSpec;
   if (!operationSpec || !operationSpec.responses) {
     return parsedResponse;
   }

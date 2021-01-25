@@ -5,7 +5,7 @@ import { LocalCryptographyUnsupportedError } from "./models";
 
 /**
  * @internal
- * @hidden
+ * @ignore
  * Use the platform-local hashing functionality
  */
 export async function createHash(_algorithm: string, _data: Uint8Array): Promise<Buffer> {

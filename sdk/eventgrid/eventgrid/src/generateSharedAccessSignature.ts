@@ -18,10 +18,10 @@ export interface GenerateSharedAccessSignatureOptions {
  * Generate a shared access signature, which allows a client to send events to an Event Grid Topic or Domain for a limited period of time. This
  * function may only be called when the EventGridPublisherClient was constructed with a KeyCredential instance.
  *
- * @param endpointUrl - The endpoint for the topic or domain you wish to generate a shared access signature for.
- * @param credential - The credential to use when generating the shared access signatrue.
- * @param expiresOn - The time at which the shared access signature is no longer valid.
- * @param options - Options to control how the signature is generated.
+ * @param endpointUrl The endpoint for the topic or domain you wish to generate a shared access signature for.
+ * @param credential The credential to use when generating the shared access signatrue.
+ * @param expiresOn The time at which the shared access signature is no longer valid.
+ * @param options Options to control how the signature is generated.
  */
 export async function generateSharedAccessSignature(
   endpointUrl: string,

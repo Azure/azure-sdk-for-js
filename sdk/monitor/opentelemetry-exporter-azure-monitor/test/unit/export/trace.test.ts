@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { ExportResult } from "@opentelemetry/core";
 import { AzureMonitorTraceExporter } from "../../../src/export/trace";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
@@ -12,7 +12,7 @@ import {
 } from "../breezeTestUtils";
 import { FileSystemPersist } from "../../../src/platform";
 import { TelemetryItem as Envelope } from "../../../src/generated";
-import nock from "nock";
+import nock = require("nock");
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -72,7 +72,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(429, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
 
         const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 1);
@@ -85,7 +85,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(206, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopesPrivate([envelope, envelope, envelope]);
-        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
 
         const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
         assert.strictEqual(persistedEnvelopes?.length, 2);
@@ -97,7 +97,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(400, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        assert.strictEqual(result.code, ExportResultCode.FAILED);
+        assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
 
         const persistedEnvelopes = await exporter["_persister"].shift();
         assert.strictEqual(persistedEnvelopes, null);
@@ -108,7 +108,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(1, ""); // httpSender will throw
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        assert.strictEqual(result.code, ExportResultCode.FAILED);
+        assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
 
         const persistedEnvelopes = await exporter["_persister"].shift();
         assert.strictEqual(persistedEnvelopes, null);
@@ -120,7 +120,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(200, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(result, ExportResult.SUCCESS);
         assert.notStrictEqual(exporter["_retryTimer"], null);
 
         clearTimeout(exporter["_retryTimer"]!);
@@ -134,7 +134,7 @@ describe("#AzureMonitorBaseExporter", () => {
         scope.reply(200, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
-        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(result, ExportResult.SUCCESS);
         assert.strictEqual(exporter["_retryTimer"], "foo");
       });
     });

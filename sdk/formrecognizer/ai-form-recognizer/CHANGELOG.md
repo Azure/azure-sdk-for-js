@@ -1,13 +1,7 @@
 # Release History
 
-## 3.1.0-beta.1 (2020-11-23)
+## 3.1.0-beta.1 (Unreleased)
 
-- Added a `pages` option to `BeginRecognizeContentOptions`. This option allows for the specification of which pages of a document to include in the content results. If a value is provided, pages that are not included in the `pages` field will not be analyzed.
-- Added an `appearance` property to `FormLine` that contains information about the appearance of the line, such as style (e.g. "handwritten").
-- Added an optional `boundingBox` property to `FormTable` that has a bounding box that contains the entire table.
-- Added support for the "image/bmp" content type. This content type is supported on all methods that accept a `FormRecognizerRequestBody` **except** for custom form recognition.
-- Added a `language` option to `BeginRecognizeContentOptions`. By default, when performing layout/content analysis, the service will attempt to detect the language of the document and supports multi-language inputs. The `language` parameter allows you to override this behavior and force the service to use a specific language.
-- Added support for Invoice recognition through the `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl` methods. The Invoice model is prebuilt and may be used without training a model.
 - Added support for creating composed models through the `beginCreateComposedModel` method of `FormTrainingClient`. It accepts a list of model IDs that refer to labeled custom models that should be composed into a new model.
 - Added a `formTypeConfidence` property to `RecognizedForm` indicating the model's confidence in determining the correct form type (and therefore the correct model to use) during recognition.
 - Added a `properties` field to `CustomFormModelInfo` that may optionally contain extra properties. Currently, the only property is `isComposedModel` which will indicate whether the model is a composed model or a single trained model.
@@ -16,7 +10,7 @@
 - Added a new page element `FormSelectionMark` that represents marks on a page that can be selected (such as checkboxes and radio buttons). The `selectionMarks` field of `FormPage` contains the selection marks that were recognized in the page. A selection mark has a state value that is either "checked" or "unchecked."
 - Made optimizations to the long-running operation infrastructure that should result in faster and more memory-efficient polling for results of custom form recognition, receipt recognition, and business card recognition.
 - Added an option for specifying the locale of a document to receipt and business card methods through the `locale` property of the options bag.
-- Added support for Business Card recognition through the `beginRecognizeBusinessCards` and `beginRecognizeBusinessCardsFromUrl` methods, which mirror their receipt counterparts. The Invoice model is prebuilt and may be used without training a model.
+- Added support for Business Card recognition through the `beginRecognizeBusinessCards` and `beginRecognizeBusinessCardsFromUrl` methods, which mirror their receipt counterparts.
 - Added the `modelName` property to `CustomFormModelInfo`, reflecting the same property that was added to the model training options.
 - Altered the type hierarchy so that `CustomFormModel` inherits the properties of `CustomFormModelInfo`.
 - Added the `modelName` field to `BeginTrainingOptions`. The given model name will become an immutable property of the trained model.

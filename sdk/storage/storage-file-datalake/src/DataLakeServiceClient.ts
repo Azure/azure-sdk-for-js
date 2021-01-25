@@ -12,20 +12,16 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
 import {
   FileSystemItem,
-  ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
   ServiceListFileSystemsSegmentResponse
 } from "./models";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
-import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
+import { appendToURLPath } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
 import { CanonicalCode } from "@opentelemetry/api";
-import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -266,50 +262,4 @@ export class DataLakeServiceClient extends StorageClient {
   // public async deleteFileSystem(fileSystem: string): Promise<ServiceDeleteFileSystemResponse> {
   //   throw Error("NotImplemented");
   // }
-
-  /**
-   * Only available for DataLakeServiceClient constructed with a shared key credential.
-   *
-   * Generates an account Shared Access Signature (SAS) URI based on the client properties
-   * and parameters passed in. The SAS is signed by the shared key credential of the client.
-   *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
-   *
-   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
-   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
-   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
-   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
-   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
-   * @memberof DataLakeServiceClient
-   */
-  public generateAccountSasUrl(
-    expiresOn?: Date,
-    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
-    resourceTypes: string = "sco",
-    options: ServiceGenerateAccountSasUrlOptions = {}
-  ): string {
-    if (!(this.credential instanceof StorageSharedKeyCredential)) {
-      throw RangeError(
-        "Can only generate the account SAS when the client is initialized with a shared key credential"
-      );
-    }
-
-    if (expiresOn === undefined) {
-      const now = new Date();
-      expiresOn = new Date(now.getTime() + 3600 * 1000);
-    }
-
-    const sas = generateAccountSASQueryParameters(
-      {
-        permissions,
-        expiresOn,
-        resourceTypes,
-        services: AccountSASServices.parse("b").toString(),
-        ...options
-      },
-      this.credential
-    ).toString();
-
-    return appendToURLQuery(this.url, sas);
-  }
 }

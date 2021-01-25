@@ -1,14 +1,6 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-service-bus
-urlFragment: service-bus-javascript
----
-
 # Azure Service Bus client library samples for JavaScript
+
+**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1)
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
 
@@ -59,7 +51,7 @@ node sendMessages.js
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEBUS_ENDPOINT="<endpoint>" SERVICEBUS_CONNECTION_STRING="<connection string>" QUEUE_NAME="<queue name>" node dist/basic.js
+npx cross-env SERVICE_BUS_ENDPOINT="<endpoint>" SERVICE_BUS_CONNECTION_STRING="<connection string>" QUEUE_NAME="<queue name>" node dist/basic.js
 ```
 
 ## Next Steps

@@ -8,9 +8,7 @@
 
 export {
   discriminators,
-  ErrorAdditionalInfo,
-  ErrorContract,
-  ErrorResponse,
+  CloudError,
   SqlPoolUsage,
   SqlPoolUsageListResult
 } from "../models/mappers";

@@ -159,7 +159,7 @@ describe("DigitalTwinsClient", () => {
       "DigitalTwinsClient-upsertDigitalTwin",
       digitalTwinsAddOptionalParams
     );
-    testClient.upsertDigitalTwin(testTwinId, JSON.stringify(testJsonString));
+    testClient.upsertDigitalTwin(testTwinId, testJsonString);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, testJsonString, updatedOptions));
     assert.isNotNull(updatedOptions);
@@ -169,17 +169,15 @@ describe("DigitalTwinsClient", () => {
   it("upsertDigitalTwin returns a promise of the generated code return value", async () => {
     const testReturn = testHeaders + testBody + testDefaultResponse;
     sinon.stub(testClient["client"].digitalTwins, "add").resolves(testReturn);
-    const retVal = await testClient.upsertDigitalTwin(testTwinId, JSON.stringify(testJsonString));
+    const retVal = await testClient.upsertDigitalTwin(testTwinId, testJsonString);
     assert.deepEqual(retVal, testReturn);
   });
 
   it("upsertDigitalTwin rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "add").rejects(testError);
-    await testClient
-      .upsertDigitalTwin(testTwinId, JSON.stringify(testJsonString))
-      .catch((error) => {
-        expect(error.message).to.equal("Promise Rejected");
-      });
+    await testClient.upsertDigitalTwin(testTwinId, testJsonString).catch((error) => {
+      expect(error.message).to.equal("Promise Rejected");
+    });
   });
 
   it("updateDigitalTwin calls the update method with twinId, jsonPatch and converted options on the generated client", function() {
@@ -471,7 +469,7 @@ describe("DigitalTwinsClient", () => {
   it("publishComponentTelemetry rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "sendComponentTelemetry").rejects(testError);
     await testClient
-      .publishComponentTelemetry(testTwinId, testComponentPath, testPayload, testMessageId)
+      .publishComponentTelemetry(testTwinId, testComponentPath, testPayload)
       .catch((error) => {
         expect(error.message).to.equal("Promise Rejected");
       });

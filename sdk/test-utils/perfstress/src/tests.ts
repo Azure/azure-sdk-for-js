@@ -3,18 +3,13 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import {
-  PerfStressOptionDictionary,
-  parsePerfStressOption,
-  DefaultPerfStressOptions,
-  defaultPerfStressOptions
-} from "./options";
+import { PerfStressOptionDictionary, parsePerfStressOption } from "./options";
 
 /**
  * Defines the behavior of the PerfStressTest constructor, to use the class as a value.
  */
-export interface PerfStressTestConstructor<TOptions extends {} = {}> {
-  new (): PerfStressTest<TOptions>;
+export interface PerfStressTestConstructor<TOptionsNames extends string> {
+  new (): PerfStressTest<TOptionsNames>;
 }
 
 /**
@@ -26,18 +21,11 @@ export interface PerfStressTestConstructor<TOptions extends {} = {}> {
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfStressTest<TOptions = {}> {
-  public abstract options: PerfStressOptionDictionary<TOptions>;
+export abstract class PerfStressTest<TOptionsNames extends string> {
+  public abstract options: PerfStressOptionDictionary<TOptionsNames>;
 
-  public get parsedOptions(): PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions> {
-    // This cast is needed because TS thinks
-    //   PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>
-    //   is different from
-    //   PerfStressOptionDictionary<TOptions> & PerfStressOptionDictionary<DefaultPerfStressOptions>
-    return parsePerfStressOption({
-      ...this.options,
-      ...defaultPerfStressOptions
-    }) as PerfStressOptionDictionary<TOptions & DefaultPerfStressOptions>;
+  public parseOptions() {
+    this.options = parsePerfStressOption(this.options) as PerfStressOptionDictionary<TOptionsNames>;
   }
 
   // Before and after running a bunch of the same test.
@@ -57,8 +45,8 @@ export abstract class PerfStressTest<TOptions = {}> {
  * @param tests An array of classes that extend PerfStressTest
  */
 export function selectPerfStressTest(
-  tests: PerfStressTestConstructor[]
-): PerfStressTestConstructor {
+  tests: PerfStressTestConstructor<string>[]
+): PerfStressTestConstructor<string> {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];
