@@ -139,37 +139,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
       if (result && result.account) {
         logger.info(`MSAL Browser V2 redirect authentication successful.`);
         this.account = result.account;
-      } else {
-        this.loadCachedAccount();
       }
     } catch (e) {
       logger.info(`Failed to acquire token through the MSAL redirect login method. ${e.message}`);
-    }
-  }
-
-  /**
-   * Loads the specific target account from the MSAL cache, if it exists.
-   * Returns true if the load was successful.
-   */
-  private loadCachedAccount(): boolean {
-    const accounts = this.msalObject.getAllAccounts();
-
-    const account = accounts.find((acc) => {
-      const claims: any = acc.idTokenClaims;
-      return (
-        claims &&
-        claims.aud === this.clientId && // Same target client ID
-        acc.tenantId === this.tenantId // Same target tenant ID
-      );
-    });
-
-    if (account) {
-      logger.info(`MSAL Browser V2 cached account found.`);
-      this.account = account;
-      return true;
-    } else {
-      logger.info(`MSAL Browser V2 cached account not found.`);
-      return false;
     }
   }
 
@@ -210,18 +182,17 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
     }
 
-    let authPromise: MSALAuthenticationPromise | undefined;
-
     if (authResponse === undefined) {
       logger.info(
         `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
       );
       switch (this.loginStyle) {
         case "redirect":
-          authPromise = this.msalObject.handleRedirectPromise();
-          this.msalObject.acquireTokenRedirect(authParams);
-          authResponse = (await authPromise) || undefined;
-          break;
+          // This will go out of the page.
+          // Once the InteractiveBrowserCredential is initialized again,
+          // we'll load the MSAL account in the constructor.
+          await this.msalObject.acquireTokenRedirect(authParams);
+          return undefined;
         case "popup":
           authResponse = await this.msalObject.acquireTokenPopup(authParams);
           break;
@@ -247,7 +218,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
     try {
-      if (!this.loadCachedAccount()) {
+      if (!this.account) {
         const result = await this.login(scopes);
         if (result && result.account) {
           this.account = result.account;
