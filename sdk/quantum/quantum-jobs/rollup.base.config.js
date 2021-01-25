@@ -106,7 +106,7 @@ export function browserConfig(test = false) {
       },
       sourcemap: true
     },
-    external: ["nock", "fs-extra"],
+    external: ["fs-extra"],
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
