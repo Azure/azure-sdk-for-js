@@ -113,7 +113,7 @@ export function browserConfig(test = false) {
       },
       sourcemap: true
     },
-    external: ["nock", "fs-extra"],
+    external: ["fs-extra"],
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
@@ -151,15 +151,6 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
 
     baseConfig.external.unshift(...["process"]);
-
-    baseConfig.output.globals = {
-      ...baseConfig.output.globals,
-      nock: "nock",
-      fs: "fs-extra",
-      "fs-extra": "fs",
-      process: "process",
-      path: "path"
-    };
 
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.plugins.unshift(
