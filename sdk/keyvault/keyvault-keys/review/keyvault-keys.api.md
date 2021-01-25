@@ -377,6 +377,7 @@ export interface UnwrapKeyOptions extends KeyOperationsOptions {
 
 // @public
 export interface UnwrapResult {
+    algorithm: KeyWrapAlgorithm;
     keyID?: string;
     result: Uint8Array;
 }

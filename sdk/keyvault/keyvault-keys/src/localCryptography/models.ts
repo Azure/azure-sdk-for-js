@@ -32,8 +32,6 @@ export type LocalAssertion = (
 
 /**
  * A union type representing the names of all of the locally supported algorithms.
- * @internal
- * @hidden
  */
 export type LocalSupportedAlgorithmName =
   | "RSA1_5"
