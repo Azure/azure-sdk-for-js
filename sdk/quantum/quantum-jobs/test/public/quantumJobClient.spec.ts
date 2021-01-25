@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import * as assert from "assert";
 import { QuantumJobClient } from "../../src";
 
