@@ -58,7 +58,6 @@ AZURE_ARM_ENDPOINT="https://management.azure.com"
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-//import { DefaultAzureCredential, ManagedIdentityCredential } from '@azure/identity';
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
