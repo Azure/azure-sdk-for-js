@@ -259,7 +259,7 @@ export type DataFeedMissingDataPointFillSettings = {
     fillType: "SmartFilling" | "PreviousValue" | "NoFilling" | string;
     customFillValue?: number;
 } | {
-    fillType: "CustomValue" | string;
+    fillType: "CustomValue";
     customFillValue: number;
 };
 
