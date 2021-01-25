@@ -249,7 +249,7 @@ export type CreateHookResponse = CreatedNotificationHook & {
     };
 };
 
-// @public (undocumented)
+// @public
 export type CreateMetricFeedback = {
     id: string;
 };

@@ -642,6 +642,9 @@ export type ChangeThresholdConditionUnion =
       suppressCondition: SuppressCondition;
     };
 
+/**
+ * Represents newly created Metric Feedback
+ */
 export type CreateMetricFeedback = {
   /**
    * feedback unique id
