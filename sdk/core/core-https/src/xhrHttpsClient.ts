@@ -99,9 +99,9 @@ export class XhrHttpsClient implements HttpsClient {
                   });
                 } else {
                   // Blob.text() is not supported in IE
-                  var reader = new FileReader();
+                  const reader = new FileReader();
                   reader.onload = function(e) {
-                    var text = e.target?.result as string;
+                    const text = e.target?.result as string;
                     resolve({
                       request: request,
                       status: xhr.status,

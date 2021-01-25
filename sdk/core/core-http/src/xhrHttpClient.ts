@@ -108,9 +108,9 @@ export class XhrHttpClient implements HttpClient {
               });
             } else {
               xhr.addEventListener("load", () => {
-                // response comes back in Blob when xhr.responseType === "blob"
-                // but the response body type is not expected to be stream based on response status code
-                // so converting from Blob to text
+                // Response comes back in Blob when xhr.responseType === "blob"
+                // but the response body type is not expected to be stream based on response status code.
+                // So converting from Blob to text
                 if (!xhr.response) {
                   resolve({
                     request,
@@ -118,10 +118,10 @@ export class XhrHttpClient implements HttpClient {
                     headers: parseHeaders(xhr)
                   });
                 } else {
-                  // Blob.text() is not supported in IE
-                  var reader = new FileReader();
+                  // Blob.text() is not supported in IE so using FileReader instead
+                  const reader = new FileReader();
                   reader.onload = function(e) {
-                    var text = e.target?.result as string;
+                    const text = e.target?.result as string;
                     resolve({
                       request: request,
                       status: xhr.status,
