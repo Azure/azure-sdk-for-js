@@ -15,25 +15,6 @@ import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
-type MSALAuthenticationPromise = Promise<msalBrowser.AuthenticationResult | null>;
-
-/**
- * This function caches the MSAL redirect promise handler,
- * since the redirect information is deleted from the URL after the first time the authentication is resolved on page load.
- */
-let redirectPromise: MSALAuthenticationPromise | null = null;
-const cachedRedirectResponse = async (
-  msalObject: msalBrowser.IPublicClientApplication
-): MSALAuthenticationPromise => {
-  if (!redirectPromise) {
-    logger.info(
-      "Caching the MSAL redirect promise handler, since the redirect information is deleted after the first resolved authentication."
-    );
-    redirectPromise = msalObject.handleRedirectPromise();
-  }
-  return redirectPromise;
-};
-
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow, either via browser redirects or a popup
@@ -135,7 +116,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   private async handleRedirectResponse(): Promise<void> {
     try {
-      const result = await cachedRedirectResponse(this.msalObject);
+      const result = await this.msalObject.handleRedirectPromise();
       if (result && result.account) {
         logger.info(`MSAL Browser V2 redirect authentication successful.`);
         this.account = result.account;
