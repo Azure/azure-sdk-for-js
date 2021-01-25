@@ -147,7 +147,6 @@ export function browserConfig(test = false) {
 
     baseConfig.output.globals = {
       ...baseConfig.output.globals,
-      nock: "nock",
       fs: "fs-extra",
       "fs-extra": "fs",
       process: "process",
