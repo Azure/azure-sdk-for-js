@@ -363,6 +363,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/quantum-jobs",
+      "projectFolder": "sdk/quantum/quantum-jobs",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-administration",
       "projectFolder": "sdk/communication/communication-administration",
       "versionPolicyName": "client"
@@ -400,6 +405,11 @@
     {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/core-crypto",
+      "projectFolder": "sdk/core/core-crypto",
       "versionPolicyName": "core"
     },
     {

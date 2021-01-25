@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/latest/opentelemetry-exporter-azure-monitor.d.ts"
+    "publicTrimmedFilePath": "./types/opentelemetry-exporter-azure-monitor.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

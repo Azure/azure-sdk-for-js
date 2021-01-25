@@ -48,6 +48,7 @@ import {
   GeneratedClientListCustomModelsNextResponse
 } from "./models";
 
+/** @hidden */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -751,7 +752,6 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const trainCustomModelAsyncOperationSpec: coreHttp.OperationSpec = {

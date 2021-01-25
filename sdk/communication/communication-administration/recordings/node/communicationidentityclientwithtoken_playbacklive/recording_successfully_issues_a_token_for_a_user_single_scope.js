@@ -1,13 +1,12 @@
 let nock = require('nock');
 
-module.exports.hash = "af7c6cb9bdc93d68a7d9359ea157526a";
+module.exports.hash = "94601dd7a4aa157e7f368397131f263e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .post('/SomeTenantId/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=SomeClientSecret&scope=https%3A%2F%2Fcommunication.azure.com%2F%2F.default")
-  .query(true)
-  .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVPZjlQNUY5Z0NDd0NtRjJCT0hIeEREUS1EayIsImtpZCI6IjVPZjlQNUY5Z0NDd0NtRjJCT0hIeEREUS1EayJ9.eyJhdWQiOiJodHRwczovL2NvbW11bmljYXRpb24uYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0L2IzYmYwOTZlLWNlMTItNGRhZC05MjAzLWVkNzBhOGIwOTljMS8iLCJpYXQiOjE2MDg1ODIxOTIsIm5iZiI6MTYwODU4MjE5MiwiZXhwIjoxNjA4NTg2MDkyLCJhaW8iOiJFMkpnWURqMCsxa1J3NlNhZ2dtT1FzWXNiNjIrQVFBPSIsImFwcGlkIjoiZjM3MzQyMGUtMTFiZC00NzRiLTk4MjItOWYzMTU1MzNhZjQzIiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvYjNiZjA5NmUtY2UxMi00ZGFkLTkyMDMtZWQ3MGE4YjA5OWMxLyIsIm9pZCI6IjdkNmFjZWIyLTYyNDgtNGFiNC1hYTMzLWRhMjU1ODEwZGVhYyIsInJoIjoiMC5BQUFBYmdtX3N4TE9yVTJTQS0xd3FMQ1p3UTVDY19POUVVdEhtQ0tmTVZVenIwTjJBQUEuIiwic3ViIjoiN2Q2YWNlYjItNjI0OC00YWI0LWFhMzMtZGEyNTU4MTBkZWFjIiwidGlkIjoiYjNiZjA5NmUtY2UxMi00ZGFkLTkyMDMtZWQ3MGE4YjA5OWMxIiwidXRpIjoiU21Xc0FLazU0a2kzVm96Tnc2OGNBQSIsInZlciI6IjEuMCJ9.F46MEvo2_VDwBQ0z_u96AM9x4BISmXz-hHasAHGHL0JS2jTX4qT24CkCy0VMNRLFwTMjaXyrUUB8S1cg190Epm5xaCSrLphxhbHu5eUy3H8ZWtkRaTWsdeqzJ16qc7H9S_dWhALFwR7Y47ofKFZrrwUr0RMNAwgSzHzmQYqNfB8aiP184ikQgZ_59RGeaDt7gC2tIrtdhlcMrjs6VnuawvuyZ54-CUR5mT-Ke8Ju72zwQtdzQSxm9v8XmgfdxX5lEwN88zBhyuqXLXTD55ijNrtU-A1YnDA-Vq9RqAfR22fo5F8BRuQ1mN3iyMdQMyrt5WFLwFRJ-s0Y7iL0R0UjlA"}, [
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJodHRwczovL2NvbW11bmljYXRpb24uYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0LzcyZjk4OGJmLTg2ZjEtNDFhZi05MWFiLTJkN2NkMDExZGI0Ny8iLCJpYXQiOjE2MTExODcxNjgsIm5iZiI6MTYxMTE4NzE2OCwiZXhwIjoxNjExMjczODY4LCJhaW8iOiJFMkpnWUhCTnRwUVA0a3hZL0VtNDU4K0h1dVEzQUE9PSIsImFwcGlkIjoiNmM4MTgxYzctOTFhNi00ZTJlLTg0ODAtZDU0MDIxYWM0YzRiIiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly9zdHMud2luZG93cy5uZXQvNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3LyIsIm9pZCI6IjNlMGM3MTRmLTk3YWMtNGQ2My1hZWFmLTE0YmFhNWUwNjRjYiIsInJoIjoiMC5BUm9BdjRqNWN2R0dyMEdScXkxODBCSGJSOGVCZ1d5bWtTNU9oSURWUUNHc1RFc2FBQUEuIiwic3ViIjoiM2UwYzcxNGYtOTdhYy00ZDYzLWFlYWYtMTRiYWE1ZTA2NGNiIiwidGlkIjoiNzJmOTg4YmYtODZmMS00MWFmLTkxYWItMmQ3Y2QwMTFkYjQ3IiwidXRpIjoidmxJQ01fOUh1RWVKa0w1R2Nab1VBQSIsInZlciI6IjEuMCJ9.cJFY3gXeXdTAEshZNorTXZQWUIDcplQ-BCbETE0DmGuWdmgYkDyvL9_CvSpqKRZkDowmrLvJeT47WQ49Ic3ikkmwCcjzA1sg0OSnNMvUEdsv3i9JC4537kiyFpDo5MmDZipSqlfZTvwRWAO5JGOZxkq81iRRZWNlMr48iMmaDMarWalnfgI1PfOTJCsxHKWnIM7GW5tFD20j02UTiG2B9kTHit_xfwi1WWA3KG2cTePr1H2Wc6JlhWOLGRbUam06lKIC93A0X8R1kQv1BR5XW9WUBsi1V10dI2IOQnVLp2863GeXU2Jm_7kaBWcAsRHFPka4XaxeJdEWdCxKr_uqUw"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -25,20 +24,20 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11328.13 - EST ProdSlices',
+  '2.1.11419.13 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AtRAjxDA_PNGk8IgAAZklDb3ZxdeAQAAAFz8ctcOAAAA; expires=Wed, 20-Jan-2021 20:28:12 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtQYQhtVXGxAl2HRYGEM9KBWyo4SAQAAAAu8mtcOAAAA; expires=Sat, 20-Feb-2021 00:04:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 21 Dec 2020 20:28:12 GMT',
+  'Thu, 21 Jan 2021 00:04:27 GMT',
   'Content-Length',
-  '1325'
+  '1327'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .post('/identities')
   .query(true)
   .reply(200, {"id":"sanitized"}, [
@@ -47,41 +46,41 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'NQBZ+MnP30Kr1piaI9wTGA.0',
+  'izeehkTKfkOdNpQgMxmNBw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-01-15-preview3, 2020-07-20-preview1, 2020-07-20-preview2',
+  '2020-07-20-preview2, 2021-03-07',
   'X-Processing-Time',
-  '352ms',
+  '221ms',
   'X-Azure-Ref',
-  '0XQXhXwAAAACsqcU5c4vsQ4NpR+a8OpIFRVdSMzBFREdFMDYxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0DMUIYAAAAADyvXexfWmZSKGD0aGyWv3IRVdSMzBFREdFMDUyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Mon, 21 Dec 2020 20:28:12 GMT'
+  'Thu, 21 Jan 2021 00:04:27 GMT'
 ]);
 
-nock('https://endpoint', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":false})
   .post('/identities/sanitized/token', {"scopes":["chat"]})
   .query(true)
-  .reply(200, {"id":"sanitized","token":"sanitized","expiresOn":"2020-12-22T20:28:12.8449526+00:00"}, [
+  .reply(200, {"id":"sanitized","token":"sanitized","expiresOn":"2021-01-22T00:04:27.9969707+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'K8luOL9gOESaa1Uy4HCO8w.0',
+  'snlpHxIoWUagc97WfZbRJA.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   'sanitized',
   'api-supported-versions',
-  '2020-01-15-preview3, 2020-07-20-preview1, 2020-07-20-preview2',
+  '2020-07-20-preview2, 2021-03-07',
   'X-Processing-Time',
-  '287ms',
+  '273ms',
   'X-Azure-Ref',
-  '0XQXhXwAAAADVB+/PcTZUSY3XfyI3zwKjRVdSMzBFREdFMDYxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0DMUIYAAAAABSD2srDVM5RomzMlg1D/NJRVdSMzBFREdFMDUyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Mon, 21 Dec 2020 20:28:13 GMT'
+  'Thu, 21 Jan 2021 00:04:28 GMT'
 ]);

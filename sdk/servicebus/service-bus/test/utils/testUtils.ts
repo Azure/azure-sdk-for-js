@@ -151,13 +151,13 @@ export enum TestClientType {
  * Keep checking whether the predicate is true after every `1000 ms`(default value is 1 second) (= delayBetweenRetriesInMilliseconds)
  */
 export async function checkWithTimeout(
-  predicate: () => boolean,
+  predicate: () => boolean | Promise<boolean>,
   delayBetweenRetriesInMilliseconds: number = 1000,
   maxWaitTimeInMilliseconds: number = 10000
 ): Promise<boolean> {
   const maxTime = Date.now() + maxWaitTimeInMilliseconds;
   while (Date.now() < maxTime) {
-    if (predicate()) return true;
+    if (await predicate()) return true;
     await delay(delayBetweenRetriesInMilliseconds);
   }
   return false;
