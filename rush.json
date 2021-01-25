@@ -364,7 +364,7 @@
     },
     {
       "packageName": "@azure/quantum-jobs",
-      "projectFolder": "sdk/quantum/quantum",
+      "projectFolder": "sdk/quantum/quantum-jobs",
       "versionPolicyName": "client"
     },
     {

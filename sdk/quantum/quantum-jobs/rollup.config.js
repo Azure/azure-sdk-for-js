@@ -15,7 +15,7 @@ const config = {
   input: "./dist-esm/quantumJobClient.js",
   external: ["@azure/core-http"],
   output: {
-    file: "./dist/quantum.js",
+    file: "./dist/quantum-jobs.js",
     format: "umd",
     name: "Azure.Quantum",
     sourcemap: true,
