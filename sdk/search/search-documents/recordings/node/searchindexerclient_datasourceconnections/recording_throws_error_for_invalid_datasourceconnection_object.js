@@ -7,7 +7,8 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/datasources(%27garbxyz%27)')
   .query(true)
-  .reply(404, {"error":{"code":"","message":"No data source with the name 'garbxyz' was found in service 'testsearchcases'."}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"","message":"No data source with the name 'garbxyz' was found in service 'testsearchcases'."}}, [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,9 +19,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  'ccb64a38-11e6-4496-8160-26289291e647',
+  'fc9036c5-427d-43be-a7b8-38c601b6820e',
   'elapsed-time',
-  '7',
+  '4',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -28,6 +29,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 04 Nov 2020 08:24:36 GMT',
+  'Fri, 22 Jan 2021 00:15:29 GMT',
   'Content-Length',
-  '112' ]);
+  '112'
+]);

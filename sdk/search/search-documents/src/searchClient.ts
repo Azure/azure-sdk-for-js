@@ -148,7 +148,7 @@ export class SearchClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    this.client = new GeneratedClient(this.apiVersion, this.endpoint, this.indexName, pipeline);
+    this.client = new GeneratedClient(this.endpoint, this.indexName, this.apiVersion, pipeline);
   }
 
   /**
