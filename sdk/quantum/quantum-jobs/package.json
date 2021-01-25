@@ -85,7 +85,7 @@
     "dist/**/*.js",
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",    
+    "dist/**/*.d.ts.map",
     "README.md",
     "rollup.config.js",
     "tsconfig.json"
