@@ -87,6 +87,7 @@
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
     "README.md",
+    "LICENSE.txt"
   ],
   "scripts": {
     "build": "npm run build:node && npm run build:browser",
