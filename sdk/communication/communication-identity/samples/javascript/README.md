@@ -4,7 +4,7 @@ languages:
   - javascript
 products:
   - azure
-urlFragment: communication-administration-identity-javascript
+urlFragment: communication-identity-javascript
 ---
 
 # Azure Communication Service Administration Identity client library sample for JavaScript
@@ -52,9 +52,9 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node issueTo
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/issueToken.js
-[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/javascript/revokeTokens.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-administration
+[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/javascript/issueToken.js
+[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/javascript/revokeTokens.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-identity
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/README.md

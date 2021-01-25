@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-administration-identity
+package-name: azure-communication-identity
 override-client-name: IdentityRestClient
 description: Communication identity client
 package-version: 1.0.0-beta.4

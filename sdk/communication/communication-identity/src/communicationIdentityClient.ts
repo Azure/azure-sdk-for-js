@@ -88,7 +88,7 @@ export class CommunicationIdentityClient {
     const options = isCommunicationIdentityOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-administration/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-communication-identity/${SDK_VERSION}`;
 
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};

@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { IdentityRestClientOptionalParams } from "./models";
 
-const packageName = "azure-communication-administration-identity";
+const packageName = "azure-communication-identity";
 const packageVersion = "1.0.0-beta.4";
 
 export class IdentityRestClientContext extends coreHttp.ServiceClient {
