@@ -15,7 +15,12 @@ npm install @azure/arm-mediaservices
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list accountFilters as an example written in TypeScript.
+#### nodejs - Authentication, client creation and list all Assets as an example written in TypeScript.
+This sample shows how to use Service Principal authentication with details obtained from the Azure Portal's API Access page in your Azure Media Services account. 
+It also demonstrates how to create the Media Services client and do a simple listing of all assets in the account. If no Assets have been created yet, the list will just return empty. 
+
+More detailed examples are available at the following Samples repository. Contributions are encouraged!
+- [Azure Media Services v3 Node samples](https://github.com/Azure-Samples/media-services-v3-node-tutorials)
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -24,7 +29,7 @@ npm install @azure/arm-mediaservices
 npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
-##### Sample code using Service Principal to list all Assets
+##### Sample code
 
 ```typescript
 import * as msRest from "@azure/ms-rest-js";
@@ -97,7 +102,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmMediaservices.AzureMediaServices(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const accountName = "testaccountName";
-        client.accountFilters.list(resourceGroupName, accountName).then((result) => {
+        client.assets.list(resourceGroupName, accountName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
