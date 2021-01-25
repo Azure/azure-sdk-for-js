@@ -150,7 +150,7 @@ async function callOnDetachedOnReceivers(
 
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
     const receiver = connectionContext.messageReceivers[receiverName];
-    if (receiver) {
+    if (receiver && receiver.receiverType === receiverType) {
       logger.verbose(
         "[%s] calling detached on %s receiver '%s'.",
         connectionContext.connection.id,
