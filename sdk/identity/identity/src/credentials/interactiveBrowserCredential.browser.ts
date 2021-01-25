@@ -26,7 +26,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private loginStyle: BrowserLoginStyle;
   private msalConfig: msalBrowser.Configuration;
   private msalObject: msalBrowser.PublicClientApplication;
-  private account: msalBrowser.AccountInfo | null = null;
   private correlationId: string | undefined;
 
   /**
@@ -119,7 +118,19 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const result = await this.msalObject.handleRedirectPromise();
       if (result && result.account) {
         logger.info(`MSAL Browser V2 redirect authentication successful.`);
-        this.account = result.account;
+        this.msalObject.setActiveAccount(result.account);
+      } else {
+        const accounts = this.msalObject.getAllAccounts();
+        if (accounts.length > 1) {
+          logger.info(
+            `WARNING: More than one account was found. Cleaning the MSAL cache. A new login needs to be processed.`
+          );
+          // TODO: When available, use this.msalObject.localLogout()
+        } else if (accounts.length === 1) {
+          this.msalObject.setActiveAccount(accounts[0]);
+        } else {
+          logger.info(`No accounts were found through MSAL.`);
+        }
       }
     } catch (e) {
       logger.info(`Failed to acquire token through the MSAL redirect login method. ${e.message}`);
@@ -199,10 +210,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
     try {
-      if (!this.account) {
+      let account = this.msalObject.getActiveAccount();
+      if (!account) {
         const result = await this.login(scopes);
         if (result && result.account) {
-          this.account = result.account;
+          account = result.account;
+          this.msalObject.setActiveAccount(account);
         } else {
           logger.getToken.info("No login response");
           return null;
@@ -212,7 +225,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const authResponse = await this.acquireToken({
         authority: this.msalConfig.auth.authority!,
         correlationId: this.correlationId, // If undefined, MSAL will automatically generate one.
-        account: this.account!,
+        account,
         forceRefresh: false,
         scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
       });
