@@ -1,6 +1,6 @@
 {
   "name": "@azure/digital-twins-core",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An isomorphic client library for Azure Digital Twins",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
@@ -105,7 +105,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",

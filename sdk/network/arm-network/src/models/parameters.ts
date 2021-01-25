@@ -25,7 +25,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-07-01',
+    defaultValue: '2020-08-01',
     type: {
       name: "String"
     }
@@ -509,6 +509,16 @@ export const natGatewayName: msRest.OperationURLParameter = {
     }
   }
 };
+export const natRuleName: msRest.OperationURLParameter = {
+  parameterPath: "natRuleName",
+  mapper: {
+    required: true,
+    serializedName: "natRuleName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const networkInterfaceName: msRest.OperationURLParameter = {
   parameterPath: "networkInterfaceName",
   mapper: {
@@ -915,6 +925,16 @@ export const virtualHubName: msRest.OperationURLParameter = {
     }
   }
 };
+export const virtualmachineIndex: msRest.OperationURLParameter = {
+  parameterPath: "virtualmachineIndex",
+  mapper: {
+    required: true,
+    serializedName: "virtualmachineIndex",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const virtualMachineScaleSetName: msRest.OperationURLParameter = {
   parameterPath: "virtualMachineScaleSetName",
   mapper: {
@@ -990,16 +1010,6 @@ export const virtualWANName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "VirtualWANName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const virtualmachineIndex: msRest.OperationURLParameter = {
-  parameterPath: "virtualmachineIndex",
-  mapper: {
-    required: true,
-    serializedName: "virtualmachineIndex",
     type: {
       name: "String"
     }
