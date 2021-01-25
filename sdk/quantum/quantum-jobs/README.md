@@ -1,13 +1,13 @@
-## Azure QuantumClient client library for JavaScript
+## Azure QuantumJobClient client library for JavaScript
 
-This package contains an isomorphic SDK for QuantumClient.
+This package contains an isomorphic SDK for QuantumJobClient.
 
 ## Getting started
 
 ### Install the package
 
 ```bash
-npm install @azure/quantum
+npm install @azure/quantum-jobs
 ```
 
 ### Prerequisites

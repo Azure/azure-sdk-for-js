@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export * from "./operations";
-export { QuantumClient } from "./quantumClient";
-export { QuantumClientContext } from "./quantumClientContext";
+export { QuantumJobClient } from "./quantumJobClient";
+export { QuantumJobClientContext } from "./quantumJobClientContext";
