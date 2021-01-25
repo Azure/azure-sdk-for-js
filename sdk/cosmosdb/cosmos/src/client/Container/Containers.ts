@@ -169,6 +169,10 @@ export class Containers {
       };
     }
 
+    if (body.partitionKey.paths.length > 1) {
+      body.partitionKey.kind = "MultiHash"
+    }
+
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
