@@ -590,29 +590,6 @@ export class KeyVaultCryptographyClient {
     return new LocalCryptographyClient(this.key as JsonWebKey);
   }
 
-  /**
-   * Constructs a new instance of the Cryptography client for the given key
-   *
-   * Example usage:
-   * ```ts
-   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-   * import { DefaultAzureCredential } from "@azure/identity";
-   *
-   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
-   * let credentials = new DefaultAzureCredential();
-   *
-   * let keyClient = new KeyClient(vaultUrl, credentials);
-   * let keyVaultKey = await keyClient.getKey("MyKey");
-   *
-   * let client = new CryptographyClient(keyVaultKey.id, credentials);
-   * // or
-   * let client = new CryptographyClient(keyVaultKey, credentials);
-   * ```
-   * @param key - The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
-   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
-   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
-   *                          Omit this parameter to use the default pipeline configuration.
-   */
   constructor(
     key: string | KeyVaultKey,
     credential: TokenCredential,

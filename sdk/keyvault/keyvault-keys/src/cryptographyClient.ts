@@ -30,12 +30,54 @@ import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
  * or a local {@link JsonWebKey}.
  */
 export class CryptographyClient {
+  /**
+   * Constructs a new instance of the Cryptography client for the given key in local mode.
+   *
+   * Example usage:
+   * ```ts
+   * import { LocalCryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const jsonWebKey: JsonWebKey = {
+   *   // ...
+   * };
+   * const client = new LocalCryptographyClient(jsonWebKey);
+   * ```
+   * @param key - The JsonWebKey to use during cryptography operations.
+   */
   constructor(key: JsonWebKey);
+  /**
+   * Constructs a new instance of the Cryptography client for the given key
+   *
+   * Example usage:
+   * ```ts
+   * import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+   * import { DefaultAzureCredential } from "@azure/identity";
+   *
+   * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
+   * let credentials = new DefaultAzureCredential();
+   *
+   * let keyClient = new KeyClient(vaultUrl, credentials);
+   * let keyVaultKey = await keyClient.getKey("MyKey");
+   *
+   * let client = new CryptographyClient(keyVaultKey.id, credentials);
+   * // or
+   * let client = new CryptographyClient(keyVaultKey, credentials);
+   * ```
+   * @param key - The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
+   *                          Omit this parameter to use the default pipeline configuration.
+   */
   constructor(
     key: string | KeyVaultKey,
     credential: TokenCredential,
     pipelineOptions?: CryptographyClientOptions
   );
+  /**
+   * Internal constructor implementation for either local or Key Vault backed keys.
+   * @param key - The key to use during cryptography tasks.
+   * @param credential - Teh credential to use when constructing a Key Vault Cryptography client.
+   */
   constructor(
     key: string | KeyVaultKey | JsonWebKey,
     credential?: TokenCredential,
@@ -185,7 +227,6 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.sign(algorithm, digest, options);
     } else {
-      // Todo: this need to be higher level / public API if not already?
       throw new Error("Signing a local JsonWebKey is not supported.");
     }
   }

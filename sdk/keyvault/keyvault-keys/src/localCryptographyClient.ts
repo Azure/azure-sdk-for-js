@@ -107,20 +107,6 @@ export class LocalCryptographyClient {
    */
   public key: JsonWebKey;
 
-  /**
-   * Constructs a new instance of the Local Cryptography client for the given key.
-   *
-   * Example usage:
-   * ```ts
-   * import { LocalCryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const jsonWebKey: JsonWebKey = {
-   *   // ...
-   * };
-   * const client = new LocalCryptographyClient(jsonWebKey);
-   * ```
-   * @param key - The JsonWebKey to use during cryptography operations.
-   */
   constructor(key: JsonWebKey) {
     this.key = key;
   }
