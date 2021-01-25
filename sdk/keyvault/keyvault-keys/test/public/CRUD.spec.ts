@@ -105,7 +105,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can create a RSA key with publicExponent", async function() {
+  it("can create a RSA key with public exponent", async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options = {
       publicExponent: 3
