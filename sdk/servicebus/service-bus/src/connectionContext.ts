@@ -171,7 +171,7 @@ async function callOnDetachedOnReceivers(
     }
   }
 
-  await Promise.all(detachCalls);
+  return Promise.all(detachCalls);
 }
 
 /**
