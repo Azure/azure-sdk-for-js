@@ -36,11 +36,6 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      // const apiKeyCredential = new MetricsAdvisorKeyCredential(
-      //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-      //   testEnv.METRICS_ADVISOR_API_KEY
-      // );
-
       beforeEach(function() {
         // eslint-disable-next-line no-invalid-this
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));

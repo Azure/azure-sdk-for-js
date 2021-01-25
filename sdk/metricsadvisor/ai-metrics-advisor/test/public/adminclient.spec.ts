@@ -20,11 +20,6 @@ matrix([[true, false]] as const, async (useAad) => {
       let recorder: Recorder;
 
       beforeEach(function() {
-        // const apiKey = new MetricsAdvisorKeyCredential(
-        //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-        //   testEnv.METRICS_ADVISOR_API_KEY
-        // );
-
         // eslint-disable-next-line no-invalid-this
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
       });

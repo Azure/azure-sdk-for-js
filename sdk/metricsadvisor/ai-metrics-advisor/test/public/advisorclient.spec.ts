@@ -19,10 +19,6 @@ matrix([[true, false]] as const, async (useAad) => {
     describe("MetricsAdvisorClient", () => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
-      // const apiKey = new MetricsAdvisorKeyCredential(
-      //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-      //   testEnv.METRICS_ADVISOR_API_KEY
-      // );
 
       beforeEach(function() {
         // eslint-disable-next-line no-invalid-this

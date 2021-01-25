@@ -19,10 +19,6 @@ matrix([[true, false]] as const, async (useAad) => {
     describe("MetricsAdvisorClient hooks", () => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
-      // const apiKey = new MetricsAdvisorKeyCredential(
-      //   testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
-      //   testEnv.METRICS_ADVISOR_API_KEY
-      // );
       let createdWebHookId: string;
       let createdEmailHookId: string;
       let emailHookName: string;
