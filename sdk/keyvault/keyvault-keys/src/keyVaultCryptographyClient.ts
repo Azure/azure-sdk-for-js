@@ -595,8 +595,6 @@ export class KeyVaultCryptographyClient {
     credential: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
-    if (credential) {
-    }
     const libInfo = `azsdk-js-keyvault-keys/${SDK_VERSION}`;
 
     const userAgentOptions = pipelineOptions.userAgentOptions;
