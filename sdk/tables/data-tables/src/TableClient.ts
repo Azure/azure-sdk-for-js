@@ -41,7 +41,11 @@ import { deserialize, deserializeObjectsArray, serialize } from "./serialization
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { Pipeline } from "@azure/core-https";
-import { ClientPipelineOptions, createClientPipeline } from "@azure/core-client";
+import {
+  ClientPipelineOptions,
+  createClientPipeline,
+  FullOperationResponse
+} from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -225,18 +229,21 @@ export class TableClient {
 
     try {
       const { queryOptions, ...getEntityOptions } = updatedOptions || {};
-      const { _response } = await this.table.queryEntitiesWithPartitionAndRowKey(
-        this.tableName,
-        partitionKey,
-        rowKey,
-        { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
-      );
-      const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-
-      return Object.defineProperty({ ...tableEntity }, "_response", {
-        enumerable: false,
-        value: _response
+      let parsedBody: any;
+      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+        parsedBody = rawResponse.parsedBody;
+        if (updatedOptions.onResponse) {
+          updatedOptions.onResponse(rawResponse, flatResponse);
+        }
+      }
+      await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
+        ...getEntityOptions,
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        onResponse
       });
+      const tableEntity = deserialize<TableEntityResult<T>>(parsedBody);
+
+      return tableEntity;
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
