@@ -302,7 +302,7 @@ export class PhoneNumbersClient {
    * const reservePoller = await client.beginReservePhoneNumbers(RESERVATION_REQUEST);
    *
    * // Serializing the poller
-   * const serialized = reservePoller.toString();
+   * const serialized = searchPoller.toString();
    *
    * // Waiting until it's done
    * const results = await searchPoller.pollUntilDone();
