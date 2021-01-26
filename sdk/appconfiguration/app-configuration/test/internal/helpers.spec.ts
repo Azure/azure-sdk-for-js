@@ -3,13 +3,14 @@
 
 import {
   checkAndFormatIfAndIfNoneMatch,
-  formatWildcards,
+  formatFiltersAndSelect,
   extractAfterTokenFromNextLink,
   quoteETag,
   makeConfigurationSettingEmpty,
   transformKeyValue,
   transformKeyValueResponseWithStatusCode,
-  transformKeyValueResponse
+  transformKeyValueResponse,
+  formatFieldsForSelect
 } from "../../src/internal/helpers";
 import * as assert from "assert";
 import { ConfigurationSetting, HttpResponseField, HttpResponseFields } from "../../src";
@@ -84,7 +85,7 @@ describe("helper methods", () => {
 
   describe("formatWildcards", () => {
     it("undefined", () => {
-      const result = formatWildcards({
+      const result = formatFiltersAndSelect({
         keyFilter: undefined,
         labelFilter: undefined
       });
@@ -94,7 +95,7 @@ describe("helper methods", () => {
     });
 
     it("single values only", () => {
-      const result = formatWildcards({
+      const result = formatFiltersAndSelect({
         keyFilter: "key1",
         labelFilter: "label1"
       });
@@ -104,7 +105,7 @@ describe("helper methods", () => {
     });
 
     it("multiple values", () => {
-      const result = formatWildcards({
+      const result = formatFiltersAndSelect({
         keyFilter: "key1,key2",
         labelFilter: "label1,label2"
       });
@@ -114,7 +115,7 @@ describe("helper methods", () => {
     });
 
     it("fields map properly", () => {
-      const result = formatWildcards({
+      const result = formatFiltersAndSelect({
         fields: ["isReadOnly", "value"]
       });
 
@@ -142,7 +143,7 @@ describe("helper methods", () => {
     // key isn't touched
     assert.equal("mykey", response.key);
 
-    for (const name of getAllConfigurationSettingFields()) {
+    for (const name of getAllConfigurationSettingFieldsMinusKey()) {
       assert.ok(!response[name], name);
     }
 
@@ -226,7 +227,30 @@ describe("helper methods", () => {
     );
   });
 
-  function getAllConfigurationSettingFields(): Exclude<keyof ConfigurationSetting, "key">[] {
+  it("normalizeFilterFields", () => {
+    const fields = getAllConfigurationSettingFields();
+
+    assert.deepEqual(formatFieldsForSelect(fields)!.sort(), [
+      "content_type",
+      "etag",
+      "key",
+      "label",
+      "last_modified",
+      "locked", // isReadOnly maps to this
+      "tags",
+      "value"
+    ]);
+
+    assert.ok(formatFieldsForSelect(undefined) == undefined);
+    assert.deepEqual(formatFieldsForSelect([]), []);
+  });
+
+  /**
+   * Gets all the properties from ConfigurationSetting, sorted ascending.
+   *
+   * @returns All property names, sorted ascending.
+   */
+  function getAllConfigurationSettingFields(): (keyof ConfigurationSetting)[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
       etag: "",
@@ -238,7 +262,15 @@ describe("helper methods", () => {
       value: ""
     };
 
-    const keys = Object.keys(configObjectWithAllFieldsRequired).filter((key) => key !== "key");
+    return Object.keys(configObjectWithAllFieldsRequired).sort() as (keyof ConfigurationSetting)[];
+  }
+
+  function getAllConfigurationSettingFieldsMinusKey(): Exclude<
+    keyof ConfigurationSetting,
+    "key"
+  >[] {
+    let keys = getAllConfigurationSettingFields().filter((key) => key !== "key");
+
     return keys as Exclude<keyof ConfigurationSetting, "key">[];
   }
 

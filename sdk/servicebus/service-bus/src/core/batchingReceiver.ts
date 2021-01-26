@@ -93,7 +93,7 @@ export class BatchingReceiver extends MessageReceiver {
       );
     }
 
-    await this._batchingReceiverLite.close(connectionError);
+    this._batchingReceiverLite.close(connectionError);
   }
 
   /**

@@ -533,7 +533,7 @@ export class EventHubConsumerClient {
   private createEventProcessorForAllPartitions(
     subscriptionEventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
-  ) {
+  ): { targetedPartitionId: string; eventProcessor: EventProcessor } {
     this._partitionGate.add("all");
 
     if (this._userChoseCheckpointStore) {
@@ -569,7 +569,7 @@ export class EventHubConsumerClient {
     partitionId: string,
     eventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
-  ) {
+  ): { targetedPartitionId: string; eventProcessor: EventProcessor } {
     this._partitionGate.add(partitionId);
 
     const subscribeOptions = options as SubscribeOptions | undefined;
@@ -607,7 +607,7 @@ export class EventHubConsumerClient {
     subscriptionEventHandlers: SubscriptionEventHandlers,
     checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
-  ) {
+  ): EventProcessor {
     return new EventProcessor(
       this._consumerGroup,
       connectionContext,

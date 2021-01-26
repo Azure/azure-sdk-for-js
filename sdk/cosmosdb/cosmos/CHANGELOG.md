@@ -1,5 +1,8 @@
 # Release History
 
+## 3.9.6 (Unreleased)
+
+
 ## 3.9.5 (2021-01-18)
 
 - BUGFIX: Throws correct Invalid Continuation Token error when making request with malformed token
