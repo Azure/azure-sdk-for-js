@@ -119,10 +119,8 @@ export class SmsClient {
     _sendRequest: SendRequest,
     _options: SendOptions = {}
   ): PagedAsyncIterableIterator<SendSmsResponseItem> {
-
     const { span } = createSpan("SmsClient-Send", _options);
-    try
-    {
+    try {
       return {
         next() {
           throw new Error("Not yet implemented.");
@@ -134,8 +132,7 @@ export class SmsClient {
           throw new Error("Not yet implemented.");
         }
       };
-    }
-    catch (e) {
+    } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
