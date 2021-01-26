@@ -15,6 +15,7 @@ async function exec(cmd) {
 
 (async () => {
   try {
+    await exec("npm install -g npm");
     console.log("Running typescript consumer test against", versions);
     await exec("npm init -y");
     console.log("Setting up typescript consumer project");
