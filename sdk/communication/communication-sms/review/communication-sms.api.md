@@ -7,7 +7,6 @@
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -28,7 +27,8 @@ export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(sendRequest: SendRequest, options?: SendOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "SendSmsResponseItem" needs to be exported by the entry point index.d.ts
+    send(_sendRequest: SendRequest, _options?: SendOptions): Promise<SendSmsResponseItem>;
 }
 
 // @public

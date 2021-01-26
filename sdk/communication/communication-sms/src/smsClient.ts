@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
 
 import //parseClientArguments,
 //  isKeyCredential,
@@ -13,11 +14,12 @@ import {
   OperationOptions
   //operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-//import { PagedAsyncIterableIterator } from "@azure/core-paging";
-//import { CanonicalCode } from "@opentelemetry/api";
-import { SmsApiModels } from "./generated/src/smsApiClient";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { CanonicalCode } from "@opentelemetry/api";
+import { SendSmsResponseItem } from "./generated/src/models";
 //import { SDK_VERSION } from "./constants";
-//import { createSpan } from "./tracing";
+
+import { createSpan } from "./tracing";
 //import { logger } from "./logger";
 //import { extractOperationOptions } from "./extractOperationOptions";
 
@@ -116,7 +118,31 @@ export class SmsClient {
   public send(
     _sendRequest: SendRequest,
     _options: SendOptions = {}
-  ): Promise<SmsApiModels.SendSmsResponseItem> {
-    throw new Error("Not yet implemented.");
+  ): PagedAsyncIterableIterator<SendSmsResponseItem> {
+
+    const { span } = createSpan("SmsClient-Send", _options);
+    try
+    {
+      return {
+        next() {
+          throw new Error("Not yet implemented.");
+        },
+        [Symbol.asyncIterator]() {
+          throw new Error("Not yet implemented.");
+        },
+        byPage: (_settings: PageSettings = {}) => {
+          throw new Error("Not yet implemented.");
+        }
+      };
+    }
+    catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
