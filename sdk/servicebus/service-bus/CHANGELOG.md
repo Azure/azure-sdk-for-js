@@ -1,5 +1,8 @@
 # Release History
 
+## 7.0.4 (Unreleased)
+
+
 ## 7.0.3 (2021-01-26)
 
 - [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.
