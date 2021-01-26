@@ -37,7 +37,7 @@ To authenticate in Visual Studio Code, first ensure the [Azure Account Extension
 
 Applications using the `AzureCliCredential`, rather directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
 
-To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the azure cli will launch the browser to authenticate the user.
+To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the Azure cli will launch the browser to authenticate the user.
 
 ![Azure CLI Account Sign In][azureclilogin_image]
 
@@ -107,24 +107,32 @@ This example demonstrates authenticating the `KeyClient` from the [@azure/keyvau
 ```javascript
 // The default credential first checks environment variables for configuration as described above.
 // If environment configuration is incomplete, it will try managed identity.
+
+// Azure Key Vault service to use
 const { KeyClient } = require("@azure/keyvault-keys");
+
+// Azure authentication library to access Azure Key Vault
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
+
+// Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
+
+// Use service from authenticated client
 const getResult = await client.getKey("MyKeyName");
 ```
 
 ### Specifying a user assigned managed identity with the `DefaultAzureCredential`
 
-Many Azure hosts allow the assignment of a user assigned managed identity. This example demonstrates configuring the `DefaultAzureCredential` to authenticate a user assigned identity when deployed to an azure host. It then authenticates a `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library with credential.
+Many Azure hosts allow the assignment of a user assigned managed identity. This example demonstrates configuring the `DefaultAzureCredential` to authenticate a user assigned identity when deployed to an Azure host. It then authenticates a `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library with credential.
 
 ```ts
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-// when deployed to an azure host the default azure credential will authenticate the specified user assigned managed identity
+// when deployed to an Azure host the default Azure credential will authenticate the specified user assigned managed identity
 var credential = new DefaultAzureCredential({ managedIdentityClientId: userAssignedClientId });
 
 const client = new KeyClient(vaultUrl, credential);
@@ -157,7 +165,7 @@ const client = new KeyClient(vaultUrl, credentialChain);
 | `DefaultAzureCredential`    | provides a simplified authentication experience to quickly start developing applications run in the Azure cloud |
 | `ChainedTokenCredential`    | allows users to define custom authentication flows composing multiple credentials                               |
 | `EnvironmentCredential`     | authenticates a service principal or user via credential information specified in environment variables         |
-| `ManagedIdentityCredential` | authenticates the managed identity of an azure resource                                                         |
+| `ManagedIdentityCredential` | authenticates the managed identity of an Azure resource                                                         |
 
 ### Authenticating Service Principals
 
