@@ -83,6 +83,8 @@ export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle): void {
  * A client used to perform cryptographic operations with Azure Key Vault keys.
  * This client will attempt to use a {@link LocalCryptographyClient} if possible
  * and will defer to making the service call otherwise.
+ * @internal
+ * @hidden
  */
 export class KeyVaultCryptographyClient {
   /**
