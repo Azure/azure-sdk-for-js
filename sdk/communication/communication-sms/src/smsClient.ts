@@ -2,25 +2,25 @@
 // Licensed under the MIT license.
 
 import {
-  parseClientArguments,
-  isKeyCredential,
-  createCommunicationAuthPolicy
+  //parseClientArguments,
+//  isKeyCredential,
+  //createCommunicationAuthPolicy
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  RestResponse,
   PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
+  //InternalPipelineOptions,
+  //createPipelineFromOptions,
+  OperationOptions
+  //operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
-import { SmsApiClient } from "./generated/src/smsApiClient";
-import { SDK_VERSION } from "./constants";
-import { createSpan } from "./tracing";
-import { logger } from "./logger";
-import { extractOperationOptions } from "./extractOperationOptions";
+//import { PagedAsyncIterableIterator } from "@azure/core-paging";
+//import { CanonicalCode } from "@opentelemetry/api";
+import { SmsApiModels } from "./generated/src/smsApiClient";
+//import { SDK_VERSION } from "./constants";
+//import { createSpan } from "./tracing";
+//import { logger } from "./logger";
+//import { extractOperationOptions } from "./extractOperationOptions";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -66,15 +66,15 @@ export interface SendOptions extends OperationOptions {
  *
  * @param options The value being checked.
  */
-const isSmsClientOptions = (options: any): options is SmsClientOptions =>
-  !!options && !isKeyCredential(options);
+//const isSmsClientOptions = (options: any): options is SmsClientOptions =>
+//  !!options && !isKeyCredential(options);
 
 /**
  * A SmsClient represents a Client to the Azure Communication Sms service allowing you
  * to send SMS messages.
  */
 export class SmsClient {
-  private readonly api: SmsApiClient;
+  //private readonly api: SmsApiClient;
 
   /**
    * Initializes a new instance of the SmsClient class.
@@ -101,37 +101,11 @@ export class SmsClient {
   constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
 
   constructor(
-    connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | TokenCredential | SmsClientOptions,
-    maybeOptions: SmsClientOptions = {}
+    _connectionStringOrUrl: string,
+    _credentialOrOptions?: KeyCredential | TokenCredential | SmsClientOptions,
+    _maybeOptions: SmsClientOptions = {}
   ) {
-    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isSmsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
-    const libInfo = `azsdk-js-communication-sms/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    const internalPipelineOptions: InternalPipelineOptions = {
-      ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info
-        }
-      }
-    };
-
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
-    this.api = new SmsApiClient(url, pipeline);
+    throw new Error("Not yet implemented.");
   }
 
   /**
@@ -140,29 +114,8 @@ export class SmsClient {
    * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options Additional request options
    */
-  public async send(sendRequest: SendRequest, options: SendOptions = {}): Promise<RestResponse> {
-    const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("SmsClient-send", operationOptions);
-
-    try {
-      const response = await this.api.sms.send(
-        {
-          ...sendRequest,
-          sendSmsOptions: { enableDeliveryReport: restOptions.enableDeliveryReport }
-        },
-        SDK_VERSION,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-
-      return response;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+  public send(_sendRequest: SendRequest, _options: SendOptions = {}):
+    Promise<SmsApiModels.SendSmsResponseItem> {
+      throw new Error("Not yet implemented.");
   }
 }
