@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
 
 import {
   parseClientArguments,
@@ -8,20 +9,21 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  RestResponse,
+  //RestResponse,
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase
+  //operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SendSmsResponseItem } from "./generated/src/models";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
-import { extractOperationOptions } from "./extractOperationOptions";
+//import { extractOperationOptions } from "./extractOperationOptions";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -133,6 +135,9 @@ export class SmsClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new SmsApiClient(url, pipeline);
+    if (this.api) {
+      console.log("test");
+    }
   }
 
   /**
@@ -141,21 +146,23 @@ export class SmsClient {
    * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options Additional request options
    */
-  public async send(sendRequest: SendRequest, options: SendOptions = {}): Promise<RestResponse> {
-    const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("SmsClient-send", operationOptions);
-
+  public send(
+    _sendRequest: SendRequest,
+    _options: SendOptions = {}
+  ): PagedAsyncIterableIterator<SendSmsResponseItem> {
+    const { span } = createSpan("SmsClient-Send", _options);
     try {
-      const response = await this.api.sms.send(
-        {
-          ...sendRequest,
-          sendSmsOptions: { enableDeliveryReport: restOptions.enableDeliveryReport }
+      return {
+        next() {
+          throw new Error("Not yet implemented.");
         },
-        SDK_VERSION,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-
-      return response;
+        [Symbol.asyncIterator]() {
+          throw new Error("Not yet implemented.");
+        },
+        byPage: (_settings: PageSettings = {}) => {
+          throw new Error("Not yet implemented.");
+        }
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -165,9 +172,5 @@ export class SmsClient {
     } finally {
       span.end();
     }
-  }
-
-  public send1(_sendRequest: SendRequest, _options: SendOptions = {}): Iterable<SendSmsResponseItem> {
-    throw new Error("Not yet implemented.");
   }
 }

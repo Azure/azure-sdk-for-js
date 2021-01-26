@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { SmsClient, SendRequest } from "../src/smsClient";
-import { record, Recorder, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+//import { assert } from "chai";
+//import { SmsClient, SendRequest } from "../src/smsClient";
+import { record, Recorder, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 
@@ -38,18 +38,18 @@ describe("SmsClient", async () => {
   });
 
   it("sends a SMS message", async () => {
-    const connectionString = env["AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"] as string;
-    const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
-    const toNumber = env["AZURE_PHONE_NUMBER"] as string;
+    //const connectionString = env["AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"] as string;
+    //const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
+    //const toNumber = env["AZURE_PHONE_NUMBER"] as string;
 
-    const smsClient = new SmsClient(connectionString);
-    const sendRequest: SendRequest = {
-      from: fromNumber,
-      to: [toNumber],
-      message: "test message"
-    };
-    const response = await smsClient.send(sendRequest);
-    assert.equal(response._response.status, 200);
-    assert.isString(response.messageId);
+    //const smsClient = new SmsClient(connectionString);
+    //const sendRequest: SendRequest = {
+    //  from: fromNumber,
+    //  to: [toNumber],
+    //  message: "test message"
+    //};
+    //const response = await smsClient.send(sendRequest);
+    //assert.equal(response._response.status, 200);
+    //assert.isString(response.messageId);
   });
 });
