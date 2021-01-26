@@ -31,21 +31,6 @@ import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
  */
 export class CryptographyClient {
   /**
-   * Constructs a new instance of the Cryptography client for the given key in local mode.
-   *
-   * Example usage:
-   * ```ts
-   * import { LocalCryptographyClient } from "@azure/keyvault-keys";
-   *
-   * const jsonWebKey: JsonWebKey = {
-   *   // ...
-   * };
-   * const client = new LocalCryptographyClient(jsonWebKey);
-   * ```
-   * @param key - The JsonWebKey to use during cryptography operations.
-   */
-  constructor(key: JsonWebKey);
-  /**
    * Constructs a new instance of the Cryptography client for the given key
    *
    * Example usage:
@@ -73,6 +58,21 @@ export class CryptographyClient {
     credential: TokenCredential,
     pipelineOptions?: CryptographyClientOptions
   );
+  /**
+   * Constructs a new instance of the Cryptography client for the given key in local mode.
+   *
+   * Example usage:
+   * ```ts
+   * import { CryptographyClient } from "@azure/keyvault-keys";
+   *
+   * const jsonWebKey: JsonWebKey = {
+   *   // ...
+   * };
+   * const client = new CryptographyClient(jsonWebKey);
+   * ```
+   * @param key - The JsonWebKey to use during cryptography operations.
+   */
+  constructor(key: JsonWebKey);
   /**
    * Internal constructor implementation for either local or Key Vault backed keys.
    * @param key - The key to use during cryptography tasks.
