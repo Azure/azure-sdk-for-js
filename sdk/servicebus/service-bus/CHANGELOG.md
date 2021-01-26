@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.3 (Unreleased)
+## 7.0.3 (2021-01-26)
 
 - [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.
   Fixed in [#13264](https://github.com/Azure/azure-sdk-for-js/pull/13264)
