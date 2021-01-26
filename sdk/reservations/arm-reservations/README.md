@@ -15,11 +15,7 @@ npm install @azure/arm-reservations
 
 ### How to use
 
-<<<<<<< HEAD
 #### nodejs - client creation and list reservation as an example written in TypeScript.
-=======
-#### nodejs - Authentication, client creation and get quota as an example written in TypeScript.
->>>>>>> 9db63a2fc7... Release arm reservations (#10064)
 
 ##### Install @azure/ms-rest-nodeauth
 
