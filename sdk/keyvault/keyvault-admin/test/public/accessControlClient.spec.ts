@@ -61,7 +61,7 @@ describe("KeyVaultAccessControlClient", () => {
       //     // ...
       //   }
       //
-      assert.equal(roleAssignment.type, expectedType);
+      assert.equal(roleAssignment.roleAssignmentType, expectedType);
       receivedRoles.push(roleAssignment.name);
     }
 

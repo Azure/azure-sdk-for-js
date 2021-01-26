@@ -29,7 +29,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * The role assignment type.
    */
-  readonly type: string;
+  readonly roleAssignmentType: string;
   /**
    * Role assignment properties.
    */
@@ -47,7 +47,7 @@ export interface KeyVaultPermission {
   /**
    * Denied actions.
    */
-  notActions?: string[];
+  denyActions?: string[];
   /**
    * Allowed Data actions.
    */
@@ -55,7 +55,7 @@ export interface KeyVaultPermission {
   /**
    * Denied Data actions.
    */
-  notDataActions?: string[];
+  denyDataActions?: string[];
 }
 
 /**

@@ -93,8 +93,8 @@ export class KeyVaultBackupClient {
 export interface KeyVaultPermission {
     actions?: string[];
     dataActions?: string[];
-    notActions?: string[];
-    notDataActions?: string[];
+    denyActions?: string[];
+    denyDataActions?: string[];
 }
 
 // @public
