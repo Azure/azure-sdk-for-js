@@ -1,7 +1,11 @@
 # Release History
 
-## 12.3.0-beta.2 (Unreleased)
+## 12.3.1 (Unreleased)
 
+
+## 12.3.0 (2021-01-12)
+
+- This release contains bug fixes to improve quality.
 
 ## 12.3.0-beta.1 (2020-12-09)
 

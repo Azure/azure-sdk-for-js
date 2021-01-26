@@ -32,7 +32,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -108,7 +108,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "karma": "^5.1.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha": "^7.1.1",
@@ -123,6 +123,6 @@
     "sinon": "^9.0.2",
     "typescript": "4.1.2",
     "util": "^0.12.1",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

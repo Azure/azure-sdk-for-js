@@ -12,6 +12,7 @@ import { GeneratedClientOptionalParams } from "./models";
 const packageName = "@azure/ai-form-recognizer";
 const packageVersion = "3.1.0-beta.1";
 
+/** @hidden */
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
 

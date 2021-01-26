@@ -20,6 +20,7 @@ import {
   RawHttpHeaders
 } from "@azure/core-https";
 import { parseXML } from "@azure/core-xml";
+import { getOperationRequestInfo } from "../src/operationHelpers";
 
 describe("deserializationPolicy", function() {
   it(`should not modify a request that has no request body mapper`, async function() {
@@ -709,9 +710,8 @@ async function getDeserializedResponse(
     serializerOptions: options.serializerOptions
   });
   const request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
-  request.additionalInfo = {
-    operationSpec: options.operationSpec
-  };
+  const operationInfo = getOperationRequestInfo(request);
+  operationInfo.operationSpec = options.operationSpec;
   request.body = options.requestBody;
 
   const res: PipelineResponse = {

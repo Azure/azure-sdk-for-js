@@ -11,6 +11,7 @@ import {
   bulkInsertItems
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
+import { UsernamePasswordCredential } from "@azure/identity";
 
 describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -52,6 +53,23 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
+    it("fails to read databases with AAD authentication", async function() {
+      try {
+        const credentials = new UsernamePasswordCredential(
+          "fake-tenant-id",
+          "fake-client-id",
+          "fakeUsername",
+          "fakePassword"
+        );
+        const client = new CosmosClient({
+          endpoint,
+          aadCredentials: credentials
+        });
+        await client.databases.readAll().fetchAll();
+      } catch (e) {
+        assert.equal(e.code, 401);
+      }
+    });
   });
   describe("Validate user passed AbortController.signal", function() {
     it("should throw exception if aborted during the request", async function() {
@@ -59,10 +77,11 @@ describe("NodeJS CRUD Tests", function() {
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 5);
+        setTimeout(() => controller.abort(), 1);
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
       } catch (err) {
+        console.log(err);
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });

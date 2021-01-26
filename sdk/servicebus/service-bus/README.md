@@ -8,7 +8,7 @@ Use the client library `@azure/service-bus` in your application to
 - Receive messages from an Azure Service Bus Queue or Subscription
 - Create/Get/Delete/Update/List Queues/Topics/Subscriptions/Rules in an Azure Service Bus namespace.
 
-Resources for the v7.0.0 of `@azure/service-bus`:
+Resources for `@azure/service-bus` version 7:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) |
 [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
@@ -391,7 +391,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransform
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file

@@ -1,13 +1,15 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-01-25)
 
 ### Added
 
 - Added `MicrosoftTeamsUserIdentifier` and `isMicrosoftTeamsUserIdentifier`.
+- Added optional `id` property to communication identifiers.
 
 ### Breaking Changes
 
+- Changed identifier `kind` property to use lowerCamelCase.
 - Renamed `CommunicationUserCredential` to `CommunicationTokenCredential`.
 - Renamed `RefreshOptions` to `CommunicationTokenRefreshOptions`.
 - Renamed `Identifier` to `CommunicationIdentifier`.

@@ -13,6 +13,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -78,6 +79,7 @@ export interface CarrierDetails {
 export class CommunicationIdentityClient {
     constructor(connectionString: string, options?: CommunicationIdentityOptions);
     constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
+    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
     createUser(options?: OperationOptions): Promise<CreateUserResponse>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
     issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
@@ -287,6 +289,7 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: PhoneNumberAdministrationClientOptions);
     beginPurchaseReservation(reservationId: string, options?: BeginPurchaseReservationOptions): Promise<PollerLike<PollOperationState<void>, void>>;
     beginReleasePhoneNumbers(phoneNumbers: string[], options?: BeginReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
     beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>>;

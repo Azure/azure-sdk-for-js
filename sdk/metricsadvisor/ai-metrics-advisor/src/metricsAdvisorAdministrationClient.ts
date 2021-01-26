@@ -45,7 +45,7 @@ import {
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration
 } from "./models";
-import { DataSourceType, NeedRollupEnum } from "./generated/models";
+import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -952,7 +952,7 @@ export class MetricsAdvisorAdministrationClient {
           description,
           externalLink,
           hookParameter
-        },
+        } as HookInfoUnion,
         requestOptions
       );
       if (!result.location) {

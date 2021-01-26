@@ -1,14 +1,22 @@
 {
   "name": "@azure/storage-internal-avro",
-  "sideEffect": false,
+  "sideEffects": false,
   "private": true,
   "author": "Microsoft Corporation",
   "version": "1.0.0",
   "description": "internal avro parser",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
-  "main": "./srt/index.ts",
-  "module": "dist-esm/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-internal-avro/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
   "browser": {
     "./dist-esm/storage-internal-avro/src/index.js": "./dist-esm/storage-internal-avro/src/index.browser.js",
     "./dist-esm/storage-internal-avro/src/utils/utils.node.js": "./dist-esm/storage-internal-avro/src/utils/utils.browser.js",
@@ -17,17 +25,24 @@
     "os": false,
     "process": false
   },
-  "types": "./types/index.d.ts",
+  "types": "./types/latest/storage-internal-avro.d.ts",
   "engines": {
     "node": ">=8.0.0"
   },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "echo Skipped.",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
@@ -80,7 +95,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
