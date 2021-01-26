@@ -80,8 +80,7 @@ export class XhrHttpClient implements HttpClient {
       xhr.setRequestHeader(header.name, header.value);
     }
 
-    const streaming =
-      (request.streamResponseStatusCodes?.size ?? 0 > 0) || request.streamResponseBody;
+    const streaming = request.streamResponseStatusCodes?.size || request.streamResponseBody;
     xhr.responseType = streaming ? "blob" : "text";
 
     // tslint:disable-next-line:no-null-keyword

@@ -59,7 +59,7 @@ export class XhrHttpsClient implements HttpsClient {
     for (const [name, value] of request.headers) {
       xhr.setRequestHeader(name, value);
     }
-    xhr.responseType = request.streamResponseStatusCodes?.size ?? 0 > 0 ? "blob" : "text";
+    xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
     if (isReadableStream(request.body)) {
       throw new Error("Node streams are not supported in browser environment.");
@@ -67,7 +67,7 @@ export class XhrHttpsClient implements HttpsClient {
 
     xhr.send(request.body === undefined ? null : request.body);
 
-    if (request.streamResponseStatusCodes?.size ?? 0 > 0) {
+    if (request.streamResponseStatusCodes?.size) {
       return new Promise((resolve, reject) => {
         xhr.addEventListener("readystatechange", () => {
           // Resolve as soon as headers are loaded
@@ -88,9 +88,9 @@ export class XhrHttpsClient implements HttpsClient {
               });
             } else {
               xhr.addEventListener("load", () => {
-                // response comes back in Blob when xhr.responseType === "blob"
-                // but the response body type is not expected to be stream based on response status code
-                // so converting from Blob to text
+                // xhr.response if of Blob type if the request is sent with xhr.responseType === "blob"
+                // but the status code is not one of the stream response status codes,
+                // so treat it as text and convert from Blob to text
                 if (!xhr.response) {
                   resolve({
                     request,
@@ -98,21 +98,20 @@ export class XhrHttpsClient implements HttpsClient {
                     headers: parseHeaders(xhr)
                   });
                 } else {
-                  // Blob.text() is not supported in IE
-                  const reader = new FileReader();
-                  reader.onload = function(e) {
-                    const text = e.target?.result as string;
-                    resolve({
-                      request: request,
-                      status: xhr.status,
-                      headers: parseHeaders(xhr),
-                      bodyAsText: text
+                  xhr.response
+                    .text()
+                    .then((text: string) => {
+                      resolve({
+                        request: request,
+                        status: xhr.status,
+                        headers: parseHeaders(xhr),
+                        bodyAsText: text
+                      });
+                      return;
+                    })
+                    .catch((e: any) => {
+                      reject(e);
                     });
-                  };
-                  reader.onerror = function(_e) {
-                    reject(reader.error);
-                  };
-                  reader.readAsText(xhr.response, "UTF-8");
                 }
               });
             }

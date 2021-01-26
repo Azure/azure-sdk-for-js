@@ -110,7 +110,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public withCredentials: boolean;
   public body?: RequestBodyType;
   public formData?: FormDataMap;
-  public streamResponseStatusCodes: Set<number>;
+  public streamResponseStatusCodes?: Set<number>;
   public proxySettings?: ProxySettings;
   public keepAlive: boolean;
   public skipDecompressResponse: boolean;
@@ -130,7 +130,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.keepAlive = options.keepAlive ?? true;
     this.proxySettings = options.proxySettings;
     this.skipDecompressResponse = options.skipDecompressResponse ?? false;
-    this.streamResponseStatusCodes = options.streamResponseStatusCodes ?? new Set<number>();
+    this.streamResponseStatusCodes = options.streamResponseStatusCodes;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
     this.spanOptions = options.spanOptions;

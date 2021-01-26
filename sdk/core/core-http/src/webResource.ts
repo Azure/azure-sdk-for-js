@@ -56,12 +56,12 @@ export interface WebResourceLike {
    */
   headers: HttpHeadersLike;
   /**
-   * @deprecated
+   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
   streamResponseBody?: boolean;
   /**
-   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
+   * A list of response status codes whose corresponding HttpOperationResponse body should be treated as a stream.
    */
   streamResponseStatusCodes?: Set<number>;
   /**
@@ -185,12 +185,12 @@ export class WebResource implements WebResourceLike {
   body?: any;
   headers: HttpHeadersLike;
   /**
-   * @deprecated
+   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
    */
   streamResponseBody?: boolean;
   /**
-   * A list of status codes whose corresponding PipelineResponse body should be treated as a stream.
+   * A list of status codes whose corresponding HttpOperationResponse body should be treated as a stream.
    */
   streamResponseStatusCodes?: Set<number>;
   /**
