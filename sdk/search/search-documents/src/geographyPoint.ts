@@ -33,7 +33,7 @@ export default class GeographyPoint {
   public toJSON(): Record<string, unknown> {
     return {
       type: "Point",
-      coordinates: [this.longitude, this.latitude],
+      coordinates: [this.latitude, this.longitude],
       crs: { type: "name", properties: { name: WorldGeodeticSystem1984 } }
     };
   }

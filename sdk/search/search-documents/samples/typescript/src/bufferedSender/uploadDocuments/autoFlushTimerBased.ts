@@ -37,7 +37,8 @@ export async function main() {
   await createIndex(indexClient, TEST_INDEX_NAME);
   await delay(WAIT_TIME);
 
-  const bufferedClient: SearchIndexingBufferedSender<Hotel> = searchClient.getSearchIndexingBufferedSenderInstance(
+  const bufferedClient: SearchIndexingBufferedSender<Hotel> = new SearchIndexingBufferedSender(
+    searchClient,
     {
       autoFlush: true
     }

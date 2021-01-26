@@ -41,15 +41,12 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest,
-  SearchIndexingBufferedSenderOptions
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
-import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
-import { createSearchIndexingBufferedSender } from "./searchIndexingBufferedSenderImpl";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
@@ -616,17 +613,6 @@ export class SearchClient<T> {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Gets an instance of SearchIndexingBufferedSender.
-   * @param options - SearchIndexingBufferedSender Options
-   */
-
-  public getSearchIndexingBufferedSenderInstance(
-    options: SearchIndexingBufferedSenderOptions = {}
-  ): SearchIndexingBufferedSender<T> {
-    return createSearchIndexingBufferedSender(this, options);
   }
 
   private encodeContinuationToken(

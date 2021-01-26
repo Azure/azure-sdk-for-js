@@ -1446,7 +1446,6 @@ export class SearchClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1645,7 +1644,9 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export interface SearchIndexingBufferedSender<T> {
+export class SearchIndexingBufferedSender<T> {
+    // Warning: (ae-forgotten-export) The symbol "IndexDocumentsClient" needs to be exported by the entry point index.d.ts
+    constructor(client: IndexDocumentsClient<T>, options?: SearchIndexingBufferedSenderOptions);
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
@@ -1685,9 +1686,9 @@ export interface SearchIndexingBufferedSenderOptions {
     autoFlush?: boolean;
     flushWindowInMs?: number;
     initialBatchActionCount?: number;
-    maxRetries?: number;
-    maxRetryDelayInMs?: number;
-    retryDelayInMs?: number;
+    maxRetriesPerAction?: number;
+    maxThrottlingDelayInMs?: number;
+    throttlingDelayInMs?: number;
 }
 
 // @public

@@ -6,7 +6,7 @@ export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
   DEFAULT_RETRY_COUNT
-} from "./searchIndexingBufferedSenderImpl";
+} from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
