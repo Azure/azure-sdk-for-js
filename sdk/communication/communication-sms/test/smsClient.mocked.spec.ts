@@ -73,7 +73,7 @@ describe("[mocked] SmsClient", async () => {
       to: ["+18768985487"],
       message: "message"
     };
-    /*const { _response } = await */smsClient.send(sendRequest);
+    /*const { _response } = await */ smsClient.send(sendRequest);
 
     //sinon.assert.calledOnce(spy);
     //assert.equal(_response.status, 200);

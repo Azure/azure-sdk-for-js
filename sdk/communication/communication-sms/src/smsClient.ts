@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  //parseClientArguments,
+import //parseClientArguments,
 //  isKeyCredential,
-  //createCommunicationAuthPolicy
-} from "@azure/communication-common";
+//createCommunicationAuthPolicy
+"@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   PipelineOptions,
@@ -114,8 +113,10 @@ export class SmsClient {
    * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options Additional request options
    */
-  public send(_sendRequest: SendRequest, _options: SendOptions = {}):
-    Promise<SmsApiModels.SendSmsResponseItem> {
-      throw new Error("Not yet implemented.");
+  public send(
+    _sendRequest: SendRequest,
+    _options: SendOptions = {}
+  ): Promise<SmsApiModels.SendSmsResponseItem> {
+    throw new Error("Not yet implemented.");
   }
 }
