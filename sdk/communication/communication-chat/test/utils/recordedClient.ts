@@ -12,10 +12,7 @@ import {
   AzureCommunicationTokenCredential,
   parseClientArguments
 } from "@azure/communication-common";
-import {
-  CommunicationIdentityClient,
-  CommunicationUserToken
-} from "@azure/communication-administration";
+import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
 
 if (isNode) {

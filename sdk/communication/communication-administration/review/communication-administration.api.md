@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
@@ -76,33 +75,6 @@ export interface CarrierDetails {
 }
 
 // @public
-export interface CommunicationIdentityAccessToken {
-    expiresOn: Date;
-    token: string;
-}
-
-// @public
-export class CommunicationIdentityClient {
-    constructor(connectionString: string, options?: CommunicationIdentityOptions);
-    constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
-    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
-    createUser(options?: OperationOptions): Promise<CreateUserResponse>;
-    createUserWithToken(scopes: TokenScope[], options?: OperationOptions): Promise<CreateUserWithTokenResponse>;
-    deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
-    issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
-    revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
-}
-
-// @public
-export interface CommunicationIdentityOptions extends PipelineOptions {
-}
-
-// @public
-export interface CommunicationUserToken extends CommunicationIdentityAccessToken {
-    user: CommunicationUserIdentifier;
-}
-
-// @public
 export interface ConfigurePhoneNumberOptions extends OperationOptions {
     applicationId?: string;
     azurePstnTargetId?: string;
@@ -136,12 +108,6 @@ export interface CreateReservationResponse {
     // (undocumented)
     reservationId: string;
 }
-
-// @public
-export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
-
-// @public
-export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
 export type GetAreaCodesOptions = OperationOptions;
@@ -193,9 +159,6 @@ export type GetReservationOptions = OperationOptions;
 
 // @public
 export type GetReservationResponse = WithResponse<PhoneNumberReservation>;
-
-// @public
-export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
 export type ListPhoneNumbersOptions = PageableLocalizationOptions;
@@ -503,9 +466,6 @@ export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "
 
 // @public
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
-
-// @public
-export type TokenScope = "chat" | "voip";
 
 // @public
 export type UnconfigurePhoneNumberOptions = OperationOptions;

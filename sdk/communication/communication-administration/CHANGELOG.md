@@ -7,10 +7,13 @@
 - `CommunicationIdentityClient` added a constructor that supports `TokenCredential`.
 - `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
 
+### Added
+
+- `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
+
 ### Breaking Changes
 
-- Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
-- `CommunicationIdentityClient` method `revokeTokens` no longer accepts `tokensValidFrom` as an argument.
+- `CommunicationIdentityClient` moved to the new `@azure/communication-identity` package.
 
 ### Key bug fixes
 
