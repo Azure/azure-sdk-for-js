@@ -242,7 +242,7 @@ function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $
   Pop-Location
 }
 
-# PackageName: Pass full pacjkage name e.g. @azure/abort-controller
+# PackageName: Pass full package name e.g. @azure/abort-controller
 # You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
 function GetExistingPackageVersions ($PackageName, $GroupId = $null)
 {
