@@ -167,10 +167,10 @@ export class TableClient {
         }
       };
       pipeline = createClientPipeline(internalPipelineOptions);
-    }
 
-    if (credential) {
-      pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+      if (credential) {
+        pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+      }
     }
 
     this.tableName = tableName;

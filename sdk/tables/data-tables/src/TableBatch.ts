@@ -10,7 +10,7 @@ import {
   RestError,
   createEmptyPipeline
 } from "@azure/core-https";
-import { ServiceClient, OperationOptions, deserializationPolicy } from "@azure/core-client";
+import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -29,7 +29,6 @@ import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
-import { parseXML } from "@azure/core-xml";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
@@ -269,7 +268,7 @@ export function createInnerBatchRequest(batchGuid: string, changesetId: string):
     createPipeline() {
       // Use batch assemble policy to assemble request and intercept request from going to wire
       const pipeline = createEmptyPipeline();
-      pipeline.addPolicy(deserializationPolicy({ parseXML }));
+      pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
       pipeline.addPolicy(batchHeaderFilterPolicy());
       pipeline.addPolicy(batchRequestAssemblePolicy(this));
       return pipeline;
@@ -289,7 +288,10 @@ export function createInnerBatchRequest(batchGuid: string, changesetId: string):
       }
 
       // Append sub-request body
-      subRequest.push(`${HTTP_LINE_ENDING}${request.body}`); // sub request's headers need end with an empty line
+      subRequest.push(`${HTTP_LINE_ENDING}`); // sub request's headers need end with an empty line
+      if (request.body) {
+        subRequest.push(String(request.body));
+      }
 
       // Add subrequest to batch body
       this.body.push(subRequest.join(HTTP_LINE_ENDING));
