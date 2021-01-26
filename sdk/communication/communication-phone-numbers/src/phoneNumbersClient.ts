@@ -305,7 +305,7 @@ export class PhoneNumbersClient {
    * const serialized = reservePoller.toString();
    *
    * // Waiting until it's done
-   * const results = await reservePoller.pollUntilDone();
+   * const results = await searchPoller.pollUntilDone();
    * console.log(results);
    * ```
    *
