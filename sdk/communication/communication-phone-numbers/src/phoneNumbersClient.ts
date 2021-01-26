@@ -299,7 +299,7 @@ export class PhoneNumbersClient {
    * Example usage:
    * ```ts
    * const client = new PhoneNumberAdministrationClient(CONNECTION_STRING);
-   * const reservePoller = await client.beginReservePhoneNumbers(RESERVATION_REQUEST);
+   * const searchPoller = await client.beginSearchAvailablePhoneNumbers(SEARCH_REQUEST);
    *
    * // Serializing the poller
    * const serialized = searchPoller.toString();
