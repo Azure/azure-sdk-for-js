@@ -1,63 +1,79 @@
 ## Azure IotCentralClient SDK for JavaScript
 
-This package contains an isomorphic SDK for IotCentralClient.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for managing Azure Iot Central resources.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
+- Node.js version 8.x.x or higher
 - Browser JavaScript
 
 ### How to Install
 
+To use this SDK in your project, you will need to install two packages.
+
+- `@azure/arm-iotcentral` that contains the client to manage Azure Iot Central resources.
+- `@azure/identity` that contains different credentials for you to authenticate the client using Azure Active Directory.
+
+Install both packages using the below commands.
+Alternatively, you can add these to the dependencies section in your package.json and then run `npm install`.
+
 ```bash
-npm install @azure/arm-iotcentral
+npm install @azure/arm-keyvault
+npm install @azure/identity
 ```
+
+Please note that while the credentials from the older `@azure/ms-rest-nodeauth` and `@azure/ms-rest-browserauth` packages are still supported, these packages are in maintainence mode receiving critical bug fixes, but no new features.
+We strongly encourage you to use the credentials from `@azure/identity` where we have new credentials and features being added.
 
 ### How to use
 
-#### nodejs - client creation and get apps as an example written in TypeScript.
+There are multiple credentials available in the `@azure/identity` package to suit your different needs. A few examples:
 
-##### Install @azure/ms-rest-nodeauth
+- credentials using the [Service Principal](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli)
+- credentials using [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
+- credentials for developer scenarios like Visual Studio Code or Azure CLI credentials.
+- interactive browser credential
 
-- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
-```bash
-npm install @azure/ms-rest-nodeauth@"^3.0.0"
-```
+All of the above other than the Azure CLI credentials require you to register to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
+
+Read more in the [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
+
+#### nodejs - client creation and get apps as an example written in JavaScript.
+
+In node applications, we recommend using the `DefaultAzureCredential` which picks up the service principal details from your environment. If none is found, it looks for Managed Identity, Visual Studio Code credentials and Azure CLI credentials in that order.
 
 ##### Sample code
 
-While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
-```typescript
-const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
 const { IotCentralClient } = require("@azure/arm-iotcentral");
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new IotCentralClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const resourceName = "testresourceName";
-  client.apps.get(resourceGroupName, resourceName).then((result) => {
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+const creds = new DefaultAzureCredential();
+const client = new IotCentralClient(creds, subscriptionId);
+const resourceGroupName = "testresourceGroupName";
+const resourceName = "testresourceName";
+
+client.apps
+  .get(resourceGroupName, resourceName)
+  .then((result) => {
     console.log("The result is:");
     console.log(result);
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and get apps as an example written in JavaScript.
 
-##### Install @azure/ms-rest-browserauth
-
-```bash
-npm install @azure/ms-rest-browserauth
-```
+In browser applications, we recommend using the `InteractiveBrowserCredential` that interactively authenticates using the default system browser.
+It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
 
 ##### Sample code
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
-
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +87,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
+        tenant: "<optional tenant for your organization>",
       });
       authManager.finalizeLogin().then((res) => {
         if (!res.isLoggedIn) {
@@ -81,13 +97,16 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmIotcentral.IotCentralClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const resourceName = "testresourceName";
-        client.apps.get(resourceGroupName, resourceName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        client.apps
+          .get(resourceGroupName, resourceName)
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>
