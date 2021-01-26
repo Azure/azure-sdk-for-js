@@ -1,11 +1,11 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.3.2",
+  "version": "5.4.0",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -17,6 +17,9 @@
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -30,9 +33,6 @@
   },
   "browser": {
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
-  },
-  "engine": {
-    "node": ">=8.0.0"
   },
   "files": [
     "dist/",
@@ -58,7 +58,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-esm/test/internal/*.spec.js dist-esm/test/public/*.spec.js dist-esm/test/public/**/*.spec.js dist-esm/test/internal/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o event-hubs-lintReport.html || exit 0",
@@ -69,7 +69,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "//metadata": {
     "constantPaths": [
@@ -88,7 +89,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.0.0",
+    "@azure/core-amqp": "^2.1.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-auth": "^1.1.3",
@@ -132,7 +133,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "karma": "^5.1.0",
@@ -145,7 +146,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
@@ -158,7 +159,8 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
-    "ws": "^7.1.1"
+    "typescript": "4.1.2",
+    "ws": "^7.1.1",
+    "typedoc": "0.15.2"
   }
 }

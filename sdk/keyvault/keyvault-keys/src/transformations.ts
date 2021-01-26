@@ -7,7 +7,7 @@ import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation } from "./keysModels"
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Shapes the exposed {@link KeyVaultKey} based on either a received key bundle or deleted key bundle.
  */
 export function getKeyFromKeyBundle(

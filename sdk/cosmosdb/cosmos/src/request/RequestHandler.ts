@@ -22,7 +22,7 @@ async function executeRequest(requestContext: RequestContext) {
 }
 
 /**
- * @ignore
+ * @hidden
  * @param requestContext
  */
 async function httpRequest(requestContext: RequestContext) {
@@ -134,7 +134,7 @@ async function httpRequest(requestContext: RequestContext) {
 }
 
 /**
- * @ignore
+ * @hidden
  * @param requestContext
  */
 export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {

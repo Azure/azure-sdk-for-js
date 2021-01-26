@@ -91,12 +91,12 @@ class FetchHttpMock implements HttpMockFacade {
 
     if (typeof response === "function") {
       const mockFunction: MockResponseFunction = response;
-      mockResponse = (async (url: string, opts: any) => {
+      mockResponse = (async (urlParam: string, opts: any) => {
         if (opts.body && typeof opts.body.pipe === "function") {
           opts.body = await this.convertStreamToBuffer(opts.body);
         }
 
-        return mockFunction(url, method, opts.body, opts.headers);
+        return mockFunction(urlParam, method, opts.body, opts.headers);
       }) as fetch.MockResponseFunction;
     }
 

@@ -1,5 +1,6 @@
 $Language = "javascript"
 $LanguageShort = "js"
+$LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
@@ -200,4 +201,43 @@ function Update-javascript-CIConfig($pkgs, $ciRepo, $locationInDocRepo, $moniker
   $jsonContent = $allJson | ConvertTo-Json -Depth 10 | ForEach-Object { $_ -replace "(?m)  (?<=^(?:  )*)", "  " }
 
   Set-Content -Path $pkgJsonLoc -Value $jsonContent
+}
+
+# function is used to auto generate API View
+function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = "")
+{
+  # Find api.json file in service temp directory
+  [regex]$pattern = "azure-"
+  $pkgName = $pattern.replace($packageName, "", 1)
+  $packageDir = Join-Path $artifactDir $pkgName "temp"
+  Write-Host "Searching for *.api.json in path $($packageDir)"
+  $files = Get-ChildItem "${packageDir}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
+  if (!$files)
+  {
+    Write-Host "$($packageDir) does not have api review json for package"
+    return $null
+  }
+  elseif ($files.Count -ne 1)
+  {
+    Write-Host "$($packageDir) should contain only one api review for $($packageName)"
+    Write-Host "No of Packages $($files.Count)"
+    return $null
+  }
+
+  $packages = @{
+    $files[0].Name = $files[0].FullName
+  }
+  return $packages
+}
+
+function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $ReleaseDate, $BuildType = $null, $GroupId = $null)
+{
+  if ($null -eq $ReleaseDate)
+  {
+    $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
+  }
+  Push-Location "$EngDir/tools/versioning"
+  npm install
+  node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  Pop-Location
 }

@@ -2,7 +2,7 @@
   "name": "@azure/core-http",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
     "isomorphic",
@@ -101,7 +101,8 @@
     "publish-preview": "mocha --no-colors && shx rm -rf dist/test && node ./.scripts/publish",
     "local": "ts-node ./.scripts/local.ts",
     "latest": "ts-node ./.scripts/latest.ts",
-    "build:samples": "echo Skipped."
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "nyc": {
@@ -166,7 +167,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "express": "^4.16.3",
     "fetch-mock": "^9.10.1",
     "glob": "^7.1.2",
@@ -177,7 +178,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha": "^2.0.1",
     "karma-rollup-preprocessor": "^7.0.0",
-    "karma-sourcemap-loader": "^0.3.7",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "npm-run-all": "^4.1.5",
@@ -192,8 +193,9 @@
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
-    "xhr-mock": "^2.4.1"
+    "xhr-mock": "^2.4.1",
+    "typedoc": "0.15.2"
   }
 }

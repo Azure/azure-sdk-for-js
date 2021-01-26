@@ -920,6 +920,28 @@ describe("SAS generation Node.js only for directory SAS", () => {
     await directoryClientwithSAS.setPermissions(permissions);
   });
 
+  it("generateDataLakeSASQueryParameters for root directory should work", async () => {
+    const rootDirName = "";
+    const rootDirectoryClient = fileSystemClient.getDirectoryClient(rootDirName);
+
+    const directorySAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        pathName: rootDirectoryClient.name,
+        isDirectory: true,
+        directoryDepth: 1,
+        expiresOn: tmr,
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+    const sasURL = `${rootDirectoryClient.url}?${directorySAS}`;
+    const directoryClientwithSAS = new DataLakeDirectoryClient(sasURL);
+
+    await directoryClientwithSAS.getAccessControl();
+  });
+
   function getDefualtDirctorySAS(directoryName: string): SASQueryParameters {
     return generateDataLakeSASQueryParameters(
       {

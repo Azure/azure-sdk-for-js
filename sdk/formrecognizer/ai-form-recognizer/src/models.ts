@@ -8,9 +8,12 @@ import {
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValueType,
+  KnownKeyValueType,
   KeyValuePair as KeyValuePairModel,
   SelectionMarkState,
+  KnownSelectionMarkState,
   Language,
+  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
@@ -19,7 +22,8 @@ import {
   ModelStatus,
   Appearance,
   Style,
-  TextStyle
+  TextStyle,
+  KnownTextStyle
 } from "./generated/models";
 
 export {
@@ -27,9 +31,12 @@ export {
   KeysResult,
   KeyValueElementModel,
   KeyValueType,
+  KnownKeyValueType,
   KeyValuePairModel,
   SelectionMarkState,
+  KnownSelectionMarkState,
   Language,
+  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
@@ -38,11 +45,12 @@ export {
   TrainingStatus,
   Appearance,
   Style,
-  TextStyle
+  TextStyle,
+  KnownTextStyle
 };
 
 /**
- * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch' (See {link @LengthUnit}).
+ * Represents a point used to defined bounding boxes. The unit is either 'pixel' or 'inch', @see {@link LengthUnit}.
  */
 export interface Point2D {
   /**

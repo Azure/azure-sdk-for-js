@@ -202,7 +202,10 @@ export function newPipeline(
     telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
-    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+    // Default deserializationPolicy is provided by protocol layer
+    // Use customized XML char key of "#" so we could deserialize metadata
+    // with "_" key
+    deserializationPolicy(undefined, { xmlCharKey: "#" }),
     new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,

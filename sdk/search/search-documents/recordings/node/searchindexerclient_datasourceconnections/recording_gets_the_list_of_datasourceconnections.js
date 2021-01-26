@@ -7,7 +7,8 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/datasources')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fcd354eb7a9a371f8d3ebaccca75fed1a3ef59e8d4ec8240ffbe1fedbc3b787a70b0f3f0f8d9fdbdbddd87f79efcbe1f51fb65b6a0e61f2daeb7d17a5b006defd237b3bc99d6c5aa2daae5478f96ebb21c7dd45eafd0785a358baa994da851b39ec887d2605ae7b37cd91659d97cf4e81753c3e5329f02c2ebb62e9684079afd126a4743ce8a655ea395a230afda9c5e1b7df48bd6797d6d9b02ad9379b6bcc89fe6ad007b5995c5545b4883a77999e39b8126f9725a5ff3487eaf5c3ffc25a3cd147af2e9c3274f3750688fbef9ff3985beff4bfe1ffffe3494a3020000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195eff71fcd354eb7a9a371f8d3ebaccca75fed1a3ef59e8d4ec8240ffbe1fedbc3b787af0e4f4d3e32707a7cf0e9eedddff7d3fa2f6cb6c41cd3f5a5c6fa3f5b600dadea56f667933ad8b555b54cb8f1e2dd76539faa8bd5ea1f1b46a1655339b50a3663d910fa5c1b4ce67f9b22db2b2f9e8d12fa686cb653e0584d76d5d2c090f34fb25d48e869c15cbbc462b45615eb539bd36fae817adf3fada36055a27f36c79913fcd5b01f6b22a8ba9b690064ff332c737034df2e5b4bee691fc5eb97ef84b461b29f4ece9c9dec1c30d14daa36ffe7f4ea1efff92ff078e5fcc65a3020000"], [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -20,9 +21,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'b9637160-6062-46cf-9984-bdade75fea67',
+  '4f6d3e44-3f3a-47d5-9bd4-0fd1cbebe7f6',
   'elapsed-time',
-  '25',
+  '27',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,6 +31,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 04 Nov 2020 08:23:57 GMT',
+  'Fri, 22 Jan 2021 00:14:52 GMT',
   'Content-Length',
-  '391' ]);
+  '392'
+]);

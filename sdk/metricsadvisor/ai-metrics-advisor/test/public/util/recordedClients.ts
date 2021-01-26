@@ -2,17 +2,21 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-
+import { ClientSecretCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient
 } from "../../../src";
+import * as dotenv from "dotenv";
+import { isNode } from "@azure/core-http";
 
-dotenv.config();
+if (isNode) {
+  dotenv.config();
+}
 
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
@@ -76,7 +80,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export function createRecordedAdminClient(
   context: Context,
-  apiKey: MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential
 ): RecordedAdminClient {
   const recorder = record(context, environmentSetup);
   return {
@@ -87,11 +91,27 @@ export function createRecordedAdminClient(
 
 export function createRecordedAdvisorClient(
   context: Context,
-  apiKey: MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential
 ): RecordedAdvisorClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
     recorder
   };
+}
+
+/**
+ * Returns an appropriate credential depending on the value of `useAad`.
+ */
+export function makeCredential(useAad: boolean): TokenCredential | MetricsAdvisorKeyCredential {
+  return useAad
+    ? new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      )
+    : new MetricsAdvisorKeyCredential(
+        testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
+        testEnv.METRICS_ADVISOR_API_KEY
+      );
 }

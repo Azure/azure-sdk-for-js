@@ -23,7 +23,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const userEventsQueueName = process.env.QUEUE_NAME_WITH_SESSIONS || "<queue name>";
 const sbClient = new ServiceBusClient(connectionString);
 
@@ -98,7 +98,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
     const message = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      label: "Shopping Step"
+      subject: "Shopping Step"
     };
     await sender.sendMessages(message);
   }

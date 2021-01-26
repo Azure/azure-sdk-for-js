@@ -27,7 +27,7 @@
     "url": "https://github.com/open-telemetry/opentelemetry-js/issues"
   },
   "dependencies": {
-    "@microsoft/opentelemetry-exporter-azure-monitor": "latest",
+    "@azure/opentelemetry-exporter-azure-monitor": "latest",
     "@opentelemetry/api": "latest",
     "@opentelemetry/tracing": "latest",
     "dotenv": "^8.2.0"

@@ -1,0 +1,66 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:29 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11419.13 - SEASLR1 ProdSlices",
+    "x-ms-request-id": "605cd4f6-27ed-421f-a0fd-7e7f0a230400"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/8db52fa0-2ccf-4eae-998b-a214ae3772bc",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "2573ef93-afe1-4e9b-bf72-86219ec7235c",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:41:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "425",
+    "x-request-id": "2573ef93-afe1-4e9b-bf72-86219ec7235c"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/8db52fa0-2ccf-4eae-998b-a214ae3772bc",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"code\":\"ERROR_INVALID_PARAMETER\",\"message\":\"datafeedId is invalid.\"}",
+   "responseHeaders": {
+    "apim-request-id": "7db6d34e-7259-403a-93d6-8a66a7652fe1",
+    "content-length": "69",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "16",
+    "x-request-id": "7db6d34e-7259-403a-93d6-8a66a7652fe1"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "ed8c0ab90ebf07a71c9db8e97198104e"
+}

@@ -7,7 +7,7 @@ import { ChatClient, CreateChatThreadRequest } from "../src";
 import * as RestModel from "../src/generated/src/models";
 import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import { AzureCommunicationUserCredential } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,
@@ -25,7 +25,7 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new ChatClient(baseUri, new AzureCommunicationUserCredential(generateToken()));
+    new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
   it("makes successful create thread request", async () => {

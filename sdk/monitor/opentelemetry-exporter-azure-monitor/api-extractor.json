@@ -9,9 +9,9 @@
     "reportFolder": "./review"
   },
   "dtsRollup": {
-    "enabled": false,
+    "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/monitor-exporter.d.ts"
+    "publicTrimmedFilePath": "./types/opentelemetry-exporter-azure-monitor.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

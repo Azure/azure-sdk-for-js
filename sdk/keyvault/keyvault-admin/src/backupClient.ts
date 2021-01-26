@@ -45,7 +45,7 @@ export class KeyVaultBackupClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -63,9 +63,9 @@ export class KeyVaultBackupClient {
    *
    * let client = new KeyVaultBackupClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
-   * @param credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
@@ -135,10 +135,10 @@ export class KeyVaultBackupClient {
    * const backupUri = await poller.pollUntilDone();
    * console.log(backupUri);
    * ```
-   * @summary Starts a full backup operation.
-   * @param blobStorageUri The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
-   * @param sasToken The SAS token.
-   * @param [options] The optional parameters.
+   * Starts a full backup operation.
+   * @param blobStorageUri - The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
+   * @param sasToken - The SAS token.
+   * @param options - The optional parameters.
    */
   public async beginBackup(
     blobStorageUri: string,
@@ -195,11 +195,11 @@ export class KeyVaultBackupClient {
    * const backupUri = await poller.pollUntilDone();
    * console.log(backupUri);
    * ```
-   * @summary Starts a full restore operation.
-   * @param blobStorageUri The URL of the blob storage resource where the previous successful full backup was stored.
-   * @param sasToken The SAS token.
-   * @param folderName The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
-   * @param [options] The optional parameters.
+   * Starts a full restore operation.
+   * @param blobStorageUri - The URL of the blob storage resource where the previous successful full backup was stored.
+   * @param sasToken - The SAS token.
+   * @param folderName - The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
+   * @param options - The optional parameters.
    */
   public async beginRestore(
     blobStorageUri: string,
@@ -258,12 +258,12 @@ export class KeyVaultBackupClient {
    * // Waiting until it's done
    * await poller.pollUntilDone();
    * ```
-   * @summary Creates a new role assignment.
-   * @param blobStorageUri The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
-   * @param sasToken The SAS token.
-   * @param folderName The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
-   * @param keyName The name of the key that wants to be restored.
-   * @param [options] The optional parameters.
+   * Creates a new role assignment.
+   * @param blobStorageUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
+   * @param sasToken - The SAS token.
+   * @param folderName - The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
+   * @param keyName - The name of the key that wants to be restored.
+   * @param options - The optional parameters.
    */
   public async beginSelectiveRestore(
     blobStorageUri: string,

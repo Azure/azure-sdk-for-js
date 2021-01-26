@@ -28,7 +28,7 @@
     "@azure/abort-controller": "latest",
     "@azure/identity": "latest",
     "@azure/storage-blob": "latest",
-    "@microsoft/opentelemetry-exporter-azure-monitor": "latest",
+    "@azure/opentelemetry-exporter-azure-monitor": "latest",
     "@opentelemetry/node": "latest",
     "dotenv": "^8.2.0"
   },

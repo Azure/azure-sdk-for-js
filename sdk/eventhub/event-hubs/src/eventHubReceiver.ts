@@ -28,7 +28,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { defaultDataTransformer } from "./dataTransformer";
 
 /**
- * @ignore
+ * @hidden
  */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
@@ -69,21 +69,21 @@ export interface LastEnqueuedEventProperties {
 /**
  * Describes the message handler signature.
  * @internal
- * @ignore
+ * @hidden
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
  * @internal
- * @ignore
+ * @hidden
  */
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the abort handler signature.
  * @internal
- * @ignore
+ * @hidden
  */
 export type OnAbort = () => void;
 
@@ -91,7 +91,7 @@ export type OnAbort = () => void;
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  * @internal
- * @ignore
+ * @hidden
  */
 export class EventHubReceiver extends LinkEntity {
   /**
@@ -196,7 +196,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
-   * @ignore
+   * @hidden
    * @constructor
    * @param context        The connection context corresponding to the EventHubClient instance
    * @param consumerGroup  The consumer group from which the receiver should receive events from.
@@ -365,7 +365,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Clears the user-provided handlers and updates the receiving messages flag.
-   * @ignore
+   * @hidden
    */
   clearHandlers(): void {
     if (this._abortSignal && this._onAbort) {
@@ -382,8 +382,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver.
-   * @ignore
-   * @returns
+   * @hidden
    */
   async close(): Promise<void> {
     try {
@@ -408,7 +407,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @ignore
+   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -426,7 +425,7 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Registers the user's onMessage and onError handlers.
    * Sends buffered events from the queue before adding additional credits to the AMQP link.
-   * @ignore
+   * @hidden
    */
   registerHandlers(
     onMessage: OnMessage,
@@ -463,7 +462,10 @@ export class EventHubReceiver extends LinkEntity {
               await this.abort();
             }
           } catch (err) {
-            return this._onError === onError && onError(err);
+            if (this._onError === onError) {
+              onError(err);
+            }
+            return;
           }
         } else {
           logger.verbose(
@@ -479,6 +481,7 @@ export class EventHubReceiver extends LinkEntity {
           0
         );
         this._addCredit(creditsToAdd);
+        return;
       })
       .catch((err) => {
         // something really unexpected happened, so attempt to call user's error handler
@@ -541,8 +544,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @ignore
-   * @returns
+   * @hidden
    */
   async initialize(): Promise<void> {
     try {
@@ -610,7 +612,7 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @ignore
+   * @hidden
    */
   private _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
     if (options.newName) this.name = uuid();
@@ -702,13 +704,13 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.close();
           } finally {
-            return reject(new AbortError("The receive operation has been cancelled by the user."));
+            reject(new AbortError("The receive operation has been cancelled by the user."));
           }
         };
 
         // operation has been cancelled, so exit immediately
         if (abortSignal && abortSignal.aborted) {
-          return await rejectOnAbort();
+          return rejectOnAbort();
         }
 
         // updates the prefetch count so that the baseConsumer adds

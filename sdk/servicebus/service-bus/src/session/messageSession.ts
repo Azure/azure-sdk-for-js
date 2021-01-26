@@ -23,7 +23,7 @@ import {
   StandardAbortMessage
 } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
-import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
+import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
 import {
@@ -39,7 +39,7 @@ import { abandonMessage, completeMessage } from "../receivers/shared";
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
  * @internal
- * @ignore
+ * @hidden
  */
 export interface CreateMessageSessionReceiverLinkOptions {
   onClose: OnAmqpEventAsPromise;
@@ -52,7 +52,7 @@ export interface CreateMessageSessionReceiverLinkOptions {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
@@ -64,7 +64,7 @@ export type MessageSessionOptions = Pick<
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the receiver for a Message Session.
  */
 export class MessageSession extends LinkEntity<Receiver> {
@@ -321,31 +321,28 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
   private _createMessageSessionOptions(): ReceiverOptions {
-    const rcvrOptions: ReceiverOptions = {
-      name: this.name,
-      autoaccept: false,
-      // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
-      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
-      source: {
+    const rcvrOptions: ReceiverOptions = createReceiverOptions(
+      this.name,
+      this.receiveMode,
+      {
         address: this.address,
-        filter: {}
+        filter: { [Constants.sessionFilterName]: this.sessionId }
       },
-      credit_window: 0,
-      onClose: (context) =>
-        this._onAmqpClose(context).catch(() => {
-          /* */
-        }),
-      onSessionClose: (context) =>
-        this._onSessionClose(context).catch(() => {
-          /* */
-        }),
-      onError: this._onAmqpError,
-      onSessionError: this._onSessionError,
-      onSettled: this._onSettled
-    };
-    (rcvrOptions.source as any).filter[Constants.sessionFilterName] = this.sessionId;
+      {
+        onClose: (context) =>
+          this._onAmqpClose(context).catch(() => {
+            /* */
+          }),
+        onSessionClose: (context) =>
+          this._onSessionClose(context).catch(() => {
+            /* */
+          }),
+        onError: this._onAmqpError,
+        onSessionError: this._onSessionError,
+        onSettled: this._onSettled
+      }
+    );
+
     return rcvrOptions;
   }
 

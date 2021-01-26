@@ -17,7 +17,7 @@ const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 async function main() {
-  console.log("== Issue Token Sample ==");
+  console.log("\n== Issue Token Javascript Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
   const scopes = ["chat"];

@@ -25,7 +25,7 @@ import {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the topic options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
@@ -51,7 +51,7 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the topic object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawTopic
@@ -96,7 +96,7 @@ export function buildTopic(rawTopic: any): TopicProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the topic runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawTopic
@@ -314,7 +314,7 @@ export interface TopicProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Internal representation of settable options on a topic
  */
 export interface InternalTopicOptions {
@@ -453,7 +453,7 @@ export interface TopicRuntimeProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {

@@ -89,6 +89,7 @@ export class XhrHttpClient implements HttpClient {
         xhr.addEventListener("readystatechange", () => {
           // Resolve as soon as headers are loaded
           if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
+            // eslint-disable-next-line @typescript-eslint/no-shadow
             const blobBody = new Promise<Blob>((resolve, reject) => {
               xhr.addEventListener("load", () => {
                 resolve(xhr.response);

@@ -15,7 +15,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 const sbClient = new ServiceBusClient(connectionString);
