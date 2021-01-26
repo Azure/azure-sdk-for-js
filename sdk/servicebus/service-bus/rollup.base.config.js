@@ -133,7 +133,9 @@ export function browserConfig(test = false) {
         namedExports: {
           events: ["EventEmitter"],
           long: ["ZERO"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"],
+          chai: ["should", "assert"],
+          assert: ["equal", "deepEqual", "notEqual"]
         }
       }),
 

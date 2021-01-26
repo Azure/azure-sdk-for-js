@@ -4,10 +4,9 @@
 import {
   ServiceBusMessage,
   toRheaMessage,
-  isServiceBusMessage,
   getMessagePropertyTypeMismatchError
 } from "./serviceBusMessage";
-import { throwTypeErrorIfParameterMissing } from "./util/errors";
+import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
@@ -22,22 +21,23 @@ import {
 } from "./diagnostics/instrumentServiceBusMessage";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * The amount of bytes to reserve as overhead for a small message.
  */
 const smallMessageOverhead = 5;
 /**
  * @internal
- * @ignore
+ * @hidden
  * The amount of bytes to reserve as overhead for a large message.
  */
 const largeMessageOverhead = 8;
 /**
  * @internal
- * @ignore
+ * @hidden
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;
@@ -62,8 +62,8 @@ export interface ServiceBusMessageBatch {
   readonly count: number;
 
   /**
-   * The maximum size of the batch, in bytes. The `tryAdd` function on the batch will return `false`
-   * if the message being added causes the size of the batch to exceed this limit. Use the `createBatch()` method on
+   * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
+   * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
    * @readonly.
    */
@@ -86,7 +86,7 @@ export interface ServiceBusMessageBatch {
    *
    * @readonly
    * @internal
-   * @ignore
+   * @hidden
    */
   _generateMessage(): Buffer;
 
@@ -94,7 +94,7 @@ export interface ServiceBusMessageBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @ignore
+   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -104,7 +104,7 @@ export interface ServiceBusMessageBatch {
  *
  * @class
  * @internal
- * @ignore
+ * @hidden
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
@@ -124,7 +124,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * Use the `createBatch()` method on your `Sender` instead.
    * @constructor
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(private _context: ConnectionContext, private _maxSizeInBytes: number) {
     this._sizeInBytes = 0;
@@ -159,7 +159,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * Gets the "message" span contexts that were created when adding messages to the batch.
    * @internal
-   * @ignore
+   * @hidden
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
@@ -245,9 +245,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
-    if (!isServiceBusMessage(message)) {
-      throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
-    }
+    throwIfNotValidServiceBusMessage(
+      message,
+      "Provided value for 'message' must be of type ServiceBusMessage."
+    );
 
     // check if the event has already been instrumented
     const previouslyInstrumented = Boolean(
@@ -263,7 +264,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message);
-    amqpMessage.body = this._context.dataTransformer.encode(message.body);
+    amqpMessage.body = defaultDataTransformer.encode(message.body);
 
     let encodedMessage: Buffer;
     try {

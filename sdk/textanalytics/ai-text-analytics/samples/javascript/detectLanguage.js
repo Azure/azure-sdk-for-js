@@ -35,10 +35,10 @@ async function main() {
     if (!result.error) {
       const primaryLanguage = result.primaryLanguage;
       console.log(
-        `  Detected language: ${primaryLanguage.name} (ISO 6391 code: ${primaryLanguage.iso6391Name})`
+        `\tDetected language: ${primaryLanguage.name} (ISO 6391 code: ${primaryLanguage.iso6391Name})`
       );
     } else {
-      console.error("  Error:", result.error);
+      console.error("\tError:", result.error);
     }
   }
 }

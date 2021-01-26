@@ -4,8 +4,9 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createConnectionContextForTests } from "./unittestUtils";
-import { ProcessErrorArgs, ReceiveMode } from "../../src";
-import { StreamingReceiver, StreamingReceiverError } from "../../src/core/streamingReceiver";
+import { ProcessErrorArgs } from "../../src";
+import { ReceiveMode } from "../../src/models";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import sinon from "sinon";
 import { EventContext } from "rhea-promise";
 import { Constants, MessagingError, RetryConfig, RetryMode } from "@azure/core-amqp";
@@ -321,13 +322,7 @@ describe("StreamingReceiver unit tests", () => {
         );
 
         ++numTimesRetryFnCalled;
-        if (numTimesRetryFnCalled === 0) {
-          // add in a little variety - throwing this wrapper error should also
-          // work just fine and it'll be properly extracted when it's reported to the user's onError handler.
-          throw new StreamingReceiverError(
-            new Error(`Error in retry cycle ${numTimesRetryFnCalled}`)
-          );
-        } else if (numTimesRetryFnCalled < 4) {
+        if (numTimesRetryFnCalled < 4) {
           throw new Error(`Error in retry cycle ${numTimesRetryFnCalled}`);
         } else {
           // go ahead and let the retry loop succeed (and it should properly terminate!)
@@ -419,48 +414,6 @@ describe("StreamingReceiver unit tests", () => {
         name: "AbortError",
         message: "Aborting immediately - user's abortSignal takes precedence.",
         retryable: undefined
-      });
-    });
-
-    describe("wrapped operation", () => {
-      it("wrapped operation reports via onError for exceptions.", async () => {
-        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](async () => {
-          throw new Error("Normal errors are logged and rethrown.");
-        });
-
-        try {
-          await wrappedOperation();
-          assert.fail("Should have thrown");
-        } catch (err) {
-          assertError(err, {
-            name: "StreamingReceiverError",
-            message: "Normal errors are logged and rethrown.",
-            // they're also marked as retryable.
-            retryable: true
-          });
-        }
-      });
-
-      it("wrapped operation does throw if it gets an abortError.", async () => {
-        const wrappedOperation = StreamingReceiver["wrapRetryOperation"](async () => {
-          //. the user is obviously welcome to pass in and abort their passed in abortSignal.
-          // Another way this can happen is that LinkEntity.initLink will also throw an AbortError if the link has
-          // been closed by the user.
-          throw new AbortError(
-            "AbortError's should propagate or the link has had .close() called on it"
-          );
-        });
-
-        try {
-          await wrappedOperation();
-          assert.fail("AbortError should have been thrown");
-        } catch (err) {
-          assertError(err, {
-            name: "AbortError",
-            message: "AbortError's should propagate or the link has had .close() called on it",
-            retryable: undefined
-          });
-        }
       });
     });
   });

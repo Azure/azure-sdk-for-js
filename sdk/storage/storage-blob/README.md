@@ -64,6 +64,7 @@ This library depends on following ES features which need external polyfills load
 - `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
+- `Number.isInteger`
 
 #### Differences between Node.js and browsers
 
@@ -92,18 +93,6 @@ There are differences between Node.js and browsers runtime. When getting started
 ### JavaScript Bundle
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
-
-#### Special bundling notes for IE11
-
-Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
-
-If `Parcel` is used then no further work is needed. If using Rollup, an additional step is needed to transform the bundled output to the format that IE11 supports.
-
-Assuming `bundled-output.js` is the result from `Rollup`:
-
-```bash
-tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
-```
 
 ### CORS
 

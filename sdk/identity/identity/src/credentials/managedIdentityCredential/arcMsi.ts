@@ -15,15 +15,11 @@ const logger = credentialLogger("ManagedIdentityCredential - ArcMSI");
 // Azure Arc MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
-function prepareRequestOptions(resource?: string, clientId?: string): RequestPrepareOptions {
+function prepareRequestOptions(resource?: string): RequestPrepareOptions {
   const queryParameters: any = {
     resource,
     "api-version": azureArcAPIVersion
   };
-
-  if (clientId) {
-    queryParameters.client_id = clientId;
-  }
 
   return {
     // Should be similar to: http://localhost:40342/metadata/identity/oauth2/token
@@ -60,7 +56,7 @@ async function filePathRequest(
   if (response.status !== 401) {
     let message = "";
     if (response.bodyAsText) {
-      message = ` Response: ${response.bodyAsText}`
+      message = ` Response: ${response.bodyAsText}`;
     }
     throw new AuthenticationError(
       response.status,
@@ -84,12 +80,18 @@ export const arcMsi: MSI = {
   ): Promise<AccessToken | null> {
     logger.info(`Using the Azure Arc MSI to authenticate.`);
 
+    if (clientId) {
+      throw new Error(
+        "User assigned identity is not supported by the Azure Arc Managed Identity Endpoint. To authenticate with the system assigned identity omit the client id when constructing the ManagedIdentityCredential, or if authenticating with the DefaultAzureCredential ensure the AZURE_CLIENT_ID environment variable is not set."
+      );
+    }
+
     const requestOptions = {
       disableJsonStringifyOnBody: true,
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
       spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
-      ...prepareRequestOptions(resource, clientId)
+      ...prepareRequestOptions(resource)
     };
 
     const filePath = await filePathRequest(identityClient, requestOptions);

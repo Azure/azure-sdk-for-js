@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-configuration",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration",
   "sideEffects": false,
   "dependencies": {
     "@azure/communication-administration": "latest",

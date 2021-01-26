@@ -9,7 +9,8 @@ import {
   OperationRequest,
   createSerializer,
   CompositeMapper,
-  FullOperationResponse
+  FullOperationResponse,
+  SerializerOptions
 } from "../src";
 import {
   createPipelineRequest,
@@ -19,6 +20,7 @@ import {
   RawHttpHeaders
 } from "@azure/core-https";
 import { parseXML } from "@azure/core-xml";
+import { getOperationRequestInfo } from "../src/operationHelpers";
 
 describe("deserializationPolicy", function() {
   it(`should not modify a request that has no request body mapper`, async function() {
@@ -372,6 +374,45 @@ describe("deserializationPolicy", function() {
       });
     });
 
+    it(`should deserialize underscore xml element with custom xml char key`, async function() {
+      const response = await getDeserializedResponse({
+        headers: { "content-type": "application/xml" },
+        bodyAsText: `<Metadata><h>v</h><_>underscore</_></Metadata>`,
+        serializerOptions: { xml: { xmlCharKey: "#" } }
+      });
+      assert.exists(response);
+      assert.isUndefined(response.readableStreamBody);
+      assert.isUndefined(response.blobBody);
+      assert.isUndefined(response.parsedHeaders);
+      assert.strictEqual(response.bodyAsText, `<Metadata><h>v</h><_>underscore</_></Metadata>`);
+      assert.deepEqual(response.parsedBody, {
+        h: "v",
+        _: "underscore"
+      });
+    });
+
+    it(`with custom xml char key`, async function() {
+      const response = await getDeserializedResponse({
+        headers: { "content-type": "application/xml" },
+        bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`,
+        serializerOptions: { xml: { xmlCharKey: "#" } }
+      });
+
+      assert.exists(response);
+      assert.isUndefined(response.readableStreamBody);
+      assert.isUndefined(response.blobBody);
+      assert.strictEqual(response.bodyAsText, `<fruit><apples taste="good">3</apples></fruit>`);
+      assert.isUndefined(response.parsedHeaders);
+      assert.deepEqual(response.parsedBody, {
+        apples: {
+          $: {
+            taste: "good"
+          },
+          "#": "3"
+        }
+      });
+    });
+
     it(`with default response headers`, async function() {
       const BodyMapper: CompositeMapper = {
         serializedName: "getproperties-body",
@@ -660,16 +701,17 @@ async function getDeserializedResponse(
     status?: number;
     bodyAsText?: string;
     xmlContentTypes?: string[];
+    serializerOptions?: SerializerOptions;
   } = {}
 ): Promise<FullOperationResponse> {
   const policy = deserializationPolicy({
     expectedContentTypes: { xml: options.xmlContentTypes },
-    parseXML
+    parseXML,
+    serializerOptions: options.serializerOptions
   });
   const request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
-  request.additionalInfo = {
-    operationSpec: options.operationSpec
-  };
+  const operationInfo = getOperationRequestInfo(request);
+  operationInfo.operationSpec = options.operationSpec;
   request.body = options.requestBody;
 
   const res: PipelineResponse = {

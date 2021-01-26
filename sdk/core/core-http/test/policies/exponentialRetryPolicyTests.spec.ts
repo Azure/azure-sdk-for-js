@@ -79,8 +79,8 @@ describe("ExponentialRetryPolicy", () => {
 
       const policy = createDefaultExponentialRetryPolicy();
       const response = await policy.sendRequest(request);
-      delete response.request.requestId;
-      delete request.requestId;
+      delete (response.request as any).requestId;
+      delete (request as any).requestId;
 
       assert.deepEqual(response.request, request);
     });
@@ -104,8 +104,8 @@ describe("ExponentialRetryPolicy", () => {
         );
 
         const response = await policy.sendRequest(request);
-        delete request.requestId;
-        delete response.request.requestId;
+        delete (request as any).requestId;
+        delete (response.request as any).requestId;
         assert.deepEqual(response, mockResponse, "Expecting response matches after retrying");
         assert.ok(faultyPolicy.count > 1, "Retry should have happened");
       });
@@ -138,11 +138,11 @@ describe("ExponentialRetryPolicy", () => {
       it(`should return after max retry count for retriable status code ${code}`, async () => {
         class FailEveryRequestPolicy {
           public count = 0;
-          constructor(private code: number) {}
+          constructor(private statusCode: number) {}
           public sendRequest(_request: WebResource): Promise<HttpOperationResponse> {
             this.count++;
             const response = {
-              status: this.code,
+              status: this.statusCode,
               request: new WebResource(),
               headers: new HttpHeaders()
             };

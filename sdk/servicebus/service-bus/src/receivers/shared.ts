@@ -14,12 +14,12 @@ import {
 } from "../serviceBusMessage";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../util/errors";
 import { ErrorNameConditionMapper } from "@azure/core-amqp";
+import { MessageAlreadySettled } from "../util/errors";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function assertValidMessageHandlers(handlers: any) {
   if (
@@ -35,7 +35,7 @@ export function assertValidMessageHandlers(handlers: any) {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export async function* getMessageIterator(
   receiver: Pick<ServiceBusReceiver, "receiveMessages">,
@@ -54,7 +54,7 @@ export async function* getMessageIterator(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
@@ -72,7 +72,7 @@ export function wrapProcessErrorHandler(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -93,7 +93,7 @@ export function completeMessage(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -118,7 +118,7 @@ export function abandonMessage(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -143,7 +143,7 @@ export function deferMessage(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -187,7 +187,7 @@ export function deadLetterMessage(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {ServiceBusMessageImpl} message
  * @param {DispositionType} operation
@@ -202,14 +202,29 @@ function settleMessage(
   entityPath: string,
   options?: DispositionStatusOptions
 ): Promise<void> {
-  if (!message.delivery) {
-    throw new Error("A peeked message cannot be settled.");
+  const isDeferredMessage = !message.delivery.link;
+  const receiver = isDeferredMessage
+    ? undefined
+    : context.getReceiverFromCache(message.delivery.link.name, message.sessionId);
+  const associatedLinkName = receiver?.name;
+
+  let error: Error | undefined;
+  if (message.delivery.remote_settled) {
+    error = new Error(MessageAlreadySettled);
+  } else if (
+    !isDeferredMessage &&
+    (!receiver || !receiver.isOpen()) &&
+    message.sessionId != undefined
+  ) {
+    error = translateServiceBusError({
+      description:
+        `Failed to ${operation} the message as the AMQP link with which the message was ` +
+        `received is no longer alive.`,
+      condition: ErrorNameConditionMapper.SessionLockLostError
+    });
   }
 
-  if (!message.lockToken) {
-    const error = new Error(
-      getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-    );
+  if (error) {
     receiverLogger.logError(
       error,
       "[%s] An error occurred when settling a message with id '%s'",
@@ -218,41 +233,6 @@ function settleMessage(
     );
     throw error;
   }
-  const isDeferredMessage = !message.delivery.link;
-  const receiver = isDeferredMessage
-    ? undefined
-    : context.getReceiverFromCache(message.delivery.link.name, message.sessionId);
-  const associatedLinkName = receiver?.name;
-
-  if (!isDeferredMessage) {
-    // In case the message wasn't from a deferred queue,
-    //   1. We can verify the remote_settled flag on the delivery
-    //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
-    //      - If the flag is false, we can't say that the message has not been settled
-    //        since settling with the management link won't update the delivery (In this case, service would throw an error)
-    //   2. If the message has a session-id and if the associated receiver link is unavailable,
-    //      then throw an error since we need a lock on the session to settle the message.
-    let error: Error | undefined;
-    if (message.delivery.remote_settled) {
-      error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-    } else if ((!receiver || !receiver.isOpen()) && message.sessionId != undefined) {
-      error = translateServiceBusError({
-        description:
-          `Failed to ${operation} the message as the AMQP link with which the message was ` +
-          `received is no longer alive.`,
-        condition: ErrorNameConditionMapper.SessionLockLostError
-      });
-    }
-    if (error) {
-      receiverLogger.logError(
-        error,
-        "[%s] An error occurred when settling a message with id '%s'",
-        context.connectionId,
-        message.messageId
-      );
-      throw error;
-    }
-  }
 
   // Message Settlement with managementLink
   // 1. If the received message is deferred as such messages can only be settled using managementLink
@@ -260,7 +240,7 @@ function settleMessage(
   if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && message.sessionId == undefined)) {
     return context
       .getManagementClient(entityPath)
-      .updateDispositionStatus(message.lockToken, operation, {
+      .updateDispositionStatus(message.lockToken!, operation, {
         ...options,
         associatedLinkName,
         sessionId: message.sessionId

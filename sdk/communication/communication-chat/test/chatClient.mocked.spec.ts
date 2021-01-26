@@ -5,15 +5,17 @@ import sinon from "sinon";
 import { assert } from "chai";
 import { ChatClient, CreateChatThreadRequest } from "../src";
 import * as RestModel from "../src/generated/src/models";
-import { SDK_VERSION } from "../src/constants";
+import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
-import { AzureCommunicationUserCredential } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,
   createChatClient,
   mockThreadInfo
 } from "./utils/mockClient";
+
+const API_VERSION = apiVersion.mapper.defaultValue;
 
 describe("[Mocked] ChatClient", async () => {
   let chatClient: ChatClient;
@@ -23,7 +25,7 @@ describe("[Mocked] ChatClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new ChatClient(baseUri, new AzureCommunicationUserCredential(generateToken()));
+    new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
   it("makes successful create thread request", async () => {
@@ -54,7 +56,7 @@ describe("[Mocked] ChatClient", async () => {
 
     const request = spy.getCall(0).args[0];
 
-    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${SDK_VERSION}`);
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), sendRequest);
   });
@@ -86,7 +88,7 @@ describe("[Mocked] ChatClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${mockThread.id}?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });
@@ -111,7 +113,7 @@ describe("[Mocked] ChatClient", async () => {
     assert.equal(count, mockResponse.value?.length);
     const request = spy.getCall(0).args[0];
 
-    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${SDK_VERSION}`);
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "GET");
   });
 
@@ -126,7 +128,7 @@ describe("[Mocked] ChatClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${mockThread.id}?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "DELETE");
   });

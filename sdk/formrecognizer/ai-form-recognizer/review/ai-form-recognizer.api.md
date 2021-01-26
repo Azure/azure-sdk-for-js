@@ -21,14 +21,23 @@ export interface AccountProperties {
     customModelLimit: number;
 }
 
+// @public
+export interface Appearance {
+    style: Style;
+}
+
 export { AzureKeyCredential }
 
 // @public
-export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: CopyModelOperationState) => void;
-    resumeFrom?: string;
+export type BeginCopyModelOptions = FormRecognizerOperationOptions & FormTrainingPollOperationOptions<CopyModelOperationState>;
+
+// @public
+export type BeginCreateComposedModelOptions = FormRecognizerOperationOptions & FormTrainingPollOperationOptions<TrainingOperationState> & {
+    modelName?: string;
 };
+
+// @public
+export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
 
 // @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
@@ -36,7 +45,14 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     onProgress?: (state: RecognizeContentOperationState) => void;
     resumeFrom?: string;
     contentType?: FormContentType;
+    language?: string;
+    pages?: string[];
 };
+
+// @public
+export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
+    contentType?: Exclude<FormContentType, "image/bmp">;
+}
 
 // @public
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
@@ -47,13 +63,18 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
-export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 
 // @public
-export type BeginTrainingOptions = TrainingFileFilter & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: TrainingOperationState) => void;
-    resumeFrom?: string;
+export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
+    locale?: string;
+}
+
+// @public
+export type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
+
+// @public
+export type BeginTrainingOptions = TrainingFileFilter & FormTrainingPollOperationOptions<TrainingOperationState> & {
     modelName?: string;
 };
 
@@ -104,9 +125,15 @@ export interface CustomFormModelField {
 export interface CustomFormModelInfo {
     modelId: string;
     modelName?: string;
+    properties?: CustomFormModelProperties;
     status: ModelStatus;
     trainingCompletedOn: Date;
     trainingStartedOn: Date;
+}
+
+// @public
+export interface CustomFormModelProperties {
+    isComposedModel?: boolean;
 }
 
 // @public
@@ -114,6 +141,7 @@ export interface CustomFormSubmodel {
     accuracy?: number;
     fields: Record<string, CustomFormModelField>;
     formType: string;
+    modelId?: string;
 }
 
 // @public
@@ -128,16 +156,16 @@ export interface FieldData {
 }
 
 // @public
-export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
+export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
 
 // @public
-export type FormElement = FormWord | FormLine;
+export type FormElement = FormWord | FormLine | FormSelectionMark;
 
 // @public
 export interface FormElementCommon {
     boundingBox: Point2D[];
     pageNumber: number;
-    text: string;
+    text?: string;
 }
 
 // @public
@@ -170,6 +198,9 @@ export type FormField = {
 } | {
     value?: Record<string, FormField>;
     valueType?: "object";
+} | {
+    value?: SelectionMarkState;
+    valueType?: "selectionMark";
 });
 
 // @public
@@ -180,7 +211,9 @@ export interface FormFieldsReport {
 
 // @public
 export interface FormLine extends FormElementCommon {
+    appearance?: Appearance;
     kind: "line";
+    text: string;
     words: FormWord[];
 }
 
@@ -197,6 +230,7 @@ export interface FormPage {
     height: number;
     lines?: FormLine[];
     pageNumber: number;
+    selectionMarks?: FormSelectionMark[];
     tables?: FormTable[];
     textAngle: number;
     unit: LengthUnit;
@@ -219,10 +253,14 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
+    beginRecognizeBusinessCardsFromUrl(businessCardUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
+    beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
@@ -246,7 +284,15 @@ export interface FormRecognizerOperationOptions extends OperationOptions {
 export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | NodeJS.ReadableStream;
 
 // @public
+export interface FormSelectionMark extends FormElementCommon {
+    confidence?: number;
+    kind: "selectionMark";
+    state: SelectionMarkState;
+}
+
+// @public
 export interface FormTable {
+    boundingBox?: Point2D[];
     cells: FormTableCell[];
     columnCount: number;
     pageNumber: number;
@@ -272,6 +318,7 @@ export interface FormTableCell {
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>>;
+    beginCreateComposedModel(modelIds: string[], options: BeginCreateComposedModelOptions): Promise<PollerLike<TrainingOperationState, CustomFormModel>>;
     beginTraining(trainingFilesUrl: string, useTrainingLabels: boolean, options?: BeginTrainingOptions): Promise<PollerLike<TrainingOperationState, CustomFormModel>>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
@@ -283,9 +330,17 @@ export class FormTrainingClient {
     }
 
 // @public
+export interface FormTrainingPollOperationOptions<TState extends PollOperationState<unknown>> {
+    onProgress?: (state: TState) => void;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface FormWord extends FormElementCommon {
     confidence?: number;
     kind: "word";
+    text: string;
 }
 
 // @public
@@ -324,10 +379,54 @@ export interface KeyValuePairModel {
 }
 
 // @public
-export type KeyValueType = "string" | "selectionMark" | string;
+export type KeyValueType = string;
 
 // @public
-export type Language = "en" | "es" | string;
+export const enum KnownKeyValueType {
+    // (undocumented)
+    SelectionMark = "selectionMark",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
+export const enum KnownLanguage {
+    // (undocumented)
+    De = "de",
+    // (undocumented)
+    En = "en",
+    // (undocumented)
+    Es = "es",
+    // (undocumented)
+    Fr = "fr",
+    // (undocumented)
+    It = "it",
+    // (undocumented)
+    Nl = "nl",
+    // (undocumented)
+    Pt = "pt",
+    // (undocumented)
+    ZhHans = "zh-Hans"
+}
+
+// @public
+export const enum KnownSelectionMarkState {
+    // (undocumented)
+    Selected = "selected",
+    // (undocumented)
+    Unselected = "unselected"
+}
+
+// @public
+export const enum KnownTextStyle {
+    // (undocumented)
+    Handwriting = "handwriting",
+    // (undocumented)
+    Other = "other"
+}
+
+// @public
+export type Language = string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -392,6 +491,8 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 export interface RecognizedForm {
     fields: Record<string, FormField>;
     formType: string;
+    formTypeConfidence?: number;
+    modelId?: string;
     pageRange: FormPageRange;
     pages: FormPage[];
 }
@@ -401,9 +502,12 @@ export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
 // @public
-export type RecognizeFormsOperationState = PollOperationState<RecognizedFormArray> & {
+export interface RecognizeFormsOperationState extends PollOperationState<RecognizedFormArray> {
+    expectedDocType?: string;
+    modelId?: string;
+    resultId?: string;
     status: OperationStatus;
-};
+}
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
@@ -413,8 +517,21 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 export { RestResponse }
 
 // @public
+export type SelectionMarkState = string;
+
+// @public
+export interface Style {
+    confidence: number;
+    name: TextStyle;
+}
+
+// @public
+export type TextStyle = string;
+
+// @public
 export interface TrainingDocumentInfo {
     errors: FormRecognizerError[];
+    modelId?: string;
     name: string;
     pageCount: number;
     status: TrainingStatus;

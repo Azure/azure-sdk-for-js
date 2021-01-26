@@ -5,7 +5,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, record } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 import {
   BlobClient,
@@ -39,7 +39,7 @@ describe("BlobClient Node.js only", () => {
   const content = "Hello World";
   const tempFolderPath = "temp";
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
@@ -205,7 +205,7 @@ describe("BlobClient Node.js only", () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const factories = (containerClient as any).pipeline.factories;
@@ -540,7 +540,7 @@ describe("BlobClient Node.js only", () => {
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
-    await new Promise((resolve, reject) => {
+    await new Promise<void>((resolve, reject) => {
       blockBlobClient
         .query("select * from BlobStorage", {
           onProgress: (progress) => {

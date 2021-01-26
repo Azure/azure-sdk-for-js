@@ -11,6 +11,7 @@ export {
   FormRecognizerClientOptions,
   FormRecognizerOperationOptions
 } from "./common";
+export { RecognizeFormsOperationState } from "./lro/analyze/recognitionPoller";
 export * from "./formRecognizerClient";
 export * from "./formTrainingClient";
 export * from "./models";

@@ -9,8 +9,9 @@ import {
   ShareDeleteResponse,
   ServiceGetPropertiesResponse,
   ServiceSetPropertiesResponse,
-  ServiceListSharesSegmentResponse,
-  ShareItem
+  ServiceListSharesSegmentHeaders,
+  ListSharesResponseModel,
+  SharePropertiesInternal
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -23,9 +24,16 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode } from "@azure/core-http";
+import { isNode, HttpResponse } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./utils/tracing";
+import { ShareProtocols, toShareProtocols } from "./models";
+import { AccountSASPermissions } from "./AccountSASPermissions";
+import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
+import { AccountSASServices } from "./AccountSASServices";
+import { SASProtocol } from "./SASQueryParameters";
+import { SasIPRange } from "./SasIPRange";
+import { appendToURLQuery } from "./utils/utils.common";
 
 /**
  * Options to configure Share - List Shares Segment operations.
@@ -172,6 +180,114 @@ export interface ServiceUndeleteShareOptions extends CommonOptions {
    * @memberof ServiceUndeleteShareOptions
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Properties of a share.
+ *
+ * @export
+ * @interface ShareProperties
+ */
+export type ShareProperties = SharePropertiesInternal & {
+  /**
+   * The protocols that have been enabled on the share.
+   * @type {ShareProtocols}
+   * @memberof ShareProperties
+   */
+  protocols?: ShareProtocols;
+};
+
+/**
+ * A listed Azure Storage share item.
+ *
+ * @export
+ * @interface ShareItem
+ */
+export interface ShareItem {
+  name: string;
+  snapshot?: string;
+  deleted?: boolean;
+  version?: string;
+  properties: ShareProperties;
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * An enumeration of shares.
+ */
+export interface ListSharesResponse {
+  serviceEndpoint: string;
+  prefix?: string;
+  marker?: string;
+  maxResults?: number;
+  shareItems?: ShareItem[];
+  continuationToken: string;
+}
+
+/**
+ * Contains response data for the {@link ShareServiceClient.listShares} operation.
+ */
+export type ServiceListSharesSegmentResponse = ListSharesResponse &
+  ServiceListSharesSegmentHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceListSharesSegmentHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListSharesResponseModel;
+    };
+  };
+
+/**
+ * Options to configure {@link ShareServiceClient.generateAccountSasUrl} operation.
+ *
+ * @export
+ * @interface ServiceGenerateAccountSasUrlOptions
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   *
+   * @type {SASProtocol}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   *
+   * @type {SasIPRange}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  ipRange?: SasIPRange;
 }
 
 /**
@@ -476,7 +592,9 @@ export class ShareServiceClient extends StorageClient {
 
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
-      yield* segment.shareItems;
+      if (segment.shareItems) {
+        yield* segment.shareItems;
+      }
     }
   }
 
@@ -633,11 +751,21 @@ export class ShareServiceClient extends StorageClient {
     }
 
     try {
-      return await this.serviceContext.listSharesSegment({
+      const res = await this.serviceContext.listSharesSegment({
         marker,
         ...options,
         spanOptions
       });
+
+      // parse protocols
+      if (res.shareItems) {
+        for (let i = 0; i < res.shareItems.length; i++) {
+          const protocolsStr = res.shareItems[i].properties.enabledProtocols;
+          (res.shareItems[i].properties as any).protocols = toShareProtocols(protocolsStr);
+        }
+      }
+
+      return res;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -687,5 +815,51 @@ export class ShareServiceClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for ShareServiceClient constructed with a shared key credential.
+   *
+   * Generates an account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
+   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
+   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ShareServiceClient
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("f").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }

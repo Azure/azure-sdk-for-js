@@ -1,6 +1,22 @@
 # Release History
 
-## 12.2.0-beta.2 (Unreleased)
+## 12.3.1 (Unreleased)
+
+- Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+
+## 12.3.0 (2021-01-12)
+
+- Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
+- Now you can get the functionality of the root directory via the `DataLakeDirectoryClient` created via `FileSystemClient.getDirectoryClient("")`. Fixed bug [12813](https://github.com/Azure/azure-sdk-for-js/issues/12813).
+
+## 12.3.0-beta.1 (2020-12-09)
+
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added `generateSasUrl` to `DataLakeFileSystemClient`, `DataLakeDirectoryClient` and `DataLakeFileClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `DataLakeServiceClient` to generate an account-level SAS URI for the client.
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
+
+## 12.2.0 (2020-11-10)
 
 - Bug fix - Fixes an issue where `DataLakePathClient.move()` will give an `InvalidSourceUri` error when the copy source name contains characters that need to be URL encoded. Fixed bug [11849](https://github.com/Azure/azure-sdk-for-js/issues/11849).
 

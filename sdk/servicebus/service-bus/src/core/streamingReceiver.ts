@@ -6,8 +6,7 @@ import {
   OnAmqpEventAsPromise,
   OnError,
   OnMessage,
-  ReceiveOptions,
-  ReceiverHandlers
+  ReceiveOptions
 } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 
@@ -29,10 +28,11 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
+import { ReceiverHandlers } from "./shared";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
@@ -42,7 +42,7 @@ export interface StreamingReceiverInitArgs
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
@@ -222,7 +222,6 @@ export class StreamingReceiver extends MessageReceiver {
       }
 
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-        this._context.dataTransformer,
         context.message!,
         context.delivery!,
         true,
@@ -362,26 +361,6 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   /**
-   * Returns a wrapped function that makes any thrown errors retryable (_except_  for AbortError) by
-   * wrapping them in a StreamingReceiverError .
-   */
-  private static wrapRetryOperation(fn: () => Promise<void>) {
-    return async () => {
-      try {
-        await fn();
-      } catch (err) {
-        if (err.name === "AbortError") {
-          throw err;
-        }
-
-        // once we're at this point where we can spin up a connection we're past the point
-        // of fatal errors like the connection string just outright being malformed, for instance.
-        throw new StreamingReceiverError(err);
-      }
-    };
-  }
-
-  /**
    * Initializes the link. This method will retry infinitely until a connection is established.
    *
    * The retries are broken up into cycles. For each cycle we do a set of retries, using the user's
@@ -405,7 +384,7 @@ export class StreamingReceiver extends MessageReceiver {
       ++numRetryCycles;
 
       const config: RetryConfig<void> = {
-        operation: StreamingReceiver.wrapRetryOperation(() => this._initOnce(args)),
+        operation: () => this._initOnce(args),
         connectionId: args.connectionId,
         operationType: RetryOperationType.receiverLink,
         // even though we're going to loop infinitely we allow them to control the pattern we use on each
@@ -418,11 +397,6 @@ export class StreamingReceiver extends MessageReceiver {
         await this._retry<void>(config);
         break;
       } catch (err) {
-        if (StreamingReceiverError.isStreamingReceiverError(err)) {
-          // report the original error to the user
-          err = err.originalError;
-        }
-
         // we only report the error here - this avoids spamming the user with too many
         // redundant reports of errors while still providing them incremental status on failures.
         args.onError({
@@ -543,30 +517,5 @@ export class StreamingReceiver extends MessageReceiver {
     } finally {
       this._isDetaching = false;
     }
-  }
-}
-
-/**
- * Wraps an error thrown from the operation for retry<>.
- *
- * Used so we don't have to worry about modifying the errors that
- * also might have originated from the user's processMessage handler,
- * which they rightfully own.
- *
- * @internal
- * @ignore
- */
-export class StreamingReceiverError extends Error {
-  constructor(public originalError: Error | MessagingError) {
-    super(originalError.message);
-    this.name = "StreamingReceiverError";
-  }
-
-  retryable: boolean = true;
-
-  static isStreamingReceiverError(
-    err: Error | StreamingReceiverError
-  ): err is StreamingReceiverError {
-    return err.name === "StreamingReceiverError";
   }
 }

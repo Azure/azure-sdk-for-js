@@ -3,7 +3,6 @@
 
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
 import { CbsClient } from "./cbs";
-import { DataTransformer, DefaultDataTransformer } from "./dataTransformer";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
 
 import { Constants } from "./util/constants";
@@ -44,12 +43,6 @@ export interface ConnectionContextBase {
    * called on the connection object.
    */
   wasConnectionCloseCalled: boolean;
-  /**
-   * @property {DataTransformer} dataTransformer A DataTransformer object that has methods named
-   * - encode Responsible for encoding the AMQP message before sending it on the wire.
-   * - decode Responsible for decoding the received AMQP message before passing it to the customer.
-   */
-  dataTransformer: DataTransformer;
   /**
    * @property {CbsClient} cbsSession A reference to the cbs session ($cbs endpoint) on the
    * underlying AMQP connection for the EventHub Client.
@@ -96,11 +89,6 @@ export interface CreateConnectionContextBaseParameters {
    */
   connectionProperties: ConnectionProperties;
   /**
-   * @property {DataTransformer} [dataTransformer] The datatransformer to be used for encoding and
-   * decoding messages. Default value: DefaultDataTransformer
-   */
-  dataTransformer?: DataTransformer;
-  /**
    * @property {boolean} [isEntityPathRequired] Determines whether entity path should be a part of
    * the connection config. If `true` it must be present, `false` otherwise. Default value false.
    */
@@ -134,9 +122,9 @@ export const ConnectionContextBase = {
     const connectionOptions: ConnectionOptions = {
       transport: Constants.TLS,
       host: parameters.config.host,
-      hostname: parameters.config.host,
+      hostname: parameters.config.amqpHostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: 5671,
+      port: parameters.config.port ?? 5671,
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,
@@ -159,10 +147,11 @@ export const ConnectionContextBase = {
       const host = parameters.config.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};
+      const port = parameters.config.port ?? 443;
 
       connectionOptions.webSocketOptions = {
         webSocket: socket,
-        url: `wss://${host}:443/${endpoint}`,
+        url: `wss://${host}:${port}/${endpoint}`,
         protocol: ["AMQPWSB10"],
         options: socketOptions
       };
@@ -178,7 +167,6 @@ export const ConnectionContextBase = {
       connectionId: connection.id,
       cbsSession: new CbsClient(connection, connectionLock),
       config: parameters.config,
-      dataTransformer: parameters.dataTransformer || new DefaultDataTransformer(),
       refreshConnection() {
         const connection = new Connection(connectionOptions);
         const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;

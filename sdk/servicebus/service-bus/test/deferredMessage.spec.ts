@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage } from "../src";
+import { delay, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   createServiceBusClientForTests,
@@ -106,7 +106,7 @@ describe("Deferred Messages", () => {
     should.equal(
       !!(deferredMsg as any)["delivery"],
       true,
-      "Deferred msg should have delivery! We use this assumption to differentiate between peeked msg and other messages."
+      "Deferred msg should have delivery! We use this assumption to differentiate between deferred msg and other messages when settling."
     );
     should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
     should.equal(
@@ -263,6 +263,7 @@ describe("Deferred Messages", () => {
     if (!sequenceNumber) {
       throw "Sequence Number can not be null";
     }
+    await delay(2000); // Add a delay after receiving the messages to make sure the msg.lockedUntil gets updated after the renewlock operation
     const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
     const lockedUntilAfterRenewlock = await receiver.renewMessageLock(deferredMsg);
     should.equal(

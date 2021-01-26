@@ -104,7 +104,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
    *
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: VisualStudioCodeCredentialOptions) {
     // We want to make sure we use the one assigned by the user on the VSCode settings.
@@ -161,8 +161,8 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * Returns the token found by searching VSCode's authentication cache or
    * returns null if no token could be found.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
   public async getToken(
@@ -181,7 +181,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     // Check to make sure the scope we get back is a valid scope
     if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
       const error = new Error("Invalid scope was specified by the user or calling client");
-      logger.getToken.info(formatError(error));
+      logger.getToken.info(formatError(scopes, error));
       throw error;
     }
 
@@ -224,14 +224,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         const error = new CredentialUnavailable(
           "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
         );
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailable(
         "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
       );
-      logger.getToken.info(formatError(error));
+      logger.getToken.info(formatError(scopes, error));
       throw error;
     }
   }

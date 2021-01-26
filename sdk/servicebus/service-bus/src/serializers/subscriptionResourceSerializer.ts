@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { CorrelationRuleFilter } from "..";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -18,10 +19,16 @@ import {
   getStringOrUndefined,
   getDate
 } from "../util/utils";
+import {
+  buildInternalRuleResource,
+  InternalRuleOptions,
+  SqlRuleAction,
+  SqlRuleFilter
+} from "./ruleResourceSerializer";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the subscription options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
@@ -40,6 +47,9 @@ export function buildSubscriptionOptions(
     DeadLetteringOnFilterEvaluationExceptions: getStringOrUndefined(
       subscription.deadLetteringOnFilterEvaluationExceptions
     ),
+    DefaultRuleDescription: subscription.defaultRuleOptions
+      ? buildInternalRuleResource(subscription.defaultRuleOptions)
+      : undefined,
     MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
     Status: getStringOrUndefined(subscription.status),
@@ -53,7 +63,7 @@ export function buildSubscriptionOptions(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the subscription object from the raw json object gotten after deserializing
  * the response from the service
  * @param rawSubscription
@@ -104,7 +114,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Builds the subscription runtime info object from the raw json object gotten after deserializing
  * the response from the service
  * @param rawSubscription
@@ -133,7 +143,9 @@ export function buildSubscriptionRuntimeProperties(
 export interface CreateSubscriptionOptions extends OperationOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
-   * duration. Settable only at subscription creation time.
+   * duration.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -177,6 +189,30 @@ export interface CreateSubscriptionOptions extends OperationOptions {
    * in the filter about the form of the message. Settable only at topic creation time.
    */
   deadLetteringOnFilterEvaluationExceptions?: boolean;
+
+  /**
+   * Represents the options to create the default rule for the subscription.
+   */
+  defaultRuleOptions?: {
+    /**
+     * Name of the rule
+     */
+    name: string;
+
+    /**
+     * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+     * the expression string is interpreted as a SQL92 expression which must
+     * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+     * a `SqlRuleFilter` can be defined.
+     */
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+
+    /**
+     * The SQL like expression that can be executed on the message should the
+     * associated filter apply.
+     */
+    action?: SqlRuleAction;
+  };
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -252,7 +288,9 @@ export interface SubscriptionProperties {
 
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
-   * duration. Settable only at subscription creation time.
+   * duration.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -327,7 +365,7 @@ export interface SubscriptionProperties {
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
-  userMetadata: string;
+  userMetadata?: string;
 
   /**
    * Absolute URL or the name of the queue or topic the dead-lettered
@@ -354,13 +392,15 @@ export interface SubscriptionProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Internal representation of settable options on a subscription
  */
 export interface InternalSubscriptionOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
-   * duration. Settable only at subscription creation time.
+   * duration.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -458,6 +498,8 @@ export interface InternalSubscriptionOptions {
    * Availability status of the messaging entity.
    */
   EntityAvailabilityStatus?: string;
+
+  DefaultRuleDescription?: InternalRuleOptions;
 }
 
 /**
@@ -518,7 +560,7 @@ export interface SubscriptionRuntimeProperties {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * SubscriptionResourceSerializer for serializing / deserializing Subscription entities
  */
 export class SubscriptionResourceSerializer implements AtomXmlSerializer {

@@ -200,17 +200,6 @@ setLogLevel("info");
 
 ## Next steps
 
-### Client libraries supporting authentication with Azure Identity
-
-Currently, the following client libraries support authenticating with `TokenCredential` and the Azure Identity library. You can learn more about their use, and find additional documentation on use of these client libraries along samples with can be found in the links below.
-
-- [@azure/event-hubs](https://npmjs.com/package/@azure/event-hubs)
-- [@azure/keyvault-keys](https://npmjs.com/package/@azure/keyvault-keys)
-- [@azure/keyvault-secrets](https://npmjs.com/package/@azure/keyvault-secrets)
-- [@azure/keyvault-certificates](https://npmjs.com/package/@azure/keyvault-certificates)
-- [@azure/storage-blob](https://npmjs.com/package/@azure/storage-blob)
-- [@azure/storage-queue](https://npmjs.com/package/@azure/storage-queue)
-
 ### Read the documentation
 
 API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).

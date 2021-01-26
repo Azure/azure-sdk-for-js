@@ -12,6 +12,7 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
+  AnalyzeBatchInput as AnalyzeBatchInputMapper,
   MultiLanguageBatchInput as MultiLanguageBatchInputMapper,
   LanguageBatchInput as LanguageBatchInputMapper
 } from "../models/mappers";
@@ -28,9 +29,21 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const input: OperationParameter = {
-  parameterPath: "input",
-  mapper: MultiLanguageBatchInputMapper
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: AnalyzeBatchInputMapper
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json, text/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const endpoint: OperationURLParameter = {
@@ -45,10 +58,11 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const modelVersion: OperationQueryParameter = {
-  parameterPath: ["options", "modelVersion"],
+export const jobId: OperationURLParameter = {
+  parameterPath: "jobId",
   mapper: {
-    serializedName: "model-version",
+    serializedName: "jobId",
+    required: true,
     type: {
       name: "String"
     }
@@ -58,9 +72,63 @@ export const modelVersion: OperationQueryParameter = {
 export const includeStatistics: OperationQueryParameter = {
   parameterPath: ["options", "includeStatistics"],
   mapper: {
-    serializedName: "includeStatistics",
+    serializedName: "showStats",
     type: {
       name: "Boolean"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 20,
+    constraints: {
+      InclusiveMaximum: 50,
+      InclusiveMinimum: 1
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 0
+    },
+    serializedName: "$skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const jobId1: OperationURLParameter = {
+  parameterPath: "jobId",
+  mapper: {
+    serializedName: "jobId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const input: OperationParameter = {
+  parameterPath: "input",
+  mapper: MultiLanguageBatchInputMapper
+};
+
+export const modelVersion: OperationQueryParameter = {
+  parameterPath: ["options", "modelVersion"],
+  mapper: {
+    serializedName: "model-version",
+    type: {
+      name: "String"
     }
   }
 };

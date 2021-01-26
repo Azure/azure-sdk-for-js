@@ -7,8 +7,12 @@ import {
   InnerError,
   ErrorCodeValue,
   InnerErrorCodeValue,
-  TextAnalyticsWarning
+  TextAnalyticsWarning,
+  DocumentError,
+  TextDocumentBatchStatistics,
+  TextDocumentInput
 } from "./generated/models";
+import { sortResponseIdObjects } from "./util";
 
 /**
  * The result of a text analytics operation on a single input document.
@@ -87,6 +91,40 @@ export interface TextAnalyticsErrorResult {
   readonly error: TextAnalyticsError;
 }
 
+export interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
+  extends Array<T1 | TextAnalyticsErrorResult> {
+  /**
+   * Statistics about the input document batch and how it was processed
+   * by the service. This property will have a value when includeStatistics is set to true
+   * in the client call.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion: string;
+}
+
+export interface TextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
+  /**
+   * Response by document
+   */
+  documents: T1[];
+  /**
+   * Errors by document id.
+   */
+  errors: DocumentError[];
+  /**
+   * if includeStatistics=true was specified in the request this field will contain information about the request payload.
+   */
+  statistics?: TextDocumentBatchStatistics;
+  /**
+   * This field indicates which model is used for scoring.
+   */
+  modelVersion: string;
+}
+
 /**
  * Helper function for converting nested service error into
  * the unified TextAnalyticsError
@@ -127,4 +165,68 @@ export function makeTextAnalyticsErrorResult(
     id,
     error: intoTextAnalyticsError(error)
   };
+}
+
+/**
+ * @internal
+ * @hidden
+ * combines successful and erroneous results into a single array of results and
+ * sort them so that the IDs order match that of the input documents array.
+ * @param input - the array of documents sent to the service for processing.
+ * @param response - the response received from the service.
+ */
+export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnalyticsSuccessResult>(
+  input: TextDocumentInput[],
+  response: TextAnalyticsResponse<TSuccess>
+): (TSuccess | TextAnalyticsErrorResult)[] {
+  return processAndCombineSuccessfulAndErroneousDocuments(input, response, (x) => x);
+}
+
+/**
+ * @internal
+ * @hidden
+ * combines successful and erroneous results into a single array of results and
+ * sort them so that the IDs order match that of the input documents array.
+ * @param input - the array of documents sent to the service for processing.
+ * @param response - the response received from the service.
+ * @param process - a function to convert the results from one type to another.
+ */
+export function processAndCombineSuccessfulAndErroneousDocuments<
+  TSuccess extends TextAnalyticsSuccessResult,
+  T extends TextAnalyticsSuccessResult
+>(
+  input: TextDocumentInput[],
+  response: TextAnalyticsResponse<TSuccess>,
+  process: (doc: TSuccess) => T
+): (T | TextAnalyticsErrorResult)[] {
+  const unsortedResult = response.documents
+    .map((document): T | TextAnalyticsErrorResult => process(document))
+    .concat(
+      response.errors.map((error) => {
+        return makeTextAnalyticsErrorResult(error.id, error.error);
+      })
+    );
+  return sortResponseIdObjects(input, unsortedResult);
+}
+
+/**
+ * @internal
+ * @hidden
+ * combines successful and erroneous results into a single array of results and
+ * sort them so that the IDs order match that of the input documents array. It
+ * also attaches statistics and modelVersion to the returned array.
+ * @param input - the array of documents sent to the service for processing.
+ * @param response - the response received from the service.
+ */
+export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion<
+  TSuccess extends TextAnalyticsSuccessResult
+>(
+  input: TextDocumentInput[],
+  response: TextAnalyticsResponse<TSuccess>
+): TextAnalyticsResultArray<TSuccess> {
+  const sorted = combineSuccessfulAndErroneousDocuments(input, response);
+  return Object.assign(sorted, {
+    statistics: response.statistics,
+    modelVersion: response.modelVersion
+  });
 }

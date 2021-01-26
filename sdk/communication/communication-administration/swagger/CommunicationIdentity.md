@@ -6,10 +6,9 @@
 
 ```yaml
 package-name: azure-communication-administration-identity
-title: CommunicationIdentityConfigurationClient
-override-client-name: GeneratedCommunicationIdentityClient
-description: Communication identity configuration client
-package-version: 1.0.0-beta.3
+override-client-name: IdentityRestClient
+description: Communication identity client
+package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/communicationIdentity/generated
@@ -17,6 +16,8 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/838c509
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
-use: "@microsoft.azure/autorest.typescript@5.0.1"
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20200623.2"
+add-credentials: false
 azure-arm: false
 ```

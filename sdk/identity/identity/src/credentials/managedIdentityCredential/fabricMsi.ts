@@ -6,6 +6,7 @@ import { MSI } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { msiGenericGetToken } from "./utils";
+import { azureFabricVersion } from "./constants";
 
 const logger = credentialLogger("ManagedIdentityCredential - Fabric MSI");
 
@@ -17,7 +18,7 @@ function expiresInParser(requestBody: any): number {
 function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
   const queryParameters: any = {
     resource,
-    "api-version": "2019-07-01-preview"
+    "api-version": azureFabricVersion
   };
 
   if (clientId) {

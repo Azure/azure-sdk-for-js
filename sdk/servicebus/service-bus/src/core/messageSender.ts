@@ -36,10 +36,11 @@ import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
+import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */
@@ -355,7 +356,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const amqpMessage = toRheaMessage(data);
-      amqpMessage.body = this._context.dataTransformer.encode(data.body);
+      amqpMessage.body = defaultDataTransformer.encode(data.body);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
       let encodedMessage;
@@ -413,7 +414,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
         const amqpMessage = toRheaMessage(inputMessages[i]);
-        amqpMessage.body = this._context.dataTransformer.encode(inputMessages[i].body);
+        amqpMessage.body = defaultDataTransformer.encode(inputMessages[i].body);
         amqpMessages[i] = amqpMessage;
         try {
           encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);

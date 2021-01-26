@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusReceivedMessage, delay, ProcessErrorArgs } from "../src";
-import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
+import { getAlreadyReceivingErrorMsg, MessageAlreadySettled } from "../src/util/errors";
 import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
 import { DispositionType, ServiceBusMessageImpl } from "../src/serviceBusMessage";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
@@ -18,9 +18,9 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { isNode } from "../src/util/utils";
 import { verifyMessageCount } from "./utils/managementUtils";
 import sinon from "sinon";
+import { isNode } from "@azure/core-http";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -136,7 +136,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -231,7 +231,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -278,7 +278,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete: false }
+        { autoCompleteMessages: false }
       );
 
       const deliveryCountFlag = await checkWithTimeout(
@@ -332,7 +332,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
       const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
       should.equal(
@@ -397,7 +397,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError
         },
-        { autoComplete }
+        { autoCompleteMessages: autoComplete }
       );
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages`);
@@ -494,12 +494,8 @@ describe("Streaming Receiver Tests", () => {
       await beforeEachTest();
     });
 
-    const testError = (err: Error, operation: DispositionType): void => {
-      should.equal(
-        err.message,
-        `Failed to ${operation} the message as this message is already settled.`,
-        "ErrorMessage is different than expected"
-      );
+    const testError = (err: Error): void => {
+      should.equal(err.message, MessageAlreadySettled, "ErrorMessage is different than expected");
       errorWasThrown = true;
     };
 
@@ -544,13 +540,13 @@ describe("Streaming Receiver Tests", () => {
       await testPeekMsgsLength(receiver, 0);
 
       if (operation === DispositionType.complete) {
-        await receiver.completeMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receiver.completeMessage(receivedMsgs[0]).catch((err) => testError(err));
       } else if (operation === DispositionType.abandon) {
-        await receiver.abandonMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receiver.abandonMessage(receivedMsgs[0]).catch((err) => testError(err));
       } else if (operation === DispositionType.deadletter) {
-        await receiver.deadLetterMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receiver.deadLetterMessage(receivedMsgs[0]).catch((err) => testError(err));
       } else if (operation === DispositionType.defer) {
-        await receiver.deferMessage(receivedMsgs[0]).catch((err) => testError(err, operation));
+        await receiver.deferMessage(receivedMsgs[0]).catch((err) => testError(err));
       }
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -786,7 +782,7 @@ describe("Streaming Receiver Tests", () => {
           processError
         },
         {
-          autoComplete: false
+          autoCompleteMessages: false
         }
       );
       await receiver.close();
@@ -1044,7 +1040,7 @@ export function singleMessagePromise(
         }
       },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
     );
   });

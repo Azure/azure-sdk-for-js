@@ -1,28 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "2f3122519858bb65542b1fef5c5b3e1e";
+module.exports.hash = "af6de22e82adc649e157b2f5f3895416";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/28e85c5b-cbb5-480b-be46-05b7a6cfcc8e')
-  .reply(200, {"anomalyAlertingConfigurationId":"28e85c5b-cbb5-480b-be46-05b7a6cfcc8e","name":"js-alert-config-160106251052701821","description":"alerting config description","crossMetricsOperator":"AND","hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"a459fa2f-8f12-4d86-952f-d4b63c0e2c61","anomalyScopeType":"All","negationOperation":false},{"anomalyDetectionConfigurationId":"a459fa2f-8f12-4d86-952f-d4b63c0e2c61","anomalyScopeType":"All","negationOperation":false}]}, [
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/180377ec-559a-40d1-af6c-2b3d9d5909bf')
+  .reply(200, {"anomalyAlertingConfigurationId":"180377ec-559a-40d1-af6c-2b3d9d5909bf","name":"js-alert-config-160530496118804981","description":"alerting config description","crossMetricsOperator":"AND","hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"e3ab2e89-d596-47aa-8ea8-5bd724f3b827","anomalyScopeType":"All","negationOperation":false},{"anomalyDetectionConfigurationId":"e3ab2e89-d596-47aa-8ea8-5bd724f3b827","anomalyScopeType":"All","negationOperation":false}]}, [
   'Content-Length',
   '488',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'eb3147d1-aa11-4a68-8801-e28bc203eb3a',
+  '57b94afa-209d-4318-a288-c3b8779e2f23',
   'x-envoy-upstream-service-time',
-  '87',
+  '93',
   'apim-request-id',
-  'eb3147d1-aa11-4a68-8801-e28bc203eb3a',
+  '57b94afa-209d-4318-a288-c3b8779e2f23',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 25 Sep 2020 19:35:15 GMT',
-  'Connection',
-  'close'
+  'Fri, 13 Nov 2020 22:02:41 GMT'
 ]);

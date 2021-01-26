@@ -37,7 +37,7 @@ export class DocumentProducer {
    * @param {String} collectionLink                - Represents collection link
    * @param {SqlQuerySpec | string} query          - A SQL query.
    * @param {object} targetPartitionKeyRange       - Query Target Partition key Range
-   * @ignore
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,
@@ -65,7 +65,7 @@ export class DocumentProducer {
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
    * @returns {Object}       - buffered current items if any
-   * @ignore
+   * @hidden
    */
   public peekBufferedItems() {
     const bufferedResults = [];
@@ -205,7 +205,7 @@ export class DocumentProducer {
   /**
    * Synchronously gives the bufferend current item if any
    * @returns {Object}       - buffered current item if any
-   * @ignore
+   * @hidden
    */
   public getTargetParitionKeyRange() {
     return this.targetPartitionKeyRange;

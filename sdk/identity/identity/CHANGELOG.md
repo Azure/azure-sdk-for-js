@@ -1,16 +1,41 @@
 # Release History
 
-## 1.2.0-beta.3 (Unreleased)
+## 1.2.3 (Unreleased)
+
+
+## 1.2.2 (2021-01-12)
+
+- Upgrading to the msal-node dependency due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).
+
+## 1.2.1 (2021-01-07)
+
+- Upgrading to Axios 0.21.1 due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).
+
+## 1.2.0 (2020-11-11)
+
+### Changes since 1.1.\*
+
+- With 1.2, we've added support for Azure Arc to our Managed Identity credential.
+- We've also added an Interactive Browser credential for Node, which spawns the user's browser and connects via
+  a browser-based auth code flow. This is powered by the Microsoft Authentication Library (MSAL)
+- We've moved `DeviceCodeCredential` to also use the Microsoft Authentication Library (MSAL)
+- Identity now supports Subject Name/Issuer (SNI) as part of authentication for ClientCertificateCredential.
+- Added Active Directory Federation Services authority host support to the node credentials.
+- `ManagedIdentityCredential` has been aligned with other languages, and now treats expected errors properly.
+- Added support for multiple clouds on `VisualStudioCodeCredential`.
+
+### Changes since the latest 1.2-beta
 
 - `ManagedIdentityCredential` now only checks for available MSIs once per class instance.
 - `ManagedIdentityCredential` now supports Azure Arc environments.
 - `ManagedIdentityCredential` now supports Azure Service Fabric environments.
 - Added authority host for multiple clouds on `VisualStudioCodeCredential`, and specified `AzureCloud` as the default cloud name.
 - `DeviceCodeCredential` now has both of its constructor parameters, `tenantId` and `clientId`, as optional parameters. The default value of `tenantId` is "organizations", and the Azure CLI's client ID is the default value of `clientId`.
+- We've removed the persistent cache support from the previous beta.
 
 ## 1.2.0-beta.2 (2020-10-06)
 
-- `DefaultAzureCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
+- `DeviceCodeCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
 - Added support for multiple clouds on `VisualStudioCodeCredential`. Fixes customer issue [11452](https://github.com/Azure/azure-sdk-for-js/issues/11452).
 - `ManagedIdentityCredential` has been aligned with other languages, now treating expected errors properly. This fixes customer issue [11451](https://github.com/Azure/azure-sdk-for-js/issues/11451).
 - `InteractiveBrowserCredential` authentication now uses the silent flow if the user provides a cache and authentication record for lookup.
@@ -26,7 +51,7 @@
 
 ## 1.1.0 (2020-08-11)
 
-### Changes since 1.0.*
+### Changes since 1.0.\*
 
 - With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
   - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available after logging in through the Azure Account extension in Visual Studio Code.

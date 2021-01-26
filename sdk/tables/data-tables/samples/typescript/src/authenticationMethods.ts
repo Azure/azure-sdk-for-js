@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TableServiceClient,
-  TablesSharedKeyCredential,
-} from "@azure/data-tables";
+import { TableServiceClient, TablesSharedKeyCredential } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -47,9 +44,7 @@ async function tableServiceClientWithSasToken() {
  * and it is not available for browsers
  */
 async function tableServiceClientWithAccountConnectionString() {
-  const client = TableServiceClient.fromConnectionString(
-    accountConnectionString
-  );
+  const client = TableServiceClient.fromConnectionString(accountConnectionString);
   countTablesWithClient(client);
 }
 
@@ -74,7 +69,7 @@ async function countTablesWithClient(client: TableServiceClient) {
   console.log(`Listed ${count} tables`);
 }
 
-async function main() {
+export async function main() {
   console.log("== Client Authentication Methods Sample ==");
 
   await tableServiceClientWithSasConnectionString();

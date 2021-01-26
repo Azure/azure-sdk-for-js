@@ -11,12 +11,12 @@ const logger = credentialLogger("ClientCertificateCredential");
 
 export class ClientCertificateCredential implements TokenCredential {
   constructor() {
-    logger.info(formatError(BrowserNotSupportedError));
+    logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
   public getToken(): Promise<AccessToken | null> {
-    logger.getToken.info(formatError(BrowserNotSupportedError));
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 }

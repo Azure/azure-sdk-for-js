@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
+import "@azure/core-asynciterator-polyfill";
+
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
@@ -12,9 +16,22 @@ export {
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
-  TextAnalyticsOperationOptions,
-  PiiEntityDomainType
+  PiiEntityDomainType,
+  JobManifestTasks,
+  EntitiesTask,
+  PiiTask,
+  KeyPhrasesTask,
+  BeginAnalyzeOptions,
+  AnalyzePollerLike,
+  BeginAnalyzeHealthcareOptions,
+  HealthPollerLike,
+  BeginAnalyzeOperationState,
+  HealthcareJobOptions,
+  PollingOptions,
+  AnalyzeJobOptions,
+  BeginAnalyzeHealthcareOperationState
 } from "./textAnalyticsClient";
+export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
@@ -58,6 +75,19 @@ export {
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
+  PaginatedHealthcareEntities,
+  PagedAsyncIterableHealthEntities,
+  HealthcareEntitiesArray,
+  HealthcareResult,
+  HealthcareSuccessResult,
+  HealthcareErrorResult
+} from "./healthResult";
+export {
+  PaginatedAnalyzeResults,
+  PagedAsyncIterableAnalyzeResults,
+  AnalyzeResult
+} from "./analyzeResult";
+export {
   TextAnalyticsResult,
   ErrorCode,
   TextAnalyticsError,
@@ -78,11 +108,18 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
+  KnownInnerErrorCodeValue,
   WarningCode,
+  KnownWarningCode,
   LinkedEntity,
   Match,
-  TextAnalyticsWarning,
-  TokenSentimentValue,
+  SentenceOpinion,
   AspectConfidenceScoreLabel,
-  SentenceOpinion
+  TokenSentimentValue,
+  TextAnalyticsWarning,
+  PiiTaskParametersDomain,
+  KnownPiiTaskParametersDomain,
+  HealthcareEntity,
+  HealthcareRelation,
+  HealthcareEntityLink
 } from "./generated/models";

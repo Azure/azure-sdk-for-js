@@ -6,39 +6,39 @@
    "query": {
     "$top": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-09-05T00:00:00.000Z\"}",
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-09-04T00:00:00Z\",\"dimension\":{\"Dim1\":\"Cherry\",\"Dim2\":\"Ape\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-09-04T00:00:00Z\",\"dimension\":{\"Dim1\":\"Common Lime\",\"Dim2\":\"Butterfly\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Tianjin\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "a459a7f5-c09b-4db3-b503-8979462c06c4",
-    "content-length": "463",
+    "apim-request-id": "3ff9c4f0-a180-4f0e-80b9-38b8464eee90",
+    "content-length": "498",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:29 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "88",
-    "x-request-id": "a459a7f5-c09b-4db3-b503-8979462c06c4"
+    "x-envoy-upstream-service-time": "219",
+    "x-request-id": "3ff9c4f0-a180-4f0e-80b9-38b8464eee90"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
    "query": {
     "$top": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-09-05T00:00:00.000Z\"}",
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-09-04T00:00:00Z\",\"dimension\":{\"Dim1\":\"Common Ash\",\"Dim2\":\"Anaconda\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-09-04T00:00:00Z\",\"dimension\":{\"Dim1\":\"Bastard Service Tree\",\"Dim2\":\"Arctic Wolf\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"},\"property\":{\"anomalySeverity\":\"Low\"}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Los Angeles\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "98c91092-1be9-459d-b3f7-6af6f4f5a1cc",
-    "content-length": "483",
+    "apim-request-id": "9d1c13cd-bbd4-40fe-8303-2bff80699479",
+    "content-length": "509",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 22:54:30 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "100",
-    "x-request-id": "98c91092-1be9-459d-b3f7-6af6f4f5a1cc"
+    "x-envoy-upstream-service-time": "150",
+    "x-request-id": "9d1c13cd-bbd4-40fe-8303-2bff80699479"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "461f03e5831f632ca670d9343bc2f0d9"
+ "hash": "db83fe1e9349272e0c5690d5db11a694"
 }

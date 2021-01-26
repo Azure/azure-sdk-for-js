@@ -30,9 +30,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * details needed to authenticate against Azure Active Directory with
    * a user identity.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(options?: InteractiveBrowserCredentialOptions) {
     options = {
@@ -48,7 +48,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
       const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
-      logger.info(formatError(error));
+      logger.info(formatError("", error));
       throw error;
     }
 
@@ -102,7 +102,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
             logger.info(`Authentication returned errorCode ${err.errorCode}`);
             break;
           default:
-            logger.info(formatError(`Failed to acquire token: ${err.message}`));
+            logger.info(formatError(authParams.scopes, `Failed to acquire token: ${err.message}`));
             throw err;
         }
       }
@@ -137,9 +137,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                  TokenCredential implementation might make.
    */
   async getToken(
     scopes: string | string[],
@@ -156,10 +156,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
       });
 
       if (authResponse) {
+        const expiresOnTimestamp = authResponse.expiresOn.getTime();
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: authResponse.accessToken,
-          expiresOnTimestamp: authResponse.expiresOn.getTime()
+          expiresOnTimestamp
         };
       } else {
         logger.getToken.info("No response");
@@ -170,7 +171,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      logger.getToken.info(formatError(err));
+      logger.getToken.info(formatError(scopes, err));
       throw err;
     } finally {
       span.end();

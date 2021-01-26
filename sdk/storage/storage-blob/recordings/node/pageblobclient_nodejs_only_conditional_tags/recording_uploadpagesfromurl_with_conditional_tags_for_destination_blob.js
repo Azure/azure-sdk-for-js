@@ -1,85 +1,85 @@
 let nock = require('nock');
 
-module.exports.hash = "7c6eb155719b3584db054be3242d19f1";
+module.exports.hash = "a3c2f6ad1dc98856891ea70c3cce5642";
 
-module.exports.testInfo = {"uniqueName":{"container":"container159549717938109039","blob":"blob159549717967503230","blockblob":"blockblob159549718029101056"},"newDate":{"undefined":"2020-07-23T09:39:40.591Z"}}
+module.exports.testInfo = {"uniqueName":{"container":"container160507587144500928","blob":"blob160507587279402012","blockblob":"blockblob160507587339700454"},"newDate":{"expiry":"2020-11-11T06:24:33.695Z"}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container159549717938109039')
+  .put('/container160507587144500928')
   .query(true)
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 23 Jul 2020 09:39:38 GMT',
+  'Wed, 11 Nov 2020 06:24:32 GMT',
   'ETag',
-  '"0x8D82EEC514BC161"',
+  '"0x8D8860A73FABB18"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4bd024b1-a01e-0020-69d5-603607000000',
+  '14b836ca-a01e-0005-51f3-b78726000000',
   'x-ms-client-request-id',
-  'a59571b0-c011-473e-bd68-772d4fabb9b6',
+  '63cae5ed-8507-4607-8b81-c380e5e2b291',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'Date',
-  'Thu, 23 Jul 2020 09:39:37 GMT'
+  'Wed, 11 Nov 2020 06:24:31 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container159549717938109039/blob159549717967503230')
+  .put('/container160507587144500928/blob160507587279402012')
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Thu, 23 Jul 2020 09:39:38 GMT',
+  'Wed, 11 Nov 2020 06:24:32 GMT',
   'ETag',
-  '"0x8D82EEC517976D3"',
+  '"0x8D8860A742A636A"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4bd024e4-a01e-0020-16d5-603607000000',
+  '14b8370d-a01e-0005-0df3-b78726000000',
   'x-ms-client-request-id',
-  'ccc36cba-d5d0-46a1-9e39-9d340dd7fb86',
+  'df5f2333-9da4-4acd-89cd-e4e09bbd87c6',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-version-id',
-  '2020-07-23T09:39:38.6999507Z',
+  '2020-11-11T06:24:32.9665150Z',
   'Date',
-  'Thu, 23 Jul 2020 09:39:38 GMT'
+  'Wed, 11 Nov 2020 06:24:32 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container159549717938109039/blob159549717967503230')
+  .get('/container160507587144500928/blob160507587279402012')
   .reply(200, "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000", [
   'Content-Length',
   '1024',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Thu, 23 Jul 2020 09:39:38 GMT',
+  'Wed, 11 Nov 2020 06:24:32 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D82EEC517976D3"',
+  '"0x8D8860A742A636A"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4bd0251b-a01e-0020-45d5-603607000000',
+  '14b8373f-a01e-0005-39f3-b78726000000',
   'x-ms-client-request-id',
-  '2afe9898-8f6c-4e0d-a377-861549238c4c',
+  '5df6754e-80f5-4d3e-8ee8-323c80c0200f',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'x-ms-tag-count',
   '2',
   'x-ms-version-id',
-  '2020-07-23T09:39:38.6999507Z',
+  '2020-11-11T06:24:32.9665150Z',
   'x-ms-is-current-version',
   'true',
   'x-ms-creation-time',
-  'Thu, 23 Jul 2020 09:39:38 GMT',
+  'Wed, 11 Nov 2020 06:24:32 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -95,42 +95,42 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 23 Jul 2020 09:39:38 GMT'
+  'Wed, 11 Nov 2020 06:24:32 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container159549717938109039/blockblob159549718029101056', "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+  .put('/container160507587144500928/blockblob160507587339700454', "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
   .reply(201, "", [
   'Content-Length',
   '0',
   'Content-MD5',
   'M7JgimpVGenaItzrpXsK3g==',
   'Last-Modified',
-  'Thu, 23 Jul 2020 09:39:39 GMT',
+  'Wed, 11 Nov 2020 06:24:33 GMT',
   'ETag',
-  '"0x8D82EEC51D7383B"',
+  '"0x8D8860A7485D9F2"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4bd02559-a01e-0020-7ad5-603607000000',
+  '14b8377c-a01e-0005-66f3-b78726000000',
   'x-ms-client-request-id',
-  'c756a11b-78f5-43e8-8357-039b02eccc8c',
+  '31688400-5cb8-4026-8f1d-b40fc79c0a12',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'x-ms-content-crc64',
   '1TZWfGM9BsA=',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-version-id',
-  '2020-07-23T09:39:39.3143867Z',
+  '2020-11-11T06:24:33.5649266Z',
   'Date',
-  'Thu, 23 Jul 2020 09:39:38 GMT'
+  'Wed, 11 Nov 2020 06:24:32 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container159549717938109039/blob159549717967503230')
+  .put('/container160507587144500928/blob160507587279402012')
   .query(true)
-  .reply(412, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Error><Code>ConditionNotMet</Code><Message>The condition specified using HTTP conditional header(s) is not met.\nRequestId:4bd0258f-a01e-0020-29d5-603607000000\nTime:2020-07-23T09:39:39.8103960Z</Message></Error>", [
+  .reply(412, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Error><Code>ConditionNotMet</Code><Message>The condition specified using HTTP conditional header(s) is not met.\nRequestId:14b837aa-a01e-0005-09f3-b78726000000\nTime:2020-11-11T06:24:33.8970712Z</Message></Error>", [
   'Content-Length',
   '253',
   'Content-Type',
@@ -140,25 +140,25 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-error-code',
   'ConditionNotMet',
   'x-ms-request-id',
-  '4bd0258f-a01e-0020-29d5-603607000000',
+  '14b837aa-a01e-0005-09f3-b78726000000',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'x-ms-client-request-id',
-  'd0b4e7d0-9f37-499c-b692-0d733463deb9',
+  '49d5b3ef-79fa-407f-a754-9f6a3823c3a7',
   'Date',
-  'Thu, 23 Jul 2020 09:39:39 GMT'
+  'Wed, 11 Nov 2020 06:24:33 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container159549717938109039/blob159549717967503230')
+  .put('/container160507587144500928/blob160507587279402012')
   .query(true)
   .reply(201, "", [
   'Content-MD5',
   'VpBzljOcorCZvRIkX5Nt3A==',
   'Last-Modified',
-  'Thu, 23 Jul 2020 09:39:40 GMT',
+  'Wed, 11 Nov 2020 06:24:34 GMT',
   'ETag',
-  '"0x8D82EEC525027B9"',
+  '"0x8D8860A74E68180"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-blob-sequence-number',
@@ -166,19 +166,19 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '4bd02600-a01e-0020-06d5-603607000000',
+  '14b837e9-a01e-0005-39f3-b78726000000',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'x-ms-client-request-id',
-  'd475a146-3086-4aaa-8574-487f18084996',
+  '84246c0a-7b40-4354-a071-171d7d7db8de',
   'Date',
-  'Thu, 23 Jul 2020 09:39:39 GMT',
+  'Wed, 11 Nov 2020 06:24:33 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container159549717938109039')
+  .delete('/container160507587144500928')
   .query(true)
   .reply(202, "", [
   'Content-Length',
@@ -186,11 +186,11 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '4bd02649-a01e-0020-42d5-603607000000',
+  '14b83830-a01e-0005-6df3-b78726000000',
   'x-ms-client-request-id',
-  '2d85cad6-60c2-4330-9e43-49cbce35202f',
+  'cb032c9f-95a2-470a-a84c-1404025ec491',
   'x-ms-version',
-  '2019-12-12',
+  '2020-02-10',
   'Date',
-  'Thu, 23 Jul 2020 09:39:39 GMT'
+  'Wed, 11 Nov 2020 06:24:33 GMT'
 ]);

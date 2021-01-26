@@ -10,8 +10,10 @@ trigger:
     include:
       - sdk/core/
       - eng/
-      - common/config/rush/
+      - common/
       - rush.json
+    exclude:
+      - common/smoke-test/
 
 pr:
   branches:
@@ -24,8 +26,10 @@ pr:
     include:
       - sdk/core/
       - eng/
-      - common/config/rush/
+      - common/
       - rush.json
+    exclude:
+      - common/smoke-test/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -36,14 +40,14 @@ extends:
         safeName: azureabortcontroller
       - name: azure-core-amqp
         safeName: azurecoreamqp
-      - name: azure-core-arm
-        safeName: azurecorearm
       - name: azure-core-asynciterator-polyfill
         safeName: azurecoreasynciteratorpolyfill
       - name: azure-core-auth
         safeName: azurecoreauth
       - name: azure-core-client
         safeName: azurecoreclient
+      - name: azure-core-crypto
+        safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
       - name: azure-core-https

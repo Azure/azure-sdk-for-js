@@ -17,7 +17,6 @@ import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
-import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -39,19 +38,19 @@ export class ManagedIdentityCredential implements TokenCredential {
    * Creates an instance of ManagedIdentityCredential with the client ID of a
    * user-assigned identity.
    *
-   * @param clientId The client ID of the user-assigned identity.
-   * @param options Options for configuring the client which makes the access token request.
+   * @param clientId - The client ID of the user-assigned identity.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
-   * @param options Options for configuring the client which makes the access token request.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(options?: TokenCredentialOptions);
   /**
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(
     clientIdOrOptions: string | TokenCredentialOptions | undefined,
@@ -78,7 +77,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       return this.cachedMSI;
     }
 
-    const MSIs = [fabricMsi, appServiceMsi2017, cloudShellMsi, arcMsi, imdsMsi];
+    // "fabricMsi" can't be added yet because our HTTPs pipeline doesn't allow skipping the SSL verification step,
+    // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
+    const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, imdsMsi];
 
     for (const msi of MSIs) {
       if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
@@ -127,8 +128,8 @@ export class ManagedIdentityCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -157,7 +158,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           const error = new CredentialUnavailable(
             "The managed identity endpoint was reached, yet no tokens were received."
           );
-          logger.getToken.info(formatError(error));
+          logger.getToken.info(formatError(scopes, error));
           throw error;
         }
 
@@ -171,7 +172,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         const error = new CredentialUnavailable(
           "The managed identity endpoint is not currently available"
         );
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
 
@@ -200,7 +201,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
 
-        logger.getToken.info(formatError(error));
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
 

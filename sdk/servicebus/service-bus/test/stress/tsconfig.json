@@ -1,3 +1,12 @@
 {
-	"extends": "../../samples/tsconfig.json"
+  "compilerOptions": {
+    "target": "ES2015",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "lib": ["ESNext.AsyncIterable"],
+    "outDir": "dist",
+    "rootDir": "."
+  },
+  "include": ["./*.ts"],
+  "exclude": ["node_modules"]
 }

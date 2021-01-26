@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { IdentityClient } from "../../client/identityClient";
-import { credentialLogger, formatError } from "../../util/logging";
+import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpoint } from "./constants";
 import { MSI } from "./models";
@@ -108,9 +108,7 @@ export const imdsMsi: MSI = {
     } catch (err) {
       // createWebResource failed.
       // This error should bubble up to the user.
-      logger.info(
-        formatError(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`)
-      );
+      logger.info(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message

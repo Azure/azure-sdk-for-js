@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { record, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
@@ -13,7 +13,7 @@ dotenv.config();
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
 describe("BlobChangeFeedClient", async () => {
-  let recorder: any;
+  let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function() {
@@ -140,7 +140,7 @@ describe("BlobChangeFeedClient", async () => {
     const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
     assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
 
-    const userAgentPrefix = "test/1";
+    const userAgentPrefix = "test/1 a b";
     const changeFeedClient2 = new BlobChangeFeedClient(
       blobServiceClient.url,
       blobServiceClient.credential,
@@ -154,7 +154,6 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    // recorder.skip(undefined, "recorder issue not understood. #10009");
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
@@ -172,7 +171,7 @@ describe("BlobChangeFeedClient", async () => {
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {
-  let recorder: any;
+  let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function() {

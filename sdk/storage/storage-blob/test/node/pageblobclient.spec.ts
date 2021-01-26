@@ -18,7 +18,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay } from "@azure/test-utils-recorder";
+import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { Test_CPK_INFO } from "../utils/constants";
 
 describe("PageBlobClient Node.js only", () => {
@@ -28,7 +28,7 @@ describe("PageBlobClient Node.js only", () => {
   let blobClient: BlobClient;
   let pageBlobClient: PageBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
@@ -142,7 +142,7 @@ describe("PageBlobClient Node.js only", () => {
     const factories = (blobClient as any).pipeline.factories;
     const sharedKeyCredential = factories[factories.length - 1];
     // Get a SAS for blobURL
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -263,7 +263,7 @@ describe("PageBlobClient Node.js only", () => {
     // Get a SAS for blobURL
     const factories = (blobClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate();
+    const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -403,7 +403,7 @@ describe("PageBlobClient Node.js only", () => {
       const factories = (blobClient as any).pipeline.factories;
       const sharedKeyCredential = factories[factories.length - 1];
       // Get a SAS for blobURL
-      const expiryTime = recorder.newDate();
+      const expiryTime = recorder.newDate("expiry");
       expiryTime.setDate(expiryTime.getDate() + 1);
       const sas = generateBlobSASQueryParameters(
         {

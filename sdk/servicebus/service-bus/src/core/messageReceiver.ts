@@ -16,22 +16,18 @@ import { getUniqueName } from "../util/utils";
 import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
-import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
+import {
+  onMessageSettled,
+  DeferredPromiseAndTimer,
+  ReceiverHandlers,
+  createReceiverOptions
+} from "./shared";
 import { LockRenewer } from "./autoLockRenewer";
 import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
- * @ignore
- */
-export type ReceiverHandlers = Pick<
-  ReceiverOptions,
-  "onMessage" | "onError" | "onClose" | "onSessionError" | "onSessionClose"
->;
-
-/**
- * @internal
- * @ignore
+ * @hidden
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
@@ -39,7 +35,7 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 export interface ReceiveOptions extends SubscribeOptions {
   /**
@@ -62,7 +58,7 @@ export interface ReceiveOptions extends SubscribeOptions {
 /**
  * Describes the signature of the message handler passed to `registerMessageHandler` method.
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnMessage {
   /**
@@ -75,7 +71,7 @@ export interface OnMessage {
  * Describes the signature of the error handler passed to `registerMessageHandler` method.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnError {
   /**
@@ -92,7 +88,7 @@ export interface OnError {
  * with an implicit ProcessErrorContext. Used by LockRenewer.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export interface OnErrorNoContext {
   (error: MessagingError | Error): void;
@@ -100,7 +96,7 @@ export interface OnErrorNoContext {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
@@ -162,7 +158,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     this.receiveMode = options.receiveMode || "peekLock";
 
     // If explicitly set to false then autoComplete is false else true (default).
-    this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
+    this.autoComplete =
+      options.autoCompleteMessages === false ? options.autoCompleteMessages : true;
     this._lockRenewer = options.lockRenewer;
   }
 
@@ -173,22 +170,19 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     useNewName: boolean,
     handlers: ReceiverHandlers
   ): ReceiverOptions {
-    const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this.baseName) : this.name,
-      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
-      // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
-      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
-      source: {
+    const rcvrOptions: ReceiverOptions = createReceiverOptions(
+      useNewName ? getUniqueName(this.baseName) : this.name,
+      this.receiveMode,
+      {
         address: this.address
       },
-      credit_window: 0,
-      onSettled: (context) => {
-        return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
-      },
-      ...handlers
-    };
+      {
+        onSettled: (context: EventContext) => {
+          return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
+        },
+        ...handlers
+      }
+    );
 
     return rcvrOptions;
   }

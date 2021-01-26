@@ -335,7 +335,7 @@ describe("utils", () => {
         applicationProperties: {
           [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
         },
-        _amqpAnnotatedMessage: { body: "This is a test." }
+        _rawAmqpMessage: { body: "This is a test." }
       };
 
       const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
@@ -360,7 +360,7 @@ describe("utils", () => {
         applicationProperties: {
           [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
         },
-        _amqpAnnotatedMessage: { body: "This is a test." }
+        _rawAmqpMessage: { body: "This is a test." }
       };
 
       const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
@@ -375,7 +375,7 @@ describe("utils", () => {
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
-        _amqpAnnotatedMessage: { body: "This is a test." }
+        _rawAmqpMessage: { body: "This is a test." }
       };
 
       const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);

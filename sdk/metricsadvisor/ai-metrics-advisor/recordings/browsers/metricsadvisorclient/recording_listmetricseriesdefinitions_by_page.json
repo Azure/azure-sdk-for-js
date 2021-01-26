@@ -8,37 +8,37 @@
    },
    "requestBody": "{\"activeSince\":\"2020-08-05T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"Dim1\":\"Common Lime\",\"Dim2\":\"Amphibian\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"Dim1\":\"Cherry Laurel\",\"Dim2\":\"Amphibian\"}}],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$top=2&$skip=2\"}",
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Miami\",\"category\":\"Health & Personal Care\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Rio de Janeiro\",\"category\":\"Historical & Advertising Collectibles\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$top=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "12b5935b-b1b7-4f73-bf0d-9ded37f150d4",
-    "content-length": "394",
+    "apim-request-id": "216c4055-b9a3-481f-981c-2b5b77cf487b",
+    "content-length": "435",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 21:03:16 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:06 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "78",
-    "x-request-id": "12b5935b-b1b7-4f73-bf0d-9ded37f150d4"
+    "x-envoy-upstream-service-time": "127",
+    "x-request-id": "216c4055-b9a3-481f-981c-2b5b77cf487b"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query",
    "query": {
     "$top": "2",
     "$skip": "2"
    },
    "requestBody": "{\"activeSince\":\"2020-08-05T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"Dim1\":\"Common Lime\",\"Dim2\":\"African buffalo\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"Dim1\":\"Common Lime\",\"Dim2\":\"Aphid\"}}],\"@nextLink\":\"https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$top=2&$skip=4\"}",
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Belo Horizonte\",\"category\":\"Electronics (Consumer)\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Kinshasa\",\"category\":\"Beauty\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$top=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "91646229-492d-438e-a454-09a130272e2b",
-    "content-length": "394",
+    "apim-request-id": "d1fabf06-e2aa-48fb-b07a-63e1e642169a",
+    "content-length": "407",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 17 Sep 2020 21:03:16 GMT",
+    "date": "Fri, 13 Nov 2020 22:04:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "79",
-    "x-request-id": "91646229-492d-438e-a454-09a130272e2b"
+    "x-envoy-upstream-service-time": "100",
+    "x-request-id": "d1fabf06-e2aa-48fb-b07a-63e1e642169a"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1a9ded9626e30d5e470851751a830941"
+ "hash": "d470143b8ff25a2aabb87c38c986b73e"
 }

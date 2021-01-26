@@ -19,7 +19,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "util", "os"];
+  const externalNodeBuiltins = ["events", "util", "os", "url"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -43,7 +43,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
+    baseConfig.input = ["dist-esm/test/internal/**/*.spec.js", "dist-esm/test/public/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -122,7 +122,9 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"],
+          chai: ["should", "assert"],
+          assert: ["equal", "deepEqual", "notEqual"]
         }
       }),
 
@@ -141,7 +143,11 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/impl/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/impl/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

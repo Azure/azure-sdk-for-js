@@ -2,21 +2,28 @@ omitted_paths:
   - documentation/ServicePrincipal/*
   - eng/*
   - sdk/*/arm-*
+  - sdk/core/README.md
   - sdk/cognitiveservices/*
   - sdk/communication/*/test/README.md
   - sdk/identity/identity/test/manual/*
   - sdk/identity/identity/test/manual-integration/*
   - sdk/test-utils/perfstress/README.md
   - sdk/keyvault/*/test/README.md
+  - sdk/keyvault/README.md
   - sdk/keyvault/keyvault-common/*
   - sdk/appconfiguration/*/test/README.md
   - sdk/eventhub/*/test/README.md
+  - sdk/eventhub/README.md
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
-  - sdk/servicebus/service-bus/test/stress-test-track-2/*
+  - sdk/servicebus/README.md
+  - sdk/servicebus/service-bus/test/perf/service-bus-*
+  - sdk/servicebus/service-bus/test/stress/*
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
+  - sdk/storage/*/test/perfstress/track-1/*
+  - sdk/storage/*/test/perfstress/track-2/*
   - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
   - sdk/**/samples-*/*
@@ -99,6 +106,7 @@ known_content_issues:
   - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md",  "#1583"]
   - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md",  "#1583"]
   - ["sdk/core/abort-controller/README.md",  "#1583"]
+  - ["sdk/core/core-amqp/README.md",  "#1583"]
   - ["sdk/core/core-auth/README.md",  "#1583"]
   - ["sdk/core/core-tracing/README.md",  "#1583"]
   - ["sdk/core/logger/README.md",  "#1583"]
@@ -125,6 +133,7 @@ known_content_issues:
   - ["sdk/synapse/synapse/README.md",  "#1583"]
   - ["sdk/template/template/README.md",  "#1583"]
   - ["sdk/test-utils/recorder/README.md",  "#1583"]
+  - ["sdk/test-utils/multi-version/README.md", "#1583"]
   - ["sdk/test-utils/perfstress/CHANGELOG.md", "#1583"]
 
 package_indexing_exclusion_list:

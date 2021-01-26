@@ -2,20 +2,27 @@
 // Licensed under the MIT license.
 
 /// <reference lib="dom"/>
+import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
+// tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
 
 const parser = new DOMParser();
-export function parseXML(str: string, opts?: { includeRoot?: boolean }): Promise<any> {
+export function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
   try {
+    const updatedOptions: Required<XmlOptions> = {
+      rootName: opts.rootName ?? "",
+      includeRoot: opts.includeRoot ?? false,
+      xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
+    };
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
 
     let obj;
-    if (opts && opts.includeRoot) {
-      obj = domToObject(dom);
+    if (updatedOptions.includeRoot) {
+      obj = domToObject(dom, updatedOptions);
     } else {
-      obj = domToObject(dom.childNodes[0]);
+      obj = domToObject(dom.childNodes[0], updatedOptions);
     }
 
     return Promise.resolve(obj);
@@ -53,7 +60,7 @@ function asElementWithAttributes(node: Node): Element | undefined {
   return isElement(node) && node.hasAttributes() ? node : undefined;
 }
 
-function domToObject(node: Node): any {
+function domToObject(node: Node, options: Required<XmlOptions>): any {
   let result: any = {};
 
   const childNodeCount: number = node.childNodes.length;
@@ -68,15 +75,15 @@ function domToObject(node: Node): any {
 
   const elementWithAttributes: Element | undefined = asElementWithAttributes(node);
   if (elementWithAttributes) {
-    result["$"] = {};
+    result[XML_ATTRKEY] = {};
 
     for (let i = 0; i < elementWithAttributes.attributes.length; i++) {
       const attr = elementWithAttributes.attributes[i];
-      result["$"][attr.nodeName] = attr.nodeValue;
+      result[XML_ATTRKEY][attr.nodeName] = attr.nodeValue;
     }
 
     if (onlyChildTextValue) {
-      result["_"] = onlyChildTextValue;
+      result[options.xmlCharKey] = onlyChildTextValue;
     }
   } else if (childNodeCount === 0) {
     result = "";
@@ -89,7 +96,7 @@ function domToObject(node: Node): any {
       const child = node.childNodes[i];
       // Ignore leading/trailing whitespace nodes
       if (child.nodeType !== Node.TEXT_NODE) {
-        const childObject: any = domToObject(child);
+        const childObject: any = domToObject(child, options);
         if (!result[child.nodeName]) {
           result[child.nodeName] = childObject;
         } else if (Array.isArray(result[child.nodeName])) {
@@ -106,9 +113,13 @@ function domToObject(node: Node): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(content: any, opts?: { rootName?: string }): string {
-  const rootName = (opts && opts.rootName) || "root";
-  const dom = buildNode(content, rootName)[0];
+export function stringifyXML(content: any, opts: XmlOptions = {}): string {
+  const updatedOptions: Required<XmlOptions> = {
+    rootName: opts.rootName ?? "root",
+    includeRoot: opts.includeRoot ?? false,
+    xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
+  };
+  const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
   );
@@ -124,7 +135,7 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
   return result;
 }
 
-function buildNode(obj: any, elementName: string): Node[] {
+function buildNode(obj: any, elementName: string, options: Required<XmlOptions>): Node[] {
   if (
     obj === undefined ||
     obj === null ||
@@ -138,7 +149,7 @@ function buildNode(obj: any, elementName: string): Node[] {
   } else if (Array.isArray(obj)) {
     const result = [];
     for (const arrayElem of obj) {
-      for (const child of buildNode(arrayElem, elementName)) {
+      for (const child of buildNode(arrayElem, elementName, options)) {
         result.push(child);
       }
     }
@@ -146,14 +157,14 @@ function buildNode(obj: any, elementName: string): Node[] {
   } else if (typeof obj === "object") {
     const elem = doc.createElement(elementName);
     for (const key of Object.keys(obj)) {
-      if (key === "$") {
+      if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {
           elem.attributes.setNamedItem(attr);
         }
-      } else if (key === "_") {
+      } else if (key === options.xmlCharKey) {
         elem.textContent = obj[key].toString();
       } else {
-        for (const child of buildNode(obj[key], key)) {
+        for (const child of buildNode(obj[key], key, options)) {
           elem.appendChild(child);
         }
       }

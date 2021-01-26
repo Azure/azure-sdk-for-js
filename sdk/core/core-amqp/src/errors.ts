@@ -8,6 +8,8 @@ import { isNode, isNumber, isString } from "../src/util/utils";
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
  * @enum {ConditionStatusMapper}
+ * @internal
+ * @hidden
  */
 export enum ConditionStatusMapper {
   "com.microsoft:timeout" = AmqpResponseStatusCode.RequestTimeout,
@@ -455,7 +457,7 @@ export interface NetworkSystemError {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message">)[] = [
   "address",
@@ -466,164 +468,6 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
   "stack",
   "syscall"
 ];
-
-/**
- * AMQP messaging error codes
- *
- * AddressAlreadyInUseError: the address is already in use.
- * ArgumentError: an incorrect argument was received.
- * ArgumentOutOfRangeError: an argument has a value that is out of the admissible range.
- * ConnectionForcedError: an operator intervened to close the connection for some reason.
- * ConnectionRedirectError: the container is no longer available on the current connection.
- * DecodeError: data could not be decoded.
- * DetachForcedError: an operator intervened to detach for some reason.
- * ErrantLinkError: input was received for a link that was detached with an error.
- * FrameSizeTooSmallError: the peer cannot send a frame because the smallest encoding of the performative with the currently valid values would be too large to fit within a frame of the agreed maximum frame size.
- * FramingError: a valid frame header cannot be formed from the incoming byte stream.
- * HandleInUseError: an attach was received using a handle that is already in use for an attached link a frame (other than attach) was received referencing a handle which is not
- * IllegalStateError: the peer sent a frame that is not permitted in the current state.
- * InternalServerError: an internal server error occurred. You may have found a bug?
- * InvalidFieldError: an invalid field was passed in a frame body, and the operation could not proceed.
- * InvalidOperationError: an operation is attempted but is not allowed.
- * LinkRedirectError: the address provided cannot be resolved to a terminus at the current container.
- * MessageLockLostError: the lock on the message is lost.
- * MessageNotFoundError: message is not found.
- * MessageTooLargeError: the message sent is too large: the maximum size is 256Kb.
- * MessageWaitTimeout: no new messages are received for the specified time.
- * MessagingEntityAlreadyExistsError: an attempt is made to create an entity that already exists.
- * MessagingEntityDisabledError: trying to access/connect to a disabled messaging entity.
- * MessagingEntityNotFoundError: the messaging entity does not exist.
- * NoMatchingSubscriptionError: a matching subscription is not found.
- * NotImplementedError: a feature is not implemented yet but the placeholder is present.
- * OperationCancelledError: server cancels the operation due to an internal issue.
- * OperationTimeoutError: the service fails to respond within a given timeframe.
- * PartitionNotOwnedError: an attempt is made to access a partition that is not owned by the requesting entity.
- * PreconditionFailedError: a condition that should have been met in order to execute an operation was not.
- * PublisherRevokedError: access to publisher has been revoked.
- * QuotaExceededError: The the Azure EventHub/ServiceBus quota has been exceeded.
- * ReceiverDisconnectedError: two or more instances connect to the same partition with different epoch values.
- * RelayNotFoundError: relay is not found.
- * ResourceDeletedError: a server entity the client is working with has been deleted.
- * ResourceLockedError: the client attempted to work with a server entity to which it has no access because another client is working with it.
- * SenderBusyError: the client sender does not have enough link credits to send the message.
- * ServerBusyError: the server is busy. Callers should wait a while and retry the operation.
- * ServiceCommunicationError: Error for signaling general communication errors related to messaging operations.
- * ServiceUnavailableError: the service is unavailable. The operation should be retried.
- * SessionCannotBeLockedError: the Azure ServiceBus session cannot be locked.
- * SessionLockLostError: the lock on the Azure ServiceBus session is lost.
- * SessionWindowViolationError: the peer violated incoming window for the session.
- * StoreLockLostError: the store lock is lost.
- * SystemError: a low level system error is thrown by node.js. See {@link https://nodejs.org/api/errors.html#errors_class_systemerror}.
- * TransferLimitExceededError: the peer sent more message transfers than currently allowed on the link.
- * UnattachedHandleError: currently in use of an attached link.
- * UnauthorizedError: the connection parameters are wrong and the server refused the connection.
- */
-export type MessagingErrorCodes =
-  // Error is thrown when the address is already in use.
-  | "AddressAlreadyInUseError"
-  // Error is thrown when an incorrect argument was received.
-  | "ArgumentError"
-  // Error is thrown when an argument has a value that is out of the admissible range.
-  | "ArgumentOutOfRangeError"
-  // Error is thrown when an operator intervened to close the connection for some reason.
-  | "ConnectionForcedError"
-  // Error is thrown when the container is no longer available on the current connection.
-  | "ConnectionRedirectError"
-  // Error is thrown when data could not be decoded.
-  | "DecodeError"
-  // Error is thrown when an operator intervened to detach for some reason.
-  | "DetachForcedError"
-  // Error is thrown when input was received for a link that was detached with an error.
-  | "ErrantLinkError"
-  // Error is thrown when the peer cannot send a frame because the smallest encoding of
-  // the performative with the currently valid values would be too large to fit within
-  // a frame of the agreed maximum frame size.
-  | "FrameSizeTooSmallError"
-  // Error is thrown when a valid frame header cannot be formed from the incoming byte stream.
-  | "FramingError"
-  // Error is thrown when an attach was received using a handle that is already in use for an attached link.
-  | "HandleInUseError"
-  // Error is thrown when the peer sent a frame that is not permitted in the current state.
-  | "IllegalStateError"
-  // Error is thrown when an internal server error occurred. You may have found a bug?
-  | "InternalServerError"
-  // Error is thrown when an invalid field was passed in a frame body, and the operation could not proceed.
-  | "InvalidFieldError"
-  // Error is thrown when an operation is attempted but is not allowed.
-  | "InvalidOperationError"
-  // Error is thrown when the address provided cannot be resolved to a terminus at the current container.
-  | "LinkRedirectError"
-  // Error is thrown when the lock on the message is lost.
-  | "MessageLockLostError"
-  // Error is thrown when message is not found.
-  | "MessageNotFoundError"
-  // Error is thrown when the message sent is too large: the maximum size is 256Kb.
-  | "MessageTooLargeError"
-  // Error is thrown when no new messages are received for the specified time.
-  | "MessageWaitTimeout"
-  // Error is thrown when an attempt is made to create an entity that already exists.
-  | "MessagingEntityAlreadyExistsError"
-  // Error is thrown when trying to access/connect to a disabled messaging entity.
-  | "MessagingEntityDisabledError"
-  // the messaging entity does not exist.
-  | "MessagingEntityNotFoundError"
-  // Error is thrown when a matching subscription is not found.
-  | "NoMatchingSubscriptionError"
-  // Error is thrown when a feature is not implemented yet but the placeholder is present.
-  | "NotImplementedError"
-  // Error is thrown when server cancels the operation due to an internal issue.
-  | "OperationCancelledError"
-  // the service fails to respond within a given timeframe.
-  | "OperationTimeoutError"
-  // Error is thrown when an attempt is made to access a partition that is not owned by the
-  // requesting entity.
-  | "PartitionNotOwnedError"
-  // Error is thrown when a condition that should have been met in order to execute an operation was not.
-  | "PreconditionFailedError"
-  // Error is thrown when access to publisher has been revoked.
-  | "PublisherRevokedError"
-  // Error is thrown the the Azure EventHub/ServiceBus quota has been exceeded.
-  // Quotas are reset periodically, this operation will have to wait until then.
-  // The messaging entity has reached its maximum allowable size.
-  // This can happen if the maximum number of receivers (which is 5) has already
-  // been opened on a per-consumer group level.
-  | "QuotaExceededError"
-  // Error is thrown when two or more instances connect to the same partition
-  // with different epoch values.
-  | "ReceiverDisconnectedError"
-  // Error is thrown when relay is not found.
-  | "RelayNotFoundError"
-  // Error is thrown when a server entity the client is working with has been deleted.
-  | "ResourceDeletedError"
-  // Error is thrown when the client attempted to work with a server entity to which it
-  // has no access because another client is working with it.
-  | "ResourceLockedError"
-  // Error is thrown when the client sender does not have enough link credits to send the message.
-  | "SenderBusyError"
-  // Error is thrown when the server is busy. Callers should wait a while and retry the operation.
-  | "ServerBusyError"
-  // Error for signaling general communication errors related to messaging operations.
-  | "ServiceCommunicationError"
-  // Error is thrown when the service is unavailable. The operation should be retried.
-  | "ServiceUnavailableError"
-  // Error is thrown when the Azure ServiceBus session cannot be locked.
-  | "SessionCannotBeLockedError"
-  // Error is thrown when the lock on the Azure ServiceBus session is lost.
-  | "SessionLockLostError"
-  // Error is thrown when the peer violated incoming window for the session.
-  | "SessionWindowViolationError"
-  // Error is thrown when the store lock is lost.
-  | "StoreLockLostError"
-  // Error is thrown when a low level system error is thrown by node.js.
-  // {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
-  | "SystemError"
-  // Error is thrown when the peer sent more message transfers than currently allowed on the link.
-  | "TransferLimitExceededError"
-  // Error is thrown when a frame (other than attach) was received referencing a handle which is not
-  // currently in use of an attached link.
-  | "UnattachedHandleError"
-  // Error is thrown when the connection parameters are wrong and the server refused the connection.
-  | "UnauthorizedError";
 
 /**
  * Determines if an error is a MessagingError.
@@ -648,7 +492,7 @@ export class MessagingError extends Error {
   /**
    * A string label that identifies the error.
    */
-  code?: MessagingErrorCodes | string;
+  code?: string;
   /**
    * System-provided error number.
    * Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
@@ -764,7 +608,7 @@ export function isSystemError(err: any): err is NetworkSystemError {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Since browser doesn't differentiate between the various kinds of service communication errors,
  * this utility is used to look at the error target to identify such category of errors.
  * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
@@ -785,7 +629,7 @@ function isBrowserWebsocketError(err: any): boolean {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  */
 const rheaPromiseErrors = [
   // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
@@ -885,7 +729,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  *
  * @param {*} error
  * @returns {error is AmqpError}

@@ -13,7 +13,11 @@ source-code-folder-path: ./src/generated/service
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchservice.json
 add-credentials: false
 use-extension:
-  "@microsoft.azure/autorest.typescript": "5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20210121.1"
+disable-async-iterators: true
+api-version-parameter: choice
+v3: true
+hide-clients: true
 ```
 
 ## Customizations for Track 2 Generator
@@ -118,6 +122,7 @@ directive:
         $.enum = newValues;
       }
 ```
+
 ### Make AnalyzerName a string
 
 ```yaml
@@ -252,4 +257,14 @@ directive:
     where: $.definitions.SplitSkill.properties.maximumPageLength
     transform: >
       $["x-ms-client-name"] = "maxPageLength"
+```
+
+### Change odataType to odatatype
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions..properties["@odata.type"]
+    transform: >
+      $["x-ms-client-name"] = "odatatype"
 ```

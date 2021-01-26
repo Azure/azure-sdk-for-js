@@ -9,12 +9,12 @@ const logger = credentialLogger("AzureCliCredential");
 
 export class AzureCliCredential implements TokenCredential {
   constructor() {
-    logger.info(formatError(BrowserNotSupportedError));
+    logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
   getToken(): Promise<AccessToken | null> {
-    logger.getToken.info(formatError(BrowserNotSupportedError));
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 }

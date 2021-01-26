@@ -20,7 +20,8 @@ import {
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
-import { ProcessErrorArgs, ReceiveMode } from "../../src";
+import { ProcessErrorArgs } from "../../src";
+import { ReceiveMode } from "../../src/models";
 import { Constants } from "@azure/core-amqp";
 
 chai.use(chaiAsPromised);
@@ -121,7 +122,7 @@ describe("Message session unit tests", () => {
               }
             );
 
-            const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+            const { receiveIsReady, emitter } = setupFakeReceiver(receiver, clock);
 
             const receivePromise = receiver.receiveMessages(3, bigTimeout, littleTimeout, {});
             await receiveIsReady;
@@ -217,7 +218,7 @@ describe("Message session unit tests", () => {
               }
             );
 
-            const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+            const { receiveIsReady, emitter } = setupFakeReceiver(receiver, clock);
 
             let wasCalled = false;
 
@@ -263,7 +264,8 @@ describe("Message session unit tests", () => {
     });
 
     function setupFakeReceiver(
-      batchingReceiver: MessageSession
+      batchingReceiver: MessageSession,
+      clock?: ReturnType<typeof sinon.useFakeTimers>
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
@@ -313,6 +315,7 @@ describe("Message session unit tests", () => {
           if (_credits === 1 && fakeRheaReceiver.drain === true) {
             // special case - if we're draining we should initiate a drain
             emitter.emit(ReceiverEvents.receiverDrained, undefined);
+            clock?.runAll();
           } else {
             credits += _credits;
           }

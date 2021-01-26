@@ -4,7 +4,7 @@
 import { URL } from "./url";
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export interface SanitizerOptions {
   /**
@@ -23,7 +23,7 @@ export interface SanitizerOptions {
 }
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export type UnknownObject = { [s: string]: unknown };
 
@@ -73,7 +73,7 @@ const defaultAllowedHeaderNames = [
 const defaultAllowedQueryParameters: string[] = ["api-version"];
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export class Sanitizer {
   private allowedHeaderNames: Set<string>;

@@ -1,12 +1,61 @@
 # Release History
 
-## 7.0.0 (Unreleased)
+## 7.0.3 (2021-01-26)
+
+- [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.
+  Fixed in [#13264](https://github.com/Azure/azure-sdk-for-js/pull/13264)
+- [Bug Fix] Response from the `ServiceBusAdministrationClient.getSubscriptionRuntimeProperties()` method had the message count properties to be zero.
+  The bug has been fixed in [#13229](https://github.com/Azure/azure-sdk-for-js/pull/13229)
+- [Bug Fix] Fixed a race condition where the `ServiceBusReceiver.receiveMessages` might lose messages and not return any if triggered right after the recovery from a network disruption.
+  The same race condition could also have led to an OperationTimeout error if attempted the message settlement.
+  [#13374](https://github.com/Azure/azure-sdk-for-js/pull/13374)
+
+## 7.0.2 (2021-01-13)
+
+- [Bug Fix] Receiving messages from sessions in "receiveAndDelete" mode using the `subscribe()` method stops after receiving 2048 of them and leaves the receiver hanging. The bug has been fixed in [PR 13178](https://github.com/Azure/azure-sdk-for-js/pull/13178). Also fixes the same issue that is seen with the `receiveMessages` API when large number of messages are requested or if the API is called in a loop.
+
+## 7.0.1 (2021-01-11)
+
+- Fix the `isNode` check to allow the package to be usable in Electron. [Bug 12983](https://github.com/Azure/azure-sdk-for-js/issues/12983)
+- Fix issue where receiveMessages might return fewer messages than were received, causing them to be potentially locked or lost.
+  [PR 12772](https://github.com/Azure/azure-sdk-for-js/pull/12772)
+  [PR 12908](https://github.com/Azure/azure-sdk-for-js/pull/12908)
+  [PR 13073](https://github.com/Azure/azure-sdk-for-js/pull/13073)
+- Updates documentation for `ServiceBusMessage` to call out that the `body` field
+  must be converted to a byte array or `Buffer` when cross-language
+  compatibility while receiving events is required.
+- [Bug Fix] Correlation Rule Filter with the "label" set using the `createRule()` method doesn't filter the messages to the subscription.
+  The bug has been fixed in [PR 13069](https://github.com/Azure/azure-sdk-for-js/pull/13069), also fixes the related issues where the messages are not filtered when a subset of properties are set in the correlation filter.
+
+## 7.0.0 (2020-11-23)
+
+- This release marks the general availability of the `@azure/service-bus` package.
+- If you are using version 1.1.10 or lower and want to migrate to the latest version
+  of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md)
+
+### Breaking changes
+
+**Note:** The following breaking changes are with respect to version `7.0.0-preview.8`.
+If migrating from version 1.1.10 or lower, look at our [migration guide to move from Service Bus V1 to Service Bus V7](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/migrationguide.md).
+
+- The `ServiceBusError.reason` field has been renamed `ServiceBusError.code`.
+  The `code` field can be used to differentiate what caused a `ServiceBusError` to be thrown.
+- Numbers passed in `applicationProperties` of the correlation rule filter and `sqlParameters` under SQLRuleFilter will now be serialized as "double"(used to be "int") while sending the requests. The "double" and "int" values in the response will now be deserialized as "number"("double" wasn't supported before).
+  [PR 12349](https://github.com/Azure/azure-sdk-for-js/pull/12349)
+- `ServiceBusAdministrationClient.createSubscription` now supports configuring default rule at the time of creating the subscription.
+  [PR 12495](https://github.com/Azure/azure-sdk-for-js/pull/12495)
+- `_amqpAnnotatedMessage` under `ServiceBusReceivedMessage` has been renamed to `_rawAmqpMessage`.
+  [PR 12635](https://github.com/Azure/azure-sdk-for-js/pull/12635)
+- `claimValue` property under `AuthorizationRule` has been removed since it is not settable.
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
+- `ServiceBusSender.open()` method has been removed in favor of adding it back in the future with better semantics
+  [PR 12608](https://github.com/Azure/azure-sdk-for-js/pull/12608)
 
 ## 7.0.0-preview.8 (2020-11-04)
 
 ### New features:
 
-- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entitypath details from the connection string.
+- A helper method `parseServiceBusConnectionString` has been added which validates and parses a given connection string for Azure Service Bus. You can use this to extract the namespace and entityPath details from the connection string.
   [PR 11949](https://github.com/Azure/azure-sdk-for-js/pull/11949)
 - All methods that take an array as input are updated to ensure they gracefully do a no-op rather than throw errors. For example: `receiveDeferredMessages()`, `scheduleMessages()` and `cancelScheduledMessages()`.
 - Tracing, using [@azure/core-tracing](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/README.md), has been added for sending and receiving of messages.

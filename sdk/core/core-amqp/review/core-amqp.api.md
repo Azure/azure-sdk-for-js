@@ -158,55 +158,13 @@ export enum ConditionErrorNameMapper {
 }
 
 // @public
-export enum ConditionStatusMapper {
-    // (undocumented)
-    "amqp:link:message-size-exceeded" = 403,
-    // (undocumented)
-    "amqp:link:stolen" = 410,
-    // (undocumented)
-    "amqp:not-allowed" = 400,
-    // (undocumented)
-    "amqp:not-found" = 404,
-    // (undocumented)
-    "amqp:not-implemented" = 501,
-    // (undocumented)
-    "amqp:resource-limit-exceeded" = 403,
-    // (undocumented)
-    "amqp:unauthorized-access" = 401,
-    // (undocumented)
-    "com.microsoft:argument-error" = 400,
-    // (undocumented)
-    "com.microsoft:argument-out-of-range" = 400,
-    // (undocumented)
-    "com.microsoft:entity-already-exists" = 409,
-    // (undocumented)
-    "com.microsoft:entity-disabled" = 400,
-    // (undocumented)
-    "com.microsoft:message-lock-lost" = 410,
-    // (undocumented)
-    "com.microsoft:no-matching-subscription" = 500,
-    // (undocumented)
-    "com.microsoft:partition-not-owned" = 410,
-    // (undocumented)
-    "com.microsoft:publisher-revoked" = 401,
-    // (undocumented)
-    "com.microsoft:server-busy" = 503,
-    // (undocumented)
-    "com.microsoft:session-cannot-be-locked" = 410,
-    // (undocumented)
-    "com.microsoft:session-lock-lost" = 410,
-    // (undocumented)
-    "com.microsoft:store-lock-lost" = 410,
-    // (undocumented)
-    "com.microsoft:timeout" = 408
-}
-
-// @public
 export interface ConnectionConfig {
+    amqpHostname?: string;
     connectionString: string;
     endpoint: string;
     entityPath?: string;
     host: string;
+    port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
     webSocket?: WebSocketImpl;
@@ -232,7 +190,6 @@ export interface ConnectionContextBase {
     connection: Connection;
     connectionId: string;
     connectionLock: string;
-    dataTransformer: DataTransformer;
     negotiateClaimLock: string;
     refreshConnection: () => void;
     wasConnectionCloseCalled: boolean;
@@ -373,28 +330,15 @@ export const Constants: {
 export interface CreateConnectionContextBaseParameters {
     config: ConnectionConfig;
     connectionProperties: ConnectionProperties;
-    dataTransformer?: DataTransformer;
     isEntityPathRequired?: boolean;
     operationTimeoutInMs?: number;
-}
-
-// @public
-export interface DataTransformer {
-    decode: (body: any) => any;
-    encode: (body: any) => any;
-}
-
-// @public
-export class DefaultDataTransformer implements DataTransformer {
-    decode(body: any): any;
-    encode(body: any): any;
 }
 
 // @public
 export const defaultLock: AsyncLock;
 
 // @public
-export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T>;
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export enum ErrorNameConditionMapper {
@@ -458,7 +402,7 @@ export const logger: import("@azure/logger").AzureLogger;
 export class MessagingError extends Error {
     constructor(message: string, originalError?: Error);
     address?: string;
-    code?: MessagingErrorCodes | string;
+    code?: string;
     errno?: number | string;
     info?: any;
     name: string;
@@ -466,9 +410,6 @@ export class MessagingError extends Error {
     retryable: boolean;
     syscall?: string;
 }
-
-// @public
-export type MessagingErrorCodes = "AddressAlreadyInUseError" | "ArgumentError" | "ArgumentOutOfRangeError" | "ConnectionForcedError" | "ConnectionRedirectError" | "DecodeError" | "DetachForcedError" | "ErrantLinkError" | "FrameSizeTooSmallError" | "FramingError" | "HandleInUseError" | "IllegalStateError" | "InternalServerError" | "InvalidFieldError" | "InvalidOperationError" | "LinkRedirectError" | "MessageLockLostError" | "MessageNotFoundError" | "MessageTooLargeError" | "MessageWaitTimeout" | "MessagingEntityAlreadyExistsError" | "MessagingEntityDisabledError" | "MessagingEntityNotFoundError" | "NoMatchingSubscriptionError" | "NotImplementedError" | "OperationCancelledError" | "OperationTimeoutError" | "PartitionNotOwnedError" | "PreconditionFailedError" | "PublisherRevokedError" | "QuotaExceededError" | "ReceiverDisconnectedError" | "RelayNotFoundError" | "ResourceDeletedError" | "ResourceLockedError" | "SenderBusyError" | "ServerBusyError" | "ServiceCommunicationError" | "ServiceUnavailableError" | "SessionCannotBeLockedError" | "SessionLockLostError" | "SessionWindowViolationError" | "StoreLockLostError" | "SystemError" | "TransferLimitExceededError" | "UnattachedHandleError" | "UnauthorizedError";
 
 // @public
 export interface NetworkSystemError {

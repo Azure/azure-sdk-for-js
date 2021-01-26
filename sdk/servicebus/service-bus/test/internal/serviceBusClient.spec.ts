@@ -51,7 +51,10 @@ describe("serviceBusClient unit tests", () => {
 
         client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
           "a session id",
-          origConnectionContext.config
+          {
+            ...origConnectionContext.config,
+            entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+          }
         );
 
         let sessionReceiver: ServiceBusSessionReceiver;
@@ -102,10 +105,10 @@ describe("serviceBusClient unit tests", () => {
 
         const origConnectionContext = client["_connectionContext"];
 
-        client["_connectionContext"] = createConnectionContextForTestsWithSessionId(
-          "session id",
-          origConnectionContext.config
-        );
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id", {
+          ...origConnectionContext.config,
+          entityPath: testEntity.topic ? testEntity.topic : testEntity.queue
+        });
 
         let sessionReceiver: ServiceBusSessionReceiver;
 
@@ -317,16 +320,6 @@ describe("serviceBusClient unit tests", () => {
         });
         validateWebsocketInfo(connectionContext, options);
       });
-
-      it("undefined entity path is translated to ''", () => {
-        const connString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;";
-        const connectionContext = createConnectionContextForConnectionString(connString, {});
-        assert.equal(
-          connectionContext.config.entityPath,
-          "",
-          "Unexpected entityPath in the connection config"
-        );
-      });
     });
 
     describe("createConnectionContextForTokenCredential", () => {
@@ -344,19 +337,6 @@ describe("serviceBusClient unit tests", () => {
           { webSocketOptions: { webSocketConstructorOptions: options } }
         );
         validateWebsocketInfo(connectionContext, options);
-      });
-
-      it("undefined entity path is translated to ''", () => {
-        const connectionContext = createConnectionContextForTokenCredential(
-          pseudoTokenCred,
-          endpoint,
-          {}
-        );
-        assert.equal(
-          connectionContext.config.entityPath,
-          "",
-          "Unexpected entityPath in the connection config"
-        );
       });
     });
   });

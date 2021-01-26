@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger } from "../log";
+import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
+import { isServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
+import { ReceiveMode } from "../models";
 
 /**
  * Error message to use when EntityPath in connection string does not match the
@@ -11,14 +13,22 @@ import { ConnectionContext } from "../connectionContext";
  * senders and receivers.
  *
  * @internal
- * @ignore
+ * @hidden
  */
 export const entityPathMisMatchError =
   "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
 
 /**
+ * Error message for when maxMessageCount provided is invalid.
+ *
  * @internal
- * @ignore
+ * @hidden
+ */
+export const InvalidMaxMessageCountError = "'maxMessageCount' must be a number greater than 0.";
+
+/**
+ * @internal
+ * @hidden
  * Logs and throws Error if the current AMQP connection is closed.
  * @param context The ConnectionContext associated with the current AMQP connection.
  */
@@ -33,7 +43,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  */
@@ -46,7 +56,7 @@ export function getSenderClosedErrorMsg(entityPath: string): string {
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param sessionId If using session receiver, then the id of the session
@@ -66,7 +76,7 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param sessionId If using session receiver, then the id of the session
  */
@@ -79,7 +89,7 @@ export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: stri
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is undefined or null
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to check
@@ -99,13 +109,14 @@ export function throwTypeErrorIfParameterMissing(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is not of expected type
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
  * @param parameterValue Value of the parameter to type check
  * @param expectedType Expected type of the parameter
  */
+
 export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
@@ -123,7 +134,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -147,7 +158,7 @@ export function throwTypeErrorIfParameterNotLong(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is not an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -168,7 +179,7 @@ export function throwTypeErrorIfParameterNotLongArray(
 
 /**
  * @internal
- * @ignore
+ * @hidden
  * Logs and Throws TypeError if given parameter is an empty string
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -189,11 +200,77 @@ export function throwTypeErrorIfParameterIsEmptyString(
 
 /**
  * @internal
- * @ignore
- * Gets error message for when an operation is not supported in ReceiveAndDelete mode
- * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
- * that is not supported in ReceiveAndDelete mode
+ * @hidden
+ * The error message for operations on the receiver that are invalid for a message received in receiveAndDelete mode.
  */
-export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
-  return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' receive mode.`;
+export const InvalidOperationInReceiveAndDeleteMode =
+  "The operation is not supported in 'receiveAndDelete' receive mode.";
+
+/**
+ * @internal
+ * @hidden
+ * The error message for operations on the receiver that are invalid for a peeked message.
+ */
+export const InvalidOperationForPeekedMessage =
+  "This operation is not supported for peeked messages. Only messages received using 'receiveMessages()', 'subscribe()' and 'getMessageIterator()' methods on the receiver in 'peekLock' receive mode can be settled.";
+
+/**
+ * @internal
+ * @hidden
+ * The error message for when one attempts to settle an already settled message.
+ */
+export const MessageAlreadySettled = "The message has either been deleted or already settled";
+
+/**
+ * Throws error if the ServiceBusReceivedMessage cannot be settled.
+ * @internal
+ * @hidden
+ */
+export function throwErrorIfInvalidOperationOnMessage(
+  message: ServiceBusReceivedMessage,
+  receiveMode: ReceiveMode,
+  connectionId: string
+) {
+  let error: Error | undefined;
+
+  if (receiveMode === "receiveAndDelete") {
+    error = new Error(InvalidOperationInReceiveAndDeleteMode);
+  } else if (!message.lockToken) {
+    error = new Error(InvalidOperationForPeekedMessage);
+  }
+
+  if (error) {
+    receiverLogger.logError(
+      error,
+      "[%s] An error occurred for message with id '%s'",
+      connectionId,
+      message.messageId
+    );
+    throw error;
+  }
+}
+
+/**
+ * Error message for when the ServiceBusMessage provided by the user has different values
+ * for partitionKey and sessionId.
+ * @internal
+ * @hidden
+ * @throw
+ */
+export const PartitionKeySessionIdMismatchError =
+  "The fields 'partitionKey' and 'sessionId' cannot have different values.";
+/**
+ * Throws error if the given object is not a valid ServiceBusMessage
+ * @internal
+ * @hidden
+ * @param msg The object that needs to be validated as a ServiceBusMessage
+ * @param errorMessageForWrongType The error message to use when given object is not a ServiceBusMessage
+ */
+export function throwIfNotValidServiceBusMessage(msg: any, errorMessageForWrongType: string): void {
+  if (!isServiceBusMessage(msg)) {
+    throw new TypeError(errorMessageForWrongType);
+  }
+  if (msg.partitionKey && msg.sessionId && msg.partitionKey !== msg.sessionId) {
+    throw new TypeError(PartitionKeySessionIdMismatchError);
+  }
 }
