@@ -96,7 +96,7 @@ export class PhoneNumbersClient {
     const options = isPhoneNumbersClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-administration/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-communication-phone-numbers/${SDK_VERSION}`;
 
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
