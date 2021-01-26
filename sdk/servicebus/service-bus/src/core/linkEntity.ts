@@ -20,7 +20,6 @@ import { ServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
- * @hidden
  * Options passed to the constructor of LinkEntity
  */
 export interface LinkEntityOptions {
@@ -39,7 +38,6 @@ export interface LinkEntityOptions {
  * with the ManagementClient today.
  *
  * @internal
- * @hidden
  */
 export interface RequestResponseLinkOptions {
   senderOptions: SenderOptions;
@@ -49,7 +47,6 @@ export interface RequestResponseLinkOptions {
 
 /**
  * @internal
- * @hidden
  */
 export type ReceiverType =
   | "batching" // batching receiver
@@ -58,7 +55,6 @@ export type ReceiverType =
 
 /**
  * @internal
- * @hidden
  */
 type LinkOptionsT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
@@ -72,7 +68,6 @@ type LinkOptionsT<
 
 /**
  * @internal
- * @hidden
  */
 type LinkTypeT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
@@ -86,7 +81,6 @@ type LinkTypeT<
 
 /**
  * @internal
- * @hidden
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  */
 export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {

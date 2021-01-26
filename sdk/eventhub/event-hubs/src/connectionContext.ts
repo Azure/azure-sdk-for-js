@@ -25,7 +25,6 @@ import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
 
 /**
  * @internal
- * @hidden
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
@@ -101,7 +100,6 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @hidden
  */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
@@ -130,7 +128,6 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @hidden
  */
 export namespace ConnectionContext {
   /**

@@ -8,7 +8,6 @@ import { ReceiveMode } from "../models";
 
 /**
  * @internal
- * @hidden
  */
 export type ReceiverHandlers = Pick<
   ReceiverOptions,
@@ -35,7 +34,6 @@ export interface DeferredPromiseAndTimer {
  * 5. User's code after the settlement continues.
  *
  * @internal
- * @hidden
  */
 export function onMessageSettled(
   logPrefix: string,
@@ -82,7 +80,6 @@ export function onMessageSettled(
  * Creates the options that need to be specified while creating an AMQP receiver link.
  *
  * @internal
- * @hidden
  * @param {string} name
  * @param {ReceiveMode} receiveMode
  * @param {Source} source

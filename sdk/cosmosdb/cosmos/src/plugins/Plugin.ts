@@ -60,7 +60,6 @@ export type Next<T> = (context: RequestContext) => Promise<Response<T>>;
 /**
  * @internal
  * @hidden
- * @hidden
  * @param requestContext
  * @param next
  * @param on
