@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import * as chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
@@ -9,6 +11,7 @@ import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
 import { getFolderName, getSasToken } from "../utils/common";
 import { delay } from "@azure/core-http";
+import { assert } from "chai";
 
 describe("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
@@ -51,11 +54,7 @@ describe("KeyVaultBackupClient", () => {
         "invalid_sas_token",
         testPollerProperties
       );
-      const backupResult = await backupPoller.pollUntilDone();
-      assert.notExists(backupResult);
-      const operationState = backupPoller.getOperationState();
-      assert.isDefined(operationState.error);
-      assert.isNotEmpty(operationState.error?.message);
+      assert.isRejected(backupPoller.pollUntilDone());
     });
   });
 
@@ -122,10 +121,7 @@ describe("KeyVaultBackupClient", () => {
         "bad_folder",
         testPollerProperties
       );
-      await restorePoller.pollUntilDone();
-      const operationState = restorePoller.getOperationState();
-      assert.equal(operationState.isCompleted, true);
-      assert.isNotEmpty(operationState.error?.message);
+      assert.isRejected(restorePoller.pollUntilDone());
     });
   });
 });

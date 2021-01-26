@@ -62,7 +62,7 @@ export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
 
 // @public
 export class KeyVaultAccessControlClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
     createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
@@ -102,7 +102,7 @@ export interface KeyVaultRoleAssignment {
     readonly id: string;
     readonly name: string;
     properties: KeyVaultRoleAssignmentPropertiesWithScope;
-    readonly type: string;
+    readonly roleAssignmentType: string;
 }
 
 // @public

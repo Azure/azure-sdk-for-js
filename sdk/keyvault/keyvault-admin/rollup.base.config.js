@@ -118,8 +118,8 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          chai: ["assert"],
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
+          chai: ["assert", "use"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "isRejected"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })

@@ -110,9 +110,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     }
 
     if (!state.jobId) {
-      state.error = new Error(`Missing "jobId" from the full backup operation.`);
-      state.isCompleted = true;
-      return this;
+      throw new Error(`Missing "jobId" from the full backup operation.`);
     }
 
     if (!state.isCompleted) {
@@ -136,9 +134,9 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     } = serviceOperation;
 
     if (!startTime) {
-      state.error = new Error(`Missing "startTime" from the full backup operation.`);
-      state.isCompleted = true;
-      return state;
+      throw new Error(
+        `Missing "startTime" from the full backup operation. Full backup did not start successfully.`
+      );
     }
 
     state.isStarted = true;
@@ -148,6 +146,10 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     state.status = status;
     state.statusDetails = statusDetails;
 
+    if (error?.message || statusDetails) {
+      throw new Error(error?.message || statusDetails);
+    }
+
     state.isCompleted = !!(endTime || error?.message);
 
     if (state.isCompleted && azureStorageBlobContainerUri) {
@@ -156,9 +158,6 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
         startTime,
         endTime
       };
-    }
-    if (error?.message || statusDetails) {
-      state.error = new Error(error?.message || statusDetails);
     }
 
     return state;

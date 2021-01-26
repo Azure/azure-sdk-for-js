@@ -120,9 +120,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     }
 
     if (!state.jobId) {
-      state.error = new Error(`Missing "jobId" from the full restore operation.`);
-      state.isCompleted = true;
-      return this;
+      throw new Error(`Missing "jobId" from the full restore operation.`);
     }
 
     if (!state.isCompleted) {
@@ -138,9 +136,9 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
 
     if (!startTime) {
-      state.error = new Error(`Missing "startTime" from the full restore operation.`);
-      state.isCompleted = true;
-      return state;
+      throw new Error(
+        `Missing "startTime" from the full restore operation. Restore did not start successfully.`
+      );
     }
 
     state.isStarted = true;
@@ -152,15 +150,15 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
 
     state.isCompleted = !!(endTime || error?.message);
 
+    if (error?.message || statusDetails) {
+      throw new Error(error?.message || statusDetails);
+    }
+
     if (state.isCompleted) {
       state.result = {
         startTime,
         endTime
       };
-    }
-
-    if (error?.message || statusDetails) {
-      state.error = new Error(error?.message || statusDetails);
     }
 
     return state;
