@@ -10,27 +10,33 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { QuantumClient } from "../quantumClient";
-import { Quota, QuotasListResponse, QuotasListNextResponse } from "../models";
+import { QuantumJobClient } from "../quantumJobClient";
+import {
+  ProviderStatus,
+  ProvidersGetStatusResponse,
+  ProvidersGetStatusNextResponse
+} from "../models";
 
-/** Class representing a Quotas. */
-export class Quotas {
-  private readonly client: QuantumClient;
+/** Class representing a Providers. */
+export class Providers {
+  private readonly client: QuantumJobClient;
 
   /**
-   * Initialize a new instance of the class Quotas class.
+   * Initialize a new instance of the class Providers class.
    * @param client Reference to the service client
    */
-  constructor(client: QuantumClient) {
+  constructor(client: QuantumJobClient) {
     this.client = client;
   }
 
   /**
-   * List quotas for the given workspace.
+   * Get provider status.
    * @param options The options parameters.
    */
-  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<Quota> {
-    const iter = this.listPagingAll(options);
+  public listStatus(
+    options?: coreHttp.OperationOptions
+  ): PagedAsyncIterableIterator<ProviderStatus> {
+    const iter = this.getStatusPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -39,71 +45,74 @@ export class Quotas {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.getStatusPagingPage(options);
       }
     };
   }
 
-  private async *listPagingPage(
+  private async *getStatusPagingPage(
     options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<Quota[]> {
-    let result = await this._list(options);
+  ): AsyncIterableIterator<ProviderStatus[]> {
+    let result = await this._getStatus(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._getStatusNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listPagingAll(options?: coreHttp.OperationOptions): AsyncIterableIterator<Quota> {
-    for await (const page of this.listPagingPage(options)) {
+  private async *getStatusPagingAll(
+    options?: coreHttp.OperationOptions
+  ): AsyncIterableIterator<ProviderStatus> {
+    for await (const page of this.getStatusPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List quotas for the given workspace.
+   * Get provider status.
    * @param options The options parameters.
    */
-  private _list(options?: coreHttp.OperationOptions): Promise<QuotasListResponse> {
+  private _getStatus(options?: coreHttp.OperationOptions): Promise<ProvidersGetStatusResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
-      QuotasListResponse
+    return this.client.sendOperationRequest(operationArguments, getStatusOperationSpec) as Promise<
+      ProvidersGetStatusResponse
     >;
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * GetStatusNext
+   * @param nextLink The nextLink from the previous successful call to the GetStatus method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _getStatusNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<QuotasListNextResponse> {
+  ): Promise<ProvidersGetStatusNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
-      QuotasListNextResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getStatusNextOperationSpec
+    ) as Promise<ProvidersGetStatusNextResponse>;
   }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const getStatusOperationSpec: coreHttp.OperationSpec = {
   path:
-    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/quotas",
+    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/providerStatus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaList
+      bodyMapper: Mappers.ProviderStatusList
     },
     default: {
       bodyMapper: Mappers.RestError
@@ -118,12 +127,12 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const getStatusNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaList
+      bodyMapper: Mappers.ProviderStatusList
     },
     default: {
       bodyMapper: Mappers.RestError

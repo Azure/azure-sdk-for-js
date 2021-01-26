@@ -17,7 +17,6 @@ export type ReceiverHandlers = Pick<
 
 /**
  * @internal
- * @hidden
  */
 export interface DeferredPromiseAndTimer {
   resolve: (value?: any) => void;
