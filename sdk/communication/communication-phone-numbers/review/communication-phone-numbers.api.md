@@ -96,7 +96,7 @@ export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchaseReservation(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
+    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>>;
     beginSearchAvailablePhoneNumbers(countryCode: string, search: PhoneNumberSearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
