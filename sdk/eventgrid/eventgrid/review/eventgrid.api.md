@@ -8,7 +8,6 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PipelineOptions } from '@azure/core-https';
-import { PipelineResponse } from '@azure/core-https';
 
 // @public
 export interface ACSChatEventBase {
@@ -345,10 +344,9 @@ export class EventGridPublisherClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
-    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<SendEventsResponse>;
-    // Warning: (ae-forgotten-export) The symbol "SendEventsResponse" needs to be exported by the entry point index.d.ts
-    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
+    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<void>;
+    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<void>;
+    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<void>;
 }
 
 // @public

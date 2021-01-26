@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import { PipelineOptions, PipelineResponse } from "@azure/core-https";
-import { OperationOptions, OperationResponse, createClientPipeline } from "@azure/core-client";
+import { PipelineOptions } from "@azure/core-https";
+import { OperationOptions, createClientPipeline } from "@azure/core-client";
 
 import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
@@ -42,13 +42,6 @@ export type SendCloudEventsOptions = OperationOptions;
  * Options for the send custom schema events operation.
  */
 export type SendCustomSchemaEventsOptions = OperationOptions;
-
-/**
- * The response when sending events to the Event Grid service.
- */
-export interface SendEventsResponse {
-  _response: PipelineResponse;
-}
 
 /**
  * Client class for publishing events to the Event Grid Service.
@@ -123,19 +116,18 @@ export class EventGridPublisherClient {
   async sendEvents(
     events: SendEventGridEventInput<any>[],
     options?: SendEventsOptions
-  ): Promise<SendEventsResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "EventGridPublisherClient-sendEvents",
       options || {}
     );
 
     try {
-      const r = await this.client.publishEvents(
+      return await this.client.publishEvents(
         this.endpointUrl,
         (events || []).map(convertEventGridEventToModelType),
         updatedOptions
       );
-      return buildResponse(r);
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -152,19 +144,18 @@ export class EventGridPublisherClient {
   async sendCloudEvents(
     events: SendCloudEventInput<any>[],
     options?: SendCloudEventsOptions
-  ): Promise<SendEventsResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "EventGridPublisherClient-sendCloudEvents",
       options || {}
     );
 
     try {
-      const r = await this.client.publishCloudEventEvents(
+      return await this.client.publishCloudEventEvents(
         this.endpointUrl,
         (events || []).map(convertCloudEventToModelType),
         updatedOptions
       );
-      return buildResponse(r);
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -181,19 +172,18 @@ export class EventGridPublisherClient {
   async sendCustomSchemaEvents(
     events: Record<string, any>[],
     options?: SendCustomSchemaEventsOptions
-  ): Promise<SendEventsResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "EventGridPublisherClient-sendCustomSchemaEvents",
       options || {}
     );
 
     try {
-      const r = await this.client.publishCustomEventEvents(
+      return await this.client.publishCustomEventEvents(
         this.endpointUrl,
         events || [],
         updatedOptions
       );
-      return buildResponse(r);
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -201,16 +191,6 @@ export class EventGridPublisherClient {
       span.end();
     }
   }
-}
-
-function buildResponse(r: OperationResponse): SendEventsResponse {
-  const ret = { _response: r._response };
-
-  Object.defineProperty(ret, "_response", {
-    enumerable: false
-  });
-
-  return ret;
 }
 
 /**

@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  OperationOptions,
-  OperationResponse,
-  OperationSpec,
-  createSerializer
-} from "@azure/core-client";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
 import * as Parameters from "./models/parameters";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
@@ -37,11 +32,11 @@ class GeneratedClient extends GeneratedClientContext {
     topicHostname: string,
     events: EventGridEvent[],
     options?: OperationOptions
-  ): Promise<OperationResponse> {
-    return this.sendOperationRequest(
+  ): Promise<void> {
+    return this.sendOperationRequest<void>(
       { topicHostname, events, options },
       publishEventsOperationSpec
-    ) as Promise<OperationResponse>;
+    );
   }
 
   /**
@@ -54,11 +49,11 @@ class GeneratedClient extends GeneratedClientContext {
     topicHostname: string,
     events: CloudEvent[],
     options?: OperationOptions
-  ): Promise<OperationResponse> {
-    return this.sendOperationRequest(
+  ): Promise<void> {
+    return this.sendOperationRequest<void>(
       { topicHostname, events, options },
       publishCloudEventEventsOperationSpec
-    ) as Promise<OperationResponse>;
+    );
   }
 
   /**
@@ -71,11 +66,11 @@ class GeneratedClient extends GeneratedClientContext {
     topicHostname: string,
     events: any[],
     options?: OperationOptions
-  ): Promise<OperationResponse> {
-    return this.sendOperationRequest(
+  ): Promise<void> {
+    return this.sendOperationRequest<void>(
       { topicHostname, events, options },
       publishCustomEventEventsOperationSpec
-    ) as Promise<OperationResponse>;
+    );
   }
 }
 // Operation Specifications
