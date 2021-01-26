@@ -72,15 +72,16 @@ describe("NodeJS CRUD Tests", function() {
     });
   });
   describe("Validate user passed AbortController.signal", function() {
-    it("should throw exception if aborted during the request", async function() {
+    it.only("should throw exception if aborted during the request", async function() {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 5);
+        setTimeout(() => controller.abort(), 1);
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
       } catch (err) {
+        console.log(err);
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
@@ -112,7 +113,7 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
-    it("should not abort if abort signal is never called", async function() {
+    it.only("should not abort if abort signal is never called", async function() {
       // Testing the happy path to prevent this bug https://github.com/Azure/azure-sdk-for-js/issues/9510
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
