@@ -3,6 +3,7 @@
 ## 12.3.1 (Unreleased)
 
 - Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+- The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).
 
 ## 12.3.0 (2021-01-12)
 
