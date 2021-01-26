@@ -343,7 +343,7 @@ export class PhoneNumbersClient {
    * @param {string} searchId The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
    * @param {BeginPurchasePhoneNumbersOptions} options Additional request options.
    */
-  public async beginPurchaseReservation(
+  public async beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
