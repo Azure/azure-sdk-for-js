@@ -449,7 +449,7 @@ export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "part
     // (undocumented)
     maxThroughput?: number;
     // (undocumented)
-    partitionKey?: string | PartitionKeyDefinition;
+    partitionKey?: PartitionKeyInput;
     // (undocumented)
     throughput?: number;
 }
@@ -1006,11 +1006,16 @@ export type PartitionKey = PartitionKeyDefinition | string | number | {};
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
+    // (undocumented)
+    kind?: string;
     paths: string[];
     // (undocumented)
     systemKey?: boolean;
     version?: number;
 }
+
+// @public (undocumented)
+export type PartitionKeyInput = string | string[] | PartitionKeyDefinition;
 
 // @public (undocumented)
 export interface PartitionKeyRange {

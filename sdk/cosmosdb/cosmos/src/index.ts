@@ -47,6 +47,7 @@ export {
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
 export { ContainerRequest } from "./client/Container/ContainerRequest";
+export { PartitionKeyInput } from "./client/Container/PartitionKeyInput"
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
 export { RetryOptions } from "./retry";
 export * from "./request";
