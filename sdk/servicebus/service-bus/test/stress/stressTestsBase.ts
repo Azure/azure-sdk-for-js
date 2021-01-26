@@ -170,7 +170,7 @@ export class SBStressTestsBase {
   public async receiveStreaming(
     receiver: ServiceBusReceiver,
     duration: number,
-    options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls"> & {
+    options: Pick<SubscribeOptions, "autoCompleteMessages" | "maxConcurrentCalls"> & {
       manualLockRenewal: boolean;
       completeMessageAfterDuration: boolean;
       maxAutoRenewLockDurationInMs: number;
@@ -185,7 +185,7 @@ export class SBStressTestsBase {
         if (options.settleMessageOnReceive) {
           await this.completeMessage(message, receiver);
         } else if (
-          !options.autoComplete &&
+          !options.autoCompleteMessages &&
           options.maxAutoRenewLockDurationInMs === 0 &&
           options.manualLockRenewal
         ) {

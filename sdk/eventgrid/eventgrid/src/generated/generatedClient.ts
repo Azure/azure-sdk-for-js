@@ -8,12 +8,12 @@
 
 import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
 import * as Parameters from "./models/parameters";
-import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams, EventGridEvent, CloudEvent } from "./models";
 
-class GeneratedClient extends GeneratedClientContext {
+/** @hidden */
+export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param options The parameter options
@@ -109,13 +109,4 @@ const publishCustomEventEventsOperationSpec: OperationSpec = {
   headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
-};
-
-// Operation Specifications
-
-export {
-  GeneratedClient,
-  GeneratedClientContext,
-  Models as GeneratedModels,
-  Mappers as GeneratedMappers
 };

@@ -9,6 +9,7 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
+import { TokenCredential } from '@azure/identity';
 
 // @public
 export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
@@ -920,7 +921,7 @@ export type MetricPeriodFeedback = {
 
 // @public
 export class MetricsAdvisorAdministrationClient {
-    constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
@@ -953,7 +954,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 
 // @public
 export class MetricsAdvisorClient {
-    constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
     createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;

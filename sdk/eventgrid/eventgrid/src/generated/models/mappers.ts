@@ -1559,26 +1559,6 @@ export const DeviceTwinInfoX509Thumbprint: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceCreatedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceCreatedEventData",
-    modelProperties: {
-      ...DeviceLifeCycleEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const IotHubDeviceDeletedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceDeletedEventData",
-    modelProperties: {
-      ...DeviceLifeCycleEventProperties.type.modelProperties
-    }
-  }
-};
-
 export const DeviceConnectionStateEventProperties: CompositeMapper = {
   type: {
     name: "Composite",
@@ -1628,26 +1608,6 @@ export const DeviceConnectionStateEventInfo: CompositeMapper = {
   }
 };
 
-export const IotHubDeviceConnectedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceConnectedEventData",
-    modelProperties: {
-      ...DeviceConnectionStateEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const IotHubDeviceDisconnectedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceDisconnectedEventData",
-    modelProperties: {
-      ...DeviceConnectionStateEventProperties.type.modelProperties
-    }
-  }
-};
-
 export const DeviceTelemetryEventProperties: CompositeMapper = {
   type: {
     name: "Composite",
@@ -1673,16 +1633,6 @@ export const DeviceTelemetryEventProperties: CompositeMapper = {
           value: { type: { name: "String" } }
         }
       }
-    }
-  }
-};
-
-export const IotHubDeviceTelemetryEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "IotHubDeviceTelemetryEventData",
-    modelProperties: {
-      ...DeviceTelemetryEventProperties.type.modelProperties
     }
   }
 };
@@ -1868,26 +1818,6 @@ export const ContainerRegistryEventSource: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryImagePushedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryImagePushedEventData",
-    modelProperties: {
-      ...ContainerRegistryEventData.type.modelProperties
-    }
-  }
-};
-
-export const ContainerRegistryImageDeletedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryImageDeletedEventData",
-    modelProperties: {
-      ...ContainerRegistryEventData.type.modelProperties
-    }
-  }
-};
-
 export const ContainerRegistryArtifactEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -1973,26 +1903,6 @@ export const ContainerRegistryArtifactEventTarget: CompositeMapper = {
   }
 };
 
-export const ContainerRegistryChartPushedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryChartPushedEventData",
-    modelProperties: {
-      ...ContainerRegistryArtifactEventData.type.modelProperties
-    }
-  }
-};
-
-export const ContainerRegistryChartDeletedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ContainerRegistryChartDeletedEventData",
-    modelProperties: {
-      ...ContainerRegistryArtifactEventData.type.modelProperties
-    }
-  }
-};
-
 export const ServiceBusActiveMessagesAvailableWithNoListenersEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -2042,6 +1952,96 @@ export const ServiceBusDeadletterMessagesAvailableWithNoListenersEventData: Comp
   type: {
     name: "Composite",
     className: "ServiceBusDeadletterMessagesAvailableWithNoListenersEventData",
+    modelProperties: {
+      namespaceName: {
+        serializedName: "namespaceName",
+        type: {
+          name: "String"
+        }
+      },
+      requestUri: {
+        serializedName: "requestUri",
+        type: {
+          name: "String"
+        }
+      },
+      entityType: {
+        serializedName: "entityType",
+        type: {
+          name: "String"
+        }
+      },
+      queueName: {
+        serializedName: "queueName",
+        type: {
+          name: "String"
+        }
+      },
+      topicName: {
+        serializedName: "topicName",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionName: {
+        serializedName: "subscriptionName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData",
+    modelProperties: {
+      namespaceName: {
+        serializedName: "namespaceName",
+        type: {
+          name: "String"
+        }
+      },
+      requestUri: {
+        serializedName: "requestUri",
+        type: {
+          name: "String"
+        }
+      },
+      entityType: {
+        serializedName: "entityType",
+        type: {
+          name: "String"
+        }
+      },
+      queueName: {
+        serializedName: "queueName",
+        type: {
+          name: "String"
+        }
+      },
+      topicName: {
+        serializedName: "topicName",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionName: {
+        serializedName: "subscriptionName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData",
     modelProperties: {
       namespaceName: {
         serializedName: "namespaceName",
@@ -2183,7 +2183,10 @@ export const MediaJobError: CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "MediaJobErrorDetail" }
+            type: {
+              name: "Composite",
+              className: "MediaJobErrorDetail"
+            }
           }
         }
       }
@@ -2270,25 +2273,6 @@ export const MediaJobOutput: CompositeMapper = {
   }
 };
 
-export const MediaJobOutputAsset: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputAsset",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputAsset",
-    uberParent: "MediaJobOutput",
-    polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MediaJobOutput.type.modelProperties,
-      assetName: {
-        serializedName: "assetName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const MediaJobOutputProgressEventData: CompositeMapper = {
   serializedName: "#Microsoft.Media.JobOutputProgress",
   type: {
@@ -2353,159 +2337,6 @@ export const MediaJobOutputStateChangeEventData: CompositeMapper = {
           value: { type: { name: "String" } }
         }
       }
-    }
-  }
-};
-
-export const MediaJobScheduledEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobScheduled",
-  type: {
-    name: "Composite",
-    className: "MediaJobScheduledEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobProcessingEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobProcessing",
-  type: {
-    name: "Composite",
-    className: "MediaJobProcessingEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobCancelingEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobCanceling",
-  type: {
-    name: "Composite",
-    className: "MediaJobCancelingEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobFinishedEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobFinished",
-  type: {
-    name: "Composite",
-    className: "MediaJobFinishedEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties,
-      outputs: {
-        serializedName: "outputs",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "MediaJobOutput" } }
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobCanceledEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobCanceled",
-  type: {
-    name: "Composite",
-    className: "MediaJobCanceledEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties,
-      outputs: {
-        serializedName: "outputs",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "MediaJobOutput" } }
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobErroredEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobErrored",
-  type: {
-    name: "Composite",
-    className: "MediaJobErroredEventData",
-    modelProperties: {
-      ...MediaJobStateChangeEventData.type.modelProperties,
-      outputs: {
-        serializedName: "outputs",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "MediaJobOutput" } }
-        }
-      }
-    }
-  }
-};
-
-export const MediaJobOutputCanceledEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputCanceled",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputCanceledEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputCancelingEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputCanceling",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputCancelingEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputErroredEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputErrored",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputErroredEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputFinishedEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputFinished",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputFinishedEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputProcessingEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputProcessing",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputProcessingEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
-    }
-  }
-};
-
-export const MediaJobOutputScheduledEventData: CompositeMapper = {
-  serializedName: "#Microsoft.Media.JobOutputScheduled",
-  type: {
-    name: "Composite",
-    className: "MediaJobOutputScheduledEventData",
-    modelProperties: {
-      ...MediaJobOutputStateChangeEventData.type.modelProperties
     }
   }
 };
@@ -3013,7 +2844,11 @@ export const MapsGeofenceEventProperties: CompositeMapper = {
         serializedName: "expiredGeofenceGeometryId",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       geometries: {
@@ -3021,7 +2856,10 @@ export const MapsGeofenceEventProperties: CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "MapsGeofenceGeometry" }
+            type: {
+              name: "Composite",
+              className: "MapsGeofenceGeometry"
+            }
           }
         }
       },
@@ -3029,7 +2867,11 @@ export const MapsGeofenceEventProperties: CompositeMapper = {
         serializedName: "invalidPeriodGeofenceGeometryId",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       isEventPublished: {
@@ -3087,36 +2929,6 @@ export const MapsGeofenceGeometry: CompositeMapper = {
   }
 };
 
-export const MapsGeofenceEnteredEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsGeofenceEnteredEventData",
-    modelProperties: {
-      ...MapsGeofenceEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const MapsGeofenceExitedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsGeofenceExitedEventData",
-    modelProperties: {
-      ...MapsGeofenceEventProperties.type.modelProperties
-    }
-  }
-};
-
-export const MapsGeofenceResultEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MapsGeofenceResultEventData",
-    modelProperties: {
-      ...MapsGeofenceEventProperties.type.modelProperties
-    }
-  }
-};
-
 export const AppConfigurationKeyValueModifiedEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -3136,6 +2948,12 @@ export const AppConfigurationKeyValueModifiedEventData: CompositeMapper = {
       },
       etag: {
         serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      syncToken: {
+        serializedName: "syncToken",
         type: {
           name: "String"
         }
@@ -3163,6 +2981,12 @@ export const AppConfigurationKeyValueDeletedEventData: CompositeMapper = {
       },
       etag: {
         serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      syncToken: {
+        serializedName: "syncToken",
         type: {
           name: "String"
         }
@@ -4796,8 +4620,6 @@ export const AppServicePlanEventTypeDetail: CompositeMapper = {
         }
       },
       action: {
-        defaultValue: "Updated",
-        isConstant: true,
         serializedName: "action",
         type: {
           name: "String"
@@ -4879,6 +4701,388 @@ export const ACSChatEventBase: CompositeMapper = {
   }
 };
 
+export const ACSChatThreadMember: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadMember",
+    modelProperties: {
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      memberId: {
+        serializedName: "memberId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsDeliveryAttempt: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsDeliveryAttempt",
+    modelProperties: {
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      segmentsSucceeded: {
+        serializedName: "segmentsSucceeded",
+        type: {
+          name: "Number"
+        }
+      },
+      segmentsFailed: {
+        serializedName: "segmentsFailed",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsEventBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsEventBase",
+    modelProperties: {
+      messageId: {
+        serializedName: "messageId",
+        type: {
+          name: "String"
+        }
+      },
+      from: {
+        serializedName: "from",
+        type: {
+          name: "String"
+        }
+      },
+      to: {
+        serializedName: "to",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IotHubDeviceCreatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceCreatedEventData",
+    modelProperties: {
+      ...DeviceLifeCycleEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceDeletedEventData",
+    modelProperties: {
+      ...DeviceLifeCycleEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceConnectedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceConnectedEventData",
+    modelProperties: {
+      ...DeviceConnectionStateEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceDisconnectedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceDisconnectedEventData",
+    modelProperties: {
+      ...DeviceConnectionStateEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const IotHubDeviceTelemetryEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceTelemetryEventData",
+    modelProperties: {
+      ...DeviceTelemetryEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryImagePushedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryImagePushedEventData",
+    modelProperties: {
+      ...ContainerRegistryEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryImageDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryImageDeletedEventData",
+    modelProperties: {
+      ...ContainerRegistryEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryChartPushedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartPushedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
+export const ContainerRegistryChartDeletedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryChartDeletedEventData",
+    modelProperties: {
+      ...ContainerRegistryArtifactEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobScheduledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobScheduled",
+  type: {
+    name: "Composite",
+    className: "MediaJobScheduledEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobProcessingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobProcessing",
+  type: {
+    name: "Composite",
+    className: "MediaJobProcessingEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobCancelingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobCanceling",
+  type: {
+    name: "Composite",
+    className: "MediaJobCancelingEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobFinishedEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobFinished",
+  type: {
+    name: "Composite",
+    className: "MediaJobFinishedEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobCanceledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobCanceled",
+  type: {
+    name: "Composite",
+    className: "MediaJobCanceledEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobErroredEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobErrored",
+  type: {
+    name: "Composite",
+    className: "MediaJobErroredEventData",
+    modelProperties: {
+      ...MediaJobStateChangeEventData.type.modelProperties,
+      outputs: {
+        serializedName: "outputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaJobOutput"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputAsset: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputAsset",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputAsset",
+    uberParent: "MediaJobOutput",
+    polymorphicDiscriminator: MediaJobOutput.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...MediaJobOutput.type.modelProperties,
+      assetName: {
+        serializedName: "assetName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaJobOutputCanceledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputCanceled",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputCanceledEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputCancelingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputCanceling",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputCancelingEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputErroredEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputErrored",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputErroredEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputFinishedEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputFinished",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputFinishedEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputProcessingEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputProcessing",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputProcessingEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MediaJobOutputScheduledEventData: CompositeMapper = {
+  serializedName: "#Microsoft.Media.JobOutputScheduled",
+  type: {
+    name: "Composite",
+    className: "MediaJobOutputScheduledEventData",
+    modelProperties: {
+      ...MediaJobOutputStateChangeEventData.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceEnteredEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceEnteredEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceExitedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceExitedEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
+export const MapsGeofenceResultEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsGeofenceResultEventData",
+    modelProperties: {
+      ...MapsGeofenceEventProperties.type.modelProperties
+    }
+  }
+};
+
 export const ACSChatMessageEventBase: CompositeMapper = {
   type: {
     name: "Composite",
@@ -4919,6 +5123,90 @@ export const ACSChatMessageEventBase: CompositeMapper = {
         serializedName: "version",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ACSChatThreadEventBase: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ACSChatThreadEventBase",
+    modelProperties: {
+      ...ACSChatEventBase.type.modelProperties,
+      createTime: {
+        serializedName: "createTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsDeliveryReportReceivedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsDeliveryReportReceivedEventData",
+    modelProperties: {
+      ...AcsSmsEventBase.type.modelProperties,
+      deliveryStatus: {
+        serializedName: "deliveryStatus",
+        type: {
+          name: "String"
+        }
+      },
+      deliveryStatusDetails: {
+        serializedName: "deliveryStatusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      deliveryAttempts: {
+        serializedName: "deliveryAttempts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsSmsDeliveryAttempt"
+            }
+          }
+        }
+      },
+      receivedTimestamp: {
+        serializedName: "receivedTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AcsSmsReceivedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsSmsReceivedEventData",
+    modelProperties: {
+      ...AcsSmsEventBase.type.modelProperties,
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      receivedTimestamp: {
+        serializedName: "receivedTimestamp",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -4979,28 +5267,6 @@ export const ACSChatMessageDeletedEventData: CompositeMapper = {
   }
 };
 
-export const ACSChatThreadEventBase: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ACSChatThreadEventBase",
-    modelProperties: {
-      ...ACSChatEventBase.type.modelProperties,
-      createTime: {
-        serializedName: "createTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const ACSChatThreadCreatedWithUserEventData: CompositeMapper = {
   type: {
     name: "Composite",
@@ -5025,29 +5291,11 @@ export const ACSChatThreadCreatedWithUserEventData: CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "ACSChatThreadMember" }
+            type: {
+              name: "Composite",
+              className: "ACSChatThreadMember"
+            }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ACSChatThreadMember: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ACSChatThreadMember",
-    modelProperties: {
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      memberId: {
-        serializedName: "memberId",
-        type: {
-          name: "String"
         }
       }
     }
@@ -5157,119 +5405,6 @@ export const ACSChatMemberRemovedFromThreadWithUserEventData: CompositeMapper = 
         type: {
           name: "Composite",
           className: "ACSChatThreadMember"
-        }
-      }
-    }
-  }
-};
-
-export const AcsSmsEventBase: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AcsSmsEventBase",
-    modelProperties: {
-      messageId: {
-        serializedName: "messageId",
-        type: {
-          name: "String"
-        }
-      },
-      from: {
-        serializedName: "from",
-        type: {
-          name: "String"
-        }
-      },
-      to: {
-        serializedName: "to",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AcsSmsDeliveryReportReceivedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AcsSmsDeliveryReportReceivedEventData",
-    modelProperties: {
-      ...AcsSmsEventBase.type.modelProperties,
-      deliveryStatus: {
-        serializedName: "deliveryStatus",
-        type: {
-          name: "String"
-        }
-      },
-      deliveryStatusDetails: {
-        serializedName: "deliveryStatusDetails",
-        type: {
-          name: "String"
-        }
-      },
-      deliveryAttempts: {
-        serializedName: "deliveryAttempts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "AcsSmsDeliveryAttempt" }
-          }
-        }
-      },
-      receivedTimestamp: {
-        serializedName: "receivedTimestamp",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const AcsSmsDeliveryAttempt: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AcsSmsDeliveryAttempt",
-    modelProperties: {
-      timestamp: {
-        serializedName: "timestamp",
-        type: {
-          name: "DateTime"
-        }
-      },
-      segmentsSucceeded: {
-        serializedName: "segmentsSucceeded",
-        type: {
-          name: "Number"
-        }
-      },
-      segmentsFailed: {
-        serializedName: "segmentsFailed",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const AcsSmsReceivedEventData: CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AcsSmsReceivedEventData",
-    modelProperties: {
-      ...AcsSmsEventBase.type.modelProperties,
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      receivedTimestamp: {
-        serializedName: "receivedTimestamp",
-        type: {
-          name: "DateTime"
         }
       }
     }

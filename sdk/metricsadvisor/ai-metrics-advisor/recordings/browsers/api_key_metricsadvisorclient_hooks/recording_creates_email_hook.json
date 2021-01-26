@@ -1,0 +1,48 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {},
+   "requestBody": "{\"hookType\":\"Email\",\"hookName\":\"js-test-emailHook-161116815711804827\",\"description\":\"description\",\"hookParameter\":{\"toList\":[\"test@example.com\"]}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "c1364f47-eec2-470e-bbfd-c0d916bdfd36",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:42:37 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/hooks/6b105965-2d8d-4fe6-ab78-ce2a03519bfd",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "516",
+    "x-request-id": "c1364f47-eec2-470e-bbfd-c0d916bdfd36"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/6b105965-2d8d-4fe6-ab78-ce2a03519bfd",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"hookId\":\"6b105965-2d8d-4fe6-ab78-ce2a03519bfd\",\"hookName\":\"js-test-emailHook-161116815711804827\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}}",
+   "responseHeaders": {
+    "apim-request-id": "0d0f8e39-97d7-4877-93b2-fde4f6890019",
+    "content-length": "247",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:38 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "228",
+    "x-request-id": "0d0f8e39-97d7-4877-93b2-fde4f6890019"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "js-test-emailHook-": "js-test-emailHook-161116815711804827",
+   "js-test-webHook-": "js-test-webHook-161116815711803040"
+  },
+  "newDate": {}
+ },
+ "hash": "e244e160d98b5127a612cee5c63b958c"
+}

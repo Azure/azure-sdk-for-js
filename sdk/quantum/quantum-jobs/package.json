@@ -81,6 +81,7 @@
     "dist/",
     "dist-esm/src/",
     "README.md",
+    "types/latest/quantum-jobs.d.ts",
     "LICENSE.txt"
   ],
   "scripts": {
