@@ -87,7 +87,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>",
+        tenant: "<optional tenant for your organization>"
       });
       authManager.finalizeLogin().then((res) => {
         if (!res.isLoggedIn) {
