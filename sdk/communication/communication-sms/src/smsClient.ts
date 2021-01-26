@@ -16,6 +16,7 @@ import {
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
+import { SendSmsResponseItem } from "./generated/src/models";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
@@ -54,6 +55,11 @@ export interface SendOptions extends OperationOptions {
    * Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid
    */
   enableDeliveryReport?: boolean;
+  /**
+   * Use this field to provide metadata that will then be sent back in the corresponding Delivery
+   * Report.
+   */
+  tag?: string;
 }
 
 /**
@@ -145,6 +151,7 @@ export class SmsClient {
           ...sendRequest,
           sendSmsOptions: { enableDeliveryReport: restOptions.enableDeliveryReport }
         },
+        SDK_VERSION,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
@@ -158,5 +165,9 @@ export class SmsClient {
     } finally {
       span.end();
     }
+  }
+
+  public send1(_sendRequest: SendRequest, _options: SendOptions = {}): Iterable<SendSmsResponseItem> {
+    throw new Error("Not yet implemented.");
   }
 }
