@@ -123,7 +123,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     return this;
   }
 
-  mapState(serviceOperation: FullBackupOperation): BackupPollOperationState {
+  private mapState(serviceOperation: FullBackupOperation): BackupPollOperationState {
     const state = { ...this.state };
     const {
       startTime,
@@ -153,8 +153,8 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
     if (state.isCompleted && azureStorageBlobContainerUri) {
       state.result = {
         backupFolderUri: azureStorageBlobContainerUri,
-        startTime: startTime,
-        endTime: endTime
+        startTime,
+        endTime
       };
     }
     if (error?.message || statusDetails) {

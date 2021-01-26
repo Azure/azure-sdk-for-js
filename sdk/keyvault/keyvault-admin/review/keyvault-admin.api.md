@@ -84,7 +84,7 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
-    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
+    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
     beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
     readonly vaultUrl: string;
 }
@@ -152,7 +152,13 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
+}
+
+// @public
+export interface RestoreResult {
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public

@@ -48,7 +48,7 @@ export interface BeginRestoreOptions extends BackupPollerOptions {}
 export interface BeginSelectiveRestoreOptions extends BackupPollerOptions {}
 
 /**
- * An interface representing the result of a log running backup operation.
+ * An interface representing the result of a backup operation.
  */
 export interface BackupResult {
   /**
@@ -56,6 +56,21 @@ export interface BackupResult {
    */
   backupFolderUri?: string;
 
+  /**
+   * The start time of the backup operation.
+   */
+  startTime: Date;
+
+  /**
+   * The end time of the backup operation.
+   */
+  endTime?: Date;
+}
+
+/**
+ * An interface representing the result of a restore operation.
+ */
+export interface RestoreResult {
   /**
    * The start time of the backup operation.
    */

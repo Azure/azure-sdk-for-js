@@ -53,8 +53,6 @@ describe("KeyVaultBackupClient", () => {
       );
       const backupResult = await backupPoller.pollUntilDone();
       assert.notExists(backupResult);
-      assert.equal(backupResult.startTime, backupPoller.getOperationState().startTime);
-      assert.equal(backupResult.endTime, backupPoller.getOperationState().endTime);
       const operationState = backupPoller.getOperationState();
       assert.isDefined(operationState.error);
       assert.isNotEmpty(operationState.error?.message);
@@ -68,9 +66,9 @@ describe("KeyVaultBackupClient", () => {
         blobSasToken,
         testPollerProperties
       );
-      const backupURI = await backupPoller.pollUntilDone();
-      assert.exists(backupURI.backupFolderUri);
-      const folderName = getFolderName(backupURI.backupFolderUri!);
+      const backupResult = await backupPoller.pollUntilDone();
+      assert.exists(backupResult.backupFolderUri);
+      const folderName = getFolderName(backupResult.backupFolderUri!);
 
       const restorePoller = await client.beginRestore(
         blobStorageUri,
@@ -78,8 +76,10 @@ describe("KeyVaultBackupClient", () => {
         folderName,
         testPollerProperties
       );
-      await restorePoller.pollUntilDone();
+      const restoreResult = await restorePoller.pollUntilDone();
       const operationState = restorePoller.getOperationState();
+      assert.equal(restoreResult.startTime, operationState.startTime);
+      assert.equal(restoreResult.endTime, operationState.endTime);
       assert.equal(operationState.isCompleted, true);
       assert.notExists(operationState.error);
       // Restore is eventually consistent so while we work

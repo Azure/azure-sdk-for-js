@@ -6,7 +6,8 @@ import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientRestoreStatusResponse
+  KeyVaultClientRestoreStatusResponse,
+  RestoreOperation
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
@@ -14,17 +15,18 @@ import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
+import { RestoreResult } from "../../backupClientModels";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {}
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {}
 
 /**
  * An internal interface representing the state of a restore Key Vault's poll operation.
  * @internal
  */
-export interface RestorePollOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface RestorePollOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -44,7 +46,7 @@ export interface RestorePollOperationState extends KeyVaultAdminPollOperationSta
  */
 export class RestorePollOperation extends KeyVaultAdminPollOperation<
   RestorePollOperationState,
-  string
+  RestoreResult
 > {
   constructor(
     public state: RestorePollOperationState,
@@ -114,26 +116,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
         }
       });
 
-      const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
-
-      if (!startTime) {
-        state.error = new Error(`Missing "startTime" from the full restore operation.`);
-        state.isCompleted = true;
-        return this;
-      }
-
-      state.isStarted = true;
-      state.jobId = jobId;
-      state.endTime = endTime;
-      state.startTime = startTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-
-      state.isCompleted = !!(endTime || error?.message);
-
-      if (error?.message || statusDetails) {
-        state.error = new Error(error?.message || statusDetails);
-      }
+      this.state = this.mapState(serviceOperation);
     }
 
     if (!state.jobId) {
@@ -144,19 +127,42 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
 
     if (!state.isCompleted) {
       const serviceOperation = await this.restoreStatus(state.jobId, this.requestOptions);
-      const { endTime, status, statusDetails, error } = serviceOperation;
-
-      state.endTime = endTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-
-      state.isCompleted = !!(endTime || error?.message);
-
-      if (error?.message || statusDetails) {
-        state.error = new Error(error?.message || statusDetails);
-      }
+      this.state = this.mapState(serviceOperation);
     }
 
     return this;
+  }
+
+  private mapState(serviceOperation: RestoreOperation): RestorePollOperationState {
+    const state = { ...this.state };
+    const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
+
+    if (!startTime) {
+      state.error = new Error(`Missing "startTime" from the full restore operation.`);
+      state.isCompleted = true;
+      return state;
+    }
+
+    state.isStarted = true;
+    state.jobId = jobId;
+    state.endTime = endTime;
+    state.startTime = startTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
+    state.isCompleted = !!(endTime || error?.message);
+
+    if (state.isCompleted) {
+      state.result = {
+        startTime,
+        endTime
+      };
+    }
+
+    if (error?.message || statusDetails) {
+      state.error = new Error(error?.message || statusDetails);
+    }
+
+    return state;
   }
 }

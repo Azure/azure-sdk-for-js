@@ -16,7 +16,8 @@ import {
   BackupClientOptions,
   BackupResult,
   BeginBackupOptions,
-  BeginRestoreOptions
+  BeginRestoreOptions,
+  RestoreResult
 } from "./backupClientModels";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
 import { logger } from "./log";
@@ -211,7 +212,7 @@ export class KeyVaultBackupClient {
     sasToken: string,
     folderName: string,
     options: BeginRestoreOptions = {}
-  ): Promise<PollerLike<RestoreOperationState, undefined>> {
+  ): Promise<PollerLike<RestoreOperationState, RestoreResult>> {
     if (!(blobStorageUri && sasToken && folderName)) {
       throw new Error(
         "beginRestore requires non-empty strings for the parameters: blobStorageUri, sasToken and folderName."
