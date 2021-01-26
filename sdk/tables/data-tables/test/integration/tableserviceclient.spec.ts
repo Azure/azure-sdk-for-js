@@ -6,6 +6,7 @@ import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
 import { isNode } from "../testUtils";
 import { assert } from "chai";
+import { FullOperationResponse } from "@azure/core-client";
 
 describe("TableServiceClient", () => {
   let client: TableServiceClient;
@@ -26,7 +27,9 @@ describe("TableServiceClient", () => {
   describe("Create, get table and delete", () => {
     it("should create new table, then delete", async () => {
       const tableName = `testTable${suffix}`;
-      const createResult = await client.createTable(tableName);
+      let createResult: FullOperationResponse | undefined;
+      let deleteTableResult: FullOperationResponse | undefined;
+      await client.createTable(tableName, { onResponse: (res) => (createResult = res) });
       const result = client.listTables();
       let hasTable = false;
       for await (const table of result) {
@@ -36,10 +39,10 @@ describe("TableServiceClient", () => {
         }
       }
 
-      const deleteTableResult = await client.deleteTable(tableName);
+      await client.deleteTable(tableName, { onResponse: (res) => (deleteTableResult = res) });
 
-      assert.equal(deleteTableResult._response.status, 204);
-      assert.equal(createResult._response.status, 201);
+      assert.equal(deleteTableResult?.status, 204);
+      assert.equal(createResult?.status, 201);
       assert.isTrue(hasTable);
     });
   });

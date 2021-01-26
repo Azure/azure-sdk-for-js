@@ -332,23 +332,17 @@ export class TableClient {
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
-      value,
-      _response
+      value
     } = await this.table.queryEntities(tableName, {
       ...options,
       queryOptions
     });
 
-    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(value || []);
 
-    const resultArray = Object.assign([...tableEntities], {
+    return Object.assign([...tableEntities], {
       nextPartitionKey,
       nextRowKey
-    });
-
-    return Object.defineProperty(resultArray, "_response", {
-      enumerable: false,
-      value: _response
     });
   }
 

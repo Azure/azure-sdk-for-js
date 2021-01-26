@@ -2,16 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  TableQueryEntitiesWithPartitionAndRowKeyHeaders,
-  TableQueryEntitiesHeaders,
   TableResponseProperties,
-  TableQueryResponse,
-  TableQueryHeaders,
   TableInsertEntityHeaders,
-  TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import { PipelineResponse, PipelineOptions } from "@azure/core-https";
+import { PipelineOptions } from "@azure/core-https";
 import { OperationOptions } from "@azure/core-client";
 
 /**
@@ -25,50 +20,12 @@ export type TableServiceClientOptions = PipelineOptions & {
 /**
  * Contains response data for the createTable operation.
  */
-export type CreateTableItemResponse = TableCreateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: PipelineResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableResponse;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: TableCreateHeaders;
-  };
-};
+export type CreateTableItemResponse = TableCreateHeaders;
 
 /**
  * Contains response data for the createEntity operation.
  */
-export type CreateTableEntityResponse = TableInsertEntityHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: PipelineResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: { [propertyName: string]: any };
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: TableInsertEntityHeaders;
-  };
-};
+export type CreateTableEntityResponse = TableInsertEntityHeaders;
 
 /**
  * Contains response data for the listTable operation.
@@ -78,30 +35,12 @@ export type ListTableItemsResponse = Array<TableResponseProperties> & {
    * This header contains the continuation token value.
    */
   nextTableName?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: PipelineResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: TableQueryResponse;
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: TableQueryHeaders;
-  };
 };
 
 /**
  * Contains response data for the getEntity operation.
  */
-export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
+export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
   /**
    * Contains the continuation token value for partition key.
    */
@@ -110,48 +49,12 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
    * Contains the continuation token value for row key.
    */
   nextRowKey?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: PipelineResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: { value?: { [key: string]: any } };
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: TableQueryEntitiesHeaders;
-  };
 };
 
 /**
  * Contains response data for the listEntities operation.
  */
-export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: PipelineResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: { [propertyName: string]: any };
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
-  };
-};
+export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
 
 /**
  * Optional parameters for DeleteTableEntity operation
