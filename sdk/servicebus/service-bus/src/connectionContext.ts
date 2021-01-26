@@ -454,7 +454,11 @@ export namespace ConnectionContext {
             `streaming receivers. We should reconnect.`
         );
 
-        // Call onDetached() on streaming receivers so that they can recover
+        // Calling `onDetached()` on streaming receivers after the refreshConnection() since `onDetached()` would
+        // recover the streaming receivers and that would only be possible after the connection is refreshed.
+        //
+        // This is different from the batching receiver since `onDetached()` for the batching receiver would
+        // return the outstanding messages and close the receive link.
         await callOnDetachedOnReceivers(
           connectionContext,
           connectionError || contextError,
