@@ -6,13 +6,18 @@ import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
   ConnectionContextBase,
-  Constants,
-  CreateConnectionContextBaseParameters,
-  delay
+  CreateConnectionContextBaseParameters
 } from "@azure/core-amqp";
 import { TokenCredential } from "@azure/core-auth";
 import { ServiceBusClientOptions } from "./constructorHelpers";
-import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
+import {
+  AmqpError,
+  Connection,
+  ConnectionError,
+  ConnectionEvents,
+  EventContext,
+  OnAmqpEvent
+} from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
 import { MessageSession } from "./session/messageSession";
 import { MessageReceiver } from "./core/messageReceiver";
@@ -20,6 +25,7 @@ import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
+import { ReceiverType } from "./core/linkEntity";
 
 /**
  * @internal
@@ -129,6 +135,66 @@ type ConnectionContextMethods = Omit<
   FunctionPropertyNames<ConnectionContextBase>
 > &
   ThisType<ConnectionContextInternalMembers>;
+
+/**
+ * @internal
+ * @hidden
+ * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
+ */
+async function callOnDetachedOnReceivers(
+  connectionContext: ConnectionContext,
+  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
+  receiverType: ReceiverType
+) {
+  const detachCalls: Promise<void>[] = [];
+
+  for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
+    const receiver = connectionContext.messageReceivers[receiverName];
+    if (receiver && receiver.receiverType === receiverType) {
+      logger.verbose(
+        "[%s] calling detached on %s receiver '%s'.",
+        connectionContext.connection.id,
+        receiver.receiverType,
+        receiver.name
+      );
+      detachCalls.push(
+        receiver.onDetached(contextOrConnectionError).catch((err) => {
+          logger.logError(
+            err,
+            "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
+            connectionContext.connection.id,
+            receiver.receiverType,
+            receiver.name
+          );
+        })
+      );
+    }
+  }
+
+  return Promise.all(detachCalls);
+}
+
+/**
+ * @internal
+ * @hidden
+ * Helper method to get the number of receivers of specified type from the connectionContext.
+ */
+async function getNumberOfReceivers(
+  connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
+  receiverType: ReceiverType
+) {
+  if (receiverType === "session") {
+    const receivers = connectionContext.messageSessions;
+    return Object.keys(receivers).length;
+  }
+  const receivers = connectionContext.messageReceivers;
+  const receiverNames = Object.keys(receivers);
+  const count = receiverNames.reduce(
+    (acc, name) => (receivers[name].receiverType === receiverType ? ++acc : acc),
+    0
+  );
+  return count;
+}
 
 /**
  * @internal
@@ -325,7 +391,6 @@ export namespace ConnectionContext {
         //   by cleaning up the timers and closing the links.
         // We don't call onDetached for sender after `refreshConnection()`
         //   because any new send calls that potentially initialize links would also get affected if called later.
-        // TODO: do the same for batching receiver
         logger.verbose(
           `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
             `senders. We should not reconnect.`
@@ -354,47 +419,51 @@ export namespace ConnectionContext {
         await Promise.all(detachCalls);
       }
 
+      // Calling onDetached on batching receivers for the same reasons as sender
+      const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
+      if (!state.wasConnectionCloseCalled && numBatchingReceivers) {
+        logger.verbose(
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
+            `batching receivers. We should reconnect.`
+        );
+
+        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
+        await callOnDetachedOnReceivers(
+          connectionContext,
+          connectionError || contextError,
+          "batching"
+        );
+
+        // TODO:
+        //  `callOnDetachedOnReceivers` handles "connectionContext.messageReceivers".
+        //  ...What to do for sessions (connectionContext.messageSessions) ??
+      }
+
       await refreshConnection(connectionContext);
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was at least one receiver link on the connection before it went down.
       logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
-      if (!state.wasConnectionCloseCalled && state.numReceivers) {
+
+      // Calling onDetached on streaming receivers
+      const numStreamingReceivers = getNumberOfReceivers(connectionContext, "streaming");
+      if (!state.wasConnectionCloseCalled && numStreamingReceivers) {
         logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numReceivers} ` +
-            `receivers. We should reconnect.`
+          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numStreamingReceivers} ` +
+            `streaming receivers. We should reconnect.`
         );
-        await delay(Constants.connectionReconnectDelay);
 
-        const detachCalls: Promise<void>[] = [];
-
-        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
-        // and streaming receivers can decide whether to reconnect or not.
-        for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
-          const receiver = connectionContext.messageReceivers[receiverName];
-          if (receiver) {
-            logger.verbose(
-              "[%s] calling detached on %s receiver '%s'.",
-              connectionContext.connection.id,
-              receiver.receiverType,
-              receiver.name
-            );
-            detachCalls.push(
-              receiver.onDetached(connectionError || contextError).catch((err) => {
-                logger.logError(
-                  err,
-                  "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
-                  connectionContext.connection.id,
-                  receiver.receiverType,
-                  receiver.name
-                );
-              })
-            );
-          }
-        }
-
-        await Promise.all(detachCalls);
+        // Calling `onDetached()` on streaming receivers after the refreshConnection() since `onDetached()` would
+        // recover the streaming receivers and that would only be possible after the connection is refreshed.
+        //
+        // This is different from the batching receiver since `onDetached()` for the batching receiver would
+        // return the outstanding messages and close the receive link.
+        await callOnDetachedOnReceivers(
+          connectionContext,
+          connectionError || contextError,
+          "streaming"
+        );
       }
     };
 
