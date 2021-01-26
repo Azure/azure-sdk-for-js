@@ -7,9 +7,6 @@
  * regenerated.
  */
 
-export * from "./quota";
-export * from "./quotaRequestStatus";
-export * from "./autoQuotaIncrease";
 export * from "./reservation";
 export * from "./reservationOrder";
 export * from "./operation";
