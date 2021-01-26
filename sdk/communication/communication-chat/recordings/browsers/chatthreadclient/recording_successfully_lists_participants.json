@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3A1e05051690684f34b0597e615410220e%40thread.v2/participants",
+   "query": {
+    "api-version": "2020-11-01-preview3"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000007-e003-5d0d-1db7-3a3a0d0035f9\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000007-e003-5fae-1db7-3a3a0d0035fa\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:46849534-eb08-4ab7-bde7-c36928cd1547_00000007-e003-775e-1db7-3a3a0d0035fb\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "2619d9c8fd2a68ddf4c2bc104c2c0bf2"
+}

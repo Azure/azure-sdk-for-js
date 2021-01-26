@@ -5,7 +5,7 @@ import { isLiveMode, Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUser } from "@azure/communication-common";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import sinon from "sinon";
 import { isNode } from "@azure/core-http";
 
@@ -15,8 +15,8 @@ describe("ChatClient", function() {
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
 
-  let testUser: CommunicationUser;
-  let testUser2: CommunicationUser;
+  let testUser: CommunicationUserIdentifier;
+  let testUser2: CommunicationUserIdentifier;
 
   this.afterAll(async function() {
     // await deleteTestUser(testUser);

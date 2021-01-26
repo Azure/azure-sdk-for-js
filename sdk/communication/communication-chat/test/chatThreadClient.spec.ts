@@ -5,7 +5,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUser } from "@azure/communication-common";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 
 describe("ChatThreadClient", function() {
   let messageId: string;
@@ -14,9 +14,9 @@ describe("ChatThreadClient", function() {
   let chatThreadClient: ChatThreadClient;
   let threadId: string;
 
-  let testUser: CommunicationUser;
-  let testUser2: CommunicationUser;
-  let testUser3: CommunicationUser;
+  let testUser: CommunicationUserIdentifier;
+  let testUser2: CommunicationUserIdentifier;
+  let testUser3: CommunicationUserIdentifier;
 
   beforeEach(async function() {
     recorder = createRecorder(this);
