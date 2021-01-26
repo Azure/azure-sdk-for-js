@@ -203,7 +203,10 @@ export function newPipeline(
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
     new StorageRetryPolicyFactory(pipelineOptions.retryOptions), // Retry policy should be above any policy that throws retryable errors
-    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
+    // Default deserializationPolicy is provided by protocol layer
+    // Use customized XML char key of "#" so we could deserialize metadata
+    // with "_" key
+    deserializationPolicy(undefined, { xmlCharKey: "#" }),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
