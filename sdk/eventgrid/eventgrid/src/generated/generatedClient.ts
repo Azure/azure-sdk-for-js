@@ -78,7 +78,7 @@ class GeneratedClient extends GeneratedClientContext {
 const serializer = createSerializer(Mappers, /* isXml */ false);
 
 const publishEventsOperationSpec: OperationSpec = {
-  path: "/api/events",
+  path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.events,
@@ -89,7 +89,7 @@ const publishEventsOperationSpec: OperationSpec = {
   serializer
 };
 const publishCloudEventEventsOperationSpec: OperationSpec = {
-  path: "/api/events",
+  path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.events1,
@@ -100,7 +100,7 @@ const publishCloudEventEventsOperationSpec: OperationSpec = {
   serializer
 };
 const publishCustomEventEventsOperationSpec: OperationSpec = {
-  path: "/api/events",
+  path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.events2,
