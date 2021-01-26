@@ -18,7 +18,9 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3cbc984
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200626.1"
+  "@autorest/typescript": "6.0.0-dev.20210121.2"
+disable-async-iterators: true
+hide-clients: true
 ```
 
 ## Customizations for Track 2 Generator
