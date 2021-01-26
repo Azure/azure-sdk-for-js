@@ -50,7 +50,7 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node purchas
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation]<!--[apiref]--> for more information about the APIs that are available in the clients.
 
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/purchasePhoneNumber.js
 [releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/javascript/releasePhoneNumbers.js
