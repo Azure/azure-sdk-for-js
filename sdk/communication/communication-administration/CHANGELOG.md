@@ -4,11 +4,6 @@
 
 ### Added
 
-- `CommunicationIdentityClient` added a constructor that supports `TokenCredential`.
-- `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
-
-### Added
-
 - `PhoneNumberAdministrationClient` added a constructor that supports `TokenCredential`.
 
 ### Breaking Changes
