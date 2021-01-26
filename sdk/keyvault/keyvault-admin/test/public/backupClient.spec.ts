@@ -39,7 +39,10 @@ describe("KeyVaultBackupClient", () => {
       );
       const backupResult = await backupPoller.pollUntilDone();
       assert.notExists(backupPoller.getOperationState().error);
-      assert.match(backupResult, new RegExp(blobStorageUri));
+      assert.exists(backupResult.backupFolderUri);
+      assert.equal(backupResult.startTime, backupPoller.getOperationState().startTime);
+      assert.equal(backupResult.endTime, backupPoller.getOperationState().endTime);
+      assert.match(backupResult.backupFolderUri!, new RegExp(blobStorageUri));
     });
 
     it("returns the correct backup result when fails to authenticate", async function() {
@@ -50,6 +53,8 @@ describe("KeyVaultBackupClient", () => {
       );
       const backupResult = await backupPoller.pollUntilDone();
       assert.notExists(backupResult);
+      assert.equal(backupResult.startTime, backupPoller.getOperationState().startTime);
+      assert.equal(backupResult.endTime, backupPoller.getOperationState().endTime);
       const operationState = backupPoller.getOperationState();
       assert.isDefined(operationState.error);
       assert.isNotEmpty(operationState.error?.message);
@@ -64,7 +69,8 @@ describe("KeyVaultBackupClient", () => {
         testPollerProperties
       );
       const backupURI = await backupPoller.pollUntilDone();
-      const folderName = getFolderName(backupURI);
+      assert.exists(backupURI.backupFolderUri);
+      const folderName = getFolderName(backupURI.backupFolderUri!);
 
       const restorePoller = await client.beginRestore(
         blobStorageUri,
@@ -92,7 +98,8 @@ describe("KeyVaultBackupClient", () => {
         testPollerProperties
       );
       const backupURI = await backupPoller.pollUntilDone();
-      const folderName = getFolderName(backupURI);
+      assert.exists(backupURI.backupFolderUri);
+      const folderName = getFolderName(backupURI.backupFolderUri!);
 
       const keyName = "rsa-1";
       const selectiveRestorePoller = await client.beginSelectiveRestore(

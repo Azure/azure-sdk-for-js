@@ -5,12 +5,13 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
+  FullBackupOperation,
   KeyVaultClientFullBackupOptionalParams,
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
-import { BeginBackupOptions } from "../../backupClientModels";
+import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
@@ -19,12 +20,12 @@ import {
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
  */
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 /**
  * An internal interface representing the state of a backup Key Vault's poll operation.
  */
-export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<string> {
+export interface BackupPollOperationState extends KeyVaultAdminPollOperationState<BackupResult> {
   /**
    * The URI of the blob storage account.
    */
@@ -105,35 +106,7 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
         }
       });
 
-      const {
-        startTime,
-        jobId,
-        azureStorageBlobContainerUri,
-        endTime,
-        error,
-        status,
-        statusDetails
-      } = serviceOperation;
-
-      if (!startTime) {
-        state.error = new Error(`Missing "startTime" from the full backup operation.`);
-        state.isCompleted = true;
-        return this;
-      }
-
-      state.isStarted = true;
-      state.jobId = jobId;
-      state.endTime = endTime;
-      state.startTime = startTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-      state.result = azureStorageBlobContainerUri;
-
-      state.isCompleted = !!(endTime || error?.message);
-
-      if (error?.message || statusDetails) {
-        state.error = new Error(error?.message || statusDetails);
-      }
+      this.state = this.mapState(serviceOperation);
     }
 
     if (!state.jobId) {
@@ -144,26 +117,50 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
 
     if (!state.isCompleted) {
       const serviceOperation = await this.fullBackupStatus(state.jobId, this.requestOptions);
-      const {
-        azureStorageBlobContainerUri,
-        endTime,
-        status,
-        statusDetails,
-        error
-      } = serviceOperation;
-
-      state.endTime = endTime;
-      state.status = status;
-      state.statusDetails = statusDetails;
-      state.result = azureStorageBlobContainerUri;
-
-      state.isCompleted = !!(endTime || error?.message);
-
-      if (error?.message || statusDetails) {
-        state.error = new Error(error?.message || statusDetails);
-      }
+      this.state = this.mapState(serviceOperation);
     }
 
     return this;
+  }
+
+  mapState(serviceOperation: FullBackupOperation): BackupPollOperationState {
+    const state = { ...this.state };
+    const {
+      startTime,
+      jobId,
+      azureStorageBlobContainerUri,
+      endTime,
+      error,
+      status,
+      statusDetails
+    } = serviceOperation;
+
+    if (!startTime) {
+      state.error = new Error(`Missing "startTime" from the full backup operation.`);
+      state.isCompleted = true;
+      return state;
+    }
+
+    state.isStarted = true;
+    state.jobId = jobId;
+    state.endTime = endTime;
+    state.startTime = startTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
+    state.isCompleted = !!(endTime || error?.message);
+
+    if (state.isCompleted && azureStorageBlobContainerUri) {
+      state.result = {
+        backupFolderUri: azureStorageBlobContainerUri,
+        startTime: startTime,
+        endTime: endTime
+      };
+    }
+    if (error?.message || statusDetails) {
+      state.error = new Error(error?.message || statusDetails);
+    }
+
+    return state;
   }
 }

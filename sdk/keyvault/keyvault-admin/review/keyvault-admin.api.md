@@ -21,12 +21,19 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 // @public
 export interface BackupPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
+}
+
+// @public
+export interface BackupResult {
+    backupFolderUri?: string;
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public
@@ -76,7 +83,7 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, string>>;
+    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
     beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
     beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
     readonly vaultUrl: string;
