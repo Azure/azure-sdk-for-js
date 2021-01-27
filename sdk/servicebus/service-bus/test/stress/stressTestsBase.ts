@@ -23,7 +23,6 @@ import {
 } from "./utils";
 import * as appInsights from "applicationinsights";
 const writeFile = util.promisify(fs.writeFile);
-const nodeAppendFile = util.promisify(fs.appendFile);
 
 appInsights.setup()
   .setUseDiskRetryCaching(true)
