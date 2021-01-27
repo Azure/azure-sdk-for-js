@@ -18,7 +18,6 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
-import { SendSmsResult } from "./generated/src/models";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
@@ -62,6 +61,28 @@ export interface SendOptions extends OperationOptions {
    * Report.
    */
   tag?: string;
+}
+
+/**
+ * Response for a single recipient.
+ */
+export interface SendSmsResult {
+  /**
+   * The recipients's phone number in E.164 format.
+   */
+  to: string;
+  /**
+   * The identifier of the outgoing SMS message. Only present if message processed.
+   */
+  messageId?: string;
+  /**
+   * HTTP Status code.
+   */
+  httpStatusCode: number;
+  /**
+   * Optional error message in case of 4xx or 5xx errors.
+   */
+  errorMessage?: string;
 }
 
 /**
