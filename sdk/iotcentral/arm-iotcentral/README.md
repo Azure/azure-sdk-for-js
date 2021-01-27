@@ -23,24 +23,19 @@ npm install @azure/identity
 ```
 
 Please note that while the credentials from the older `@azure/ms-rest-nodeauth` and `@azure/ms-rest-browserauth` packages are still supported, these packages are in maintainence mode receiving critical bug fixes, but no new features.
-We strongly encourage you to use the credentials from `@azure/identity` where we have new credentials and features being added.
+We strongly encourage you to use the credentials from `@azure/identity` where the latest versions of Azure Active Directory and MSAL APIs are used and more authentication options are provided.
 
 ### How to use
 
-There are multiple credentials available in the `@azure/identity` package to suit your different needs. A few examples:
+There are multiple credentials available in the `@azure/identity` package to suit your different needs.
+Read about them in detail in [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
+To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
 
-- credentials using the [Service Principal](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli)
-- credentials using [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-- credentials for developer scenarios like Visual Studio Code or Azure CLI credentials.
-- interactive browser credential
-
-All of the above other than the Azure CLI credentials require you to register to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
-
-Read more in the [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
+Most of the credentials would require you to register to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
 
 #### nodejs - client creation and get apps as an example written in JavaScript.
 
-In node applications, we recommend using the `DefaultAzureCredential` which picks up the service principal details from your environment. If none is found, it looks for Managed Identity, Visual Studio Code credentials and Azure CLI credentials in that order.
+In node applications, we recommend using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which is tries different credentials internally until one of them succeeds.
 
 ##### Sample code
 
@@ -87,7 +82,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
+        tenant: "<optional tenant for your organization>",
       });
       authManager.finalizeLogin().then((res) => {
         if (!res.isLoggedIn) {
