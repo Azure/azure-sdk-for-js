@@ -178,7 +178,7 @@ export function browserConfig(test = false) {
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    
+
     baseConfig.external = [];
 
     baseConfig.context = "null";

@@ -162,7 +162,7 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    
+
     baseConfig.external = [];
 
     baseConfig.context = "null";
