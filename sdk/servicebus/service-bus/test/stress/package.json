@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
-    "test": "ts-node scenarioBatchReceive.ts --testDurationInMs=10000 --recieveMode=receiveAndDelete"
+    "test": "ts-node scenarioBatchReceive.ts --testDurationInMs=10000 --receiveMode=receiveAndDelete"
   },
   "keywords": [],
   "author": "",
