@@ -2,7 +2,7 @@
 
 ## 1.0.4 (Unreleased)
 
-- Bug fix: Fix an issue where a call to update might return stale state if the update implementation reassigns `operation.state`.
+- Bug fix: Fix an issue where we might return stale state if the `update` implementation reassigns `operation.state`.
 
 ## 1.0.3 (2021-01-07)
 
