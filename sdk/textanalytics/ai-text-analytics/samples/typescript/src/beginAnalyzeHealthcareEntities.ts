@@ -31,9 +31,11 @@ export async function main() {
   });
   const results = await poller.pollUntilDone();
   console.log(
-    `The healthcare job created on ${poller.getOperationState().createdOn} finished process`
+    `The healthcare operation created on ${poller.getOperationState().createdOn} finished process`
   );
-  console.log(`The healthcare job results will expire on ${poller.getOperationState().expiresOn}`);
+  console.log(
+    `The healthcare operation results will expire on ${poller.getOperationState().expiresOn}`
+  );
 
   for await (const result of results) {
     console.log(`- Document ${result.id}`);
@@ -51,7 +53,7 @@ export async function main() {
         if (entity.dataSources.length > 0) {
           console.log("\t and it can be referenced in the following data sources:");
           for (const ds of entity.dataSources) {
-            console.log(`\t\t- ${ds.name} with ID: ${ds.id}`);
+            console.log(`\t\t- ${ds.name} with ID: ${ds.entityId}`);
           }
         }
       }

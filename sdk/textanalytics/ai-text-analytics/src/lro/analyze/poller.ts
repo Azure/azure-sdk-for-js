@@ -3,14 +3,17 @@
 
 import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
-import { PagedAnalyzeResults } from "../../analyzeBatchTasksResult";
-import { JobManifestTasks } from "../../generated/models";
+import { PagedAnalyzeBatchActionsResult } from "../../analyzeBatchActionsResult";
+import { JobManifestTasks as GeneratedActions } from "../../generated/models";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
-import { BeginAnalyzePollerOperation, BeginAnalyzeOperationState } from "./operation";
+import {
+  BeginAnalyzeBatchActionsPollerOperation,
+  BeginAnalyzeBatchActionsOperationState
+} from "./operation";
 
-export interface AnalyzePollerOptions extends AnalysisPollerOptions {
-  tasks: JobManifestTasks;
+export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions {
+  actions: GeneratedActions;
   readonly displayName?: string;
   readonly includeStatistics?: boolean;
 }
@@ -18,43 +21,52 @@ export interface AnalyzePollerOptions extends AnalysisPollerOptions {
 /**
  * Result type of the Analyze Long-Running-Operation (LRO)
  */
-export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PagedAnalyzeResults>;
+export type AnalyzeBatchActionsPollerLike = PollerLike<
+  BeginAnalyzeBatchActionsOperationState,
+  PagedAnalyzeBatchActionsResult
+>;
 
 /**
  * Class that represents a poller that waits for the analyze results.
  */
-export class BeginAnalyzePoller extends AnalysisPoller<
-  BeginAnalyzeOperationState,
-  PagedAnalyzeResults
+export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
+  BeginAnalyzeBatchActionsOperationState,
+  PagedAnalyzeBatchActionsResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(pollerOptions: AnalyzePollerOptions) {
+  constructor(pollerOptions: AnalyzeBatchActionsPollerOptions) {
     const {
       client,
       documents,
       analysisOptions,
-      tasks,
+      actions,
       displayName,
       includeStatistics,
       updateIntervalInMs = 5000,
       resumeFrom
     } = pollerOptions;
 
-    let state: BeginAnalyzeOperationState | undefined;
+    let state: BeginAnalyzeBatchActionsOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
     const { requestOptions, tracingOptions, abortSignal } = analysisOptions || {};
-    const operation = new BeginAnalyzePollerOperation(state || {}, client, documents, tasks, {
-      requestOptions,
-      tracingOptions,
-      displayName,
-      updateIntervalInMs,
-      resumeFrom,
-      includeStatistics,
-      abortSignal
-    });
+    const operation = new BeginAnalyzeBatchActionsPollerOperation(
+      state || {},
+      client,
+      documents,
+      actions,
+      {
+        requestOptions,
+        tracingOptions,
+        displayName,
+        updateIntervalInMs,
+        resumeFrom,
+        includeStatistics,
+        abortSignal
+      }
+    );
 
     super(operation);
 

@@ -585,7 +585,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.ok(poller.getOperationState().isCancelled);
       });
 
-      it("job metadata", async function() {
+      it("operation metadata", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },

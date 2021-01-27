@@ -1,17 +1,19 @@
 # Release History
 
-## 5.1.0 (unreleased)
+## 5.1.0-beta.4 (unreleased)
 
-- A new option to control how the offset is calculated by the service, `stringIndexType`, is added to `analyzeSentiment`, `recognizeEntities`, `recognizePiiEntities`, and `beginAnalyzeHealthcareEntities`. Furthermore, `stringIndexType` is added to task types `EntitiesTask` and `PiiTask`, which are the types of input tasks to the `beginAnalyze` method. For more information, see [the Text Analytics documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/concepts/text-offsets#offsets-in-api-version-31-preview).
 - [Breaking] `beginAnalyzeHealthcare` is renamed to `beginAnalyzeHealthcareEntities`.
+- [Breaking] `beginAnalyze` is renamed to `beginAnalyzeBatchActions`.
+- A new option to control how the offset is calculated by the service, `stringIndexType`, is added to `analyzeSentiment`, `recognizeEntities`, `recognizePiiEntities`, and `beginAnalyzeHealthcareEntities`. Furthermore, `stringIndexType` is added to task types `EntitiesTask` and `PiiTask`, which are the types of input actions to the `beginAnalyzeBatchActions` method. For more information, see [the Text Analytics documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/concepts/text-offsets#offsets-in-api-version-31-preview).
 - [Breaking] The healthcare entities returned by `beginAnalyzeHealthcare` are now organized as a directed graph where the edges represent a certain type of healthcare relationship between the source and target entities. Edges are stored in the `relatedEntities` property.
-- [Breaking] The `links` property of `HealthcareEntity` is renamed to `dataSources`, a list of objects representing medical databases, where each object has `name` and `id` properties.
-- The poller for the `beginAnalyzeBatchTasks` long-running operation gained the ability to return certain metadata information about the currently running job (e.g., when the job was created, will be expired, and last time it was updated, and also how many tasks completed and failed so far). Also, the poller for `beginAnalyzeHealthcareEntities` gained a similar ability.
+- [Breaking] The `links` property of `HealthcareEntity` is renamed to `dataSources`, a list of objects representing medical databases, where each object has `name` and `entityId` properties.
+- The poller for the `beginAnalyzeBatchActions` long-running operation gained the ability to return certain metadata information about the currently running job (e.g., when the job was created, will be expired, and last time it was updated, and also how many tasks completed and failed so far). Also, the poller for `beginAnalyzeHealthcareEntities` gained a similar ability.
+- [Breaking] the words "operation" and "action" are used consistently in our names and documentation instead of "job" and "task" respectively.
 
 ## 5.1.0-beta.3 (2020-11-23)
 
 - We are now targeting the service's v3.1-preview.3 API as the default instead of v3.1-preview.2.
-- We introduced the `beginAnalyzeBatchTasks` API which supports long-running batch process of Named Entity Recognition, Personally identifiable Information, and Key Phrase Extraction.
+- We introduced the `beginAnalyzeBatchActions` API which supports long-running batch process of Named Entity Recognition, Personally identifiable Information, and Key Phrase Extraction.
 - We now have added support for the recognition of healthcare entities with the introduction of the `beginAnalyzeHealthcare` API. Since the Health API is currently only available in a gated preview, you need to have your subscription on the service's allow list. Note that since this is a gated preview, AAD is not supported. For more information, see [the Text Analytics for Health documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview).
 
 ## 5.1.0-beta.2 (2020-10-06)

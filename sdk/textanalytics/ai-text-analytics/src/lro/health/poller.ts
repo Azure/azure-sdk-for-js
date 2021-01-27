@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
-import { PagedHealthcareEntities } from "../../healthResult";
+import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
 import { StringIndexType } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
@@ -21,9 +21,9 @@ export interface HealthcarePollerOptions extends AnalysisPollerOptions {
 /**
  * Result type of the Health Long-Running-Operation (LRO)
  */
-export type HealthcarePollerLike = PollerLike<
+export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
   BeginAnalyzeHealthcareOperationState,
-  PagedHealthcareEntities
+  PagedAnalyzeHealthcareEntitiesResult
 >;
 
 /**
@@ -31,7 +31,7 @@ export type HealthcarePollerLike = PollerLike<
  */
 export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
   BeginAnalyzeHealthcareOperationState,
-  PagedHealthcareEntities
+  PagedAnalyzeHealthcareEntitiesResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(pollerOptions: HealthcarePollerOptions) {

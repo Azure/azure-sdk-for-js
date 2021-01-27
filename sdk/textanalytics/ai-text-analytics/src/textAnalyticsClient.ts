@@ -14,7 +14,7 @@ import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
-  JobManifestTasks as GeneratedJobManifestTasks,
+  JobManifestTasks as GeneratedActions,
   DetectLanguageInput,
   GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
@@ -54,30 +54,36 @@ import {
   setStrEncodingParam,
   StringIndexType
 } from "./util";
-import { BeginAnalyzeHealthcarePoller, HealthcarePollerLike } from "./lro/health/poller";
+import {
+  BeginAnalyzeHealthcarePoller,
+  AnalyzeHealthcareEntitiesPollerLike
+} from "./lro/health/poller";
 import {
   BeginAnalyzeHealthcareEntitiesOptions,
   BeginAnalyzeHealthcareOperationState
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzePollerLike, BeginAnalyzePoller } from "./lro/analyze/poller";
 import {
-  AnalyzeJobMetadata,
-  BeginAnalyzeBatchTasksOptions,
-  BeginAnalyzeOperationState
+  AnalyzeBatchActionsPollerLike,
+  BeginAnalyzeBatchActionsPoller
+} from "./lro/analyze/poller";
+import {
+  AnalyzeBatchActionsOperationMetadata,
+  BeginAnalyzeBatchActionsOptions,
+  BeginAnalyzeBatchActionsOperationState
 } from "./lro/analyze/operation";
-import { AnalysisPollOperationState, JobMetadata } from "./lro/poller";
+import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
 
 export {
-  BeginAnalyzeBatchTasksOptions,
-  AnalyzePollerLike,
-  BeginAnalyzeOperationState,
+  BeginAnalyzeBatchActionsOptions,
+  AnalyzeBatchActionsPollerLike,
+  BeginAnalyzeBatchActionsOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
-  HealthcarePollerLike,
+  AnalyzeHealthcareEntitiesPollerLike,
   BeginAnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
-  JobMetadata,
-  AnalyzeJobMetadata,
+  OperationMetadata,
+  AnalyzeBatchActionsOperationMetadata,
   StringIndexType
 };
 
@@ -182,9 +188,9 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
 }
 
 /**
- * Options for an entities recognition task.
+ * Options for an entities recognition action.
  */
-export type CategorizedEntitiesRecognitionTask = {
+export type RecognizeCategorizedEntitiesAction = {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -199,9 +205,9 @@ export type CategorizedEntitiesRecognitionTask = {
 };
 
 /**
- * Options for a Pii entities recognition task.
+ * Options for a Pii entities recognition action.
  */
-export type PiiEntitiesRecognitionTask = {
+export type RecognizePiiEntitiesAction = {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
@@ -222,9 +228,9 @@ export type PiiEntitiesRecognitionTask = {
 };
 
 /**
- * Options for a key phrases recognition task.
+ * Options for a key phrases recognition action.
  */
-export interface KeyPhrasesExtractionTask {
+export interface ExtractKeyPhrasesAction {
   /**
    * The version of the text analytics model used by this operation on this
    * batch of input documents.
@@ -233,21 +239,21 @@ export interface KeyPhrasesExtractionTask {
 }
 
 /**
- * Description of collection of tasks for the analyze API to perform on input documents
+ * Description of collection of actions for the analyze API to perform on input documents
  */
-export interface JobManifestTasks {
+export interface Actions {
   /**
-   * A collection of descriptions of entities recognition tasks.
+   * A collection of descriptions of entities recognition actions.
    */
-  entityRecognitionTasks?: CategorizedEntitiesRecognitionTask[];
+  recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
   /**
-   * A collection of descriptions of Pii entities recognition tasks.
+   * A collection of descriptions of Pii entities recognition actions.
    */
-  entityRecognitionPiiTasks?: PiiEntitiesRecognitionTask[];
+  recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
   /**
-   * A collection of descriptions of key phrases recognition tasks.
+   * A collection of descriptions of key phrases recognition actions.
    */
-  keyPhraseExtractionTasks?: KeyPhrasesExtractionTask[];
+  extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -844,7 +850,7 @@ export class TextAnalyticsClient {
   }
 
   /**
-   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
    * symptoms, etc) and their relations.
    * @param documents - Collection of documents to analyze.
    * @param language - The language that all the input strings are
@@ -858,9 +864,9 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: BeginAnalyzeHealthcareEntitiesOptions
-  ): Promise<HealthcarePollerLike>;
+  ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
   /**
-   * Start a healthcare analysis job to recognize healthcare related entities (drugs, conditions,
+   * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
    * symptoms, etc) and their relations.
    * @param documents - Collection of documents to analyze.
    * @param options - Options for the operation.
@@ -868,13 +874,13 @@ export class TextAnalyticsClient {
   async beginAnalyzeHealthcareEntities(
     documents: TextDocumentInput[],
     options?: BeginAnalyzeHealthcareEntitiesOptions
-  ): Promise<HealthcarePollerLike>;
+  ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
 
   async beginAnalyzeHealthcareEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | BeginAnalyzeHealthcareEntitiesOptions,
     options?: BeginAnalyzeHealthcareEntitiesOptions
-  ): Promise<HealthcarePollerLike> {
+  ): Promise<AnalyzeHealthcareEntitiesPollerLike> {
     let realOptions: BeginAnalyzeHealthcareEntitiesOptions;
     let realInputs: TextDocumentInput[];
     if (isStringArray(documents)) {
@@ -906,9 +912,9 @@ export class TextAnalyticsClient {
   }
 
   /**
-   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
-   * @param tasks - Tasks to execute.
+   * @param actions - Actions to execute.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.
@@ -916,30 +922,30 @@ export class TextAnalyticsClient {
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
    */
-  public async beginAnalyzeBatchTasks(
+  public async beginAnalyzeBatchActions(
     documents: string[],
-    tasks: JobManifestTasks,
+    actions: Actions,
     language?: string,
-    options?: BeginAnalyzeBatchTasksOptions
-  ): Promise<AnalyzePollerLike>;
+    options?: BeginAnalyzeBatchActionsOptions
+  ): Promise<AnalyzeBatchActionsPollerLike>;
   /**
-   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed.
+   * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
-   * @param tasks - Tasks to execute.
+   * @param actions - Actions to execute.
    * @param options - Options for the operation.
    */
-  public async beginAnalyzeBatchTasks(
+  public async beginAnalyzeBatchActions(
     documents: TextDocumentInput[],
-    tasks: JobManifestTasks,
-    options?: BeginAnalyzeBatchTasksOptions
-  ): Promise<AnalyzePollerLike>;
-  public async beginAnalyzeBatchTasks(
+    actions: Actions,
+    options?: BeginAnalyzeBatchActionsOptions
+  ): Promise<AnalyzeBatchActionsPollerLike>;
+  public async beginAnalyzeBatchActions(
     documents: string[] | TextDocumentInput[],
-    tasks: JobManifestTasks,
-    languageOrOptions?: string | BeginAnalyzeBatchTasksOptions,
-    options?: BeginAnalyzeBatchTasksOptions
-  ): Promise<AnalyzePollerLike> {
-    let realOptions: BeginAnalyzeBatchTasksOptions;
+    actions: Actions,
+    languageOrOptions?: string | BeginAnalyzeBatchActionsOptions,
+    options?: BeginAnalyzeBatchActionsOptions
+  ): Promise<AnalyzeBatchActionsPollerLike> {
+    let realOptions: BeginAnalyzeBatchActionsOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -952,13 +958,13 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as BeginAnalyzeBatchTasksOptions) || {};
+      realOptions = (languageOrOptions as BeginAnalyzeBatchActionsOptions) || {};
     }
-    const compiledTasks = addEncodingParamToAnalyzeInput(tasks);
-    const poller = new BeginAnalyzePoller({
+    const compiledActions = addEncodingParamToAnalyzeInput(actions);
+    const poller = new BeginAnalyzeBatchActionsPoller({
       client: this.client,
       documents: realInputs,
-      tasks: compiledTasks,
+      actions: compiledActions,
       analysisOptions: {
         requestOptions: realOptions.requestOptions,
         tracingOptions: realOptions.tracingOptions,
@@ -975,15 +981,15 @@ export class TextAnalyticsClient {
   }
 }
 
-function addEncodingParamToAnalyzeInput(tasks: JobManifestTasks): GeneratedJobManifestTasks {
+function addEncodingParamToAnalyzeInput(actions: Actions): GeneratedActions {
   return {
-    entityRecognitionPiiTasks: tasks.entityRecognitionPiiTasks
+    entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
       ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
-    entityRecognitionTasks: tasks.entityRecognitionTasks
+    entityRecognitionTasks: actions.recognizeEntitiesActions
       ?.map(setStrEncodingParam)
       .map(AddParamsToTask),
-    keyPhraseExtractionTasks: tasks.keyPhraseExtractionTasks?.map(AddParamsToTask)
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask)
   };
 }
 

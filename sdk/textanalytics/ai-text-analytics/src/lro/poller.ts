@@ -20,25 +20,25 @@ export interface AnalysisPollerOptions {
 /**
  * Metadata information for an analysis poller operation.
  */
-export interface JobMetadata {
+export interface OperationMetadata {
   /**
-   * The date and time the job was created.
+   * The date and time the operation was created.
    */
   createdOn?: Date;
   /**
-   * The date and time when the job results will expire on the server.
+   * The date and time when the operation results will expire on the server.
    */
   expiresOn?: Date;
   /**
-   * The job id.
+   * The operation id.
    */
-  jobId?: string;
+  operationId?: string;
   /**
-   * The time the job status was last updated.
+   * The time the operation status was last updated.
    */
   updatedOn?: Date;
   /**
-   * The current status of the job.
+   * The current status of the operation.
    */
   status?: State;
 }
@@ -48,7 +48,7 @@ export interface JobMetadata {
  */
 export interface AnalysisPollOperationState<TResult>
   extends PollOperationState<TResult>,
-    JobMetadata {}
+    OperationMetadata {}
 
 /**
  * Common properties and methods of analysis Pollers.

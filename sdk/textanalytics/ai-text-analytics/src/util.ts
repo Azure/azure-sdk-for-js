@@ -106,8 +106,8 @@ export function setStrEncodingParam<X extends { stringIndexType?: GeneratedStrin
   return { ...x, stringIndexType: x.stringIndexType || jsEncodingUnit };
 }
 
-export function AddParamsToTask<X>(task: X): { parameters?: X } {
-  return { parameters: task };
+export function AddParamsToTask<X>(action: X): { parameters?: X } {
+  return { parameters: action };
 }
 
 export interface PageParam {
@@ -136,7 +136,7 @@ export function nextLinkToTopAndSkip(nextLink: string): PageParam {
   };
 }
 
-export function getJobID(operationLocation: string): string {
+export function getOperationId(operationLocation: string): string {
   const lastSlashIndex = operationLocation.lastIndexOf("/");
   return operationLocation.substring(lastSlashIndex + 1);
 }
