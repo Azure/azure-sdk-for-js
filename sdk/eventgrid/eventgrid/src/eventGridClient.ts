@@ -53,6 +53,9 @@ export type SendCustomSchemaEventsOptions = OperationOptions;
  * The response when sending events to the Event Grid service.
  */
 export interface SendEventsResponse {
+  /**
+   * Event Response
+   */
   _response: HttpResponse;
 }
 

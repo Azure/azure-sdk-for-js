@@ -1,23 +1,23 @@
 let nock = require('nock');
 
-module.exports.hash = "4d337cb69527a689c6671b70c86910a7";
+module.exports.hash = "3c2d74fce1b4b9ed192351f1b149fe3d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .delete('/chat/threads/19%3A069d3bbafc4840df836c5fe8e232a17f%40thread.v2/members/8%3Aacs%3A8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-62cc-6a0b-343a0d00003b')
+  .delete('/chat/threads/19%3A14724b43dee94c22a938d44457110b8a%40thread.v2/members/8%3Aacs%3Aec403bbc-89a0-4037-a140-7ed471abd0e5_00000007-db1b-99e7-6032-3b3a0d0048e1')
   .query(true)
   .reply(204, "", [
   'MS-CV',
-  'TTtZ8Kdwm0e+VrtUDntjMw.0',
+  '5EEV/yyQiUOzvnaBAZYUEw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
-  '2020-07-20-preview1, 2020-09-21-preview2',
+  '2020-09-21-preview2',
   'X-Processing-Time',
-  '210ms',
+  '197ms',
   'X-Azure-Ref',
-  '0tRVgXwAAAAAjjswrztmIQ7XDmToPbDUZV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0fykPYAAAAACfHA97HrnsTpvZ1aUYq0O/WVZSMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 15 Sep 2020 01:15:33 GMT'
+  'Mon, 25 Jan 2021 20:26:39 GMT'
 ]);
