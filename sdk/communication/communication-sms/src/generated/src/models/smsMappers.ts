@@ -10,6 +10,6 @@ export {
   SendMessageRequest,
   SendSmsOptions,
   SendSmsResponse,
-  SendSmsResponseItem,
+  SendSmsResult,
   SmsSendHeaders
 } from "../models/mappers";

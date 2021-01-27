@@ -49,7 +49,7 @@ export interface SendMessageRequest {
 /**
  * Response for a single recipient.
  */
-export interface SendSmsResponseItem {
+export interface SendSmsResult {
   /**
    * The recipients's phone number in E.164 format.
    */
@@ -72,7 +72,7 @@ export interface SendSmsResponseItem {
  * Response for a successful or multi status send Sms request.
  */
 export interface SendSmsResponse {
-  value: SendSmsResponseItem[];
+  value: SendSmsResult[];
   nextLink?: string;
 }
 
