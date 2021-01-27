@@ -98,11 +98,7 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 const { MixedRealityStsClient } = require("@azure/mixed-reality-authentication");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-const client = new MixedRealityStsClient(
-  accountId,
-  accountDomain,
-  new DefaultAzureCredential()
-);
+const client = new MixedRealityStsClient(accountId, accountDomain, new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -115,9 +111,9 @@ Tokens obtained from the Mixed Reality STS have a lifetime of **24 hours**.
 
 ### Return Value
 
-The return value for a successful call to `getToken` is an `AccessToken` from
-[@azure/core-http](https://www.npmjs.com/package/@azure/core-http). An unsuccessful call will result in an exception
-being thrown.
+The return value for a successful call to `getToken` is an `GetTokenResponse`, which is an `AccessToken` from
+[@azure/core-http](https://www.npmjs.com/package/@azure/core-http) that also contains HTTP request and response
+details in the `_response` field.
 
 ## Examples
 
@@ -188,5 +184,5 @@ build and test the code.
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[register_aad_app]: https://docs.microsoft.com/azure/spatial-anchors/concepts/authentication
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential

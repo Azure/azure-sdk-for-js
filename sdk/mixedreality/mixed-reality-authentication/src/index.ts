@@ -13,4 +13,5 @@
 
 export { logger } from "./logger";
 export { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
+export { GetTokenResponse, WithResponse } from "./models/models";
 export { MixedRealityStsClient } from "./mixedRealityStsClient";

@@ -4,7 +4,6 @@
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  AccessToken,
   TokenCredential,
   InternalPipelineOptions
 } from "@azure/core-http";
@@ -17,11 +16,12 @@ import { logger } from "./logger";
 import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { retrieveJwtExpirationTimestamp } from "./util/jwt";
 import { SDK_VERSION } from "./constants";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
+import { GetTokenResponse } from "./models/models";
+import { mapToGetTokenResponse } from "./models/mappers";
 import { generateCvBase } from "./util/cv";
 
 /**
@@ -146,7 +146,7 @@ export class MixedRealityStsClient {
    * Retrieve a token from the STS service.
    * @param options Operation options.
    */
-  public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
+  public async getToken(options: GetTokenOptions = {}): Promise<GetTokenResponse> {
     let internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
@@ -159,18 +159,7 @@ export class MixedRealityStsClient {
     try {
       const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
 
-      if (tokenResponse._response.status !== 200) {
-        throw new Error(`Token request failed: ${tokenResponse._response.status}.`);
-      }
-
-      const expirationTimestamp = retrieveJwtExpirationTimestamp(tokenResponse.accessToken);
-
-      const token: AccessToken = {
-        token: tokenResponse.accessToken,
-        expiresOnTimestamp: expirationTimestamp
-      };
-
-      return token;
+      return mapToGetTokenResponse(tokenResponse);
     } catch (e) {
       // There are different standard codes available for different errors:
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
