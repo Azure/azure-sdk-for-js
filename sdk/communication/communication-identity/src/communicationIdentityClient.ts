@@ -128,17 +128,11 @@ export class CommunicationIdentityClient {
   ): Promise<IssueTokenResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      const { token, expiresOn, _response } = await this.client.issueAccessToken(
+      return await this.client.issueAccessToken(
         user.communicationUserId,
         { scopes },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const results: CommunicationUserToken = {
-        token,
-        expiresOn,
-        user
-      };
-      return attachHttpResponse(results, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

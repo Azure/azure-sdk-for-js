@@ -13,3 +13,4 @@
 - Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
 - `CommunicationIdentityClient` method `revokeTokens` no longer accepts `tokensValidFrom` as an argument.
 - `pstn` is removed from `TokenScope`
+- `issueToken` no longer returns the `CommunicationUser` alongside the token.

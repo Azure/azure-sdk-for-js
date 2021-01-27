@@ -34,7 +34,7 @@ export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 /**
  * Represents the response from issuing a token
  */
-export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
+export type IssueTokenResponse = WithResponse<CommunicationIdentityAccessToken>;
 
 /**
  * Represents the response from creating a user with a token

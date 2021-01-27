@@ -45,7 +45,7 @@ export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
-export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
+export type IssueTokenResponse = WithResponse<CommunicationIdentityAccessToken>;
 
 // @public
 export type TokenScope = "chat" | "voip";
