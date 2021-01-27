@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import * as chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
@@ -9,6 +11,7 @@ import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
 import { getFolderName, getSasToken } from "../utils/common";
 import { delay } from "@azure/core-http";
+import { assert } from "chai";
 
 describe("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
@@ -39,7 +42,10 @@ describe("KeyVaultBackupClient", () => {
       );
       const backupResult = await backupPoller.pollUntilDone();
       assert.notExists(backupPoller.getOperationState().error);
-      assert.match(backupResult, new RegExp(blobStorageUri));
+      assert.exists(backupResult.backupFolderUri);
+      assert.equal(backupResult.startTime, backupPoller.getOperationState().startTime);
+      assert.equal(backupResult.endTime, backupPoller.getOperationState().endTime);
+      assert.match(backupResult.backupFolderUri!, new RegExp(blobStorageUri));
     });
 
     it("returns the correct backup result when fails to authenticate", async function() {
@@ -48,11 +54,7 @@ describe("KeyVaultBackupClient", () => {
         "invalid_sas_token",
         testPollerProperties
       );
-      const backupResult = await backupPoller.pollUntilDone();
-      assert.notExists(backupResult);
-      const operationState = backupPoller.getOperationState();
-      assert.isDefined(operationState.error);
-      assert.isNotEmpty(operationState.error?.message);
+      assert.isRejected(backupPoller.pollUntilDone());
     });
   });
 
@@ -63,8 +65,9 @@ describe("KeyVaultBackupClient", () => {
         blobSasToken,
         testPollerProperties
       );
-      const backupURI = await backupPoller.pollUntilDone();
-      const folderName = getFolderName(backupURI);
+      const backupResult = await backupPoller.pollUntilDone();
+      assert.exists(backupResult.backupFolderUri);
+      const folderName = getFolderName(backupResult.backupFolderUri!);
 
       const restorePoller = await client.beginRestore(
         blobStorageUri,
@@ -72,8 +75,10 @@ describe("KeyVaultBackupClient", () => {
         folderName,
         testPollerProperties
       );
-      await restorePoller.pollUntilDone();
+      const restoreResult = await restorePoller.pollUntilDone();
       const operationState = restorePoller.getOperationState();
+      assert.equal(restoreResult.startTime, operationState.startTime);
+      assert.equal(restoreResult.endTime, operationState.endTime);
       assert.equal(operationState.isCompleted, true);
       assert.notExists(operationState.error);
       // Restore is eventually consistent so while we work
@@ -92,7 +97,8 @@ describe("KeyVaultBackupClient", () => {
         testPollerProperties
       );
       const backupURI = await backupPoller.pollUntilDone();
-      const folderName = getFolderName(backupURI);
+      assert.exists(backupURI.backupFolderUri);
+      const folderName = getFolderName(backupURI.backupFolderUri!);
 
       const keyName = "rsa-1";
       const selectiveRestorePoller = await client.beginSelectiveRestore(
@@ -115,10 +121,7 @@ describe("KeyVaultBackupClient", () => {
         "bad_folder",
         testPollerProperties
       );
-      await restorePoller.pollUntilDone();
-      const operationState = restorePoller.getOperationState();
-      assert.equal(operationState.isCompleted, true);
-      assert.isNotEmpty(operationState.error?.message);
+      assert.isRejected(restorePoller.pollUntilDone());
     });
   });
 });

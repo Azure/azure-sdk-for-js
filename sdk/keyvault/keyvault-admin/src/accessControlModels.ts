@@ -29,7 +29,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * The role assignment type.
    */
-  readonly type: string;
+  readonly roleAssignmentType: string;
   /**
    * Role assignment properties.
    */
