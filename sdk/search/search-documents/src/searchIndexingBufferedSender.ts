@@ -406,7 +406,7 @@ export class SearchIndexingBufferedSender<T> {
         ];
         this.initialBatchActionCount = splitActionsArray[0].length; // So, we do not want 413 happening again and again
         for (const actions of splitActionsArray) {
-          this.submitDocuments(actions, options);
+          await this.submitDocuments(actions, options);
         }
       } else if (this.isRetryAbleError(e) && retryAttempt <= this.maxRetriesPerAction) {
         // Exponentially increase the delay each time
@@ -418,7 +418,7 @@ export class SearchIndexingBufferedSender<T> {
         const delayWithJitter =
           clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
         await delay(delayWithJitter);
-        this.submitDocuments(actionsToSend, options, retryAttempt + 1);
+        await this.submitDocuments(actionsToSend, options, retryAttempt + 1);
       } else {
         this.emitter.emit("batchFailed", e);
         throw e;
