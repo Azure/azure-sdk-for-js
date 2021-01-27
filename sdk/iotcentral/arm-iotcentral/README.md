@@ -29,13 +29,11 @@ We strongly encourage you to use the credentials from `@azure/identity` where th
 
 There are multiple credentials available in the `@azure/identity` package to suit your different needs.
 Read about them in detail in [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
-To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
+To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which tries different credentials internally until one of them succeeds.
 
 Most of the credentials would require you to register to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
 
 #### nodejs - client creation and get apps as an example written in JavaScript.
-
-In node applications, we recommend using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which is tries different credentials internally until one of them succeeds.
 
 ##### Sample code
 
