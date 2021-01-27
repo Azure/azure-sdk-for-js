@@ -91,10 +91,10 @@ export class KeyVaultBackupClient {
 
 // @public
 export interface KeyVaultPermission {
-    actions?: string[];
-    dataActions?: string[];
-    denyActions?: string[];
-    denyDataActions?: string[];
+    allowedActions?: string[];
+    allowedDataActions?: string[];
+    deniedActions?: string[];
+    deniedDataActions?: string[];
 }
 
 // @public

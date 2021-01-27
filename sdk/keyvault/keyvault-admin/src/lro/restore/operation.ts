@@ -97,14 +97,14 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       fireProgress?: (state: RestorePollOperationState) => void;
     } = {}
   ): Promise<RestorePollOperation> {
-    const state = this.state;
-    const { blobStorageUri, sasToken, folderName } = state;
+    const currentState = this.state;
+    const { blobStorageUri, sasToken, folderName } = currentState;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
     }
 
-    if (!state.isStarted) {
+    if (!currentState.isStarted) {
       const serviceOperation = await this.fullRestore({
         ...this.requestOptions,
         restoreBlobDetails: {
@@ -117,14 +117,11 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       });
 
       this.state = this.mapState(serviceOperation);
-    }
-
-    if (!state.jobId) {
-      throw new Error(`Missing "jobId" from the full restore operation.`);
-    }
-
-    if (!state.isCompleted) {
-      const serviceOperation = await this.restoreStatus(state.jobId, this.requestOptions);
+    } else if (!currentState.isCompleted) {
+      if (!currentState.jobId) {
+        throw new Error(`Missing "jobId" from the full restore operation.`);
+      }
+      const serviceOperation = await this.restoreStatus(currentState.jobId, this.requestOptions);
       this.state = this.mapState(serviceOperation);
     }
 

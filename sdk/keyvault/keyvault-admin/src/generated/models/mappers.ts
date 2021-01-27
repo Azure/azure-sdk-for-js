@@ -104,7 +104,7 @@ export const Permission: coreHttp.CompositeMapper = {
           element: { type: { name: "String" } }
         }
       },
-      denyActions: {
+      notActions: {
         serializedName: "notActions",
         type: {
           name: "Sequence",
@@ -118,7 +118,7 @@ export const Permission: coreHttp.CompositeMapper = {
           element: { type: { name: "String" } }
         }
       },
-      denyDataActions: {
+      notDataActions: {
         serializedName: "notDataActions",
         type: {
           name: "Sequence",

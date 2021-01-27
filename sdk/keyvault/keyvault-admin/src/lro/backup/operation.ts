@@ -90,14 +90,14 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       fireProgress?: (state: BackupPollOperationState) => void;
     } = {}
   ): Promise<BackupPollOperation> {
-    const state = this.state;
-    const { blobStorageUri, sasToken } = state;
+    const currentState = this.state;
+    const { blobStorageUri, sasToken } = currentState;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
     }
 
-    if (!state.isStarted) {
+    if (!currentState.isStarted) {
       const serviceOperation = await this.fullBackup({
         ...this.requestOptions,
         azureStorageBlobContainerUri: {
@@ -107,14 +107,11 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       });
 
       this.state = this.mapState(serviceOperation);
-    }
-
-    if (!state.jobId) {
-      throw new Error(`Missing "jobId" from the full backup operation.`);
-    }
-
-    if (!state.isCompleted) {
-      const serviceOperation = await this.fullBackupStatus(state.jobId, this.requestOptions);
+    } else if (!currentState.isCompleted) {
+      if (!currentState.jobId) {
+        throw new Error(`Missing "jobId" from the full backup operation.`);
+      }
+      const serviceOperation = await this.fullBackupStatus(currentState.jobId, this.requestOptions);
       this.state = this.mapState(serviceOperation);
     }
 
