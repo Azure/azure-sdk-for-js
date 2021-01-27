@@ -116,20 +116,23 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
         }
       });
 
-      this.state = this.mapState(serviceOperation);
+      this.state = this.mapState(currentState, serviceOperation);
     } else if (!currentState.isCompleted) {
       if (!currentState.jobId) {
         throw new Error(`Missing "jobId" from the full restore operation.`);
       }
       const serviceOperation = await this.restoreStatus(currentState.jobId, this.requestOptions);
-      this.state = this.mapState(serviceOperation);
+      this.state = this.mapState(currentState, serviceOperation);
     }
 
     return this;
   }
 
-  private mapState(serviceOperation: RestoreOperation): RestorePollOperationState {
-    const state = { ...this.state };
+  private mapState(
+    currentState: RestorePollOperationState,
+    serviceOperation: RestoreOperation
+  ): RestorePollOperationState {
+    const newState = { ...currentState };
     const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
 
     if (!startTime) {
@@ -138,26 +141,26 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       );
     }
 
-    state.isStarted = true;
-    state.jobId = jobId;
-    state.endTime = endTime;
-    state.startTime = startTime;
-    state.status = status;
-    state.statusDetails = statusDetails;
+    newState.isStarted = true;
+    newState.jobId = jobId;
+    newState.endTime = endTime;
+    newState.startTime = startTime;
+    newState.status = status;
+    newState.statusDetails = statusDetails;
 
-    state.isCompleted = !!(endTime || error?.message);
+    newState.isCompleted = !!(endTime || error?.message);
 
     if (error?.message || statusDetails) {
       throw new Error(error?.message || statusDetails);
     }
 
-    if (state.isCompleted) {
-      state.result = {
+    if (newState.isCompleted) {
+      newState.result = {
         startTime,
         endTime
       };
     }
 
-    return state;
+    return newState;
   }
 }

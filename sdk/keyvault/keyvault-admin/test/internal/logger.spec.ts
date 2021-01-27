@@ -26,6 +26,7 @@ describe("The keyvault-admin clients logging options should work", () => {
           request: httpRequest,
           parsedBody: {
             id: `${keyVaultUrl}${path}`,
+            startTime: new Date(),
             attributes: {}
           }
         };

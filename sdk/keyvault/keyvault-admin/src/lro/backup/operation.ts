@@ -106,20 +106,23 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
         }
       });
 
-      this.state = this.mapState(serviceOperation);
+      this.state = this.mapState(currentState, serviceOperation);
     } else if (!currentState.isCompleted) {
       if (!currentState.jobId) {
         throw new Error(`Missing "jobId" from the full backup operation.`);
       }
       const serviceOperation = await this.fullBackupStatus(currentState.jobId, this.requestOptions);
-      this.state = this.mapState(serviceOperation);
+      this.state = this.mapState(currentState, serviceOperation);
     }
 
     return this;
   }
 
-  private mapState(serviceOperation: FullBackupOperation): BackupPollOperationState {
-    const state = { ...this.state };
+  private mapState(
+    currentState: BackupPollOperationState,
+    serviceOperation: FullBackupOperation
+  ): BackupPollOperationState {
+    const newState = { ...currentState };
     const {
       startTime,
       jobId,
@@ -136,27 +139,27 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
       );
     }
 
-    state.isStarted = true;
-    state.jobId = jobId;
-    state.endTime = endTime;
-    state.startTime = startTime;
-    state.status = status;
-    state.statusDetails = statusDetails;
+    newState.isStarted = true;
+    newState.jobId = jobId;
+    newState.endTime = endTime;
+    newState.startTime = startTime;
+    newState.status = status;
+    newState.statusDetails = statusDetails;
 
     if (error?.message || statusDetails) {
       throw new Error(error?.message || statusDetails);
     }
 
-    state.isCompleted = !!(endTime || error?.message);
+    newState.isCompleted = !!(endTime || error?.message);
 
-    if (state.isCompleted && azureStorageBlobContainerUri) {
-      state.result = {
+    if (newState.isCompleted && azureStorageBlobContainerUri) {
+      newState.result = {
         backupFolderUri: azureStorageBlobContainerUri,
         startTime,
         endTime
       };
     }
 
-    return state;
+    return newState;
   }
 }
