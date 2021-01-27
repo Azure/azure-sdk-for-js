@@ -25,17 +25,16 @@ async function main() {
   const from = "<phone number>";
 
   // The list of E.164 formatted phone numbers to which message is being send
-  const to = ["<phone number>"];
+  const to = ["+12345678901", "+14251234567", "+12061234567"];
 
   // The message being sent
-  const message = "Hey!";
-
-  console.log("-- Sending SMS --");
+  const message = "Hello World via SMS!";
 
   // Send SMS message
-  await client.send({ from, to, message }, { enableDeliveryReport: false });
-
-  console.log("Message sent!");
+  const sendResults = client.send({ from, to, message }, { enableDeliveryReport: true, tag: "customTag" });
+  for await (const sendResult of sendResults) {
+    console.log(`MessageId: ${sendResult.messageId} Sent to: ${sendResult.to}`);
+  }
 }
 
 main().catch((error) => {
