@@ -28,7 +28,6 @@ export interface ServiceBusClientOptions {
 
 /**
  * @internal
- * @hidden
  *
  * @param {string} connectionString
  * @param {(SharedKeyCredential | TokenCredential)} credential
@@ -52,7 +51,6 @@ export function createConnectionContext(
  * @param connectionString
  * @param options
  * @internal
- * @hidden
  */
 export function createConnectionContextForConnectionString(
   connectionString: string,
@@ -68,7 +66,6 @@ export function createConnectionContextForConnectionString(
  * @param host
  * @param options
  * @internal
- * @hidden
  */
 export function createConnectionContextForTokenCredential(
   credential: TokenCredential,
@@ -91,7 +88,6 @@ export function createConnectionContextForTokenCredential(
  * Parses a connection string and extracts the EntityPath named entity out.
  * @param connectionString An entity specific Service Bus connection string.
  * @internal
- * @hidden
  */
 export function getEntityNameFromConnectionString(connectionString: string): string {
   const entityPathMatch = connectionString.match(/^.+EntityPath=(.+?);{0,1}$/);

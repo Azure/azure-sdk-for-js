@@ -29,7 +29,6 @@ import { ReceiverType } from "./core/linkEntity";
 
 /**
  * @internal
- * @hidden
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
@@ -112,19 +111,16 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @hidden
  * Helper type to get the names of all the functions on an object.
  */
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal
- * @hidden
  * Helper type to get the types of all the functions on an object.
  */
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 /**
  * @internal
- * @hidden
  * Helper type to get the types of all the functions on ConnectionContext
  * and the internal methods from ConnectionContextInternalMembers.
  * Note that this excludes the functions that ConnectionContext inherits.
@@ -138,7 +134,6 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @hidden
  * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
  */
 async function callOnDetachedOnReceivers(
@@ -176,7 +171,6 @@ async function callOnDetachedOnReceivers(
 
 /**
  * @internal
- * @hidden
  * Helper method to get the number of receivers of specified type from the connectionContext.
  */
 async function getNumberOfReceivers(
@@ -198,7 +192,6 @@ async function getNumberOfReceivers(
 
 /**
  * @internal
- * @hidden
  */
 export namespace ConnectionContext {
   export function create(

@@ -10,7 +10,6 @@ import { MessagingError } from "@azure/core-amqp";
 
 /**
  * @internal
- * @hidden
  */
 export interface BasicPartitionProperties {
   /**

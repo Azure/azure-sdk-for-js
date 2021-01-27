@@ -45,7 +45,6 @@ export interface EventPosition {
 
 /**
  * @internal
- * @hidden
  * Gets the expression to be set as the filter clause when creating the receiver
  * @return {string} filterExpression
  */
@@ -79,7 +78,6 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
 
 /**
  * @internal
- * @hidden
  */
 export function isLatestPosition(eventPosition: EventPosition): boolean {
   if (eventPosition.offset === "@latest") {
