@@ -97,7 +97,7 @@ To refresh the user token, issue another token with the same user.
 For convenience, use `createUserWithToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
 
 ```typescript
-let { user, token } = await client.createUserWithToken(user, ["chat"]);
+let { user, token } = await client.createUserWithToken(["chat"]);
 ```
 
 ### Revoking tokens for a user
