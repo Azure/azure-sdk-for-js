@@ -20,7 +20,17 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { delay } from "@azure/core-http";
 import { getRandomIntegerInclusive } from "./serviceUtils";
 
-interface IndexDocumentsClient<T> {
+/**
+ * Index Documents Client
+ */
+export interface IndexDocumentsClient<T> {
+  /**
+   * Perform a set of index modifications (upload, merge, mergeOrUpload, delete)
+   * for the given set of documents.
+   *
+   * @param batch - An array of actions to perform on the index.
+   * @param options - Additional options.
+   */
   indexDocuments(
     batch: IndexDocumentsBatch<T>,
     options: IndexDocumentsOptions

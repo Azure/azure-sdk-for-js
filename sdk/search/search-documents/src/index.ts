@@ -38,7 +38,7 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
-export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
+export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
