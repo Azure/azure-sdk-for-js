@@ -16,4 +16,8 @@ model-date-time-as-string: false
 optional-response-headers: true
 use: "@microsoft.azure/autorest.typescript@5.0.1"
 azure-arm: false
+directive:
+    - rename-model:
+        from: SendSmsResponseItem
+        to: SendSmsResult
 ```

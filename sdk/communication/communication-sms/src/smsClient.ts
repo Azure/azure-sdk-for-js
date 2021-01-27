@@ -13,12 +13,12 @@ import {
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
+  OperationOptions
   //operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
-import { SendSmsResponseItem } from "./generated/src/models";
+import { SendSmsResult } from "./generated/src/models";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
@@ -149,7 +149,7 @@ export class SmsClient {
   public send(
     _sendRequest: SendRequest,
     _options: SendOptions = {}
-  ): PagedAsyncIterableIterator<SendSmsResponseItem> {
+  ): PagedAsyncIterableIterator<SendSmsResult> {
     const { span } = createSpan("SmsClient-Send", _options);
     try {
       return {

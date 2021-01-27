@@ -28,8 +28,8 @@ export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "SendSmsResponseItem" needs to be exported by the entry point index.d.ts
-    send(_sendRequest: SendRequest, _options?: SendOptions): PagedAsyncIterableIterator<SendSmsResponseItem>;
+    // Warning: (ae-forgotten-export) The symbol "SendSmsResult" needs to be exported by the entry point index.d.ts
+    send(_sendRequest: SendRequest, _options?: SendOptions): PagedAsyncIterableIterator<SendSmsResult>;
 }
 
 // @public
