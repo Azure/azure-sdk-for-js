@@ -78,11 +78,11 @@ export const SendMessageRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SendSmsResponseItem: coreHttp.CompositeMapper = {
-  serializedName: "SendSmsResponseItem",
+export const SendSmsResult: coreHttp.CompositeMapper = {
+  serializedName: "SendSmsResult",
   type: {
     name: "Composite",
-    className: "SendSmsResponseItem",
+    className: "SendSmsResult",
     modelProperties: {
       to: {
         required: true,
@@ -128,7 +128,7 @@ export const SendSmsResponse: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SendSmsResponseItem"
+              className: "SendSmsResult"
             }
           }
         }

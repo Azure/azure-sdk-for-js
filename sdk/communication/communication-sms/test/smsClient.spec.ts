@@ -41,7 +41,6 @@ describe("SmsClient", async () => {
     //const connectionString = env["AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING"] as string;
     //const fromNumber = env["AZURE_PHONE_NUMBER"] as string;
     //const toNumber = env["AZURE_PHONE_NUMBER"] as string;
-
     //const smsClient = new SmsClient(connectionString);
     //const sendRequest: SendRequest = {
     //  from: fromNumber,
