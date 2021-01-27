@@ -23,7 +23,6 @@ import { isJSONLikeObject } from "./utils";
 
 /**
  * @internal
- * @hidden
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
@@ -34,7 +33,6 @@ export interface AtomXmlSerializer {
 
 /**
  * @internal
- * @hidden
  * Utility to execute Atom XML operations as HTTP requests
  * @param webResource
  * @param serializer
@@ -94,7 +92,6 @@ export async function executeAtomXmlOperation(
 
 /**
  * @internal
- * @hidden
  * The key-value pairs having undefined/null as the values would lead to the empty tags in the serialized XML request.
  * Empty tags in the request body is problematic because of the following reasons.
  * - ATOM based management operations throw a "Bad Request" error if empty tags are included in the XML request body at top level.
@@ -116,7 +113,6 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }) {
 
 /**
  * @internal
- * @hidden
  * Serializes input information to construct the Atom XML request
  * @param resourceName Name of the resource to be serialized like `QueueDescription`
  * @param resource The entity details
@@ -147,7 +143,6 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
 
 /**
  * @internal
- * @hidden
  * Transforms response to contain the parsed data.
  * @param nameProperties The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
@@ -170,7 +165,6 @@ export async function deserializeAtomXmlResponse(
 
 /**
  * @internal
- * @hidden
  * Utility to deserialize the given JSON content in response body based on
  * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
  * @param response Response containing the JSON value in `response.parsedBody`
@@ -219,7 +213,6 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
 
 /**
  * @internal
- * @hidden
  * Utility to help parse given `entry` result
  * @param entry
  */
@@ -268,7 +261,6 @@ function parseEntryResult(entry: any): object | undefined {
 
 /**
  * @internal
- * @hidden
  * Utility to help parse link info from the given `feed` result
  * @param feedLink
  */
@@ -289,7 +281,6 @@ function parseLinkInfo(
 
 /**
  * @internal
- * @hidden
  * Utility to help parse given `feed` result
  * @param feed
  */
@@ -316,7 +307,6 @@ function parseFeedResult(feed: any): object[] & { nextLink?: string } {
 
 /**
  * @internal
- * @hidden
  * @param {number} statusCode
  * @returns {statusCode is keyof typeof Constants.HttpResponseCodes}
  */
@@ -328,7 +318,6 @@ function isKnownResponseCode(
 
 /**
  * @internal
- * @hidden
  * Extracts the applicable entity name(s) from the URL based on the known structure
  * and instantiates the corresponding name properties to the deserialized response
  *
@@ -388,7 +377,6 @@ function setName(entry: any, nameProperties: any): any {
 
 /**
  * @internal
- * @hidden
  * Utility to help construct the normalized `RestError` object based on given error
  * information and other data present in the received `response` object.
  * @param response
@@ -435,7 +423,6 @@ export function buildError(response: HttpOperationResponse): RestError {
 
 /**
  * @internal
- * @hidden
  * Helper utility to construct user friendly error codes based on based on given error
  * information and other data present in the received `response` object.
  * @param response

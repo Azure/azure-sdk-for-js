@@ -32,7 +32,6 @@ import { createHash } from "./hash";
 
 /**
  * @internal
- * @hidden
  * The list of known assertions so far.
  * Assertions verify that the requirements to execute a local cryptography operation are met.
  */

@@ -137,7 +137,7 @@ export class SearchIndexClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.apiVersion, this.endpoint, pipeline);
+    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
   }
 
   private async *listIndexesPage(
@@ -473,7 +473,7 @@ export class SearchIndexClient {
       const etag =
         typeof index === "string" ? undefined : options.onlyIfUnchanged ? index.etag : undefined;
 
-      await this.client.indexes.deleteMethod(indexName, {
+      await this.client.indexes.delete(indexName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });
@@ -507,7 +507,7 @@ export class SearchIndexClient {
           ? synonymMap.etag
           : undefined;
 
-      await this.client.synonymMaps.deleteMethod(synonymMapName, {
+      await this.client.synonymMaps.delete(synonymMapName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
         ifMatch: etag
       });

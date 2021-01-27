@@ -1,4 +1,4 @@
-import { ReceiveMode, ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -9,7 +9,7 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-
+type ReceiveMode = "receiveAndDelete" | "peekLock";
 interface ScenarioReceiveBatchOptions {
   testDurationInMs?: number;
   receiveMode?: ReceiveMode;

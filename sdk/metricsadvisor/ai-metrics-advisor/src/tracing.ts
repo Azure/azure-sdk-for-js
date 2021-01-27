@@ -8,7 +8,6 @@ import { OperationOptions } from "@azure/core-http";
 /**
  * Creates a span using the global tracer.
  * @internal
- * @hidden
  * @param name - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.
  */

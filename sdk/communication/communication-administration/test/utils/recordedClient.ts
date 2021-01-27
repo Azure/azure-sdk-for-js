@@ -12,7 +12,7 @@ import {
   isPlaybackMode
 } from "@azure/test-utils-recorder";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
+import { PhoneNumberAdministrationClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -39,16 +39,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
     (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    /**
-     * Must replace date saved to tokensValidFrom as to not
-     * break playback tests.
-     */
-    (recording: string): string => {
-      return recording.replace(
-        /"tokensValidFrom"\s?:\s?"[^"]*"/g,
-        `"tokensValidFrom":"2020-10-10T00:00:00.000Z"`
-      );
-    },
     (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
     (recording: string): string => {
       return recording.replace(
@@ -64,48 +54,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   ],
   queryParametersToSkip: []
 };
-
-export function createRecordedCommunicationIdentityClient(
-  context: Context
-): RecordedClient<CommunicationIdentityClient> {
-  const recorder = record(context, environmentSetup);
-
-  return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
-    recorder
-  };
-}
-
-export function createRecordedCommunicationIdentityClientWithToken(
-  context: Context
-): RecordedClient<CommunicationIdentityClient> | undefined {
-  const recorder = record(context, environmentSetup);
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
-  if (isPlaybackMode()) {
-    credential = {
-      getToken: async (_scopes) => {
-        return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
-    };
-
-    return {
-      client: new CommunicationIdentityClient(endpoint, credential),
-      recorder
-    };
-  }
-
-  try {
-    credential = new DefaultAzureCredential();
-  } catch {
-    return undefined;
-  }
-
-  return {
-    client: new CommunicationIdentityClient(endpoint, credential),
-    recorder
-  };
-}
 
 export function createRecordedPhoneNumberAdministrationClient(
   context: Context

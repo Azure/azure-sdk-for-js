@@ -17,7 +17,6 @@ export type LocalCryptographyOperationName = "encrypt" | "wrapKey" | "createHash
 
 /**
  * @internal
- * @hidden
  * Abstract representation of a assertion.
  * Assertions verify that the requirements to execute a local cryptography operation are met.
  * @param key - The JSON Web Key that will be used during the local operation.

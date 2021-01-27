@@ -10,6 +10,7 @@ import {
   OperationOptions,
   RestResponse
 } from "@azure/core-http";
+import { TokenCredential } from "@azure/identity";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 
@@ -45,7 +46,7 @@ import {
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration
 } from "./models";
-import { DataSourceType, NeedRollupEnum } from "./generated/models";
+import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -165,7 +166,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   constructor(
     endpointUrl: string,
-    credential: MetricsAdvisorKeyCredential,
+    credential: TokenCredential | MetricsAdvisorKeyCredential,
     options: MetricsAdvisorAdministrationClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -952,7 +953,7 @@ export class MetricsAdvisorAdministrationClient {
           description,
           externalLink,
           hookParameter
-        },
+        } as HookInfoUnion,
         requestOptions
       );
       if (!result.location) {
