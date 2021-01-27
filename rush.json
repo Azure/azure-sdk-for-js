@@ -621,6 +621,11 @@
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+    "packageName": "@azure/api-learn",
+    "projectFolder": "sdk/learn/api-learn",
+    "versionPolicyName": "client"
     }
   ]
 }
