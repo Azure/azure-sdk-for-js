@@ -41,15 +41,13 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest,
-  SearchIndexingBufferedSenderOptions
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
-import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
-import { createSearchIndexingBufferedSender } from "./searchIndexingBufferedSenderImpl";
+import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
@@ -60,7 +58,7 @@ export type SearchClientOptions = PipelineOptions;
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchClient<T> {
+export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -616,17 +614,6 @@ export class SearchClient<T> {
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Gets an instance of SearchIndexingBufferedSender.
-   * @param options - SearchIndexingBufferedSender Options
-   */
-
-  public getSearchIndexingBufferedSenderInstance(
-    options: SearchIndexingBufferedSenderOptions = {}
-  ): SearchIndexingBufferedSender<T> {
-    return createSearchIndexingBufferedSender(this, options);
   }
 
   private encodeContinuationToken(
