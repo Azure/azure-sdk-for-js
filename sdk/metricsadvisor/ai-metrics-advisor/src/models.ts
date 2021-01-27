@@ -160,7 +160,7 @@ export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Cou
 /**
  * Defines Map for metric name and metric id
  */
-export type DataFeedMetricMap = Record<string,number>;
+export type DataFeedMetricMap = Map<string, string>;
 
 /**
  * Specifies the rollup settings for a data feed.
