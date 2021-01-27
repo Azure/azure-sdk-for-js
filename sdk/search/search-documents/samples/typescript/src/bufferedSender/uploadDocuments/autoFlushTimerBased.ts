@@ -80,7 +80,10 @@ export async function main() {
       parkingIncluded: false,
       lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
-      location: new GeographyPoint(47.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 47.678581
+      })
     }
   ]);
 
