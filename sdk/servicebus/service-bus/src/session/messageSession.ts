@@ -545,7 +545,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       await super.close();
 
-      await this._batchingReceiverLite.close();
+      await this._batchingReceiverLite.terminate();
     } catch (err) {
       logger.logError(
         err,
