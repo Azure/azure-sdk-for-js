@@ -888,7 +888,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const results = await poller.pollUntilDone();
         for await (const page of results) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const action = entitiesResult[0];
             for (const result of action) {
@@ -922,7 +922,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const results = await poller.pollUntilDone();
         for await (const page of results) {
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const action = keyPhrasesResult[0];
             assert.equal(action.length, 2);
@@ -970,7 +970,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const action = entitiesResult[0];
             assert.equal(action.length, 3);
@@ -1013,7 +1013,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.piiEntitiesRecognitionResults;
+          const entitiesResult = page.recognizePiiEntitiesResults;
           if (entitiesResult.length === 1) {
             const action = entitiesResult[0];
             assert.equal(action.length, 3);
@@ -1098,7 +1098,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 3);
@@ -1109,7 +1109,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 3);
@@ -1120,7 +1120,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 3);
@@ -1164,7 +1164,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 3);
@@ -1175,7 +1175,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 3);
@@ -1186,7 +1186,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult && keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 3);
@@ -1221,7 +1221,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 5);
@@ -1233,7 +1233,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 5);
@@ -1245,7 +1245,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 5);
@@ -1282,7 +1282,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         const result = await poller.pollUntilDone();
         const in_order = ["56", "0", "22", "19", "1"];
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           if (entitiesResult.length === 1) {
             const entitiesDocs = entitiesResult[0];
             assert.equal(entitiesDocs.length, 5);
@@ -1294,7 +1294,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of entities results but did not get one.");
           }
 
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
           if (piiEntitiesResult.length === 1) {
             const piiEntitiesDocs = piiEntitiesResult[0];
             assert.equal(piiEntitiesDocs.length, 5);
@@ -1306,7 +1306,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             assert.fail("expected an array of pii entities results but did not get one.");
           }
 
-          const keyPhrasesResult = page.keyPhrasesExtractionResults;
+          const keyPhrasesResult = page.extractKeyPhrasesResults;
           if (keyPhrasesResult.length === 1) {
             const keyPhrasesDocs = keyPhrasesResult[0];
             assert.equal(keyPhrasesDocs.length, 5);
@@ -1372,7 +1372,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1404,7 +1404,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1435,7 +1435,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1466,7 +1466,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const entitiesResult = page.entitiesRecognitionResults;
+          const entitiesResult = page.recognizeEntitiesResults;
           assert.equal(entitiesResult.length, 1);
           for (const entitiesDocs of entitiesResult) {
             assert.equal(entitiesDocs.length, 3);
@@ -1494,15 +1494,15 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults[0];
+        const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
         for (const doc of entitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnsupportedLanguageCode");
         }
-        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults[0];
+        const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
         for (const doc of piiEntitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnsupportedLanguageCode");
         }
-        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults[0];
+        const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
         for (const doc of keyPhrasesTaskDocs) {
           assert.equal(doc.error?.code, "UnsupportedLanguageCode");
         }
@@ -1530,15 +1530,15 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
-        const entitiesTaskDocs = firstResult?.entitiesRecognitionResults[0];
+        const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
         for (const doc of entitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnknownError");
         }
-        const piiEntitiesTaskDocs = firstResult?.piiEntitiesRecognitionResults[0];
+        const piiEntitiesTaskDocs = firstResult?.recognizePiiEntitiesResults[0];
         for (const doc of piiEntitiesTaskDocs) {
           assert.equal(doc.error?.code, "UnknownError");
         }
-        const keyPhrasesTaskDocs = firstResult?.keyPhrasesExtractionResults[0];
+        const keyPhrasesTaskDocs = firstResult?.extractKeyPhrasesResults[0];
         for (const doc of keyPhrasesTaskDocs) {
           assert.equal(doc.error?.code, "UnknownError");
         }
@@ -1564,7 +1564,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         let pageCount = 0;
         const pageSize = 10;
         for await (const page of result.byPage({ maxPageSize: pageSize })) {
-          const entitiesTaskDocs = page.entitiesRecognitionResults[0];
+          const entitiesTaskDocs = page.recognizeEntitiesResults[0];
           ++pageCount;
           for (const doc of entitiesTaskDocs) {
             assert.isUndefined(doc.error);
@@ -1600,7 +1600,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const result = await poller.pollUntilDone();
         for await (const page of result) {
-          const piiEntitiesResult = page.piiEntitiesRecognitionResults;
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
           assert.equal(piiEntitiesResult.length, 1);
           for (const piiEntitiesDocs of piiEntitiesResult) {
             assert.equal(piiEntitiesDocs.length, 3);
@@ -1666,7 +1666,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         );
         const pollerResult = await poller.pollUntilDone();
         const firstResult = (await pollerResult.next()).value;
-        const result = firstResult.piiEntitiesRecognitionResults![0]![0];
+        const result = firstResult.recognizePiiEntitiesResults![0]![0];
         if (!result.error) {
           assert.equal(result.entities[0].offset, 17); // 25 with UTF16
           assert.equal(result.entities[0].length, 11);

@@ -37,9 +37,9 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<BeginAnalyzeBatchActionsO
 
 // @public
 export interface AnalyzeBatchActionsResult {
-    entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
-    keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
-    piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
+    extractKeyPhrasesResults: ExtractKeyPhrasesResultArray[];
+    recognizeEntitiesResults: RecognizeCategorizedEntitiesResultArray[];
+    recognizePiiEntitiesResults: RecognizePiiEntitiesResultArray[];
 }
 
 // @public

@@ -196,7 +196,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       const result: AnalyzeBatchActionsResult = {
-        entitiesRecognitionResults:
+        recognizeEntitiesResults:
           response.tasks.entityRecognitionTasks?.map(
             ({ results }): RecognizeCategorizedEntitiesResultArray =>
               makeRecognizeCategorizedEntitiesResultArray(
@@ -207,12 +207,12 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
                 results?.statistics
               )
           ) ?? [],
-        piiEntitiesRecognitionResults:
+        recognizePiiEntitiesResults:
           response.tasks.entityRecognitionPiiTasks?.map(
             ({ results }): RecognizePiiEntitiesResultArray =>
               makeRecognizePiiEntitiesResultArray(this.documents, results)
           ) ?? [],
-        keyPhrasesExtractionResults:
+        extractKeyPhrasesResults:
           response.tasks.keyPhraseExtractionTasks?.map(
             ({ results }): ExtractKeyPhrasesResultArray =>
               makeExtractKeyPhrasesResultArray(

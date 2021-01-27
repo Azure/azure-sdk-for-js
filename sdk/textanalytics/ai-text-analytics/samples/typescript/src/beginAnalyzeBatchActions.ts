@@ -47,7 +47,7 @@ export async function main() {
   );
 
   for await (const page of resultPages) {
-    const keyPhrasesResults = page.keyPhrasesExtractionResults![0];
+    const keyPhrasesResults = page.extractKeyPhrasesResults![0];
     for (const doc of keyPhrasesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
@@ -60,7 +60,7 @@ export async function main() {
       }
     }
 
-    const entitiesResults = page.entitiesRecognitionResults![0];
+    const entitiesResults = page.recognizeEntitiesResults![0];
     for (const doc of entitiesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
@@ -73,7 +73,7 @@ export async function main() {
       }
     }
 
-    const piiEntitiesResults = page.piiEntitiesRecognitionResults![0];
+    const piiEntitiesResults = page.recognizePiiEntitiesResults![0];
     for (const doc of piiEntitiesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
