@@ -423,7 +423,7 @@ async function main() {
 main();
 ```
 
-### Analyze batch actions
+### Analyze Batch Actions
 
 Analyze batch actions enables the application of multiple analyses (named actions) at once.
 
