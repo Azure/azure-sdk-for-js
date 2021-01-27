@@ -42,8 +42,106 @@ matrix([[true, false]] as const, async (useAad) => {
         if (recorder && !feedName) {
           feedName = recorder.getUniqueName("js-test-datafeed-");
         }
+<<<<<<< HEAD
         if (recorder && !appInsightsFeedName) {
           appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
+=======
+      };
+      const actual = await client.createDataFeed({
+        name: feedName,
+        source: expectedSource,
+        granularity,
+        schema: dataFeedSchema,
+        ingestionSettings: dataFeedIngestion,
+        ...options
+      });
+
+      assert.ok(actual.id, "Expecting valid data feed id");
+      createdAzureBlobDataFeedId = actual.id;
+
+      assert.equal(actual.schema.metrics?.length, 2, "Expecting two metrics");
+      assert.equal(actual.schema.dimensions?.length, 2, "Expecting two dimensions");
+      assert.equal(actual.name, feedName);
+      assert.deepStrictEqual(actual.source, expectedSource, "Source mismatch!");
+      assert.deepStrictEqual(actual.granularity, granularity, "Granularity mismatch!");
+      assert.equal(
+        actual.schema.metrics[0].name,
+        dataFeedSchema.metrics[0].name,
+        "Schema metric 1 name mismatch!"
+      );
+      assert.equal(
+        actual.schema.metrics[1].name,
+        dataFeedSchema.metrics[1].name,
+        "Schema metric 2 name mismatch!"
+      );
+      assert.strictEqual(actual.schema.timestampColumn, "", "Schema timestampColumn mismatch!");
+      assert.equal(
+        actual.schema.dimensions![0].displayName,
+        dataFeedSchema.dimensions![0].displayName,
+        "Schema dimension 1 display name mismatch!"
+      );
+      assert.equal(
+        actual.metricIds.get(dataFeedSchema.metrics[0].name),
+        dataFeedSchema.metrics[0].id
+      );
+      assert.deepStrictEqual(
+        actual.ingestionSettings,
+        dataFeedIngestion,
+        "Ingesting settings mismatch!"
+      );
+
+      assert.equal(actual.description, options.description, "options.description mismatch");
+      assert.equal(actual.accessMode, options.accessMode, "options.accessMode mismatch");
+      assert.ok(
+        actual.missingDataPointFillSettings,
+        "Expecting valid options.missingDataPointFillSettings"
+      );
+      assert.equal(
+        actual.missingDataPointFillSettings!.fillType,
+        options.missingDataPointFillSettings!.fillType,
+        "options.missingDataPointFillSettings.fillType mismatch"
+      );
+      assert.ok(
+        actual.missingDataPointFillSettings!.fillType,
+        "Expecting valid options.missingDataPointFillSettings.fillType"
+      );
+      if (actual.missingDataPointFillSettings!.fillType! === "CustomValue") {
+        // not sure why TS didn't narrow down the union type for us...so casting to any
+        assert.equal(
+          (actual.missingDataPointFillSettings! as any).customFillValue,
+          (options.missingDataPointFillSettings! as any).customFillValue,
+          "options.missingDataPointFillSettings.customFillValue mismatch"
+        );
+      }
+      assert.ok(actual.rollupSettings, "Expecting valid options.rollupSettings");
+      assert.equal(
+        actual.rollupSettings!.rollupType,
+        options.rollupSettings!.rollupType,
+        "options.missingDataPointFillSettings.rollupType mismatch"
+      );
+      assert.ok(
+        actual.rollupSettings!.rollupType,
+        "Expecting valid options.missingDataPointFillSettings.fillType"
+      );
+      if (actual.rollupSettings!.rollupType! === "AutoRollup") {
+        // not sure why TS didn't narrow down the union type for us...so casting to any
+        assert.equal(
+          (actual.rollupSettings! as any).rollupIdentificationValue,
+          (options.rollupSettings! as any).rollupIdentificationValue,
+          "options.missingDataPointFillSettings.fillType mismatch"
+        );
+      }
+    });
+
+    it("retrieves an Azure Blob datafeed", async function() {
+      // accessing environment variables here so they are already replaced by test env ones
+      const expectedSource: DataFeedSource = {
+        dataSourceType: "AzureBlob",
+        dataSourceParameter: {
+          connectionString: testEnv.METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING,
+          container: "adsample",
+          blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE
+>>>>>>> 85d289de6... update review file and test
         }
         if (recorder && !sqlServerFeedName) {
           sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
