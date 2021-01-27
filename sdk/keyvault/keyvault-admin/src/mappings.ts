@@ -44,13 +44,7 @@ export const mappings = {
         roleName: roleName!,
         description: description!,
         roleType: roleType!,
-        permissions:
-          permissions?.map((permission) => ({
-            allowedActions: permission.actions,
-            deniedActions: permission.notActions,
-            allowedDataActions: permission.dataActions,
-            deniedDataActions: permission.notDataActions
-          })) || [],
+        permissions: permissions!,
         assignableScopes: assignableScopes!
       };
     }

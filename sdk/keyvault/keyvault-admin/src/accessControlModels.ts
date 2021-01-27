@@ -43,19 +43,19 @@ export interface KeyVaultPermission {
   /**
    * Allowed actions.
    */
-  allowedActions?: string[];
+  actions?: string[];
   /**
    * Denied actions.
    */
-  deniedActions?: string[];
+  notActions?: string[];
   /**
    * Allowed Data actions.
    */
-  allowedDataActions?: string[];
+  dataActions?: string[];
   /**
    * Denied Data actions.
    */
-  deniedDataActions?: string[];
+  notDataActions?: string[];
 }
 
 /**
