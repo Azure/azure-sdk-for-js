@@ -19,7 +19,6 @@ The overall build pipeline looks like the following:
 
 Tests follow a similar pipeline, however test output is under `dist-test` folder.
 
-
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
 
 [readme_template]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/README-TEMPLATE.md

@@ -623,9 +623,9 @@
       "versionPolicyName": "client"
     },
     {
-    "packageName": "@azure/api-learn",
-    "projectFolder": "sdk/learn/api-learn",
-    "versionPolicyName": "client"
+      "packageName": "@azure/api-learn",
+      "projectFolder": "sdk/learn/api-learn",
+      "versionPolicyName": "client"
     }
   ]
 }
