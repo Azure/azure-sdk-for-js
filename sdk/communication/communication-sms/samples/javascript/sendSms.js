@@ -31,7 +31,10 @@ async function main() {
   const message = "Hello World via SMS!";
 
   // Send SMS message
-  const sendResults = client.send({ from, to, message }, { enableDeliveryReport: true, tag: "customTag" });
+  const sendResults = client.send(
+    { from, to, message },
+    { enableDeliveryReport: true, tag: "customTag" }
+  );
   for await (const sendResult of sendResults) {
     console.log(`MessageId: ${sendResult.messageId} Sent to: ${sendResult.to}`);
   }
