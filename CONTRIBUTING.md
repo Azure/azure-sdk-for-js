@@ -231,7 +231,7 @@ To maintain the quality of the documentation, the following two facilities are p
 - an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
 - the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
 
-TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, because we use the `@hidden` tag which is only supported by TypeDoc and is not a TSDoc tag, we add it as a custom tag in `tsdoc.json`.
+TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
 
 ## Onboarding a new library
 
