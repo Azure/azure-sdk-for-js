@@ -4,7 +4,7 @@
   "description": "LUISAuthoringClient Library with typescript type definitions for node.js and browser.",
   "version": "4.0.0-preview.3",
   "dependencies": {
-    "@azure/ms-rest-js": "^2.0.3",
+    "@azure/ms-rest-js": "^2.0.4",
     "tslib": "^1.10.0"
   },
   "keywords": [
@@ -19,20 +19,13 @@
   "module": "./esm/lUISAuthoringClient.js",
   "types": "./esm/lUISAuthoringClient.d.ts",
   "devDependencies": {
-    "@types/chai": "^4.2.0",
-    "@types/mocha": "^5.2.7",
-    "mocha": "^6.1.4",
-    "nock": "^10.0.0",
-    "rollup": "^0.66.2",
-    "@azure/ms-rest-azure-js": "^2.0.1",
-    "rollup-plugin-node-resolve": "^3.4.0",
+    "typescript": "^3.5.3",
+    "rollup": "^1.18.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.1.1",
-    "uglify-js": "^3.4.9",
-    "ts-mocha": "^6.0.0"
+    "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-luis-authoring",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cognitiveservices/cognitiveservices-luis-authoring",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -57,8 +50,7 @@
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/cognitiveservices-luis-authoring.js.map'\" -o ./dist/cognitiveservices-luis-authoring.min.js ./dist/cognitiveservices-luis-authoring.js",
-    "prepack": "npm install && npm run build",
-    "test": "ts-mocha -p tsconfig.test.json test/**/*.test.ts --timeout 100000"
+    "prepack": "npm install && npm run build"
   },
   "sideEffects": false,
   "autoPublish": true
