@@ -147,7 +147,6 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
@@ -161,7 +160,6 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -176,7 +174,6 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponse<
@@ -210,7 +207,6 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
  * @param fieldNames fieldNames from users.
  * @returns The field names translated into the `select` field equivalents.
  *
- * @hidden
  * @internal
  */
 export function formatFieldsForSelect(
