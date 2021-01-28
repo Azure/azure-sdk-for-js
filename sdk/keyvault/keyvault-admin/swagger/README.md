@@ -11,8 +11,8 @@ generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/743069bfe6df6b81604abe40c3076b93db2e75b3/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/rbac.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/743069bfe6df6b81604abe40c3076b93db2e75b3/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/backuprestore.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f7879713cbd89efb2c68c6b6f2566b49db97d832/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/rbac.json
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f7879713cbd89efb2c68c6b6f2566b49db97d832/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/backuprestore.json
 output-folder: ../
 source-code-folder-path: ./src/generated
 ```

@@ -16,7 +16,7 @@ export const mappings = {
       return {
         id: id!,
         name: name!,
-        roleAssignmentType: type!,
+        kind: type!,
         properties: {
           scope: scope as RoleAssignmentScope,
           roleDefinitionId: roleDefinitionId!,
@@ -40,7 +40,7 @@ export const mappings = {
       return {
         id: id!,
         name: name!,
-        type: type!,
+        kind: type!,
         roleName: roleName!,
         description: description!,
         roleType: roleType!,

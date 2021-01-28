@@ -23,7 +23,7 @@ export interface RoleDefinition {
   /**
    * The role definition type.
    */
-  readonly type?: string;
+  readonly type?: "Microsoft.Authorization/roleDefinitions";
   /**
    * The role name.
    */
@@ -35,7 +35,7 @@ export interface RoleDefinition {
   /**
    * The role type.
    */
-  roleType?: string;
+  roleType?: RoleType;
   /**
    * Role definition permissions.
    */
@@ -43,7 +43,7 @@ export interface RoleDefinition {
   /**
    * Role definition assignable scopes.
    */
-  assignableScopes?: string[];
+  assignableScopes?: RoleScope[];
 }
 
 /**
@@ -61,7 +61,7 @@ export interface RoleDefinitionProperties {
   /**
    * The role type.
    */
-  roleType?: string;
+  roleType?: RoleType;
   /**
    * Role definition permissions.
    */
@@ -69,7 +69,7 @@ export interface RoleDefinitionProperties {
   /**
    * Role definition assignable scopes.
    */
-  assignableScopes?: string[];
+  assignableScopes?: RoleScope[];
 }
 
 /**
@@ -77,21 +77,21 @@ export interface RoleDefinitionProperties {
  */
 export interface Permission {
   /**
-   * Allowed actions.
+   * Action permissions that are granted.
    */
   actions?: string[];
   /**
-   * Denied actions.
+   * Action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
   notActions?: string[];
   /**
-   * Allowed Data actions.
+   * Data action permissions that are granted.
    */
-  dataActions?: string[];
+  dataActions?: DataAction[];
   /**
-   * Denied Data actions.
+   * Data action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
-  notDataActions?: string[];
+  notDataActions?: DataAction[];
 }
 
 /**
@@ -173,9 +173,9 @@ export interface RoleAssignment {
  */
 export interface RoleAssignmentPropertiesWithScope {
   /**
-   * The role assignment scope.
+   * The role scope.
    */
-  scope?: string;
+  scope?: RoleScope;
   /**
    * The role definition ID.
    */
@@ -394,6 +394,48 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   retryAfter?: number;
   azureAsyncOperation?: string;
 }
+
+/**
+ * Defines values for RoleType.
+ */
+export type RoleType = "AKVBuiltInRole" | "CustomRole";
+/**
+ * Defines values for DataAction.
+ */
+export type DataAction =
+  | "Microsoft.KeyVault/managedHsm/keys/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/write/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action"
+  | "Microsoft.KeyVault/managedHsm/keys/backup/action"
+  | "Microsoft.KeyVault/managedHsm/keys/restore/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
+  | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/encrypt/action"
+  | "Microsoft.KeyVault/managedHsm/keys/decrypt/action"
+  | "Microsoft.KeyVault/managedHsm/keys/wrap/action"
+  | "Microsoft.KeyVault/managedHsm/keys/unwrap/action"
+  | "Microsoft.KeyVault/managedHsm/keys/sign/action"
+  | "Microsoft.KeyVault/managedHsm/keys/verify/action"
+  | "Microsoft.KeyVault/managedHsm/keys/create"
+  | "Microsoft.KeyVault/managedHsm/keys/delete"
+  | "Microsoft.KeyVault/managedHsm/keys/export/action"
+  | "Microsoft.KeyVault/managedHsm/keys/import/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/download/action"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read"
+  | "Microsoft.KeyVault/managedHsm/backup/start/action"
+  | "Microsoft.KeyVault/managedHsm/restore/start/action"
+  | "Microsoft.KeyVault/managedHsm/backup/status/action"
+  | "Microsoft.KeyVault/managedHsm/restore/status/action";
+/**
+ * Defines values for RoleScope.
+ */
+export type RoleScope = "/" | "/keys";
 
 /**
  * Contains response data for the delete operation.

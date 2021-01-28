@@ -3,6 +3,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import { SUPPORTED_API_VERSIONS } from "./constants";
+import { DataAction } from "./generated/models";
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
@@ -29,7 +30,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * The role assignment type.
    */
-  readonly roleAssignmentType: string;
+  readonly kind: string;
   /**
    * Role assignment properties.
    */
@@ -37,7 +38,7 @@ export interface KeyVaultRoleAssignment {
 }
 
 /**
- * VaA list of Key Vault permissions.
+ * A list of Key Vault permissions.
  */
 export interface KeyVaultPermission {
   /**
@@ -51,11 +52,11 @@ export interface KeyVaultPermission {
   /**
    * Allowed Data actions.
    */
-  dataActions?: string[];
+  dataActions?: DataAction[];
   /**
    * Denied Data actions.
    */
-  notDataActions?: string[];
+  notDataActions?: DataAction[];
 }
 
 /**
@@ -73,7 +74,7 @@ export interface KeyVaultRoleDefinition {
   /**
    * The role definition type.
    */
-  readonly type: string;
+  readonly kind: string;
   /**
    * The role name.
    */
@@ -161,6 +162,21 @@ export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
  * An interface representing optional parameters passed to {@link listRoleDefinitions}.
  */
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link getRoleDefinition}.
+ */
+export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link upsertRoleDefinition}.
+ */
+export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link deleteRoleDefinition}.
+ */
+export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {}
 
 /**
  * Arguments for retrieving the next page of search results.

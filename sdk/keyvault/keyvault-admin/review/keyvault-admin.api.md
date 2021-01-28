@@ -57,7 +57,15 @@ export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -65,9 +73,13 @@ export class KeyVaultAccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
     createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleDefinition(roleScope: RoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    // Warning: (ae-forgotten-export) The symbol "RoleScope" needs to be exported by the entry point index.d.ts
+    getRoleDefinition(roleScope: RoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    upsertRoleDefinition(roleScope: RoleScope, name: string, permissions: KeyVaultPermission[], description?: string, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
 }
 
@@ -92,17 +104,18 @@ export class KeyVaultBackupClient {
 // @public
 export interface KeyVaultPermission {
     actions?: string[];
-    dataActions?: string[];
+    // Warning: (ae-forgotten-export) The symbol "DataAction" needs to be exported by the entry point index.d.ts
+    dataActions?: DataAction[];
     notActions?: string[];
-    notDataActions?: string[];
+    notDataActions?: DataAction[];
 }
 
 // @public
 export interface KeyVaultRoleAssignment {
     readonly id: string;
+    readonly kind: string;
     readonly name: string;
     properties: KeyVaultRoleAssignmentPropertiesWithScope;
-    readonly roleAssignmentType: string;
 }
 
 // @public
@@ -123,11 +136,11 @@ export interface KeyVaultRoleDefinition {
     assignableScopes: string[];
     description: string;
     readonly id: string;
+    readonly kind: string;
     readonly name: string;
     permissions: KeyVaultPermission[];
     roleName: string;
     roleType: string;
-    readonly type: string;
 }
 
 // @public
@@ -173,6 +186,10 @@ export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperati
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2-preview";
+
+// @public
+export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {
+}
 
 
 // (No @packageDocumentation comment for this package)

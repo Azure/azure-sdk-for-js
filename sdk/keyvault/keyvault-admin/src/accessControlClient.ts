@@ -17,7 +17,11 @@ import {
   KeyVaultClientOptionalParams,
   RoleAssignmentsCreateResponse,
   RoleAssignmentsDeleteResponse,
-  RoleAssignmentsListForScopeOptionalParams
+  RoleAssignmentsListForScopeOptionalParams,
+  RoleDefinitionsCreateOrUpdateResponse,
+  RoleDefinitionsDeleteResponse,
+  RoleDefinitionsGetResponse,
+  RoleScope
 } from "./generated/models";
 
 import {
@@ -31,7 +35,11 @@ import {
   KeyVaultRoleDefinition,
   GetRoleAssignmentOptions,
   ListRoleDefinitionsPageSettings,
-  ListRoleAssignmentsPageSettings
+  ListRoleAssignmentsPageSettings,
+  KeyVaultPermission,
+  GetRoleDefinitionOptions,
+  UpsertRoleDefinitionOptions,
+  DeleteRoleDefinitionOptions
 } from "./accessControlModels";
 
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
@@ -175,7 +183,7 @@ export class KeyVaultAccessControlClient {
    * ```ts
    * const client = new KeyVaultAccessControlClient(url, credentials);
    * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
-   * const deletedRoleAssignment = const await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
+   * const deletedRoleAssignment = await client.deleteRoleAssignment(roleAssignment.properties.roleScope, roleAssignment.name);
    * console.log(deletedRoleAssignment);
    * ```
    * Deletes an existing role assignment.
@@ -428,5 +436,125 @@ export class KeyVaultAccessControlClient {
       byPage: (settings: ListRoleDefinitionsPageSettings = {}) =>
         this.listRoleDefinitionsPage(roleScope, settings, updatedOptions)
     };
+  }
+
+  /**
+   * Gets a role definition from Azure Key Vault.
+   *
+   * Example usage:
+   * ```
+   * const client = new KeyVaultAccessControlClient(url, credentials);
+   * const roleDefinition = await client.getRoleDefinition("/", "b86a8fe4-44ce-4948-aee5-eccb2c155cd7");
+   * console.log(roleDefinition);
+   * ```
+   * @param roleScope - The scope of the role definition.
+   * @param name - The name of the role definition.
+   * @param options - The optional parameters.
+   */
+  public async getRoleDefinition(
+    roleScope: RoleScope,
+    name: string,
+    options: GetRoleDefinitionOptions = {}
+  ): Promise<KeyVaultRoleDefinition> {
+    const span = createSpan("getRoleDefinition", options);
+
+    let response: RoleDefinitionsGetResponse;
+    try {
+      response = await this.client.roleDefinitions.get(
+        this.vaultUrl,
+        roleScope,
+        name,
+        setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
+
+    return mappings.roleDefinition.generatedToPublic(response);
+  }
+
+  /**
+   * Upserts a role definition in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new KeyVaultAccessControlClient(url, credentials);
+   * const permissions = [{ dataActions: "Microsoft.KeyVault/managedHsm/backup/start/action" }];
+   * const roleDefinition = await client.upsertRoleDefintion("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", permissions);
+   * console.log(roleDefinition);
+   * ```
+   * @param roleScope - The scope of the role definition.
+   * @param name - The name of the role definition. Must be a UUID.
+   * @param permissions - The set of {@link KeyVaultPermission} for this role definition.
+   * @param description - The role definition description.
+   * @param options - The optional parameters.
+   */
+  public async upsertRoleDefinition(
+    roleScope: RoleScope,
+    name: string,
+    permissions: KeyVaultPermission[],
+    description?: string,
+    options: UpsertRoleDefinitionOptions = {}
+  ): Promise<KeyVaultRoleDefinition> {
+    const span = createSpan("upsertRoleDefinition", options);
+
+    let response: RoleDefinitionsCreateOrUpdateResponse;
+    try {
+      response = await this.client.roleDefinitions.createOrUpdate(
+        this.vaultUrl,
+        roleScope,
+        name,
+        {
+          properties: {
+            description,
+            permissions,
+            assignableScopes: [roleScope],
+            roleName: name,
+            roleType: "CustomRole"
+          }
+        },
+        setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
+
+    return mappings.roleDefinition.generatedToPublic(response);
+  }
+
+  /**
+   * Deletes a custom role definition previously created in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new KeyVaultAccessControlClient(url, credentials);
+   * const roleDefinition = await client.upsertRoleDefintion("/", "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a", []);
+   * const deletedRoleDefinition = await client.deleteRoleDefinition("/", roleDefinition.name);
+   * console.log(deletedRoleDefinition);
+   * ```
+   * @param roleScope
+   * @param name
+   * @param options
+   */
+  public async deleteRoleDefinition(
+    roleScope: RoleScope,
+    name: string,
+    options: DeleteRoleDefinitionOptions = {}
+  ): Promise<KeyVaultRoleDefinition> {
+    const span = createSpan("deleteRoleDefinition", options);
+
+    let response: RoleDefinitionsDeleteResponse;
+    try {
+      response = await this.client.roleDefinitions.delete(
+        this.vaultUrl,
+        roleScope,
+        name,
+        setParentSpan(span, options)
+      );
+    } finally {
+      span.end();
+    }
+
+    return mappings.roleDefinition.generatedToPublic(response);
   }
 }
