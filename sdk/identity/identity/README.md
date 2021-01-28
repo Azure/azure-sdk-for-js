@@ -7,7 +7,7 @@ This library currently provides credentials for:
 - [Service principal authentication](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals)
 - [Managed identity authentication](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
 - [Device code authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-device-code)
-- Interactive browser authentication, based on [OAuth2 authentication code](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+- Interactive browser authentication, based on OAuth2 authentication code that uses the default system browser.
 - [Username + password authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)
 - Visual Studio Code authentication, with the login information saved in Azure plugin for Visual Studio Code
 - Azure CLI authentication, with the login information saved in Azure CLI
