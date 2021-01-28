@@ -15,7 +15,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: ./appconfiguration.json
 add-credentials: false
-package-version: 1.0.0-beta.1
+package-version: 1.0.11-beta.1
 disable-async-iterators: true
 hide-clients: true
 use-extension:
