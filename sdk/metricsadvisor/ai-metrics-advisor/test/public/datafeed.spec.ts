@@ -137,7 +137,7 @@ matrix([[true, false]] as const, async (useAad) => {
           accessMode: "Private"
         };
 
-        it.only("creates an Azure Blob datafeed", async () => {
+        it("creates an Azure Blob datafeed", async () => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -185,8 +185,6 @@ matrix([[true, false]] as const, async (useAad) => {
             dataFeedIngestion,
             "Ingesting settings mismatch!"
           );
-          console.dir(actual.metricIds);
-          console.dir(actual.schema.metrics);
           assert.equal(
             actual.metricIds.get(dataFeedSchema.metrics[0].name),
             actual.schema.metrics[0].id
