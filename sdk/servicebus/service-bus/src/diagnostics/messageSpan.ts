@@ -7,7 +7,6 @@ import { Span, SpanContext, SpanKind } from "@opentelemetry/api";
 
 /**
  * @internal
- * @hidden
  */
 export function createMessageSpan(
   parentSpan?: Span | SpanContext | null,

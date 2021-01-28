@@ -5,7 +5,6 @@ import { JsonWebKey } from "../keysModels";
 
 /**
  * @internal
- * @hidden
  * Encodes a length of a packet in DER format
  */
 function encodeLength(length: number): Uint8Array {
@@ -22,7 +21,6 @@ function encodeLength(length: number): Uint8Array {
 
 /**
  * @internal
- * @hidden
  * Encodes a buffer for DER, as sets the id to the given id
  */
 function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
@@ -90,7 +88,6 @@ function formatBase64Sequence(base64Sequence: string): string {
 
 /**
  * @internal
- * @hidden
  * Encode a JWK to PEM format. To do so, it internally repackages the JWK as a DER
  * that is then encoded as a PEM.
  */

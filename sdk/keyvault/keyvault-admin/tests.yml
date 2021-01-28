@@ -15,7 +15,8 @@ extends:
     ArmTemplateParameters: "@{ enableHsm = $true }"
     Matrix:
       Linux Node 10 with Managed HSM:
-        OSVmImage: "ubuntu-18.04"
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
         TestType: "node"
         NodeTestVersion: "10.x"
     EnvVars:

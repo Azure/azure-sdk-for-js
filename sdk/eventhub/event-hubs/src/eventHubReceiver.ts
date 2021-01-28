@@ -69,21 +69,18 @@ export interface LastEnqueuedEventProperties {
 /**
  * Describes the message handler signature.
  * @internal
- * @hidden
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
  * @internal
- * @hidden
  */
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the abort handler signature.
  * @internal
- * @hidden
  */
 export type OnAbort = () => void;
 
@@ -91,7 +88,6 @@ export type OnAbort = () => void;
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  * @internal
- * @hidden
  */
 export class EventHubReceiver extends LinkEntity {
   /**
@@ -462,7 +458,10 @@ export class EventHubReceiver extends LinkEntity {
               await this.abort();
             }
           } catch (err) {
-            return this._onError === onError && onError(err);
+            if (this._onError === onError) {
+              onError(err);
+            }
+            return;
           }
         } else {
           logger.verbose(
@@ -478,6 +477,7 @@ export class EventHubReceiver extends LinkEntity {
           0
         );
         this._addCredit(creditsToAdd);
+        return;
       })
       .catch((err) => {
         // something really unexpected happened, so attempt to call user's error handler
@@ -700,13 +700,13 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.close();
           } finally {
-            return reject(new AbortError("The receive operation has been cancelled by the user."));
+            reject(new AbortError("The receive operation has been cancelled by the user."));
           }
         };
 
         // operation has been cancelled, so exit immediately
         if (abortSignal && abortSignal.aborted) {
-          return await rejectOnAbort();
+          return rejectOnAbort();
         }
 
         // updates the prefetch count so that the baseConsumer adds

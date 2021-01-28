@@ -25,7 +25,6 @@ import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
 
 /**
  * @internal
- * @hidden
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenProvider, senders, receivers, etc. about the EventHub client.
  */
@@ -101,7 +100,6 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 
 /**
  * @internal
- * @hidden
  */
 export interface ConnectionContextOptions extends EventHubClientOptions {
   managementSessionAddress?: string;
@@ -111,7 +109,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
 /**
  * Helper type to get the names of all the functions on an object.
  */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/ban-types
 /**
  * Helper type to get the types of all the functions on an object.
  */
@@ -130,7 +128,6 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * @hidden
  */
 export namespace ConnectionContext {
   /**
@@ -387,7 +384,7 @@ export namespace ConnectionContext {
       }
     };
 
-    function addConnectionListeners(connection: Connection) {
+    function addConnectionListeners(connection: Connection): void {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, onDisconnected);
@@ -395,35 +392,32 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    function cleanConnectionContext(connectionContext: ConnectionContext) {
+    function cleanConnectionContext(context: ConnectionContext): Promise<void> {
       // Remove listeners from the connection object.
-      connectionContext.connection.removeListener(
-        ConnectionEvents.connectionOpen,
-        onConnectionOpen
-      );
-      connectionContext.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
-      connectionContext.connection.removeListener(ConnectionEvents.protocolError, protocolError);
-      connectionContext.connection.removeListener(ConnectionEvents.error, error);
+      context.connection.removeListener(ConnectionEvents.connectionOpen, onConnectionOpen);
+      context.connection.removeListener(ConnectionEvents.disconnected, onDisconnected);
+      context.connection.removeListener(ConnectionEvents.protocolError, protocolError);
+      context.connection.removeListener(ConnectionEvents.error, error);
       // Close the connection
-      return connectionContext.connection.close();
+      return context.connection.close();
     }
 
-    async function refreshConnection(connectionContext: ConnectionContext) {
-      const originalConnectionId = connectionContext.connectionId;
+    async function refreshConnection(context: ConnectionContext): Promise<void> {
+      const originalConnectionId = context.connectionId;
       try {
-        await cleanConnectionContext(connectionContext);
+        await cleanConnectionContext(context);
       } catch (err) {
         logger.verbose(
-          `[${connectionContext.connectionId}] There was an error closing the connection before reconnecting: %O`,
+          `[${context.connectionId}] There was an error closing the connection before reconnecting: %O`,
           err
         );
       }
 
       // Create a new connection, id, locks, and cbs client.
-      connectionContext.refreshConnection();
-      addConnectionListeners(connectionContext.connection);
+      context.refreshConnection();
+      addConnectionListeners(context.connection);
       logger.verbose(
-        `The connection "${originalConnectionId}" has been updated to "${connectionContext.connectionId}".`
+        `The connection "${originalConnectionId}" has been updated to "${context.connectionId}".`
       );
     }
 

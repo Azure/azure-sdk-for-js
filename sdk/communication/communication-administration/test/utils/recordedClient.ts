@@ -12,8 +12,9 @@ import {
   isPlaybackMode
 } from "@azure/test-utils-recorder";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { CommunicationIdentityClient, PhoneNumberAdministrationClient } from "../../src";
+import { PhoneNumberAdministrationClient } from "../../src";
 import { DefaultAzureCredential } from "@azure/identity";
+import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
   dotenv.config();
@@ -27,7 +28,6 @@ export interface RecordedClient<T> {
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
   AZURE_TENANT_ID: "SomeTenantId"
@@ -39,16 +39,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string =>
       recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
     (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    /**
-     * Must replace date saved to tokensValidFrom as to not
-     * break playback tests.
-     */
-    (recording: string): string => {
-      return recording.replace(
-        /"tokensValidFrom"\s?:\s?"[^"]*"/g,
-        `"tokensValidFrom":"2020-10-10T00:00:00.000Z"`
-      );
-    },
     (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
     (recording: string): string => {
       return recording.replace(
@@ -65,22 +55,30 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedCommunicationIdentityClient(
+export function createRecordedPhoneNumberAdministrationClient(
   context: Context
-): RecordedClient<CommunicationIdentityClient> {
+): RecordedClient<PhoneNumberAdministrationClient> & {
+  includePhoneNumberLiveTests: boolean;
+} {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING),
-    recorder
+    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+    recorder,
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
 }
 
-export function createRecordedCommunicationIdentityClientWithToken(
+export function createRecordedPhoneNumberAdministrationClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> | undefined {
+):
+  | (RecordedClient<PhoneNumberAdministrationClient> & {
+      includePhoneNumberLiveTests: boolean;
+    })
+  | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
+  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
 
   if (isPlaybackMode()) {
     credential = {
@@ -90,8 +88,9 @@ export function createRecordedCommunicationIdentityClientWithToken(
     };
 
     return {
-      client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
-      recorder
+      client: new PhoneNumberAdministrationClient(endpoint, credential),
+      recorder,
+      includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
     };
   }
 
@@ -102,20 +101,7 @@ export function createRecordedCommunicationIdentityClientWithToken(
   }
 
   return {
-    client: new CommunicationIdentityClient(env.COMMUNICATION_ENDPOINT, credential),
-    recorder
-  };
-}
-
-export function createRecordedPhoneNumberAdministrationClient(
-  context: Context
-): RecordedClient<PhoneNumberAdministrationClient> & {
-  includePhoneNumberLiveTests: boolean;
-} {
-  const recorder = record(context, environmentSetup);
-
-  return {
-    client: new PhoneNumberAdministrationClient(env.COMMUNICATION_CONNECTION_STRING),
+    client: new PhoneNumberAdministrationClient(endpoint, credential),
     recorder,
     includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };

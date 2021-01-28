@@ -7,6 +7,7 @@ import {
   RestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
+import { RestoreResult } from "../../backupClientModels";
 
 export interface RestorePollerOptions extends KeyVaultAdminPollerOptions {
   blobStorageUri: string;
@@ -17,7 +18,7 @@ export interface RestorePollerOptions extends KeyVaultAdminPollerOptions {
 /**
  * Class that creates a poller that waits until a Key Vault ends up being restored.
  */
-export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, undefined> {
+export class RestorePoller extends KeyVaultAdminPoller<RestoreOperationState, RestoreResult> {
   constructor(options: RestorePollerOptions) {
     const {
       client,

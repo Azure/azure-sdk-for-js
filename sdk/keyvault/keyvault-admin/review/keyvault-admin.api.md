@@ -21,12 +21,19 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 // @public
 export interface BackupPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
+}
+
+// @public
+export interface BackupResult {
+    backupFolderUri?: string;
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public
@@ -55,7 +62,7 @@ export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
 
 // @public
 export class KeyVaultAccessControlClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
     createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
@@ -76,8 +83,8 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, string>>;
-    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
+    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
+    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
     beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
     readonly vaultUrl: string;
 }
@@ -95,7 +102,7 @@ export interface KeyVaultRoleAssignment {
     readonly id: string;
     readonly name: string;
     properties: KeyVaultRoleAssignmentPropertiesWithScope;
-    readonly type: string;
+    readonly roleAssignmentType: string;
 }
 
 // @public
@@ -145,7 +152,13 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
+}
+
+// @public
+export interface RestoreResult {
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public

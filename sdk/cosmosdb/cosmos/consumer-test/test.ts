@@ -1,3 +1,3 @@
-import * as Cosmos from "@azure/cosmos";
+import * as Cosmos from "../";
 
 console.log(Object.keys(Cosmos));
