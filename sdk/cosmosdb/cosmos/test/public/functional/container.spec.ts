@@ -496,7 +496,7 @@ describe("container.create", function() {
   it("throws for subpartitioned keys without leading slash", async function() {
     const containerRequest: ContainerRequest = {
       id: "subpartition sample",
-      partitionKey: ["/topLevel", "lowerLevel"]
+      partitionKey: ["/topLevel", "lowerLevel"],
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
   });

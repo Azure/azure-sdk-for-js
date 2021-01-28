@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 
-import { CosmosClient } from "../../../src";
+import { Constants, CosmosClient } from "../../../src";
 import { masterKey } from "../common/_testConfig";
 import { PluginOn, PluginConfig, CosmosClientOptions } from "../../../src";
 
@@ -84,7 +84,7 @@ const collectionResponse = {
     },
     partitionKey: {
       paths: ["/_partitionKey"],
-      kind: "Hash"
+      kind: Constants.PartitionKeyKind.Hash
     },
     conflictResolutionPolicy: {
       mode: "LastWriterWins",

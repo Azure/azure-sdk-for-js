@@ -170,7 +170,8 @@ export class Containers {
     }
 
     if (body.partitionKey.paths.length > 1) {
-      body.partitionKey.kind = "MultiHash";
+      body.partitionKey.kind = Constants.PartitionKeyKind.MultiHash;
+      body.partitionKey.version = Constants.PartitionKeyVersion.MultiHash;
     }
 
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({

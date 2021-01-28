@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
+import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig, Constants } from "../../../src";
 import { masterKey } from "../common/_testConfig";
 import assert from "assert";
 
@@ -82,7 +82,7 @@ const collectionResponse = {
     },
     partitionKey: {
       paths: ["/_partitionKey"],
-      kind: "Hash"
+      kind: Constants.PartitionKeyKind.Hash
     },
     conflictResolutionPolicy: {
       mode: "LastWriterWins",
