@@ -58,7 +58,7 @@ describe("Local cryptography public tests", () => {
     });
 
     it("the CryptographyClient can be created from a local JsonWebKey object", async function() {
-      assert.notExists(cryptoClientFromKey.vaultUrl);
+      assert.isEmpty(cryptoClientFromKey.vaultUrl);
       assert.equal(cryptoClientFromKey.keyId, customKeyVaultKey.id);
     });
 

@@ -325,9 +325,9 @@ export class CryptographyClient {
 
   /**
    * The base URL to the vault.
-   * Will be undefined if called on a local key.
+   * Will be empty if called on a local key.
    */
-  get vaultUrl(): string | undefined {
+  get vaultUrl(): string {
     return this.concreteClient.client.vaultUrl;
   }
 
