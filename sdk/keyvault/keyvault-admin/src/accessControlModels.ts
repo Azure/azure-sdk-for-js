@@ -119,9 +119,9 @@ export type RoleAssignmentScope = "/" | "/keys" | string;
 
 /**
  * A scope of the role definition.
- * The valid scopes are: "/", "/keys", and any specific resource Id followed by a slash, as in "ID/".
+ * The valid scopes are: "/" or "/keys"
  */
-export type RoleScope = RoleAssignmentScope;
+export type RoleScope = "/" | "/keys";
 
 /**
  * Role assignment properties with the scope property.

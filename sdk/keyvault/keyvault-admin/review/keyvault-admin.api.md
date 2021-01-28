@@ -75,7 +75,6 @@ export class KeyVaultAccessControlClient {
     deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     deleteRoleDefinition(roleScope: RoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    // Warning: (ae-forgotten-export) The symbol "RoleScope" needs to be exported by the entry point index.d.ts
     getRoleDefinition(roleScope: RoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
@@ -176,6 +175,9 @@ export interface RestoreResult {
 
 // @public
 export type RoleAssignmentScope = "/" | "/keys" | string;
+
+// @public
+export type RoleScope = "/" | "/keys";
 
 // @public
 export const SDK_VERSION: string;

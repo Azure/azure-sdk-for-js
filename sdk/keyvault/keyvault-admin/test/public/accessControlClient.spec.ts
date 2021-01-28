@@ -9,7 +9,7 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import { KeyVaultAccessControlClient, KeyVaultPermission, KeyVaultRoleDefinition } from "../../src";
 import { authenticate } from "../utils/authentication";
 
-describe.only("KeyVaultAccessControlClient", () => {
+describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
   let recorder: Recorder;
   let generateFakeUUID: () => string;
@@ -62,7 +62,7 @@ describe.only("KeyVaultAccessControlClient", () => {
       assert.ok(receivedRoles.length);
     });
 
-    describe.only("getRoleDefinition", function() {
+    describe("getRoleDefinition", function() {
       it("returns a role definition by name", async function() {
         const anyRoleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
 
