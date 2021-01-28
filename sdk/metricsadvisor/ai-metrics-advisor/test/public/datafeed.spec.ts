@@ -185,6 +185,10 @@ matrix([[true, false]] as const, async (useAad) => {
             dataFeedIngestion,
             "Ingesting settings mismatch!"
           );
+          assert.equal(
+            actual.metricIds.get(dataFeedSchema.metrics[0].name),
+            actual.schema.metrics[0].id
+          );
 
           assert.equal(actual.description, options.description, "options.description mismatch");
           assert.equal(actual.accessMode, options.accessMode, "options.accessMode mismatch");
