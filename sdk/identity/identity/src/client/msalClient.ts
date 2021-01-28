@@ -161,8 +161,6 @@ export enum HttpMethod {
  * This class implements the API for network requests.
  */
 export class HttpClient implements INetworkModule {
-  constructor() {}
-
   /**
    * Http Get request
    * @param url -
