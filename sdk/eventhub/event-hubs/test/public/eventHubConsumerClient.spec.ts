@@ -287,7 +287,7 @@ describe("EventHubConsumerClient", () => {
         handlerCalls.close.should.be.greaterThan(1);
       });
 
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 20; i++) {
         it.only("when subscribed to multiple partitions", async function(): Promise<void> {
           const consumerClient1 = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
@@ -386,17 +386,11 @@ describe("EventHubConsumerClient", () => {
           // close subscription2 so subscription1 can recover.
           await subscription2.close();
 
-          debugModule.log(`Waiting for subscription1 to recover.`);
           await loopUntil({
             maxTimes: 20,
             name: "Wait for subscription1 to recover",
             timeBetweenRunsMs: 1000,
             async until() {
-              debugModule.log(
-                `Partitions actively being read: ${partitionIds
-                  .filter((id) => partitionHandlerCalls[id].processEvents)
-                  .join(", ")}`
-              );
               // wait until we've seen an additional processEvent for each partition.
               return (
                 partitionIds.filter((id) => {
@@ -405,8 +399,6 @@ describe("EventHubConsumerClient", () => {
               );
             }
           });
-
-          debugModule.log(`Finished waiting for subscription1 to recover.`);
 
           await subscription1.close();
 
