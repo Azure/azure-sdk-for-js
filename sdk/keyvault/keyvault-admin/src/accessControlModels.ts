@@ -118,6 +118,12 @@ export interface KeyVaultRoleAssignmentProperties {
 export type RoleAssignmentScope = "/" | "/keys" | string;
 
 /**
+ * A scope of the role definition.
+ * The valid scopes are: "/", "/keys", and any specific resource Id followed by a slash, as in "ID/".
+ */
+export type RoleScope = RoleAssignmentScope;
+
+/**
  * Role assignment properties with the scope property.
  */
 export interface KeyVaultRoleAssignmentPropertiesWithScope {

@@ -20,8 +20,7 @@ import {
   RoleAssignmentsListForScopeOptionalParams,
   RoleDefinitionsCreateOrUpdateResponse,
   RoleDefinitionsDeleteResponse,
-  RoleDefinitionsGetResponse,
-  RoleScope
+  RoleDefinitionsGetResponse
 } from "./generated/models";
 
 import {
@@ -39,7 +38,8 @@ import {
   KeyVaultPermission,
   GetRoleDefinitionOptions,
   UpsertRoleDefinitionOptions,
-  DeleteRoleDefinitionOptions
+  DeleteRoleDefinitionOptions,
+  RoleScope
 } from "./accessControlModels";
 
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
