@@ -287,131 +287,133 @@ describe("EventHubConsumerClient", () => {
         handlerCalls.close.should.be.greaterThan(1);
       });
 
-      it("when subscribed to multiple partitions", async function(): Promise<void> {
-        const consumerClient1 = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
-        const consumerClient2 = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
+      for (let i = 0; i < 1; i++) {
+        it.only("when subscribed to multiple partitions", async function(): Promise<void> {
+          const consumerClient1 = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
+          const consumerClient2 = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
 
-        clients.push(consumerClient1, consumerClient2);
+          clients.push(consumerClient1, consumerClient2);
 
-        const partitionHandlerCalls: {
-          [partitionId: string]: {
-            initialize: number;
-            processEvents: boolean;
-            close: number;
+          const partitionHandlerCalls: {
+            [partitionId: string]: {
+              initialize: number;
+              processEvents: boolean;
+              close: number;
+            };
+          } = {};
+
+          // keep track of the handlers called on subscription 1
+          for (const id of partitionIds) {
+            partitionHandlerCalls[id] = { initialize: 0, processEvents: false, close: 0 };
+          }
+
+          const subscriptionHandlers1: SubscriptionEventHandlers = {
+            async processError() {
+              /* no-op */
+            },
+            async processEvents(_, context) {
+              partitionHandlerCalls[context.partitionId].processEvents = true;
+            },
+            async processClose(_, context) {
+              partitionHandlerCalls[context.partitionId].close++;
+              // reset processEvents count
+              partitionHandlerCalls[context.partitionId].processEvents = false;
+            },
+            async processInitialize(context) {
+              partitionHandlerCalls[context.partitionId].initialize++;
+            }
           };
-        } = {};
 
-        // keep track of the handlers called on subscription 1
-        for (const id of partitionIds) {
-          partitionHandlerCalls[id] = { initialize: 0, processEvents: false, close: 0 };
-        }
+          const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1
+          });
 
-        const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {
-            /* no-op */
-          },
-          async processEvents(_, context) {
-            partitionHandlerCalls[context.partitionId].processEvents = true;
-          },
-          async processClose(_, context) {
-            partitionHandlerCalls[context.partitionId].close++;
-            // reset processEvents count
-            partitionHandlerCalls[context.partitionId].processEvents = false;
-          },
-          async processInitialize(context) {
-            partitionHandlerCalls[context.partitionId].initialize++;
-          }
-        };
+          await loopUntil({
+            maxTimes: 10,
+            name: "Wait for subscription1 to read from all partitions",
+            timeBetweenRunsMs: 1000,
+            async until() {
+              // wait until we've seen processEvents invoked for each partition.
+              return (
+                partitionIds.filter((id) => {
+                  return partitionHandlerCalls[id].processEvents;
+                }).length === partitionIds.length
+              );
+            }
+          });
 
-        const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1
-        });
+          const partitionsReadFromSub2 = new Set<string>();
+          const subscriptionHandlers2: SubscriptionEventHandlers = {
+            async processError() {
+              /* no-op */
+            },
+            async processEvents(_, context) {
+              partitionsReadFromSub2.add(context.partitionId);
+            }
+          };
 
-        await loopUntil({
-          maxTimes: 10,
-          name: "Wait for subscription1 to read from all partitions",
-          timeBetweenRunsMs: 1000,
-          async until() {
-            // wait until we've seen processEvents invoked for each partition.
-            return (
-              partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].processEvents;
-              }).length === partitionIds.length
+          // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
+          const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1,
+            ownerLevel: 1
+          });
+
+          await loopUntil({
+            maxTimes: 10,
+            name:
+              "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
+            timeBetweenRunsMs: 1000,
+            async until() {
+              const sub1CloseHandlersCalled = Boolean(
+                partitionIds.filter((id) => {
+                  return partitionHandlerCalls[id].close > 0;
+                }).length === partitionIds.length
+              );
+              return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
+            }
+          });
+
+          // close subscription2 so subscription1 can recover.
+          await subscription2.close();
+
+          await loopUntil({
+            maxTimes: 10,
+            name: "Wait for subscription1 to recover",
+            timeBetweenRunsMs: 1000,
+            async until() {
+              // wait until we've seen an additional processEvent for each partition.
+              return (
+                partitionIds.filter((id) => {
+                  return partitionHandlerCalls[id].processEvents;
+                }).length === partitionIds.length
+              );
+            }
+          });
+
+          await subscription1.close();
+
+          for (const id of partitionIds) {
+            partitionHandlerCalls[id].initialize.should.be.greaterThan(
+              1,
+              `Initialize on partition ${id} was not called more than 1 time.`
+            );
+            partitionHandlerCalls[id].close.should.be.greaterThan(
+              1,
+              `Close on partition ${id} was not called more than 1 time.`
             );
           }
         });
-
-        const partitionsReadFromSub2 = new Set<string>();
-        const subscriptionHandlers2: SubscriptionEventHandlers = {
-          async processError() {
-            /* no-op */
-          },
-          async processEvents(_, context) {
-            partitionsReadFromSub2.add(context.partitionId);
-          }
-        };
-
-        // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
-        const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1,
-          ownerLevel: 1
-        });
-
-        await loopUntil({
-          maxTimes: 10,
-          name:
-            "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
-          timeBetweenRunsMs: 1000,
-          async until() {
-            const sub1CloseHandlersCalled = Boolean(
-              partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].close > 0;
-              }).length === partitionIds.length
-            );
-            return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
-          }
-        });
-
-        // close subscription2 so subscription1 can recover.
-        await subscription2.close();
-
-        await loopUntil({
-          maxTimes: 10,
-          name: "Wait for subscription1 to recover",
-          timeBetweenRunsMs: 1000,
-          async until() {
-            // wait until we've seen an additional processEvent for each partition.
-            return (
-              partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].processEvents;
-              }).length === partitionIds.length
-            );
-          }
-        });
-
-        await subscription1.close();
-
-        for (const id of partitionIds) {
-          partitionHandlerCalls[id].initialize.should.be.greaterThan(
-            1,
-            `Initialize on partition ${id} was not called more than 1 time.`
-          );
-          partitionHandlerCalls[id].close.should.be.greaterThan(
-            1,
-            `Close on partition ${id} was not called more than 1 time.`
-          );
-        }
-      });
+      }
     });
 
     it("Receive from specific partitions, no coordination", async function(): Promise<void> {
