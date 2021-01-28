@@ -532,9 +532,9 @@ export class KeyVaultAccessControlClient {
    * const deletedRoleDefinition = await client.deleteRoleDefinition("/", roleDefinition.name);
    * console.log(deletedRoleDefinition);
    * ```
-   * @param roleScope
-   * @param name
-   * @param options
+   * @param roleScope - The scope of the role definition.
+   * @param name - The name of the role definition to delete.
+   * @param options - The optional parameters.
    */
   public async deleteRoleDefinition(
     roleScope: RoleScope,
