@@ -187,7 +187,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.vaultBaseUrl,
@@ -229,7 +229,7 @@ const listForScopeOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.scope],
   serializer
 };
@@ -244,7 +244,7 @@ const listForScopeNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.scope,

@@ -9,20 +9,6 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * Role definition list operation result.
- */
-export interface RoleDefinitionListResult {
-  /**
-   * Role definition list.
-   */
-  value?: RoleDefinition[];
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
  * Role definition.
  */
 export interface RoleDefinition {
@@ -38,6 +24,32 @@ export interface RoleDefinition {
    * The role definition type.
    */
   readonly type?: string;
+  /**
+   * The role name.
+   */
+  roleName?: string;
+  /**
+   * The role definition description.
+   */
+  description?: string;
+  /**
+   * The role type.
+   */
+  roleType?: string;
+  /**
+   * Role definition permissions.
+   */
+  permissions?: Permission[];
+  /**
+   * Role definition assignable scopes.
+   */
+  assignableScopes?: string[];
+}
+
+/**
+ * Role definition properties.
+ */
+export interface RoleDefinitionProperties {
   /**
    * The role name.
    */
@@ -108,6 +120,30 @@ export interface ErrorModel {
    * The key vault server error.
    */
   readonly innerError?: ErrorModel;
+}
+
+/**
+ * Role definition create parameters.
+ */
+export interface RoleDefinitionCreateParameters {
+  /**
+   * Role definition properties.
+   */
+  properties: RoleDefinitionProperties;
+}
+
+/**
+ * Role definition list operation result.
+ */
+export interface RoleDefinitionListResult {
+  /**
+   * Role definition list.
+   */
+  value?: RoleDefinition[];
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink?: string;
 }
 
 /**
@@ -234,6 +270,9 @@ export interface FullBackupOperation {
 }
 
 export interface RestoreOperationParameters {
+  /**
+   * SAS token parameter object containing Azure storage resourceUri and token
+   */
   sasTokenParameters: SASTokenParameter;
   /**
    * The Folder name of the blob where the previous successful full backup was stored
@@ -272,6 +311,9 @@ export interface RestoreOperation {
 }
 
 export interface SelectiveKeyRestoreOperationParameters {
+  /**
+   * SAS token parameter object containing Azure storage resourceUri and token
+   */
   sasTokenParameters: SASTokenParameter;
   /**
    * The Folder name of the blob where the previous successful full backup was stored
@@ -352,6 +394,66 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   retryAfter?: number;
   azureAsyncOperation?: string;
 }
+
+/**
+ * Contains response data for the delete operation.
+ */
+export type RoleDefinitionsDeleteResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RoleDefinitionsGetResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
+};
 
 /**
  * Optional parameters.
