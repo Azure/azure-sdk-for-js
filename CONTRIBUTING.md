@@ -226,10 +226,10 @@ In the case where you do not want to generate documentation for a specific defin
 - use `@hidden` if the definition is exported by `src/index.ts`
 - use `@internal` otherwise
 
-To maintain the quality of our documentation:
+To maintain the quality of the documentation, the following two facilities are provided:
 
-- we use a linter rule to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
-- run `rushx docs` inside one of the packages in order to generate the documentation locally for that particular package and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser.
+- an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
+- the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, because we use the `@hidden` tag which is only supported by TypeDoc and is not a TSDoc tag, we add it as a custom tag in `tsdoc.json`.
 
