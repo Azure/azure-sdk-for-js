@@ -388,7 +388,7 @@ describe("EventHubConsumerClient", () => {
 
           debugModule.log(`Waiting for subscription1 to recover.`);
           await loopUntil({
-            maxTimes: 10,
+            maxTimes: 20,
             name: "Wait for subscription1 to recover",
             timeBetweenRunsMs: 1000,
             async until() {
