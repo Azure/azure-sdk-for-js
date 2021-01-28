@@ -39,7 +39,6 @@ import { abandonMessage, completeMessage } from "../receivers/shared";
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
  * @internal
- * @hidden
  */
 export interface CreateMessageSessionReceiverLinkOptions {
   onClose: OnAmqpEventAsPromise;
@@ -52,7 +51,6 @@ export interface CreateMessageSessionReceiverLinkOptions {
 
 /**
  * @internal
- * @hidden
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = Pick<
@@ -64,7 +62,6 @@ export type MessageSessionOptions = Pick<
 
 /**
  * @internal
- * @hidden
  * Describes the receiver for a Message Session.
  */
 export class MessageSession extends LinkEntity<Receiver> {

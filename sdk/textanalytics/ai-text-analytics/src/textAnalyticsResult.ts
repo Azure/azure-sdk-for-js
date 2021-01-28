@@ -169,7 +169,6 @@ export function makeTextAnalyticsErrorResult(
 
 /**
  * @internal
- * @hidden
  * combines successful and erroneous results into a single array of results and
  * sort them so that the IDs order match that of the input documents array.
  * @param input - the array of documents sent to the service for processing.
@@ -184,7 +183,6 @@ export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnal
 
 /**
  * @internal
- * @hidden
  * combines successful and erroneous results into a single array of results and
  * sort them so that the IDs order match that of the input documents array.
  * @param input - the array of documents sent to the service for processing.
@@ -211,7 +209,6 @@ export function processAndCombineSuccessfulAndErroneousDocuments<
 
 /**
  * @internal
- * @hidden
  * combines successful and erroneous results into a single array of results and
  * sort them so that the IDs order match that of the input documents array. It
  * also attaches statistics and modelVersion to the returned array.

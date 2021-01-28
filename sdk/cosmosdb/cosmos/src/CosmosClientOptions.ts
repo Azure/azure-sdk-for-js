@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { TokenCredential } from "@azure/identity";
 import { TokenProvider } from "./auth";
 import { PermissionDefinition } from "./client";
 import { ConnectionPolicy, ConsistencyLevel } from "./documents";
@@ -28,6 +29,13 @@ export interface CosmosClientOptions {
    * Allows users to generating their own auth tokens, potentially using a separate service
    */
   tokenProvider?: TokenProvider;
+  /** AAD token from @azure/identity
+   * Obtain a credential object by creating an @azure/identity credential object
+   * We will then use your credential object and a scope URL (your cosmos db endpoint)
+   * to authenticate requests to Cosmos
+   * This feature is in private preview and not yet available for every Cosmos account
+   */
+  aadCredentials?: TokenCredential;
   /** An array of {@link Permission} objects. */
   permissionFeed?: PermissionDefinition[];
   /** An instance of {@link ConnectionPolicy} class.

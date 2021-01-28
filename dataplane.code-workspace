@@ -21,6 +21,10 @@
       "path": "sdk/communication/communication-chat"
     },
     {
+      "name": "communication-common",
+      "path": "sdk/communication/communication-common"
+    },
+    {
       "name": "communication-sms",
       "path": "sdk/communication/communication-sms"
     },
@@ -39,6 +43,10 @@
     {
       "name": "core-client",
       "path": "sdk/core/core-client"
+    },
+    {
+      "name": "core-crypto",
+      "path": "sdk/core/core-crypto"
     },
     {
       "name": "core-http",
@@ -70,7 +78,7 @@
     },
     {
       "name": "eventgrid",
-      "path": "sdk\\eventgrid\\eventgrid"
+      "path": "sdk/eventgrid/eventgrid"
     },
     {
       "name": "event-hubs",
@@ -97,6 +105,10 @@
       "path": "sdk/identity/identity"
     },
     {
+      "name": "keyvault-admin",
+      "path": "sdk/keyvault/keyvault-admin"
+    },
+    {
       "name": "keyvault-certificates",
       "path": "sdk/keyvault/keyvault-certificates"
     },
@@ -114,11 +126,15 @@
     },
     {
       "name": "metrics-advisor",
-      "path": "sdk\\metricsadvisor\\ai-metrics-advisor"
+      "path": "sdk/metricsadvisor/ai-metrics-advisor"
     },
     {
       "name": "schema-registry",
       "path": "sdk/schemaregistry/schema-registry"
+    },
+    {
+      "name": "schema-registry-avro",
+      "path": "sdk/schemaregistry/schema-registry-avro"
     },
     {
       "name": "search",
@@ -209,7 +225,12 @@
       "path": "sdk/test-utils/multi-version"
     },
     {
-      "path": "sdk\\digitaltwins\\digital-twins-core"
+      "name": "digital-twins-core",
+      "path": "sdk/digitaltwins/digital-twins-core"
+    },
+    {
+      "name": "attestation",
+      "path": "sdk/attestation/attestation"
     }
   ],
   "settings": {

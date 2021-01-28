@@ -77,15 +77,15 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    pipelineOptions: AccessControlClientOptions = {}
+    options: AccessControlClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-admin/${SDK_VERSION}`;
 
-    const userAgentOptions = pipelineOptions.userAgentOptions;
+    const userAgentOptions = options.userAgentOptions;
 
-    pipelineOptions.userAgentOptions = {
+    options.userAgentOptions = {
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -97,7 +97,7 @@ export class KeyVaultAccessControlClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
+      ...options,
       loggingOptions: {
         logger: logger.info,
         allowedHeaderNames: [
@@ -112,7 +112,7 @@ export class KeyVaultAccessControlClient {
       internalPipelineOptions,
       authPolicy
     );
-    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
     this.client = new KeyVaultClient(params);
   }
 

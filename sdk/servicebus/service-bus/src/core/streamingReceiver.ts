@@ -32,7 +32,6 @@ import { ReceiverHandlers } from "./shared";
 
 /**
  * @internal
- * @hidden
  */
 export interface StreamingReceiverInitArgs
   extends ReceiveOptions,
@@ -42,7 +41,6 @@ export interface StreamingReceiverInitArgs
 
 /**
  * @internal
- * @hidden
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver

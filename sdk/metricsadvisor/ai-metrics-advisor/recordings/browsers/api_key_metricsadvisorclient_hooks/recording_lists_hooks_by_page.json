@@ -1,0 +1,52 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {
+    "$top": "1",
+    "hookName": "js-test"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"hookId\":\"6b105965-2d8d-4fe6-ab78-ce2a03519bfd\",\"hookName\":\"js-test-emailHook-161116815711804827\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$top=1&$skip=1\"}",
+   "responseHeaders": {
+    "apim-request-id": "6db8cab3-d06b-4e8c-bdaa-6a67d072d4c4",
+    "content-length": "411",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "123",
+    "x-request-id": "6db8cab3-d06b-4e8c-bdaa-6a67d072d4c4"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/hooks",
+   "query": {
+    "hookName": "js-test",
+    "$top": "1",
+    "$skip": "1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"hookId\":\"7d15bcf9-b229-4356-b1cd-145b5759de6a\",\"hookName\":\"js-test-webHook-161116815711803040\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$top=1&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "ad2a8071-a4c2-4471-92fa-9ba36ab7755b",
+    "content-length": "496",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "118",
+    "x-request-id": "ad2a8071-a4c2-4471-92fa-9ba36ab7755b"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "58858d5c4b83e7f9ac743c145197a30e"
+}
