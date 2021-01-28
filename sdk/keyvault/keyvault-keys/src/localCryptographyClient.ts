@@ -21,9 +21,30 @@ import { EncryptionAlgorithm } from ".";
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
  * @internal
- * @hidden
  */
 export class LocalCryptographyClient {
+  /**
+   * A JSON Web Key, used for the local cryptography operations.
+   */
+  public key: JsonWebKey;
+
+  /**
+   * The base URL to the vault.
+   * Since this is a local cryptography client the vaultUrl is undefined.
+   */
+  public readonly vaultUrl: undefined;
+
+  /**
+   * The ID of the key used to perform cryptographic operations for the client.
+   */
+  public get keyId(): string | undefined {
+    return this.key?.kid;
+  }
+
+  constructor(key: JsonWebKey) {
+    this.key = key;
+  }
+
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
    *
@@ -100,20 +121,5 @@ export class LocalCryptographyClient {
     )) as boolean;
     const keyID = this.key.kid;
     return { result, keyID };
-  }
-
-  /**
-   * A JSON Web Key, used for the local cryptography operations.
-   */
-  public key: JsonWebKey;
-
-  constructor(key: JsonWebKey) {
-    this.key = key;
-  }
-
-  public vaultUrl: undefined;
-
-  public get keyId(): string | undefined {
-    return this.key.kid;
   }
 }

@@ -89,10 +89,20 @@ export class CryptographyClient {
         client: new KeyVaultCryptographyClient(key, credential!, pipelineOptions)
       };
     } else {
-      this.concreteClient = { kind: "local", client: new LocalCryptographyClient(key) };
+      this.concreteClient = {
+        kind: "local",
+        client: new LocalCryptographyClient(key)
+      };
     }
   }
 
+  /**
+   * Checks whether the client is instantiated in Local or KeyVault model.
+   * A local mode client will only contain a {@link JsonWebKey}.
+   * A KeyVault client will contain either a {@link KeyVaultKey} or a string representing an identifier to the key.
+   * @param key The key to check for mode.
+   * @internal
+   */
   private isRemote(key: string | KeyVaultKey | JsonWebKey): key is string | KeyVaultKey {
     if (typeof key === "string" || (key as KeyVaultKey)?.key) {
       return true;
@@ -151,7 +161,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.decrypt(algorithm, ciphertext, options);
     } else {
-      throw new Error("Decrypting a local JsonWebKey is not supported.");
+      throw new Error("Decrypting using a local JsonWebKey is not supported.");
     }
   }
 
@@ -202,7 +212,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.unwrapKey(algorithm, encryptedKey, options);
     } else {
-      throw new Error("Unwrapping a local JsonWebKey is not supported.");
+      throw new Error("Unwrapping a key using a local JsonWebKey is not supported.");
     }
   }
 
@@ -226,7 +236,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.sign(algorithm, digest, options);
     } else {
-      throw new Error("Signing a local JsonWebKey is not supported.");
+      throw new Error("Signing a digest using a local JsonWebKey is not supported.");
     }
   }
 
@@ -252,7 +262,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.verify(algorithm, digest, signature, options);
     } else {
-      throw new Error("Verifying a local JsonWebKey is not supported.");
+      throw new Error("Verifying a digest using a local JsonWebKey is not supported.");
     }
   }
 
@@ -276,7 +286,7 @@ export class CryptographyClient {
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.signData(algorithm, data, options);
     } else {
-      throw new Error("Signing a local JsonWebKey is not supported.");
+      throw new Error("Signing data using a local JsonWebKey is not supported.");
     }
   }
 
