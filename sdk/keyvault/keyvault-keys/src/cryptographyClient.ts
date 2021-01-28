@@ -100,7 +100,7 @@ export class CryptographyClient {
    * Checks whether the client is instantiated in Local or KeyVault model.
    * A local mode client will only contain a {@link JsonWebKey}.
    * A KeyVault client will contain either a {@link KeyVaultKey} or a string representing an identifier to the key.
-   * @param key The key to check for mode.
+   * @param key - The key to check for mode.
    * @internal
    */
   private isRemote(key: string | KeyVaultKey | JsonWebKey): key is string | KeyVaultKey {
