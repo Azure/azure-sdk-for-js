@@ -339,7 +339,7 @@ export function toServiceGranularity(
 }
 
 export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUnion): DataFeed {
-  const metricMap = new Map(original.metrics.map((x) => [x.name, x.id]));
+  const metricMap = new Map(original.metrics.map((x) => [x.name, x.id!]));
   const common = {
     id: original.dataFeedId!,
     name: original.dataFeedName,
