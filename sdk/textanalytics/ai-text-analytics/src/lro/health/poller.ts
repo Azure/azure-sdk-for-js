@@ -9,7 +9,7 @@ import { StringIndexType } from "../../util";
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
   BeginAnalyzeHealthcarePollerOperation,
-  BeginAnalyzeHealthcareOperationState
+  AnalyzeHealthcareOperationState
 } from "./operation";
 
 export interface HealthcarePollerOptions extends AnalysisPollerOptions {
@@ -22,7 +22,7 @@ export interface HealthcarePollerOptions extends AnalysisPollerOptions {
  * Result type of the Health Long-Running-Operation (LRO)
  */
 export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
-  BeginAnalyzeHealthcareOperationState,
+  AnalyzeHealthcareOperationState,
   PagedAnalyzeHealthcareEntitiesResult
 >;
 
@@ -30,7 +30,7 @@ export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
  * Class that represents a poller that waits for the healthcare results.
  */
 export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
-  BeginAnalyzeHealthcareOperationState,
+  AnalyzeHealthcareOperationState,
   PagedAnalyzeHealthcareEntitiesResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -46,7 +46,7 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       stringIndexType
     } = pollerOptions;
 
-    let state: BeginAnalyzeHealthcareOperationState | undefined;
+    let state: AnalyzeHealthcareOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

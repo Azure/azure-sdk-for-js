@@ -96,18 +96,18 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 /**
  * The state of the begin analyze healthcare polling operation.
  */
-export interface BeginAnalyzeHealthcareOperationState
+export interface AnalyzeHealthcareOperationState
   extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {}
 
 /**
  * Class that represents a poller that waits for the healthcare results.
  */
 export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation<
-  BeginAnalyzeHealthcareOperationState,
+  AnalyzeHealthcareOperationState,
   PagedAnalyzeHealthcareEntitiesResult
 > {
   constructor(
-    public state: BeginAnalyzeHealthcareOperationState,
+    public state: AnalyzeHealthcareOperationState,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
@@ -237,7 +237,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
               modelVersion: response.results.modelVersion,
               operationMetdata: {
                 createdOn: response.createdDateTime,
-                updatedOn: response.lastUpdateDateTime,
+                lastModifiedOn: response.lastUpdateDateTime,
                 expiresOn: response.expirationDateTime,
                 status: response.status
               }
@@ -301,7 +301,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: BeginAnalyzeHealthcareOperationState) => void;
+      fireProgress?: (state: AnalyzeHealthcareOperationState) => void;
     } = {}
   ): Promise<BeginAnalyzeHealthcarePollerOperation> {
     const state = this.state;
@@ -330,7 +330,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
 
     state.createdOn = operationStatus.operationMetdata?.createdOn;
     state.expiresOn = operationStatus.operationMetdata?.expiresOn;
-    state.updatedOn = operationStatus.operationMetdata?.updatedOn;
+    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
     state.status = operationStatus.operationMetdata?.status;
 
     if (!state.isCompleted && operationStatus.done) {

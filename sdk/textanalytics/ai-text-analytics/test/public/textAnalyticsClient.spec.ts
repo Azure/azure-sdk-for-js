@@ -1634,7 +1634,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         poller.onProgress(() => {
           assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
           assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
-          assert.ok(poller.getOperationState().updatedOn, "updatedOn is undefined!");
+          assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
           assert.ok(poller.getOperationState().status, "status is undefined!");
           assert.ok(
             poller.getOperationState().successfullyCompletedActionsCount,

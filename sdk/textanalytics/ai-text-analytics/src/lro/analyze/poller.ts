@@ -9,7 +9,7 @@ import { JobManifestTasks as GeneratedActions } from "../../generated/models";
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
   BeginAnalyzeBatchActionsPollerOperation,
-  BeginAnalyzeBatchActionsOperationState
+  AnalyzeBatchActionsOperationState
 } from "./operation";
 
 export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions {
@@ -22,7 +22,7 @@ export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions 
  * Result type of the Analyze Long-Running-Operation (LRO)
  */
 export type AnalyzeBatchActionsPollerLike = PollerLike<
-  BeginAnalyzeBatchActionsOperationState,
+  AnalyzeBatchActionsOperationState,
   PagedAnalyzeBatchActionsResult
 >;
 
@@ -30,7 +30,7 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<
  * Class that represents a poller that waits for the analyze results.
  */
 export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
-  BeginAnalyzeBatchActionsOperationState,
+  AnalyzeBatchActionsOperationState,
   PagedAnalyzeBatchActionsResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -46,7 +46,7 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       resumeFrom
     } = pollerOptions;
 
-    let state: BeginAnalyzeBatchActionsOperationState | undefined;
+    let state: AnalyzeBatchActionsOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

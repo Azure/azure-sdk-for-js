@@ -14,13 +14,6 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface Actions {
-    extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
-    recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
-    recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
-}
-
-// @public
 export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, OperationMetadata {
 }
 
@@ -33,7 +26,11 @@ export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata 
 }
 
 // @public
-export type AnalyzeBatchActionsPollerLike = PollerLike<BeginAnalyzeBatchActionsOperationState, PagedAnalyzeBatchActionsResult>;
+export interface AnalyzeBatchActionsOperationState extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>, AnalyzeBatchActionsOperationMetadata {
+}
+
+// @public
+export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperationState, PagedAnalyzeBatchActionsResult>;
 
 // @public
 export interface AnalyzeBatchActionsResult {
@@ -46,7 +43,7 @@ export interface AnalyzeBatchActionsResult {
 export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PagedAnalyzeHealthcareEntitiesResult>;
+export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<AnalyzeHealthcareOperationState, PagedAnalyzeHealthcareEntitiesResult>;
 
 // @public
 export type AnalyzeHealthcareEntitiesResult = AnalyzeHealthcareEntitiesSuccessResult | AnalyzeHealthcareEntitiesErrorResult;
@@ -58,6 +55,10 @@ export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealt
 // @public
 export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     entities: HealthcareEntity[];
+}
+
+// @public
+export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {
 }
 
 // @public
@@ -105,10 +106,6 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
-export interface BeginAnalyzeBatchActionsOperationState extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>, AnalyzeBatchActionsOperationMetadata {
-}
-
-// @public
 export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
     displayName?: string;
     includeStatistics?: boolean;
@@ -121,10 +118,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
     resumeFrom?: string;
     stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {
 }
 
 // @public
@@ -289,9 +282,9 @@ export interface MinedOpinion {
 export interface OperationMetadata {
     createdOn?: Date;
     expiresOn?: Date;
+    lastModifiedOn?: Date;
     operationId?: string;
     status?: State;
-    updatedOn?: Date;
 }
 
 // @public
@@ -445,12 +438,19 @@ export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejecte
 export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
+export interface TextAnalyticsActions {
+    extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+    recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
+    recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
+}
+
+// @public
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyzeBatchActions(documents: string[], actions: Actions, language?: string, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
-    beginAnalyzeBatchActions(documents: TextDocumentInput[], actions: Actions, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
+    beginAnalyzeBatchActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
+    beginAnalyzeBatchActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
     beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     defaultCountryHint: string;

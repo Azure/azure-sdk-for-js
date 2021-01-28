@@ -36,7 +36,7 @@ export interface OperationMetadata {
   /**
    * The time the operation status was last updated.
    */
-  updatedOn?: Date;
+  lastModifiedOn?: Date;
   /**
    * The current status of the operation.
    */

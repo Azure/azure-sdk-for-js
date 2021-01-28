@@ -109,7 +109,7 @@ export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
 /**
  * The state of the begin analyze polling operation.
  */
-export interface BeginAnalyzeBatchActionsOperationState
+export interface AnalyzeBatchActionsOperationState
   extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>,
     AnalyzeBatchActionsOperationMetadata {}
 
@@ -118,11 +118,11 @@ export interface BeginAnalyzeBatchActionsOperationState
  * operation.
  */
 export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperation<
-  BeginAnalyzeBatchActionsOperationState,
+  AnalyzeBatchActionsOperationState,
   PagedAnalyzeBatchActionsResult
 > {
   constructor(
-    public state: BeginAnalyzeBatchActionsOperationState,
+    public state: AnalyzeBatchActionsOperationState,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
@@ -263,7 +263,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
             statistics: response.statistics,
             operationMetdata: {
               createdOn: response.createdDateTime,
-              updatedOn: response.lastUpdateDateTime,
+              lastModifiedOn: response.lastUpdateDateTime,
               expiresOn: response.expirationDateTime,
               status: response.status,
               successfullyCompletedActionsCount: response.tasks.completed,
@@ -335,7 +335,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: BeginAnalyzeBatchActionsOperationState) => void;
+      fireProgress?: (state: AnalyzeBatchActionsOperationState) => void;
     } = {}
   ): Promise<BeginAnalyzeBatchActionsPollerOperation> {
     const state = this.state;
@@ -364,7 +364,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
 
     state.createdOn = operationStatus.operationMetdata?.createdOn;
     state.expiresOn = operationStatus.operationMetdata?.expiresOn;
-    state.updatedOn = operationStatus.operationMetdata?.updatedOn;
+    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
     state.status = operationStatus.operationMetdata?.status;
     state.successfullyCompletedActionsCount =
       operationStatus.operationMetdata?.successfullyCompletedActionsCount;

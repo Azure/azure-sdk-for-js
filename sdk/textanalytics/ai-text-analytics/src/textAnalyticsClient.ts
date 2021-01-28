@@ -60,7 +60,7 @@ import {
 } from "./lro/health/poller";
 import {
   BeginAnalyzeHealthcareEntitiesOptions,
-  BeginAnalyzeHealthcareOperationState
+  AnalyzeHealthcareOperationState
 } from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import {
@@ -70,17 +70,17 @@ import {
 import {
   AnalyzeBatchActionsOperationMetadata,
   BeginAnalyzeBatchActionsOptions,
-  BeginAnalyzeBatchActionsOperationState
+  AnalyzeBatchActionsOperationState
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
 
 export {
   BeginAnalyzeBatchActionsOptions,
   AnalyzeBatchActionsPollerLike,
-  BeginAnalyzeBatchActionsOperationState,
+  AnalyzeBatchActionsOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
   AnalyzeHealthcareEntitiesPollerLike,
-  BeginAnalyzeHealthcareOperationState,
+  AnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
   OperationMetadata,
   AnalyzeBatchActionsOperationMetadata,
@@ -241,7 +241,7 @@ export interface ExtractKeyPhrasesAction {
 /**
  * Description of collection of actions for the analyze API to perform on input documents
  */
-export interface Actions {
+export interface TextAnalyticsActions {
   /**
    * A collection of descriptions of entities recognition actions.
    */
@@ -914,7 +914,7 @@ export class TextAnalyticsClient {
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
-   * @param actions - Actions to execute.
+   * @param actions - TextAnalyticsActions to execute.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
         language in `TextAnalyticsClientOptions`.
@@ -924,24 +924,24 @@ export class TextAnalyticsClient {
    */
   public async beginAnalyzeBatchActions(
     documents: string[],
-    actions: Actions,
+    actions: TextAnalyticsActions,
     language?: string,
     options?: BeginAnalyzeBatchActionsOptions
   ): Promise<AnalyzeBatchActionsPollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
    * @param documents - Collection of documents to analyze
-   * @param actions - Actions to execute.
+   * @param actions - TextAnalyticsActions to execute.
    * @param options - Options for the operation.
    */
   public async beginAnalyzeBatchActions(
     documents: TextDocumentInput[],
-    actions: Actions,
+    actions: TextAnalyticsActions,
     options?: BeginAnalyzeBatchActionsOptions
   ): Promise<AnalyzeBatchActionsPollerLike>;
   public async beginAnalyzeBatchActions(
     documents: string[] | TextDocumentInput[],
-    actions: Actions,
+    actions: TextAnalyticsActions,
     languageOrOptions?: string | BeginAnalyzeBatchActionsOptions,
     options?: BeginAnalyzeBatchActionsOptions
   ): Promise<AnalyzeBatchActionsPollerLike> {
@@ -981,7 +981,7 @@ export class TextAnalyticsClient {
   }
 }
 
-function addEncodingParamToAnalyzeInput(actions: Actions): GeneratedActions {
+function addEncodingParamToAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions
       ?.map(setStrEncodingParam)
