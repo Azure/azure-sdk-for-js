@@ -1543,7 +1543,6 @@ export class BlobClient extends StorageClient {
         offset,
         res.contentLength!,
         {
-          abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
           onProgress: options.onProgress
         }
