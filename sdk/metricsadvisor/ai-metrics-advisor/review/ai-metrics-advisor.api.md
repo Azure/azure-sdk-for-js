@@ -204,7 +204,7 @@ export type DataFeed = {
     creator: string;
     source: DataFeedSource;
     schema: DataFeedSchema;
-    metricIds: DataFeedMetricMap;
+    metricIds: Map<string, string>;
     granularity: DataFeedGranularity;
     ingestionSettings: DataFeedIngestionSettings;
 } & DataFeedOptions;
@@ -255,9 +255,6 @@ export interface DataFeedMetric {
     readonly id?: string;
     name: string;
 }
-
-// @public
-export type DataFeedMetricMap = Map<string, string>;
 
 // @public
 export type DataFeedMissingDataPointFillSettings = {
