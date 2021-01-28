@@ -386,11 +386,13 @@ describe("EventHubConsumerClient", () => {
           // close subscription2 so subscription1 can recover.
           await subscription2.close();
 
+          debugModule.log(`Waiting for subscription1 to recover.`);
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to recover",
             timeBetweenRunsMs: 1000,
             async until() {
+              debugModule.log(`Partitions actively being read: ${partitionIds.filter(id => partitionHandlerCalls[id].processEvents).join(', ')}`);
               // wait until we've seen an additional processEvent for each partition.
               return (
                 partitionIds.filter((id) => {
@@ -399,6 +401,8 @@ describe("EventHubConsumerClient", () => {
               );
             }
           });
+
+          debugModule.log(`Finished waiting for subscription1 to recover.`);
 
           await subscription1.close();
 
