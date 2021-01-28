@@ -46,6 +46,8 @@ extends:
         safeName: azurecoreauth
       - name: azure-core-client
         safeName: azurecoreclient
+      - name: azure-core-crypto
+        safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
       - name: azure-core-https

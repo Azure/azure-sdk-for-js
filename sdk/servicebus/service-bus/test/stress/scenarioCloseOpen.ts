@@ -25,7 +25,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioCloseOptions> {
     default: { shouldCreateNewClientEachTime: true }
   });
   return {
-    testDurationInMs: options.testDurationInMs || 60 * 1000, // Default = 60 minutes
+    testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,

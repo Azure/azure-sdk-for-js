@@ -1,7 +1,14 @@
 # Release History
 
-## 12.3.0-beta.2 (Unreleased)
+## 12.3.1 (Unreleased)
 
+- Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+- The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).
+
+## 12.3.0 (2021-01-12)
+
+- Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
+- Now you can get the functionality of the root directory via the `DataLakeDirectoryClient` created via `FileSystemClient.getDirectoryClient("")`. Fixed bug [12813](https://github.com/Azure/azure-sdk-for-js/issues/12813).
 
 ## 12.3.0-beta.1 (2020-12-09)
 

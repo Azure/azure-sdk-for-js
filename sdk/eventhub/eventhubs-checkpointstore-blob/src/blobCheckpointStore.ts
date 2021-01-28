@@ -298,7 +298,7 @@ type CheckpointMetadata = {
 };
 
 /**
- * @ignore
+ * @hidden
  * @internal
  */
 export function parseIntOrThrow(

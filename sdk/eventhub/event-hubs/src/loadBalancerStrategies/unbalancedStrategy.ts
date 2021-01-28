@@ -9,7 +9,6 @@ import { LoadBalancingStrategy } from "./loadBalancingStrategy";
  * It is intended to be used when you want to avoid load balancing
  * and consume a set of partitions.
  * @internal
- * @ignore
  */
 export class UnbalancedLoadBalancingStrategy implements LoadBalancingStrategy {
   /**

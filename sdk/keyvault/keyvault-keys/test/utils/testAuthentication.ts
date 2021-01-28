@@ -2,21 +2,23 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { getKeyvaultName } from "./utils.common";
 import { KeyClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 
-export async function authenticate(that: Context): Promise<any> {
+// Adding this to the source would change the public API.
+type ApiVersions = "7.0" | "7.1";
+export async function authenticate(that: Context, version?: string): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
-      KEYVAULT_NAME: "keyvault_name"
+      KEYVAULT_NAME: "keyvault_name",
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -27,15 +29,20 @@ export async function authenticate(that: Context): Promise<any> {
     queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
-  const credential = await new ClientSecretCredential(
+  const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
 
-  const keyVaultName = getKeyvaultName();
-  const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
-  const client = new KeyClient(keyVaultUrl, credential);
+  const keyVaultUrl = env.KEYVAULT_URI;
+  if (!keyVaultUrl) {
+    throw new Error("Missing KEYVAULT_URI environment variable.");
+  }
+
+  const client = new KeyClient(keyVaultUrl, credential, {
+    serviceVersion: version as ApiVersions
+  });
   const testClient = new TestClient(client);
 
   return { recorder, client, credential, testClient, keySuffix };

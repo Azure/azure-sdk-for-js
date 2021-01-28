@@ -18,7 +18,6 @@ import { reorderLockToken } from "./util/utils";
 
 /**
  * @internal
- * @ignore
  */
 export enum DispositionType {
   complete = "complete",
@@ -29,7 +28,6 @@ export enum DispositionType {
 
 /**
  * @internal
- * @ignore
  * Describes the delivery annotations for Service Bus.
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
@@ -57,7 +55,6 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * @internal
- * @ignore
  * Describes the message annotations for Service Bus.
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
@@ -217,7 +214,6 @@ export interface ServiceBusMessage {
 
 /**
  * @internal
- * @ignore
  * Gets the error message for when a property on given message is not of expected type
  */
 export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Error | undefined {
@@ -275,7 +271,6 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 
 /**
  * @internal
- * @ignore
  * Converts given ServiceBusMessage to RheaMessage
  */
 export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
@@ -444,7 +439,6 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
 
 /**
  * @internal
- * @ignore
  * Converts given RheaMessage to ServiceBusReceivedMessage
  */
 export function fromRheaMessage(
@@ -563,7 +557,6 @@ export function fromRheaMessage(
 
 /**
  * @internal
- * @ignore
  */
 export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
   return possible != null && typeof possible === "object" && "body" in possible;
@@ -573,7 +566,6 @@ export function isServiceBusMessage(possible: any): possible is ServiceBusMessag
  * Describes the message received from Service Bus.
  *
  * @internal
- * @ignore
  * @class ServiceBusMessageImpl
  * @implements {ServiceBusReceivedMessage}
  */

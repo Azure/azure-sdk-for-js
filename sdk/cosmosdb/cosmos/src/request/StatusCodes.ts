@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
- * @ignore
+ * @hidden
  */
 export const StatusCode = {
   // Success
@@ -35,12 +35,12 @@ export const StatusCode = {
 };
 
 /**
- * @ignore
+ * @hidden
  */
 export type StatusCode = typeof StatusCode[keyof typeof StatusCode];
 
 /**
- * @ignore
+ * @hidden
  */
 export const SubStatusCode = {
   Unknown: 0 as 0,

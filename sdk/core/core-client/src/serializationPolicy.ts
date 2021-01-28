@@ -15,7 +15,10 @@ import {
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { getPathStringFromParameter } from "./interfaceHelpers";
-import { getOperationArgumentValueFromParameter } from "./operationHelpers";
+import {
+  getOperationArgumentValueFromParameter,
+  getOperationRequestInfo
+} from "./operationHelpers";
 
 /**
  * The programmatic identifier of the serializationPolicy.
@@ -47,8 +50,9 @@ export function serializationPolicy(options: serializationPolicyOptions = {}): P
   return {
     name: serializationPolicyName,
     async sendRequest(request: OperationRequest, next: SendRequest): Promise<PipelineResponse> {
-      const operationSpec = request.additionalInfo?.operationSpec;
-      const operationArguments = request.additionalInfo?.operationArguments;
+      const operationInfo = getOperationRequestInfo(request);
+      const operationSpec = operationInfo?.operationSpec;
+      const operationArguments = operationInfo?.operationArguments;
       if (operationSpec && operationArguments) {
         serializeHeaders(request, operationArguments, operationSpec);
         serializeRequestBody(request, operationArguments, operationSpec, stringifyXML);
@@ -90,7 +94,7 @@ function serializeHeaders(
 }
 
 /**
- * @internal @ignore
+ * @internal @hidden
  */
 export function serializeRequestBody(
   request: OperationRequest,

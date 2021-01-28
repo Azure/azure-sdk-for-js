@@ -498,7 +498,7 @@ export const TasksStateTasks: coreHttp.CompositeMapper = {
         serializedName: "details",
         type: {
           name: "Composite",
-          className: "TaskState"
+          className: "TasksStateTasksDetails"
         }
       },
       completed: {
@@ -2083,6 +2083,16 @@ export const HealthcareJobState: coreHttp.CompositeMapper = {
   }
 };
 
+export const TasksStateTasksDetails: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TasksStateTasksDetails",
+    modelProperties: {
+      ...TaskState.type.modelProperties
+    }
+  }
+};
+
 export const TasksStateTasksEntityRecognitionTasksItem: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2115,16 +2125,6 @@ export const TasksStateTasksKeyPhraseExtractionTasksItem: coreHttp.CompositeMapp
       ...TaskState.type.modelProperties,
       ...Components1D9IzucSchemasTasksstatePropertiesTasksPropertiesKeyphraseextractiontasksItemsAllof1
         .type.modelProperties
-    }
-  }
-};
-
-export const TasksStateTasksDetails: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TasksStateTasksDetails",
-    modelProperties: {
-      ...TaskState.type.modelProperties
     }
   }
 };

@@ -155,8 +155,11 @@ export {
   WebAppServicePlanUpdatedEventData,
   WebAppServicePlanUpdatedEventDataSku,
   AppAction,
+  KnownAppAction,
   StampKind,
+  KnownStampKind,
   AsyncStatus,
+  KnownAsyncStatus,
   ContainerRegistryArtifactEventData,
   ContainerRegistryEventActor,
   ContainerRegistryEventRequest,
@@ -169,5 +172,8 @@ export {
   MediaJobOutput,
   MediaJobOutputAsset,
   DeviceTwinProperties,
-  DeviceTwinMetadata
+  DeviceTwinMetadata,
+  AppServicePlanAction,
+  KnownAppServicePlanAction,
+  StorageLifecyclePolicyActionSummaryDetail
 } from "./generated/models";

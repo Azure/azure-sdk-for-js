@@ -40,7 +40,6 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "typings/src",
     "README.md",
     "LICENSE"
@@ -49,17 +48,18 @@
   "keywords": [
     "azure",
     "recording",
+    "cloud",
     "playback"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder/",
   "sideEffects": false,
   "private": true,
   "dependencies": {
@@ -101,7 +101,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "mock-fs": "^4.10.4",

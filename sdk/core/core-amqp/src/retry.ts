@@ -11,7 +11,7 @@ import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
 /**
  * Determines whether the object is a Delivery object.
- * @ignore
+ * @hidden
  */
 function isDelivery(obj: any): boolean {
   let result: boolean = false;
@@ -119,7 +119,7 @@ export interface RetryConfig<T> {
 
 /**
  * Validates the retry config.
- * @ignore
+ * @hidden
  */
 function validateRetryConfig<T>(config: RetryConfig<T>): void {
   if (!config.operation) {

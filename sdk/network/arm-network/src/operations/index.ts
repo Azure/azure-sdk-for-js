@@ -102,6 +102,7 @@ export * from "./vpnGateways";
 export * from "./vpnConnections";
 export * from "./vpnSiteLinkConnections";
 export * from "./vpnLinkConnections";
+export * from "./natRules";
 export * from "./p2sVpnGateways";
 export * from "./vpnServerConfigurationsAssociatedWithVirtualWan";
 export * from "./virtualHubRouteTableV2s";

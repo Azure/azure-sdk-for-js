@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
 import {
   createAppConfigurationClientForTests,

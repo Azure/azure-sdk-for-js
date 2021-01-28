@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { join } from "path";
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";

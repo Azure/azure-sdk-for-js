@@ -26,6 +26,7 @@ describe("The keyvault-admin clients logging options should work", () => {
           request: httpRequest,
           parsedBody: {
             id: `${keyVaultUrl}${path}`,
+            startTime: new Date(),
             attributes: {}
           }
         };
@@ -39,12 +40,9 @@ describe("The keyvault-admin clients logging options should work", () => {
   let credential: ClientSecretCredential;
 
   beforeEach(async () => {
-    credential = await new ClientSecretCredential(
-      "<tenant-id>",
-      "<client-id>",
-      "<azure-client-secret>"
-    );
+    credential = new ClientSecretCredential("<tenant-id>", "<client-id>", "<azure-client-secret>");
     setLogLevel("info");
+    sandbox = createSandbox();
   });
 
   afterEach(() => {
@@ -55,7 +53,6 @@ describe("The keyvault-admin clients logging options should work", () => {
   describe("KeyVaultAccessControlClient", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/providers/Microsoft.Authorization/roleDefinitions");
-      sandbox = createSandbox();
       spy = sandbox.spy(logger, "info");
     });
 
@@ -79,7 +76,6 @@ describe("The keyvault-admin clients logging options should work", () => {
   describe("KeyVaultBackupClient", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/backup", 202);
-      sandbox = createSandbox();
       spy = sandbox.spy(logger, "info");
     });
 

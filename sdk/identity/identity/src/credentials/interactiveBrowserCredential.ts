@@ -137,14 +137,22 @@ export class InteractiveBrowserCredential implements TokenCredential {
         try {
           const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
           const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
-          const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
-          res.status(200).send(successMessage);
-          logger.getToken.info(formatSuccess(scopeArray));
+          if (authResponse && authResponse.expiresOn) {
+            const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
+            res.status(200).send(successMessage);
+            logger.getToken.info(formatSuccess(scopeArray));
 
-          resolve({
-            expiresOnTimestamp,
-            token: authResponse.accessToken
-          });
+            resolve({
+              expiresOnTimestamp,
+              token: authResponse.accessToken
+            });
+          } else {
+            reject(
+              new Error(
+                `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+              )
+            );
+          }
         } catch (error) {
           const errorMessage = formatError(
             scopeArray,

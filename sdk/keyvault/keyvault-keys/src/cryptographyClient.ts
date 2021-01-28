@@ -26,9 +26,9 @@ import {
   JsonWebKey,
   GetKeyOptions,
   KeyVaultKey,
-  LATEST_API_VERSION,
   CryptographyClientOptions,
-  KeyOperation
+  KeyOperation,
+  LATEST_API_VERSION
 } from "./keysModels";
 
 import {
