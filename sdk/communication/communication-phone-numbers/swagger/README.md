@@ -11,7 +11,7 @@ package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cd55e68f6b1c9af83b7f21908937a1318e12877/specification/communication/data-plane/Microsoft.CommunicationServicesAdministration/stable/2021-03-07/phonenumbers.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f4221d359b33d99937050de3c0630403119d0161/specification/communication/data-plane/Microsoft.CommunicationServicesAdministration/stable/2021-03-07/phonenumbers.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

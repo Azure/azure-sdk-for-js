@@ -26,7 +26,7 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Acquire
   phoneNumber: "+18005550100",
   countryCode: "US",
   phoneNumberType: "geographic",
-  assignmentType: "person",
+  assignmentType: "user",
   purchaseDate: new Date(),
   capabilities: {
     sms: "inbound+outbound",
@@ -47,7 +47,7 @@ const phoneNumbers: AcquiredPhoneNumber[] = [
     phoneNumber: "+18005550100",
     countryCode: "US",
     phoneNumberType: "geographic",
-    assignmentType: "person",
+    assignmentType: "user",
     purchaseDate: new Date(),
     capabilities: {
       sms: "inbound+outbound",
@@ -66,7 +66,7 @@ const phoneNumbers: AcquiredPhoneNumber[] = [
     phoneNumber: "+18005550101",
     countryCode: "US",
     phoneNumberType: "geographic",
-    assignmentType: "person",
+    assignmentType: "user",
     purchaseDate: new Date(),
     capabilities: {
       sms: "inbound+outbound",
@@ -85,7 +85,7 @@ const phoneNumbers: AcquiredPhoneNumber[] = [
     phoneNumber: "+18005550102",
     countryCode: "US",
     phoneNumberType: "geographic",
-    assignmentType: "person",
+    assignmentType: "user",
     purchaseDate: new Date(),
     capabilities: {
       sms: "inbound+outbound",

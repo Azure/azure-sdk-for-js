@@ -27,7 +27,6 @@ export type ListPhoneNumbersOptions = OperationOptions;
 
 export {
   AcquiredPhoneNumber,
-  AcquiredPhoneNumberUpdate,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
@@ -35,5 +34,6 @@ export {
   PhoneNumberCost,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
-  PhoneNumberType
+  PhoneNumberType,
+  PhoneNumberUpdateRequest
 } from "./generated/src/models/";

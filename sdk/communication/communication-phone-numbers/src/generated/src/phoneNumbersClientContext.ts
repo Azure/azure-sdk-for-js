@@ -55,6 +55,6 @@ export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2020-11-01-preview3";
+    this.apiVersion = options.apiVersion || "2021-03-07";
   }
 }

@@ -14,7 +14,7 @@ import {
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
-  AcquiredPhoneNumberUpdate as AcquiredPhoneNumberUpdateMapper,
+  PhoneNumberUpdateRequest as PhoneNumberUpdateRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
 } from "../models/mappers";
 
@@ -30,8 +30,8 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const search: OperationParameter = {
-  parameterPath: "search",
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: PhoneNumberSearchRequestMapper
 };
 
@@ -61,7 +61,7 @@ export const countryCode: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-11-01-preview3",
+    defaultValue: "2021-03-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -81,8 +81,8 @@ export const searchId: OperationURLParameter = {
   }
 };
 
-export const purchase: OperationParameter = {
-  parameterPath: "purchase",
+export const body1: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: PhoneNumberPurchaseRequestMapper
 };
 
@@ -120,13 +120,34 @@ export const contentType1: OperationParameter = {
   }
 };
 
-export const update: OperationParameter = {
-  parameterPath: "update",
-  mapper: AcquiredPhoneNumberUpdateMapper
+export const body2: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: PhoneNumberUpdateRequestMapper
 };
 
-export const update1: OperationParameter = {
-  parameterPath: "update",
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
   mapper: PhoneNumberCapabilitiesRequestMapper
 };
 

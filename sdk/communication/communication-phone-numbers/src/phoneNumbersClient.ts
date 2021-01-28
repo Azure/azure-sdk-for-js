@@ -25,7 +25,7 @@ import {
 } from "./generated/src/phoneNumbersClient";
 import {
   AcquiredPhoneNumber,
-  AcquiredPhoneNumberUpdate,
+  PhoneNumberUpdateRequest,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult
@@ -126,21 +126,20 @@ export class PhoneNumbersClient {
    * Updates an acquired phone number.
    *
    * @param {string} phoneNumber The E.164 formatted phone number to be updated. The leading plus can be either + or encoded as %2B.
-   * @param {AcquiredPhoneNumberUpdate} update The updated properties which will be applied to the phone number.
+   * @param {PhoneNumberUpdateRequest} update The updated properties which will be applied to the phone number.
    * @param {UpdatePhoneNumberOptions} options Additional request options.
    */
   public async updatePhoneNumber(
     phoneNumber: string,
-    update: AcquiredPhoneNumberUpdate,
+    update: PhoneNumberUpdateRequest,
     options: UpdatePhoneNumberOptions = {}
   ): Promise<UpdatePhoneNumberResponse> {
     const { span, updatedOptions } = createSpan("PhoneNumbersClient-updatePhoneNumber", options);
     try {
-      const { _response, ...acquiredPhoneNumber } = await this.client.updatePhoneNumber(
-        phoneNumber,
-        update,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const { _response, ...acquiredPhoneNumber } = await this.client.update(phoneNumber, {
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
+        body: update
+      });
       return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
     } catch (e) {
       span.setStatus({
@@ -154,7 +153,7 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * Gets an acquired phone number.
+   * Gets the details of an acquired phone number. Includes phone number, cost, country code, etc.
    *
    * @param {string} phoneNumber The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
    * @param {GetPhoneNumberOptions} options Additional request options.
@@ -165,7 +164,7 @@ export class PhoneNumbersClient {
   ): Promise<GetPhoneNumberResponse> {
     const { span, updatedOptions } = createSpan("PhoneNumbersClient-getPhoneNumber", options);
     try {
-      const { _response, ...acquiredPhoneNumber } = await this.client.getPhoneNumber(
+      const { _response, ...acquiredPhoneNumber } = await this.client.getByNumber(
         phoneNumber,
         updatedOptions
       );
@@ -196,8 +195,8 @@ export class PhoneNumbersClient {
       const currentResponse = await this.client.listPhoneNumbers(options);
       continuationState.continuationToken = currentResponse.nextLink;
 
-      if (currentResponse.value) {
-        yield currentResponse.value;
+      if (currentResponse.phoneNumbers) {
+        yield currentResponse.phoneNumbers;
       }
     }
 
@@ -208,8 +207,8 @@ export class PhoneNumbersClient {
       );
       continuationState.continuationToken = currentResponse.nextLink;
 
-      if (currentResponse.value) {
-        yield currentResponse.value;
+      if (currentResponse.phoneNumbers) {
+        yield currentResponse.phoneNumbers;
       }
     }
   }
@@ -286,8 +285,22 @@ export class PhoneNumbersClient {
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
-    const poller = await this.client.releasePhoneNumber(phoneNumber, options);
-    return poller;
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-beginReleasePhoneNumber",
+      options
+    );
+
+    try {
+      return await this.client.releasePhoneNumber(phoneNumber, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -318,8 +331,25 @@ export class PhoneNumbersClient {
     search: PhoneNumberSearchRequest,
     options: BeginSearchAvailablePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>> {
-    const poller = await this.client.searchAvailablePhoneNumbers(countryCode, search, options);
-    return poller as any;
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-beginSearchAvailablePhoneNumbers",
+      options
+    );
+
+    try {
+      return await this.client.searchAvailablePhoneNumbers(countryCode, {
+        ...updatedOptions,
+        body: search
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -347,8 +377,22 @@ export class PhoneNumbersClient {
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<VoidResponse>, VoidResponse>> {
-    const poller = this.client.purchasePhoneNumbers({ searchId }, options);
-    return poller;
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-beginPurchasePhoneNumbers",
+      options
+    );
+
+    try {
+      return this.client.purchasePhoneNumbers({ ...updatedOptions, body: { searchId } });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -378,9 +422,24 @@ export class PhoneNumbersClient {
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberOptions = {}
   ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
-    const poller = this.client.updatePhoneNumberCapabilities(phoneNumber, request, options);
-    return poller;
+    const { span, updatedOptions } = createSpan(
+      "PhoneNumberAdministrationClient-beginUpdatePhoneNumberCapabilities",
+      options
+    );
+
+    try {
+      return this.client.updateCapabilities(phoneNumber, {
+        ...updatedOptions,
+        body: { ...request }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
-
-export {} from "./generated/src/models";

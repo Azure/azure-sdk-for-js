@@ -9,43 +9,95 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * The desired properties of a phone number for search.
+ * Represents a phone number search request to reserve some phone numbers.
  */
 export interface PhoneNumberSearchRequest {
   /**
-   * The phone number type.
+   * The type of phone numbers to search for, e.g. Geographic, or TollFree.
    */
   phoneNumberType: PhoneNumberType;
   /**
-   * The phone number's assignment type.
+   * The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application.
    */
   assignmentType: PhoneNumberAssignmentType;
   /**
-   * The phone number's capabilities.
+   * Capabilities of a phone number.
    */
-  capabilities: PhoneNumberCapabilitiesRequest;
+  capabilities: PhoneNumberCapabilities;
   /**
-   * The desired area code.
+   * The area code of the desired phone number, e.g. 425.
    */
   areaCode?: string;
   /**
-   * The desired quantity of phone numbers.
+   * The quantity of phone numbers in the search. Should be at least 1.
    */
   quantity?: number;
 }
 
 /**
- * The capabilities of a phone number.
+ * Capabilities of a phone number.
  */
-export interface PhoneNumberCapabilitiesRequest {
+export interface PhoneNumberCapabilities {
   /**
-   * Available Sms capabilities.
+   * Capability value for calling.
    */
-  sms?: PhoneNumberCapabilityValue;
+  calling: PhoneNumberCapabilityValue;
   /**
-   * Available Calling capabilities.
+   * Capability value for SMS.
    */
-  calling?: PhoneNumberCapabilityValue;
+  sms: PhoneNumberCapabilityValue;
+}
+
+/**
+ * The result of a phone number search operation.
+ */
+export interface PhoneNumberSearchResult {
+  /**
+   * The search id.
+   */
+  searchId?: string;
+  /**
+   * The phone numbers that are available. Can be fewer than the desired search quantity.
+   */
+  phoneNumbers?: string[];
+  /**
+   * The phone number's type, e.g. Geographic, or TollFree.
+   */
+  phoneNumberType?: PhoneNumberType;
+  /**
+   * Phone number's assignment type.
+   */
+  assignmentType?: PhoneNumberAssignmentType;
+  /**
+   * Capabilities of a phone number.
+   */
+  capabilities?: PhoneNumberCapabilities;
+  /**
+   * The incurred cost for a single phone number.
+   */
+  cost?: PhoneNumberCost;
+  /**
+   * The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z.
+   */
+  searchExpiresBy?: Date;
+}
+
+/**
+ * The incurred cost for a single phone number.
+ */
+export interface PhoneNumberCost {
+  /**
+   * The cost amount.
+   */
+  amount?: number;
+  /**
+   * The ISO 4217 currency code for the cost amount, e.g. USD.
+   */
+  currencyCode?: string;
+  /**
+   * The frequency with which the cost gets billed.
+   */
+  billingFrequency?: "monthly";
 }
 
 /**
@@ -85,77 +137,11 @@ export interface CommunicationError {
 }
 
 /**
- * The result of a phone number search operation.
- */
-export interface PhoneNumberSearchResult {
-  /**
-   * The search id.
-   */
-  id: string;
-  /**
-   * The phone numbers that are available. Can be fewer than the desired search quantity.
-   */
-  phoneNumbers: string[];
-  /**
-   * The phoner number type.
-   */
-  phoneNumberType: PhoneNumberType;
-  /**
-   * The phone number's assignment type.
-   */
-  assignmentType: PhoneNumberAssignmentType;
-  /**
-   * The phone number's capabilities.
-   */
-  capabilities: PhoneNumberCapabilities;
-  /**
-   * The monthly cost for an individual phone number.
-   */
-  cost: PhoneNumberCost;
-  /**
-   * The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min.
-   */
-  searchExpiresBy: Date;
-}
-
-/**
- * The capabilities of a phone number.
- */
-export interface PhoneNumberCapabilities {
-  /**
-   * Available Sms capabilities.
-   */
-  sms: PhoneNumberCapabilityValue;
-  /**
-   * Available Calling capabilities.
-   */
-  calling: PhoneNumberCapabilityValue;
-}
-
-/**
- * The monthly incurred cost for a single phone number.
- */
-export interface PhoneNumberCost {
-  /**
-   * The cost amount.
-   */
-  amount: number;
-  /**
-   * The ISO 4217 currency code for the cost amount.
-   */
-  currencyCode: string;
-  /**
-   * The frequency with which the cost gets billed.
-   */
-  billingFrequency: "monthly";
-}
-
-/**
- * Request to purchase phone numbers
+ * The phone number search purchase request.
  */
 export interface PhoneNumberPurchaseRequest {
   /**
-   * The id of the search result to purchase.
+   * The search id.
    */
   searchId?: string;
 }
@@ -167,31 +153,94 @@ export interface PhoneNumberOperation {
   /**
    * Status of operation.
    */
-  status: PhoneNumberOperationStatusCodes;
+  status: PhoneNumberOperationStatus;
   /**
-   * Id of the operation.
+   * URL for retrieving the result of the operation, if any.
    */
-  id: string;
-  /**
-   * Kind of the operation.
-   */
-  kind: OperationKind;
+  resourceLocation?: string;
   /**
    * The date that the operation was created.
    */
-  createdDateTime: Date;
-  /**
-   * The most recent date that the operation was changed.
-   */
-  lastActionDateTime: Date;
-  /**
-   * Url for retrieving the result of the operation if any
-   */
-  resourceLocation?: string;
+  createdDateTime?: Date;
   /**
    * The Communication Services error.
    */
   error?: CommunicationError;
+  /**
+   * Id of operation.
+   */
+  id?: string;
+  /**
+   * The type of operation, e.g. Search
+   */
+  readonly operationType?: PhoneNumberOperationType;
+  /**
+   * The most recent date that the operation was changed.
+   */
+  readonly lastActionDateTime?: Date;
+}
+
+/**
+ * Represents an acquired phone number.
+ */
+export interface AcquiredPhoneNumber {
+  /**
+   * The id of the phone number, e.g. 11234567890.
+   */
+  id: string;
+  /**
+   * String of the E.164 format of the phone number, e.g. +11234567890.
+   */
+  phoneNumber: string;
+  /**
+   * The ISO 3166-2 code of the phone number's country, e.g. US.
+   */
+  countryCode: string;
+  /**
+   * The phone number's type, e.g. Geographic, TollFree.
+   */
+  phoneNumberType: PhoneNumberType;
+  /**
+   * Capabilities of a phone number.
+   */
+  capabilities: PhoneNumberCapabilities;
+  /**
+   * The assignment type of the phone number. A phone number can be assigned to a person, or to an application.
+   */
+  assignmentType: PhoneNumberAssignmentType;
+  /**
+   * The date and time that the phone number was purchased.
+   */
+  purchaseDate?: Date;
+  /**
+   * The webhook for receiving incoming events, e.g. https://{{site-name}}.azurewebsites.net/api/updates
+   */
+  callbackUri?: string;
+  /**
+   * The application id of the server application the phone number is assigned to. The property is empty if the phone number is assigned to a person.
+   */
+  applicationId?: string;
+  /**
+   * The incurred cost for a single phone number.
+   */
+  cost?: PhoneNumberCost;
+}
+
+/**
+ * Property updates for a phone number
+ */
+export interface PhoneNumberUpdateRequest {
+  /**
+   * The webhook for receiving incoming events.
+   * e.g. "https://{{site-name}}.azurewebsites.net/api/updates".
+   * Please read https://docs.microsoft.com/en-us/azure/communication-services/concepts/event-handling
+   * for integration with Azure Event Grid to deliver real-time event notifications.
+   */
+  callbackUri?: string;
+  /**
+   * The application id of the application to which to configure.
+   */
+  applicationId?: string;
 }
 
 /**
@@ -199,73 +248,27 @@ export interface PhoneNumberOperation {
  */
 export interface AcquiredPhoneNumbers {
   /**
-   * Represents a list of acquired phone numbers.
+   * Represents a list of phone numbers.
    */
-  value: AcquiredPhoneNumber[];
+  phoneNumbers?: AcquiredPhoneNumber[];
   /**
-   * Represents the URL link to the next page
+   * Represents the URL link to the next page of phone number results.
    */
   nextLink?: string;
 }
 
 /**
- * The acquired phone number and its metadata and configuration.
+ * Capabilities of a phone number.
  */
-export interface AcquiredPhoneNumber {
+export interface PhoneNumberCapabilitiesRequest {
   /**
-   * The id, this is the same as the phone number in E.164 format.
+   * Capability value for calling.
    */
-  id: string;
+  calling?: PhoneNumberCapabilityValue;
   /**
-   * The phoneNumber in E.164 format.
+   * Capability value for SMS.
    */
-  phoneNumber: string;
-  /**
-   * The ISO 3166-2 country code of the country that the phone number belongs to.
-   */
-  countryCode: string;
-  /**
-   * The type of the phone number.
-   */
-  phoneNumberType: PhoneNumberType;
-  /**
-   * The assignment type of the phone number, people or application.
-   */
-  assignmentType: PhoneNumberAssignmentType;
-  /**
-   * The purchase date of the phone number.
-   */
-  purchaseDate: Date;
-  /**
-   * The phone number's capabilities.
-   */
-  capabilities: PhoneNumberCapabilities;
-  /**
-   * The webhook for receiving incoming events.
-   */
-  callbackUri: string;
-  /**
-   * The application id the number has been assigned to.
-   */
-  applicationId: string;
-  /**
-   * The monthly cost of the phone number.
-   */
-  cost: PhoneNumberCost;
-}
-
-/**
- * The properties of a phone number that can be changed.
- */
-export interface AcquiredPhoneNumberUpdate {
-  /**
-   * The webhook for receiving incoming events.
-   */
-  callbackUri?: string;
-  /**
-   * The application id the number has been assigned to.
-   */
-  applicationId?: string;
+  sms?: PhoneNumberCapabilityValue;
 }
 
 /**
@@ -273,6 +276,7 @@ export interface AcquiredPhoneNumberUpdate {
  */
 export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
   operationLocation?: string;
+  location?: string;
 }
 
 /**
@@ -280,6 +284,7 @@ export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
  */
 export interface PhoneNumbersPurchasePhoneNumbersHeaders {
   operationLocation?: string;
+  location?: string;
 }
 
 /**
@@ -287,54 +292,77 @@ export interface PhoneNumbersPurchasePhoneNumbersHeaders {
  */
 export interface PhoneNumbersReleasePhoneNumberHeaders {
   operationLocation?: string;
+  location?: string;
 }
 
 /**
- * Defines headers for PhoneNumbers_updatePhoneNumberCapabilities operation.
+ * Defines headers for PhoneNumbers_updateCapabilities operation.
  */
-export interface PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders {
+export interface PhoneNumbersUpdateCapabilitiesHeaders {
   operationLocation?: string;
+  location?: string;
 }
 
 /**
  * Defines values for PhoneNumberType.
  */
-export type PhoneNumberType = "tollFree" | "geographic";
+export type PhoneNumberType = "geographic" | "tollFree";
 /**
  * Defines values for PhoneNumberAssignmentType.
  */
-export type PhoneNumberAssignmentType = "person" | "application";
+export type PhoneNumberAssignmentType = "user" | "application";
 /**
  * Defines values for PhoneNumberCapabilityValue.
  */
-export type PhoneNumberCapabilityValue = "inbound" | "outbound" | "inbound+outbound" | "none";
+export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
 /**
- * Defines values for OperationKind.
+ * Defines values for PhoneNumberOperationStatus.
  */
-export type OperationKind =
-  | "search"
+export type PhoneNumberOperationStatus = "notStarted" | "running" | "succeeded" | "failed";
+/**
+ * Defines values for PhoneNumberOperationType.
+ */
+export type PhoneNumberOperationType =
   | "purchase"
   | "releasePhoneNumber"
+  | "search"
   | "updatePhoneNumberCapabilities";
+
 /**
- * Defines values for PhoneNumberOperationStatusCodes.
+ * Optional parameters.
  */
-export type PhoneNumberOperationStatusCodes = "notStarted" | "running" | "succeeded" | "failed";
+export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * The phone number search request.
+   */
+  body?: PhoneNumberSearchRequest;
+}
 
 /**
  * Contains response data for the searchAvailablePhoneNumbers operation.
  */
-export type PhoneNumbersSearchAvailablePhoneNumbersResponse = PhoneNumbersSearchAvailablePhoneNumbersHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type PhoneNumbersSearchAvailablePhoneNumbersResponse = PhoneNumbersSearchAvailablePhoneNumbersHeaders &
+  PhoneNumberSearchResult & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: PhoneNumbersSearchAvailablePhoneNumbersHeaders;
+    _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PhoneNumberSearchResult;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PhoneNumbersSearchAvailablePhoneNumbersHeaders;
+    };
   };
-};
 
 /**
  * Contains response data for the getSearchResult operation.
@@ -357,19 +385,39 @@ export type PhoneNumbersGetSearchResultResponse = PhoneNumberSearchResult & {
 };
 
 /**
+ * Optional parameters.
+ */
+export interface PhoneNumbersPurchasePhoneNumbersOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * The phone number purchase request
+   */
+  body?: PhoneNumberPurchaseRequest;
+}
+
+/**
  * Contains response data for the purchasePhoneNumbers operation.
  */
-export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
+export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders &
+  PhoneNumberSearchResult & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: PhoneNumbersPurchasePhoneNumbersHeaders;
+    _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PhoneNumberSearchResult;
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: PhoneNumbersPurchasePhoneNumbersHeaders;
+    };
   };
-};
 
 /**
  * Contains response data for the getOperation operation.
@@ -392,49 +440,9 @@ export type PhoneNumbersGetOperationResponse = PhoneNumberOperation & {
 };
 
 /**
- * Contains response data for the listPhoneNumbers operation.
+ * Contains response data for the getByNumber operation.
  */
-export type PhoneNumbersListPhoneNumbersResponse = AcquiredPhoneNumbers & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AcquiredPhoneNumbers;
-  };
-};
-
-/**
- * Contains response data for the getPhoneNumber operation.
- */
-export type PhoneNumbersGetPhoneNumberResponse = AcquiredPhoneNumber & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AcquiredPhoneNumber;
-  };
-};
-
-/**
- * Contains response data for the updatePhoneNumber operation.
- */
-export type PhoneNumbersUpdatePhoneNumberResponse = AcquiredPhoneNumber & {
+export type PhoneNumbersGetByNumberResponse = AcquiredPhoneNumber & {
   /**
    * The underlying HTTP response.
    */
@@ -467,9 +475,83 @@ export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNum
 };
 
 /**
- * Contains response data for the updatePhoneNumberCapabilities operation.
+ * Optional parameters.
  */
-export type PhoneNumbersUpdatePhoneNumberCapabilitiesResponse = PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders &
+export interface PhoneNumbersUpdateOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * Defines the update request.
+   */
+  body?: PhoneNumberUpdateRequest;
+}
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PhoneNumbersUpdateResponse = AcquiredPhoneNumber & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AcquiredPhoneNumber;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface PhoneNumbersListPhoneNumbersOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * An optional parameter for how many entries to skip, for pagination purposes. The default value is 0.
+   */
+  skip?: number;
+  /**
+   * An optional parameter for how many entries to return, for pagination purposes. The default value is 100.
+   */
+  top?: number;
+}
+
+/**
+ * Contains response data for the listPhoneNumbers operation.
+ */
+export type PhoneNumbersListPhoneNumbersResponse = AcquiredPhoneNumbers & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AcquiredPhoneNumbers;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface PhoneNumbersUpdateCapabilitiesOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * Defines the update capabilities request.
+   */
+  body?: PhoneNumberCapabilitiesRequest;
+}
+
+/**
+ * Contains response data for the updateCapabilities operation.
+ */
+export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilitiesHeaders &
   AcquiredPhoneNumber & {
     /**
      * The underlying HTTP response.
@@ -487,9 +569,23 @@ export type PhoneNumbersUpdatePhoneNumberCapabilitiesResponse = PhoneNumbersUpda
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: PhoneNumbersUpdatePhoneNumberCapabilitiesHeaders;
+      parsedHeaders: PhoneNumbersUpdateCapabilitiesHeaders;
     };
   };
+
+/**
+ * Optional parameters.
+ */
+export interface PhoneNumbersListPhoneNumbersNextOptionalParams extends coreHttp.OperationOptions {
+  /**
+   * An optional parameter for how many entries to skip, for pagination purposes. The default value is 0.
+   */
+  skip?: number;
+  /**
+   * An optional parameter for how many entries to return, for pagination purposes. The default value is 100.
+   */
+  top?: number;
+}
 
 /**
  * Contains response data for the listPhoneNumbersNext operation.

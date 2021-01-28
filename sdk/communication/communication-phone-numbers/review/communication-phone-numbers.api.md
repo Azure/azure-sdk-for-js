@@ -15,22 +15,16 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcquiredPhoneNumber {
-    applicationId: string;
+    applicationId?: string;
     assignmentType: PhoneNumberAssignmentType;
-    callbackUri: string;
+    callbackUri?: string;
     capabilities: PhoneNumberCapabilities;
-    cost: PhoneNumberCost;
+    cost?: PhoneNumberCost;
     countryCode: string;
     id: string;
     phoneNumber: string;
     phoneNumberType: PhoneNumberType;
-    purchaseDate: Date;
-}
-
-// @public
-export interface AcquiredPhoneNumberUpdate {
-    applicationId?: string;
-    callbackUri?: string;
+    purchaseDate?: Date;
 }
 
 // @public (undocumented)
@@ -59,7 +53,7 @@ export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 export type ListPhoneNumbersOptions = OperationOptions;
 
 // @public
-export type PhoneNumberAssignmentType = "person" | "application";
+export type PhoneNumberAssignmentType = "user" | "application";
 
 // @public
 export interface PhoneNumberCapabilities {
@@ -74,13 +68,13 @@ export interface PhoneNumberCapabilitiesRequest {
 }
 
 // @public
-export type PhoneNumberCapabilityValue = "inbound" | "outbound" | "inbound+outbound" | "none";
+export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
 
 // @public
 export interface PhoneNumberCost {
-    amount: number;
-    billingFrequency: "monthly";
-    currencyCode: string;
+    amount?: number;
+    billingFrequency?: "monthly";
+    currencyCode?: string;
 }
 
 // @public (undocumented)
@@ -102,7 +96,7 @@ export class PhoneNumbersClient {
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
-    updatePhoneNumber(phoneNumber: string, update: AcquiredPhoneNumberUpdate, options?: UpdatePhoneNumberOptions): Promise<UpdatePhoneNumberResponse>;
+    updatePhoneNumber(phoneNumber: string, update: PhoneNumberUpdateRequest, options?: UpdatePhoneNumberOptions): Promise<UpdatePhoneNumberResponse>;
 }
 
 // @public
@@ -113,24 +107,30 @@ export interface PhoneNumbersClientOptions extends PipelineOptions {
 export interface PhoneNumberSearchRequest {
     areaCode?: string;
     assignmentType: PhoneNumberAssignmentType;
-    capabilities: PhoneNumberCapabilitiesRequest;
+    capabilities: PhoneNumberCapabilities;
     phoneNumberType: PhoneNumberType;
     quantity?: number;
 }
 
 // @public
 export interface PhoneNumberSearchResult {
-    assignmentType: PhoneNumberAssignmentType;
-    capabilities: PhoneNumberCapabilities;
-    cost: PhoneNumberCost;
-    id: string;
-    phoneNumbers: string[];
-    phoneNumberType: PhoneNumberType;
-    searchExpiresBy: Date;
+    assignmentType?: PhoneNumberAssignmentType;
+    capabilities?: PhoneNumberCapabilities;
+    cost?: PhoneNumberCost;
+    phoneNumbers?: string[];
+    phoneNumberType?: PhoneNumberType;
+    searchExpiresBy?: Date;
+    searchId?: string;
 }
 
 // @public
-export type PhoneNumberType = "tollFree" | "geographic";
+export type PhoneNumberType = "geographic" | "tollFree";
+
+// @public
+export interface PhoneNumberUpdateRequest {
+    applicationId?: string;
+    callbackUri?: string;
+}
 
 // @public (undocumented)
 export type UpdatePhoneNumberOptions = OperationOptions;
