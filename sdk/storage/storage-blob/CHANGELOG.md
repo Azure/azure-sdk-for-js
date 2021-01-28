@@ -3,6 +3,7 @@
 ## 12.4.1 (Unreleased)
 
 - Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+- Fixed an issue that the download stream returned by `BlobClient.download` won't release underlying resources unless it's fully consumed. [Isssue #11850](https://github.com/Azure/azure-sdk-for-js/issues/11850).
 
 ## 12.4.0 (2021-01-12)
 
