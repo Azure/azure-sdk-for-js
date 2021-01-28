@@ -158,11 +158,6 @@ export interface DataFeedIngestionSettings {
 export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count" | string;
 
 /**
- * Defines Map for metric name and metric id
- */
-export type DataFeedMetricMap = Map<string, string>;
-
-/**
  * Specifies the rollup settings for a data feed.
  */
 export type DataFeedRollupSettings =
@@ -315,7 +310,7 @@ export type DataFeed = {
   /**
    * Map of metric names to metric ids for quick lookup
    */
-  metricIds: DataFeedMetricMap;
+  metricIds: Map<string, string>;
   /**
    * Granularity of the data feed.
    */
