@@ -3,10 +3,10 @@
 
 import { BaseRecorder } from "./baseRecorder";
 import { RecorderEnvironmentSetup, isRecordMode, isPlaybackMode } from "./utils";
-import { nodeRequireRecordingIfExists } from "./utils/recordings";
+import { createFolderForRecording, nodeRequireRecordingIfExists } from "./utils/recordings";
 
 import { config as readEnvFile } from "dotenv";
-import fs from "fs-extra";
+import fs from "fs";
 import { Definition } from "nock";
 
 let nock: typeof import("nock");
@@ -58,7 +58,7 @@ export class NockRecorder extends BaseRecorder {
       // Create the directories recursively incase they don't exist
       try {
         // Stripping away the filename from the filepath and retaining the directory structure
-        fs.ensureDirSync(
+        createFolderForRecording(
           "./recordings/" +
             this.relativeTestRecordingFilePath.substring(
               0,

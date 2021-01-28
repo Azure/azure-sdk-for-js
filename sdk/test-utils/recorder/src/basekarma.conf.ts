@@ -1,5 +1,6 @@
 import { isRecordMode } from "./utils";
-import fs from "fs-extra";
+import { createFolderForRecording } from "./utils/recordings";
+import fs from "fs";
 
 // - jsonToFileReporter filters the JSON strings in console.logs.
 // - Console logs with `.writeFile` property are captured and are written to a file(recordings).
@@ -31,7 +32,7 @@ export const jsonRecordingFilterFunction = function(browserRecordingJsonObject: 
       // Create the directories recursively incase they don't exist
       try {
         // Stripping away the filename from the file path and retaining the directory structure
-        fs.ensureDirSync(
+        createFolderForRecording(
           browserRecordingJsonObject.path.substring(
             0,
             browserRecordingJsonObject.path.lastIndexOf("/") + 1

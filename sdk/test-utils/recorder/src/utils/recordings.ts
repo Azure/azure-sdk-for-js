@@ -3,7 +3,7 @@
 
 import { generateTestRecordingFilePath } from "./recordingPath";
 
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 
 /**
@@ -109,4 +109,39 @@ export function testHasChanged(
   }
 
   return previousHash !== currentHash;
+}
+
+/**
+ * ONLY WORKS IN THE NODE.JS ENVIRONMENT
+ *
+ * Meant to be called before saving the recording, this ensures that the folder path exists for the recording to be saved.
+ *
+ * Example for `dirPath` : "./recordings/node/utils/"
+ * @export
+ * @param {string} dirPath
+ */
+export function createFolderForRecording(dirPath: string) {
+  let path = require("path");
+  if (fs.existsSync(dirPath)) {
+    // Nothing to do if the path exists
+    return;
+  } else {
+    try {
+      // Stripping the tailing slash "/"
+      dirPath = dirPath.endsWith("/") ? dirPath.substr(0, dirPath.length - 1) : dirPath;
+
+      // "fs" doesn't let creating folders recursively,
+      // split the path and create folders at each level instead
+      let subDirs = dirPath.split("/");
+      let currentPath = subDirs[0];
+      for (let index = 1; index < subDirs.length; index++) {
+        currentPath = path.resolve(currentPath, subDirs[index]);
+        if (!fs.existsSync(currentPath)) {
+          fs.mkdirSync(currentPath);
+        }
+      }
+    } catch (err) {
+      throw new Error(`Unable to create the folder for recording \n ${err}`);
+    }
+  }
 }

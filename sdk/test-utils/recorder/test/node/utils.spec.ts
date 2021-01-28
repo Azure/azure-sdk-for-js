@@ -3,8 +3,10 @@ import {
   isBrowser,
   testHasChanged,
   isContentTypeInNockFixture,
-  decodeHexEncodingIfExistsInNockFixture
+  decodeHexEncodingIfExistsInNockFixture,
+  createFolderForRecording
 } from "../../src/utils";
+import fs from "fs";
 
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 
@@ -392,6 +394,17 @@ describe("NodeJS utils", () => {
           }`
         );
       });
+    });
+  });
+
+  describe("fs helpers", () => {
+    it("should be able to create a folder if doesn't exists", function() {
+      createFolderForRecording("./tmp/temp/temporary");
+      createFolderForRecording("./tmp/temp/temporary2/");
+      fs.rmdirSync("./tmp/temp/temporary");
+      fs.rmdirSync("./tmp/temp/temporary2");
+      fs.rmdirSync("./tmp/temp");
+      fs.rmdirSync("./tmp");
     });
   });
 });
