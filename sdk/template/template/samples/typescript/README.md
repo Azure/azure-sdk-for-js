@@ -14,9 +14,9 @@ urlFragment: template-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                    |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [sampleTemplate.ts][sampleTemplate]                     | sample template                                                                                    |
+| **File Name**                       | **Description** |
+| ----------------------------------- | --------------- |
+| [sampleTemplate.ts][sampletemplate] | sample template |
 
 ## Prerequisites
 
@@ -66,7 +66,7 @@ npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/sampleTemplate
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sampleTemplate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/sampleTemplate.ts
+[sampletemplate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/sampleTemplate.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md

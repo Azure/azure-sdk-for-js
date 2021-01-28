@@ -4,22 +4,42 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
-import EventEmitter from 'events';
-import { KeyCredential } from '@azure/core-auth';
-import { URLBuilder } from '@azure/core-http';
-
-export { AzureKeyCredential }
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public (undocumented)
-export function createEventEmitter(): EventEmitter;
-
-export { KeyCredential }
+export class ConfigurationClient {
+    constructor(endpointUrl: string, credential: TokenCredential, options?: ConfigurationClientOptions);
+    // (undocumented)
+    getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+    // (undocumented)
+    getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+}
 
 // @public (undocumented)
-export function (str: string): void;
+export interface ConfigurationClientOptions extends PipelineOptions {
+}
 
-export { URLBuilder }
+// @public (undocumented)
+export interface ConfigurationSetting {
+    contentType?: string;
+    etag?: string;
+    isReadOnly?: boolean;
+    key: string;
+    label?: string;
+    lastModified?: Date;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    value?: string;
+}
+
+// @public (undocumented)
+export interface GetConfigurationSettingOptions extends OperationOptions {
+    // (undocumented)
+    onlyIfChanged?: boolean;
+}
 
 
 // (No @packageDocumentation comment for this package)

@@ -1,6 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export default function(str: string): void {
-  console.log(str);
-}
+export const SDK_VERSION: string = "1.0.0-beta.1";

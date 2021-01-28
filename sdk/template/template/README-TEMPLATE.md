@@ -1,5 +1,7 @@
 # Azure Text Analytics client library for JavaScript
 
+<!-- NOTE: This is an example README copied from the Azure Text Analytics SDK. -->
+
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
 - Language Detection
@@ -71,10 +73,7 @@ Once you have an API key and endpoint, you can use the `AzureKeyCredential` clas
 ```js
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 ```
 
 #### Using an Azure Active Directory Credential
@@ -123,7 +122,7 @@ or, if you wish to pass in a per-item document `id` or `language`/`countryHint`,
 const textDocumentInputs = [
   { id: "1", language: "en", text: "I hated the movie. It was so slow!" },
   { id: "2", language: "en", text: "The movie made it into my top ten favorites." },
-  { id: "3", language: "en", text: "What a great movie!" },
+  { id: "3", language: "en", text: "What a great movie!" }
 ];
 ```
 
@@ -133,9 +132,9 @@ See [service limiations][data_limits] for the input, including document length l
 
 The return value corresponding to a single document is either a successful result or an error object. Each `TextAnalyticsClient` method returns a heterogeneous array of results and errors that correspond to the inputs by index. A text input and its result will have the same index in the input and result collections. The collection may also optionally include information about the input batch and how it was processed in the `statistics` field.
 
-An __result__, such as `AnalyzeSentimentResult`, is the result of a Text Analytics operation, containing a prediction or predictions about a single text input. An operation's result type also may optionally include information about the input document and how it was processed.
+A **result**, such as `AnalyzeSentimentResult`, is the result of a Text Analytics operation, containing a prediction or predictions about a single text input. An operation's result type also may optionally include information about the input document and how it was processed.
 
-The __error__ object, `TextAnalyticsErrorResult`, indicates that the service encountered an error while processing the document and contains information about the error.
+An **error** object, `TextAnalyticsErrorResult`, indicates that the service encountered an error while processing the document and contains information about the error.
 
 ### Document Error Handling
 
@@ -148,7 +147,7 @@ const results = await client.analyzeSentiment(documents);
 const onlySuccessful = results.filter((result) => result.error === undefined);
 ```
 
-__Note__: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in their `tsconfig.json` configuration. For example:
+**Note**: TypeScript users can benefit from better type-checking of result and error objects if `compilerOptions.strictNullChecks` is set to `true` in their `tsconfig.json` configuration. For example:
 
 ```typescript
 const [result] = await client.analyzeSentiment(["Hello world!"]);
@@ -171,16 +170,13 @@ Analyze sentiment of text to determine if it is positive, negative, neutral, or 
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "I did not like the restaurant. The food was too spicy.",
   "The restaurant was decorated beautifully. The atmosphere was unlike any other restaurant I've been to.",
   "The food was yummy. :)"
-]
+];
 
 async function main() {
   const results = await client.analyzeSentiment(documents);
@@ -188,7 +184,7 @@ async function main() {
   for (const result of results) {
     if (result.error === undefined) {
       console.log("Overall sentiment:", result.sentiment);
-      console.log("Scores:", result.confidenceScores); 
+      console.log("Scores:", result.confidenceScores);
     } else {
       console.error("Encountered an error:", result.error);
     }
@@ -207,10 +203,7 @@ The `language` parameter is optional. If it is not specified, the default Englis
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -243,10 +236,7 @@ A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). Th
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
@@ -263,7 +253,7 @@ async function main() {
       for (const entity of result.entities) {
         console.log(entity.name, "(URL:", entity.url, ", Source:", entity.dataSource, ")");
         for (const match of entity.matches) {
-          console.log("  Occurrence:", "\"" + match.text + "\"", "(Score:", match.score, ")");
+          console.log("  Occurrence:", '"' + match.text + '"', "(Score:", match.score, ")");
         }
       }
     } else {
@@ -282,10 +272,7 @@ Key Phrase extraction identifies the main talking points in a document. For exam
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
@@ -299,7 +286,7 @@ async function main() {
   for (const result of results) {
     if (result.error === undefined) {
       console.log(" -- Extracted key phrases for input", result.id, "--");
-      console.log(result.keyPhrases)
+      console.log(result.keyPhrases);
     } else {
       console.error("Encountered an error:", result.error);
     }
@@ -318,10 +305,7 @@ The `countryHint` parameter is optional, but can assist the service in providing
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
 
-const client = new TextAnalyticsClient(
-  "<endpoint>",
-  new AzureKeyCredential("<API key>")
-);
+const client = new TextAnalyticsClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "This is written in English.",
@@ -369,25 +353,30 @@ export DEBUG=azure*
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)
-directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
-This project welcomes contributions and suggestions. Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+This project welcomes contributions and suggestions. Most contributions require
+you to agree to a Contributor License Agreement (CLA) declaring that you have
+the right to, and actually do, grant us the rights to use your contribution.
+For details, visit https://cla.microsoft.com.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+When you submit a pull request, a CLA-bot will automatically determine whether
+you need to provide a CLA and decorate the PR appropriately (e.g., label,
+comment). Simply follow the instructions provided by the bot. You will only
+need to do this once across all repos using our CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the [Microsoft Open Source Code of
+Conduct](https://opensource.microsoft.com/codeofconduct/). For more
+information see the [Code of Conduct
+FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
+[opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional
+questions or comments.
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing
+guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md)
+to learn more about how to build and test the code.
 
 ## Related projects
 
