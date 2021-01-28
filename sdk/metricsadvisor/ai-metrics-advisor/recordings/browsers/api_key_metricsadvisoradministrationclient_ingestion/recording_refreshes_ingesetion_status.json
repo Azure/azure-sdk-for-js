@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
+   "query": {},
+   "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"}],\"@nextLink\":null}",
+   "responseHeaders": {
+    "apim-request-id": "326f58e7-c81e-4ffe-92b3-c9378ecdcf7f",
+    "content-length": "97",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:36 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "253",
+    "x-request-id": "326f58e7-c81e-4ffe-92b3-c9378ecdcf7f"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "58fc6dd5fc079d7a6e41acc4794a8199"
+}

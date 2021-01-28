@@ -2,6 +2,7 @@
 
 ## 1.0.0-beta.3 (Unreleased)
 
+- Added AAD authentication support
 
 ## 1.0.0-beta.2 (2020-11-10)
 

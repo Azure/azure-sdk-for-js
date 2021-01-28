@@ -81,6 +81,16 @@ export interface EventHubClientOptions {
 }
 
 // @public
+export interface EventHubConnectionStringProperties {
+    endpoint: string;
+    eventHubName?: string;
+    fullyQualifiedNamespace: string;
+    sharedAccessKey?: string;
+    sharedAccessKeyName?: string;
+    sharedAccessSignature?: string;
+}
+
+// @public
 export class EventHubConsumerClient {
     constructor(consumerGroup: string, connectionString: string, options?: EventHubConsumerClientOptions);
     constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
@@ -175,6 +185,9 @@ export interface OperationOptions {
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
 }
+
+// @public
+export function parseEventHubConnectionString(connectionString: string): Readonly<EventHubConnectionStringProperties>;
 
 // @public
 export interface PartitionContext {

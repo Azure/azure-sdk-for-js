@@ -89,7 +89,6 @@ export interface PartitionProperties {
 
 /**
  * @internal
- * @hidden
  */
 export interface ManagementClientOptions {
   address?: string;
@@ -99,7 +98,6 @@ export interface ManagementClientOptions {
 /**
  * @class ManagementClient
  * @internal
- * @hidden
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
  */

@@ -274,14 +274,12 @@ export interface RestoreSecretBackupOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @hidden
  * Options for {@link recoverDeletedSecret}.
  */
 export interface RecoverDeletedSecretOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @hidden
  * Options for {@link deleteSecret}.
  */
 export interface DeleteSecretOptions extends coreHttp.OperationOptions {}
