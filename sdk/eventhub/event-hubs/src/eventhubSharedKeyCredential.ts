@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "@azure/core-amqp";
+import { parseEventHubConnectionString } from "./util/connectionStringUtils";
 import { AccessToken } from "@azure/core-auth";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
@@ -78,16 +78,12 @@ export class SharedKeyCredential {
    * @param {string} connectionString - The EventHub/ServiceBus connection string
    */
   static fromConnectionString(connectionString: string): SharedKeyCredential {
-    const parsed = parseConnectionString<{
-      SharedAccessSignature: string;
-      SharedAccessKeyName: string;
-      SharedAccessKey: string;
-    }>(connectionString);
+    const parsed = parseEventHubConnectionString(connectionString);
 
-    if (parsed.SharedAccessSignature == null) {
-      return new SharedKeyCredential(parsed.SharedAccessKeyName, parsed.SharedAccessKey);
+    if (parsed.sharedAccessSignature == null) {
+      return new SharedKeyCredential(parsed.sharedAccessKeyName!, parsed.sharedAccessKey!);
     } else {
-      return new SharedAccessSignatureCredential(parsed.SharedAccessSignature);
+      return new SharedAccessSignatureCredential(parsed.sharedAccessSignature);
     }
   }
 }
