@@ -12,15 +12,18 @@ export type RequireAtLeastOne<T> = {
 
 /**
  * Union type representing the names of the supported local cryptography operations.
+ * @internal
+ * @hidden
  */
 export type LocalCryptographyOperationName = "encrypt" | "wrapKey" | "createHash" | "verify";
 
 /**
- * @internal
  * Abstract representation of a assertion.
  * Assertions verify that the requirements to execute a local cryptography operation are met.
  * @param key - The JSON Web Key that will be used during the local operation.
  * @param operationName - The name of the operation, as in "encrypt", "decrypt", "sign", etc.
+ * @internal
+ * @hidden
  */
 export type LocalAssertion = (
   key?: JsonWebKey,
@@ -44,6 +47,8 @@ export type LocalSupportedAlgorithmName =
  * Abstract representation of a Local Cryptography Operation function.
  * @param keyPEM - The string representation of a PEM key.
  * @param data - The data used on the cryptography operation, in Buffer type.
+ * @internal
+ * @hidden
  */
 export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) => Promise<Buffer>;
 
@@ -52,6 +57,8 @@ export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) 
  * @param keyPEM - The string representation of a PEM key.
  * @param data - The data used on the cryptography operation, in Buffer type.
  * @param signature - The signature used on the cryptography operation, in Buffer type.
+ * @internal
+ * @hidden
  */
 export type LocalCryptographyOperationFunctionWithSignature = (
   keyPEM: string,
@@ -61,6 +68,8 @@ export type LocalCryptographyOperationFunctionWithSignature = (
 
 /**
  * Key-value map of local cryptography operations.
+ * @internal
+ * @hidden
  */
 export type LocalCryptographyOperations = Record<
   LocalCryptographyOperationName,
@@ -70,6 +79,8 @@ export type LocalCryptographyOperations = Record<
 /**
  * Abstract representation of a locally supported cryptography algorithm, with its assertions,
  * and its operations.
+ * @internal
+ * @hidden
  */
 export interface LocalSupportedAlgorithm {
   /**
@@ -88,6 +99,8 @@ export interface LocalSupportedAlgorithm {
 
 /**
  * A Record containing all of the locally supported algorithms.
+ * @internal
+ * @hidden
  */
 export type LocalSupportedAlgorithmsRecord = Record<
   LocalSupportedAlgorithmName,

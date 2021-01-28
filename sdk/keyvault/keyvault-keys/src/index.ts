@@ -75,8 +75,6 @@ import {
 
 import { CryptographyClient } from "./cryptographyClient";
 
-import { LocalCryptographyClient } from "./localCryptographyClient";
-
 import {
   DecryptResult,
   KeyCurveName,
@@ -145,7 +143,6 @@ export {
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
-  LocalCryptographyClient,
   LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
