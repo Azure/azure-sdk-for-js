@@ -222,8 +222,8 @@ export const Constants = {
   },
 
   PartitionKeyKind: {
-    Hash: 'Hash',
-    MultiHash: 'MultiHash'
+    Hash: "Hash",
+    MultiHash: "MultiHash"
   }
 };
 
