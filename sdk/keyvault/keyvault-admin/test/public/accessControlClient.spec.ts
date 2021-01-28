@@ -47,6 +47,22 @@ describe("KeyVaultAccessControlClient", () => {
     assert.ok(receivedRoles.length);
   });
 
+  describe("getRoleDefinition", function() {
+    it("returns a role definition by name", async function() {});
+    it("errors when the role definition cannot be found");
+  });
+  describe("upsertRoleDefinition", function() {
+    it("can create a role definition");
+    it("can update a role definition");
+    it("errors when ___ is missing");
+    it("errors when updating a built-in role definition");
+  });
+  describe("deleteRoleDefinition", function() {
+    it("can delete a role definition");
+    it("errors when deleting a built-in role definition");
+    it("errors when deleting a non-existent role definition");
+  });
+
   it("listRoleAssignments", async function() {
     const expectedType = "Microsoft.Authorization/roleAssignments";
     let receivedRoles: string[] = [];
