@@ -383,6 +383,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-identity",
+      "projectFolder": "sdk/communication/communication-identity",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"

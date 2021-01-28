@@ -1,6 +1,6 @@
 # Azure Communication Administration client library for JavaScript
 
-The administration library is used for managing users and tokens for Azure Communication Services. This library also provides capabilities for phone number administration.
+The administration library provides capabilities for phone number administration.
 
 Acquired phone numbers can come with many capabilities, depending on the country, number type and phone plan. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
 
@@ -21,7 +21,7 @@ npm install @azure/communication-administration
 
 ### Clients
 
-The administration package exposes two clients. The `CommunicationIdentityClient` provides methods to manage users and their tokens. The `PhoneNumberAdministrationClient` provides methods to manage phone plans and numbers.
+The `PhoneNumberAdministrationClient` provides methods to manage phone plans and numbers.
 
 ### Phone plans overview
 
@@ -41,94 +41,40 @@ Phone numbers can be assigned to a callback URL via the configure number API. As
 
 ## Authentication
 
-You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you can authenticate the `CommunicationIdentityClient` and `PhoneNumberAdministrationClient` with any of the following methods:
+You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you can authenticate the `PhoneNumberAdministrationClient` with any of the following methods:
 
 ### Create `KeyCredential` with `AzureKeyCredential` before initializing the client
 
 ```typescript
 import { AzureKeyCredential } from "@azure/core-auth";
-import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
 
 const credential = new AzureKeyCredential(KEY);
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new PhoneNumberAdministrationClient(HOST, credential);
 ```
 
 ### Using a connection string
 
 ```typescript
-import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
 
 const connectionString = `endpoint=HOST;accessKey=KEY`;
-const client = new CommunicationIdentityClient(connectionString);
+const client = new PhoneNumberAdministrationClient(connectionString);
 ```
 
 ### Using Azure Active Directory Authentication
 
 ```typescript
-import { CommunicationIdentityClient } from "@azure/communication-administration";
+import { PhoneNumberAdministrationClient } from "@azure/communication-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const credential = new DefaultAzureCredential();
-const client = new CommunicationIdentityClient(HOST, credential);
+const client = new PhoneNumberAdministrationClient(HOST, credential);
 ```
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal].
 
 ## Usage
-
-### CommunicationIdentityClient
-
-### Creating an instance of CommunicationIdentityClient
-
-```typescript
-import { CommunicationIdentityClient } from "@azure/communication-administration";
-
-const client = new CommunicationIdentityClient(CONNECTION_STRING);
-```
-
-#### Creating a new user
-
-Use the `createUser` method to create a new user.
-
-```typescript
-const user = await client.createUser();
-```
-
-#### Creating and refreshing a user token
-
-Use the `issueToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
-
-- `chat` (Chat)
-- `pstn` (Public switched telephone network)
-- `voip` (Voice over IP)
-
-```typescript
-let { token } = await client.issueToken(user, ["chat"]);
-```
-
-To refresh the user token, issue another token with the same user.
-
-```typescript
-{ token } = await client.issueToken(user, ["chat"]);
-```
-
-#### Revoking tokens for a user
-
-Use the `revokeTokens` method to revoke all the issued tokens of a user.
-
-```typescript
-await client.revokeTokens(user);
-```
-
-`revokeTokens` takes an optional second argument, `tokensValidFrom`. If this date is provided, `revokeTokens` will revoke all tokens issued before it. Otherwise, all tokens will be revoked.
-
-#### Deleting a user
-
-Use the `deleteUser` method to delete a user.
-
-```typescript
-await client.deleteUser(user);
-```
 
 ### PhoneNumberAdministrationClient
 

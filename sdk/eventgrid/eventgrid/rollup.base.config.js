@@ -65,8 +65,7 @@ export function browserConfig(test = false, production = false) {
       file: "dist-browser/azure-eventgrid.js",
       format: "umd",
       name: "Azure.MessagingEventGrid",
-      sourcemap: true,
-      globals: { "@azure/core-http": "Azure.Core.HTTP" }
+      sourcemap: true
     },
     preserveSymlinks: false,
     external: ["fs-extra"],

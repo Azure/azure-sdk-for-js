@@ -42,7 +42,10 @@ function getDocumentsArray(size: number): Hotel[] {
       parkingIncluded: false,
       lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
-      location: new GeographyPoint(47.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 47.678581
+      })
     });
   }
   return array;
@@ -62,11 +65,9 @@ export async function main() {
   await createIndex(indexClient, TEST_INDEX_NAME);
   await delay(WAIT_TIME);
 
-  const bufferedClient: SearchIndexingBufferedSender<Hotel> = searchClient.getSearchIndexingBufferedSenderInstance(
-    {
-      autoFlush: true
-    }
-  );
+  const bufferedClient = new SearchIndexingBufferedSender<Hotel>(searchClient, {
+    autoFlush: true
+  });
 
   bufferedClient.on("batchAdded", (response: any) => {
     console.log(`Batch Added Event has been receieved: ${response}`);

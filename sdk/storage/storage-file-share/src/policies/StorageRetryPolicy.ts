@@ -233,11 +233,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code &&
-            err.code
-              .toString()
-              .toUpperCase()
-              .includes(retriableError))
+          (err.code && err.code.toString().toUpperCase() === retriableError)
         ) {
           logger.info(`RetryPolicy: Network error ${retriableError} found, will retry.`);
           return true;
@@ -260,6 +256,13 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         logger.info(`RetryPolicy: Will retry for status code ${statusCode}.`);
         return true;
       }
+    }
+
+    if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
+      logger.info(
+        "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+      );
+      return true;
     }
 
     return false;

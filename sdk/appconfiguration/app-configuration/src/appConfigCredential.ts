@@ -6,7 +6,6 @@ import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**
  * @internal
- * @hidden
  */
 export class AppConfigCredential implements ServiceClientCredentials {
   private credential: string;
