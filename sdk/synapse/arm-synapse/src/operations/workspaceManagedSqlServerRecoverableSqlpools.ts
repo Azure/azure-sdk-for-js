@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/workspaceManagedSqlServerRecoverableSqlpoolsMappers";
+import * as Mappers from "../models/workspaceManagedSqlServerRecoverableSqlPoolsMappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClientContext } from "../synapseManagementClientContext";
 
-/** Class representing a WorkspaceManagedSqlServerRecoverableSqlpools. */
-export class WorkspaceManagedSqlServerRecoverableSqlpools {
+/** Class representing a WorkspaceManagedSqlServerRecoverableSqlPools. */
+export class WorkspaceManagedSqlServerRecoverableSqlPools {
   private readonly client: SynapseManagementClientContext;
 
   /**
-   * Create a WorkspaceManagedSqlServerRecoverableSqlpools.
+   * Create a WorkspaceManagedSqlServerRecoverableSqlPools.
    * @param {SynapseManagementClientContext} client Reference to the service client.
    */
   constructor(client: SynapseManagementClientContext) {
@@ -31,9 +31,9 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListResponse>
+   * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListResponse>;
+  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -47,7 +47,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): void;
-  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>, callback?: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListResponse> {
+  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>, callback?: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +55,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListResponse>;
+      callback) as Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse>;
   }
 
   /**
@@ -63,36 +63,36 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
    * @summary Get recoverable sql pools for the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param sqlComputeName The name of the sql compute
+   * @param sqlPoolName The name of the sql pool
    * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsGetResponse>
+   * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, sqlComputeName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsGetResponse>;
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param sqlComputeName The name of the sql compute
+   * @param sqlPoolName The name of the sql pool
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlComputeName: string, callback: msRest.ServiceCallback<Models.RecoverableSqlPool>): void;
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.RecoverableSqlPool>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
-   * @param sqlComputeName The name of the sql compute
+   * @param sqlPoolName The name of the sql pool
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, sqlComputeName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableSqlPool>): void;
-  get(resourceGroupName: string, workspaceName: string, sqlComputeName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableSqlPool>, callback?: msRest.ServiceCallback<Models.RecoverableSqlPool>): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsGetResponse> {
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableSqlPool>): void;
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableSqlPool>, callback?: msRest.ServiceCallback<Models.RecoverableSqlPool>): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
-        sqlComputeName,
+        sqlPoolName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsGetResponse>;
+      callback) as Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse>;
   }
 
   /**
@@ -100,9 +100,9 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
    * @summary Get list of recoverable sql pools for the server.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListNextResponse>
+   * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -114,14 +114,14 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>, callback?: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>, callback?: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.WorkspaceManagedSqlServerRecoverableSqlpoolsListNextResponse>;
+      callback) as Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse>;
   }
 }
 
@@ -129,7 +129,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlpools {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlpools",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -154,12 +154,12 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools/{sqlComputeName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/recoverableSqlPools/{sqlPoolName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.sqlComputeName
+    Parameters.sqlPoolName
   ],
   queryParameters: [
     Parameters.apiVersion
