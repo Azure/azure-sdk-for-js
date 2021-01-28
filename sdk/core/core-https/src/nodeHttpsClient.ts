@@ -137,7 +137,7 @@ export class NodeHttpsClient implements HttpsClient {
             responseStream = downloadReportStream;
           }
 
-          if (request.streamResponseBody) {
+          if (request.streamResponseStatusCodes?.has(response.status)) {
             response.readableStreamBody = responseStream;
           } else {
             response.bodyAsText = await streamToText(responseStream);

@@ -821,6 +821,86 @@ describe("ServiceClient", function() {
     }
   });
 
+  it("should deserialize non-streaming default response", async function() {
+    const StorageError: CompositeMapper = {
+      serializedName: "StorageError",
+      type: {
+        name: "Composite",
+        className: "StorageError",
+        modelProperties: {
+          message: {
+            xmlName: "Message",
+            serializedName: "Message",
+            type: {
+              name: "String"
+            }
+          },
+          code: {
+            xmlName: "Code",
+            serializedName: "Code",
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    };
+
+    const serializer = createSerializer(undefined, true);
+
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: {
+            serializedName: "parsedResponse",
+            type: {
+              name: "Stream"
+            }
+          }
+        },
+        default: {
+          bodyMapper: StorageError
+        }
+      },
+      baseUrl: "https://example.com",
+      serializer
+    };
+
+    let request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
+
+    const httpsClient: HttpsClient = {
+      sendRequest: (req) => {
+        request = req;
+        return Promise.resolve({
+          request,
+          status: 500,
+          headers: createHttpHeaders({
+            "Content-Type": "application/json"
+          }),
+          bodyAsText: `{ "Code": "BlobNotFound", "Message": "The specified blob does not exist." }`
+        });
+      }
+    };
+
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy());
+    const client = new ServiceClient({
+      httpsClient,
+      pipeline
+    });
+
+    try {
+      await client.sendOperationRequest({}, operationSpec);
+      assert.fail();
+    } catch (ex) {
+      assert.strictEqual(ex.code, "BlobNotFound");
+      assert.strictEqual(ex.message, "The specified blob does not exist.");
+    }
+  });
+
   it("should re-use the common instance of DefaultHttpClient", function() {
     const client = new ServiceClient();
     assert.strictEqual((client as any)._httpsClient, getCachedDefaultHttpsClient());
