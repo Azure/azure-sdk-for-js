@@ -52,12 +52,18 @@ export interface KeyVaultPermission {
   /**
    * Allowed Data actions.
    */
-  dataActions?: DataAction[];
+  dataActions?: KeyVaultDataAction[];
   /**
    * Denied Data actions.
    */
-  notDataActions?: DataAction[];
+  notDataActions?: KeyVaultDataAction[];
 }
+
+/**
+ * A union type representing all possible values for
+ * both {@link KeyVaultPermission.dataActions} and {@link KeyVaultPermission.notDataActions}.
+ */
+export type KeyVaultDataAction = DataAction;
 
 /**
  * A Key Vault role definition.

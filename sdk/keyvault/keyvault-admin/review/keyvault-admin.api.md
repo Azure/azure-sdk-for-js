@@ -100,13 +100,17 @@ export class KeyVaultBackupClient {
     readonly vaultUrl: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "DataAction" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type KeyVaultDataAction = DataAction;
+
 // @public
 export interface KeyVaultPermission {
     actions?: string[];
-    // Warning: (ae-forgotten-export) The symbol "DataAction" needs to be exported by the entry point index.d.ts
-    dataActions?: DataAction[];
+    dataActions?: KeyVaultDataAction[];
     notActions?: string[];
-    notDataActions?: DataAction[];
+    notDataActions?: KeyVaultDataAction[];
 }
 
 // @public
