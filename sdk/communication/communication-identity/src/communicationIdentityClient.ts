@@ -133,12 +133,7 @@ export class CommunicationIdentityClient {
         { scopes },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      const results: CommunicationUserToken = {
-        token,
-        expiresOn,
-        user
-      };
-      return attachHttpResponse(results, _response);
+      return attachHttpResponse({ token, expiresOn }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
