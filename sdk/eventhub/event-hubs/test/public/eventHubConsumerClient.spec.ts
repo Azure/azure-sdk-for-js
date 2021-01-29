@@ -291,12 +291,14 @@ describe("EventHubConsumerClient", () => {
         const consumerClient1 = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
+          { loadBalancingOptions: { updateIntervalInMs: 1000 } }
         );
         const consumerClient2 = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
+          { loadBalancingOptions: { updateIntervalInMs: 1000 } }
         );
 
         clients.push(consumerClient1, consumerClient2);
@@ -386,7 +388,7 @@ describe("EventHubConsumerClient", () => {
         await subscription2.close();
 
         await loopUntil({
-          maxTimes: 20,
+          maxTimes: 10,
           name: "Wait for subscription1 to recover",
           timeBetweenRunsMs: 1000,
           async until() {
