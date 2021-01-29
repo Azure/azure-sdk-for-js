@@ -36,31 +36,31 @@ const consumerGroup = getEnvVar("CONSUMER_GROUP_NAME");
 
 async function main(): Promise<void> {
   const maxBatchSize = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
-  const numberOfPartitions = process.argv.length > 3 ? parseInt(process.argv[3]) : 1;
-  const eventBodySize = process.argv.length > 4 ? parseInt(process.argv[4]) : 1024;
-  const numberOfEvents = process.argv.length > 5 ? parseInt(process.argv[5]) : 10000;
+  const eventBodySize = process.argv.length > 4 ? parseInt(process.argv[3]) : 1024;
+  const numberOfEvents = process.argv.length > 5 ? parseInt(process.argv[4]) : 1000;
+
+  const client = new EventHubProducerClient(connectionString, eventHubName);
+  const partitionIds = await client.getPartitionIds();
+  await client.close();
 
   log(`Maximum Batch Size: ${maxBatchSize}`);
   log(`Total messages: ${numberOfEvents}`);
 
-  await sendBatch(numberOfEvents, numberOfPartitions, eventBodySize);
+  await sendBatch(numberOfEvents, partitionIds, eventBodySize);
   const writeResultsPromise = WriteResults(numberOfEvents);
 
   await RunTest(connectionString, eventHubName, maxBatchSize, numberOfEvents);
   await writeResultsPromise;
 }
 
-async function sendBatch(
-  numberOfEvents: number,
-  numberOfPartitions: number,
-  eventBodySize: number
-) {
+async function sendBatch(numberOfEvents: number, partitionIds: string[], eventBodySize: number) {
   const _payload = Buffer.alloc(eventBodySize);
   const producer = new EventHubProducerClient(connectionString, eventHubName);
+  const numberOfPartitions = partitionIds.length;
   const numberOfEventsPerPartition = Math.ceil(numberOfEvents / numberOfPartitions);
 
-  for (let partition = 0; partition < numberOfPartitions; partition++) {
-    let batch = await producer.createBatch({ partitionId: String(partition) });
+  for (let partitionId of partitionIds) {
+    let batch = await producer.createBatch({ partitionId });
     let numberOfEventsSent = 0;
     // add events to our batch
     while (numberOfEventsSent <= numberOfEventsPerPartition) {
