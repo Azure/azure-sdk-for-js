@@ -23,7 +23,7 @@ const eventHubName = getEnvVar("EVENTHUB_NAME");
 const producer = new EventHubProducerClient(connectionString, eventHubName);
 export class SendTest extends PerfStressTest<SendTestOptions> {
   producer: EventHubProducerClient;
-  event: EventData;
+  eventBatch: EventData[];
   public options: PerfStressOptionDictionary<SendTestOptions> = {
     eventBodySize: {
       required: true,
@@ -44,9 +44,10 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
   constructor() {
     super();
     this.producer = producer;
-    this.event = {
+    const event = {
       body: Buffer.alloc(this.parsedOptions.eventBodySize.value!)
     };
+    this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value!).fill(event);
   }
 
   public async globalCleanup() {
@@ -54,8 +55,6 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
   }
 
   async runAsync(): Promise<void> {
-    await this.producer.sendBatch(
-      new Array(this.parsedOptions.numberOfEvents.value!).fill(this.event)
-    );
+    await this.producer.sendBatch(this.eventBatch);
   }
 }

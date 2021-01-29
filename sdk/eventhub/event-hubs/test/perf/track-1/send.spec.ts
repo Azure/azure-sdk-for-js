@@ -10,7 +10,7 @@ import { EventHubClient, EventData } from "@azure/event-hubs";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "../../../.env" });
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
 const eventHubName = getEnvVar("EVENTHUB_NAME");
@@ -20,9 +20,10 @@ interface SendTestOptions {
   numberOfEvents: number;
 }
 
+const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
 export class SendTest extends PerfStressTest<SendTestOptions> {
   producer: EventHubClient;
-  event: EventData;
+  eventBatch: EventData[];
   public options: PerfStressOptionDictionary<SendTestOptions> = {
     eventBodySize: {
       required: true,
@@ -42,10 +43,11 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
 
   constructor() {
     super();
-    this.producer = EventHubClient.createFromConnectionString(connectionString, eventHubName);
-    this.event = {
+    this.producer = client;
+    const event = {
       body: Buffer.alloc(this.parsedOptions.eventBodySize.value!)
     };
+    this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value!).fill(event);
   }
 
   public async globalCleanup() {
@@ -53,8 +55,6 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
   }
 
   async runAsync(): Promise<void> {
-    await this.producer.sendBatch(
-      new Array(this.parsedOptions.numberOfEvents.value!).fill(this.event)
-    );
+    await this.producer.sendBatch(this.eventBatch);
   }
 }
