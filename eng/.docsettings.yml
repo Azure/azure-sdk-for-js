@@ -19,6 +19,8 @@ omitted_paths:
   - sdk/servicebus/README.md
   - sdk/servicebus/service-bus/test/perf/service-bus-*
   - sdk/servicebus/service-bus/test/stress/*
+  - sdk/eventhub/event-hubs/test/perf/track-1/*
+  - sdk/eventhub/event-hubs/test/perf/track-2/*
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
