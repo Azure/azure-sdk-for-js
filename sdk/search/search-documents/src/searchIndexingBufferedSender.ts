@@ -386,27 +386,29 @@ export class SearchIndexingBufferedSender<T> {
       this.batchObject = new IndexDocumentsBatch<T>();
       while (actions.length > 0) {
         const actionsToSend = actions.splice(0, this.initialBatchActionCount);
-        await this.submitDocuments(this.pruneActions(actionsToSend, actions), options);
+        const { batchToSubmit, submitLater } = this.pruneActions(actionsToSend);
+        actions.unshift(...submitLater);
+        await this.submitDocuments(batchToSubmit, options);
       }
     }
   }
 
   private pruneActions(
-    batch: IndexDocumentsAction<T>[],
-  ): { batchToSubmit: IndexDocumentsAction<T>[]; submitLater: IndexDocumentsAction<T>[]}  {
-
+    batch: IndexDocumentsAction<T>[]
+  ): { batchToSubmit: IndexDocumentsAction<T>[]; submitLater: IndexDocumentsAction<T>[] } {
     const hashSet: Set<string> = new Set<string>();
     const resultBatch: IndexDocumentsAction<T>[] = [];
     const pruned: IndexDocumentsAction<T>[] = [];
-    
+
     for (const document of batch) {
-       const key = this.documentKeyRetriever(document);
-       if (hashSet.has(key)) {
-          pruned.push(document);
-       } else {
-          hashSet.add(key);
-          resultBatch.push(document);
-       }
+      // @ts-ignore
+      const key = this.documentKeyRetriever(document);
+      if (hashSet.has(key)) {
+        pruned.push(document);
+      } else {
+        hashSet.add(key);
+        resultBatch.push(document);
+      }
     }
     return { batchToSubmit: resultBatch, submitLater: pruned };
   }
