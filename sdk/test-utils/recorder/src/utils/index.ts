@@ -3,7 +3,7 @@
 
 import { URLBuilder } from "@azure/core-http";
 
-export { testHasChanged, createFolderForRecording } from "./recordings";
+export { testHasChanged } from "./recordings";
 
 export { generateTestRecordingFilePath } from "./recordingPath";
 

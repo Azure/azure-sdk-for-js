@@ -3,12 +3,11 @@ import {
   isBrowser,
   testHasChanged,
   isContentTypeInNockFixture,
-  decodeHexEncodingIfExistsInNockFixture,
-  createFolderForRecording
+  decodeHexEncodingIfExistsInNockFixture
 } from "../../src/utils";
 import fs from "fs";
 
-import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
+import { nodeRequireRecordingIfExists, findRecordingsFolderPath, createFolderForRecording } from "../../src/utils/recordings";
 
 import chai, { expect } from "chai";
 
