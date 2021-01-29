@@ -7,8 +7,8 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/event
 2. Create an Event Hub inside the namespace.
 3. Set env vars `EVENTHUB_CONNECTION_STRING`, `EVENTHUB_NAME` and `CONSUMER_GROUP_NAME` at the .env file at `eventhub\event-hubs` folder.
 4. This test presumes that there are no messages in the event hub.
-5. `ts-node receive.ts [eventBodySize] [numberOfEvents]`
-6. Example: `ts-node receive.ts 1024 1000000`
+5. `tsc -p . --module "commonjs" && node dist-esm\test\perf\track-2\receive.spec.js receive.ts [eventBodySize] [numberOfEvents]`
+6. Example: `tsc -p . --module "commonjs" && node dist-esm\test\perf\track-2\receive.spec.js receive.ts 1024 1000000`
  */
 
 import {
