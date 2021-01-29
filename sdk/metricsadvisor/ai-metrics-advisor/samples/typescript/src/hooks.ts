@@ -27,7 +27,7 @@ export async function main() {
 
   await listHooks(adminClient);
 
-  await deleteHook(adminClient, updatedEmailHook.id!);
+  await deleteHook(adminClient, createdEmailHook.id!);
   await deleteHook(adminClient, createdWebHook.id!);
 }
 
