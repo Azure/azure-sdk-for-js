@@ -42,14 +42,14 @@ export class MetricsAdvisorKeyCredential {
   /**
    * Get Subscription key
    */
-  public getSubscriptionKey(){
+  public getSubscriptionKey() {
     return this.subscriptionKey;
   }
 
   /**
    * Get Api Key
    */
-  public getApiKey(){
+  public getApiKey() {
     return this.apiKey;
   }
 
