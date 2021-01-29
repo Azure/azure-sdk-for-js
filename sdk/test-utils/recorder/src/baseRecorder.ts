@@ -8,7 +8,8 @@ import {
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
-  decodeHexEncodingIfExistsInNockFixture
+  decodeHexEncodingIfExistsInNockFixture,
+  handleSingleQuotesInUrlPath
 } from "./utils";
 
 /**
@@ -41,7 +42,10 @@ export abstract class BaseRecorder {
   private defaultCustomizationsOnRecordings = !isBrowser()
     ? [
         // Decodes "hex" strings in the response from the recorded fixture if any exists.
-        decodeHexEncodingIfExistsInNockFixture
+        decodeHexEncodingIfExistsInNockFixture,
+        // Nock bug: Single quotes in the path of the url are not handled by nock.
+        // The following is the workaround we use in the recorder until nock fixes it.
+        handleSingleQuotesInUrlPath
       ]
     : [];
 
