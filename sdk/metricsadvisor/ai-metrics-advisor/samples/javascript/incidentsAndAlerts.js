@@ -26,11 +26,11 @@ async function main() {
 
   await listIncidentsForDetectionConfig(client, detectionConfigId);
   await listAnomaliesForDetectionConfig(client, detectionConfigId);
+  await listAnomalyDimensionValues(client, detectionConfigId);
   await getRootCauses(client, detectionConfigId, incidentId);
   await listAlerts(client, alertConfigId);
   await listIncidentsForAlert(client, alertConfigId, alertId);
   await listAnomaliesForAlert(client, alertConfigId, alertId);
-  await listAnomalyDimensionValues(client, detectionConfigId);
 }
 
 async function listAnomalyDimensionValues(client, detectionConfigId) {
