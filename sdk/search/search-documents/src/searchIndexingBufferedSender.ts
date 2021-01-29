@@ -393,28 +393,22 @@ export class SearchIndexingBufferedSender<T> {
 
   private pruneActions(
     batch: IndexDocumentsAction<T>[],
-    actions: IndexDocumentsAction<T>[]
-  ): IndexDocumentsAction<T>[] {
-    let counter: number = 0;
+  ): { batchToSubmit: IndexDocumentsAction<T>[]; submitLater: IndexDocumentsAction<T>[]}  {
+
     const hashSet: Set<string> = new Set<string>();
     const resultBatch: IndexDocumentsAction<T>[] = [];
-
-    while (counter < batch.length) {
-      const { __actionType, ...document } = batch[counter];
-      // @ts-ignore
-      const key: string = this.documentKeyRetriever(document);
-
-      if (hashSet.has(key)) {
-        actions.unshift(batch[counter]);
-        batch.splice(counter, 1);
-      } else {
-        resultBatch.push(batch[counter]);
-        hashSet.add(key);
-        counter++;
-      }
+    const pruned: IndexDocumentsAction<T>[] = [];
+    
+    for (const document of batch) {
+       const key = this.documentKeyRetriever(document);
+       if (hashSet.has(key)) {
+          pruned.push(document);
+       } else {
+          hashSet.add(key);
+          resultBatch.push(document);
+       }
     }
-
-    return resultBatch;
+    return { batchToSubmit: resultBatch, submitLater: pruned };
   }
 
   private async submitDocuments(
