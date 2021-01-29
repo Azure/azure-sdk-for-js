@@ -12,6 +12,10 @@
   allow communicating to the standard Event Hubs endpoint.
   Resolves [#12901](https://github.com/Azure/azure-sdk-for-js/issues/12901).
 
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `EventHubConsumerClientOptions` or `EventHubClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+
 - Updates documentation for `EventData` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language
   compatibility while receiving events is required.
