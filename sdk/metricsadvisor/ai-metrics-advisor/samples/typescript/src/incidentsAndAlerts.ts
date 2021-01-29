@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "../../../src/index";
+import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
