@@ -296,6 +296,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

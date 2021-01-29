@@ -35,7 +35,8 @@ import {
   EnrichmentStatus,
   GetMetricSeriesDataResponse,
   MetricFeedbackPageResponse,
-  AlertQueryTimeMode
+  AlertQueryTimeMode,
+  CreateFeedbackResponse
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
@@ -1580,7 +1581,7 @@ export class MetricsAdvisorClient {
   public async createFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
-  ): Promise<GetFeedbackResponse> {
+  ): Promise<CreateFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createFeedback",
       options
@@ -1595,7 +1596,7 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      return this.getFeedback(feedbackId);
+      return { id: feedbackId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
