@@ -60,7 +60,7 @@ the connection string from the Azure portal.
 ```javascript
 const { ServiceBusClient } = require("@azure/service-bus");
 
-const serviceBusClient = new ServiceBusClient(connectionString);
+const serviceBusClient = new ServiceBusClient("<connectionString>");
 ```
 
 More information about this constructor is available in the [API documentation][sbclient_constructor].

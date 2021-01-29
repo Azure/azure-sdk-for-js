@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Mapper, Serializer } from "@azure/core-http";
+import { Mapper, createSerializer } from "@azure/core-client";
 import { CustomEventDataDeserializer } from "./models";
 import {
   ACSChatMessageReceivedEventData,
@@ -141,7 +141,7 @@ import {
   WebSlotSwapWithPreviewStartedEventData
 } from "./generated/models/mappers";
 
-const serializer = new Serializer({
+const serializer = createSerializer({
   ACSChatMessageReceivedEventData: ACSChatMessageReceivedEventData,
   ACSChatMessageEditedEventData: ACSChatMessageEditedEventData,
   ACSChatMessageDeletedEventData: ACSChatMessageDeletedEventData,

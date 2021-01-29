@@ -21,8 +21,23 @@ import {
   SnapshotOptions,
   TrackedMessageIdsInfo
 } from "./utils";
+import * as appInsights from "applicationinsights";
 const writeFile = util.promisify(fs.writeFile);
-const appendFile = util.promisify(fs.appendFile);
+
+appInsights.setup()
+  .setUseDiskRetryCaching(true)
+  .start();
+    
+const defaultClient = appInsights.defaultClient;
+
+async function appendFile(reportFileName: string, text: string) {
+  defaultClient.trackTrace({
+    message: text,
+    properties: {
+      type: "stresstest"
+    }
+  });
+}
 
 export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
@@ -86,6 +101,7 @@ export class SBStressTestsBase {
     this.errorsFileName = `temp/errors-${this.queueName}.txt`;
     this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
     if (testOptions) console.log(testOptions);
+
     await appendFile(this.reportFileName, JSON.stringify(testOptions, null, 2));
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
   }
@@ -170,7 +186,7 @@ export class SBStressTestsBase {
   public async receiveStreaming(
     receiver: ServiceBusReceiver,
     duration: number,
-    options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls"> & {
+    options: Pick<SubscribeOptions, "autoCompleteMessages" | "maxConcurrentCalls"> & {
       manualLockRenewal: boolean;
       completeMessageAfterDuration: boolean;
       maxAutoRenewLockDurationInMs: number;
@@ -185,7 +201,7 @@ export class SBStressTestsBase {
         if (options.settleMessageOnReceive) {
           await this.completeMessage(message, receiver);
         } else if (
-          !options.autoComplete &&
+          !options.autoCompleteMessages &&
           options.maxAutoRenewLockDurationInMs === 0 &&
           options.manualLockRenewal
         ) {
@@ -407,11 +423,17 @@ export class SBStressTestsBase {
       )
       .reduce((output, entry) => output + "\n" + entry)
       .concat("\n\n");
+    
     await appendFile(this.reportFileName, currentSnapshot);
+    defaultClient.flush();
+
     console.log(currentSnapshot);
   }
 
   public async end() {
+
+    defaultClient.flush();
+
     // Logging all the errors to a file
     const errors = [].concat(
       this.sendInfo.errors,

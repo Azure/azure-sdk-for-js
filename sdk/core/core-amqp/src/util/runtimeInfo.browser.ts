@@ -3,7 +3,6 @@
 
 /**
  * @internal
- * @hidden
  *
  * @interface Window
  */
@@ -11,13 +10,11 @@ interface Window {}
 
 /**
  * @internal
- * @hidden
  */
 declare let self: Window & typeof globalThis & { navigator: Navigator };
 
 /**
  * @internal
- * @hidden
  *
  * @interface Navigator
  */
@@ -48,7 +45,6 @@ export function getFrameworkInfo(): string {
 
 /**
  * @internal
- * @hidden
  *
  * @returns {string}
  */

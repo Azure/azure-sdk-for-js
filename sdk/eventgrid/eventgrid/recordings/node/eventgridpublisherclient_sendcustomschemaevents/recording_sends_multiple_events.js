@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "d76e8a9024ff01c8e6c19fad4188cddb";
+module.exports.hash = "f4fce400dc651a8acd221ee29b4512ca";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  'a541a967-991c-4d1f-9bc5-59b318703d1c',
+  '43d477f7-32cd-4b33-8d4d-d0a9b85139d7',
   'Date',
-  'Fri, 02 Oct 2020 06:19:34 GMT'
+  'Tue, 26 Jan 2021 18:26:51 GMT'
 ]);

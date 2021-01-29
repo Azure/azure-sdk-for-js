@@ -137,4 +137,34 @@ describe("XhrHttpsClient", function() {
     assert.strictEqual(headers.get("content-type"), "");
     assert.strictEqual(headers.get("value"), "");
   });
+
+  it("should stream response body on matching status code", async function() {
+    const client = new DefaultHttpsClient();
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([200])
+    });
+    const promise = client.sendRequest(request);
+    assert.equal(requests.length, 1);
+    requests[0].respond(200, {}, "body");
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
+    assert.equal(response.bodyAsText, undefined);
+    assert.ok(response.blobBody, "Expect streaming body");
+  });
+
+  it("should not stream response body on non-matching status code", async function() {
+    const client = new DefaultHttpsClient();
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([200])
+    });
+    const promise = client.sendRequest(request);
+    assert.equal(requests.length, 1);
+    requests[0].respond(404, {}, "body");
+    const response = await promise;
+    assert.strictEqual(response.status, 404);
+    assert.strictEqual(response.blobBody, undefined);
+    assert.equal(response.bodyAsText, "body");
+  });
 });

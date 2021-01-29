@@ -46,17 +46,20 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     hsm?: boolean;
     keySize?: number;
+    publicExponent?: number;
 }
 
 // @public
 export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
+    constructor(key: JsonWebKey);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
+    get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
-    readonly vaultUrl: string;
+    get vaultUrl(): string;
     verify(algorithm: SignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     verifyData(algorithm: SignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
@@ -203,6 +206,7 @@ export interface KeyProperties {
     enabled?: boolean;
     expiresOn?: Date;
     id?: string;
+    readonly managed?: boolean;
     name: string;
     notBefore?: Date;
     recoverableDays?: number;
@@ -237,7 +241,7 @@ export interface KeyVaultKeyId {
 }
 
 // @public
-export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
 export const enum KnownDeletionRecoveryLevel {
@@ -327,15 +331,6 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
-export class LocalCryptographyClient {
-    constructor(key: JsonWebKey);
-    encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
-    key: JsonWebKey;
-    verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
-    wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
-}
-
-// @public
 export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
 
 // @public
@@ -382,6 +377,7 @@ export interface UnwrapKeyOptions extends KeyOperationsOptions {
 
 // @public
 export interface UnwrapResult {
+    algorithm: KeyWrapAlgorithm;
     keyID?: string;
     result: Uint8Array;
 }
