@@ -10,7 +10,10 @@ import {
   RecoverDeletedCertificateOptions
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { GetCertificateResponse, RecoverDeletedCertificateResponse } from "../../generated/models";
+import {
+  KeyVaultClientGetCertificateResponse,
+  KeyVaultClientRecoverDeletedCertificateResponse
+} from "../../generated/models";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import {
   KeyVaultCertificatePollOperation,
@@ -52,7 +55,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.getCertificate", requestOptions);
 
-    let result: GetCertificateResponse;
+    let result: KeyVaultClientGetCertificateResponse;
 
     try {
       result = await this.client.getCertificate(
@@ -79,7 +82,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = createSpan("generatedClient.recoverDeletedCertificate", requestOptions);
 
-    let result: RecoverDeletedCertificateResponse;
+    let result: KeyVaultClientRecoverDeletedCertificateResponse;
 
     try {
       result = await this.client.recoverDeletedCertificate(

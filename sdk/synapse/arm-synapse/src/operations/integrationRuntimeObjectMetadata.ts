@@ -128,7 +128,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SsisObjectMetadataListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -155,7 +155,7 @@ const beginRefreshOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

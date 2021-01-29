@@ -60,7 +60,6 @@ export interface Checkpoint {
  * - Optionally override the `initialize()` method to implement any set up related tasks you would want to carry out before starting to receive events from the partition
  * - Optionally override the `close()` method to implement any tear down or clean up tasks you would want to carry out.
  * @internal
- * @ignore
  */
 export class PartitionProcessor implements PartitionContext {
   private _lastEnqueuedEventProperties?: LastEnqueuedEventProperties;
@@ -96,7 +95,7 @@ export class PartitionProcessor implements PartitionContext {
    * @property The fully qualified namespace from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly
    */
-  public get fullyQualifiedNamespace() {
+  public get fullyQualifiedNamespace(): string {
     return this._context.fullyQualifiedNamespace;
   }
 
@@ -104,7 +103,7 @@ export class PartitionProcessor implements PartitionContext {
    * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly
    */
-  public get consumerGroup() {
+  public get consumerGroup(): string {
     return this._context.consumerGroup!;
   }
 
@@ -112,7 +111,7 @@ export class PartitionProcessor implements PartitionContext {
    * @property The name of the event hub to which the current partition belongs. It is set by the `EventProcessor`
    * @readonly
    */
-  public get eventHubName() {
+  public get eventHubName(): string {
     return this._context.eventHubName;
   }
 
@@ -120,14 +119,14 @@ export class PartitionProcessor implements PartitionContext {
    * @property The identifier of the Event Hub partition that is being processed. It is set by the `EventProcessor`
    * @readonly
    */
-  public get partitionId() {
+  public get partitionId(): string {
     return this._context.partitionId;
   }
 
   /**
    * @property The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
    */
-  public get eventProcessorId() {
+  public get eventProcessorId(): string {
     return this._context.eventProcessorId;
   }
 

@@ -7,16 +7,14 @@ products:
 urlFragment: communication-administration-identity-typescript
 ---
 
-# Azure Communication Service Communication Identity client library sample for TypeScript
+# Azure Communication Service Communication Administration client library sample for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Communication Service Communication Identity to issue and refresh tokens.
+These sample programs show how to use the TypeScript client libraries for Azure Communication Service Administration.
 
-| **File Name**                                 | **Description**                                                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [issueToken.ts][issuetoken]                   | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
-| [revokeTokens.ts][revoketokens]               | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
-| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number                                        |
-| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release all phone numbers that match certain criteria          |
+| **File Name**                                 | **Description**                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------- |
+| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number |
+| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers.  |
 
 ## Prerequisites
 
@@ -47,21 +45,19 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/issueToken.js
+node dist/purchasePhoneNumber.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/issueToken.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/purchasePhoneNumber.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/issueToken.ts
-[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/revokeTokens.ts
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/purchasePhoneNumber.ts
 [releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/samples/typescript/src/releasePhoneNumbers.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-administration

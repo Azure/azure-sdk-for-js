@@ -270,7 +270,6 @@ export interface ServiceBusReceiver {
 
 /**
  * @internal
- * @ignore
  */
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _retryOptions: RetryOptions;
@@ -765,6 +764,5 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
  * This timeout only applies to receiveMessages()
  *
  * @internal
- * @ignore
  */
 export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;

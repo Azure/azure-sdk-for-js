@@ -2,29 +2,16 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./generated/models";
+import {
+  DeletionRecoveryLevel,
+  JsonWebKeyType as KeyType,
+  KnownJsonWebKeyType as KnownKeyTypes,
+  JsonWebKeyOperation as KeyOperation,
+  KnownJsonWebKeyOperation as KnownKeyOperations
+} from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
-/**
- * Defines values for KeyOperation.
- * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey', 'import'
- * @readonly
- */
-export type KeyOperation =
-  | "encrypt"
-  | "decrypt"
-  | "sign"
-  | "verify"
-  | "wrapKey"
-  | "unwrapKey"
-  | "import";
-
-/**
- * Defines values for KeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', "oct-HSM"
- * @readonly
- */
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
+export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 
 /**
  * The latest supported Key Vault service API version
@@ -217,6 +204,15 @@ export interface KeyProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+
+  /**
+   * True if the secret's lifetime is managed by
+   * key vault. If this is a secret backing a certificate, then managed will be
+   * true.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly managed?: boolean;
 }
 
 /**
@@ -357,6 +353,9 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
+
+  /** The public exponent for a RSA key. */
+  publicExponent?: number;
 }
 
 /**
@@ -456,14 +455,12 @@ export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @hidden
  * Options for {@link recoverDeletedKey}.
  */
 export interface RecoverDeletedKeyOptions extends coreHttp.OperationOptions {}
 
 /**
  * @internal
- * @hidden
  * Options for {@link deleteKey}.
  */
 export interface DeleteKeyOptions extends coreHttp.OperationOptions {}

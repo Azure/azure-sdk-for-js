@@ -6,7 +6,6 @@
 
 /**
  * @internal
- * @ignore
  * @param {string} rawUrl
  */
 export const parseURL = (rawUrl: string): any => {

@@ -127,7 +127,7 @@ const getOperationSpec: msRest.OperationSpec = {
     },
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -161,7 +161,7 @@ const createOperationSpec: msRest.OperationSpec = {
     },
     404: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

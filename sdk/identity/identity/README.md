@@ -1,8 +1,18 @@
 ## Azure Identity client library for JavaScript
 
-This library simplifies authentication against Azure Active Directory for Azure SDK libraries.
-It provides a set of `TokenCredential` implementations which can be passed into SDK libraries
-to authenticate API requests. It supports token authentication using an Azure Active Directory [service principal](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli) or [managed identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
+The Azure Identity library provides Azure Active Directory token authentication support across the Azure SDK. It provides a set of [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential) implementations which can be used to construct Azure SDK clients which support AAD token authentication.
+
+This library currently provides credentials for:
+
+- [Service principal authentication](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals)
+- [Managed identity authentication](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
+- [Device code authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-device-code)
+- Interactive browser authentication, based on OAuth2 authentication code that uses the default system browser.
+- [Username + password authentication](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth-ropc)
+- Visual Studio Code authentication, with the login information saved in Azure plugin for Visual Studio Code
+- Azure CLI authentication, with the login information saved in Azure CLI
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity) | [Package (npm)](https://www.npmjs.com/package/@azure/identity) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/identity) | [Product documentation](https://azure.microsoft.com/services/active-directory/) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples)
 
 ## Getting started
 
@@ -21,9 +31,9 @@ npm install --save @azure/identity
   - You can sign up for a [free account](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
 
-### Authenticate the client
+### Authenticate the client in development environment
 
-When debugging and executing code locally it is typical for a developer to use their own account for authenticating calls to Azure services. There are several developer tools which can be used to perform this authentication in your development environment.
+While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
 
 #### Authenticating via Visual Studio Code
 
@@ -37,13 +47,17 @@ To authenticate in Visual Studio Code, first ensure the [Azure Account Extension
 
 Applications using the `AzureCliCredential`, rather directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
 
-To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the azure cli will launch the browser to authenticate the user.
+To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the Azure cli will launch the browser to authenticate the user.
 
 ![Azure CLI Account Sign In][azureclilogin_image]
 
 For systems without a default web browser, the `az login` command will use the device code authentication flow. The user can also force the Azure CLI to use the device code flow rather than launching a browser by specifying the `--use-device-code` argument.
 
 ![Azure CLI Account Device Code Sign In][azureclilogindevicecode_image]
+
+### Authenticate the client in browsers
+
+To authenticate Azure SDKs within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
 
 ## Key concepts
 
@@ -107,24 +121,32 @@ This example demonstrates authenticating the `KeyClient` from the [@azure/keyvau
 ```javascript
 // The default credential first checks environment variables for configuration as described above.
 // If environment configuration is incomplete, it will try managed identity.
+
+// Azure Key Vault service to use
 const { KeyClient } = require("@azure/keyvault-keys");
+
+// Azure authentication library to access Azure Key Vault
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
+
+// Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
+
+// Use service from authenticated client
 const getResult = await client.getKey("MyKeyName");
 ```
 
 ### Specifying a user assigned managed identity with the `DefaultAzureCredential`
 
-Many Azure hosts allow the assignment of a user assigned managed identity. This example demonstrates configuring the `DefaultAzureCredential` to authenticate a user assigned identity when deployed to an azure host. It then authenticates a `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library with credential.
+Many Azure hosts allow the assignment of a user assigned managed identity. This example demonstrates configuring the `DefaultAzureCredential` to authenticate a user assigned identity when deployed to an Azure host. It then authenticates a `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library with credential.
 
 ```ts
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-// when deployed to an azure host the default azure credential will authenticate the specified user assigned managed identity
+// when deployed to an Azure host the default Azure credential will authenticate the specified user assigned managed identity
 var credential = new DefaultAzureCredential({ managedIdentityClientId: userAssignedClientId });
 
 const client = new KeyClient(vaultUrl, credential);
@@ -157,7 +179,7 @@ const client = new KeyClient(vaultUrl, credentialChain);
 | `DefaultAzureCredential`    | provides a simplified authentication experience to quickly start developing applications run in the Azure cloud |
 | `ChainedTokenCredential`    | allows users to define custom authentication flows composing multiple credentials                               |
 | `EnvironmentCredential`     | authenticates a service principal or user via credential information specified in environment variables         |
-| `ManagedIdentityCredential` | authenticates the managed identity of an azure resource                                                         |
+| `ManagedIdentityCredential` | authenticates the managed identity of an Azure resource                                                         |
 
 ### Authenticating Service Principals
 
@@ -199,17 +221,6 @@ setLogLevel("info");
 ```
 
 ## Next steps
-
-### Client libraries supporting authentication with Azure Identity
-
-Currently, the following client libraries support authenticating with `TokenCredential` and the Azure Identity library. You can learn more about their use, and find additional documentation on use of these client libraries along samples with can be found in the links below.
-
-- [@azure/event-hubs](https://npmjs.com/package/@azure/event-hubs)
-- [@azure/keyvault-keys](https://npmjs.com/package/@azure/keyvault-keys)
-- [@azure/keyvault-secrets](https://npmjs.com/package/@azure/keyvault-secrets)
-- [@azure/keyvault-certificates](https://npmjs.com/package/@azure/keyvault-certificates)
-- [@azure/storage-blob](https://npmjs.com/package/@azure/storage-blob)
-- [@azure/storage-queue](https://npmjs.com/package/@azure/storage-queue)
 
 ### Read the documentation
 

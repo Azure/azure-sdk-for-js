@@ -67,7 +67,6 @@ export type ServiceBusErrorCode =
  * Translation between the MessagingErrorCodes into a ServiceBusCode
  *
  * @internal
- * @ignore
  */
 export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusErrorCode> = new Map([
   ["MessagingEntityNotFoundError", "MessagingEntityNotFound"],
@@ -159,7 +158,6 @@ export class ServiceBusError extends MessagingError {
  * Service Bus specific handling of the error (falling back to default translate behavior otherwise).
  *
  * @internal
- * @ignore
  */
 export function translateServiceBusError(err: AmqpError | Error): ServiceBusError | Error {
   if (isServiceBusError(err)) {

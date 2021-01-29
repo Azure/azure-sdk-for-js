@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.9.3",
+  "version": "3.10.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -32,7 +32,7 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/",
   "sideEffects": false,
   "types": "./dist/types/latest/index.d.ts",
   "typesVersions": {
@@ -42,7 +42,7 @@
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
@@ -57,7 +57,7 @@
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
-    "docs": "typedoc --excludePrivate --mode file --out ./dist/docs ./src",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": " cd samples && npm run all-samples",
     "extract-api": "npm run check:src:strict && npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -70,19 +70,23 @@
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test-consumer": "node consumer-test.js 2>&1",
+    "test-consumer": "rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
     "test": "npm run unit-test && npm run integration-test",
-    "test:signoff": "mocha -r esm -r dotenv/config -r ./test/public/common/setup.js \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\" --timeout 100000 --grep \"#nosignoff\" --invert",
+    "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "tsdoc": {
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
+    "@azure/identity": "^1.1.0",
     "@types/debug": "^4.1.4",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
@@ -131,7 +135,7 @@
     "ts-node": "^8.3.0",
     "tslint": "^5.0.0",
     "tslint-config-prettier": "^1.14.0",
-    "typedoc": "0.15.0",
+    "typedoc": "0.15.2",
     "typescript": "4.1.2"
   }
 }

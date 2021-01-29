@@ -11,6 +11,21 @@ const printModes = ["info", "warn", "error", "success", "debug"] as const;
 export type Fn<T = void> = (...values: any[]) => T;
 export type ModeMap<T> = { [k in typeof printModes[number]]: T };
 
+// Compute the base directory of the dev-tool command package
+// We must do this specially for the printer module because using
+// the package resolution function from the utils/resolveProject
+// module would create a difficult circular dependency.
+const DEV_TOOL_PATH = (() => {
+  const directoryFragment = path.sep + "dev-tool" + path.sep;
+  const parts = __dirname.split(directoryFragment);
+  // There might be "/dev-tool/" somewhere higher in the path, so
+  // we will slice the end off of this array and re-join with "/dev-tool/"
+  // to get the full directory part
+  const baseDirectoryParts = parts.slice(0, -1);
+  // Adding path.sep at the end makes the debug output a little cleaner by removing a leading "/"
+  return path.resolve(baseDirectoryParts.join(directoryFragment) + directoryFragment) + path.sep;
+})();
+
 /**
  * The interface that describes the Printer produced by {@link createPrinter}
  */
@@ -99,11 +114,9 @@ const finalLogger: ModeMap<Fn> = {
   debug(...values: string[]) {
     if (process.env.DEBUG) {
       const caller = getCaller();
-      const fileName = caller
-        ?.getFileName()
-        ?.split(path.join("azure-sdk-for-js", "common", "tools", "dev-tool"));
+      const fileName = caller?.getFileName()?.split(DEV_TOOL_PATH)?.[1];
       const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${caller?.getFunctionName() ??
-        "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
+        "<anonymous>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
       backend.error(values[0], colors.debug(callerInfo), ...values.slice(1));
     }
   },

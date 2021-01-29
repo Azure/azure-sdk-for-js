@@ -10,6 +10,7 @@ import {
   OperationOptions,
   RestResponse
 } from "@azure/core-http";
+import { TokenCredential } from "@azure/identity";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 
@@ -30,6 +31,7 @@ import {
   WebNotificationHookPatch,
   EmailNotificationHookPatch,
   AnomalyDetectionConfiguration,
+  CreateDataFeedResponse,
   GetDataFeedResponse,
   GetAnomalyDetectionConfigurationResponse,
   GetAnomalyAlertConfigurationResponse,
@@ -43,9 +45,12 @@ import {
   HooksPageResponse,
   DataFeedStatus,
   GetIngestionProgressResponse,
-  AnomalyAlertConfiguration
+  AnomalyAlertConfiguration,
+  CreateAnomalyDetectionConfigurationResponse,
+  CreateAnomalyAlertConfigurationResponse,
+  CreateHookResponse
 } from "./models";
-import { DataSourceType, NeedRollupEnum } from "./generated/models";
+import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -165,7 +170,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   constructor(
     endpointUrl: string,
-    credential: MetricsAdvisorKeyCredential,
+    credential: TokenCredential | MetricsAdvisorKeyCredential,
     options: MetricsAdvisorAdministrationClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
@@ -182,7 +187,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createDataFeed(
     feed: DataFeedDescriptor,
     operationOptions: OperationOptions = {}
-  ): Promise<GetDataFeedResponse> {
+  ): Promise<CreateDataFeedResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataFeed",
       operationOptions
@@ -259,8 +264,8 @@ export class MetricsAdvisorAdministrationClient {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
-      const feedId = result.location.substring(lastSlashIndex + 1);
-      return this.getDataFeed(feedId);
+      const id = result.location.substring(lastSlashIndex + 1);
+      return { id, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -551,7 +556,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyDetectionConfigurationResponse> {
+  ): Promise<CreateAnomalyDetectionConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDetectionConfig",
       options
@@ -568,7 +573,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getDetectionConfig(configId);
+      return { id: configId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -682,7 +687,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
     options: OperationOptions = {}
-  ): Promise<GetAnomalyAlertConfigurationResponse> {
+  ): Promise<CreateAnomalyAlertConfigurationResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createAlertConfig",
       options
@@ -699,7 +704,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      return this.getAlertConfig(configId);
+      return { id: configId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -936,7 +941,7 @@ export class MetricsAdvisorAdministrationClient {
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
     options: OperationOptions = {}
-  ): Promise<GetHookResponse> {
+  ): Promise<CreateHookResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createHook",
       options
@@ -952,7 +957,7 @@ export class MetricsAdvisorAdministrationClient {
           description,
           externalLink,
           hookParameter
-        },
+        } as HookInfoUnion,
         requestOptions
       );
       if (!result.location) {
@@ -960,7 +965,7 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const hookId = result.location.substring(lastSlashIndex + 1);
-      return this.getHook(hookId);
+      return { id: hookId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

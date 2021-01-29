@@ -1,13 +1,37 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.0.4 (Unreleased)
+
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `ServiceBusClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+
+## 7.0.3 (2021-01-26)
+
+- [Bug Fix] Uncaught error "OperationTimeoutError" thrown inside a setTimeout can potentially cause the program to crash.
+  Fixed in [#13264](https://github.com/Azure/azure-sdk-for-js/pull/13264)
+- [Bug Fix] Response from the `ServiceBusAdministrationClient.getSubscriptionRuntimeProperties()` method had the message count properties to be zero.
+  The bug has been fixed in [#13229](https://github.com/Azure/azure-sdk-for-js/pull/13229)
+- [Bug Fix] Fixed a race condition where the `ServiceBusReceiver.receiveMessages` might lose messages and not return any if triggered right after the recovery from a network disruption.
+  The same race condition could also have led to an OperationTimeout error if attempted the message settlement.
+  [#13374](https://github.com/Azure/azure-sdk-for-js/pull/13374)
+
+## 7.0.2 (2021-01-13)
+
+- [Bug Fix] Receiving messages from sessions in "receiveAndDelete" mode using the `subscribe()` method stops after receiving 2048 of them and leaves the receiver hanging. The bug has been fixed in [PR 13178](https://github.com/Azure/azure-sdk-for-js/pull/13178). Also fixes the same issue that is seen with the `receiveMessages` API when large number of messages are requested or if the API is called in a loop.
+
+## 7.0.1 (2021-01-11)
 
 - Fix the `isNode` check to allow the package to be usable in Electron. [Bug 12983](https://github.com/Azure/azure-sdk-for-js/issues/12983)
 - Fix issue where receiveMessages might return fewer messages than were received, causing them to be potentially locked or lost.
   [PR 12772](https://github.com/Azure/azure-sdk-for-js/pull/12772)
+  [PR 12908](https://github.com/Azure/azure-sdk-for-js/pull/12908)
+  [PR 13073](https://github.com/Azure/azure-sdk-for-js/pull/13073)
 - Updates documentation for `ServiceBusMessage` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language
   compatibility while receiving events is required.
+- [Bug Fix] Correlation Rule Filter with the "label" set using the `createRule()` method doesn't filter the messages to the subscription.
+  The bug has been fixed in [PR 13069](https://github.com/Azure/azure-sdk-for-js/pull/13069), also fixes the related issues where the messages are not filtered when a subset of properties are set in the correlation filter.
 
 ## 7.0.0 (2020-11-23)
 

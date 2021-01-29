@@ -9,7 +9,6 @@ import { logErrorStackTrace, logger } from "./log";
 /**
  * The default data transformer that will be used by the Azure SDK.
  * @internal
- * @ignore
  */
 export const defaultDataTransformer = {
   /**
