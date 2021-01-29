@@ -52,6 +52,7 @@ jobs:
       
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
     displayName: 'Run CredScan'
+    condition: succeededOrFailed()
     inputs:
       suppressionsFile: 'eng\CredScanSuppression.json'
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@2
