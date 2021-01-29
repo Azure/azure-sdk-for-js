@@ -12,14 +12,15 @@ import { EventHubProducerClient, EventData } from "../../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
-const eventHubName = getEnvVar("EVENTHUB_NAME");
-
 interface SendTestOptions {
   eventBodySize: number;
   numberOfEvents: number;
 }
 
+const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
+const eventHubName = getEnvVar("EVENTHUB_NAME");
+
+const producer = new EventHubProducerClient(connectionString, eventHubName);
 export class SendTest extends PerfStressTest<SendTestOptions> {
   producer: EventHubProducerClient;
   event: EventData;
@@ -42,7 +43,7 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
 
   constructor() {
     super();
-    this.producer = new EventHubProducerClient(connectionString, eventHubName);
+    this.producer = producer;
     this.event = {
       body: Buffer.alloc(this.parsedOptions.eventBodySize.value!)
     };
