@@ -72,6 +72,8 @@ async function sendBatch(
       numberOfEventsSent = numberOfEventsSent + batch.count;
     }
   }
+
+  await producer.close();
 }
 
 async function RunTest(
