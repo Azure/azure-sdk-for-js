@@ -21,7 +21,7 @@ export async function main() {
   await getHook(adminClient, existingHookId);
 
   const createdEmailHook = await createEmailHook(adminClient);
-  const updatedEmailHook = await updateEmailHook(adminClient, createdEmailHook.id!);
+  await updateEmailHook(adminClient, createdEmailHook.id!);
 
   const createdWebHook = await createWebHook(adminClient);
 
