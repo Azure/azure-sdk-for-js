@@ -192,7 +192,67 @@ export type ChangeThresholdConditionUnion = {
 };
 
 // @public
+export type CreateAnomalyAlertConfigurationResponse = CreatedAnomalyAlertConfiguration & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
+export type CreateAnomalyDetectionConfigurationResponse = CreatedAnomalyDetectionConfiguration & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
+export interface CreatedAnomalyAlertConfiguration {
+    id: string;
+}
+
+// @public
+export type CreatedAnomalyDetectionConfiguration = {
+    id: string;
+};
+
+// @public
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
+
+// @public
+export type CreateDataFeedResponse = CreatedDataFeed & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
+export type CreatedDataFeed = {
+    id: string;
+};
+
+// @public
+export type CreatedNotificationHook = {
+    id: string;
+};
+
+// @public
+export type CreateFeedbackResponse = CreateMetricFeedback & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
+export type CreateHookResponse = CreatedNotificationHook & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: any;
+    };
+};
+
+// @public
+export type CreateMetricFeedback = {
+    id: string;
+};
 
 // @public
 export type DataFeed = {
@@ -923,10 +983,10 @@ export type MetricPeriodFeedback = {
 // @public
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
-    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
-    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
-    createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
+    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<CreateAnomalyAlertConfigurationResponse>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<CreateDataFeedResponse>;
+    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<CreateAnomalyDetectionConfigurationResponse>;
+    createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<CreateHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
@@ -956,7 +1016,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 // @public
 export class MetricsAdvisorClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
-    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
+    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<CreateFeedbackResponse>;
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
