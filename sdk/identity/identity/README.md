@@ -59,6 +59,8 @@ For systems without a default web browser, the `az login` command will use the d
 
 To authenticate Azure SDKs within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
 
+When using the `InteractiveBrowserCredential`, the authentication flow [Auth Code Flow][AuthCodeFlow] (with PKCE) will be used by default, but users can revert back to the previously used [Implicit Grant Flow][ImplicitGrantFlow] by setting the `flow` property to `implicit-grant` on the credential's constructor.
+
 ## Key concepts
 
 If this is your first time using `@azure/identity` or the Microsoft identity platform (Azure Active Directory), we recommend that you read [Using `@azure/identity` with Microsoft Identity Platform](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/using-azure-identity.md) first. This document will give you a deeper understanding of the platform and how to configure your Azure account correctly.
