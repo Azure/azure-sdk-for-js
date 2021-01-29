@@ -788,6 +788,12 @@ export type ListAnomaliesForDetectionConfigurationOptions = {
 } & OperationOptions;
 
 // @public
+export type ListAnomalyDimensionValuesOptions = {
+    skip?: number;
+    dimensionFilter?: DimensionKey;
+} & OperationOptions;
+
+// @public
 export type ListDataFeedIngestionStatusOptions = {
     skip?: number;
 } & OperationOptions;
@@ -802,12 +808,6 @@ export type ListDataFeedsOptions = {
         status?: DataFeedStatus;
         creator?: string;
     };
-} & OperationOptions;
-
-// @public
-export type ListDimensionValuesForDetectionConfigOptions = {
-    skip?: number;
-    dimensionFilter?: DimensionKey;
 } & OperationOptions;
 
 // @public
@@ -1025,7 +1025,7 @@ export class MetricsAdvisorClient {
     listAlerts(alertConfigId: string, startTime: Date | string, endTime: Date | string, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, AlertsPageResponse>;
     listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
     listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
-    listDimensionValuesForDetectionConfig(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListDimensionValuesForDetectionConfigOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
+    listAnomalyDimensionValues(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListAnomalyDimensionValuesOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
     listFeedback(metricId: string, options?: ListFeedbackOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, MetricFeedbackPageResponse>;
     listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
     listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
