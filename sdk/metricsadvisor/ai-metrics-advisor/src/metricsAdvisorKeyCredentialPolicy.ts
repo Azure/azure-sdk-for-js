@@ -42,14 +42,14 @@ export class MetricsAdvisorKeyCredential {
   /**
    * Get Subscription key
    */
-  public getSubscriptionKey() {
+  public async getSubscriptionKey() {
     return this.subscriptionKey;
   }
 
   /**
    * Get Api Key
    */
-  public getApiKey() {
+  public async getApiKey() {
     return this.apiKey;
   }
 
@@ -61,7 +61,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param subscriptionKey - The new subscription key value to be used
    */
-  public updateSubscriptionKey(subscriptionKey: string) {
+  public async updateSubscriptionKey(subscriptionKey: string) {
     if (!this.subscriptionKey) {
       throw new RangeError("subscriptionKey must be a non-empty error");
     }
@@ -76,7 +76,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param apiKey - The new api key value to be used
    */
-  public updateApiKey(apiKey: string) {
+  public async updateApiKey(apiKey: string) {
     if (!this.apiKey) {
       throw new RangeError("apiKey must be a non-empty error");
     }
