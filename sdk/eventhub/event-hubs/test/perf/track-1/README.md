@@ -10,3 +10,5 @@
 8. Run the tests as follows from the `event-hubs` folder.
    - batch send
      - `npm run perf-test:node -- SendTest --warmup 2 --duration 7 --parallel 2`
+   - receive(Standalone test - doesn't use the framework)
+     - `ts-node receive.spec.ts`
