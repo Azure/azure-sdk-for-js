@@ -509,8 +509,7 @@ export class MetricsAdvisorAdministrationClient {
         status: patch.status,
         actionLinkTemplate: patch.actionLinkTemplate
       };
-      const response = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
-      return response;
+      return await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
