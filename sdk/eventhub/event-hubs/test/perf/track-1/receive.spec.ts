@@ -29,15 +29,13 @@ const eventHubName = getEnvVar("EVENTHUB_NAME");
 const consumerGroup = getEnvVar("CONSUMER_GROUP_NAME");
 
 async function main(): Promise<void> {
-  const maxBatchSize = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
-  const eventBodySize = process.argv.length > 3 ? parseInt(process.argv[3]) : 1024;
-  const numberOfEvents = process.argv.length > 4 ? parseInt(process.argv[4]) : 500;
+  const eventBodySize = process.argv.length > 2 ? parseInt(process.argv[2]) : 1024;
+  const numberOfEvents = process.argv.length > 3 ? parseInt(process.argv[3]) : 500;
 
   const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
   const partitionIds = await client.getPartitionIds();
   await client.close();
 
-  log(`Maximum Batch Size: ${maxBatchSize}`);
   log(`Total messages: ${numberOfEvents}`);
 
   await sendBatch(numberOfEvents, partitionIds, eventBodySize);
