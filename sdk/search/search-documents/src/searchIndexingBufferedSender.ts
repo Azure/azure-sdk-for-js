@@ -103,6 +103,10 @@ export class SearchIndexingBufferedSender<T> {
    * Event emitter/publisher used in the Buffered Sender
    */
   private readonly emitter = new EventEmitter();
+  /**
+   * Method to retrieve the document key
+   */
+  private documentKeyRetriever: (document: T) => string;
 
   /**
    * Creates a new instance of SearchIndexingBufferedSender.
@@ -111,10 +115,15 @@ export class SearchIndexingBufferedSender<T> {
    * @param options - Options to modify auto flush.
    *
    */
-  constructor(client: IndexDocumentsClient<T>, options: SearchIndexingBufferedSenderOptions = {}) {
+  constructor(
+    client: IndexDocumentsClient<T>,
+    documentKeyRetriever: (document: T) => string,
+    options: SearchIndexingBufferedSenderOptions = {}
+  ) {
     this.client = client;
+    this.documentKeyRetriever = documentKeyRetriever;
     // General Configuration properties
-    this.autoFlush = options.autoFlush ?? false;
+    this.autoFlush = options.autoFlush ?? true;
     this.initialBatchActionCount = options.initialBatchActionCount ?? DEFAULT_BATCH_SIZE;
     this.flushWindowInMs = options.flushWindowInMs ?? DEFAULT_FLUSH_WINDOW;
     // Retry specific configuration properties
@@ -377,9 +386,35 @@ export class SearchIndexingBufferedSender<T> {
       this.batchObject = new IndexDocumentsBatch<T>();
       while (actions.length > 0) {
         const actionsToSend = actions.splice(0, this.initialBatchActionCount);
-        await this.submitDocuments(actionsToSend, options);
+        await this.submitDocuments(this.pruneActions(actionsToSend, actions), options);
       }
     }
+  }
+
+  private pruneActions(
+    batch: IndexDocumentsAction<T>[],
+    actions: IndexDocumentsAction<T>[]
+  ): IndexDocumentsAction<T>[] {
+    let counter: number = 0;
+    const hashSet: Set<string> = new Set<string>();
+    const resultBatch: IndexDocumentsAction<T>[] = [];
+
+    while (counter < batch.length) {
+      const { __actionType, ...document } = batch[counter];
+      // @ts-ignore
+      const key: string = this.documentKeyRetriever(document);
+
+      if (hashSet.has(key)) {
+        actions.unshift(batch[counter]);
+        batch.splice(counter, 1);
+      } else {
+        resultBatch.push(batch[counter]);
+        hashSet.add(key);
+        counter++;
+      }
+    }
+
+    return resultBatch;
   }
 
   private async submitDocuments(
@@ -398,7 +433,7 @@ export class SearchIndexingBufferedSender<T> {
       // raise success event
       this.emitter.emit("batchSucceeded", result);
     } catch (e) {
-      if (e.code && e.code === "413" && actionsToSend.length > 1) {
+      if (e.statusCode && e.statusCode === 413 && actionsToSend.length > 1) {
         // Cut the payload size to half
         const splitActionsArray = [
           actionsToSend.slice(0, actionsToSend.length / 2),
@@ -427,6 +462,6 @@ export class SearchIndexingBufferedSender<T> {
   }
 
   private isRetryAbleError(e: any): boolean {
-    return e.code && (e.code === "422" || e.code === "409" || e.code === "503");
+    return e.statusCode && (e.statusCode === 422 || e.statusCode === 409 || e.statusCode === 503);
   }
 }
