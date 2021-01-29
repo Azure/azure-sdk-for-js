@@ -12,10 +12,7 @@ import {
   AzureCommunicationTokenCredential,
   parseClientArguments
 } from "@azure/communication-common";
-import {
-  CommunicationIdentityClient,
-  CommunicationUserToken
-} from "@azure/communication-administration";
+import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
 
 if (isNode) {
@@ -43,8 +40,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export async function createTestUser(): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
-  const testUser = await identityClient.createUser();
-  return await identityClient.issueToken(testUser, ["chat"]);
+  return await identityClient.createUserWithToken(["chat"]);
 }
 
 export async function deleteTestUser(testUser: CommunicationUserIdentifier) {

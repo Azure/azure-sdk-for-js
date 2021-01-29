@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { env, Recorder } from "@azure/test-utils-recorder";
@@ -99,6 +99,16 @@ describe("Keys client - create, read, update and delete operations", () => {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options = {
       keySize: 2048
+    };
+    const result = await client.createRsaKey(keyName, options);
+    assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
+    await testClient.flushKey(keyName);
+  });
+
+  it("can create a RSA key with public exponent", async function() {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const options = {
+      publicExponent: 3
     };
     const result = await client.createRsaKey(keyName, options);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");

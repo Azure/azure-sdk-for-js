@@ -624,7 +624,7 @@ describe("BatchingReceiver unit tests", () => {
       await receiveIsReady;
       assert.exists(receiver["_closeHandler"]);
 
-      await receiver.close(new Error("actual error"));
+      await receiver.terminate(new Error("actual error"));
 
       try {
         await receiveMessagesPromise;
@@ -670,7 +670,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isFalse(resolveWasCalled);
       assert.isFalse(rejectWasCalled);
 
-      receiver.close();
+      receiver.terminate();
 
       // these are still false because we used setTimeout() (and we're using sinon)
       // so the clock is "frozen"

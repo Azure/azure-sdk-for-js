@@ -3,7 +3,6 @@
 
 /**
  * @internal
- * @hidden
  * A simple Semaphore
  * @class Semaphore
  */

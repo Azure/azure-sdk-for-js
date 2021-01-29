@@ -9,7 +9,6 @@ import { isNode, isNumber, isString } from "../src/util/utils";
  * Maps the conditions to the numeric AMQP Response status codes.
  * @enum {ConditionStatusMapper}
  * @internal
- * @hidden
  */
 export enum ConditionStatusMapper {
   "com.microsoft:timeout" = AmqpResponseStatusCode.RequestTimeout,
@@ -457,7 +456,6 @@ export interface NetworkSystemError {
 
 /**
  * @internal
- * @hidden
  */
 const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message">)[] = [
   "address",
@@ -608,7 +606,6 @@ export function isSystemError(err: any): err is NetworkSystemError {
 
 /**
  * @internal
- * @hidden
  * Since browser doesn't differentiate between the various kinds of service communication errors,
  * this utility is used to look at the error target to identify such category of errors.
  * For more information refer to - https://html.spec.whatwg.org/multipage/comms.html#feedback-from-the-protocol
@@ -629,7 +626,6 @@ function isBrowserWebsocketError(err: any): boolean {
 
 /**
  * @internal
- * @hidden
  */
 const rheaPromiseErrors = [
   // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
@@ -729,7 +725,6 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
 
 /**
  * @internal
- * @hidden
  *
  * @param {*} error
  * @returns {error is AmqpError}

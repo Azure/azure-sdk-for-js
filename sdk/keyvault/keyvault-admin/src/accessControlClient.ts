@@ -52,7 +52,6 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -77,15 +76,15 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    pipelineOptions: AccessControlClientOptions = {}
+    options: AccessControlClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
 
     const libInfo = `azsdk-js-keyvault-admin/${SDK_VERSION}`;
 
-    const userAgentOptions = pipelineOptions.userAgentOptions;
+    const userAgentOptions = options.userAgentOptions;
 
-    pipelineOptions.userAgentOptions = {
+    options.userAgentOptions = {
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -97,7 +96,7 @@ export class KeyVaultAccessControlClient {
       : signingPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...pipelineOptions,
+      ...options,
       loggingOptions: {
         logger: logger.info,
         allowedHeaderNames: [
@@ -112,7 +111,7 @@ export class KeyVaultAccessControlClient {
       internalPipelineOptions,
       authPolicy
     );
-    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    params.apiVersion = options.serviceVersion || LATEST_API_VERSION;
     this.client = new KeyVaultClient(params);
   }
 
@@ -245,7 +244,6 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link listRoleAssignments}.
    * @param roleScope - The scope of the role assignments.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -286,7 +284,6 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listRoleAssignments}.
    * @param roleScope - The scope of the role assignments.
    * @param options - Common options for the iterative endpoints.
@@ -341,7 +338,6 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the pagination of {@link listRoleDefinitions}.
    * @param roleScope - The scope of the role definition.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -382,7 +378,6 @@ export class KeyVaultAccessControlClient {
 
   /**
    * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listRoleDefinitions}.
    * @param roleScope - The scope of the role definition.
    * @param options - Common options for the iterative endpoints.

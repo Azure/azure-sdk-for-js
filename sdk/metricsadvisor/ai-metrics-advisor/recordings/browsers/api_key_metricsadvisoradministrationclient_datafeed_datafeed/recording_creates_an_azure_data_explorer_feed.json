@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
+   "query": {},
+   "requestBody": "{\"dataSourceType\":\"AzureDataExplorer\",\"dataFeedName\":\"js-test-dataExplorerFeed-161116811190308135\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"dataSourceParameter\":{\"connectionString\":\"Server=server.example.net;Encrypt=True;\",\"query\":\"let starttime=datetime(@StartTime); let endtime=starttime\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "8e683140-eb95-4f12-baad-06507e08fecc",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:42:05 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/274ae886-0137-4cb7-a16b-217a057aa596",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "664",
+    "x-request-id": "8e683140-eb95-4f12-baad-06507e08fecc"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/274ae886-0137-4cb7-a16b-217a057aa596",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"dataFeedId\":\"274ae886-0137-4cb7-a16b-217a057aa596\",\"dataFeedName\":\"js-test-dataExplorerFeed-161116811190308135\",\"metrics\":[{\"metricId\":\"e0ad4cb4-865d-4137-ab2a-a576153d263d\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"1c88b478-d5ef-4374-88f8-e9df1ab1cc48\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"AzureDataExplorer\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-01-20T18:42:05Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"Server=server.example.net;Encrypt=True;\",\"query\":\"let starttime=datetime(@StartTime); let endtime=starttime\"}}",
+   "responseHeaders": {
+    "apim-request-id": "bfcbcd39-d361-4c2d-a372-3dbb29723dee",
+    "content-length": "1354",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "203",
+    "x-request-id": "bfcbcd39-d361-4c2d-a372-3dbb29723dee"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "bf3ba73da6587db3917c54ca95b2e74e"
+}

@@ -49,7 +49,6 @@ export function instrumentServiceBusMessage(
  * Extracts the `SpanContext` from an `ServiceBusMessage` if the context exists.
  * @param message An individual `ServiceBusMessage` object.
  * @internal
- * @hidden
  */
 export function extractSpanContextFromServiceBusMessage(
   message: ServiceBusMessage
@@ -68,7 +67,6 @@ export function extractSpanContextFromServiceBusMessage(
  *
  * @param receivedMessages A single message or a set of messages
  * @internal
- * @hidden
  */
 function* getReceivedMessages(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[]
@@ -92,7 +90,6 @@ function* getReceivedMessages(
  * give the message to the user.
  *
  * @internal
- * @hidden
  */
 export function createProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],
@@ -141,7 +138,6 @@ export function createProcessingSpan(
  * know the scope.
  *
  * @internal
- * @hidden
  */
 export function createAndEndProcessingSpan(
   receivedMessages: ServiceBusReceivedMessage | ServiceBusReceivedMessage[],

@@ -130,7 +130,6 @@ export interface ServiceBusSender {
 
 /**
  * @internal
- * @hidden
  * @class ServiceBusSenderImpl
  * @implements {ServiceBusSender}
  */
@@ -342,7 +341,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
 /**
  * @internal
- * @hidden
  */
 export function isServiceBusMessageBatch(
   messageBatchOrAnything: any

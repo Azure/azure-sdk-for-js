@@ -8,49 +8,42 @@ import { AmqpError } from "rhea-promise";
  * The @azure/logger configuration for this package.
  * This will output logs using the `azure:service-bus` namespace prefix.
  * @internal
- * @hidden
  */
 export const logger = createServiceBusLogger("service-bus");
 
 /**
  * Logging for ServiceBusReceivers of any type (session, non-session)
  * @internal
- * @hidden
  */
 export const receiverLogger = createServiceBusLogger("service-bus:receiver");
 
 /**
  * Logging for ServiceBusSenders
  * @internal
- * @hidden
  */
 export const senderLogger = createServiceBusLogger("service-bus:sender");
 
 /**
  * Logging for connection management
  * @internal
- * @hidden
  */
 export const connectionLogger = createServiceBusLogger("service-bus:connection");
 
 /**
  * Logging for the ServiceBusAdministrationClient
  * @internal
- * @hidden
  */
 export const administrationLogger = createServiceBusLogger("service-bus:administration");
 
 /**
  * Logging related to message encoding/decoding.
  * @internal
- * @hidden
  */
 export const messageLogger = createServiceBusLogger("service-bus:messages");
 
 /**
  * Logging related to message encoding/decoding.
  * @internal
- * @hidden
  */
 export const managementClientLogger = createServiceBusLogger("service-bus:management");
 
@@ -58,7 +51,6 @@ export const managementClientLogger = createServiceBusLogger("service-bus:manage
  * Logs the error's stack trace to "verbose" if a stack trace is available.
  * @param error Error containing a stack trace.
  * @internal
- * @hidden
  */
 export function logErrorStackTrace(_logger: AzureLogger, error: any) {
   if (error && error.stack) {
@@ -68,7 +60,6 @@ export function logErrorStackTrace(_logger: AzureLogger, error: any) {
 
 /**
  * @internal
- * @hidden
  */
 export interface ServiceBusLogger extends AzureLogger {
   /**
@@ -88,7 +79,6 @@ export interface ServiceBusLogger extends AzureLogger {
 /**
  * Creates an AzureLogger with any additional methods for standardized logging (for example, with errors)
  * @internal
- * @hidden
  */
 export function createServiceBusLogger(namespace: string) {
   const _logger = createClientLogger(namespace) as ServiceBusLogger;
@@ -121,7 +111,6 @@ export function createServiceBusLogger(namespace: string) {
 
 /**
  * @internal
- * @hidden
  */
 function isError(err: Error | AmqpError | undefined): err is Error {
   return err != null && (err as any).name != null;

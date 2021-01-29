@@ -40,7 +40,6 @@ import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
- * @hidden
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */

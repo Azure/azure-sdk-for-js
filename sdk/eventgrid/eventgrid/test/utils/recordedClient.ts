@@ -5,7 +5,7 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
+import { isNode } from "./testUtils";
 
 import { EventGridPublisherClient } from "../../src/index";
 import { KeyCredential } from "@azure/core-auth";
