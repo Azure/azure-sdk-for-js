@@ -14,8 +14,7 @@ const logger = credentialLogger("MSAL Browser v1 - Implicit Grant Flow");
 
 /**
  * Uses MSAL directly for browser authentication,
- * which uses the Implicit Grant Flow:
- * <https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow>
+ * which uses the [Implicit Grant Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
  */
 export class MSALImplicit implements IMSALBrowserFlow {
   private config: msal.Configuration;
@@ -74,7 +73,7 @@ export class MSALImplicit implements IMSALBrowserFlow {
    * If no result was received, tries to load the account from the cache.
    * @param result - Result object received from MSAL.
    */
-  private handleResult(result: msal.AuthResponse | null): AuthenticationRecord | undefined {
+  private handleResult(result?: msal.AuthResponse): AuthenticationRecord | undefined {
     if (result?.account) {
       logger.info(`Authentication successful.`);
       this.account = this.handleAccount(result?.account);

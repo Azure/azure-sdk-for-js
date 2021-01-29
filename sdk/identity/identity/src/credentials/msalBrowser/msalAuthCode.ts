@@ -17,8 +17,7 @@ const redirectHash = window.location.hash;
 
 /**
  * Uses MSAL Browser 2.X for browser authentication,
- * which uses the Auth Code Flow:
- * <https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow>
+ * which uses the [Auth Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
  */
 export class MSALAuthCode implements IMSALBrowserFlow {
   private config: msalBrowser.Configuration;
@@ -85,7 +84,7 @@ export class MSALAuthCode implements IMSALBrowserFlow {
    * @param result - Result object received from MSAL.
    */
   private async handleResult(
-    result: msalBrowser.AuthenticationResult | null
+    result?: msalBrowser.AuthenticationResult
   ): Promise<AuthenticationRecord | undefined> {
     try {
       if (result && result.account) {
@@ -142,7 +141,7 @@ export class MSALAuthCode implements IMSALBrowserFlow {
    * Uses MSAL to handle the redirect.
    */
   public async handleRedirect(): Promise<AuthenticationRecord | undefined> {
-    return this.handleResult(await this.app.handleRedirectPromise(redirectHash));
+    return this.handleResult((await this.app.handleRedirectPromise(redirectHash)) || undefined);
   }
 
   /**
