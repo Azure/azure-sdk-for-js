@@ -1,4 +1,8 @@
-import { ServiceBusClient, ServiceBusReceiver, ServiceBusReceiverOptions } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusReceiver,
+  ServiceBusReceiverOptions
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";

@@ -27,10 +27,11 @@ const writeFile = util.promisify(fs.writeFile);
 import * as dotenv from "dotenv";
 dotenv.config();
 
-appInsights.setup()
+appInsights
+  .setup()
   .setUseDiskRetryCaching(true)
   .start();
-    
+
 export const defaultClient = appInsights.defaultClient;
 
 export class SBStressTestsBase {
@@ -104,9 +105,9 @@ export class SBStressTestsBase {
       properties: {
         ...testOptions,
         ...options,
-        queueName: this.queueName        
+        queueName: this.queueName
       }
-    })
+    });
 
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
   }
@@ -365,8 +366,8 @@ export class SBStressTestsBase {
   public async snapshot(): Promise<void> {
     // TODO: get the options being set in the logs
     // TODO: Get a title passed from the scenario file
-    const eventProperties: Record<string,string | number> = {};
-    const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;    
+    const eventProperties: Record<string, string | number> = {};
+    const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
 
     eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
     eventProperties["messsages.sent"] = this.messagesSent.length;
@@ -381,7 +382,7 @@ export class SBStressTestsBase {
       eventProperties["receive.pass"] = this.receiveInfo.numberOfSuccesses;
       eventProperties["receive.fail"] = this.receiveInfo.numberOfFailures;
     }
-    
+
     if (this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")) {
       eventProperties["lockRenewal.pass"] = this.messageLockRenewalInfo.numberOfSuccesses;
       eventProperties["lockRenewal.fail"] = this.messageLockRenewalInfo.numberOfFailures;
@@ -393,7 +394,7 @@ export class SBStressTestsBase {
     }
 
     if (this.snapshotOptions.snapshotFocus.includes("close-info")) {
-      eventProperties["close.sender.pass"] = - this.closeInfo.sender.numberOfSuccesses;
+      eventProperties["close.sender.pass"] = -this.closeInfo.sender.numberOfSuccesses;
       eventProperties["close.sender.fail"] = this.closeInfo.sender.numberOfFailures;
       eventProperties["close.receiver.pass"] = this.closeInfo.receiver.numberOfSuccesses;
       eventProperties["close.receiver.fail"] = this.closeInfo.receiver.numberOfFailures;
@@ -423,7 +424,7 @@ export class SBStressTestsBase {
       name: "summary",
       properties: eventProperties
     });
-    
+
     defaultClient.flush();
 
     console.log(JSON.stringify(eventProperties, undefined, 2));
@@ -431,11 +432,9 @@ export class SBStressTestsBase {
 
   public async end() {
     await this.snapshot();
-      
+
     if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
-      const output = await saveDiscrepanciesFromTrackedMessages(
-        this.trackedMessageIds
-      );
+      const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
 
       defaultClient.trackEvent({
         name: "discrepencies",
@@ -443,12 +442,16 @@ export class SBStressTestsBase {
           messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
           messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
           messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
-          messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(","),
-          messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(","),
+          messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(
+            ","
+          ),
+          messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(
+            ","
+          )
         }
-      })
+      });
     }
-    
+
     // TODO: Log tracked messages in JSON
     // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
     // TODO: Add an argument to "end()" to not delete the resource

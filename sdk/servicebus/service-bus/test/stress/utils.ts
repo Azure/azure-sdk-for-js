@@ -24,7 +24,8 @@ export interface LockRenewalOperationInfo extends OperationInfo {
 export interface SnapshotOptions {
   /**
    * The name of this test. Used when reporting telemetry in customDimensions['testName'].
-   */testName: string; 
+   */
+  testName: string;
   snapshotFocus?: (
     | "send-info"
     | "receive-info"
@@ -65,7 +66,7 @@ export function generateMessage(useSessions: boolean, numberOfSessions: number) 
 }
 
 export async function saveDiscrepanciesFromTrackedMessages(
-  trackedMessageIds: TrackedMessageIdsInfo,
+  trackedMessageIds: TrackedMessageIdsInfo
 ) {
   const output = {
     messages_sent_but_never_received: [],
