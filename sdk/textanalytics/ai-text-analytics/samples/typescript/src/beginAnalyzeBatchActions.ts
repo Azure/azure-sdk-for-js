@@ -5,10 +5,10 @@
  * extracts key phrases, entities, and pii entities from a piece of text
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -23,21 +23,31 @@ const documents = [
   "We went to Contoso Steakhouse located at midtown NYC last week for a dinner party, and we adore the spot! They provide marvelous food and they have a great menu. The chief cook happens to be the owner (I think his name is John Doe) and he is super nice, coming out of the kitchen and greeted us all. We enjoyed very much dining in the place! The Sirloin steak I ordered was tender and juicy, and the place was impeccably clean. You can even pre-order from their online menu at www.contososteakhouse.com, call 312-555-0176 or send email to order@contososteakhouse.com! The only complaint I have is the food didn't come fast enough. Overall I highly recommend it!"
 ];
 
-async function main() {
+export async function main() {
   console.log("== Analyze Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const tasks = {
-    entityRecognitionTasks: [{ modelVersion: "latest" }],
-    entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-    keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+  const actions = {
+    recognizeEntitiesActions: [{ modelVersion: "latest" }],
+    recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+    extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyze(documents, tasks);
+  const poller = await client.beginAnalyzeBatchActions(documents, actions);
   const resultPages = await poller.pollUntilDone();
+  console.log(
+    `The analyze batch actions operation created on ${
+      poller.getOperationState().createdOn
+    } finished process`
+  );
+  console.log(
+    `The analyze batch actions operation results will expire on ${
+      poller.getOperationState().expiresOn
+    }`
+  );
 
   for await (const page of resultPages) {
-    const keyPhrasesResults = page.keyPhrasesExtractionResults[0];
+    const keyPhrasesResults = page.extractKeyPhrasesResults![0];
     for (const doc of keyPhrasesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
@@ -50,7 +60,7 @@ async function main() {
       }
     }
 
-    const entitiesResults = page.entitiesRecognitionResults[0];
+    const entitiesResults = page.recognizeEntitiesResults![0];
     for (const doc of entitiesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
@@ -59,11 +69,11 @@ async function main() {
           console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
         }
       } else {
-        console.error("\tError:", doc.error);
+        console.error("  Error:", doc.error);
       }
     }
 
-    const piiEntitiesResults = page.piiEntitiesRecognitionResults[0];
+    const piiEntitiesResults = page.recognizePiiEntitiesResults![0];
     for (const doc of piiEntitiesResults) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {

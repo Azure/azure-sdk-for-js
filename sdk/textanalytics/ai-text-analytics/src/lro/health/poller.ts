@@ -3,13 +3,13 @@
 
 import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
-import { PagedHealthcareEntities } from "../../healthResult";
+import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
 import { StringIndexType } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
   BeginAnalyzeHealthcarePollerOperation,
-  BeginAnalyzeHealthcareOperationState
+  AnalyzeHealthcareOperationState
 } from "./operation";
 
 export interface HealthcarePollerOptions extends AnalysisPollerOptions {
@@ -21,17 +21,17 @@ export interface HealthcarePollerOptions extends AnalysisPollerOptions {
 /**
  * Result type of the Health Long-Running-Operation (LRO)
  */
-export type HealthcarePollerLike = PollerLike<
-  BeginAnalyzeHealthcareOperationState,
-  PagedHealthcareEntities
+export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
+  AnalyzeHealthcareOperationState,
+  PagedAnalyzeHealthcareEntitiesResult
 >;
 
 /**
  * Class that represents a poller that waits for the healthcare results.
  */
 export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
-  BeginAnalyzeHealthcareOperationState,
-  PagedHealthcareEntities
+  AnalyzeHealthcareOperationState,
+  PagedAnalyzeHealthcareEntitiesResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(pollerOptions: HealthcarePollerOptions) {
@@ -46,7 +46,7 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       stringIndexType
     } = pollerOptions;
 
-    let state: BeginAnalyzeHealthcareOperationState | undefined;
+    let state: AnalyzeHealthcareOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;

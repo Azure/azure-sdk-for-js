@@ -14,26 +14,52 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, JobMetadata {
+export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, OperationMetadata {
 }
 
 // @public
-export interface AnalyzeBatchTasksResult {
-    entitiesRecognitionResults: RecognizeCategorizedEntitiesResultArray[];
-    keyPhrasesExtractionResults: ExtractKeyPhrasesResultArray[];
-    piiEntitiesRecognitionResults: RecognizePiiEntitiesResultArray[];
-}
-
-// @public
-export interface AnalyzeJobMetadata extends JobMetadata {
+export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata {
+    actionsFailedCount?: number;
+    actionsInProgressCount?: number;
+    actionsSucceededCount?: number;
     displayName?: string;
-    failedTasksCount?: number;
-    inProgressTasksCount?: number;
-    successfullyCompletedTasksCount?: number;
 }
 
 // @public
-export type AnalyzePollerLike = PollerLike<BeginAnalyzeOperationState, PagedAnalyzeResults>;
+export interface AnalyzeBatchActionsOperationState extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>, AnalyzeBatchActionsOperationMetadata {
+}
+
+// @public
+export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperationState, PagedAnalyzeBatchActionsResult>;
+
+// @public
+export interface AnalyzeBatchActionsResult {
+    extractKeyPhrasesResults: ExtractKeyPhrasesResultArray[];
+    recognizeEntitiesResults: RecognizeCategorizedEntitiesResultArray[];
+    recognizePiiEntitiesResults: RecognizePiiEntitiesResultArray[];
+}
+
+// @public
+export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<AnalyzeHealthcareOperationState, PagedAnalyzeHealthcareEntitiesResult>;
+
+// @public
+export type AnalyzeHealthcareEntitiesResult = AnalyzeHealthcareEntitiesSuccessResult | AnalyzeHealthcareEntitiesErrorResult;
+
+// @public
+export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealthcareEntitiesResult> {
+}
+
+// @public
+export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    entities: HealthcareEntity[];
+}
+
+// @public
+export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {
+}
 
 // @public
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
@@ -80,7 +106,7 @@ export interface AspectSentiment {
 export { AzureKeyCredential }
 
 // @public
-export interface BeginAnalyzeBatchTasksOptions extends OperationOptions {
+export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
     displayName?: string;
     includeStatistics?: boolean;
     resumeFrom?: string;
@@ -93,20 +119,6 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
     stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface BeginAnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedHealthcareEntities> {
-}
-
-// @public
-export interface BeginAnalyzeOperationState extends AnalysisPollOperationState<PagedAnalyzeResults>, AnalyzeJobMetadata {
-}
-
-// @public
-export type CategorizedEntitiesRecognitionTask = {
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
-};
 
 // @public
 export interface CategorizedEntity extends Entity {
@@ -162,10 +174,21 @@ export interface Entity {
 }
 
 // @public
+export interface EntityDataSource {
+    entityId: string;
+    name: string;
+}
+
+// @public
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
 export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "NotFound";
+
+// @public
+export interface ExtractKeyPhrasesAction {
+    modelVersion?: string;
+}
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -188,62 +211,17 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export interface HealthcareEntitiesArray extends Array<HealthcareResult> {
-}
-
-// @public
 export interface HealthcareEntity extends Entity {
-    dataSources: HealthcareEntityDataSource[];
+    dataSources: EntityDataSource[];
     isNegated: boolean;
     relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
-}
-
-// @public
-export interface HealthcareEntityDataSource {
-    id: string;
-    name: string;
 }
 
 // @public
 export type HealthcareEntityRelationType = "DirectionOfBodyStructure" | "DirectionOfExamination" | "RelationOfExamination" | "TimeOfExamination" | "UnitOfExamination" | "ValueOfExamination" | "DirectionOfCondition" | "QualifierOfCondition" | "TimeOfCondition" | "UnitOfCondition" | "ValueOfCondition" | "DosageOfMedication" | "FormOfMedication" | "FrequencyOfMedication" | "RouteOfMedication" | "TimeOfMedication" | "DirectionOfTreatment" | "TimeOfTreatment" | "FrequencyOfTreatment";
 
 // @public
-export type HealthcareErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type HealthcarePollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PagedHealthcareEntities>;
-
-// @public
-export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
-
-// @public
-export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
-    entities: HealthcareEntity[];
-}
-
-// @public
 export type InnerErrorCodeValue = string;
-
-// @public
-export interface JobManifestTasks {
-    entityRecognitionPiiTasks?: PiiEntitiesRecognitionTask[];
-    entityRecognitionTasks?: CategorizedEntitiesRecognitionTask[];
-    keyPhraseExtractionTasks?: KeyPhrasesExtractionTask[];
-}
-
-// @public
-export interface JobMetadata {
-    createdOn?: Date;
-    expiresOn?: Date;
-    jobId?: string;
-    status?: State;
-    updatedOn?: Date;
-}
-
-// @public
-export interface KeyPhrasesExtractionTask {
-    modelVersion?: string;
-}
 
 // @public
 export const enum KnownInnerErrorCodeValue {
@@ -301,32 +279,34 @@ export interface MinedOpinion {
 }
 
 // @public
+export interface OperationMetadata {
+    createdOn?: Date;
+    expiresOn?: Date;
+    lastModifiedOn?: Date;
+    operationId?: string;
+    status?: TextAnalyticsOperationStatus;
+}
+
+// @public
 export interface OpinionSentiment extends SentenceOpinion {
 }
 
 // @public
-export interface PagedAnalyzeResults extends PagedAsyncIterableAnalyzeResults {
+export interface PagedAnalyzeBatchActionsResult extends PagedAsyncIterableAnalyzeBatchActionsResult {
     statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export type PagedAsyncIterableAnalyzeResults = PagedAsyncIterableIterator<AnalyzeBatchTasksResult, AnalyzeBatchTasksResult>;
-
-// @public
-export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<HealthcareResult, HealthcareEntitiesArray>;
-
-// @public
-export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
+export interface PagedAnalyzeHealthcareEntitiesResult extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
     modelVersion: string;
     statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export type PiiEntitiesRecognitionTask = {
-    domain?: PiiEntityDomainType;
-    modelVersion?: string;
-    stringIndexType?: StringIndexType;
-};
+export type PagedAsyncIterableAnalyzeBatchActionsResult = PagedAsyncIterableIterator<AnalyzeBatchActionsResult, AnalyzeBatchActionsResult>;
+
+// @public
+export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<AnalyzeHealthcareEntitiesResult, AnalyzeHealthcareEntitiesResultArray>;
 
 // @public
 export interface PiiEntity extends Entity {
@@ -338,7 +318,10 @@ export enum PiiEntityDomainType {
 }
 
 // @public
-export type PiiTaskParametersDomain = string;
+export type RecognizeCategorizedEntitiesAction = {
+    modelVersion?: string;
+    stringIndexType?: StringIndexType;
+};
 
 // @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
@@ -383,6 +366,13 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: LinkedEntity[];
 }
+
+// @public
+export type RecognizePiiEntitiesAction = {
+    domain?: PiiEntityDomainType;
+    modelVersion?: string;
+    stringIndexType?: StringIndexType;
+};
 
 // @public
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
@@ -442,20 +432,24 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
+export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
-export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
+export interface TextAnalyticsActions {
+    extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
+    recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
+    recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
+}
 
 // @public
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyzeBatchTasks(documents: string[], tasks: JobManifestTasks, language?: string, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
-    beginAnalyzeBatchTasks(documents: TextDocumentInput[], tasks: JobManifestTasks, options?: BeginAnalyzeBatchTasksOptions): Promise<AnalyzePollerLike>;
-    beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<HealthcarePollerLike>;
-    beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<HealthcarePollerLike>;
+    beginAnalyzeBatchActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
+    beginAnalyzeBatchActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: BeginAnalyzeBatchActionsOptions): Promise<AnalyzeBatchActionsPollerLike>;
+    beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
+    beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
@@ -495,6 +489,9 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
     includeStatistics?: boolean;
     modelVersion?: string;
 }
+
+// @public
+export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
 
 // @public
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;

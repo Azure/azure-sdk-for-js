@@ -78,7 +78,7 @@ function isHealthcareEntityRelationType(
  * A type representing a reference for the healthcare entity into a specific
  * entity catalog.
  */
-export interface HealthcareEntityDataSource {
+export interface EntityDataSource {
   /**
    * Entity Catalog. Examples include: UMLS, CHV, MSH, etc.
    */
@@ -86,7 +86,7 @@ export interface HealthcareEntityDataSource {
   /**
    * Entity id in the given source catalog.
    */
-  id: string;
+  entityId: string;
 }
 
 /**
@@ -101,7 +101,7 @@ export interface HealthcareEntity extends Entity {
   /**
    * Entity references in known data sources.
    */
-  dataSources: HealthcareEntityDataSource[];
+  dataSources: EntityDataSource[];
   /**
    * Other healthcare entities related to the current one. It is a directed
    * relationship where the current entity is the source and the entities in
@@ -111,9 +111,9 @@ export interface HealthcareEntity extends Entity {
 }
 
 /**
- * The results of a successful healthcare job for a single document.
+ * The results of a successful healthcare operation for a single document.
  */
-export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
+export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
   /**
    * Healthcare entities.
    */
@@ -123,34 +123,38 @@ export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
 /**
  * An error result from the healthcare operation on a single document.
  */
-export type HealthcareErrorResult = TextAnalyticsErrorResult;
+export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
 
 /**
  * The result of the healthcare operation on a single document.
  */
-export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+export type AnalyzeHealthcareEntitiesResult =
+  | AnalyzeHealthcareEntitiesSuccessResult
+  | AnalyzeHealthcareEntitiesErrorResult;
 
 /**
- * Array of {@link HealthcareResult}
+ * Array of {@link AnalyzeHealthcareEntitiesResult}
  */
-export interface HealthcareEntitiesArray extends Array<HealthcareResult> {}
+export interface AnalyzeHealthcareEntitiesResultArray
+  extends Array<AnalyzeHealthcareEntitiesResult> {}
 
 /**
- * The results of a healthcare job represented as a paged iterator that can
+ * The results of a healthcare operation represented as a paged iterator that can
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export type PagedAsyncIterableHealthcareEntities = PagedAsyncIterableIterator<
-  HealthcareResult,
-  HealthcareEntitiesArray
+export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<
+  AnalyzeHealthcareEntitiesResult,
+  AnalyzeHealthcareEntitiesResultArray
 >;
 
 /**
- * The results of a healthcare job represented as a paged iterator that can
+ * The results of a healthcare operation represented as a paged iterator that can
  * either iterate over the results on a document-by-document basis or, by
  * byPage(), can iterate over pages of documents.
  */
-export interface PagedHealthcareEntities extends PagedAsyncIterableHealthcareEntities {
+export interface PagedAnalyzeHealthcareEntitiesResult
+  extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -183,7 +187,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
     text,
     subCategory,
     dataSources:
-      links?.map(({ dataSource, id }): HealthcareEntityDataSource => ({ name: dataSource, id })) ??
+      links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
       [],
     // initialize the neighbors map to be filled later.
     relatedEntities: new Map()
@@ -228,7 +232,7 @@ function makeHealthcareEntitiesGraph(
  */
 export function makeHealthcareEntitiesResult(
   document: DocumentHealthcareEntities
-): HealthcareSuccessResult {
+): AnalyzeHealthcareEntitiesSuccessResult {
   const { id, entities, relations, warnings, statistics } = document;
   const newEntities = entities.map(makeHealthcareEntitiesWithoutNeighbors);
   makeHealthcareEntitiesGraph(newEntities, relations);

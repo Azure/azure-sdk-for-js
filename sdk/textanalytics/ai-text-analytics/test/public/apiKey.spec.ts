@@ -585,7 +585,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         assert.ok(poller.getOperationState().isCancelled);
       });
 
-      it("job metadata", async function() {
+      it("operation metadata", async function() {
         const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
@@ -598,7 +598,7 @@ describe("[API Key] TextAnalyticsClient", function() {
         poller.onProgress(() => {
           assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
           assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
-          assert.ok(poller.getOperationState().updatedOn, "updatedOn is undefined!");
+          assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
           assert.ok(poller.getOperationState().status, "status is undefined!");
         });
         const result = await poller.pollUntilDone();

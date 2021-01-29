@@ -25,7 +25,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
 | [beginAnalyzeHealthcareEntities.js][beginanalyzehealthcareentities]       | detects healthcare entities of a piece of text                                                     |
-| [beginAnalyze.js][beginanalyze]                                           | applies multiple tasks at once                                                                     |
+| [beginAnalyzeBatchActions.js][beginanalyzebatchactions]                   | applies multiple Text Analytics actions per document                                               |
 
 ## Prerequisites
 
@@ -72,7 +72,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [recognizepii]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeEntities.js
-[beginanalyze]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyze.js
+[beginanalyzebatchactions]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyzeBatchActions.js
 [beginanalyzehealthcare]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/beginAnalyzeHealthcare.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

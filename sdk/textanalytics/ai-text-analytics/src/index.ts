@@ -17,19 +17,19 @@ export {
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   PiiEntityDomainType,
-  JobManifestTasks,
-  CategorizedEntitiesRecognitionTask,
-  PiiEntitiesRecognitionTask,
-  KeyPhrasesExtractionTask,
-  BeginAnalyzeBatchTasksOptions,
-  AnalyzePollerLike,
+  TextAnalyticsActions,
+  RecognizeCategorizedEntitiesAction,
+  RecognizePiiEntitiesAction,
+  ExtractKeyPhrasesAction,
+  BeginAnalyzeBatchActionsOptions,
+  AnalyzeBatchActionsPollerLike,
   BeginAnalyzeHealthcareEntitiesOptions,
-  HealthcarePollerLike,
-  BeginAnalyzeOperationState,
-  BeginAnalyzeHealthcareOperationState,
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeBatchActionsOperationState,
+  AnalyzeHealthcareOperationState,
   AnalysisPollOperationState,
-  JobMetadata,
-  AnalyzeJobMetadata,
+  OperationMetadata,
+  AnalyzeBatchActionsOperationMetadata,
   StringIndexType
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
@@ -76,21 +76,21 @@ export {
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
-  PagedHealthcareEntities,
-  PagedAsyncIterableHealthcareEntities,
-  HealthcareEntitiesArray,
-  HealthcareResult,
-  HealthcareSuccessResult,
-  HealthcareErrorResult,
+  PagedAnalyzeHealthcareEntitiesResult,
+  PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
+  AnalyzeHealthcareEntitiesResultArray,
+  AnalyzeHealthcareEntitiesResult,
+  AnalyzeHealthcareEntitiesSuccessResult,
+  AnalyzeHealthcareEntitiesErrorResult,
   HealthcareEntity,
-  HealthcareEntityDataSource,
+  EntityDataSource,
   HealthcareEntityRelationType
-} from "./healthResult";
+} from "./analyzeHealthcareEntitiesResult";
 export {
-  PagedAnalyzeResults,
-  PagedAsyncIterableAnalyzeResults,
-  AnalyzeBatchTasksResult
-} from "./analyzeBatchTasksResult";
+  PagedAnalyzeBatchActionsResult,
+  PagedAsyncIterableAnalyzeBatchActionsResult,
+  AnalyzeBatchActionsResult
+} from "./analyzeBatchActionsResult";
 export {
   TextAnalyticsResult,
   ErrorCode,
@@ -121,6 +121,5 @@ export {
   AspectConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  PiiTaskParametersDomain,
-  State
+  State as TextAnalyticsOperationStatus
 } from "./generated/models";
