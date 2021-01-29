@@ -6,13 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import {
+  TokenCredential,
+  getDefaultUserAgentValue,
+  ServiceClient
+} from "@azure/core-http";
 import { QuantumJobClientOptionalParams } from "./models";
 
 const packageName = "@azure/quantum-jobs";
 const packageVersion = "1.0.0-beta.1";
 
-export class QuantumJobClientContext extends coreHttp.ServiceClient {
+export class QuantumJobClientContext extends ServiceClient {
   $host: string;
   subscriptionId: string;
   resourceGroupName: string;
@@ -30,6 +34,8 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
+    location: string,
+    credential: TokenCredential,
     options?: QuantumJobClientOptionalParams
   ) {
     if (subscriptionId === undefined) {
@@ -41,6 +47,12 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
     if (workspaceName === undefined) {
       throw new Error("'workspaceName' cannot be null");
     }
+    if (location === undefined) {
+      throw new Error("'location' cannot be null");
+    }
+    if (credential === undefined) {
+      throw new Error("'credential' cannot be null");
+    }
 
     // Initializing default values for options
     if (!options) {
@@ -48,15 +60,18 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
     }
 
     if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
+      const defaultUserAgent = getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
+    if (!options.credentialScopes) {
+      options.credentialScopes = "https://quantum.microsoft.com";
+    }
 
-    super(undefined, options);
+    super(credential, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || "https://quantum.azure.com";
+    this.baseUri = options.endpoint || `https://${location}.quantum.azure.com`;
 
     // Parameter assignments
     this.subscriptionId = subscriptionId;

@@ -9,7 +9,8 @@
 import { Jobs, Providers, Storage, Quotas } from "./operations";
 import { QuantumJobClientContext } from "./quantumJobClientContext";
 import { QuantumJobClientOptionalParams } from "./models";
-
+import { TokenCredential } from "@azure/core-http";
+ 
 export class QuantumJobClient extends QuantumJobClientContext {
   /**
    * Initializes a new instance of the QuantumJobClient class.
@@ -23,9 +24,11 @@ export class QuantumJobClient extends QuantumJobClientContext {
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
+    location: string,
+    credential: TokenCredential,
     options?: QuantumJobClientOptionalParams
   ) {
-    super(subscriptionId, resourceGroupName, workspaceName, options);
+    super(subscriptionId, resourceGroupName, workspaceName, location, credential, options);
     this.jobs = new Jobs(this);
     this.providers = new Providers(this);
     this.storage = new Storage(this);
