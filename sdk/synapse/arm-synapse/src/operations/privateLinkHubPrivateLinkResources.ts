@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/privateLinkResourcesMappers";
+import * as Mappers from "../models/privateLinkHubPrivateLinkResourcesMappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClientContext } from "../synapseManagementClientContext";
 
-/** Class representing a PrivateLinkResources. */
-export class PrivateLinkResources {
+/** Class representing a PrivateLinkHubPrivateLinkResources. */
+export class PrivateLinkHubPrivateLinkResources {
   private readonly client: SynapseManagementClientContext;
 
   /**
-   * Create a PrivateLinkResources.
+   * Create a PrivateLinkHubPrivateLinkResources.
    * @param {SynapseManagementClientContext} client Reference to the service client.
    */
   constructor(client: SynapseManagementClientContext) {
@@ -26,83 +26,83 @@ export class PrivateLinkResources {
   }
 
   /**
-   * Get all private link resources for a workspaces
+   * Get all private link resources for a private link hub
    * @summary Private Link Resources
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param privateLinkHubName The name of the private link hub
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateLinkResourcesListResponse>
+   * @returns Promise<Models.PrivateLinkHubPrivateLinkResourcesListResponse>
    */
-  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListResponse>;
+  list(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubPrivateLinkResourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param privateLinkHubName The name of the private link hub
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  list(resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param privateLinkHubName The name of the private link hub
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, workspaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListResponse> {
+  list(resourceGroupName: string, privateLinkHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  list(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkHubPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        workspaceName,
+        privateLinkHubName,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListResponse>;
+      callback) as Promise<Models.PrivateLinkHubPrivateLinkResourcesListResponse>;
   }
 
   /**
-   * Get private link resource in workspace
-   * @summary Get Private Link Resource
+   * Get private link resource in private link hub
+   * @summary Get Private Link Hub Private Link Resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param privateLinkHubName The name of the private link hub
    * @param privateLinkResourceName The name of the private link resource
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateLinkResourcesGetResponse>
+   * @returns Promise<Models.PrivateLinkHubPrivateLinkResourcesGetResponse>
    */
-  get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(resourceGroupName: string, privateLinkHubName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubPrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param privateLinkHubName The name of the private link hub
    * @param privateLinkResourceName The name of the private link resource
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(resourceGroupName: string, privateLinkHubName: string, privateLinkResourceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param privateLinkHubName The name of the private link hub
    * @param privateLinkResourceName The name of the private link resource
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
-  get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(resourceGroupName: string, privateLinkHubName: string, privateLinkResourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(resourceGroupName: string, privateLinkHubName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkHubPrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        workspaceName,
+        privateLinkHubName,
         privateLinkResourceName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback) as Promise<Models.PrivateLinkHubPrivateLinkResourcesGetResponse>;
   }
 
   /**
-   * Get all private link resources for a workspaces
+   * Get all private link resources for a private link hub
    * @summary Private Link Resources
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PrivateLinkResourcesListNextResponse>
+   * @returns Promise<Models.PrivateLinkHubPrivateLinkResourcesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubPrivateLinkResourcesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -114,14 +114,14 @@ export class PrivateLinkResources {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkHubPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListNextResponse>;
+      callback) as Promise<Models.PrivateLinkHubPrivateLinkResourcesListNextResponse>;
   }
 }
 
@@ -129,11 +129,11 @@ export class PrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/privateLinkResources",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateLinkResources",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.privateLinkHubName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -154,11 +154,11 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/privateLinkResources/{privateLinkResourceName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}/privateLinkResources/{privateLinkResourceName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
+    Parameters.privateLinkHubName,
     Parameters.privateLinkResourceName
   ],
   queryParameters: [

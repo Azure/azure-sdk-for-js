@@ -119,7 +119,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RestorableDroppedSqlPool
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -144,7 +144,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RestorableDroppedSqlPoolListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
