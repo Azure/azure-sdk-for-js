@@ -48,15 +48,14 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param subscriptionKey - The new subscription key value to be used
    */
-  public updateSubscriptionKey(subscriptionKey: string){
+  public updateSubscriptionKey(subscriptionKey: string) {
     if (!this.subscriptionKey) {
       throw new RangeError("subscriptionKey must be a non-empty error");
     }
     this.subscriptionKey = subscriptionKey;
   }
 
-
-   /**
+  /**
    * Change the value of the api key.
    *
    * Updates will take effect upon the next request after
@@ -64,7 +63,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param apiKey - The new api key value to be used
    */
-  public updateApiKey(apiKey: string){
+  public updateApiKey(apiKey: string) {
     if (!this.apiKey) {
       throw new RangeError("apiKey must be a non-empty error");
     }
