@@ -1,239 +1,121 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, Recorder } from "@azure/test-utils-recorder";
-import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
 import sinon from "sinon";
-import { isNode } from "@azure/core-http";
+import { assert } from "chai";
+import { ChatClient, CreateChatThreadRequest } from "../src";
+import * as RestModel from "../src/generated/src/models";
+import { apiVersion } from "../src/generated/src/models/parameters";
+import { baseUri, generateToken } from "./utils/connectionUtils";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+import {
+  mockThread,
+  generateHttpClient,
+  createChatClient,
+  mockThreadInfo,
+  mockCreateThreadResult
+} from "./utils/mockClient";
 
-describe("ChatClient", function() {
-  let threadId: string;
-  let recorder: Recorder;
+const API_VERSION = apiVersion.mapper.defaultValue;
+
+describe("[Mocked] ChatClient", async () => {
   let chatClient: ChatClient;
-  let chatThreadClient: ChatThreadClient;
 
-  let testUser: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
-
-  this.afterAll(async function() {
-    // await deleteTestUser(testUser);
-    // await deleteTestUser(testUser2);
-    // await deleteTestUser(testUser3);
+  afterEach(() => {
+    sinon.restore();
   });
 
-  describe("Chat Operations", function() {
-    beforeEach(function() {
-      recorder = createRecorder(this);
-    });
-
-    afterEach(async function() {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
-      }
-    });
-
-    it("successfully creates a thread", async function() {
-      const communicationUserToken = await createTestUser();
-
-      testUser = communicationUserToken.user;
-      chatClient = createChatClient(communicationUserToken.token);
-
-      testUser2 = (await createTestUser()).user;
-
-      const request = {
-        topic: "test topic",
-        participants: [{ user: testUser }, { user: testUser2 }]
-      };
-
-      const chatThreadResult = await chatClient.createChatThread(request);
-
-      const chatThread = chatThreadResult.chatThread;
-      if (chatThread) {
-        threadId = chatThread.id!;
-      }
-
-      assert.isDefined(chatThread);
-      assert.isDefined(chatThread?.id);
-    }).timeout(8000);
-
-    it("successfully retrieves a thread client", async function() {
-      chatThreadClient = await chatClient.getChatThreadClient(threadId);
-      assert.isNotNull(chatThreadClient);
-      assert.equal(chatThreadClient.threadId, threadId);
-    });
-
-    it("successfully deletes a thread", async function() {
-      await chatClient.deleteChatThread(threadId);
-    });
+  it("can instantiate", async () => {
+    new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
-  describe("Realtime Notifications", function() {
-    before(async function() {
-      // Realtime notifications are browser only
-      if (isNode || !isLiveMode()) {
-        this.skip();
-      }
+  it("makes successful create thread request", async () => {
+    const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
 
-      // Create a thread
-      const request = {
-        topic: "notifcation tests",
-        participants: [{ user: testUser }]
-      };
-      const chatThreadResult = await chatClient.createChatThread(request);
-      threadId = chatThreadResult.chatThread?.id!;
+    chatClient = createChatClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-      // Create ChatThreadClient
-      chatThreadClient = await chatClient.getChatThreadClient(threadId);
-    });
+    const sendRequest: CreateChatThreadRequest = {
+      topic: mockThread.topic!,
+      participants: []
+    };
 
-    after(async function() {
-      if (isNode || !isLiveMode()) {
-        return;
-      }
-      await chatClient.stopRealtimeNotifications();
-      await chatClient.deleteChatThread(threadId);
-    });
+    const sendOptions = {};
 
-    it("successfully unsubscribes to an event", function(done) {
-      let listener = sinon.spy();
+    const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
 
-      chatClient
-        .startRealtimeNotifications()
-        .then(function() {
-          // Subscribe and unsubscribe
-          chatClient.on("chatMessageReceived", listener);
-          chatClient.off("chatMessageReceived", listener);
-          // Send a message
-          const message = { content: `content` };
-          return chatThreadClient.sendMessage(message);
-        })
-        .then(function() {
-          // Allow for the notification to come in
-          setTimeout(() => {
-            sinon.assert.notCalled(listener);
-            done();
-          }, 5000);
-        });
-    });
+    sinon.assert.calledOnce(spy);
+    assert.isDefined(createThreadResult.chatThread);
+    assert.equal(createThreadResult.chatThread?.id, mockThread.id);
 
-    it("successfully listens to chatMessageReceivedEvents", function(done) {
-      let listener = sinon.spy();
+    const request = spy.getCall(0).args[0];
 
-      chatClient
-        .startRealtimeNotifications()
-        .then(function() {
-          chatClient.on("chatMessageReceived", listener);
-          // Send a message
-          const message = { content: `content` };
-          return chatThreadClient.sendMessage(message);
-        })
-        .then(function() {
-          // Allow for the notification to come in
-          setTimeout(() => {
-            sinon.assert.called(listener);
-            chatClient.off("chatMessageReceived", listener);
-            done();
-          }, 5000);
-        });
-    });
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
+    assert.equal(request.method, "POST");
+    assert.deepEqual(JSON.parse(request.body), sendRequest);
+  });
 
-    it("successfully listens to typingIndicatorReceivedEvents", function(done) {
-      let listener = sinon.spy();
+  it("makes successful get thread request", async () => {
+    const mockHttpClient = generateHttpClient(200, mockThread);
+    chatClient = createChatClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-      chatClient
-        .startRealtimeNotifications()
-        .then(function() {
-          chatClient.on("typingIndicatorReceived", listener);
+    const { createdBy: responseUser, _response, ...response } = await chatClient.getChatThread(
+      mockThread.id!
+    );
+    const { createdBy: expectedId, ...expected } = mockThread;
 
-          // Send a typing notification
-          return chatThreadClient.sendTypingNotification();
-        })
-        .then(function() {
-          // Allow for notification to come in
-          setTimeout(() => {
-            sinon.assert.called(listener);
-            chatClient.off("typingIndicatorReceived", listener);
-            done();
-          }, 5000);
-        });
-    });
+    sinon.assert.calledOnce(spy);
 
-    it("successfully listens to chatMessageEditedEvents", function(done) {
-      let listener = sinon.spy();
+    assert.deepEqual(response, expected);
+    assert.equal(responseUser?.communicationUserId, expectedId);
 
-      chatClient
-        .startRealtimeNotifications()
-        .then(function() {
-          chatClient.on("chatMessageEdited", listener);
-          // Send a message
-          const message = { content: `content` };
-          return chatThreadClient.sendMessage(message);
-        })
-        .then(function(sendMessageResult) {
-          // Update the message
-          const updatedMessage = { content: `some new content` };
-          return chatThreadClient.updateMessage(sendMessageResult.id!, updatedMessage);
-        })
-        .then(function() {
-          // Allow for the notification to come in
-          setTimeout(() => {
-            sinon.assert.called(listener);
-            chatClient.off("chatMessageEdited", listener);
-            done();
-          }, 5000);
-        });
-    });
+    const request = spy.getCall(0).args[0];
 
-    it("successfully listens to chatMessageDeletedEvents", function(done) {
-      let listener = sinon.spy();
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "GET");
+  });
 
-      chatClient
-        .startRealtimeNotifications()
-        .then(function() {
-          chatClient.on("chatMessageDeleted", listener);
+  it("makes successful list threads request", async () => {
+    const mockResponse: RestModel.ChatThreadsInfoCollection = {
+      value: [mockThreadInfo, mockThreadInfo]
+    };
 
-          // Send a message
-          const message = { content: `content` };
-          return chatThreadClient.sendMessage(message);
-        })
-        .then(function(sendMessageResult) {
-          // Delete the message
-          return chatThreadClient.deleteMessage(sendMessageResult.id!);
-        })
-        .then(function() {
-          // Allow for the notification to come in
-          setTimeout(() => {
-            sinon.assert.called(listener);
-            chatClient.off("chatMessageDeleted", listener);
-            done();
-          }, 5000);
-        });
-    });
+    const mockHttpClient = generateHttpClient(200, mockResponse);
+    chatClient = createChatClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    it("successfully starts and stops notifications", function(done) {
-      let listener = sinon.spy();
-      chatClient.on("chatMessageReceived", listener);
+    let count = 0;
+    for await (const info of chatClient.listChatThreads()) {
+      ++count;
+      assert.isNotNull(info);
+      assert.deepEqual(info, mockThreadInfo);
+    }
 
-      chatClient
-        .startRealtimeNotifications()
-        .then(function() {
-          return chatClient.stopRealtimeNotifications();
-        })
-        .then(function() {
-          // Send a typing notification
-          return chatThreadClient.sendTypingNotification();
-        })
-        .then(function() {
-          // Allow for the notification to come in
-          setTimeout(() => {
-            sinon.assert.notCalled(listener);
-            chatClient.off("chatMessageReceived", listener);
-            done();
-          }, 5000);
-        });
-    });
+    sinon.assert.calledOnce(spy);
+    assert.equal(count, mockResponse.value?.length);
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
+    assert.equal(request.method, "GET");
+  });
+
+  it("makes successful delete thread request", async () => {
+    const mockHttpClient = generateHttpClient(204);
+    chatClient = createChatClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    await chatClient.deleteChatThread(mockThread.id!);
+
+    sinon.assert.calledOnce(spy);
+    const request = spy.getCall(0).args[0];
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "DELETE");
   });
 });
