@@ -308,6 +308,10 @@ export type DataFeed = {
    */
   schema: DataFeedSchema;
   /**
+   * Map of metric names to metric ids for quick lookup
+   */
+  metricIds: Map<string, string>;
+  /**
    * Granularity of the data feed.
    */
   granularity: DataFeedGranularity;

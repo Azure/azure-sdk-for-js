@@ -66,6 +66,8 @@ export const assertions: Record<"keyOps" | "rsa" | "nodeOnly", LocalAssertion> =
 /**
  * pipeAssertions allows us to execute a sequence of assertions.
  * @param assertions - One or more LocalAssertions
+ * @hidden
+ * @internal
  */
 const pipeAssertions = (...assertionsParam: LocalAssertion[]): LocalAssertion => (
   ...params
@@ -78,6 +80,8 @@ const pipeAssertions = (...assertionsParam: LocalAssertion[]): LocalAssertion =>
 /**
  * Local support of the RSA1_5 algorithm.
  * We currently only support encrypting and wrapping keys with it.
+ * @hidden
+ * @internal
  */
 const RSA1_5: LocalSupportedAlgorithm = {
   validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
@@ -94,6 +98,8 @@ const RSA1_5: LocalSupportedAlgorithm = {
 /**
  * Local support of the RSA-OAEP algorithm.
  * We currently only support encrypting and wrapping keys with it.
+ * @hidden
+ * @internal
  */
 const RSA_OAEP: LocalSupportedAlgorithm = {
   validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
@@ -109,6 +115,8 @@ const RSA_OAEP: LocalSupportedAlgorithm = {
 
 /**
  * A union type representing the names of all of the locally supported sign algorithms.
+ * @hidden
+ * @internal
  */
 export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
 
@@ -137,6 +145,8 @@ const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm =
 
 /**
  * A plain object containing all of the locally supported algorithms.
+ * @hidden
+ * @internal
  */
 export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RSA1_5,
@@ -152,6 +162,8 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
 /**
  * Checks whether a given algorithm name is supported or not.
  * @param algorithm - Name of the algorithm
+ * @hidden
+ * @internal
  */
 export function isLocallySupported(algorithm: string): boolean {
   return !!localSupportedAlgorithms[algorithm as LocalSupportedAlgorithmName];

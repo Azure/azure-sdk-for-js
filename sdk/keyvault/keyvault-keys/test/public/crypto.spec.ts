@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { isRecordMode, Recorder, env } from "@azure/test-utils-recorder";
+import { isRecordMode, Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
@@ -122,6 +122,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
     const unwrappedText = uint8ArrayToString(unwrappedResult.result);
     assert.equal(text, unwrappedText);
+    assert.equal("RSA1_5", unwrappedResult.algorithm);
   });
 
   it("wrap and unwrap with RSA-OAEP", async function() {
@@ -134,9 +135,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
     const unwrappedText = uint8ArrayToString(unwrappedResult.result);
     assert.equal(text, unwrappedText);
+    assert.equal("RSA_OAEP", unwrappedResult.algorithm);
   });
 
-  if (isRecordMode() || process.env.TEST_MODE === "live") {
+  if (!isPlaybackMode()) {
     it("encrypt & decrypt with an RSA-HSM key and the RSA-OAEP algorithm", async function() {
       const hsmKeyName = keyName + "2";
       const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");

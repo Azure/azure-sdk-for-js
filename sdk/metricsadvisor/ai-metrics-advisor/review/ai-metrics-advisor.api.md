@@ -204,6 +204,7 @@ export type DataFeed = {
     creator: string;
     source: DataFeedSource;
     schema: DataFeedSchema;
+    metricIds: Map<string, string>;
     granularity: DataFeedGranularity;
     ingestionSettings: DataFeedIngestionSettings;
 } & DataFeedOptions;
