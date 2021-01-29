@@ -1328,6 +1328,7 @@ export class MetricsAdvisorClient {
    * }
    * ```
    * @param detectionConfigId - Anomaly detection configuration id
+   * @param dimensionName - Name of the dimension for anomaly detection config
    * @param startTime - The start of time range to query anomalies
    * @param endTime - The end of time range to query anomalies
    * @param options - The options parameter.
