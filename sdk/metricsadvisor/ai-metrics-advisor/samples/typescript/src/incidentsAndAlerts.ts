@@ -8,7 +8,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
+import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "../../../src/index";
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -31,6 +31,27 @@ export async function main() {
   await listAlerts(client, alertConfigId);
   await listIncidentsForAlert(client, alertConfigId, alertId);
   await listAnomaliesForAlert(client, alertConfigId, alertId);
+  await listAnomalyDimensionValues(client,detectionConfigId);
+}
+
+async function listAnomalyDimensionValues(client: MetricsAdvisorClient, detectionConfigId: string) {
+  const dimensionName = "city";
+  console.log(`Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`);
+  const listIterator = await client.listAnomalyDimensionValues(detectionConfigId,new Date("10/22/2020"), new Date("10/24/2020"), dimensionName);
+  for await(const dimensionValue of  listIterator) {
+    console.log(dimensionValue);
+    }
+
+  console.log(`  by pages`);
+  const iterator = client
+    .listAnomalyDimensionValues(detectionConfigId,new Date("10/22/2020"), new Date("10/24/2020"), dimensionName)
+    .byPage({ maxPageSize: 20 });
+  let result = await iterator.next();
+  while (!result.done) {
+    console.log("    -- Page --");
+    console.table(result.value);
+    result = await iterator.next();
+  }
 }
 
 async function listIncidentsForDetectionConfig(
