@@ -19,7 +19,11 @@ jobs:
     displayName: 'Use Node 10.x'
     inputs:
       versionSpec: 10.x
-
+  - template: ../common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      Directory: ""
+      CheckLinkGuidance: $true
+      Condition: succeededOrFailed()
   - script: 'npm ci'
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Install tool dependencies'
@@ -70,8 +74,3 @@ jobs:
     displayName: 'Publish Security Analysis Logs'
     continueOnError: true
     condition: succeededOrFailed()
-  - template: ../common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      Directory: ""
-      CheckLinkGuidance: $true
-      Condition: succeededOrFailed()
