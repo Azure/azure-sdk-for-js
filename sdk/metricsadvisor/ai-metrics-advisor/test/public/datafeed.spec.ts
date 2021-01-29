@@ -314,7 +314,6 @@ matrix([[true, false]] as const, async (useAad) => {
             actionLinkTemplate: "Updated Azure Blob action link template"
           };
           await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
-          //assert.equal(updatedResponse._response.status, 200||204);
           const updated = await client.getDataFeed(createdAzureBlobDataFeedId);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
