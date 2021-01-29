@@ -1192,7 +1192,7 @@ export class MetricsAdvisorClient {
     }
   }
 
-  // ## list dimension values for detection config - segments
+  // ## list segments of dimension values of anomalies detected by a detection configuration
   private async *listSegmentsOfAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date,
@@ -1252,7 +1252,7 @@ export class MetricsAdvisorClient {
     }
   }
 
-  // ## list dimension values for detection config - items
+  // ## list items of dimension values of anomalies detected by a detection configuration
   private async *listItemsOfAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date,
@@ -1276,7 +1276,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * Returns an async iterable iterator to list dimension values for a detection configuration.
+   * Returns an async iterable iterator to list dimension values of anomalies detected by a detection configuration.
    *
    * `.byPage()` returns an async iterable iterator to list the dimension values in pages.
    *
