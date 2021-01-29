@@ -29,11 +29,9 @@ jobs:
       GdnBreakAllTools: false
       GdnBreakGdnToolCredScan: true
       GdnBreakGdnToolCredScanSeverity: Error
-      GdnBreakOutputBaselineFile: js
       GdnBreakOutputBaseline: baseline
-      # GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
-      # GdnBreakBaselines: baseline   
-    continueOnError: true
+      GdnBreakBaselineFiles: $(Build.SourcesDirectory)\eng\js.gdnbaselines
+      GdnBreakBaselines: baseline  
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@3
     displayName: 'Publish Security Analysis Logs'
     continueOnError: true
@@ -42,7 +40,8 @@ jobs:
     parameters:
       Directory: ""
       CheckLinkGuidance: $true
-      
+    condition: succeededOrFailed()
+
   - script: 'npm ci'
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
     displayName: 'Install tool dependencies'
