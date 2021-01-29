@@ -71,14 +71,14 @@ export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {
 // @public
 export class KeyVaultAccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
-    createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleDefinition(roleScope: RoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
-    getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    getRoleDefinition(roleScope: RoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
-    listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
-    listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
-    upsertRoleDefinition(roleScope: RoleScope, name: string, permissions: KeyVaultPermission[], description?: string, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    createRoleAssignment(roleScope: KeyVaultRoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleAssignment(roleScope: KeyVaultRoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    getRoleAssignment(roleScope: KeyVaultRoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    getRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    listRoleAssignments(roleScope: KeyVaultRoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
+    listRoleDefinitions(roleScope: KeyVaultRoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    upsertRoleDefinition(roleScope: KeyVaultRoleScope, name: string, permissions: KeyVaultPermission[], description?: string, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
 }
 
@@ -129,8 +129,11 @@ export interface KeyVaultRoleAssignmentProperties {
 export interface KeyVaultRoleAssignmentPropertiesWithScope {
     principalId: string;
     roleDefinitionId: string;
-    scope?: RoleAssignmentScope;
+    scope?: KeyVaultRoleAssignmentScope;
 }
+
+// @public
+export type KeyVaultRoleAssignmentScope = "/" | "/keys" | string;
 
 // @public
 export interface KeyVaultRoleDefinition {
@@ -143,6 +146,9 @@ export interface KeyVaultRoleDefinition {
     roleName: string;
     roleType: string;
 }
+
+// @public
+export type KeyVaultRoleScope = "/" | "/keys";
 
 // @public
 export const LATEST_API_VERSION = "7.2-preview";
@@ -174,12 +180,6 @@ export interface RestoreResult {
     endTime?: Date;
     startTime: Date;
 }
-
-// @public
-export type RoleAssignmentScope = "/" | "/keys" | string;
-
-// @public
-export type RoleScope = "/" | "/keys";
 
 // @public
 export const SDK_VERSION: string;

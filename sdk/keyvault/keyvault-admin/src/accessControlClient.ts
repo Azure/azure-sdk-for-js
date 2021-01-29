@@ -27,7 +27,7 @@ import {
   CreateRoleAssignmentOptions,
   KeyVaultRoleAssignment,
   AccessControlClientOptions,
-  RoleAssignmentScope,
+  KeyVaultRoleAssignmentScope,
   DeleteRoleAssignmentOptions,
   ListRoleAssignmentsOptions,
   ListRoleDefinitionsOptions,
@@ -39,7 +39,7 @@ import {
   GetRoleDefinitionOptions,
   UpsertRoleDefinitionOptions,
   DeleteRoleDefinitionOptions,
-  RoleScope
+  KeyVaultRoleScope
 } from "./accessControlModels";
 
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
@@ -141,7 +141,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public async createRoleAssignment(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     name: string,
     roleDefinitionId: string,
     principalId: string,
@@ -192,7 +192,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public async deleteRoleAssignment(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     name: string,
     options?: DeleteRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
@@ -229,7 +229,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public async getRoleAssignment(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     name: string,
     options?: GetRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
@@ -258,7 +258,7 @@ export class KeyVaultAccessControlClient {
    * @param options - Common options for the iterative endpoints.
    */
   private async *listRoleAssignmentsPage(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     continuationState: ListRoleAssignmentsPageSettings,
     options?: ListRoleAssignmentsOptions
   ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
@@ -297,7 +297,7 @@ export class KeyVaultAccessControlClient {
    * @param options - Common options for the iterative endpoints.
    */
   private async *listRoleAssignmentsAll(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     options?: ListRoleAssignmentsOptions
   ): AsyncIterableIterator<KeyVaultRoleAssignment> {
     for await (const page of this.listRoleAssignmentsPage(roleScope, {}, options)) {
@@ -320,7 +320,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public listRoleAssignments(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     options: ListRoleAssignmentsOptions = {}
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
     const span = createSpan("listRoleAssignments", options);
@@ -352,7 +352,7 @@ export class KeyVaultAccessControlClient {
    * @param options - Common options for the iterative endpoints.
    */
   private async *listRoleDefinitionsPage(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     continuationState: ListRoleDefinitionsPageSettings,
     options?: ListRoleDefinitionsOptions
   ): AsyncIterableIterator<KeyVaultRoleDefinition[]> {
@@ -391,7 +391,7 @@ export class KeyVaultAccessControlClient {
    * @param options - Common options for the iterative endpoints.
    */
   private async *listRoleDefinitionsAll(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     options?: ListRoleDefinitionsOptions
   ): AsyncIterableIterator<KeyVaultRoleDefinition> {
     for await (const page of this.listRoleDefinitionsPage(roleScope, {}, options)) {
@@ -414,7 +414,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public listRoleDefinitions(
-    roleScope: RoleAssignmentScope,
+    roleScope: KeyVaultRoleAssignmentScope,
     options: ListRoleDefinitionsOptions = {}
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
     const span = createSpan("listRoleDefinitions", options);
@@ -452,7 +452,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public async getRoleDefinition(
-    roleScope: RoleScope,
+    roleScope: KeyVaultRoleScope,
     name: string,
     options: GetRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {
@@ -490,7 +490,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public async upsertRoleDefinition(
-    roleScope: RoleScope,
+    roleScope: KeyVaultRoleScope,
     name: string,
     permissions: KeyVaultPermission[],
     description?: string,
@@ -537,7 +537,7 @@ export class KeyVaultAccessControlClient {
    * @param options - The optional parameters.
    */
   public async deleteRoleDefinition(
-    roleScope: RoleScope,
+    roleScope: KeyVaultRoleScope,
     name: string,
     options: DeleteRoleDefinitionOptions = {}
   ): Promise<KeyVaultRoleDefinition> {

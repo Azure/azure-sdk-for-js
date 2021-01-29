@@ -5,7 +5,7 @@ import { RoleAssignment, RoleDefinition } from "./generated/models";
 import {
   KeyVaultRoleAssignment,
   KeyVaultRoleDefinition,
-  RoleAssignmentScope
+  KeyVaultRoleAssignmentScope
 } from "./accessControlModels";
 
 export const mappings = {
@@ -18,7 +18,7 @@ export const mappings = {
         name: name!,
         kind: type!,
         properties: {
-          scope: scope as RoleAssignmentScope,
+          scope: scope as KeyVaultRoleAssignmentScope,
           roleDefinitionId: roleDefinitionId!,
           principalId: principalId!
         }

@@ -45,7 +45,7 @@ export interface KeyVaultPermission {
    */
   actions?: string[];
   /**
-   * Denied actions.
+   * Actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
   notActions?: string[];
   /**
@@ -53,7 +53,7 @@ export interface KeyVaultPermission {
    */
   dataActions?: KeyVaultDataAction[];
   /**
-   * Denied Data actions.
+   * Data actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
   notDataActions?: KeyVaultDataAction[];
 }
@@ -149,13 +149,13 @@ export interface KeyVaultRoleAssignmentProperties {
  * A scope of the role assignment.
  * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
  */
-export type RoleAssignmentScope = "/" | "/keys" | string;
+export type KeyVaultRoleAssignmentScope = "/" | "/keys" | string;
 
 /**
  * A scope of the role definition.
  * The valid scopes are: "/" or "/keys"
  */
-export type RoleScope = "/" | "/keys";
+export type KeyVaultRoleScope = "/" | "/keys";
 
 /**
  * Role assignment properties with the scope property.
@@ -164,7 +164,7 @@ export interface KeyVaultRoleAssignmentPropertiesWithScope {
   /**
    * The role assignment scope.
    */
-  scope?: RoleAssignmentScope;
+  scope?: KeyVaultRoleAssignmentScope;
   /**
    * The role definition ID.
    */
