@@ -18,7 +18,7 @@ import { delay } from "@azure/core-amqp";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "../../../.env" });
 
 const _start = moment();
 
@@ -30,33 +30,33 @@ const consumerGroup = getEnvVar("CONSUMER_GROUP_NAME");
 
 async function main(): Promise<void> {
   const maxBatchSize = process.argv.length > 2 ? parseInt(process.argv[2]) : 10;
-  const numberOfPartitions = process.argv.length > 3 ? parseInt(process.argv[3]) : 1;
-  const eventBodySize = process.argv.length > 4 ? parseInt(process.argv[4]) : 1024;
-  const numberOfEvents = process.argv.length > 5 ? parseInt(process.argv[5]) : 10000;
+  const eventBodySize = process.argv.length > 3 ? parseInt(process.argv[3]) : 1024;
+  const numberOfEvents = process.argv.length > 4 ? parseInt(process.argv[4]) : 500;
+
+  const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
+  const partitionIds = await client.getPartitionIds();
+  await client.close();
 
   log(`Maximum Batch Size: ${maxBatchSize}`);
   log(`Total messages: ${numberOfEvents}`);
 
-  await sendBatch(numberOfEvents, numberOfPartitions, eventBodySize);
+  await sendBatch(numberOfEvents, partitionIds, eventBodySize);
   const writeResultsPromise = WriteResults(numberOfEvents);
 
-  await RunTest(connectionString, eventHubName, maxBatchSize, numberOfEvents);
+  await RunTest(connectionString, eventHubName, numberOfEvents, partitionIds);
   await writeResultsPromise;
 }
 
-async function sendBatch(
-  numberOfEvents: number,
-  numberOfPartitions: number,
-  eventBodySize: number
-) {
+async function sendBatch(numberOfEvents: number, partitionIds: string[], eventBodySize: number) {
   const _payload = Buffer.alloc(eventBodySize);
   const producer = EventHubClient.createFromConnectionString(connectionString, eventHubName);
+  const numberOfPartitions = partitionIds.length;
   const numberOfEventsPerPartition = Math.ceil(numberOfEvents / numberOfPartitions);
 
-  for (let partition = 0; partition < numberOfPartitions; partition++) {
+  for (let partitionId of partitionIds) {
     let numberOfEventsSent = 0;
     while (numberOfEventsSent <= numberOfEventsPerPartition) {
-      await producer.send({ body: _payload }, String(partition));
+      await producer.send({ body: _payload }, partitionId);
       numberOfEventsSent++;
     }
   }
@@ -67,7 +67,7 @@ async function RunTest(
   connectionString: string,
   eventHubName: string,
   messages: number,
-  numberOfPartitions: number
+  partitionIds: string[]
 ): Promise<void> {
   const consumerClient = EventHubClient.createFromConnectionString(connectionString, eventHubName);
 
@@ -81,8 +81,8 @@ async function RunTest(
     console.log(`Error on partition : ${err}`);
   };
 
-  for (let partition = 0; partition < numberOfPartitions; partition++) {
-    consumerClient.receive(String(partition), onMessageHandler, onErrorHandler, {
+  for (let partitionId of partitionIds) {
+    consumerClient.receive(partitionId, onMessageHandler, onErrorHandler, {
       eventPosition: EventPosition.fromStart(),
       consumerGroup
     });
