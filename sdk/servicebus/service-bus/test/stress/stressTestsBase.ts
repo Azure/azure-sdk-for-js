@@ -363,8 +363,6 @@ export class SBStressTestsBase {
   }
 
   public async snapshot(): Promise<void> {
-    // TODO: get the options being set in the logs
-    // TODO: Get a title passed from the scenario file
     const eventProperties: Record<string, string | number> = {};
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
 
@@ -406,8 +404,8 @@ export class SBStressTestsBase {
       this.sessionLockRenewalInfo.errors
     );
 
-    // TODO: it would be nicer to report the errors as they occur rather than
-    // doing this big dump of errors at the end.
+    // TODO: it would be nicer to report the errors as they occur rather than only doing
+    // this on snapshot boundaries.
     for (const err of errors) {
       defaultClient.trackException({
         exception: err
