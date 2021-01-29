@@ -58,6 +58,7 @@ export async function main() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "renewMessageLock",
     snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);
