@@ -100,10 +100,8 @@ export class KeyVaultBackupClient {
     readonly vaultUrl: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DataAction" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type KeyVaultDataAction = DataAction;
+export type KeyVaultDataAction = "Microsoft.KeyVault/managedHsm/keys/read/action" | "Microsoft.KeyVault/managedHsm/keys/write/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action" | "Microsoft.KeyVault/managedHsm/keys/backup/action" | "Microsoft.KeyVault/managedHsm/keys/restore/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action" | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action" | "Microsoft.KeyVault/managedHsm/keys/encrypt/action" | "Microsoft.KeyVault/managedHsm/keys/decrypt/action" | "Microsoft.KeyVault/managedHsm/keys/wrap/action" | "Microsoft.KeyVault/managedHsm/keys/unwrap/action" | "Microsoft.KeyVault/managedHsm/keys/sign/action" | "Microsoft.KeyVault/managedHsm/keys/verify/action" | "Microsoft.KeyVault/managedHsm/keys/create" | "Microsoft.KeyVault/managedHsm/keys/delete" | "Microsoft.KeyVault/managedHsm/keys/export/action" | "Microsoft.KeyVault/managedHsm/keys/import/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete" | "Microsoft.KeyVault/managedHsm/securitydomain/download/action" | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action" | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read" | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read" | "Microsoft.KeyVault/managedHsm/backup/start/action" | "Microsoft.KeyVault/managedHsm/restore/start/action" | "Microsoft.KeyVault/managedHsm/backup/status/action" | "Microsoft.KeyVault/managedHsm/restore/status/action";
 
 // @public
 export interface KeyVaultPermission {
