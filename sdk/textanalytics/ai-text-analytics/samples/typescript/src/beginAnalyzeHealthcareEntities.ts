@@ -53,7 +53,7 @@ export async function main() {
         if (entity.dataSources.length > 0) {
           console.log("\t and it can be referenced in the following data sources:");
           for (const ds of entity.dataSources) {
-            console.log(`\t\t- ${ds.name} with ID: ${ds.entityId}`);
+            console.log(`\t\t- ${ds.name} with Entity ID: ${ds.entityId}`);
           }
         }
       }

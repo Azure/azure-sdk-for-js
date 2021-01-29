@@ -25,7 +25,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
 | [beginAnalyzeHealthcareEntities.js][beginanalyzehealthcareentities]       | detects healthcare entities of a piece of text                                                     |
-| [beginAnalyzeBatchActions.js][beginanalyzebatchactions]                   | applies multiple actions at once                                                                   |
+| [beginAnalyzeBatchActions.js][beginanalyzebatchactions]                   | applies multiple Text Analytics actions per document                                               |
 
 ## Prerequisites
 

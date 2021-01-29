@@ -121,5 +121,5 @@ export {
   AspectConfidenceScoreLabel,
   TokenSentimentValue,
   TextAnalyticsWarning,
-  State
+  State as TextAnalyticsOperationStatus
 } from "./generated/models";

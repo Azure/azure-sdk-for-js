@@ -25,7 +25,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.ts][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
 | [beginAnalyzeHealthcareEntities.ts][beginanalyzehealthcareentities]       | detects healthcare entities of a piece of text                                                     |
-| [beginAnalyzeBatchActions.ts][beginanalyzebatchactions]                   | applies multiple actions at once                                                                   |
+| [beginAnalyzeBatchActions.ts][beginanalyzebatchactions]                   | applies multiple Text Analytics actions per document                                               |
 
 ## Prerequisites
 

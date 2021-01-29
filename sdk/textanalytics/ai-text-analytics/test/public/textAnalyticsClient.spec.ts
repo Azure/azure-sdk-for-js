@@ -1637,13 +1637,13 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
           assert.ok(poller.getOperationState().status, "status is undefined!");
           assert.ok(
-            poller.getOperationState().successfullyCompletedActionsCount,
-            "successfullyCompletedActionsCount is undefined!"
+            poller.getOperationState().actionsSucceededCount,
+            "actionsSucceededCount is undefined!"
           );
-          assert.equal(poller.getOperationState().failedActionsCount, 0);
+          assert.equal(poller.getOperationState().actionsFailedCount, 0);
           assert.isDefined(
-            poller.getOperationState().inProgressActionsCount,
-            "inProgressActionsCount is undefined!"
+            poller.getOperationState().actionsInProgressCount,
+            "actionsInProgressCount is undefined!"
           );
           assert.equal(poller.getOperationState().displayName, "testJob");
         });

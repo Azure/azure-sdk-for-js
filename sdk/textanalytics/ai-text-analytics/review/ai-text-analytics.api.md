@@ -19,10 +19,10 @@ export interface AnalysisPollOperationState<TResult> extends PollOperationState<
 
 // @public
 export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata {
+    actionsFailedCount?: number;
+    actionsInProgressCount?: number;
+    actionsSucceededCount?: number;
     displayName?: string;
-    failedActionsCount?: number;
-    inProgressActionsCount?: number;
-    successfullyCompletedActionsCount?: number;
 }
 
 // @public
@@ -284,7 +284,7 @@ export interface OperationMetadata {
     expiresOn?: Date;
     lastModifiedOn?: Date;
     operationId?: string;
-    status?: State;
+    status?: TextAnalyticsOperationStatus;
 }
 
 // @public
@@ -432,9 +432,6 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export type State = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
-
-// @public
 export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
@@ -492,6 +489,9 @@ export interface TextAnalyticsOperationOptions extends OperationOptions {
     includeStatistics?: boolean;
     modelVersion?: string;
 }
+
+// @public
+export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling" | "partiallyCompleted" | "partiallySucceeded";
 
 // @public
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
