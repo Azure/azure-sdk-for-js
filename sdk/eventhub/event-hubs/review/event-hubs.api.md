@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
@@ -247,6 +248,8 @@ export interface ReceivedEventData {
         [key: string]: any;
     };
 }
+
+export { RetryMode }
 
 export { RetryOptions }
 
