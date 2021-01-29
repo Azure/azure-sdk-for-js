@@ -390,6 +390,26 @@ export function decodeHexEncodingIfExistsInNockFixture(fixture: string): string 
 }
 
 /**
+ * Meant for node recordings only!
+ *
+ * @private
+ * @param {string} fixture
+ */
+export function handleSingleQuotesInUrlPath(fixture: string): string {
+  let updatedFixture = fixture;
+  if (!isBrowser()) {
+    const matches = fixture.match(/\.(get|put|post|delete)\(\'(.*)\'(\,|\))/);
+    if (matches && matches[2]) {
+      const match = matches[2];
+      if (match.search("'") !== -1) {
+        updatedFixture = fixture.replace("'" + match + "'", "`" + match + "`");
+      }
+    }
+  }
+  return updatedFixture;
+}
+
+/**
  * List of binary content types.
  * Currently, "avro/binary" is the only one present.
  */
