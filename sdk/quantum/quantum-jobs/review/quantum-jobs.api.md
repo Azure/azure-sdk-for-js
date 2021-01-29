@@ -6,6 +6,8 @@
 
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ServiceClient } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface BlobDetails {
@@ -189,7 +191,7 @@ export interface ProviderStatusList {
 
 // @public (undocumented)
 export class QuantumJobClient extends QuantumJobClientContext {
-    constructor(subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
+    constructor(subscriptionId: string, resourceGroupName: string, workspaceName: string, location: string, credential: TokenCredential, options?: QuantumJobClientOptionalParams);
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -201,10 +203,10 @@ export class QuantumJobClient extends QuantumJobClientContext {
 }
 
 // @public (undocumented)
-export class QuantumJobClientContext extends coreHttp.ServiceClient {
+export class QuantumJobClientContext extends ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
+    constructor(subscriptionId: string, resourceGroupName: string, workspaceName: string, location: string, credential: TokenCredential, options?: QuantumJobClientOptionalParams);
     // (undocumented)
     resourceGroupName: string;
     // (undocumented)
