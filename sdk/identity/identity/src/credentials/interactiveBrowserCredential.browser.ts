@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalBrowser from "@azure/msal-browser";
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { IdentityClient } from "../client/identityClient";
 import {
   BrowserLoginStyle,
+  InteractiveBrowserAuthenticateOptions,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+import { AuthenticationRecord } from "../client/msalClient";
+import { MSALAuthCode } from "./msalBrowser/msalAuthCode";
+import { MSALImplicit } from "./msalBrowser/msalImplicit";
+import { IMSALBrowserFlow, MSALOptions } from "./msalBrowser/msalCommon";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -24,9 +28,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
   private loginStyle: BrowserLoginStyle;
-  private msalConfig: msalBrowser.Configuration;
-  private msalObject: msalBrowser.PublicClientApplication;
-  private correlationId: string | undefined;
+  private msal: IMSALBrowserFlow;
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
@@ -51,150 +53,57 @@ export class InteractiveBrowserCredential implements TokenCredential {
     };
 
     this.loginStyle = options.loginStyle || "popup";
-    if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
-      const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
+    const loginStyles = ["redirect", "popup"];
+    if (loginStyles.indexOf(this.loginStyle) === -1) {
+      const error = new Error(
+        `Invalid loginStyle: ${
+          options.loginStyle
+        }. Should be any of the following: ${loginStyles.join(", ")}.`
+      );
       logger.info(formatError("", error));
       throw error;
     }
 
-    const knownAuthorities =
-      options.tenantId === "adfs" ? (options.authorityHost ? [options.authorityHost] : []) : [];
+    const {
+      clientId,
+      tenantId,
+      authorityHost,
+      correlationId,
+      redirectUri,
+      postLogoutRedirectUri,
+      authenticationRecord
+    } = options;
 
-    this.correlationId = options.correlationId;
-
-    this.msalConfig = {
-      auth: {
-        clientId: options.clientId!, // we just initialized it above
-        authority: `${options.authorityHost}/${options.tenantId}`,
-        knownAuthorities
-      },
-      cache: {
-        cacheLocation: "sessionStorage",
-        storeAuthStateInCookie: true // Set to true to improve the experience on IE11 and Edge.
-      },
-      system: {
-        loggerOptions: {
-          loggerCallback: (level, message, containsPii) => {
-            if (containsPii) {
-              return;
-            }
-            switch (level) {
-              case msalBrowser.LogLevel.Error:
-                logger.info(`MSAL Browser V2 error: ${message}`);
-                return;
-              case msalBrowser.LogLevel.Info:
-                logger.info(`MSAL Browser V2 info message: ${message}`);
-                return;
-              case msalBrowser.LogLevel.Verbose:
-                logger.info(`MSAL Browser V2 verbose message: ${message}`);
-                return;
-              case msalBrowser.LogLevel.Warning:
-                logger.info(`MSAL Browser V2 warning: ${message}`);
-                return;
-            }
-          }
-        }
-      }
+    const msalOptions: MSALOptions = {
+      clientId,
+      tenantId,
+      authorityHost,
+      correlationId,
+      authenticationRecord,
+      loginStyle: this.loginStyle,
+      knownAuthorities: tenantId === "adfs" ? (authorityHost ? [authorityHost] : []) : [],
+      redirectUri: typeof redirectUri === "function" ? redirectUri() : redirectUri,
+      postLogoutRedirectUri:
+        typeof postLogoutRedirectUri === "function"
+          ? postLogoutRedirectUri()
+          : postLogoutRedirectUri
     };
 
-    this.msalConfig.auth.redirectUri =
-      typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri;
-
-    this.msalConfig.auth.postLogoutRedirectUri =
-      typeof options.postLogoutRedirectUri === "function"
-        ? options.postLogoutRedirectUri()
-        : options.postLogoutRedirectUri;
-
-    this.msalObject = new msalBrowser.PublicClientApplication(this.msalConfig);
-
-    this.handleRedirectResponse();
+    if (options.flow === "implicit-grant") {
+      this.msal = new MSALImplicit(msalOptions);
+    } else {
+      this.msal = new MSALAuthCode(msalOptions);
+    }
   }
 
   /**
-   * Handles the redirect response based on the credentials available at page load.
+   * Allows users to manually authenticate and retrieve the AuthenticationRecord.
+   * @param options - Optional parameters to authenticate with, like the scope.
    */
-  private async handleRedirectResponse(): Promise<void> {
-    try {
-      const result = await this.msalObject.handleRedirectPromise();
-      if (result && result.account) {
-        logger.info(`MSAL Browser V2 redirect authentication successful.`);
-        this.msalObject.setActiveAccount(result.account);
-      } else {
-        const accounts = this.msalObject.getAllAccounts();
-        if (accounts.length > 1) {
-          throw new Error(
-            [
-              "More than one account was found authenticated for this Client ID and Tenant ID.",
-              "This scenario is not yet supported by @azure/identity.",
-              "For now, you can bypass this error by cleaning up your browser cache."
-            ].join("\n")
-          );
-        } else if (accounts.length === 1) {
-          this.msalObject.setActiveAccount(accounts[0]);
-        } else {
-          logger.info(`No accounts were found through MSAL.`);
-        }
-      }
-    } catch (e) {
-      logger.info(`Failed to acquire token through the MSAL redirect login method. ${e.message}`);
-    }
-  }
-
-  private async login(scopes: string | string[]): Promise<msalBrowser.AuthenticationResult | null> {
-    const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-    const loginRequest = {
-      scopes: arrayScopes
-    };
-    switch (this.loginStyle) {
-      case "redirect": {
-        await this.msalObject.loginRedirect(loginRequest);
-        return null;
-      }
-      case "popup":
-        return this.msalObject.loginPopup(loginRequest);
-    }
-  }
-
-  private async acquireToken(
-    authParams: msalBrowser.SilentRequest
-  ): Promise<msalBrowser.AuthenticationResult | undefined> {
-    let authResponse: msalBrowser.AuthenticationResult | undefined;
-    try {
-      logger.info("Attempting to acquire token silently");
-      authResponse = await this.msalObject.acquireTokenSilent(authParams);
-    } catch (err) {
-      if (err instanceof msalBrowser.AuthError) {
-        switch (err.errorCode) {
-          case "consent_required":
-          case "interaction_required":
-          case "login_required":
-            logger.info(`Authentication returned errorCode ${err.errorCode}`);
-            break;
-          default:
-            logger.info(formatError(authParams.scopes, `Failed to acquire token: ${err.message}`));
-            throw err;
-        }
-      }
-    }
-
-    if (authResponse === undefined) {
-      logger.info(
-        `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
-      );
-      switch (this.loginStyle) {
-        case "redirect":
-          // This will go out of the page.
-          // Once the InteractiveBrowserCredential is initialized again,
-          // we'll load the MSAL account in the constructor.
-          await this.msalObject.acquireTokenRedirect(authParams);
-          return undefined;
-        case "popup":
-          authResponse = await this.msalObject.acquireTokenPopup(authParams);
-          break;
-      }
-    }
-
-    return authResponse;
+  public async authenticate(
+    options: InteractiveBrowserAuthenticateOptions
+  ): Promise<AuthenticationRecord | undefined> {
+    return this.msal.authenticate(options);
   }
 
   /**
@@ -213,24 +122,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
     try {
-      let account = this.msalObject.getActiveAccount();
-      if (!account) {
-        const result = await this.login(scopes);
-        if (result && result.account) {
-          account = result.account;
-          this.msalObject.setActiveAccount(account);
-        } else {
-          logger.getToken.info("No login response");
-          return null;
-        }
-      }
-
-      const authResponse = await this.acquireToken({
-        authority: this.msalConfig.auth.authority!,
-        correlationId: this.correlationId, // If undefined, MSAL will automatically generate one.
-        account,
-        forceRefresh: false,
-        scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
+      const authResponse = await this.msal.acquireToken({
+        scopes,
+        ...options
       });
 
       if (!authResponse) {
@@ -240,6 +134,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
       if (!authResponse.expiresOn) {
         logger.getToken.info(`Response had no "expiresOn" property.`);
+        return null;
+      }
+
+      if (!authResponse.accessToken) {
+        logger.getToken.info(`Response had no "accessToken" property.`);
         return null;
       }
 
