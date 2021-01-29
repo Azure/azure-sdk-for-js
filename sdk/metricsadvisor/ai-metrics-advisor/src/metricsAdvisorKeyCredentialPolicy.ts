@@ -18,13 +18,58 @@ const X_API_KEY_HEADER_NAME = "x-api-key";
  * Credential used to authenticate and authorize with Metrics Advisor service
  */
 export class MetricsAdvisorKeyCredential {
+  
+  /**
+   * Subscription access key from the Azure portal
+   */
+  private subscriptionKey: string;
+
+  /**
+   * API key from the Metrics Advisor web portal
+   */
+  private apiKey: string;
+
   /**
    * Creates an instance of MetricsAdvisorKeyCredential
    *
    * @param subscriptionKey - Subscription access key from the Azure portal
    * @param apiKey - API key from the Metrics Advisor web portal
    */
-  constructor(readonly subscriptionKey: string, readonly apiKey: string) {}
+  constructor(subscriptionKey: string, apiKey: string) {
+    this.subscriptionKey = subscriptionKey;
+    this.apiKey = apiKey;
+  }
+
+  /**
+   * Change the value of the subscription key.
+   *
+   * Updates will take effect upon the next request after
+   * updating the key value.
+   *
+   * @param subscriptionKey - The new subscription key value to be used
+   */
+  public updateSubscriptionKey(subscriptionKey: string){
+    if (!this.subscriptionKey) {
+      throw new RangeError("subscriptionKey must be a non-empty error");
+    }
+    this.subscriptionKey = subscriptionKey;
+  }
+
+
+   /**
+   * Change the value of the api key.
+   *
+   * Updates will take effect upon the next request after
+   * updating the key value.
+   *
+   * @param apiKey - The new api key value to be used
+   */
+  public updateApiKey(apiKey: string){
+    if (!this.apiKey) {
+      throw new RangeError("apiKey must be a non-empty error");
+    }
+    this.apiKey = apiKey;
+  }
 }
 
 /**
