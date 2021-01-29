@@ -1,14 +1,14 @@
 /*
 # Overview
-Measures the maximum throughput of `receiver.receive()` in package `@azure/service-bus`.
+Measures the maximum throughput of `receiver.receive()` in package `@azure/event-hubs`.
 
 # Instructions
-1. Create an Event Hubs namespace with `Tier=Standard` and `Throughput Units=20`.  It is recommended to use the largest possible namespace to allow maximum client throughput.
+1. Create an Event Hubs namespace with `Tier=Standard` and `Throughput Units=20`.
 2. Create an Event Hub inside the namespace.
-3. Set env vars `EVENT_HUBS_CONNECTION_STRING` and `EVENT_HUB_NAME`.
-4. This test presumes that there are messages in the event hub.
-5. `ts-node receive.ts [totalMessages]`
-6. Example: `ts-node receive.ts 1000000`
+3. Set env vars `EVENTHUB_CONNECTION_STRING`, `EVENTHUB_NAME` and `CONSUMER_GROUP_NAME` at the .env file at `eventhub\event-hubs` folder.
+4. This test presumes that there are no messages in the event hub.
+5. `ts-node receive.ts [eventBodySize] [numberOfEvents]`
+6. Example: `ts-node receive.ts 1024 1000000`
  */
 
 import { EventHubClient, EventPosition, EventData } from "@azure/event-hubs";
