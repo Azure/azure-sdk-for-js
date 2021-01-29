@@ -22,7 +22,6 @@ import {
   TrackedMessageIdsInfo
 } from "./utils";
 import * as appInsights from "applicationinsights";
-const writeFile = util.promisify(fs.writeFile);
 
 import * as dotenv from "dotenv";
 dotenv.config();
