@@ -18,7 +18,6 @@ const X_API_KEY_HEADER_NAME = "x-api-key";
  * Credential used to authenticate and authorize with Metrics Advisor service
  */
 export class MetricsAdvisorKeyCredential {
-  
   /**
    * Subscription access key from the Azure portal
    */
@@ -38,6 +37,20 @@ export class MetricsAdvisorKeyCredential {
   constructor(subscriptionKey: string, apiKey: string) {
     this.subscriptionKey = subscriptionKey;
     this.apiKey = apiKey;
+  }
+
+  /**
+   * Get Subscription key
+   */
+  public getSubscriptionKey(){
+    return this.subscriptionKey;
+  }
+
+  /**
+   * Get Api Key
+   */
+  public getApiKey(){
+    return this.apiKey;
   }
 
   /**
@@ -99,8 +112,8 @@ class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
     credential: MetricsAdvisorKeyCredential
   ) {
     super(nextPolicy, options);
-    this.subscriptionKey = credential.subscriptionKey;
-    this.apiKey = credential.apiKey;
+    this.subscriptionKey = credential.getSubscriptionKey();
+    this.apiKey = credential.getApiKey();
   }
 
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
