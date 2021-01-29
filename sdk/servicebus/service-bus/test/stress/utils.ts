@@ -1,8 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import util from "util";
 import fs from "fs";
-import { defaultClient } from "applicationinsights";
-const writeFile = util.promisify(fs.writeFile);
 
 export interface OperationInfo {
   numberOfSuccesses: number;
