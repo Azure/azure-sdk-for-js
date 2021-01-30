@@ -401,8 +401,7 @@ export class SearchIndexingBufferedSender<T> {
     const pruned: IndexDocumentsAction<T>[] = [];
 
     for (const document of batch) {
-      // @ts-ignore
-      const key = this.documentKeyRetriever(document);
+      const key = this.documentKeyRetriever((document as unknown) as T);
       if (hashSet.has(key)) {
         pruned.push(document);
       } else {
