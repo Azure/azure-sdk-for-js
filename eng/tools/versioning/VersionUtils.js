@@ -47,11 +47,14 @@ function updateChangelog(
   );
   let args = [
     updateChangelogPath,
+    "--Version",
     newVersion,
+    "--ServiceDirectory",
     service,
+    "--PackageName",
     packageName,
-    unreleased,
-    replaceLatestVersionTitle
+    "--Unreleased:$" + unreleased,
+    "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle
   ];
   if (releaseDate != null) {
     args.push(releaseDate);

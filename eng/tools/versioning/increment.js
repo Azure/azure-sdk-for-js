@@ -68,8 +68,8 @@ async function main(argv) {
     artifactName,
     repoRoot,
     newVersion,
-    "--Unreleased:$true",
-    "--ReplaceLatestEntryTitle:$false"
+    true,
+    false
   );
   if (!updateStatus) {
     process.exit(1);
