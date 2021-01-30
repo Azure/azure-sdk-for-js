@@ -412,13 +412,15 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
   let updatedFixture = fixture;
   if (!isBrowser()) {
     // Fixtures would contain url-path as shown below
-    // 1) .{method}('{url-path}')
-    // 2) .{method}('{url-path}', {json-object})
+    // Case-1: .{method}('{url-path}')
+    // Case-2: .{method}('{url-path}', {json-object})
     // Examples:
     // .get('/Tables('node')')
     // .post('/Tables('node')', {"TableName":"node"})
-    const matches = fixture.match(/\.(get|put|post|delete)\(\'(.*)\'(\,|\))/);
+    // .post('/Tables('node')', "--batch_fakeId\\r\\nDELETE https://endpoint.net/node(key='batchTest',RowKey='1')")
 
+    // Case-1
+    const matches = fixture.match(/\.(get|put|post|delete)\(\'(.*)\'\)\n\s*(.query\(true\))/);
     if (matches && matches[2]) {
       const match = matches[2]; // Extracted url-path
       // If the url-path contains a single quote
@@ -427,6 +429,9 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
         updatedFixture = fixture.replace("'" + match + "'", "`" + match + "`");
       }
     }
+
+    // Case-2
+    // TODO: To handle the presence of request bodies
   }
   return updatedFixture;
 }
