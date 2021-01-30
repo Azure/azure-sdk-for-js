@@ -44,6 +44,7 @@ export abstract class BaseRecorder {
         // Decodes "hex" strings in the response from the recorded fixture if any exists.
         decodeHexEncodingIfExistsInNockFixture,
         // Nock bug: Single quotes in the path of the url are not handled by nock.
+        // (Link to the bug 🐛: https://github.com/nock/nock/issues/2136)
         // The following is the workaround we use in the recorder until nock fixes it.
         handleSingleQuotesInUrlPath
       ]
