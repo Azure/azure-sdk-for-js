@@ -64,5 +64,5 @@ export * from "./workspaceManagedSqlServerSecurityAlertPolicy";
 export * from "./workspaceManagedSqlServerVulnerabilityAssessments";
 export * from "./workspaceManagedSqlServerEncryptionProtector";
 export * from "./workspaceManagedSqlServerUsages";
-export * from "./workspaceManagedSqlServerRecoverableSqlPools";
+export * from "./workspaceManagedSqlServerRecoverableSqlpools";
 export * from "./keys";

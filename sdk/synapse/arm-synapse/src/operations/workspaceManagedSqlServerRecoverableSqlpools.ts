@@ -9,7 +9,7 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/workspaceManagedSqlServerRecoverableSqlPoolsMappers";
+import * as Mappers from "../models/workspaceManagedSqlServerRecoverableSqlpoolsMappers";
 import * as Parameters from "../models/parameters";
 import { SynapseManagementClientContext } from "../synapseManagementClientContext";
 
