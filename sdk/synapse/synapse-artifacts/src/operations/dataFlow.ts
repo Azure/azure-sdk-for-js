@@ -19,9 +19,7 @@ import {
   DataFlowGetDataFlowsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a DataFlow.
- */
+/** Class representing a DataFlow. */
 export class DataFlow {
   private readonly client: ArtifactsClient;
 
@@ -61,7 +59,10 @@ export class DataFlow {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDataFlowsByWorkspaceNext(continuationToken, options);
+      result = await this._getDataFlowsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -335,7 +336,6 @@ export class DataFlow {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {
@@ -361,7 +361,11 @@ const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

@@ -81,9 +81,9 @@ export const enum KnownSparkSessionResultType {
 // @public
 export const enum KnownSparkStatementLanguageType {
     // (undocumented)
-    Dotnetspark = "dotnetspark",
+    DotNetSpark = "dotnetspark",
     // (undocumented)
-    Pyspark = "pyspark",
+    PySpark = "pyspark",
     // (undocumented)
     Spark = "spark",
     // (undocumented)
@@ -226,22 +226,17 @@ export interface SparkBatchJobState {
     terminatedAt?: Date | null;
 }
 
-// @public
-export class SparkBatchOperation {
-    constructor(client: SparkClient);
-    cancelSparkBatchJob(batchId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    createSparkBatchJob(sparkBatchJobOptions: SparkBatchJobOptions, options?: SparkBatchCreateSparkBatchJobOptionalParams): Promise<SparkBatchCreateSparkBatchJobResponse>;
-    getSparkBatchJob(batchId: number, options?: SparkBatchGetSparkBatchJobOptionalParams): Promise<SparkBatchGetSparkBatchJobResponse>;
-    getSparkBatchJobs(options?: SparkBatchGetSparkBatchJobsOptionalParams): Promise<SparkBatchGetSparkBatchJobsResponse>;
-}
-
 // @public (undocumented)
 export class SparkClient extends SparkClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
+    // Warning: (ae-forgotten-export) The symbol "SparkBatch" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    sparkBatch: SparkBatchOperation;
+    sparkBatch: SparkBatch;
+    // Warning: (ae-forgotten-export) The symbol "SparkSession" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    sparkSession: SparkSessionOperation;
+    sparkSession: SparkSession_2;
 }
 
 // @public (undocumented)
@@ -303,7 +298,7 @@ export interface SparkRequest {
 // @public (undocumented)
 export interface SparkScheduler {
     // (undocumented)
-    cancellationRequestedAt?: Date;
+    cancellationRequestedAt?: Date | null;
     // (undocumented)
     currentState?: SchedulerCurrentState;
     // (undocumented)
@@ -463,20 +458,6 @@ export type SparkSessionGetSparkStatementsResponse = SparkStatementCollection & 
     };
 };
 
-// @public
-export class SparkSessionOperation {
-    constructor(client: SparkClient);
-    cancelSparkSession(sessionId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    cancelSparkStatement(sessionId: number, statementId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionCancelSparkStatementResponse>;
-    createSparkSession(sparkSessionOptions: SparkSessionOptions, options?: SparkSessionCreateSparkSessionOptionalParams): Promise<SparkSessionCreateSparkSessionResponse>;
-    createSparkStatement(sessionId: number, sparkStatementOptions: SparkStatementOptions, options?: coreHttp.OperationOptions): Promise<SparkSessionCreateSparkStatementResponse>;
-    getSparkSession(sessionId: number, options?: SparkSessionGetSparkSessionOptionalParams): Promise<SparkSessionGetSparkSessionResponse>;
-    getSparkSessions(options?: SparkSessionGetSparkSessionsOptionalParams): Promise<SparkSessionGetSparkSessionsResponse>;
-    getSparkStatement(sessionId: number, statementId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionGetSparkStatementResponse>;
-    getSparkStatements(sessionId: number, options?: coreHttp.OperationOptions): Promise<SparkSessionGetSparkStatementsResponse>;
-    resetSparkSessionTimeout(sessionId: number, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-}
-
 // @public (undocumented)
 export interface SparkSessionOptions {
     // (undocumented)
@@ -550,15 +531,14 @@ export interface SparkStatement {
     // (undocumented)
     id: number;
     // (undocumented)
-    output?: SparkStatementOutput;
+    output?: SparkStatementOutput | null;
     // (undocumented)
     state?: string;
 }
 
 // @public (undocumented)
 export interface SparkStatementCancellationResult {
-    // (undocumented)
-    msg?: string;
+    message?: string;
 }
 
 // @public (undocumented)
@@ -584,15 +564,15 @@ export interface SparkStatementOptions {
 export interface SparkStatementOutput {
     data?: any;
     // (undocumented)
-    errorName?: string;
+    errorName?: string | null;
     // (undocumented)
-    errorValue?: string;
+    errorValue?: string | null;
     // (undocumented)
     executionCount: number;
     // (undocumented)
     status?: string;
     // (undocumented)
-    traceback?: string[];
+    traceback?: string[] | null;
 }
 
 

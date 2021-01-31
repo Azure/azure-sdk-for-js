@@ -21,9 +21,7 @@ import {
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a DataFlowDebugSession.
- */
+/** Class representing a DataFlowDebugSession. */
 export class DataFlowDebugSession {
   private readonly client: ArtifactsClient;
 
@@ -63,7 +61,10 @@ export class DataFlowDebugSession {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(continuationToken, options);
+      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -72,7 +73,9 @@ export class DataFlowDebugSession {
   private async *queryDataFlowDebugSessionsByWorkspacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<DataFlowDebugSessionInfo> {
-    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(options)) {
+    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
@@ -85,7 +88,9 @@ export class DataFlowDebugSession {
   async createDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
+  ): Promise<
+    LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>
+  > {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createDataFlowDebugSession",
       this.getOperationOptions(options, "undefined")
@@ -130,7 +135,9 @@ export class DataFlowDebugSession {
    */
   private async _queryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
-  ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse> {
+  ): Promise<
+    DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
+  > {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -279,7 +286,9 @@ export class DataFlowDebugSession {
   private async _queryDataFlowDebugSessionsByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse> {
+  ): Promise<
+    DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
+  > {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -318,7 +327,6 @@ export class DataFlowDebugSession {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {

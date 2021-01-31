@@ -19,9 +19,7 @@ import {
   SqlScriptGetSqlScriptsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a SqlScript.
- */
+/** Class representing a SqlScript. */
 export class SqlScript {
   private readonly client: ArtifactsClient;
 
@@ -61,7 +59,10 @@ export class SqlScript {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(continuationToken, options);
+      result = await this._getSqlScriptsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -116,31 +117,44 @@ export class SqlScript {
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
-  ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
+  ): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSqlScript",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       sqlScript,
       options: updatedOptions
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateSqlScriptOperationSpec
-      );
-      return result as SqlScriptCreateOrUpdateSqlScriptResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as SqlScriptCreateOrUpdateSqlScriptResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      createOrUpdateSqlScriptOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: createOrUpdateSqlScriptOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -185,30 +199,43 @@ export class SqlScript {
   async deleteSqlScript(
     sqlScriptName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteSqlScript",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       options: updatedOptions
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteSqlScriptOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      deleteSqlScriptOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: deleteSqlScriptOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -309,7 +336,6 @@ export class SqlScript {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSqlScriptsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -335,6 +361,15 @@ const createOrUpdateSqlScriptOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlScriptResource
     },
+    201: {
+      bodyMapper: Mappers.SqlScriptResource
+    },
+    202: {
+      bodyMapper: Mappers.SqlScriptResource
+    },
+    204: {
+      bodyMapper: Mappers.SqlScriptResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -342,7 +377,11 @@ const createOrUpdateSqlScriptOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sqlScript,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };
@@ -368,6 +407,8 @@ const deleteSqlScriptOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError

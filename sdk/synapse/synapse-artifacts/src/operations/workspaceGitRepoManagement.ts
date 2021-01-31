@@ -12,9 +12,7 @@ import {
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse
 } from "../models";
 
-/**
- * Class representing a WorkspaceGitRepoManagement.
- */
+/** Class representing a WorkspaceGitRepoManagement. */
 export class WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClient;
 
@@ -61,7 +59,6 @@ export class WorkspaceGitRepoManagement {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
@@ -75,7 +72,11 @@ const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.clientRequestId
+  ],
   mediaType: "json",
   serializer
 };

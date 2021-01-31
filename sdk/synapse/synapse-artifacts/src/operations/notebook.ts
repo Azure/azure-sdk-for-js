@@ -21,9 +21,7 @@ import {
   NotebookGetNotebookSummaryByWorkSpaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Notebook.
- */
+/** Class representing a Notebook. */
 export class Notebook {
   private readonly client: ArtifactsClient;
 
@@ -63,7 +61,10 @@ export class Notebook {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
+      result = await this._getNotebooksByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -105,7 +106,10 @@ export class Notebook {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
+      result = await this._getNotebookSummaryByWorkSpaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -114,7 +118,9 @@ export class Notebook {
   private async *getNotebookSummaryByWorkSpacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
+    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
@@ -445,7 +451,6 @@ export class Notebook {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getNotebooksByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -503,7 +508,11 @@ const createOrUpdateNotebookOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.notebook,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

@@ -9,22 +9,20 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
-  LinkedServiceResource,
-  LinkedServiceGetLinkedServicesByWorkspaceResponse,
-  LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
-  LinkedServiceCreateOrUpdateLinkedServiceResponse,
-  LinkedServiceGetLinkedServiceOptionalParams,
-  LinkedServiceGetLinkedServiceResponse,
-  ArtifactRenameRequest,
-  LinkedServiceGetLinkedServicesByWorkspaceNextResponse
+  LibraryResource,
+  LibraryListOperationResponse,
+  LibraryGetOperationResultResponse,
+  LibraryGetResponse,
+  LibraryCreateOrAppendOptionalParams,
+  LibraryListNextResponse
 } from "../models";
 
-/** Class representing a LinkedService. */
-export class LinkedService {
+/** Class representing a Library. */
+export class Library {
   private readonly client: ArtifactsClient;
 
   /**
-   * Initialize a new instance of the class LinkedService class.
+   * Initialize a new instance of the class Library class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
@@ -32,13 +30,13 @@ export class LinkedService {
   }
 
   /**
-   * Lists linked services.
+   * Lists Library.
    * @param options The options parameters.
    */
-  public listLinkedServicesByWorkspace(
+  public list(
     options?: coreHttp.OperationOptions
-  ): PagedAsyncIterableIterator<LinkedServiceResource> {
-    const iter = this.getLinkedServicesByWorkspacePagingAll(options);
+  ): PagedAsyncIterableIterator<LibraryResource> {
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -47,46 +45,41 @@ export class LinkedService {
         return this;
       },
       byPage: () => {
-        return this.getLinkedServicesByWorkspacePagingPage(options);
+        return this.listPagingPage(options);
       }
     };
   }
 
-  private async *getLinkedServicesByWorkspacePagingPage(
+  private async *listPagingPage(
     options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<LinkedServiceResource[]> {
-    let result = await this._getLinkedServicesByWorkspace(options);
+  ): AsyncIterableIterator<LibraryResource[]> {
+    let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getLinkedServicesByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *getLinkedServicesByWorkspacePagingAll(
+  private async *listPagingAll(
     options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<LinkedServiceResource> {
-    for await (const page of this.getLinkedServicesByWorkspacePagingPage(
-      options
-    )) {
+  ): AsyncIterableIterator<LibraryResource> {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists linked services.
+   * Lists Library.
    * @param options The options parameters.
    */
-  private async _getLinkedServicesByWorkspace(
+  private async _list(
     options?: coreHttp.OperationOptions
-  ): Promise<LinkedServiceGetLinkedServicesByWorkspaceResponse> {
+  ): Promise<LibraryListOperationResponse> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_getLinkedServicesByWorkspace",
+      "ArtifactsClient-_list",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -95,9 +88,9 @@ export class LinkedService {
     try {
       const result = await this.client.sendOperationRequest(
         operationArguments,
-        getLinkedServicesByWorkspaceOperationSpec
+        listOperationSpec
       );
-      return result as LinkedServiceGetLinkedServicesByWorkspaceResponse;
+      return result as LibraryListOperationResponse;
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -110,104 +103,21 @@ export class LinkedService {
   }
 
   /**
-   * Creates or updates a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param linkedService Linked service resource definition.
+   * Flush Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
    * @param options The options parameters.
    */
-  async createOrUpdateLinkedService(
-    linkedServiceName: string,
-    linkedService: LinkedServiceResource,
-    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
-  ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateLinkedService",
-      this.getOperationOptions(options, "undefined")
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      linkedServiceName,
-      linkedService,
-      options: updatedOptions
-    };
-    const sendOperation = async (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as LinkedServiceCreateOrUpdateLinkedServiceResponse;
-      } catch (error) {
-        span.setStatus({
-          code: CanonicalCode.UNKNOWN,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
-    };
-
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      createOrUpdateLinkedServiceOperationSpec
-    );
-    return new LROPoller({
-      initialOperationArguments: operationArguments,
-      initialOperationSpec: createOrUpdateLinkedServiceOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
-  }
-
-  /**
-   * Gets a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
-   */
-  async getLinkedService(
-    linkedServiceName: string,
-    options?: LinkedServiceGetLinkedServiceOptionalParams
-  ): Promise<LinkedServiceGetLinkedServiceResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getLinkedService",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      linkedServiceName,
-      options: updatedOptions
-    };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getLinkedServiceOperationSpec
-      );
-      return result as LinkedServiceGetLinkedServiceResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Deletes a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param options The options parameters.
-   */
-  async deleteLinkedService(
-    linkedServiceName: string,
+  async flush(
+    libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteLinkedService",
+      "ArtifactsClient-flush",
       this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
-      linkedServiceName,
+      libraryName,
       options: updatedOptions
     };
     const sendOperation = async (
@@ -230,34 +140,66 @@ export class LinkedService {
 
     const initialOperationResult = await sendOperation(
       operationArguments,
-      deleteLinkedServiceOperationSpec
+      flushOperationSpec
     );
     return new LROPoller({
       initialOperationArguments: operationArguments,
-      initialOperationSpec: deleteLinkedServiceOperationSpec,
+      initialOperationSpec: flushOperationSpec,
       initialOperationResult,
       sendOperation
     });
   }
 
   /**
-   * Renames a linked service.
-   * @param linkedServiceName The linked service name.
-   * @param request proposed new name.
+   * Get Operation result for Library
+   * @param operationId operation id for which status is requested
    * @param options The options parameters.
    */
-  async renameLinkedService(
-    linkedServiceName: string,
-    request: ArtifactRenameRequest,
+  async getOperationResult(
+    operationId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<LibraryGetOperationResultResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getOperationResult",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      operationId,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationResultOperationSpec
+      );
+      return result as LibraryGetOperationResultResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async delete(
+    libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameLinkedService",
+      "ArtifactsClient-delete",
       this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
-      linkedServiceName,
-      request,
+      libraryName,
       options: updatedOptions
     };
     const sendOperation = async (
@@ -280,28 +222,114 @@ export class LinkedService {
 
     const initialOperationResult = await sendOperation(
       operationArguments,
-      renameLinkedServiceOperationSpec
+      deleteOperationSpec
     );
     return new LROPoller({
       initialOperationArguments: operationArguments,
-      initialOperationSpec: renameLinkedServiceOperationSpec,
+      initialOperationSpec: deleteOperationSpec,
       initialOperationResult,
       sendOperation
     });
   }
 
   /**
-   * GetLinkedServicesByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetLinkedServicesByWorkspace
-   *                 method.
+   * Get Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
    * @param options The options parameters.
    */
-  private async _getLinkedServicesByWorkspaceNext(
+  async get(
+    libraryName: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<LibraryGetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      libraryName,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationSpec
+      );
+      return result as LibraryGetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a library with the library name. Use query param 'comp=appendblock' to append the data to
+   * the library resource created using the create operation.
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param content Library file chunk. Use this content in with append operation.
+   * @param options The options parameters.
+   */
+  async createOrAppend(
+    libraryName: string,
+    content: coreHttp.HttpRequestBody,
+    options?: LibraryCreateOrAppendOptionalParams
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrAppend",
+      this.getOperationOptions(options, "undefined")
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      libraryName,
+      content,
+      options: updatedOptions
+    };
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      createOrAppendOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: createOrAppendOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private async _listNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse> {
+  ): Promise<LibraryListNextResponse> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
+      "ArtifactsClient-_listNext",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -311,9 +339,9 @@ export class LinkedService {
     try {
       const result = await this.client.sendOperationRequest(
         operationArguments,
-        getLinkedServicesByWorkspaceNextOperationSpec
+        listNextOperationSpec
       );
-      return result as LinkedServiceGetLinkedServicesByWorkspaceNextResponse;
+      return result as LibraryListNextResponse;
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -340,15 +368,15 @@ export class LinkedService {
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getLinkedServicesByWorkspaceOperationSpec: coreHttp.OperationSpec = {
-  path: "/linkedservices",
+const listOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedServiceListResponse
+      bodyMapper: Mappers.LibraryListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -356,73 +384,8 @@ const getLinkedServicesByWorkspaceOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateLinkedServiceOperationSpec: coreHttp.OperationSpec = {
-  path: "/linkedservices/{linkedServiceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    201: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.linkedService,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
-  serializer
-};
-const getLinkedServiceOperationSpec: coreHttp.OperationSpec = {
-  path: "/linkedservices/{linkedServiceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkedServiceResource
-    },
-    304: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
-  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
-};
-const deleteLinkedServiceOperationSpec: coreHttp.OperationSpec = {
-  path: "/linkedservices/{linkedServiceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const renameLinkedServiceOperationSpec: coreHttp.OperationSpec = {
-  path: "/linkedservices/{linkedServiceName}/rename",
+const flushOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}/flush",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -430,25 +393,99 @@ const renameLinkedServiceOperationSpec: coreHttp.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const getLinkedServicesByWorkspaceNextOperationSpec: coreHttp.OperationSpec = {
+const getOperationResultOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraryOperationResults/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryResource
+    },
+    202: {
+      bodyMapper: Mappers.OperationResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryResource
+    },
+    304: {},
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrAppendOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  requestBody: Parameters.content,
+  queryParameters: [Parameters.apiVersion, Parameters.comp],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.accept1,
+    Parameters.xMsBlobConditionAppendpos
+  ],
+  mediaType: "binary",
+  serializer
+};
+const listNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedServiceListResponse
+      bodyMapper: Mappers.LibraryListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   queryParameters: [Parameters.apiVersion],

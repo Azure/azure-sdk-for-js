@@ -46,7 +46,10 @@ export function createBodyPollingStrategy<TResult extends BaseResult>(
       };
 
       // Execute the polling operation
-      initialOperation.result = await sendOperation(initialOperation.args, pollingSpec);
+      initialOperation.result = await sendOperation(
+        initialOperation.args,
+        pollingSpec
+      );
       return initialOperation;
     }
   };

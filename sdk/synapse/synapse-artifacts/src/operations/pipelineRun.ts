@@ -14,9 +14,7 @@ import {
   PipelineRunCancelPipelineRunOptionalParams
 } from "../models";
 
-/**
- * Class representing a PipelineRun.
- */
+/** Class representing a PipelineRun. */
 export class PipelineRun {
   private readonly client: ArtifactsClient;
 
@@ -171,7 +169,6 @@ export class PipelineRun {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const queryPipelineRunsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -221,7 +218,11 @@ const queryActivityRunsOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.pipelineName, Parameters.runId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.pipelineName,
+    Parameters.runId
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

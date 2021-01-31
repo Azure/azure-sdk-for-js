@@ -10,7 +10,9 @@ export function createLocationStrategy<TResult extends BaseResult>(
 ): LROStrategy<TResult> {
   const lroData = initialOperation.result._response[LROSYM];
   if (!lroData) {
-    throw new Error("Expected lroData to be defined for Azure-AsyncOperation strategy");
+    throw new Error(
+      "Expected lroData to be defined for Azure-AsyncOperation strategy"
+    );
   }
 
   let currentOperation = initialOperation;
@@ -51,7 +53,8 @@ export function createLocationStrategy<TResult extends BaseResult>(
       const result = await sendOperationFn(pollingArgs, pollingSpec);
 
       // Update latest polling url
-      lastKnownPollingUrl = result._response[LROSYM]?.location || lastKnownPollingUrl;
+      lastKnownPollingUrl =
+        result._response[LROSYM]?.location || lastKnownPollingUrl;
 
       // Update lastOperation result
       currentOperation = {

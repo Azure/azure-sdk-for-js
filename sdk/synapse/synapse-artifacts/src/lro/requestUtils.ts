@@ -23,10 +23,17 @@ export function shouldDeserializeLRO(finalStateVia?: string) {
       isInitialRequest = false;
     }
 
-    if (initialOperationInfo.azureAsyncOperation || initialOperationInfo.operationLocation) {
+    if (
+      initialOperationInfo.azureAsyncOperation ||
+      initialOperationInfo.operationLocation
+    ) {
       return (
         !isInitialRequest &&
-        isAsyncOperationFinalResponse(response, initialOperationInfo, finalStateVia)
+        isAsyncOperationFinalResponse(
+          response,
+          initialOperationInfo,
+          finalStateVia
+        )
       );
     }
 
@@ -64,7 +71,10 @@ function isAsyncOperationFinalResponse(
     return true;
   }
 
-  if (initialOperationInfo.requestMethod !== "PUT" && !initialOperationInfo.location) {
+  if (
+    initialOperationInfo.requestMethod !== "PUT" &&
+    !initialOperationInfo.location
+  ) {
     return true;
   }
 

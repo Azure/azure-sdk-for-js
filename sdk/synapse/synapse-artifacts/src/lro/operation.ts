@@ -43,7 +43,9 @@ async function update<TResult extends BaseResult>(
   const currentLroData = currentResponse.result._response[LROSYM];
 
   if (!currentLroData) {
-    throw new Error("Expected lroData to be defined for updating LRO operation");
+    throw new Error(
+      "Expected lroData to be defined for updating LRO operation"
+    );
   }
 
   if (state.result) {

@@ -21,9 +21,7 @@ import {
   PipelineGetPipelinesByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Pipeline.
- */
+/** Class representing a Pipeline. */
 export class Pipeline {
   private readonly client: ArtifactsClient;
 
@@ -63,7 +61,10 @@ export class Pipeline {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getPipelinesByWorkspaceNext(continuationToken, options);
+      result = await this._getPipelinesByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -371,7 +372,6 @@ export class Pipeline {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getPipelinesByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -413,7 +413,11 @@ const createOrUpdatePipelineOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.pipeline,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

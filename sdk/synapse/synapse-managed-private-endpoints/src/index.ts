@@ -4,4 +4,3 @@
 export * from "./models";
 export { ManagedPrivateEndpointsClient } from "./managedPrivateEndpointsClient";
 export { ManagedPrivateEndpointsClientContext } from "./managedPrivateEndpointsClientContext";
-export { ManagedPrivateEndpoints as ManagedPrivateEndpointsOperation } from "./operations";

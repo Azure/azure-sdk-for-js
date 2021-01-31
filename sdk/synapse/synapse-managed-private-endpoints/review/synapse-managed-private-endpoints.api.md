@@ -40,8 +40,10 @@ export interface ManagedPrivateEndpointProperties {
 // @public (undocumented)
 export class ManagedPrivateEndpointsClient extends ManagedPrivateEndpointsClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
+    // Warning: (ae-forgotten-export) The symbol "ManagedPrivateEndpoints" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    managedPrivateEndpoints: ManagedPrivateEndpointsOperation;
+    managedPrivateEndpoints: ManagedPrivateEndpoints;
 }
 
 // @public (undocumented)
@@ -90,15 +92,6 @@ export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResp
         parsedBody: ManagedPrivateEndpointListResponse;
     };
 };
-
-// @public
-export class ManagedPrivateEndpointsOperation {
-    constructor(client: ManagedPrivateEndpointsClient);
-    create(managedVirtualNetworkName: string, managedPrivateEndpointName: string, managedPrivateEndpoint: ManagedPrivateEndpoint, options?: coreHttp.OperationOptions): Promise<ManagedPrivateEndpointsCreateResponse>;
-    delete(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    get(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: coreHttp.OperationOptions): Promise<ManagedPrivateEndpointsGetResponse>;
-    list(managedVirtualNetworkName: string, options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
-    }
 
 
 // (No @packageDocumentation comment for this package)

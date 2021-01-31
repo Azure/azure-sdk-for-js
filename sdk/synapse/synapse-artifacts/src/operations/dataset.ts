@@ -19,9 +19,7 @@ import {
   DatasetGetDatasetsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Dataset.
- */
+/** Class representing a Dataset. */
 export class Dataset {
   private readonly client: ArtifactsClient;
 
@@ -61,7 +59,10 @@ export class Dataset {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDatasetsByWorkspaceNext(continuationToken, options);
+      result = await this._getDatasetsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -334,7 +335,6 @@ export class Dataset {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getDatasetsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -376,7 +376,11 @@ const createOrUpdateDatasetOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };

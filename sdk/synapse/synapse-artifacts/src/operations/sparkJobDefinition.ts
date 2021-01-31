@@ -21,9 +21,7 @@ import {
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a SparkJobDefinition.
- */
+/** Class representing a SparkJobDefinition. */
 export class SparkJobDefinition {
   private readonly client: ArtifactsClient;
 
@@ -63,7 +61,10 @@ export class SparkJobDefinition {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSparkJobDefinitionsByWorkspaceNext(continuationToken, options);
+      result = await this._getSparkJobDefinitionsByWorkspaceNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -72,7 +73,9 @@ export class SparkJobDefinition {
   private async *getSparkJobDefinitionsByWorkspacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<SparkJobDefinitionResource> {
-    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(options)) {
+    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(
+      options
+    )) {
       yield* page;
     }
   }
@@ -118,31 +121,46 @@ export class SparkJobDefinition {
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
     options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
-  ): Promise<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse> {
+  ): Promise<
+    LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>
+  > {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSparkJobDefinition",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
       sparkJobDefinition,
       options: updatedOptions
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateSparkJobDefinitionOperationSpec
-      );
-      return result as SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      createOrUpdateSparkJobDefinitionOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: createOrUpdateSparkJobDefinitionOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -187,30 +205,43 @@ export class SparkJobDefinition {
   async deleteSparkJobDefinition(
     sparkJobDefinitionName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteSparkJobDefinition",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
       options: updatedOptions
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteSparkJobDefinitionOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(
+      operationArguments,
+      deleteSparkJobDefinitionOperationSpec
+    );
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: deleteSparkJobDefinitionOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
   }
 
   /**
@@ -407,7 +438,6 @@ export class SparkJobDefinition {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkJobDefinitionsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
@@ -433,6 +463,15 @@ const createOrUpdateSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.SparkJobDefinitionResource
     },
+    201: {
+      bodyMapper: Mappers.SparkJobDefinitionResource
+    },
+    202: {
+      bodyMapper: Mappers.SparkJobDefinitionResource
+    },
+    204: {
+      bodyMapper: Mappers.SparkJobDefinitionResource
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -440,7 +479,11 @@ const createOrUpdateSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sparkJobDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };
@@ -466,6 +509,8 @@ const deleteSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.CloudError
