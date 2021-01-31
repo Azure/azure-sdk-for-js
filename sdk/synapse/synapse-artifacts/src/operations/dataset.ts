@@ -59,10 +59,7 @@ export class Dataset {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDatasetsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getDatasetsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -376,11 +373,7 @@ const createOrUpdateDatasetOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

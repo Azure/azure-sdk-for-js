@@ -72,11 +72,7 @@ const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.clientRequestId
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
   mediaType: "json",
   serializer
 };

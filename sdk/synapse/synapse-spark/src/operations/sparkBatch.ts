@@ -173,11 +173,7 @@ const getSparkBatchJobsOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.fromParam, Parameters.size, Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -191,11 +187,7 @@ const createSparkBatchJobOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.sparkBatchJobOptions,
   queryParameters: [Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

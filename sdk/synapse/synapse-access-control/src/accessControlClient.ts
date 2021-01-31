@@ -414,11 +414,7 @@ const getRoleAssignmentsOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.roleId1,
-    Parameters.principalId
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.roleId1, Parameters.principalId],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.continuationToken],
   serializer

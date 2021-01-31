@@ -61,10 +61,7 @@ export class Pipeline {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getPipelinesByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getPipelinesByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -413,11 +410,7 @@ const createOrUpdatePipelineOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.pipeline,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

@@ -61,10 +61,7 @@ export class Notebook {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebooksByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getNotebooksByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -106,10 +103,7 @@ export class Notebook {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getNotebookSummaryByWorkSpaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getNotebookSummaryByWorkSpaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -118,9 +112,7 @@ export class Notebook {
   private async *getNotebookSummaryByWorkSpacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<NotebookResource> {
-    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(
-      options
-    )) {
+    for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(options)) {
       yield* page;
     }
   }
@@ -508,11 +500,7 @@ const createOrUpdateNotebookOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.notebook,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

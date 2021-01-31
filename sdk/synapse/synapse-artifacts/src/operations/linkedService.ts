@@ -59,10 +59,7 @@ export class LinkedService {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getLinkedServicesByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getLinkedServicesByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -71,9 +68,7 @@ export class LinkedService {
   private async *getLinkedServicesByWorkspacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<LinkedServiceResource> {
-    for await (const page of this.getLinkedServicesByWorkspacePagingPage(
-      options
-    )) {
+    for await (const page of this.getLinkedServicesByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -379,11 +374,7 @@ const createOrUpdateLinkedServiceOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.linkedService,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

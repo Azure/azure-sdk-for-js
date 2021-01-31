@@ -116,8 +116,7 @@ export type ManagedPrivateEndpointsListNextResponse = ManagedPrivateEndpointList
 };
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface ManagedPrivateEndpointsClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

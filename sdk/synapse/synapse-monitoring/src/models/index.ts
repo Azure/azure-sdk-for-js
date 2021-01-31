@@ -30,8 +30,7 @@ export interface SqlQueryStringDataModel {
 }
 
 /** Optional parameters. */
-export interface MonitoringGetSparkJobListOptionalParams
-  extends coreHttp.OperationOptions {
+export interface MonitoringGetSparkJobListOptionalParams extends coreHttp.OperationOptions {
   /** Can provide a guid, which is helpful for debugging and to provide better customer support */
   xMsClientRequestId?: string;
 }
@@ -49,8 +48,7 @@ export type MonitoringGetSparkJobListResponse = SparkJobListViewResponse & {
 };
 
 /** Optional parameters. */
-export interface MonitoringGetSqlJobQueryStringOptionalParams
-  extends coreHttp.OperationOptions {
+export interface MonitoringGetSqlJobQueryStringOptionalParams extends coreHttp.OperationOptions {
   /** Can provide a guid, which is helpful for debugging and to provide better customer support */
   xMsClientRequestId?: string;
   filter?: string;
@@ -71,8 +69,7 @@ export type MonitoringGetSqlJobQueryStringResponse = SqlQueryStringDataModel & {
 };
 
 /** Optional parameters. */
-export interface MonitoringClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface MonitoringClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

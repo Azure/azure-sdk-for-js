@@ -59,10 +59,7 @@ export class DataFlow {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDataFlowsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getDataFlowsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -361,11 +358,7 @@ const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

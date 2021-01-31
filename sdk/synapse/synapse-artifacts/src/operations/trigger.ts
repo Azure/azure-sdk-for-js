@@ -61,10 +61,7 @@ export class Trigger {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getTriggersByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getTriggersByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -550,11 +547,7 @@ const createOrUpdateTriggerOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.trigger,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

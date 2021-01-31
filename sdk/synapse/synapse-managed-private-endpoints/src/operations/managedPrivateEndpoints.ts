@@ -58,11 +58,7 @@ export class ManagedPrivateEndpoints {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(
-        managedVirtualNetworkName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(managedVirtualNetworkName, continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -72,10 +68,7 @@ export class ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<ManagedPrivateEndpoint> {
-    for await (const page of this.listPagingPage(
-      managedVirtualNetworkName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(managedVirtualNetworkName, options)) {
       yield* page;
     }
   }
@@ -101,10 +94,7 @@ export class ManagedPrivateEndpoints {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as ManagedPrivateEndpointsGetResponse;
     } catch (error) {
       span.setStatus({
@@ -212,10 +202,7 @@ export class ManagedPrivateEndpoints {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as ManagedPrivateEndpointsListResponse;
     } catch (error) {
       span.setStatus({
@@ -320,8 +307,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const listOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints",
+  path: "/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
@@ -342,11 +328,7 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.managedVirtualNetworkName,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.managedVirtualNetworkName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };

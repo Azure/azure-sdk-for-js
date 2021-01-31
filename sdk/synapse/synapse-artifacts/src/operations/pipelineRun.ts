@@ -218,11 +218,7 @@ const queryActivityRunsOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.filterParameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.pipelineName,
-    Parameters.runId
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.pipelineName, Parameters.runId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer

@@ -24,9 +24,7 @@ export class Workspace {
    * Get Workspace
    * @param options The options parameters.
    */
-  async get(
-    options?: coreHttp.OperationOptions
-  ): Promise<WorkspaceGetResponse> {
+  async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-get",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -35,10 +33,7 @@ export class Workspace {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as WorkspaceGetResponse;
     } catch (error) {
       span.setStatus({

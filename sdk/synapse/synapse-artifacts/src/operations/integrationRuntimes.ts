@@ -6,10 +6,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
-import {
-  IntegrationRuntimesListResponse,
-  IntegrationRuntimesGetResponse
-} from "../models";
+import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
 
 /** Class representing a IntegrationRuntimes. */
 export class IntegrationRuntimes {
@@ -27,9 +24,7 @@ export class IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  async list(
-    options?: coreHttp.OperationOptions
-  ): Promise<IntegrationRuntimesListResponse> {
+  async list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-list",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
@@ -38,10 +33,7 @@ export class IntegrationRuntimes {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as IntegrationRuntimesListResponse;
     } catch (error) {
       span.setStatus({
@@ -72,10 +64,7 @@ export class IntegrationRuntimes {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as IntegrationRuntimesGetResponse;
     } catch (error) {
       span.setStatus({

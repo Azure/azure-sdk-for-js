@@ -8,11 +8,7 @@ import {
   FinalStateVia,
   LROSYM
 } from "./models";
-import {
-  OperationSpec,
-  OperationArguments,
-  OperationResponse
-} from "@azure/core-http";
+import { OperationSpec, OperationArguments, OperationResponse } from "@azure/core-http";
 import { terminalStates } from "./constants";
 import { SendOperationFn } from ".";
 
@@ -23,14 +19,11 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
 ): LROStrategy<TResult> {
   const lroData = initialOperation.result._response[LROSYM];
   if (!lroData) {
-    throw new Error(
-      "Expected lroData to be defined for Azure-AsyncOperation strategy"
-    );
+    throw new Error("Expected lroData to be defined for Azure-AsyncOperation strategy");
   }
 
   let currentOperation = initialOperation;
-  let lastKnownPollingUrl =
-    lroData.azureAsyncOperation || lroData.operationLocation;
+  let lastKnownPollingUrl = lroData.azureAsyncOperation || lroData.operationLocation;
 
   return {
     isTerminal: () => {
@@ -61,17 +54,12 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
       const initialOperationResult = initialOperation.result._response[LROSYM];
       const currentOperationResult = currentOperation.result._response[LROSYM];
 
-      if (
-        !shouldPerformFinalGet(initialOperationResult, currentOperationResult)
-      ) {
+      if (!shouldPerformFinalGet(initialOperationResult, currentOperationResult)) {
         return currentOperation;
       }
 
       if (initialOperationResult?.requestMethod === "PUT") {
-        currentOperation = await sendFinalGet(
-          initialOperation,
-          sendOperationFn
-        );
+        currentOperation = await sendFinalGet(initialOperation, sendOperationFn);
 
         return currentOperation;
       }
@@ -79,29 +67,20 @@ export function createAzureAsyncOperationStrategy<TResult extends BaseResult>(
       if (initialOperationResult?.location) {
         switch (finalStateVia) {
           case "original-uri":
-            currentOperation = await sendFinalGet(
-              initialOperation,
-              sendOperationFn
-            );
+            currentOperation = await sendFinalGet(initialOperation, sendOperationFn);
             return currentOperation;
 
           case "azure-async-operation":
             return currentOperation;
           case "location":
           default:
-            const location =
-              initialOperationResult.location ||
-              currentOperationResult?.location;
+            const location = initialOperationResult.location || currentOperationResult?.location;
 
             if (!location) {
               throw new Error("Couldn't determine final GET URL from location");
             }
 
-            return await sendFinalGet(
-              initialOperation,
-              sendOperationFn,
-              location
-            );
+            return await sendFinalGet(initialOperation, sendOperationFn, location);
         }
       }
 
@@ -179,10 +158,7 @@ function getCompositeMappers(responses: {
   }, {} as { [responseCode: string]: OperationResponse });
 }
 
-function shouldPerformFinalGet(
-  initialResult?: LROResponseInfo,
-  currentResult?: LROResponseInfo
-) {
+function shouldPerformFinalGet(initialResult?: LROResponseInfo, currentResult?: LROResponseInfo) {
   const { status } = currentResult || {};
   const { requestMethod: initialRequestMethod, location } = initialResult || {};
   if (status && status.toLowerCase() !== "succeeded") {
