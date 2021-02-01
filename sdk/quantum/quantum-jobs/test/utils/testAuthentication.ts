@@ -11,9 +11,6 @@ export async function authenticate(that: any): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
       SUBSCRIPTION_ID: "subscription_id",
       RESOURCE_GROUP: "resource-group",
       WORKSPACE_NAME: "workspace-name",
