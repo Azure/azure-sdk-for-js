@@ -59,7 +59,12 @@ For systems without a default web browser, the `az login` command will use the d
 
 To authenticate Azure SDKs within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
 
-When using the `InteractiveBrowserCredential`, the authentication flow [Auth Code Flow][AuthCodeFlow] (with PKCE) will be used by default, but users can revert back to the previously used [Implicit Grant Flow][ImplicitGrantFlow] by setting the `flow` property to `implicit-grant` on the credential's constructor.
+In the browser, two authentication flows are provided:
+
+- OAuth 2.0's [Auth Code Flow][AuthCodeFlow], which is the preferred flow, uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636), uses [MSAL v2.x](https://github.com/AzureAD/microsoft-authentication-library-for-js), and is enabled by default.
+- OAuth 2.0's [Implicit Grant Flow][ImplicitGrantFlow], which is an older authentication method that uses third party cookies (which are set to be removed from browsers at some point).
+
+While [Auth Code Flow][AuthCodeFlow] is the recommended authentication flow, [Implicit Grant Flow][ImplicitGrantFlow] is still available by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`.
 
 ## Key concepts
 
