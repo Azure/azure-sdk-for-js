@@ -66,6 +66,16 @@ In the browser, two authentication flows are provided:
 
 While [Auth Code Flow][AuthCodeFlow] is the recommended authentication flow, [Implicit Grant Flow][ImplicitGrantFlow] is still available by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`.
 
+The `InteractiveBrowserCredential` allows users to pass an optional `redirectUri` property that is assumed to be the website's URL if not provided. This redirect URI should be configured in your Azure Active Directory App Registration. Follow the instructions for [creating your single-page application](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
+
+If you attempt to use the authorization code flow and see this error:
+
+```
+access to XMLHttpRequest at 'https://login.microsoftonline.com/common/v2.0/oauth2/token' from origin 'yourApp.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+```
+
+Then you need to visit your app registration and update the redirect URI for your app to type `spa` (for "single page application").
+
 ## Key concepts
 
 If this is your first time using `@azure/identity` or the Microsoft identity platform (Azure Active Directory), we recommend that you read [Using `@azure/identity` with Microsoft Identity Platform](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/using-azure-identity.md) first. This document will give you a deeper understanding of the platform and how to configure your Azure account correctly.
@@ -255,5 +265,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png
+[AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
+[ImplicitGrantFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)
