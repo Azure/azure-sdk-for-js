@@ -129,9 +129,9 @@ export interface PipelineRequest {
   formData?: FormDataMap;
 
   /**
-   * Whether or not the body of the PipelineResponse should be treated as a stream.
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
    */
-  streamResponseBody?: boolean;
+  streamResponseStatusCodes?: Set<number>;
 
   /**
    * Proxy configuration.

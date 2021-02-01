@@ -10,7 +10,6 @@ import jssha from "jssha";
 /**
  * @class SharedKeyCredential
  * @internal
- * @hidden
  * Defines the SharedKeyCredential.
  */
 export class SharedKeyCredential {
@@ -99,7 +98,6 @@ export class SharedKeyCredential {
  * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
  *
  * @internal
- * @hidden
  */
 export class SharedAccessSignatureCredential extends SharedKeyCredential {
   private _accessToken: AccessToken;

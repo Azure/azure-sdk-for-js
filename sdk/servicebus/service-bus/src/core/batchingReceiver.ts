@@ -26,7 +26,6 @@ import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
- * @hidden
  * @class BatchingReceiver
  * @extends MessageReceiver
  */
@@ -93,7 +92,7 @@ export class BatchingReceiver extends MessageReceiver {
       );
     }
 
-    await this._batchingReceiverLite.close(connectionError);
+    this._batchingReceiverLite.terminate(connectionError);
   }
 
   /**
@@ -165,7 +164,6 @@ export class BatchingReceiver extends MessageReceiver {
  * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
  *
  * @internal
- * @hidden
  */
 export function getRemainingWaitTimeInMsFn(
   maxWaitTimeInMs: number,
@@ -189,7 +187,6 @@ export function getRemainingWaitTimeInMsFn(
  * import the events definition (which is annoying with browsers).
  *
  * @internal
- * @hidden
  */
 type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
 
@@ -198,7 +195,6 @@ type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeLi
  * message receiving.
  *
  * @internal
- * @hidden
  */
 export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
   EventEmitterLike<Receiver> & {
@@ -211,13 +207,11 @@ export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "add
 
 /**
  * @internal
- * @hidden
  */
 type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
 
 /**
  * @internal
- * @hidden
  */
 interface ReceiveMessageArgs extends OperationOptionsBase {
   maxMessageCount: number;
@@ -232,7 +226,6 @@ interface ReceiveMessageArgs extends OperationOptionsBase {
  * Usable with both session and non-session receivers.
  *
  * @internal
- * @hidden
  */
 export class BatchingReceiverLite {
   /**
@@ -308,7 +301,7 @@ export class BatchingReceiverLite {
    *
    * @param connectionError An optional error (rhea doesn't always deliver one for certain disconnection events)
    */
-  close(connectionError?: Error | AmqpError) {
+  terminate(connectionError?: Error | AmqpError) {
     if (this._closeHandler) {
       this._closeHandler(connectionError);
       this._closeHandler = undefined;

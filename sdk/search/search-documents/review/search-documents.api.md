@@ -455,7 +455,10 @@ export interface FreshnessScoringParameters {
 
 // @public
 export class GeographyPoint {
-    constructor(latitude: number, longitude: number);
+    constructor(geographyPoint: {
+        longitude: number;
+        latitude: number;
+    });
     latitude: number;
     longitude: number;
     toJSON(): Record<string, unknown>;
@@ -527,6 +530,11 @@ export class IndexDocumentsBatch<T> {
     merge(documents: T[]): void;
     mergeOrUpload(documents: T[]): void;
     upload(documents: T[]): void;
+}
+
+// @public
+export interface IndexDocumentsClient<T> {
+    indexDocuments(batch: IndexDocumentsBatch<T>, options: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
@@ -1437,7 +1445,7 @@ export interface ScoringProfile {
 export type ScoringStatistics = "local" | "global";
 
 // @public
-export class SearchClient<T> {
+export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
@@ -1446,7 +1454,6 @@ export class SearchClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1645,7 +1652,8 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export interface SearchIndexingBufferedSender<T> {
+export class SearchIndexingBufferedSender<T> {
+    constructor(client: IndexDocumentsClient<T>, documentKeyRetriever: (document: T) => string, options?: SearchIndexingBufferedSenderOptions);
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
@@ -1685,9 +1693,9 @@ export interface SearchIndexingBufferedSenderOptions {
     autoFlush?: boolean;
     flushWindowInMs?: number;
     initialBatchActionCount?: number;
-    maxRetries?: number;
-    maxRetryDelayInMs?: number;
-    retryDelayInMs?: number;
+    maxRetriesPerAction?: number;
+    maxThrottlingDelayInMs?: number;
+    throttlingDelayInMs?: number;
 }
 
 // @public

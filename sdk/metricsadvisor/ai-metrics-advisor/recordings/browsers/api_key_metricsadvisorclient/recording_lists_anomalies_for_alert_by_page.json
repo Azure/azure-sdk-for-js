@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies",
+   "query": {
+    "$top": "1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2020-10-20T00:00:00Z\",\"createdTime\":\"2020-10-21T15:54:37.73Z\",\"modifiedTime\":\"2020-10-21T15:54:37.73Z\",\"dimension\":{\"city\":\"Delhi\",\"category\":\"Shoes Handbags & Sunglasses\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies?$top=1&$skip=1\"}",
+   "responseHeaders": {
+    "apim-request-id": "0f7184ee-fb10-4fce-89a2-744d5cf6ed6a",
+    "content-length": "590",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "129",
+    "x-request-id": "0f7184ee-fb10-4fce-89a2-744d5cf6ed6a"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies",
+   "query": {
+    "$top": "1",
+    "$skip": "1"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2020-10-20T00:00:00Z\",\"createdTime\":\"2020-10-21T15:54:37.73Z\",\"modifiedTime\":\"2020-10-21T15:54:37.73Z\",\"dimension\":{\"city\":\"Karachi\",\"category\":\"Handmade\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies?$top=1&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "e778238b-ae89-4d2f-9baa-1dd11a0bc7d9",
+    "content-length": "573",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "161",
+    "x-request-id": "e778238b-ae89-4d2f-9baa-1dd11a0bc7d9"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "86dec0bc72fd2f089b4db18e309efa1b"
+}

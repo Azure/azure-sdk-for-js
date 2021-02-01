@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query",
+   "query": {
+    "$top": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"filter\":{}}",
+   "status": 200,
+   "response": "{\"value\":[{\"incidentId\":\"2d7db62bcdf6c4f795c81fa0cd335508-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}},{\"incidentId\":\"22ede4ce36745c0a111c6cb99fd20c54-175908d9800\",\"startTime\":\"2020-11-03T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$top=2&$token=eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXlaRGRrWWpZeVltTmtaalpqTkdZM09UVmpPREZtWVRCalpETXpOVFV3T0E9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
+   "responseHeaders": {
+    "apim-request-id": "ab15d0a3-17a8-44b0-b954-a5c639347832",
+    "content-length": "1138",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:37 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "658",
+    "x-request-id": "ab15d0a3-17a8-44b0-b954-a5c639347832"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query",
+   "query": {
+    "$top": "2",
+    "$token": "eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXlaRGRrWWpZeVltTmtaalpqTkdZM09UVmpPREZtWVRCalpETXpOVFV3T0E9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"incidentId\":\"3bc1136adb61ca433bd9edbbaf46ec21-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Cell Phones\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}},{\"incidentId\":\"3b763da1c27792ce771cf696518d688d-175908d9800\",\"startTime\":\"2020-11-04T00:00:00Z\",\"lastTime\":\"2020-11-04T00:00:00Z\",\"rootNode\":{\"dimension\":{\"city\":\"Lagos\",\"category\":\"Automotive & Powersports\"}},\"property\":{\"maxSeverity\":\"Low\",\"incidentStatus\":\"Active\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$top=2&$token=eyJtZXRyaWNJZCI6IjI3ZTMwMTVmLTA0ZmQtNDRiYS1hMjBiLWJjNTI5YTBhZWJhZSIsImRldGVjdENvbmZpZ0lkIjoiZmI1YTZlZDYtMmI5ZS00YjcyLThiMGMtMDA0NmVhZDFjMTVjIiwic3RhcnRUaW1lIjoiMjAyMC0wMS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMC0xMS0wNVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1DMHhNUzB3TlZRd01Eb3dNRG93TUZvakl5TXpZbU14TVRNMllXUmlOakZqWVRRek0ySmtPV1ZrWW1KaFpqUTJaV015TVE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ==\"}",
+   "responseHeaders": {
+    "apim-request-id": "21d96c52-9d6a-493b-8740-97b50d8da11b",
+    "content-length": "1126",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:38 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "510",
+    "x-request-id": "21d96c52-9d6a-493b-8740-97b50d8da11b"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "80e975be58d0747a154f82d790079372"
+}

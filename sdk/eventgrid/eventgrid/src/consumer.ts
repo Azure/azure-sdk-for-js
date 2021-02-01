@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Serializer } from "@azure/core-http";
+import { createSerializer } from "@azure/core-client";
 import { CloudEvent as WireCloudEvent } from "./generated/models";
 import {
   CustomEventDataDeserializer,
@@ -16,7 +16,7 @@ import {
 import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
 import { systemDeserializers } from "./systemEventDecoders";
 
-const serializer = new Serializer();
+const serializer = createSerializer();
 
 /**
  * Options for the Event Grid Consumer

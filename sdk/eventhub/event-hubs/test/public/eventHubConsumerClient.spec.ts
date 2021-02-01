@@ -291,12 +291,14 @@ describe("EventHubConsumerClient", () => {
         const consumerClient1 = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
+          { loadBalancingOptions: { updateIntervalInMs: 1000 } }
         );
         const consumerClient2 = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
+          { loadBalancingOptions: { updateIntervalInMs: 1000 } }
         );
 
         clients.push(consumerClient1, consumerClient2);

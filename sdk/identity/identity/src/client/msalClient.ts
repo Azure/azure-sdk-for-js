@@ -161,10 +161,6 @@ export enum HttpMethod {
  * This class implements the API for network requests.
  */
 export class HttpClient implements INetworkModule {
-  constructor() {
-    axios.defaults.validateStatus = () => true;
-  }
-
   /**
    * Http Get request
    * @param url -
@@ -177,7 +173,8 @@ export class HttpClient implements INetworkModule {
     const request: AxiosRequestConfig = {
       method: HttpMethod.GET,
       url: url,
-      headers: options && options.headers
+      headers: options && options.headers,
+      validateStatus: () => true
     };
 
     const response = await axios(request);
@@ -202,7 +199,8 @@ export class HttpClient implements INetworkModule {
       method: HttpMethod.POST,
       url: url,
       data: (options && options.body) || "",
-      headers: options && options.headers
+      headers: options && options.headers,
+      validateStatus: () => true
     };
 
     const response = await axios(request);

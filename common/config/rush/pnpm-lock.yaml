@@ -9,6 +9,7 @@ dependencies:
   '@rush-temp/communication-administration': file:projects/communication-administration.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
+  '@rush-temp/communication-identity': file:projects/communication-identity.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
   '@rush-temp/core-asynciterator-polyfill': file:projects/core-asynciterator-polyfill.tgz
@@ -517,7 +518,7 @@ packages:
   /@nodelib/fs.walk/1.2.6:
     dependencies:
       '@nodelib/fs.scandir': 2.1.4
-      fastq: 1.10.0
+      fastq: 1.10.1
     dev: false
     engines:
       node: '>= 8'
@@ -941,10 +942,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-KANw+MkL626tq90l++hGelbl67irOJzGhUJk6a1Bt8QHOeh9tztJx+L0AqttraWKinmZn7Qi5lJZJzx45Gq0dg==
-  /@types/node/14.14.22:
-    dev: false
-    resolution:
-      integrity: sha512-g+f/qj/cNcqKkc3tFqlXOYjrmZA+jNBiDzbP3kH+B+otKFqAdPgVTGP1IeKRdMml/aE69as5S4FqtxAbl+LaMw==
   /@types/node/8.10.66:
     dev: false
     resolution:
@@ -1036,12 +1033,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-37RSHht+gzzgYeobbG+KWryeAW8J33Nhr69cjTqSYymXVZEN9NbRYWoYlRtDhHKPVT1FyNKwaTPC1NynKZpzRA==
-  /@types/yargs/15.0.12:
+  /@types/yargs/15.0.13:
     dependencies:
       '@types/yargs-parser': 20.2.0
     dev: false
     resolution:
-      integrity: sha512-f+fD/fQAo3BCbCDlrUpznF1A5Zp9rB0noS5vnoormHSIPFKL0Z2DcUJ3Gxp5ytH4uLRNxy7AwYUC9exZzqGMAw==
+      integrity: sha512-kQ5JNTrbDv3Rp5X2n/iUu37IJBDU2gsZ5R/g1/KHOOEc5IKfUFjXT6DENPGduh08I/pamwtEq4oul7gUqKTQDQ==
   /@types/yauzl/2.9.1:
     dependencies:
       '@types/node': 8.10.66
@@ -1747,7 +1744,7 @@ packages:
   /call-bind/1.0.2:
     dependencies:
       function-bind: 1.1.1
-      get-intrinsic: 1.0.2
+      get-intrinsic: 1.1.0
     dev: false
     resolution:
       integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==
@@ -1799,7 +1796,7 @@ packages:
       check-error: 1.0.2
       deep-eql: 3.0.1
       get-func-name: 2.0.0
-      pathval: 1.1.0
+      pathval: 1.1.1
       type-detect: 4.0.8
     dev: false
     engines:
@@ -2509,7 +2506,7 @@ packages:
       call-bind: 1.0.2
       es-to-primitive: 1.2.1
       function-bind: 1.1.1
-      get-intrinsic: 1.0.2
+      get-intrinsic: 1.1.0
       has: 1.0.3
       has-symbols: 1.0.1
       is-callable: 1.2.2
@@ -2920,12 +2917,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
-  /fastq/1.10.0:
+  /fastq/1.10.1:
     dependencies:
       reusify: 1.0.4
     dev: false
     resolution:
-      integrity: sha512-NL2Qc5L3iQEsyYzweq7qfgy5OtXCmGzGvhElGEd/SoFWEMOEczNh5s5ocaF01HDetxz+p8ecjNPA6cZxxIHmzA==
+      integrity: sha512-AWuv6Ery3pM+dY7LYS8YIaCiQvUaos9OB1RyNgaOWnaX+Tik7Onvcsf8x8c+YtDeT0maYLniBip2hox5KtEXXA==
   /fclone/1.0.11:
     dev: false
     resolution:
@@ -3240,14 +3237,14 @@ packages:
     dev: false
     resolution:
       integrity: sha1-6td0q+5y4gQJQzoGY2YCPdaIekE=
-  /get-intrinsic/1.0.2:
+  /get-intrinsic/1.1.0:
     dependencies:
       function-bind: 1.1.1
       has: 1.0.3
       has-symbols: 1.0.1
     dev: false
     resolution:
-      integrity: sha512-aeX0vrFm21ILl3+JpFFRNe9aUvp6VFZb2/CTbgLb8j75kOhvoNYjt9d8KA/tJG4gSo8nzEDedRl0h7vDmBYRVg==
+      integrity: sha512-M11rgtQp5GZMZzDL7jLTNxbDfurpzuau5uqRWDPvlHjfvg3TdScAZo96GLvhMjImrmR8uAt0FS2RLoMrfWGKlg==
   /get-stream/5.2.0:
     dependencies:
       pump: 3.0.0
@@ -5350,10 +5347,10 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
-  /pathval/1.1.0:
+  /pathval/1.1.1:
     dev: false
     resolution:
-      integrity: sha1-uULm1L3mUwBe9rcTYd74cn0GReA=
+      integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==
   /pend/1.2.0:
     dev: false
     resolution:
@@ -5967,7 +5964,7 @@ packages:
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.46
-      '@types/node': 14.14.22
+      '@types/node': 8.10.66
       acorn: 7.4.1
     dev: false
     hasBin: true
@@ -7393,6 +7390,7 @@ packages:
       assert: 1.5.0
       cross-env: 7.0.3
       delay: 4.4.0
+      downlevel-dts: 0.4.0
       eslint: 7.18.0
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
@@ -7420,7 +7418,7 @@ packages:
     dev: false
     name: '@rush-temp/abort-controller'
     resolution:
-      integrity: sha512-3DdE0XQ8NQ3jFp6wgrACKaFdKTjwq3RAjFJqHlz1hi1o/uoxaZg1cRNPeHuz4NVkJQN+x96esZhd2CO5ruDeag==
+      integrity: sha512-+o3sVHmEvCh0ezHz3KWwdUo1d444Wqgnzs88P49XJaejLjBGNMgsPPJcxrtgncDADyuKsnHS4643rnjzWJuYrg==
       tarball: file:projects/abort-controller.tgz
     version: 0.0.0
   file:projects/ai-anomaly-detector.tgz:
@@ -7818,7 +7816,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-0l8R7/9oNGCbhWXhF331BURC2WZQE9x3d6VYb140qg3z+3DkfaELw6oa+xp+4Xo4xz7ia8C4w8dyoIQvAq/cMg==
+      integrity: sha512-ugw9IfLA+ohlZzKrx9GT7KgUprIFxFy9LAr/sgkYcm7wCwHy1UiK29Ie9I8HV73w6OyKoT4VzEzUl21tR43MEg==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -7874,6 +7872,61 @@ packages:
     resolution:
       integrity: sha512-dp85NanIwuYE754MZ+46OIWByFnc187dDCjBPeTQYc4MZlTKOMtf66MPnbrgjXFnY89WRVy+93s/bnhShU4MNw==
       tarball: file:projects/communication-common.tgz
+    version: 0.0.0
+  file:projects/communication-identity.tgz:
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@microsoft/api-documenter': 7.8.56
+      '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@types/chai': 4.2.14
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/sinon': 9.0.10
+      assert: 1.5.0
+      chai: 4.2.0
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.18.0
+      events: 3.2.0
+      inherits: 2.0.4
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@5.2.3
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@5.2.3
+      karma-json-preprocessor: 0.3.3_karma@5.2.3
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@5.2.3
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@5.2.3
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.0_rollup@1.32.1
+      sinon: 9.2.4
+      tslib: 2.1.0
+      typedoc: 0.15.2
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/communication-identity'
+    resolution:
+      integrity: sha512-ecBIZ1BSe9aZrFKKBvocHF/j1rLUd8IN3zyDg2cWsZjXEvOXN3Rv3wT19URMP7AmthcwUo/iKoARp0szyP0A9Q==
+      tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
     dependencies:
@@ -8448,7 +8501,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-5KvmI9DduCH+UiX+/BLBwaI1j1fW/UVFObYZXovtzwQrdlFfG77zG4E4Hr0FJqC2ga5TLh1eMrhEO+W8eB6EYw==
+      integrity: sha512-I745iqJTw3qCozHy60mRJTyaMXfDJRhT+4bjEKnqxo1HtLV8d+Mksl34z3KoyUhrIC4dlOR08VIHF+d/xz5Mag==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -8800,10 +8853,11 @@ packages:
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.1.2
+      uuid: 8.3.2
     dev: false
     name: '@rush-temp/eventgrid'
     resolution:
-      integrity: sha512-5T117Gzyc+Akse9oDfJHfmncm8crpuGE3GE0aiHXyV0cqPvmNmKNqsXhx8+0Hp0PPcCRFqJo88U/um3GCcGvPg==
+      integrity: sha512-QsaxrEh4UebbcyeKK72MUE+pWx0yzgnZH7yImYzXQ7l74LjladtcHzX6qYhjc2s4Dqk2oeQJFP1sD/zZrHwoAA==
       tarball: file:projects/eventgrid.tgz
     version: 0.0.0
   file:projects/eventhubs-checkpointstore-blob.tgz:
@@ -8937,13 +8991,14 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
-      '@types/fs-extra': 8.1.1
+      '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/sinon': 9.0.10
       '@types/uuid': 8.3.0
       assert: 1.5.0
       chai: 4.2.0
+      chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.18.0
@@ -8967,7 +9022,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-PizLKm9WzlbukZM3MvLK18Wh8u+WvdqCcaQGK4jc/4GIBlv4WPiji2h5JHIRqOH0yut0w1YHow6QPZh6IeZAjg==
+      integrity: sha512-pSjOdUjTAth9ylj2BwYYrMlIGx8V8cfugSMI0TprzRpGO1ihgE5dUJo+W/FYjPc/mTCKCB9sWJFZNqd6nWabgg==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
   file:projects/keyvault-certificates.tgz:
@@ -8981,7 +9036,6 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
-      '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/query-string': 6.2.0
@@ -8992,7 +9046,6 @@ packages:
       dotenv: 8.2.0
       eslint: 7.18.0
       esm: 3.2.25
-      fs-extra: 8.1.0
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -9027,7 +9080,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-certificates'
     resolution:
-      integrity: sha512-08LZNc6970gV9iVf7/ponLwE3/S1q77FJsyyykkoZRf3Q7GIozt1Ks2lN1eJf8eWBmYBrVhz8WFm3PTakjzONQ==
+      integrity: sha512-o3ghASRcoAlfjxR42rXMha3bLnqgdSOukj7RyLp71C6+cK9do6laBaVHpqOT78xdOwjeTyG/6wb2Ra27XBWMxA==
       tarball: file:projects/keyvault-certificates.tgz
     version: 0.0.0
   file:projects/keyvault-common.tgz:
@@ -9056,18 +9109,18 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
-      '@types/fs-extra': 8.1.1
+      '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/query-string': 6.2.0
       '@types/sinon': 9.0.10
       assert: 1.5.0
       chai: 4.2.0
+      chai-as-promised: 7.1.1_chai@4.2.0
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.18.0
       esm: 3.2.25
-      fs-extra: 8.1.0
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -9102,7 +9155,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-keys'
     resolution:
-      integrity: sha512-w+wdQZiz+MmHVSAiMMVzuoIFrpN0chnlAc4Q303UD8zg1EXj1B6XhdoHQ22SDuLGDxx0ZPJTJwf/8RyghyUBdA==
+      integrity: sha512-2T3z2w3gA8WLmpZNCAXxQPEkyE3yiO6cOBHKt/UEXwCris9pvqpkfbMcEmkaX+gWwiNt0ptXJlnysziiiB7Auw==
       tarball: file:projects/keyvault-keys.tgz
     version: 0.0.0
   file:projects/keyvault-secrets.tgz:
@@ -9116,7 +9169,6 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
-      '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/query-string': 6.2.0
@@ -9127,7 +9179,6 @@ packages:
       dotenv: 8.2.0
       eslint: 7.18.0
       esm: 3.2.25
-      fs-extra: 8.1.0
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -9162,7 +9213,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-secrets'
     resolution:
-      integrity: sha512-ql/bmmRRTy7FVpp/iomnE4oOcmWELP29RTe5r6XikCiK87ZGpL7iPNSggoWRrmPpk/e3eJ7ECK88SThQjokW1w==
+      integrity: sha512-0YATav4fEaDDSzFb+Lj0o3/NuqOIyTTCyK6sdJ7kpBQOEOh/o8oI+uRRlF+9h2Y3o3Fta6ZYThc7NUrdwRJAeA==
       tarball: file:projects/keyvault-secrets.tgz
     version: 0.0.0
   file:projects/logger.tgz:
@@ -9246,17 +9297,56 @@ packages:
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.10.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
+      '@types/chai': 4.2.14
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      '@types/sinon': 9.0.10
+      assert: 1.5.0
+      chai: 4.2.0
+      cross-env: 7.0.3
+      dotenv: 8.2.0
+      eslint: 7.18.0
+      esm: 3.2.25
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@5.2.3
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@5.2.3
+      karma-junit-reporter: 2.0.1_karma@5.2.3
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@5.2.3
+      karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nock: 12.0.3
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      sinon: 9.2.4
+      ts-node: 8.10.2_typescript@4.1.2
       tslib: 2.1.0
+      typedoc: 0.15.2
       typescript: 4.1.2
       uglify-js: 3.12.5
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-4En0ppLdH1QEJYgb82/VQ5GVkmOQ9W8CNLX4N35OtK7023OsRwLPv7CmRZd8Vb/p1W5dmhvWBI261ODjTgpoQw==
+      integrity: sha512-00vl//xwFuYdKIqG8/vHsECkbahLvLCITRKScPmxl8PrQ+5YssXH5IsbWBAKu4gndla+eGr/OajfqBInqNvp+Q==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:
@@ -9492,7 +9582,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-AIsA3gsKhvhupknJN1HdvyG/hdrclobV8UINMwBwjdx6XjWZEZo0+xHD7/K0Vwfl98r8aaUbo8fYOQAV+H3qbQ==
+      integrity: sha512-b8OV32wgLusNRZu6kmj7oWTYA+TvRxcYd6UHZX9Z1QTOUueIrZEVzGLqU2/+kTptItqxIyj0vyalKBIIODwvcA==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
@@ -9622,7 +9712,6 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
-      '@types/fs-extra': 8.1.1
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/query-string': 6.2.0
@@ -9635,7 +9724,6 @@ packages:
       esm: 3.2.25
       events: 3.2.0
       execa: 3.4.0
-      fs-extra: 8.1.0
       inherits: 2.0.4
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
@@ -9671,7 +9759,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-/WDQEwrig50/WCZntZAhrZIMRAtWrozbuu26iWS3JWGWgXUHFbtC75X0aJsNEK2raAoIR5mcZAlGvRSAszZWZA==
+      integrity: sha512-X6DwV8P6mJqs/XbCIwaoUqCMajMh3rM1wpr9JZ0zFAuEs73rVbePg11hdYHim0G+X+nCRSq0KSGoKaO6T1/R6g==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
@@ -10089,7 +10177,7 @@ packages:
       '@azure/event-hubs': 2.1.4
       '@types/node': 8.10.66
       '@types/uuid': 8.3.0
-      '@types/yargs': 15.0.12
+      '@types/yargs': 15.0.13
       async-lock: 1.2.8
       death: 1.1.0
       debug: 4.3.1
@@ -10117,6 +10205,7 @@ specifiers:
   '@rush-temp/communication-administration': file:./projects/communication-administration.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
+  '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
   '@rush-temp/core-asynciterator-polyfill': file:./projects/core-asynciterator-polyfill.tgz
