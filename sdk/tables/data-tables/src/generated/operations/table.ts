@@ -205,10 +205,10 @@ export class Table {
     table: string,
     options?: TableGetAccessPolicyOptionalParams
   ): Promise<TableGetAccessPolicyResponse> {
-    return (this.client.sendOperationRequest(
+    return this.client.sendOperationRequest(
       { table, options },
       getAccessPolicyOperationSpec
-    ) as unknown) as Promise<TableGetAccessPolicyResponse>;
+    ) as Promise<TableGetAccessPolicyResponse>;
   }
 
   /**
