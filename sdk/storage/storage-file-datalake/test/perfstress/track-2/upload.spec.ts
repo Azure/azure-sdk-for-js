@@ -11,7 +11,7 @@ interface StorageFileShareUploadTestOptions {
 }
 
 export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadTestOptions> {
-  buffer = Buffer.alloc(this.parsedOptions.size.value!);
+  buffer: Buffer;
   fileClient: DataLakeFileClient;
   public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
     size: {
@@ -27,6 +27,7 @@ export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadT
     super();
     const fileName = generateUuid();
     this.fileClient = this.directoryClient.getFileClient(fileName);
+    this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
   async runAsync(): Promise<void> {
