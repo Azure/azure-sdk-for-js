@@ -151,7 +151,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
  */
 export interface SubscribeOptions extends OperationOptionsBase {
   /**
-   * @property Indicates whether the message should be settled using the `completeMessage()`
+   * Indicates whether the message should be settled using the `completeMessage()`
    * method on the receiver automatically after it executes the user provided message callback.
    * Doing so removes the message from the queue/subscription.
    *
@@ -162,7 +162,7 @@ export interface SubscribeOptions extends OperationOptionsBase {
    */
   autoCompleteMessages?: boolean;
   /**
-   * @property The maximum number of concurrent calls that the library
+   * The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
    * not be received until atleast one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
@@ -196,7 +196,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    */
   receiveMode?: "peekLock" | "receiveAndDelete";
   /**
-   * @property The maximum duration in milliseconds
+   * The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
@@ -209,7 +209,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
  */
 export interface PeekMessagesOptions extends OperationOptionsBase {
   /**
-   * @property The sequence number to start peeking messages from (inclusive).
+   * The sequence number to start peeking messages from (inclusive).
    */
   fromSequenceNumber?: Long;
 }

@@ -29,7 +29,7 @@ type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
  */
 export class LockRenewer {
   /**
-   * @property _messageRenewLockTimers A map of link names to individual maps for each
+   * A map of link names to individual maps for each
    * link that map a message ID to its auto-renewal timer.
    */
   private _messageRenewLockTimers: Map<string, Map<string, NodeJS.Timer | undefined>> = new Map<

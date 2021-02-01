@@ -78,7 +78,7 @@ export interface ServiceBusSender {
   // open(options?: OperationOptionsBase): Promise<void>;
 
   /**
-   * @property Returns `true` if either the sender or the client that created it has been closed.
+   * Returns `true` if either the sender or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
@@ -136,7 +136,7 @@ export interface ServiceBusSender {
 export class ServiceBusSenderImpl implements ServiceBusSender {
   private _retryOptions: RetryOptions;
   /**
-   * @property Denotes if close() was called on this sender
+   * Denotes if close() was called on this sender
    */
   private _isClosed: boolean = false;
   private _sender: MessageSender;

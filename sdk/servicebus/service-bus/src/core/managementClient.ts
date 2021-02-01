@@ -149,17 +149,17 @@ const correlationProperties = [
  */
 export interface DispositionStatusOptions extends OperationOptionsBase {
   /**
-   * @property [propertiesToModify] A map of Service Bus brokered message properties
+   * A map of Service Bus brokered message properties
    * to modify.
    */
   propertiesToModify?: { [key: string]: any };
   /**
-   * @property [deadLetterReason] The deadletter reason. May be set if disposition status
+   * The deadletter reason. May be set if disposition status
    * is set to suspended.
    */
   deadLetterReason?: string;
   /**
-   * @property [deadLetterDescription] The deadletter description. May be set if disposition status
+   * The deadletter description. May be set if disposition status
    * is set to suspended.
    */
   deadLetterDescription?: string;
@@ -186,11 +186,11 @@ export interface ManagementClientOptions {
  */
 export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
-   * @property {string} replyTo The reply to Guid for the management client.
+   * The reply to Guid for the management client.
    */
   replyTo: string = generate_uuid();
   /**
-   * @property _lastPeekedSequenceNumber Provides the sequence number of the last peeked message.
+   * Provides the sequence number of the last peeked message.
    */
   private _lastPeekedSequenceNumber: Long = Long.ZERO;
 

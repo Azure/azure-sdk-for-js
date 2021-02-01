@@ -24,11 +24,11 @@ import { ServiceBusError } from "../serviceBusError";
  */
 export interface LinkEntityOptions {
   /**
-   * @property {string} address The client entity address in one of the following forms:
+   * The client entity address in one of the following forms:
    */
   address?: string;
   /**
-   * @property {string} audience The client entity token audience in one of the following forms:
+   * The client entity token audience in one of the following forms:
    */
   audience?: string;
 }
@@ -85,12 +85,12 @@ type LinkTypeT<
  */
 export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
   /**
-   * @property {string} id The unique name for the entity in the format:
+   * The unique name for the entity in the format:
    * `${name of the entity}-${guid}`.
    */
   name: string;
   /**
-   * @property {string} address The client entity address in one of the following forms:
+   * The client entity address in one of the following forms:
    *
    * **Sender**
    * - `"<queue-name>"`.
@@ -105,7 +105,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   address: string;
   /**
-   * @property {string} audience The client entity token audience in one of the following forms:
+   * The client entity token audience in one of the following forms:
    *
    * **Sender**
    * - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
@@ -121,17 +121,17 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   audience: string;
   /**
-   * @property _context Provides relevant information about the amqp connection,
+   * Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
   protected _context: ConnectionContext;
   /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
+   * The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
    */
   private _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property _tokenTimeout Indicates token timeout
+   * Indicates token timeout
    */
   protected _tokenTimeout?: number;
 

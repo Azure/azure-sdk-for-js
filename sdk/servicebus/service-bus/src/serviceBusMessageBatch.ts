@@ -104,11 +104,11 @@ export interface ServiceBusMessageBatch {
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
-   * @property Current size of the batch in bytes.
+   * Current size of the batch in bytes.
    */
   private _sizeInBytes: number;
   /**
-   * @property Encoded amqp messages.
+   * Encoded amqp messages.
    */
   private _encodedMessages: Buffer[] = [];
   /**
@@ -128,7 +128,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property The maximum size of the batch, in bytes.
+   * The maximum size of the batch, in bytes.
    * @readonly
    */
   get maxSizeInBytes(): number {
@@ -136,7 +136,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property Size of the `ServiceBusMessageBatch` instance after the messages added to it have been
+   * Size of the `ServiceBusMessageBatch` instance after the messages added to it have been
    * encoded into a single AMQP message.
    * @readonly
    */
@@ -145,7 +145,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property Number of messages in the `ServiceBusMessageBatch` instance.
+   * Number of messages in the `ServiceBusMessageBatch` instance.
    * @readonly
    */
   get count(): number {
@@ -194,7 +194,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   }
 
   /**
-   * @property Represents the single AMQP message which is the result of encoding all the events
+   * Represents the single AMQP message which is the result of encoding all the events
    * added into the `ServiceBusMessageBatch` instance.
    *
    * This is not meant for the user to use directly.

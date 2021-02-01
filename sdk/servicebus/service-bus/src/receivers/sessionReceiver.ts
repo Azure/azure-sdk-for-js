@@ -53,7 +53,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
   readonly sessionId: string;
 
   /**
-   * @property The time in UTC until which the session is locked.
+   * The time in UTC until which the session is locked.
    * Every time `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *
@@ -116,7 +116,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   public sessionId: string;
 
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 
@@ -178,7 +178,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   }
 
   /**
-   * @property The time in UTC until which the session is locked.
+   * The time in UTC until which the session is locked.
    * Every time `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *

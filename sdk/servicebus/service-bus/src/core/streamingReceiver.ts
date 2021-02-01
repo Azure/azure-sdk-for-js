@@ -48,7 +48,7 @@ export interface StreamingReceiverInitArgs
  */
 export class StreamingReceiver extends MessageReceiver {
   /**
-   * @property {number} [maxConcurrentCalls] The maximum number of messages that should be
+   * The maximum number of messages that should be
    * processed concurrently while in streaming mode. Once this limit has been reached, more
    * messages will not be received until the user's message handler has completed processing current message.
    * Default: 1
@@ -75,30 +75,30 @@ export class StreamingReceiver extends MessageReceiver {
   private _retry: typeof retry;
 
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
    */
   private _onAmqpClose: OnAmqpEventAsPromise;
 
   /**
-   * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEventAsPromise;
 
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    */
   private _onAmqpError: OnAmqpEvent;
 
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
+   * The message handler that will be set as the handler on the
    * underlying rhea receiver for the "message" event.
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;

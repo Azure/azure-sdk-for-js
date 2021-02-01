@@ -37,7 +37,7 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
  */
 export interface ReceiveOptions extends SubscribeOptions {
   /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
+   * The mode in which messages should be received.
    */
   receiveMode: ReceiveMode;
   /**
@@ -96,22 +96,22 @@ export interface OnErrorNoContext {
  */
 export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**
-   * @property {string} receiverType The type of receiver: "batching" or "streaming".
+   * The type of receiver: "batching" or "streaming".
    */
   receiverType: ReceiverType;
   /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
+   * The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
   receiveMode: ReceiveMode;
   /**
-   * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
+   * Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
    * Default: false.
    */
   autoComplete: boolean;
   /**
-   * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
+   * Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
@@ -120,12 +120,12 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     DeferredPromiseAndTimer
   >();
   /**
-   * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
+   * The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
    */
   protected _onMessage!: OnMessage;
   /**
-   * @property {OnMessage} _onError The error handler provided by the user that will be wrapped
+   * The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    */
   protected _onError?: OnError;

@@ -45,24 +45,24 @@ import { defaultDataTransformer } from "../dataTransformer";
  */
 export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
-   * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
+   * The handler function to handle errors that happen on the
    * underlying sender.
    * @readonly
    */
   private readonly _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpClose The handler function to handle "sender_close" event
+   * The handler function to handle "sender_close" event
    * that happens on the underlying sender.
    * @readonly
    */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEvent;

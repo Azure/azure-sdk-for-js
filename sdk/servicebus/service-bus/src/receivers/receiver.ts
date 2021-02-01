@@ -136,7 +136,7 @@ export interface ServiceBusReceiver {
    */
   receiveMode: "peekLock" | "receiveAndDelete";
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed.
+   * Returns `true` if either the receiver or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
@@ -274,7 +274,7 @@ export interface ServiceBusReceiver {
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _retryOptions: RetryOptions;
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 

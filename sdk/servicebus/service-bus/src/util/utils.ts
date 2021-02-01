@@ -637,7 +637,7 @@ export function checkAndRegisterWithAbortSignal(
 
 /**
  * @internal
- * @property {string} libInfo The user agent prefix string for the ServiceBus client.
+ * The user agent prefix string for the ServiceBus client.
  * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
  */
 export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
