@@ -174,6 +174,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleDefinitionName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
@@ -195,7 +196,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleDefinitionName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
   mediaType: "json",
   serializer
 };
@@ -217,6 +218,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleDefinitionName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreHttp.OperationSpec = {
@@ -232,6 +234,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.scope],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreHttp.OperationSpec = {
@@ -251,5 +254,6 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.nextLink
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

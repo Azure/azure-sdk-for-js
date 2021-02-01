@@ -91,7 +91,8 @@ export type KeyVaultDataAction =
   | "Microsoft.KeyVault/managedHsm/backup/start/action"
   | "Microsoft.KeyVault/managedHsm/restore/start/action"
   | "Microsoft.KeyVault/managedHsm/backup/status/action"
-  | "Microsoft.KeyVault/managedHsm/restore/status/action";
+  | "Microsoft.KeyVault/managedHsm/restore/status/action"
+  | string;
 
 /**
  * A Key Vault role definition.
@@ -149,7 +150,7 @@ export interface KeyVaultRoleAssignmentProperties {
  * A scope of the role assignment or definition.
  * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
  */
-export type KeyVaultRoleScope = "/" | "/keys";
+export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 /**
  * Role assignment properties with the scope property.

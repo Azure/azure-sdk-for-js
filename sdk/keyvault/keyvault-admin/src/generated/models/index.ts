@@ -23,7 +23,7 @@ export interface RoleDefinition {
   /**
    * The role definition type.
    */
-  readonly type?: "Microsoft.Authorization/roleDefinitions";
+  readonly type?: RoleDefinitionType;
   /**
    * The role name.
    */
@@ -375,7 +375,13 @@ export interface RoleDefinitionFilter {
  * Defines headers for KeyVaultClient_fullBackup operation.
  */
 export interface KeyVaultClientFullBackupHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation.
+   */
   retryAfter?: number;
+  /**
+   * The URI to poll for completion status.
+   */
   azureAsyncOperation?: string;
 }
 
@@ -383,7 +389,13 @@ export interface KeyVaultClientFullBackupHeaders {
  * Defines headers for KeyVaultClient_fullRestoreOperation operation.
  */
 export interface KeyVaultClientFullRestoreOperationHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation.
+   */
   retryAfter?: number;
+  /**
+   * The URI to poll for completion status.
+   */
   azureAsyncOperation?: string;
 }
 
@@ -391,14 +403,26 @@ export interface KeyVaultClientFullRestoreOperationHeaders {
  * Defines headers for KeyVaultClient_selectiveKeyRestoreOperation operation.
  */
 export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation.
+   */
   retryAfter?: number;
+  /**
+   * The URI to poll for completion status.
+   */
   azureAsyncOperation?: string;
 }
 
 /**
+ * Defines values for RoleDefinitionType.
+ */
+export type RoleDefinitionType =
+  | "Microsoft.Authorization/roleDefinitions"
+  | string;
+/**
  * Defines values for RoleType.
  */
-export type RoleType = "AKVBuiltInRole" | "CustomRole";
+export type RoleType = "AKVBuiltInRole" | "CustomRole" | string;
 /**
  * Defines values for DataAction.
  */
@@ -431,11 +455,12 @@ export type DataAction =
   | "Microsoft.KeyVault/managedHsm/backup/start/action"
   | "Microsoft.KeyVault/managedHsm/restore/start/action"
   | "Microsoft.KeyVault/managedHsm/backup/status/action"
-  | "Microsoft.KeyVault/managedHsm/restore/status/action";
+  | "Microsoft.KeyVault/managedHsm/restore/status/action"
+  | string;
 /**
  * Defines values for RoleScope.
  */
-export type RoleScope = "/" | "/keys";
+export type RoleScope = "/" | "/keys" | string;
 
 /**
  * Contains response data for the delete operation.

@@ -28,9 +28,8 @@ export const RoleDefinition: coreHttp.CompositeMapper = {
         }
       },
       type: {
-        defaultValue: "Microsoft.Authorization/roleDefinitions",
-        isConstant: true,
         serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }

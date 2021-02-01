@@ -5,7 +5,7 @@
 ```yaml
 package-name: "@azure/keyvault-admin"
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200623.2"
+  "@autorest/typescript": "6.0.0-dev.20200917.1"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
