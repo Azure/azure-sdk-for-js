@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -21,11 +22,21 @@ class IotCentralClient extends IotCentralClientContext {
 
   /**
    * Initializes a new instance of the IotCentralClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials needed to
+   * authenticate the client using Azure Active Directory. Credentials implementing the
+   * TokenCredential interface from the @azure/identity package are recommended. Credentials
+   * implementing the ServiceClientCredentials interface from the older packages
+   * @azure/ms-rest-nodeauth and @azure/ms-rest-browserauth are also supported. The simplest
+   * TokenCredential credential can be obtained as follows:
+   * ```js
+   * const { DefaultAzureCredential } = require("@azure/identity");
+   * const credential = new DefaultAzureCredential();
+   * ```
+   * For more information about these credentials, see {@link http://aka.ms/AAaz61x}
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.IotCentralClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.IotCentralClientOptions) {
     super(credentials, subscriptionId, options);
     this.apps = new operations.Apps(this);
     this.operations = new operations.Operations(this);
