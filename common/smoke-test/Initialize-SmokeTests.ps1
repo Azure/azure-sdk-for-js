@@ -6,8 +6,10 @@
 #Requires -Version 6.0
 #Requires -PSEdition Core
 
+[CmdletBinding(DefaultParameterSetName="Provisioner")]
+
 param (
-  [Parameter(Mandatory = $true)]
+  [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
   [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
   [string] $TestApplicationId,
 
@@ -39,6 +41,20 @@ param (
 
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
+
+  [Parameter()]
+  [switch] $Daily,
+
+  [Parameter()]
+  [string] $TagOverride,
+
+  [Parameter()]
+  [array] $TagOverridePackages,
+
+  # DryRun will generate the smoke test run manifest, but will skip deploying any resources.
+  # This can be useful for testing what projects will be configured to run for a given command.
+  [Parameter(ParameterSetName = 'DryRun')]
+  [switch] $DryRun,
 
   # Captures any arguments not declared here (prevents no parameter errors)
   [Parameter(ValueFromRemainingArguments = $true)]
@@ -118,7 +134,18 @@ function Update-SampleDependencies {
 
   foreach ($dep in $packageSpec.dependencies.Keys) {
     if ($dep.StartsWith('@azure/')) {
-      $dependencies[$dep] = "dev"
+      if ($Daily) {
+        $dependencies[$dep] = "dev"
+      } elseif ($dep -in $TagOverridePackages) {
+        # For non-daily smoke tests (i.e. release smoke tests), specifically
+        # override the package.json tag for the newly released package under test.
+        # Tag will be either 'latest' or 'next'
+        $dependencies[$dep] = $TagOverride
+      } else {
+        # For non-daily smoke tests and/or non-azure dependencies,
+        # use whatever is in the source package.json
+        $dependencies[$dep] = $packageSpec.dependencies[$dep]
+      }
     }
     else {
       $dependencies[$dep] = $packageSpec.dependencies[$dep]
@@ -177,9 +204,11 @@ function Deploy-TestResources {
       }
 
       if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
-        Write-Verbose "Starting deploy job for $($entry.ResourcesDirectory)"
-        $job = Start-NewTestResourcesJob $entry $baseName $resourceGroupName
-        $entryDeployJobs += $job
+        if (-not $DryRun) {
+          Write-Verbose "Starting deploy job for $($entry.ResourcesDirectory)"
+          $job = Start-NewTestResourcesJob $entry $baseName $resourceGroupName
+          $entryDeployJobs += $job
+        }
         $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
       }
       else {
@@ -191,25 +220,27 @@ function Deploy-TestResources {
       $runManifest += $entry
     }
 
-    Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
-    $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
-    if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
-      $entryDeployJobs
-      throw "Timed out waiting for deploy jobs to finish:"
-    }
-
-    foreach ($job in $entryDeployJobs) {
-      if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
-        $errorMsg = $job.ChildJobs[0].JobStateInfo.Reason.Message
-        LogWarning "Failed to deploy $($job.Name): $($errorMsg)"
-        Write-Host $errorMsg
-        continue
+    if (-not $DryRun) {
+      Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
+      $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
+      if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
+        $entryDeployJobs
+        throw "Timed out waiting for deploy jobs to finish:"
       }
 
-      Write-Verbose "setting env"
-      $deployOutput = Receive-Job -Id $job.Id
-      foreach ($key in $deployOutput.Keys) {
-        Set-EnvironmentVariable -Name $key -Value $deployOutput[$key]
+      foreach ($job in $entryDeployJobs) {
+        if ($job.State -eq [System.Management.Automation.JobState]::Failed) {
+          $errorMsg = $job.ChildJobs[0].JobStateInfo.Reason.Message
+          LogWarning "Failed to deploy $($job.Name): $($errorMsg)"
+          Write-Host $errorMsg
+          continue
+        }
+
+        Write-Verbose "setting env"
+        $deployOutput = Receive-Job -Id $job.Id
+        foreach ($key in $deployOutput.Keys) {
+          Set-EnvironmentVariable -Name $key -Value $deployOutput[$key]
+        }
       }
     }
   } finally {
