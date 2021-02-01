@@ -15,7 +15,6 @@ import {
 
 /**
  * @internal
- * @hidden
  */
 export function throttlingRetryPolicy(): RequestPolicyFactory {
   return {
@@ -31,7 +30,6 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
  * responding to 429 responses (which is to throw a RestError).
  *
  * @internal
- * @hidden
  */
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
@@ -86,7 +84,6 @@ const RetryAfterMillisecondsHeaders: string[] = ["retry-after-ms", "x-ms-retry-a
  * Extracts the retry response header, checking against several
  * header names.
  * @internal
- * @hidden
  */
 export function getDelayInMs(responseHeaders: {
   get: (headerName: string) => string | undefined;

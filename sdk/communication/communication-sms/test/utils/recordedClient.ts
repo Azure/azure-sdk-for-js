@@ -5,7 +5,6 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
     AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
     AZURE_PHONE_NUMBER: "+18005551234",
-    COMMUNICATION_ENDPOINT: "https://endpoint/",
     AZURE_CLIENT_ID: "SomeClientId",
     AZURE_CLIENT_SECRET: "SomeClientSecret",
     AZURE_TENANT_ID: "SomeTenantId"

@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
 import * as Parameters from "./models/parameters";
-import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
-import {
-  GeneratedClientOptionalParams,
-  EventGridEvent,
-  CloudEvent
-} from "./models";
+import { GeneratedClientOptionalParams, EventGridEvent, CloudEvent } from "./models";
 
-class GeneratedClient extends GeneratedClientContext {
+/** @hidden */
+export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param options The parameter options
@@ -35,15 +31,12 @@ class GeneratedClient extends GeneratedClientContext {
   publishEvents(
     topicHostname: string,
     events: EventGridEvent[],
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+    options?: OperationOptions
+  ): Promise<void> {
+    return this.sendOperationRequest<void>(
+      { topicHostname, events, options },
       publishEventsOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -55,15 +48,12 @@ class GeneratedClient extends GeneratedClientContext {
   publishCloudEventEvents(
     topicHostname: string,
     events: CloudEvent[],
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+    options?: OperationOptions
+  ): Promise<void> {
+    return this.sendOperationRequest<void>(
+      { topicHostname, events, options },
       publishCloudEventEventsOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -75,23 +65,20 @@ class GeneratedClient extends GeneratedClientContext {
   publishCustomEventEvents(
     topicHostname: string,
     events: any[],
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+    options?: OperationOptions
+  ): Promise<void> {
+    return this.sendOperationRequest<void>(
+      { topicHostname, events, options },
       publishCustomEventEventsOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 }
 // Operation Specifications
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = createSerializer(Mappers, /* isXml */ false);
 
-const publishEventsOperationSpec: coreHttp.OperationSpec = {
-  path: "/api/events",
+const publishEventsOperationSpec: OperationSpec = {
+  path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.events,
@@ -101,8 +88,8 @@ const publishEventsOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const publishCloudEventEventsOperationSpec: coreHttp.OperationSpec = {
-  path: "/api/events",
+const publishCloudEventEventsOperationSpec: OperationSpec = {
+  path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.events1,
@@ -112,8 +99,8 @@ const publishCloudEventEventsOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const publishCustomEventEventsOperationSpec: coreHttp.OperationSpec = {
-  path: "/api/events",
+const publishCustomEventEventsOperationSpec: OperationSpec = {
+  path: "",
   httpMethod: "POST",
   responses: { 200: {}, default: {} },
   requestBody: Parameters.events2,
@@ -122,13 +109,4 @@ const publishCustomEventEventsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
-};
-
-// Operation Specifications
-
-export {
-  GeneratedClient,
-  GeneratedClientContext,
-  Models as GeneratedModels,
-  Mappers as GeneratedMappers
 };

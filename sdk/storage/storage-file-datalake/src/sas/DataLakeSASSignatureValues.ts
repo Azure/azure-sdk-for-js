@@ -394,20 +394,24 @@ function generateBlobSASQueryParameters20150405(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
+
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    resource = "b";
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       verifiedPermissions = DataLakeSASPermissions.parse(
         dataLakeSASSignatureValues.permissions.toString()
       ).toString();
-      resource = "b";
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
         dataLakeSASSignatureValues.permissions.toString()
@@ -497,30 +501,36 @@ function generateBlobSASQueryParameters20181109(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
 
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       if (dataLakeSASSignatureValues.isDirectory) {
         verifiedPermissions = DirectorySASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "d";
       } else {
         verifiedPermissions = DataLakeSASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "b";
-        if (dataLakeSASSignatureValues.snapshotTime) {
-          resource = "bs";
-        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
@@ -610,29 +620,35 @@ function generateBlobSASQueryParametersUDK20181109(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       if (dataLakeSASSignatureValues.isDirectory) {
         verifiedPermissions = DirectorySASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "d";
       } else {
         verifiedPermissions = DataLakeSASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "b";
-        if (dataLakeSASSignatureValues.snapshotTime) {
-          resource = "bs";
-        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
@@ -732,29 +748,35 @@ function generateBlobSASQueryParametersUDK20200210(
   const version = dataLakeSASSignatureValues.version
     ? dataLakeSASSignatureValues.version
     : SERVICE_VERSION;
-  let resource: string = "c";
-  let verifiedPermissions: string | undefined;
   dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
     dataLakeSASSignatureValues,
     version
   );
 
+  let resource: string = "c";
+  if (dataLakeSASSignatureValues.pathName) {
+    if (dataLakeSASSignatureValues.isDirectory) {
+      resource = "d";
+    } else {
+      resource = "b";
+      if (dataLakeSASSignatureValues.snapshotTime) {
+        resource = "bs";
+      }
+    }
+  }
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
+  let verifiedPermissions: string | undefined;
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
       if (dataLakeSASSignatureValues.isDirectory) {
         verifiedPermissions = DirectorySASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "d";
       } else {
         verifiedPermissions = DataLakeSASPermissions.parse(
           dataLakeSASSignatureValues.permissions.toString()
         ).toString();
-        resource = "b";
-        if (dataLakeSASSignatureValues.snapshotTime) {
-          resource = "bs";
-        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(

@@ -41,7 +41,7 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @RezaJooyandeh @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/ @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
@@ -100,14 +100,14 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners @richardpark-msft
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 
 ###########
 # Eng Sys

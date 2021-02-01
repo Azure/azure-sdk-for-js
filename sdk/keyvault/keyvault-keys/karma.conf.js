@@ -1,6 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
@@ -22,7 +22,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
@@ -39,8 +39,8 @@ module.exports = function(config) {
     exclude: [],
 
     preprocessors: {
-      "**/*.js": ["env"],
-      "dist-test/index.browser.js": ["coverage"],
+      "**/*.js": ["sourcemap", "env"],
+      //"dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
@@ -53,22 +53,17 @@ module.exports = function(config) {
       "TEST_MODE"
     ],
 
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
-    },
-
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {

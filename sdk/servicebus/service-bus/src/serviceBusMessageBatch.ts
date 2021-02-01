@@ -25,19 +25,16 @@ import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * @internal
- * @hidden
  * The amount of bytes to reserve as overhead for a small message.
  */
 const smallMessageOverhead = 5;
 /**
  * @internal
- * @hidden
  * The amount of bytes to reserve as overhead for a large message.
  */
 const largeMessageOverhead = 8;
 /**
  * @internal
- * @hidden
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;
@@ -104,7 +101,6 @@ export interface ServiceBusMessageBatch {
  *
  * @class
  * @internal
- * @hidden
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**

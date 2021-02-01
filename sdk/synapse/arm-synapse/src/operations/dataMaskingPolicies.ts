@@ -132,7 +132,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataMaskingPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -159,7 +159,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DataMaskingPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

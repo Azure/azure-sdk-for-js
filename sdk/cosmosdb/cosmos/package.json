@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.9.5",
+  "version": "3.10.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -70,9 +70,9 @@
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test-consumer": "node consumer-test.js 2>&1",
+    "test-consumer": "rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
     "test": "npm run unit-test && npm run integration-test",
-    "test:signoff": "mocha -r esm -r dotenv/config -r ./test/public/common/setup.js \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\" --timeout 100000 --grep \"#nosignoff\" --invert",
+    "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
@@ -86,6 +86,7 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
+    "@azure/identity": "^1.1.0",
     "@types/debug": "^4.1.4",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
