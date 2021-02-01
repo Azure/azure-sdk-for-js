@@ -73,7 +73,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
       });
-      const client = new Azure.ArmIotcentral.IotCentralClient(res.creds, subscriptionId);
+      const client = new Azure.ArmIotcentral.IotCentralClient(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
       client.apps.get(resourceGroupName, resourceName).then((result) => {
