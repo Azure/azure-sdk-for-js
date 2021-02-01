@@ -70,6 +70,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 
   $packageJSON = ResolvePkgJson -workFolder $workFolder | Get-Content | ConvertFrom-Json
   $pkgId = $packageJSON.name
+  $docsReadMeName = $pkgId -replace "@azure/" , ""
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
@@ -94,6 +95,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
     Deployable     = $forceCreate -or !(IsNPMPackageVersionPublished -pkgId $pkgId -pkgVersion $pkgVersion)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
+    DocsReadMeName = $docsReadMeName
   }
 
   return $resultObj
@@ -256,10 +258,4 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
     LogError "Failed to retrieve package versions. `n$_"
     return $null
   }
-}
-
-# Turn the package name start with `@azure/identity` to "identity".
-function Normalize-javascript-Package-name ($PackageName) 
-{
-  return $PackageName -replace "@azure/" , ""
 }
