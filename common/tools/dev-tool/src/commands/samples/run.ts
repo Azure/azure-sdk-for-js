@@ -7,10 +7,25 @@ import path from "path";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject";
 
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
+
+const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
+
+/**
+ * An interface for the sample configuration metadata within an Azure SDK for
+ * JavaScript package.json file
+ */
+interface SampleConfiguration {
+  /**
+   * The names of sample files to skip (if a file extension is provided, it
+   * will be ignored)
+   */
+  skip: string[];
+}
 
 export const commandInfo = makeCommandInfo(
   "run",
@@ -52,6 +67,18 @@ export default leafCommand(commandInfo, async (options) => {
     throw new Error("At least one argument is required for run-samples");
   }
 
+  const { packageJson, path: packageLocation } = await resolveProject(process.cwd());
+
+  log.debug("Resolving samples metadata to:", packageLocation);
+
+  const sampleConfiguration = packageJson[SAMPLE_CONFIGURATION_KEY] as
+    | SampleConfiguration
+    | undefined;
+
+  const skips = sampleConfiguration?.skip?.map((skip) => skip.replace(/\.[jt]s$/, "")) ?? [];
+
+  log.debug("Skipping the following samples:", skips);
+
   const samples = options.args.map((dir) => path.resolve(dir));
 
   // Patch the environment for the sample helper
@@ -62,13 +89,18 @@ export default leafCommand(commandInfo, async (options) => {
   for (const sample of samples) {
     const stats = await fs.stat(sample);
     if (stats.isFile()) {
-      runSingle(sample, errors);
+      if (skips.some((skip) => sample.replace(/\.[jt]s$/, "").endsWith(skip))) {
+        log.info(`Skipping ${sample} because it was configured to be skipped.`);
+      } else {
+        runSingle(sample, errors);
+      }
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,
         (name, entry) => entry.isFile() && name.endsWith(".js"),
         {
-          ignore: IGNORE
+          ignore: IGNORE,
+          skips
         }
       )) {
         await runSingle(fileName, errors);

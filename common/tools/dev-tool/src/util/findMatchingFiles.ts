@@ -22,10 +22,12 @@ interface FileInfo {
  */
 export interface FindOptions {
   ignore: string[];
+  skips: string[];
 }
 
 const defaultFindOptions: FindOptions = {
-  ignore: []
+  ignore: [],
+  skips: []
 };
 
 /**
@@ -67,9 +69,16 @@ export async function* findMatchingFiles(
       continue;
     }
 
+    // Check if any skip in the skip list matches this file (ends with the same path pattern)
+    const shouldSkip = options.skips.some((skip) => {
+      const x = info.name.replace(/\.[jt]s$/, "");
+      const y = x.endsWith(skip);
+      debug("Debug stats for compare skip:", x, y);
+    });
+
     if (info.stat.isDirectory()) {
       await enqueueAll(info.fullPath);
-    } else if (matches(info.name, info.stat)) {
+    } else if (!shouldSkip && matches(info.name, info.stat)) {
       yield info.fullPath;
     } else if (
       info.stat.isBlockDevice() ||
