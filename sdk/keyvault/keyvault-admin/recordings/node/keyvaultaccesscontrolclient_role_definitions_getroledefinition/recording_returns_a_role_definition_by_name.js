@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "cb3c3461eeb933a605624c89b8994889";
+module.exports.hash = "610340909fa1db1b2df45b64084a0476";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -19,7 +19,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  '1da4d9f2-6196-11eb-aa64-0242ac120009',
+  '4e00749a-619f-11eb-8850-0242ac120003',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -29,7 +29,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
-  '2'
+  '1'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -39,8 +39,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1317',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -52,17 +50,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5f15c7bb-a439-436a-a95d-27a958dacd00',
+  'aa37f050-69d1-4566-a2e2-568cbb7f8700',
   'x-ms-ests-server',
-  '2.1.11444.8 - WUS2 ProdSlices',
+  '2.1.11444.8 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsL5eNaSdj9Hv8NUxPN0i95dWxHLAgAAAHP4pNcOAAAA; expires=Sat, 27-Feb-2021 18:24:53 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtPrFn7AQ_pDqMxLfhrMzbZdWxHLAQAAAOAHpdcOAAAA; expires=Sat, 27-Feb-2021 19:30:40 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Jan 2021 18:24:52 GMT'
+  'Thu, 28 Jan 2021 19:30:40 GMT',
+  'Content-Length',
+  '1322'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -72,7 +72,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  '1dc76030-6196-11eb-aa64-0242ac120009',
+  '4e5623e0-619f-11eb-8850-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
@@ -92,51 +92,23 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '2'
+  '1'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .put('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27', {"properties":{"roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6"}})
+  .get('///providers/Microsoft.Authorization/roleDefinitions/7b127d3c-77bd-4e3e-bbe0-dbb8971fa7f8')
   .query(true)
-  .reply(201, {"id":"/providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27","name":"b36b00af-89c6-435f-a43d-9a3087015c27","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}, [
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-content-type-options',
-  'nosniff',
-  'content-length',
-  '398',
-  'x-ms-request-id',
-  '1de0c6b0-6196-11eb-aa64-0242ac120009',
-  'x-ms-keyvault-region',
-  'westeurope',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'x-ms-keyvault-network-info',
-  'addr=50.35.231.105',
-  'x-ms-server-latency',
-  '67',
-  'cache-control',
-  'no-cache',
-  'x-frame-options',
-  'SAMEORIGIN'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
-  .query(true)
-  .reply(200, {"id":"/providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27","name":"b36b00af-89c6-435f-a43d-9a3087015c27","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}, [
+  .reply(200, {"id":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/7b127d3c-77bd-4e3e-bbe0-dbb8971fa7f8","name":"7b127d3c-77bd-4e3e-bbe0-dbb8971fa7f8","properties":{"assignableScopes":["/"],"description":"","permissions":[{"actions":[],"dataActions":["Microsoft.KeyVault/managedHsm/backup/start/action","Microsoft.KeyVault/managedHsm/backup/status/action","Microsoft.KeyVault/managedHsm/keys/backup/action"],"notActions":[],"notDataActions":[]}],"roleName":"Managed HSM Backup","type":"AKVBuiltInRole"},"type":"Microsoft.Authorization/roleDefinitions"}, [
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  '1e03c368-6196-11eb-aa64-0242ac120009',
+  '4e6f8c22-619f-11eb-8850-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
   'westeurope',
   'content-length',
-  '398',
+  '561',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -150,59 +122,5 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '0'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .delete('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
-  .query(true)
-  .reply(200, {"id":"/providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27","name":"b36b00af-89c6-435f-a43d-9a3087015c27","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}, [
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-content-type-options',
-  'nosniff',
-  'content-length',
-  '398',
-  'x-ms-request-id',
-  '1e1c51bc-6196-11eb-aa64-0242ac120009',
-  'x-ms-keyvault-region',
-  'westeurope',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'x-ms-keyvault-network-info',
-  'addr=50.35.231.105',
-  'x-ms-server-latency',
-  '88',
-  'cache-control',
-  'no-cache',
-  'x-frame-options',
-  'SAMEORIGIN'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
-  .query(true)
-  .reply(404, {"error":{"code":"RoleAssignmentNotFound","message":"Requested role assignment not found (Activity ID: 1e42e94e-6196-11eb-aa64-0242ac120009)"}}, [
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-ms-server-latency',
-  '0',
-  'x-content-type-options',
-  'nosniff',
-  'content-length',
-  '143',
-  'x-ms-request-id',
-  '1e42e94e-6196-11eb-aa64-0242ac120009',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'x-ms-build-version',
-  '1.0.20210112-1-4fbf61ac-develop',
-  'cache-control',
-  'no-cache',
-  'x-frame-options',
-  'SAMEORIGIN'
+  '1'
 ]);

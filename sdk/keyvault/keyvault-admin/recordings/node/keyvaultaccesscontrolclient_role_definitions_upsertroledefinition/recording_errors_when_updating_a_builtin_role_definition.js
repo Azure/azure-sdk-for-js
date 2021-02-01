@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "cb3c3461eeb933a605624c89b8994889";
+module.exports.hash = "d3c5c6b29c41654207108723285fdc45";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -19,7 +19,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  '1da4d9f2-6196-11eb-aa64-0242ac120009',
+  '20d99054-6196-11eb-85df-0242ac120009',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -29,7 +29,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
-  '2'
+  '0'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -40,7 +40,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Pragma',
   'no-cache',
   'Content-Length',
-  '1317',
+  '1322',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -52,17 +52,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5f15c7bb-a439-436a-a95d-27a958dacd00',
+  'f1aabf96-fb5c-47ee-a441-ae48ae518100',
   'x-ms-ests-server',
-  '2.1.11444.8 - WUS2 ProdSlices',
+  '2.1.11444.8 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsL5eNaSdj9Hv8NUxPN0i95dWxHLAgAAAHP4pNcOAAAA; expires=Sat, 27-Feb-2021 18:24:53 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsL5eNaSdj9Hv8NUxPN0i95dWxHLBQAAAHP4pNcOAAAA; expires=Sat, 27-Feb-2021 18:24:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Jan 2021 18:24:52 GMT'
+  'Thu, 28 Jan 2021 18:24:58 GMT'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
@@ -72,7 +72,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  '1dc76030-6196-11eb-aa64-0242ac120009',
+  '21062f24-6196-11eb-85df-0242ac120009',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
@@ -92,117 +92,77 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '2'
+  '1'
 ]);
 
 nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .put('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27', {"properties":{"roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6"}})
+  .put('///providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4', {"properties":{"roleName":"a290e904-7015-4bba-90c8-60543313cdb4","type":"CustomRole","permissions":[{"actions":[],"notActions":[],"dataActions":["Microsoft.KeyVault/managedHsm/backup/start/action","Microsoft.KeyVault/managedHsm/backup/status/action"],"notDataActions":[]},{"actions":[],"notActions":[],"dataActions":[],"notDataActions":["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]}],"assignableScopes":["/"]}})
   .query(true)
-  .reply(201, {"id":"/providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27","name":"b36b00af-89c6-435f-a43d-9a3087015c27","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}, [
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-content-type-options',
-  'nosniff',
-  'content-length',
-  '398',
-  'x-ms-request-id',
-  '1de0c6b0-6196-11eb-aa64-0242ac120009',
-  'x-ms-keyvault-region',
-  'westeurope',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'x-ms-keyvault-network-info',
-  'addr=50.35.231.105',
-  'x-ms-server-latency',
-  '67',
-  'cache-control',
-  'no-cache',
-  'x-frame-options',
-  'SAMEORIGIN'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
-  .query(true)
-  .reply(200, {"id":"/providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27","name":"b36b00af-89c6-435f-a43d-9a3087015c27","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}, [
-  'x-frame-options',
-  'SAMEORIGIN',
-  'x-ms-request-id',
-  '1e03c368-6196-11eb-aa64-0242ac120009',
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-ms-keyvault-region',
-  'westeurope',
-  'content-length',
-  '398',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'cache-control',
-  'no-cache',
-  'x-content-type-options',
-  'nosniff',
-  'x-ms-build-version',
-  '1.0.20210112-1-4fbf61ac-develop',
-  'x-ms-keyvault-network-info',
-  'addr=50.35.231.105',
-  'x-ms-server-latency',
-  '0'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .delete('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
-  .query(true)
-  .reply(200, {"id":"/providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27","name":"b36b00af-89c6-435f-a43d-9a3087015c27","properties":{"principalId":"01ea9a65-813e-4238-8204-bf7328d63fc6","roleDefinitionId":"Microsoft.KeyVault/providers/Microsoft.Authorization/roleDefinitions/21dbd100-6940-42c2-9190-5d6cb909625b","scope":"/"},"type":"Microsoft.Authorization/roleAssignments"}, [
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-content-type-options',
-  'nosniff',
-  'content-length',
-  '398',
-  'x-ms-request-id',
-  '1e1c51bc-6196-11eb-aa64-0242ac120009',
-  'x-ms-keyvault-region',
-  'westeurope',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'content-security-policy',
-  "default-src 'self'",
-  'x-ms-keyvault-network-info',
-  'addr=50.35.231.105',
-  'x-ms-server-latency',
-  '88',
-  'cache-control',
-  'no-cache',
-  'x-frame-options',
-  'SAMEORIGIN'
-]);
-
-nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
-  .get('///providers/Microsoft.Authorization/roleAssignments/b36b00af-89c6-435f-a43d-9a3087015c27')
-  .query(true)
-  .reply(404, {"error":{"code":"RoleAssignmentNotFound","message":"Requested role assignment not found (Activity ID: 1e42e94e-6196-11eb-aa64-0242ac120009)"}}, [
+  .reply(500, {"error":{"code":"UnknownError","message":"Unknown error (Activity ID: 211f5828-6196-11eb-85df-0242ac120009)"}}, [
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
   '0',
+  'cache-control',
+  'no-cache',
   'x-content-type-options',
   'nosniff',
   'content-length',
-  '143',
+  '111',
   'x-ms-request-id',
-  '1e42e94e-6196-11eb-aa64-0242ac120009',
+  '211f5828-6196-11eb-85df-0242ac120009',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
   "default-src 'self'",
-  'x-ms-build-version',
-  '1.0.20210112-1-4fbf61ac-develop',
+  'x-frame-options',
+  'SAMEORIGIN'
+]);
+
+nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .put('///providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4', {"properties":{"roleName":"a290e904-7015-4bba-90c8-60543313cdb4","type":"CustomRole","permissions":[{"actions":[],"notActions":[],"dataActions":["Microsoft.KeyVault/managedHsm/backup/start/action","Microsoft.KeyVault/managedHsm/backup/status/action"],"notDataActions":[]},{"actions":[],"notActions":[],"dataActions":[],"notDataActions":["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]}],"assignableScopes":["/"]}})
+  .query(true)
+  .reply(500, {"error":{"code":"UnknownError","message":"Unknown error (Activity ID: 213a5268-6196-11eb-85df-0242ac120009)"}}, [
+  'content-type',
+  'application/json; charset=utf-8',
+  'x-ms-server-latency',
+  '0',
   'cache-control',
   'no-cache',
+  'x-content-type-options',
+  'nosniff',
+  'content-length',
+  '111',
+  'x-ms-request-id',
+  '213a5268-6196-11eb-85df-0242ac120009',
+  'strict-transport-security',
+  'max-age=31536000; includeSubDomains',
+  'content-security-policy',
+  "default-src 'self'",
+  'x-frame-options',
+  'SAMEORIGIN'
+]);
+
+nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .put('///providers/Microsoft.Authorization/roleDefinitions/a290e904-7015-4bba-90c8-60543313cdb4', {"properties":{"roleName":"a290e904-7015-4bba-90c8-60543313cdb4","type":"CustomRole","permissions":[{"actions":[],"notActions":[],"dataActions":["Microsoft.KeyVault/managedHsm/backup/start/action","Microsoft.KeyVault/managedHsm/backup/status/action"],"notDataActions":[]},{"actions":[],"notActions":[],"dataActions":[],"notDataActions":["Microsoft.KeyVault/managedHsm/keys/encrypt/action"]}],"assignableScopes":["/"]}})
+  .query(true)
+  .reply(500, {"error":{"code":"UnknownError","message":"Unknown error (Activity ID: 350df0ec-6196-11eb-85df-0242ac120009)"}}, [
+  'content-type',
+  'application/json; charset=utf-8',
+  'x-ms-server-latency',
+  '1',
+  'cache-control',
+  'no-cache',
+  'x-content-type-options',
+  'nosniff',
+  'content-length',
+  '111',
+  'x-ms-request-id',
+  '350df0ec-6196-11eb-85df-0242ac120009',
+  'strict-transport-security',
+  'max-age=31536000; includeSubDomains',
+  'content-security-policy',
+  "default-src 'self'",
   'x-frame-options',
   'SAMEORIGIN'
 ]);
