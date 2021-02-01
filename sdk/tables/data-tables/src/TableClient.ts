@@ -227,15 +227,16 @@ export class TableClient {
   ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-getEntity", options);
 
+    let parsedBody: any;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      parsedBody = rawResponse.parsedBody;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
+      }
+    }
+
     try {
       const { queryOptions, ...getEntityOptions } = updatedOptions || {};
-      let parsedBody: any;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        parsedBody = rawResponse.parsedBody;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
-      }
       await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
         ...getEntityOptions,
         queryOptions: this.convertQueryOptions(queryOptions || {}),

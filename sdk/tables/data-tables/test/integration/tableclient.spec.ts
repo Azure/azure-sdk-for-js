@@ -46,6 +46,7 @@ describe("TableClient", () => {
     // Create required entities for testing list operations
     before(async function() {
       if (!isPlaybackMode()) {
+        // eslint-disable-next-line no-invalid-this
         this.timeout(10000);
         await client.createEntity({
           partitionKey: listPartitionKey,

@@ -33,7 +33,7 @@ describe("TablesSharedKeyCredential", () => {
     }
     const url =
       "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";
-    const request = createPipelineRequest({ url });
+    const requestToSign = createPipelineRequest({ url });
     const next: SendRequest = function(request: PipelineRequest): Promise<PipelineResponse> {
       return Promise.resolve({
         status: 200,
@@ -43,7 +43,7 @@ describe("TablesSharedKeyCredential", () => {
     };
     const cred = new TablesSharedKeyCredential("accountName", "accountKey");
     const policy = tablesSharedKeyCredentialPolicy(cred);
-    const response = await policy.sendRequest(request, next);
+    const response = await policy.sendRequest(requestToSign, next);
     assert.strictEqual(response.status, 200);
     assert.deepEqual(
       response.request.headers.get("authorization"),

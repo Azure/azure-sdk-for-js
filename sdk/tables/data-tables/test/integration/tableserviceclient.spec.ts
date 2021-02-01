@@ -53,6 +53,7 @@ describe("TableServiceClient", () => {
     before(async function() {
       // Create tables to be listed
       if (!isPlaybackMode()) {
+        // eslint-disable-next-line no-invalid-this
         this.timeout(10000);
         for (let i = 0; i < 20; i++) {
           const tableName = `ListTableTest${suffix}${i}`;
@@ -65,6 +66,7 @@ describe("TableServiceClient", () => {
     after(async function() {
       // Cleanup tables
       if (!isPlaybackMode()) {
+        // eslint-disable-next-line no-invalid-this
         this.timeout(10000);
         try {
           for (const table of tableNames) {
