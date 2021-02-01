@@ -485,7 +485,7 @@ describe("container.create", function() {
     };
     assertThrowsAsync(() => database.containers.create(containerRequest));
   });
-  it("can create subpartitioned container", async function() {
+  it.skip("can create subpartitioned container", async function() {
     const containerRequest: ContainerRequest = {
       id: "subpartition sample",
       partitionKey: ["/topLevel", "/lowerLevel"]
@@ -493,7 +493,7 @@ describe("container.create", function() {
     const { container } = await database.containers.create(containerRequest);
     assert.equal(container.id, "subpartition sample");
   });
-  it("throws for subpartitioned keys without leading slash", async function() {
+  it.skip("throws for subpartitioned keys without leading slash", async function() {
     const containerRequest: ContainerRequest = {
       id: "subpartition sample",
       partitionKey: ["/topLevel", "lowerLevel"]
