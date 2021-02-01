@@ -622,7 +622,7 @@ export const TextLine: coreHttp.CompositeMapper = {
         serializedName: "appearance",
         type: {
           name: "Composite",
-          className: "Appearance"
+          className: "TextAppearance"
         }
       }
     }
@@ -671,26 +671,26 @@ export const TextWord: coreHttp.CompositeMapper = {
   }
 };
 
-export const Appearance: coreHttp.CompositeMapper = {
+export const TextAppearance: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Appearance",
+    className: "TextAppearance",
     modelProperties: {
       style: {
         serializedName: "style",
         type: {
           name: "Composite",
-          className: "Style"
+          className: "TextStyle"
         }
       }
     }
   }
 };
 
-export const Style: coreHttp.CompositeMapper = {
+export const TextStyle: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Style",
+    className: "TextStyle",
     modelProperties: {
       name: {
         serializedName: "name",
