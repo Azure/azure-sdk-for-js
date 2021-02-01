@@ -35,6 +35,7 @@ export class MetricsAdvisorKeyCredential {
    * @param apiKey - API key from the Metrics Advisor web portal
    */
   constructor(subscriptionKey: string, apiKey: string) {
+    if(!subscription && !apiKey)
     this.subscriptionKey = subscriptionKey;
     this.apiKey = apiKey;
   }
