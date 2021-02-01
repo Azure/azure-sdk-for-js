@@ -102,6 +102,6 @@ npm i
 node run.js
 ```
 
-NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run, 
+NOTE: `node run.js` must be run from within the same powershell session that Initialize-SmokeTests.ps1 was run,
 since that script sets the NODE_PATH variable to the current directory (so that module imports from the samples will be redirected).
 To run `node run.js` from a separate session, set/export the NODE_PATH variable to the `<current directory>/node_modules`.
