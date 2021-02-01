@@ -21,12 +21,12 @@ export class MetricsAdvisorKeyCredential {
   /**
    * Subscription access key from the Azure portal
    */
-  private subscriptionKey: string;
+  private _subscriptionKey!: string;
 
   /**
    * API key from the Metrics Advisor web portal
    */
-  private apiKey: string;
+  private _apiKey: string;
 
   /**
    * Creates an instance of MetricsAdvisorKeyCredential
@@ -35,23 +35,37 @@ export class MetricsAdvisorKeyCredential {
    * @param apiKey - API key from the Metrics Advisor web portal
    */
   constructor(subscriptionKey: string, apiKey: string) {
-    if(!subscription && !apiKey)
-    this.subscriptionKey = subscriptionKey;
-    this.apiKey = apiKey;
+    if(!subscriptionKey && !apiKey)
+    this._subscriptionKey = subscriptionKey;
+    this._apiKey = apiKey;
   }
 
   /**
    * Get Subscription key
    */
-  public async getSubscriptionKey() {
-    return this.subscriptionKey;
+  public get subscriptionKey() {
+    return this._subscriptionKey;
+  }
+
+  /**
+   * Set Api Key
+   */
+  public set apiKey(apiKey: string) {
+    this._apiKey = apiKey;
+  }
+
+    /**
+   * Set Subscription key
+   */
+  public set subscriptionKey(subscriptionKey: string) {
+    this._subscriptionKey = subscriptionKey;
   }
 
   /**
    * Get Api Key
    */
-  public async getApiKey() {
-    return this.apiKey;
+  public get apiKey() {
+    return this._apiKey;
   }
 
   /**
@@ -66,7 +80,7 @@ export class MetricsAdvisorKeyCredential {
     if (!subscriptionKey) {
       throw new RangeError("subscriptionKey must be a non-empty string");
     }
-    this.subscriptionKey = subscriptionKey;
+    this._subscriptionKey = subscriptionKey;
   }
 
   /**
@@ -81,7 +95,7 @@ export class MetricsAdvisorKeyCredential {
     if (!apiKey) {
       throw new RangeError("apiKey must be a non-empty string");
     }
-    this.apiKey = apiKey;
+    this._apiKey = apiKey;
   }
 }
 
@@ -104,8 +118,8 @@ export function createMetricsAdvisorKeyCredentialPolicy(
  * using the appropriate header
  */
 class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
-  private subscriptionKey: string;
-  private apiKey: string;
+  private _subscriptionKey: string;
+  private _apiKey: string;
 
   constructor(
     nextPolicy: RequestPolicy,
@@ -113,8 +127,8 @@ class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
     credential: MetricsAdvisorKeyCredential
   ) {
     super(nextPolicy, options);
-    this.subscriptionKey = credential.getSubscriptionKey();
-    this.apiKey = credential.getApiKey();
+    this._subscriptionKey = credential.apiKey;
+    this._apiKey = credential.subscriptionKey;
   }
 
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
@@ -122,8 +136,8 @@ class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
       throw new Error("webResource cannot be null or undefined");
     }
 
-    webResource.headers.set(API_KEY_HEADER_NAME, this.subscriptionKey);
-    webResource.headers.set(X_API_KEY_HEADER_NAME, this.apiKey);
+    webResource.headers.set(API_KEY_HEADER_NAME, this._subscriptionKey);
+    webResource.headers.set(X_API_KEY_HEADER_NAME, this._apiKey);
     return this._nextPolicy.sendRequest(webResource);
   }
 }
