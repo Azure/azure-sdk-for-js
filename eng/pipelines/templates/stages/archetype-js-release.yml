@@ -8,7 +8,8 @@ parameters:
   DocArtifact: 'documentation'
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
-  
+  ServiceDirectory: ''
+
 stages:
   - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
     - ${{ each artifact in parameters.Artifacts }}:
@@ -134,7 +135,7 @@ stages:
                           PRBranchName: onboarding-${{artifact.name}}-$(Build.BuildId)
                           ArtifactName: ${{artifact.name}}
                           Language: 'javascript'
-                          DocRepoDestinationPath: 'docs-ref-services/' 
+                          DocRepoDestinationPath: 'docs-ref-services/'
                           GHReviewersVariable: 'OwningGHUser'
                           CIConfigs: $(CIConfigs)
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
@@ -203,7 +204,7 @@ stages:
                           npm install
                         workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
-                        
+
                       - bash: |
                           node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
                         displayName: Increment package version
@@ -215,6 +216,16 @@ stages:
                           CommitMsg: "Increment package version after release of ${{ artifact.name }}"
                           PRTitle: "Increment version for ${{ parameters.ServiceDirectory }} releases"
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
+
+  - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
+    - stage: SmokeTest_Release_Packages
+      displayName: Smoke Test Release Packages
+      jobs:
+        - template: /eng/pipelines/templates/jobs/smoke-tests.yml
+          parameters:
+            Daily: false
+            ServiceDirectory: ${{ parameters.ServiceDirectory }}
+            Artifacts: ${{ parameters.Artifacts }}
 
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}
@@ -240,7 +251,7 @@ stages:
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"
                   $registry="${{parameters.Registry}}"
-                }         
+                }
                 else {
                   $npmToken="$(azure-sdk-devops-npm-token)"
                   $registry="${{parameters.PrivateRegistry}}"
