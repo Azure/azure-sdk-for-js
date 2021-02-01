@@ -80,7 +80,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "iothubConnectionString.js",
       "useWithIotHub.js",

@@ -126,7 +126,7 @@
     "typescript": "4.1.2",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "createComposedModel.js",
       "customModelManagement.js",

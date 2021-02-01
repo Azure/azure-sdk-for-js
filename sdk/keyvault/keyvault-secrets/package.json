@@ -84,7 +84,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "backupAndRestore.js"
     ]

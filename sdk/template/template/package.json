@@ -104,7 +104,7 @@
     "util": "^0.12.1",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   }
 }

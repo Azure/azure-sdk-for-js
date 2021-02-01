@@ -157,7 +157,7 @@
     "sinon": "^9.0.2",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   }
 }
