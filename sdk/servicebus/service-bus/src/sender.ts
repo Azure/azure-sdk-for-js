@@ -55,7 +55,7 @@ export interface ServiceBusSender {
   /**
    * Creates an instance of `ServiceBusMessageBatch` to which one can add messages until the maximum supported size is reached.
    * The batch can be passed to the {@link send} method to send the messages to Azure Service Bus.
-   * @param options  Configures the behavior of the batch.
+   * @param options - Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
    * @param {CreateMessageBatchOptions} [options]

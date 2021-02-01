@@ -29,7 +29,7 @@ declare const navigator: Navigator;
  * @internal
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
- * @param name The nme of the entity
+ * @param name - The nme of the entity
  */
 export function getUniqueName(name: string): string {
   return `${name}-${generate_uuid()}`;
@@ -41,7 +41,7 @@ export function getUniqueName(name: string): string {
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
  *
- * @param lockToken The lock token whose bytes need to be reorded.
+ * @param lockToken - The lock token whose bytes need to be reorded.
  * @returns Buffer - Buffer representing reordered bytes.
  */
 export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
@@ -105,7 +105,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
  * - Ticks in DateTimeOffset is `1/10000000` second, while ticks in JS Date is `1/1000` second.
  *   - Thus, we `divide` the value by `10000` to convert it to JS Date ticks.
  *
- * @param buf Input as a Buffer
+ * @param buf - Input as a Buffer
  * @returns Date The JS Date object.
  */
 export function convertTicksToDate(buf: number[]): Date {
@@ -136,7 +136,7 @@ export function getProcessorCount(): number {
 /**
  * @internal
  * Converts any given input to a Buffer.
- * @param input The input that needs to be converted to a Buffer.
+ * @param input - The input that needs to be converted to a Buffer.
  */
 export function toBuffer(input: any): Buffer {
   let result: any;
@@ -478,7 +478,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 /**
  * @internal
  * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input.
- * @param authorizationRule parsed Authorization Rule instance
+ * @param authorizationRule - parsed Authorization Rule instance
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   if (!isJSONLikeObject(authorizationRule) || authorizationRule === null) {

@@ -49,7 +49,7 @@ export const managementClientLogger = createServiceBusLogger("service-bus:manage
 
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
- * @param error Error containing a stack trace.
+ * @param error - Error containing a stack trace.
  * @internal
  */
 export function logErrorStackTrace(_logger: AzureLogger, error: any) {

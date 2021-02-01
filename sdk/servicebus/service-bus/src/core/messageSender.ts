@@ -157,8 +157,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    *
-   * @param encodedMessage The encoded message to be sent to ServiceBus.
-   * @param sendBatch Boolean indicating whether the encoded message represents a batch of messages or not
+   * @param encodedMessage - The encoded message to be sent to ServiceBus.
+   * @param sendBatch - Boolean indicating whether the encoded message represents a batch of messages or not
    * @return {Promise<Delivery>} Promise<Delivery>
    */
   private _trySend(

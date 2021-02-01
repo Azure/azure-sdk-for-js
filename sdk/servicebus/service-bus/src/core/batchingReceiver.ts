@@ -97,10 +97,10 @@ export class BatchingReceiver extends MessageReceiver {
 
   /**
    * Receives a batch of messages from a ServiceBus Queue/Topic.
-   * @param maxMessageCount The maximum number of messages to receive.
+   * @param maxMessageCount - The maximum number of messages to receive.
    * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
-   * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
-   * @param maxTimeAfterFirstMessageInMs The total amount of time to wait after the first message
+   * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxTimeAfterFirstMessageInMs - The total amount of time to wait after the first message
    * has been received. Defaults to 1 second.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
@@ -160,8 +160,8 @@ export class BatchingReceiver extends MessageReceiver {
  * taking into account elapsed time from when getRemainingWaitTimeInMsFn
  * was called.
  *
- * @param maxWaitTimeInMs Maximum time to wait for the first message
- * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
+ * @param maxWaitTimeInMs - Maximum time to wait for the first message
+ * @param maxTimeAfterFirstMessageInMs - Maximum time to wait after the first message before completing the receive.
  *
  * @internal
  */
@@ -299,7 +299,7 @@ export class BatchingReceiverLite {
   /**
    * Closes the receiver (optionally with an error), cancelling any current operations.
    *
-   * @param connectionError An optional error (rhea doesn't always deliver one for certain disconnection events)
+   * @param connectionError - An optional error (rhea doesn't always deliver one for certain disconnection events)
    */
   terminate(connectionError?: Error | AmqpError) {
     if (this._closeHandler) {

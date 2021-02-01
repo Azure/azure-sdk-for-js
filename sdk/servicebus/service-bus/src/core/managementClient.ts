@@ -197,7 +197,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * @constructor
    * Instantiates the management client.
-   * @param context The connection context
+   * @param context - The connection context
    * @param entityPath - The name/path of the entity (queue/topic/subscription name)
    * for which the management request needs to be made.
    * @param {ManagementClientOptions} [options] Options to be provided for creating the
@@ -381,7 +381,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. This method will
    * also fetch even Deferred messages (but not Deadlettered message).
    *
-   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(
@@ -406,8 +406,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`.  This method will
    * also fetch even Deferred messages (but not Deadlettered message).
    *
-   * @param sessionId The sessionId from which messages need to be peeked.
-   * @param messageCount The number of messages to retrieve. Default value `1`.
+   * @param sessionId - The sessionId from which messages need to be peeked.
+   * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekMessagesBySession(
@@ -427,9 +427,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Peeks the desired number of messages from the specified sequence number.
    *
-   * @param fromSequenceNumber The sequence number from where to read the message.
-   * @param messageCount The number of messages to retrieve. Default value `1`.
-   * @param sessionId The sessionId from which messages need to be peeked.
+   * @param fromSequenceNumber - The sequence number from where to read the message.
+   * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param sessionId - The sessionId from which messages need to be peeked.
    * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekBySequenceNumber(
@@ -527,8 +527,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param lockToken Lock token of the message
-   * @param options Options that can be set while sending the request.
+   * @param lockToken - Lock token of the message
+   * @param options - Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
@@ -739,8 +739,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Receives a list of deferred messages identified by `sequenceNumbers`.
    *
-   * @param sequenceNumbers A list containing the sequence numbers to receive.
-   * @param receiveMode The mode in which the receiver was created.
+   * @param sequenceNumbers - A list containing the sequence numbers to receive.
+   * @param receiveMode - The mode in which the receiver was created.
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
    * - Returns an empty list if no messages are found.
@@ -832,9 +832,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Updates the disposition status of deferred messages.
    *
-   * @param lockTokens Message lock tokens to update disposition status.
-   * @param dispositionStatus The disposition status to be set
-   * @param options Optional parameters that can be provided while updating the disposition status.
+   * @param lockTokens - Message lock tokens to update disposition status.
+   * @param dispositionStatus - The disposition status to be set
+   * @param options - Optional parameters that can be provided while updating the disposition status.
    *
    * @returns Promise<void>
    */
@@ -901,8 +901,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Renews the lock for the specified session.
    *
-   * @param sessionId Id of the session for which the lock needs to be renewed
-   * @param options Options that can be set while sending the request.
+   * @param sessionId - Id of the session for which the lock needs to be renewed
+   * @param options - Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewSessionLock(
@@ -951,8 +951,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Sets the state of the specified session.
    *
-   * @param sessionId The session for which the state needs to be set
-   * @param state The state that needs to be set.
+   * @param sessionId - The session for which the state needs to be set
+   * @param state - The state that needs to be set.
    * @returns Promise<void>
    */
   async setSessionState(
@@ -996,7 +996,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Gets the state of the specified session.
    *
-   * @param sessionId The session for which the state needs to be retrieved.
+   * @param sessionId - The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
   async getSessionState(
@@ -1039,9 +1039,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
   /**
    * Lists the sessions on the ServiceBus Queue/Topic.
-   * @param lastUpdateTime Filter to include only sessions updated after a given time.
-   * @param skip The number of sessions to skip
-   * @param top Maximum numer of sessions.
+   * @param lastUpdateTime - Filter to include only sessions updated after a given time.
+   * @param skip - The number of sessions to skip
+   * @param top - Maximum numer of sessions.
    * @returns Promise<string[]> A list of session ids.
    */
   async listMessageSessions(
@@ -1248,9 +1248,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action
-   * @param ruleName Name of the rule
-   * @param filter A Boolean, SQL expression or a Correlation filter
-   * @param sqlRuleActionExpression Action to perform if the message satisfies the filtering expression
+   * @param ruleName - Name of the rule
+   * @param filter - A Boolean, SQL expression or a Correlation filter
+   * @param sqlRuleActionExpression - Action to perform if the message satisfies the filtering expression
    */
   async addRule(
     ruleName: string,

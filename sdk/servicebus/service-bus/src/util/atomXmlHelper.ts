@@ -114,9 +114,9 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }) {
 /**
  * @internal
  * Serializes input information to construct the Atom XML request
- * @param resourceName Name of the resource to be serialized like `QueueDescription`
- * @param resource The entity details
- * @param allowedProperties The set of properties that are allowed by the service for the
+ * @param resourceName - Name of the resource to be serialized like `QueueDescription`
+ * @param resource - The entity details
+ * @param allowedProperties - The set of properties that are allowed by the service for the
  * associated operation(s);
  */
 export function serializeToAtomXmlRequest(resourceName: string, resource: any): object {
@@ -144,7 +144,7 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
 /**
  * @internal
  * Transforms response to contain the parsed data.
- * @param nameProperties The set of 'name' properties to be constructed on the
+ * @param nameProperties - The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * @param response
  * @param shouldParseResponse
@@ -167,7 +167,7 @@ export async function deserializeAtomXmlResponse(
  * @internal
  * Utility to deserialize the given JSON content in response body based on
  * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
- * @param response Response containing the JSON value in `response.parsedBody`
+ * @param response - Response containing the JSON value in `response.parsedBody`
  * @nameProperties The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * */

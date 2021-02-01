@@ -103,7 +103,7 @@ export class SharedAccessSignatureCredential extends SharedKeyCredential {
   private _accessToken: AccessToken;
 
   /**
-   * @param sharedAccessSignature A shared access signature of the form
+   * @param sharedAccessSignature - A shared access signature of the form
    * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
    */
   constructor(sharedAccessSignature: string) {

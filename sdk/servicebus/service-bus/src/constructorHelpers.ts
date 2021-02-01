@@ -100,7 +100,7 @@ export function createConnectionContextForTokenCredential(
 
 /**
  * Parses a connection string and extracts the EntityPath named entity out.
- * @param connectionString An entity specific Service Bus connection string.
+ * @param connectionString - An entity specific Service Bus connection string.
  * @internal
  */
 export function getEntityNameFromConnectionString(connectionString: string): string {

@@ -450,7 +450,7 @@ export class StreamingReceiver extends MessageReceiver {
 
   /**
    * Will reconnect the receiver link if necessary.
-   * @param receiverError The receiver error or connection error, if any.
+   * @param receiverError - The receiver error or connection error, if any.
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error): Promise<void> {

@@ -65,8 +65,8 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
   /**
    * Streams messages to message handlers.
-   * @param handlers A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
+   * @param handlers - A handler that gets called for messages and errors.
+   * @param options - Options for subscribe.
    * @returns An object that can be closed, sending any remaining messages to `handlers` and
    * stopping new messages from arriving.
    */
@@ -98,7 +98,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
   /**
    * Sets the state on the Session. For more on session states, see
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
-   * @param state The state that needs to be set.
+   * @param state - The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
@@ -235,7 +235,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   /**
    * Sets the state on the Session. For more on session states, see
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
-   * @param state The state that needs to be set.
+   * @param state - The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.

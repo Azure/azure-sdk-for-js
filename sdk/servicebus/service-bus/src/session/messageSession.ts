@@ -739,8 +739,8 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Returns a batch of messages based on given count and timeout over an AMQP receiver link
    * from a Queue/Subscription.
    *
-   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxMessageCount - The maximum number of messages to receive from Queue/Subscription.
+   * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
    */
@@ -765,9 +765,9 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Settles the message with the specified disposition.
-   * @param message The ServiceBus Message that needs to be settled.
-   * @param operation The disposition type.
-   * @param options Optional parameters that can be provided while disposing the message.
+   * @param message - The ServiceBus Message that needs to be settled.
+   * @param operation - The disposition type.
+   * @param options - Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
     message: ServiceBusMessageImpl,
@@ -833,8 +833,8 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Creates a new instance of the MessageSession based on the provided parameters.
-   * @param context The client entity context
-   * @param options Options that can be provided while creating the MessageSession.
+   * @param context - The client entity context
+   * @param options - Options that can be provided while creating the MessageSession.
    */
   static async create(
     context: ConnectionContext,

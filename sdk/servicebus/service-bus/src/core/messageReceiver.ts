@@ -216,7 +216,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**
    * React to receiver being detached due to given error.
    * You may want to set up retries to recover the broken link and/or report error to user.
-   * @param error The error accompanying the receiver/session error or connection disconnected events
+   * @param error - The error accompanying the receiver/session error or connection disconnected events
    */
   abstract onDetached(error?: AmqpError | Error): Promise<void>;
 
@@ -232,9 +232,9 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
   /**
    * Settles the message with the specified disposition.
-   * @param message The ServiceBus Message that needs to be settled.
-   * @param operation The disposition type.
-   * @param options Optional parameters that can be provided while disposing the message.
+   * @param message - The ServiceBus Message that needs to be settled.
+   * @param operation - The disposition type.
+   * @param options - Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
     message: ServiceBusMessageImpl,

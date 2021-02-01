@@ -42,7 +42,7 @@ function convertToUint8Array(value: string) {
 
 /**
  * Encodes a byte array in base64 format.
- * @param value the Uint8Aray to encode
+ * @param value - the Uint8Aray to encode
  * @internal
  * @param {Uint8Array} value
  * @returns {string}

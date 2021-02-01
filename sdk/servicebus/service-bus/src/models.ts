@@ -41,12 +41,12 @@ export interface MessageHandlers {
   /**
    * Handler that processes messages from service bus.
    *
-   * @param message A message received from Service Bus.
+   * @param message - A message received from Service Bus.
    */
   processMessage(message: ServiceBusReceivedMessage): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
-   * @param args The error and additional context to indicate where
+   * @param args - The error and additional context to indicate where
    * the error originated.
    */
   processError(args: ProcessErrorArgs): Promise<void>;

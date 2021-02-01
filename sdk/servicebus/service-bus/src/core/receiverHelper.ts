@@ -22,7 +22,7 @@ export class ReceiverHelper {
    * indicates the receiver is closed or should not continue
    * to receive more messages.
    *
-   * @param credits Number of credits to add.
+   * @param credits - Number of credits to add.
    * @returns true if credits were added, false if there is no current receiver instance
    * or `stopReceivingMessages` has been called.
    */
