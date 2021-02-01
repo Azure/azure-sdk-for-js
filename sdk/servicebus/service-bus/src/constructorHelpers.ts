@@ -30,7 +30,6 @@ export interface ServiceBusClientOptions {
    */
   retryOptions?: RetryOptions;
   /**
-   * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;

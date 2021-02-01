@@ -124,7 +124,6 @@ export interface ServiceBusReceiverOptions {
  */
 export interface CreateMessageBatchOptions extends OperationOptionsBase {
   /**
-   * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;
