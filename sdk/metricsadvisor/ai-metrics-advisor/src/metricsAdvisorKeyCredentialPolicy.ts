@@ -63,7 +63,7 @@ export class MetricsAdvisorKeyCredential {
    */
   public async updateSubscriptionKey(subscriptionKey: string) {
     if (!this.subscriptionKey) {
-      throw new RangeError("subscriptionKey must be a non-empty error");
+      throw new RangeError("subscriptionKey must be a non-empty string");
     }
     this.subscriptionKey = subscriptionKey;
   }
