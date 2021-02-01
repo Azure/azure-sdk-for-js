@@ -163,11 +163,11 @@ describe("KeyVaultAccessControlClient", () => {
           assert.fail("Could not find a built in role definition to test against.");
         }
 
-        assert.isRejected(client.deleteRoleDefinition(globalScope, builtInDefinition.name));
+        await assert.isRejected(client.deleteRoleDefinition(globalScope, builtInDefinition.name));
       });
 
       it("errors when deleting a non-existent role definition", async function() {
-        assert.isRejected(client.deleteRoleDefinition(globalScope, "foobar"));
+        await assert.isRejected(client.deleteRoleDefinition(globalScope, "foobar"));
       });
     });
   });
