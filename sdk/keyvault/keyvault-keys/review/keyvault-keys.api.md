@@ -43,6 +43,11 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+    hsm?: boolean;
+}
+
+// @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     hsm?: boolean;
     keySize?: number;
@@ -163,6 +168,7 @@ export class KeyClient {
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
+    createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;

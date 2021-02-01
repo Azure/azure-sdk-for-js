@@ -360,6 +360,17 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 
 /**
  * An interface representing the optional parameters that can be
+ * passed to {@link createOctKey}
+ */
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+  /**
+   * Whether to create a hardware-protected key in a hardware security module (HSM).
+   */
+  hsm?: boolean;
+}
+
+/**
+ * An interface representing the optional parameters that can be
  * passed to {@link importKey}
  */
 export interface ImportKeyOptions extends coreHttp.OperationOptions {
