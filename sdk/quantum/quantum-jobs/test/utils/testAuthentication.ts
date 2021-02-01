@@ -14,7 +14,7 @@ export async function authenticate(that: any): Promise<any> {
       SUBSCRIPTION_ID: "subscription_id",
       RESOURCE_GROUP: "resource-group",
       WORKSPACE_NAME: "workspace-name",
-      LOCATION: "location",
+      LOCATION: "location"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -32,11 +32,12 @@ export async function authenticate(that: any): Promise<any> {
   );
 
   const client = new QuantumJobClient(
-      env.SUBSCRIPTION_ID,
-      env.RESOURCE_GROUP,
-      env.WORKSPACE_NAME,
-      env.LOCATION,
-      credential);
+    env.SUBSCRIPTION_ID,
+    env.RESOURCE_GROUP,
+    env.WORKSPACE_NAME,
+    env.LOCATION,
+    credential
+  );
   const testClient = new TestClient(client);
 
   return { recorder, client, credential, testClient, keySuffix };
