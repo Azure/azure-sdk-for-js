@@ -135,8 +135,8 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       });
 
-      it("listDimensionValuesForDetectionConfiguration()", async function() {
-        const iterator = client.listDimensionValuesForDetectionConfig(
+      it("listAnomalyDimensionValues()", async function() {
+        const iterator = client.listAnomalyDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           new Date(Date.UTC(2020, 0, 5)),
           new Date(Date.UTC(2020, 10, 5)),
@@ -148,8 +148,8 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
-        const iterator = client.listDimensionValuesForDetectionConfig(
+      it("listAnomalyDimensionValues() with datetime strings", async function() {
+        const iterator = client.listAnomalyDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           "2020-01-05T00:00:00.000Z",
           "2020-11-05T00:00:00.000Z",
@@ -161,9 +161,9 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listDimensionValuesForDetectionConfiguration() by page", async function() {
+      it("listAnomalyDimensionValues() by page", async function() {
         const iterator = client
-          .listDimensionValuesForDetectionConfig(
+          .listAnomalyDimensionValues(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
             new Date(Date.UTC(2020, 0, 5)),
             new Date(Date.UTC(2020, 10, 5)),
@@ -525,8 +525,8 @@ matrix([[true, false]] as const, async (useAad) => {
             value: "NotAnomaly",
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const actual = await client.createFeedback(anomalyFeedback);
-
+          const created = await client.createFeedback(anomalyFeedback);
+          const actual = await client.getFeedback(created.id);
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Anomaly");
@@ -543,8 +543,8 @@ matrix([[true, false]] as const, async (useAad) => {
             value: "ChangePoint",
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const actual = await client.createFeedback(changePointFeedback);
-
+          const created = await client.createFeedback(changePointFeedback);
+          const actual = await client.getFeedback(created.id);
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "ChangePoint");
@@ -561,8 +561,8 @@ matrix([[true, false]] as const, async (useAad) => {
             periodValue: 4,
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const actual = await client.createFeedback(periodFeedback);
-
+          const created = await client.createFeedback(periodFeedback);
+          const actual = await client.getFeedback(created.id);
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Period");
@@ -579,9 +579,8 @@ matrix([[true, false]] as const, async (useAad) => {
             dimensionKey: { city: "Cairo", category: "Home & Garden" },
             comment: "This is a comment"
           };
-
-          const actual = await client.createFeedback(expectedCommentFeedback);
-
+          const created = await client.createFeedback(expectedCommentFeedback);
+          const actual = await client.getFeedback(created.id);
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Comment");

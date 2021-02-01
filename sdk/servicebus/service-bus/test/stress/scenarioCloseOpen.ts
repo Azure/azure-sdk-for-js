@@ -49,6 +49,7 @@ export async function scenarioClose() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "closeOpen",
     snapshotFocus: ["send-info", "receive-info", "close-info"]
   });
   let sbClient = new ServiceBusClient(connectionString);

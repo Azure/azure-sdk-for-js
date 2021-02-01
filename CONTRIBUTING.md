@@ -217,6 +217,22 @@ Generally speaking, the following commands are roughly equivalent:
 |                                      | `rushx <scriptname>`                    | Run named script in the current project only                     |
 | `npx <command>`                      | `node_modules/.bin/<command>`           | Run named command provided by installed dependency package       |
 
+### Documentation
+
+We care deeply about the quality of our documentation in order to make the experience of using our SDK smooth and fun. We use [TSDoc](https://tsdoc.org/pages/tags/alpha/) tags to mainly document our methods, classes, and interfaces, and we use [TypeDoc](http://typedoc.org/) to generate the documentation.
+
+In the case where you do not want to generate documentation for a specific definition:
+
+- use `@hidden` if the definition is exported by `src/index.ts`
+- use `@internal` otherwise
+
+To maintain the quality of the documentation, the following two facilities are provided:
+
+- an [ESLint plugin](https://github.com/microsoft/tsdoc/tree/master/eslint-plugin) is used to check that our comments are well-formed TSDoc comments and it can be run using `rushx lint`
+- the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
+
+TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
+
 ## Onboarding a new library
 
 All libraries must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's `package.json` must contain the required scripts as documented [above](#other-npm-scripts).

@@ -1,4 +1,8 @@
-import { ServiceBusClient, ServiceBusReceiver, ServiceBusReceiverOptions } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusReceiver,
+  ServiceBusReceiverOptions
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -74,6 +78,7 @@ export async function scenarioStreamingReceive() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "streamingReceive",
     snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);

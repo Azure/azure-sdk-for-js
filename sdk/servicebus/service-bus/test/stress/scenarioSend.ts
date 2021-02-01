@@ -42,7 +42,7 @@ async function main() {
     totalNumberOfMessagesToSend,
     useScheduleApi
   } = testOptions;
-  const stressBase = new SBStressTestsBase({ snapshotFocus: ["send-info"] });
+  const stressBase = new SBStressTestsBase({ testName: "send", snapshotFocus: ["send-info"] });
   const sbClient = new ServiceBusClient(connectionString);
 
   await stressBase.init(undefined, undefined, testOptions);

@@ -5,7 +5,7 @@ import {
   GeographyPoint,
   SearchIndexClient
 } from "@azure/search-documents";
-import { createIndex, WAIT_TIME } from "../../utils/setup";
+import { createIndex, documentKeyRetriever, WAIT_TIME } from "../../utils/setup";
 import { Hotel } from "../../utils/interfaces";
 import { delay } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -36,6 +36,7 @@ export async function main() {
 
   const bufferedClient: SearchIndexingBufferedSender<Hotel> = new SearchIndexingBufferedSender(
     searchClient,
+    documentKeyRetriever,
     {
       autoFlush: false
     }

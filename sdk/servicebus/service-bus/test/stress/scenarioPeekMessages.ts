@@ -50,6 +50,7 @@ export async function scenarioPeekMessages() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "peekMessages",
     snapshotFocus: ["send-info", "receive-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);
