@@ -40,21 +40,21 @@ export class MetricsAdvisorKeyCredential {
   }
 
   /**
-   * Get Subscription key
-   */
-  public get subscriptionKey():string {
-    return this._subscriptionKey;
-  }
-
-  public set apiKey(apiKey: string) {
-    this._apiKey = apiKey;
-  }
-
-  /**
    * Get Api Key
    */
   public get apiKey(): string {
     return this._apiKey;
+  }
+  
+  public set apiKey(apiKey: string) {
+    this._apiKey = apiKey;
+  }
+
+    /**
+   * Get Subscription key
+   */
+  public get subscriptionKey(): string {
+    return this._subscriptionKey;
   }
 
   public set subscriptionKey(subscriptionKey: string) {
@@ -69,7 +69,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param subscriptionKey - The new subscription key value to be used
    */
-  public async updateSubscriptionKey(subscriptionKey: string) {
+  public async updateSubscriptionKey(subscriptionKey: string): Promise<void> {
     if (!subscriptionKey) {
       throw new RangeError("subscriptionKey must be a non-empty string");
     }
