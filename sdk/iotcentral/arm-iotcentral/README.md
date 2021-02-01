@@ -12,8 +12,8 @@ This package contains an isomorphic SDK (runs both in node.js and in browsers) f
 To use this SDK in your project, you will need to install two packages.
 - `@azure/arm-iotcentral` that contains the client.
 - `@azure/identity` that contains different credentials for you to authenticate the client using Azure Active Directory.
+
 Install both packages using the below commands.
-Alternatively, you can add these to the dependencies section in your package.json and then run `npm install`.
 ```bash
 npm install @azure/arm-iotcentral
 npm install @azure/identity
@@ -23,7 +23,7 @@ We strongly encourage you to use the credentials from `@azure/identity` where th
 
 ### How to use
 
-There are multiple credentials available in the `@azure/identity` package to suit your different needs.
+There are multiple credentials available in the `@azure/identity` package to suit your different authentication needs.
 Read about them in detail in [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
 To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which tries different credentials internally until one of them succeeds.
 Most of the credentials would require you to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
