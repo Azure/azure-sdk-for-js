@@ -397,6 +397,14 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    PartitionKeyVersion: {
+        Hash: number;
+        MultiHash: number;
+    };
+    PartitionKeyKind: {
+        Hash: string;
+        MultiHash: string;
+    };
 };
 
 // @public
@@ -1629,8 +1637,8 @@ export class TimeSpan {
     // (undocumented)
     static additionDoesOverflow(a: number, b: number): boolean;
     // (undocumented)
-    static compare(t1: TimeSpan, t2: TimeSpan): 0 | 1 | -1;
-    compareTo(value: TimeSpan): 0 | 1 | -1;
+    static compare(t1: TimeSpan, t2: TimeSpan): 1 | 0 | -1;
+    compareTo(value: TimeSpan): 1 | 0 | -1;
     // (undocumented)
     days(): number;
     duration(): TimeSpan;
