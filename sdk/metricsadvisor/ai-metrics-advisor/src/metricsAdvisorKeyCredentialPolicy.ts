@@ -78,7 +78,7 @@ export class MetricsAdvisorKeyCredential {
    */
   public async updateApiKey(apiKey: string) {
     if (!this.apiKey) {
-      throw new RangeError("apiKey must be a non-empty error");
+      throw new RangeError("apiKey must be a non-empty string");
     }
     this.apiKey = apiKey;
   }
