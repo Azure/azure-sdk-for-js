@@ -95,16 +95,19 @@ export interface OperationSpec {
   readonly responses: { [responseCode: string]: OperationResponse };
 }
 
-export function isStreamOperation(operationSpec: OperationSpec): boolean {
-  let result = false;
+/**
+ * Gets the list of status codes for streaming responses.
+ * @internal @hidden
+ */
+export function getStreamResponseStatusCodes(operationSpec: OperationSpec): Set<number> {
+  const result = new Set<number>();
   for (const statusCode in operationSpec.responses) {
-    const operationResponse: OperationResponse = operationSpec.responses[statusCode];
+    const operationResponse = operationSpec.responses[statusCode];
     if (
       operationResponse.bodyMapper &&
       operationResponse.bodyMapper.type.name === MapperType.Stream
     ) {
-      result = true;
-      break;
+      result.add(Number(statusCode));
     }
   }
   return result;

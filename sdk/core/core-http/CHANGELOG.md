@@ -1,5 +1,13 @@
 # Release History
 
+## 1.2.3 (Unreleased)
+
+- Fix an issue where non-streaming response body was treated as stream [PR 13192](https://github.com/Azure/azure-sdk-for-js/pull/13192)
+
+## 1.2.2 (2021-01-07)
+
+- Cache the default `HttpClient` used when one isn't passed in to `ServiceClient`. This means that for most packages we will only create a single `HttpClient`, which will improve platform resource usage by reducing overhead. [PR 12966](https://github.com/Azure/azure-sdk-for-js/pull/12966)
+
 ## 1.2.1 (2020-12-09)
 
 - Support custom auth scopes. Scope is a mechanism in OAuth 2.0 to limit an application's access to a user's account [PR 12752](https://github.com/Azure/azure-sdk-for-js/pull/12752)

@@ -9,8 +9,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "build:autorest": "npm run build:autorest-identity && npm run build:autorest-phone",
-    "build:autorest-identity": "autorest --typescript --version=3.0.6267  --v3 ./swagger/CommunicationIdentity.md && rushx format",
+    "build:autorest": "npm run build:autorest-phone",
     "build:autorest-phone": "autorest --typescript --version=3.0.6267 --v3 ./swagger/PhoneNumber.md && rushx format",
     "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -39,7 +38,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -50,7 +49,7 @@
     "LICENSE"
   ],
   "keywords": [
-    "Azure",
+    "azure",
     "cloud",
     "communication"
   ],
@@ -60,6 +59,10 @@
     "node": ">=8.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration/",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -79,6 +82,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
+    "@azure/identity": "^1.1.0",
     "@microsoft/api-documenter": "~7.8.17",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -107,7 +111,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "karma": "^5.1.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha": "^7.1.1",
@@ -121,6 +125,11 @@
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "typescript": "4.1.2",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "purchasePhoneNumber.js"
+    ]
   }
 }

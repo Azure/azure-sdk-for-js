@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  createCommunicationAccessKeyCredentialPolicy,
   parseClientArguments,
-  isKeyCredential
+  isKeyCredential,
+  createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   RestResponse,
   PipelineOptions,
@@ -87,9 +87,17 @@ export class SmsClient {
    */
   constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
 
+  /**
+   * Initializes a new instance of the SmsClient class using a TokenCredential.
+   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential TokenCredential that is used to authenticate requests to the service.
+   * @param options Optional. Options to configure the HTTP pipeline.
+   */
+  constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
+
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | SmsClientOptions,
+    credentialOrOptions?: KeyCredential | TokenCredential | SmsClientOptions,
     maybeOptions: SmsClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -115,7 +123,7 @@ export class SmsClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.api = new SmsApiClient(url, pipeline);

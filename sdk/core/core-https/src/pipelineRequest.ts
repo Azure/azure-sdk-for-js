@@ -19,17 +19,11 @@ import { SpanOptions } from "@azure/core-tracing";
  * Settings to initialize a request.
  * Almost equivalent to Partial<PipelineRequest>, but url is mandatory.
  */
-export interface PipelineRequestOptions<AdditionalInfo = any> {
+export interface PipelineRequestOptions {
   /**
    * The URL to make the request to.
    */
   url: string;
-
-  /**
-   * Any additional information on the request that
-   * is policy or client specific.
-   */
-  additionalInfo?: AdditionalInfo;
 
   /**
    * The HTTP method to use when making the request.
@@ -70,9 +64,9 @@ export interface PipelineRequestOptions<AdditionalInfo = any> {
   formData?: FormDataMap;
 
   /**
-   * Whether or not the body of the PipelineResponse should be treated as a stream.
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
    */
-  streamResponseBody?: boolean;
+  streamResponseStatusCodes?: Set<number>;
 
   /**
    * Proxy configuration.
@@ -108,7 +102,7 @@ export interface PipelineRequestOptions<AdditionalInfo = any> {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
-class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<AdditionalInfo> {
+class PipelineRequestImpl implements PipelineRequest {
   public url: string;
   public method: HttpMethods;
   public headers: HttpHeaders;
@@ -116,7 +110,7 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
   public withCredentials: boolean;
   public body?: RequestBodyType;
   public formData?: FormDataMap;
-  public streamResponseBody: boolean;
+  public streamResponseStatusCodes?: Set<number>;
   public proxySettings?: ProxySettings;
   public keepAlive: boolean;
   public skipDecompressResponse: boolean;
@@ -125,7 +119,6 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
   public spanOptions?: SpanOptions;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
-  public additionalInfo?: AdditionalInfo;
 
   constructor(options: PipelineRequestOptions) {
     this.url = options.url;
@@ -137,36 +130,13 @@ class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<Addit
     this.keepAlive = options.keepAlive ?? true;
     this.proxySettings = options.proxySettings;
     this.skipDecompressResponse = options.skipDecompressResponse ?? false;
-    this.streamResponseBody = options.streamResponseBody ?? false;
+    this.streamResponseStatusCodes = options.streamResponseStatusCodes;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
     this.spanOptions = options.spanOptions;
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
-    this.additionalInfo = options.additionalInfo;
-  }
-
-  public clone(): PipelineRequest {
-    return new PipelineRequestImpl({
-      url: this.url,
-      abortSignal: this.abortSignal,
-      body: this.body,
-      formData: this.formData,
-      headers: this.headers.clone(),
-      keepAlive: this.keepAlive,
-      method: this.method,
-      onDownloadProgress: this.onDownloadProgress,
-      onUploadProgress: this.onUploadProgress,
-      proxySettings: this.proxySettings,
-      skipDecompressResponse: this.skipDecompressResponse,
-      streamResponseBody: this.streamResponseBody,
-      timeout: this.timeout,
-      withCredentials: this.withCredentials,
-      spanOptions: this.spanOptions,
-      requestId: this.requestId,
-      additionalInfo: this.additionalInfo
-    });
   }
 }
 

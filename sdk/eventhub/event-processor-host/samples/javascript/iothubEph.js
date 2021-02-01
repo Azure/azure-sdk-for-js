@@ -7,6 +7,10 @@
   intervals in an Azure Storage Blob.
 */
 
+console.warn(
+  "The package @azure/event-processor-host is deprecated in favor of @azure/event-hubs and @azure/eventhubs-checkpointstore-blob"
+);
+
 const { EventProcessorHost, delay } = require("@azure/event-processor-host");
 
 // Define IoT Hub and storage connection strings here

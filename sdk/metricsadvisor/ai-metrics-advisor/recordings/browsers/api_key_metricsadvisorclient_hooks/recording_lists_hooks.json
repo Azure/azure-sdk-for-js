@@ -1,0 +1,29 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {
+    "hookName": "js-test"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"hookId\":\"6b105965-2d8d-4fe6-ab78-ce2a03519bfd\",\"hookName\":\"js-test-emailHook-161116815711804827\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}},{\"hookId\":\"7d15bcf9-b229-4356-b1cd-145b5759de6a\",\"hookName\":\"js-test-webHook-161116815711803040\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}],\"@nextLink\":null}",
+   "responseHeaders": {
+    "apim-request-id": "29f3ab1b-ce55-4422-8e65-5f193d8900ef",
+    "content-length": "651",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "104",
+    "x-request-id": "29f3ab1b-ce55-4422-8e65-5f193d8900ef"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "55c0c3c86fa01495352b1705eb001f56"
+}

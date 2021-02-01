@@ -50,7 +50,8 @@ async function providePeriodFeedback(client, metricId) {
     periodValue: 4,
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createFeedback(periodFeedback);
+  const created = await client.createFeedback(periodFeedback);
+  return await client.getFeedback(created.id);
 }
 
 async function provideChangePointFeedback(client, metricId) {
@@ -62,7 +63,8 @@ async function provideChangePointFeedback(client, metricId) {
     value: "ChangePoint",
     dimensionKey: { city: "Manila", category: "Handmade" }
   };
-  return await client.createFeedback(changePointFeedback);
+  const created = await client.createFeedback(changePointFeedback);
+  return await client.getFeedback(created.id);
 }
 
 async function provideCommentFeedback(client, metricId) {
@@ -73,7 +75,8 @@ async function provideCommentFeedback(client, metricId) {
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
   };
-  return await client.createFeedback(commendFeedback);
+  const created = await client.createFeedback(commendFeedback);
+  return await client.getFeedback(created.id);
 }
 
 async function getFeedback(client, feedbackId) {

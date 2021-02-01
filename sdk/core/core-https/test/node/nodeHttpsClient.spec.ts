@@ -160,4 +160,32 @@ describe("NodeHttpsClient", function() {
       assert.strictEqual(e.name, "AbortError");
     }
   });
+
+  it("should stream response body on matching status code", async function() {
+    const client = new DefaultHttpsClient();
+    stubbedRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([200])
+    });
+    const promise = client.sendRequest(request);
+    stubbedRequest.yield(createResponse(200, "body"));
+    const response = await promise;
+    assert.equal(response.bodyAsText, undefined);
+    assert.ok(response.readableStreamBody);
+  });
+
+  it("should not stream response body on non-matching status code", async function() {
+    const client = new DefaultHttpsClient();
+    stubbedRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([200])
+    });
+    const promise = client.sendRequest(request);
+    stubbedRequest.yield(createResponse(400, "body"));
+    const response = await promise;
+    assert.equal(response.bodyAsText, "body");
+    assert.strictEqual(response.readableStreamBody, undefined);
+  });
 });

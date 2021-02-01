@@ -3,7 +3,6 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import {
-  DefaultHttpsClient,
   HttpsClient,
   PipelineRequest,
   PipelineResponse,
@@ -14,7 +13,6 @@ import {
   InternalPipelineOptions
 } from "@azure/core-https";
 import {
-  OperationResponse,
   OperationArguments,
   OperationSpec,
   OperationRequest,
@@ -23,12 +21,14 @@ import {
   CompositeMapper,
   XmlOptions
 } from "./interfaces";
-import { isStreamOperation } from "./interfaceHelpers";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 import { URL } from "./url";
 import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
+import { getCachedDefaultHttpsClient } from "./httpClientCache";
+import { getOperationRequestInfo } from "./operationHelpers";
 
 /**
  * Options to be provided while creating the client.
@@ -104,7 +104,7 @@ export class ServiceClient {
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
-    this._httpsClient = options.httpsClient || new DefaultHttpsClient();
+    this._httpsClient = options.httpsClient || getCachedDefaultHttpsClient();
     const credentialScopes = getCredentialScopes(options);
     this._pipeline =
       options.pipeline ||
@@ -125,13 +125,14 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
+   * @typeParam T The typed result of the request, based on the OperationSpec.
    * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
    * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
    */
-  async sendOperationRequest(
+  async sendOperationRequest<T>(
     operationArguments: OperationArguments,
     operationSpec: OperationSpec
-  ): Promise<OperationResponse> {
+  ): Promise<T> {
     const baseUri: string | undefined = operationSpec.baseUrl || this._baseUri;
     if (!baseUri) {
       throw new Error(
@@ -148,12 +149,12 @@ export class ServiceClient {
       url
     });
     request.method = operationSpec.httpMethod;
-    request.additionalInfo = {};
-    request.additionalInfo.operationSpec = operationSpec;
-    request.additionalInfo.operationArguments = operationArguments;
+    const operationInfo = getOperationRequestInfo(request);
+    operationInfo.operationSpec = operationSpec;
+    operationInfo.operationArguments = operationArguments;
 
     const contentType = operationSpec.contentType || this._requestContentType;
-    if (contentType) {
+    if (contentType && operationSpec.requestBody) {
       request.headers.set("Content-Type", contentType);
     }
 
@@ -181,7 +182,7 @@ export class ServiceClient {
         }
 
         if (requestOptions.shouldDeserialize !== undefined) {
-          request.additionalInfo.shouldDeserialize = requestOptions.shouldDeserialize;
+          operationInfo.shouldDeserialize = requestOptions.shouldDeserialize;
         }
       }
 
@@ -194,13 +195,20 @@ export class ServiceClient {
       }
     }
 
-    if (request.streamResponseBody === undefined) {
-      request.streamResponseBody = isStreamOperation(operationSpec);
+    if (request.streamResponseStatusCodes === undefined) {
+      request.streamResponseStatusCodes = getStreamingResponseStatusCodes(operationSpec);
     }
 
     try {
       const rawResponse = await this.sendRequest(request);
-      return flattenResponse(rawResponse, operationSpec.responses[rawResponse.status]);
+      const flatResponse = flattenResponse(
+        rawResponse,
+        operationSpec.responses[rawResponse.status]
+      ) as T;
+      if (options?.onResponse) {
+        options.onResponse(rawResponse, flatResponse);
+      }
+      return flatResponse;
     } catch (error) {
       if (error.response) {
         error.details = flattenResponse(
@@ -285,29 +293,18 @@ export function createClientPipeline(options: ClientPipelineOptions = {}): Pipel
 function flattenResponse(
   fullResponse: FullOperationResponse,
   responseSpec: OperationResponseMap | undefined
-): OperationResponse {
+): unknown {
   const parsedHeaders = fullResponse.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
-
-  function addResponse<T extends object>(
-    obj: T
-  ): T & { readonly _response: FullOperationResponse } {
-    return Object.defineProperty(obj, "_response", {
-      configurable: false,
-      enumerable: false,
-      writable: false,
-      value: fullResponse
-    });
-  }
 
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
     if (typeName === "Stream") {
-      return addResponse({
+      return {
         ...parsedHeaders,
         blobBody: fullResponse.blobBody,
         readableStreamBody: fullResponse.readableStreamBody
-      });
+      };
     }
 
     const modelProperties =
@@ -330,14 +327,14 @@ function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return addResponse(arrayResponse);
+      return arrayResponse;
     }
 
     if (typeName === "Composite" || typeName === "Dictionary") {
-      return addResponse({
+      return {
         ...parsedHeaders,
         ...fullResponse.parsedBody
-      });
+      };
     }
   }
 
@@ -346,16 +343,16 @@ function flattenResponse(
     fullResponse.request.method === "HEAD" ||
     isPrimitiveType(fullResponse.parsedBody)
   ) {
-    return addResponse({
+    return {
       ...parsedHeaders,
       body: fullResponse.parsedBody
-    });
+    };
   }
 
-  return addResponse({
+  return {
     ...parsedHeaders,
     ...fullResponse.parsedBody
-  });
+  };
 }
 
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {

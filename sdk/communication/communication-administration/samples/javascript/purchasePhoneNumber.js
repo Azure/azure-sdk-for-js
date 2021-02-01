@@ -40,10 +40,10 @@ async function main() {
   // poll until phone number reservation is made
   const reservation = await reservationPoller.pollUntilDone();
 
-  console.log("Phone number reserved for purchase.");
-  console.log(`Reservation: ${JSON.stringify(reservation)}`);
-
   if (reservation.reservationId && reservation.phoneNumbers && reservation.phoneNumbers.length) {
+    console.log("Phone number reserved for purchase.");
+    console.log(`Reservation: ${JSON.stringify(reservation)}`);
+
     const phoneNumber = reservation.phoneNumbers[0];
 
     // create purchase poller
@@ -58,7 +58,7 @@ async function main() {
 
     console.log(`Phone number, ${phoneNumber}, purchased successfully.`);
   } else {
-    throw new Error("No phone numbers found.");
+    console.log("No phone number found matching request.");
   }
 }
 

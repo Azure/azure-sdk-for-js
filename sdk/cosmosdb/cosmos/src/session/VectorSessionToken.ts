@@ -146,7 +146,7 @@ export class VectorSessionToken {
 }
 
 /**
- * @ignore
+ * @hidden
  * @param int1
  * @param int2
  */
