@@ -459,7 +459,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *     QueueProperties,
    *     EntitiesResponse<QueueProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listQueues(
     options?: OperationOptions
@@ -468,19 +467,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listQueuesAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -570,7 +566,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *     QueueRuntimeProperties,
    *     EntitiesResponse<QueueRuntimeProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listQueuesRuntimeProperties(
     options?: OperationOptions
@@ -582,19 +577,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listQueuesRuntimePropertiesAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -956,7 +948,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *     TopicProperties,
    *     EntitiesResponse<TopicProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listTopics(
     options?: OperationOptions
@@ -965,19 +956,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listTopicsAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -1068,7 +1056,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *     EntitiesResponse<TopicRuntimeProperties>,
 
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listTopicsRuntimeProperties(
     options?: OperationOptions
@@ -1080,19 +1067,19 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listTopicsRuntimePropertiesAll(options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -1468,14 +1455,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @memberof ServiceBusAdministrationClient
    * @param {string} topicName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionProperties,
    *     EntitiesResponse<SubscriptionProperties>
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listSubscriptions(
     topicName: string,
@@ -1488,19 +1473,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -1600,7 +1582,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *     EntitiesResponse<SubscriptionRuntimeProperties>,
 
    *   >}  An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
@@ -1616,19 +1597,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
@@ -2027,7 +2005,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param {string} subscriptionName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusAdministrationClient
    */
   public listRules(
     topicName: string,
@@ -2038,19 +2015,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         this.throwIfInvalidContinuationToken(settings.continuationToken);

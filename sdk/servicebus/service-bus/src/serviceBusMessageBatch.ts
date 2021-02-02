@@ -170,7 +170,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param {{ [key: string]: any }} [applicationProperties] The application properties to set on the batch.
    * @param {{ [key: string]: string }} [messageProperties] The message properties to set on the batch.
    * @returns {Buffer}
-   * @memberof ServiceBusMessageBatchImpl
    */
   private _generateBatch(
     encodedMessages: Buffer[],
