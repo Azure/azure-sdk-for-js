@@ -566,8 +566,6 @@ export function isServiceBusMessage(possible: any): possible is ServiceBusMessag
  * Describes the message received from Service Bus.
  *
  * @internal
- * @class ServiceBusMessageImpl
- * @implements {ServiceBusReceivedMessage}
  */
 export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**

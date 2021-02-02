@@ -130,8 +130,6 @@ export interface ServiceBusSender {
 
 /**
  * @internal
- * @class ServiceBusSenderImpl
- * @implements {ServiceBusSender}
  */
 export class ServiceBusSenderImpl implements ServiceBusSender {
   private _retryOptions: RetryOptions;
