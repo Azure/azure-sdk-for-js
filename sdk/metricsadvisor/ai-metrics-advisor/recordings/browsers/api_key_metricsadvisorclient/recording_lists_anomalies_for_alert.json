@@ -1,0 +1,27 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2020-10-20T00:00:00Z\",\"createdTime\":\"2020-10-21T15:54:37.73Z\",\"modifiedTime\":\"2020-10-21T15:54:37.73Z\",\"dimension\":{\"city\":\"Delhi\",\"category\":\"Shoes Handbags & Sunglasses\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2020-10-20T00:00:00Z\",\"createdTime\":\"2020-10-21T15:54:37.73Z\",\"modifiedTime\":\"2020-10-21T15:54:37.73Z\",\"dimension\":{\"city\":\"Karachi\",\"category\":\"Handmade\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\"}}],\"@nextLink\":null}",
+   "responseHeaders": {
+    "apim-request-id": "88f95c4c-98fe-4a0f-a084-10e4e98fc5b8",
+    "content-length": "763",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154",
+    "x-request-id": "88f95c4c-98fe-4a0f-a084-10e4e98fc5b8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c237f3c7fa287bc26ca5bf8f245039f4"
+}

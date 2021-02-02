@@ -7,7 +7,6 @@ import { logger } from "../log";
 /**
  * Determines which partitions to claim as part of load balancing.
  * @internal
- * @hidden
  */
 export interface LoadBalancingStrategy {
   /**
@@ -28,7 +27,6 @@ export interface LoadBalancingStrategy {
 /**
  * Counts of the EventProcessors that currently own partitions.
  * @internal
- * @hidden
  */
 interface EventProcessorCounts {
   /**
@@ -131,7 +129,6 @@ function calculateBalancedLoadCounts(
  * @param minPartitionsPerOwner The number of required partitions per EventProcessor.
  * @param ownerToOwnershipMap The current ownerships for partitions.
  * @internal
- * @hidden
  */
 function getEventProcessorCounts(
   minPartitionsPerOwner: number,
@@ -229,7 +226,6 @@ function getNumberOfPartitionsToClaim(
  * @param ourOwnerId The id of _our_ owner.
  * @param ownerToOwnershipMap The current ownerships for partitions.
  * @internal
- * @hidden
  */
 function findPartitionsToSteal(
   numberOfPartitionsToClaim: number,
@@ -291,7 +287,6 @@ function findPartitionsToSteal(
  * @param expirationIntervalInMs The length of time a partition claim is valid.
  * @returns Partition ids that may be claimed.
  * @internal
- * @hidden
  */
 export function listAvailablePartitions(
   ownerId: string,

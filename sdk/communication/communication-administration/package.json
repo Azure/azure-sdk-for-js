@@ -9,8 +9,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "build:autorest": "npm run build:autorest-identity && npm run build:autorest-phone",
-    "build:autorest-identity": "autorest --typescript --version=3.0.6267  --v3 ./swagger/CommunicationIdentity.md && rushx format",
+    "build:autorest": "npm run build:autorest-phone",
     "build:autorest-phone": "autorest --typescript --version=3.0.6267 --v3 ./swagger/PhoneNumber.md && rushx format",
     "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -112,7 +111,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "karma": "^5.1.0",
     "mocha-junit-reporter": "^1.18.0",
     "mocha": "^7.1.1",

@@ -215,7 +215,7 @@ export interface HealthcareSuccessResult extends TextAnalyticsSuccessResult {
 export type HealthPollerLike = PollerLike<BeginAnalyzeHealthcareOperationState, PaginatedHealthcareEntities>;
 
 // @public
-export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint" | string;
+export type InnerErrorCodeValue = string;
 
 // @public
 export interface JobManifestTasks {
@@ -227,6 +227,44 @@ export interface JobManifestTasks {
 // @public
 export interface KeyPhrasesTask {
     modelVersion?: string;
+}
+
+// @public
+export const enum KnownInnerErrorCodeValue {
+    // (undocumented)
+    EmptyRequest = "EmptyRequest",
+    // (undocumented)
+    InvalidCountryHint = "InvalidCountryHint",
+    // (undocumented)
+    InvalidDocument = "InvalidDocument",
+    // (undocumented)
+    InvalidDocumentBatch = "InvalidDocumentBatch",
+    // (undocumented)
+    InvalidParameterValue = "InvalidParameterValue",
+    // (undocumented)
+    InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
+    // (undocumented)
+    MissingInputRecords = "MissingInputRecords",
+    // (undocumented)
+    ModelVersionIncorrect = "ModelVersionIncorrect",
+    // (undocumented)
+    UnsupportedLanguageCode = "UnsupportedLanguageCode"
+}
+
+// @public
+export const enum KnownPiiTaskParametersDomain {
+    // (undocumented)
+    None = "none",
+    // (undocumented)
+    Phi = "phi"
+}
+
+// @public
+export const enum KnownWarningCode {
+    // (undocumented)
+    DocumentTruncated = "DocumentTruncated",
+    // (undocumented)
+    LongWordsInDocument = "LongWordsInDocument"
 }
 
 // @public
@@ -290,7 +328,7 @@ export type PiiTask = {
 };
 
 // @public
-export type PiiTaskParametersDomain = "phi" | "none" | string;
+export type PiiTaskParametersDomain = string;
 
 // @public
 export interface PollingOptions {
@@ -483,7 +521,7 @@ export interface TextDocumentStatistics {
 export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
-export type WarningCode = "LongWordsInDocument" | "DocumentTruncated" | string;
+export type WarningCode = string;
 
 
 // (No @packageDocumentation comment for this package)

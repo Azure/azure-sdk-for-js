@@ -25,7 +25,6 @@ import {
 
 /**
  * @internal
- * @hidden
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
@@ -56,7 +55,6 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
 
 /**
  * @internal
- * @hidden
  * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
@@ -114,7 +112,6 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
 /**
  * @internal
- * @hidden
  * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
@@ -415,7 +412,6 @@ export interface QueueProperties {
 }
 /**
  * @internal
- * @hidden
  * Internal representation of settable options on a queue
  */
 export interface InternalQueueOptions {
@@ -616,7 +612,6 @@ export interface QueueRuntimeProperties {
 
 /**
  * @internal
- * @hidden
  * Atom XML Serializer for Queues.
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {

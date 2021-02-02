@@ -8,7 +8,8 @@ parameters:
   DocArtifact: 'documentation'
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
-  
+  ServiceDirectory: ''
+
 stages:
   - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
     - ${{ each artifact in parameters.Artifacts }}:
@@ -23,7 +24,8 @@ stages:
             environment: github
 
             pool:
-              vmImage: ubuntu-18.04
+              name: azsdk-pool-mms-ubuntu-1804-general
+              vmImage: MMSUbuntu18.04
 
             strategy:
               runOnce:
@@ -69,7 +71,8 @@ stages:
               dependsOn: TagRepository
 
               pool:
-                vmImage: ubuntu-18.04
+                name: azsdk-pool-mms-ubuntu-1804-general
+                vmImage: MMSUbuntu18.04
 
               strategy:
                 runOnce:
@@ -97,7 +100,8 @@ stages:
               dependsOn: PublishPackage
 
               pool:
-                vmImage: windows-2019
+                name: azsdk-pool-mms-win-2019-general
+                vmImage: MMS2019
               variables:
                 CIConfigs: "{'targets':[{'path_to_config':'ci-configs/packages-preview.json','Mode':'Preview','content_folder':'docs-ref-services/preview'},{'path_to_config':'ci-configs/packages-latest.json','mode':'Latest','content_folder':'docs-ref-services/latest'}]}"
 
@@ -131,7 +135,7 @@ stages:
                           PRBranchName: onboarding-${{artifact.name}}-$(Build.BuildId)
                           ArtifactName: ${{artifact.name}}
                           Language: 'javascript'
-                          DocRepoDestinationPath: 'docs-ref-services/' 
+                          DocRepoDestinationPath: 'docs-ref-services/'
                           GHReviewersVariable: 'OwningGHUser'
                           CIConfigs: $(CIConfigs)
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
@@ -144,7 +148,8 @@ stages:
               dependsOn: PublishPackage
 
               pool:
-                vmImage: windows-2019
+                name: azsdk-pool-mms-win-2019-general
+                vmImage: MMS2019
 
               strategy:
                 runOnce:
@@ -152,7 +157,7 @@ stages:
                     steps:
                       - checkout: self
                       - pwsh: |
-                          $adjustedName = "${{artifact.name}}".Replace("azure-", "")
+                          $adjustedName = "${{artifact.name}}" -replace "^azure-", ""
                           Write-Host "##vso[task.setvariable variable=Documentation.Zip]$adjustedName"
                         displayName: Set Documentation File Name
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
@@ -187,7 +192,8 @@ stages:
               dependsOn: PublishPackage
 
               pool:
-                vmImage: ubuntu-18.04
+                name: azsdk-pool-mms-ubuntu-1804-general
+                vmImage: MMSUbuntu18.04
 
               strategy:
                 runOnce:
@@ -198,7 +204,7 @@ stages:
                           npm install
                         workingDirectory: ./eng/tools/versioning
                         displayName: Install versioning tool dependencies
-                        
+
                       - bash: |
                           node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
                         displayName: Increment package version
@@ -211,6 +217,16 @@ stages:
                           PRTitle: "Increment version for ${{ parameters.ServiceDirectory }} releases"
                           CloseAfterOpenForTesting: '${{ parameters.TestPipeline }}'
 
+  - ${{if and(eq(variables['Build.Reason'], 'Manual'), eq(variables['System.TeamProject'], 'internal'))}}:
+    - stage: SmokeTest_Release_Packages
+      displayName: Smoke Test Release Packages
+      jobs:
+        - template: /eng/pipelines/templates/jobs/smoke-tests.yml
+          parameters:
+            Daily: false
+            ServiceDirectory: ${{ parameters.ServiceDirectory }}
+            Artifacts: ${{ parameters.Artifacts }}
+
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}
     jobs:
@@ -220,7 +236,8 @@ stages:
       condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
       displayName: Publish package to daily feed
       pool:
-        vmImage: ubuntu-18.04
+        name: azsdk-pool-mms-ubuntu-1804-general
+        vmImage: MMSUbuntu18.04
       steps:
         - checkout: self
         - download: current
@@ -234,7 +251,7 @@ stages:
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"
                   $registry="${{parameters.Registry}}"
-                }         
+                }
                 else {
                   $npmToken="$(azure-sdk-devops-npm-token)"
                   $registry="${{parameters.PrivateRegistry}}"

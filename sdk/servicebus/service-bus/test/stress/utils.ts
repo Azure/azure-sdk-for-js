@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import util from "util";
 import fs from "fs";
-const writeFile = util.promisify(fs.writeFile);
 
 export interface OperationInfo {
   numberOfSuccesses: number;
@@ -21,6 +20,10 @@ export interface LockRenewalOperationInfo extends OperationInfo {
 }
 
 export interface SnapshotOptions {
+  /**
+   * The name of this test. Used when reporting telemetry in customDimensions['testName'].
+   */
+  testName: string;
   snapshotFocus?: (
     | "send-info"
     | "receive-info"
@@ -61,8 +64,7 @@ export function generateMessage(useSessions: boolean, numberOfSessions: number) 
 }
 
 export async function saveDiscrepanciesFromTrackedMessages(
-  trackedMessageIds: TrackedMessageIdsInfo,
-  fileName: string
+  trackedMessageIds: TrackedMessageIdsInfo
 ) {
   const output = {
     messages_sent_but_never_received: [],
@@ -93,6 +95,5 @@ export async function saveDiscrepanciesFromTrackedMessages(
       output.messages_sent_once_and_received_once.push(id);
     }
   }
-
-  await writeFile(fileName, JSON.stringify(output));
+  return output;
 }

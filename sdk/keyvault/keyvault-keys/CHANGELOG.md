@@ -1,11 +1,12 @@
 # Release History
 
-
 ## 4.2.0-beta.3 (Unreleased)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 - Updated the Key Vault Keys Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
+- Add a constructor overload to `CryptographyClient` that takes a `JsonWebKey` and allows for local-only subset of operations.
+- Add `KeyId` to the public API of CryptographyClient.
 
 ## 4.2.0-beta.2 (2020-10-06)
 
@@ -19,7 +20,7 @@
 ## 4.2.0-beta.1 (2020-09-11)
 
 - Added `parseKeyVaultKeysIdentifier` and `ParsedKeyVaultKeysIdentifier` to help with parsing the unique identifiers of Key Vault Keys.
-- Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.  
+- Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.
   - The existing `CryptographyClient`, when initialized, will create one instance of a local cryptography client, which can be retrieved by calling to a new method that is part of the `CryptographyClient` class: `getLocalCryptographyClient()`.
   - The `LocalCryptographyClient` currently has limited support of the cryptography operations available on the `CryptographyClient`. More operations will be added over time.
 
@@ -30,8 +31,8 @@
 ### Changes since 4.0.4
 
 - Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters to control the version of the Key Vault service being used by the clients.
-    - It defaults to the latest supported API version, which currently is `7.1`.
-    - Other supported service version at the moment is `7.0`.
+  - It defaults to the latest supported API version, which currently is `7.1`.
+  - Other supported service version at the moment is `7.0`.
 - Added `import` to the list of possible values for `KeyOperation`.
 - Added `recoverableDays` as an optional property to `KeyProperties` which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
 - Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.

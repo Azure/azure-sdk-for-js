@@ -8,18 +8,22 @@ import {
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValueType,
+  KnownKeyValueType,
   KeyValuePair as KeyValuePairModel,
   SelectionMarkState,
+  KnownSelectionMarkState,
   Language,
+  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
   OperationStatus,
   ModelStatus,
-  Appearance,
-  Style,
-  TextStyle
+  TextAppearance,
+  TextStyle,
+  StyleName,
+  KnownStyleName
 } from "./generated/models";
 
 export {
@@ -27,18 +31,22 @@ export {
   KeysResult,
   KeyValueElementModel,
   KeyValueType,
+  KnownKeyValueType,
   KeyValuePairModel,
   SelectionMarkState,
+  KnownSelectionMarkState,
   Language,
+  KnownLanguage,
   LengthUnit,
   ModelsSummary,
   ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus,
-  Appearance,
-  Style,
-  TextStyle
+  TextAppearance,
+  TextStyle,
+  StyleName,
+  KnownStyleName
 };
 
 /**
@@ -115,7 +123,7 @@ export interface FormLine extends FormElementCommon {
   /**
    * Text appearance properties, such as style.
    */
-  appearance?: Appearance;
+  appearance?: TextAppearance;
 }
 
 /**

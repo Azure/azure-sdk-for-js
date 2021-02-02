@@ -159,7 +159,6 @@ export class BeginCopyModelPoller extends Poller<BeginCopyModelPollState, Custom
 /**
  * Creates a poll operation given the provided state.
  * @internal
- * @hidden
  */
 function makeBeginCopyModelPollOperation(
   state: BeginCopyModelPollState

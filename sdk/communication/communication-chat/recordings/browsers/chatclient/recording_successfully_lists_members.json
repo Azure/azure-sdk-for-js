@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A4c3fdd89a82d4657a4f6aef1d3fe5d39%40thread.v2/members",
+   "url": "https://endpoint/chat/threads/19%3Afd140860689b488d8b0a9be080e92317%40thread.v2/members",
    "query": {
     "api-version": "2020-09-21-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9058-ac00-343a0d000042\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9170-ac00-343a0d000043\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9e85-ac00-343a0d000044\",\"shareHistoryTime\":\"2020-09-15T01:15:45Z\"}]}",
+   "response": "{\"value\":[{\"id\":\"8:acs:a6b1db05-01f4-4539-95c4-d37fdd6d9a2d_00000007-e53e-9af8-eef0-8b3a0d0042ce\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:a6b1db05-01f4-4539-95c4-d37fdd6d9a2d_00000007-e53e-9c6d-6a0b-343a0d009a6f\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:a6b1db05-01f4-4539-95c4-d37fdd6d9a2d_00000007-e53e-a629-eef0-8b3a0d0042d0\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b562289d995f7fd91e99f427c298b013"
+ "hash": "c2e312852b9eea994b269e412cf36770"
 }

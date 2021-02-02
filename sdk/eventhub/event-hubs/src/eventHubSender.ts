@@ -37,7 +37,6 @@ import { defaultDataTransformer } from "./dataTransformer";
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  * @internal
- * @hidden
  */
 export class EventHubSender extends LinkEntity {
   /**

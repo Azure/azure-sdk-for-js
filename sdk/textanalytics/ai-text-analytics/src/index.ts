@@ -108,7 +108,9 @@ export {
   SentenceSentimentLabel,
   ErrorCodeValue,
   InnerErrorCodeValue,
+  KnownInnerErrorCodeValue,
   WarningCode,
+  KnownWarningCode,
   LinkedEntity,
   Match,
   SentenceOpinion,
@@ -116,6 +118,7 @@ export {
   TokenSentimentValue,
   TextAnalyticsWarning,
   PiiTaskParametersDomain,
+  KnownPiiTaskParametersDomain,
   HealthcareEntity,
   HealthcareRelation,
   HealthcareEntityLink

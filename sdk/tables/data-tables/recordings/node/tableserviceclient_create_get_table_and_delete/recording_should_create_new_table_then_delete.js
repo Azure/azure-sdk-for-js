@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "1385e4e0dce282b0588515ffa8933bd2";
+module.exports.hash = "122999b76cbf65afed0e4180bf47536b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -19,9 +19,9 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'dc9bf40d-e002-002e-038b-97293e000000',
+  'd63fa7b2-2002-00b8-32dd-f8a3cb000000',
   'x-ms-client-request-id',
-  'bee29a39-3484-43f0-ad0e-7ff90594f21c',
+  '0f3dc1a7-f1ad-4a68-8ef7-50d93a8a96e0',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -29,7 +29,7 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Preference-Applied',
   'return-content',
   'Date',
-  'Thu, 01 Oct 2020 00:38:37 GMT'
+  'Mon, 01 Feb 2021 20:58:58 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -45,9 +45,9 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'dc9bf412-e002-002e-068b-97293e000000',
+  'd63fa7c7-2002-00b8-45dd-f8a3cb000000',
   'x-ms-client-request-id',
-  'e5502dd6-9e8a-4b47-a96d-f1bb1ba27377',
+  '503b68f5-a8a8-4c1e-a3f2-76cdd3ded32d',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -57,11 +57,11 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:37 GMT'
+  'Mon, 01 Feb 2021 20:58:58 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/Tables(%27testTablenode%27)')
+  .delete(`/Tables('testTablenode')`)
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -71,13 +71,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'dc9bf415-e002-002e-098b-97293e000000',
+  'd63fa7d1-2002-00b8-4edd-f8a3cb000000',
   'x-ms-client-request-id',
-  '5de58e66-543e-44fb-b56c-2b0723b1f150',
+  '00f19dc5-5643-4d96-8659-62241071adb2',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 01 Oct 2020 00:38:37 GMT'
+  'Mon, 01 Feb 2021 20:58:58 GMT'
 ]);

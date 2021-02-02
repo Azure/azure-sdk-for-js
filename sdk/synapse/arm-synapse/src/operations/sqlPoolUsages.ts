@@ -114,7 +114,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlPoolUsageListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -138,7 +138,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlPoolUsageListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

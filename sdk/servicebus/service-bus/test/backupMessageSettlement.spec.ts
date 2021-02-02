@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage } from "../src";
+import { delay, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
@@ -357,6 +357,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
     let errorWasThrown = false;
     try {
+      await delay(2000); // Add a delay after receiving the messages to make sure the msg.lockedUntil gets updated after the renewlock operation
       const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
       const lockedUntilAfterRenewlock = await receiver.renewMessageLock(msg);
       should.equal(

@@ -5,19 +5,21 @@ import { MapperTypeNames } from "./serializer";
 import { OperationSpec, OperationParameter } from "./interfaces";
 
 /**
+ * Gets the list of status codes for streaming responses.
  * @internal @hidden
  */
-export function isStreamOperation(operationSpec: OperationSpec): boolean {
+export function getStreamingResponseStatusCodes(operationSpec: OperationSpec): Set<number> {
+  const result = new Set<number>();
   for (const statusCode in operationSpec.responses) {
     const operationResponse = operationSpec.responses[statusCode];
     if (
       operationResponse.bodyMapper &&
       operationResponse.bodyMapper.type.name === MapperTypeNames.Stream
     ) {
-      return true;
+      result.add(Number(statusCode));
     }
   }
-  return false;
+  return result;
 }
 
 /**

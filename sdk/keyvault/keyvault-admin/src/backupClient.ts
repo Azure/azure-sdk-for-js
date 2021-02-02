@@ -12,7 +12,13 @@ import { PollerLike } from "@azure/core-lro";
 
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { BackupClientOptions, BeginBackupOptions, BeginRestoreOptions } from "./backupClientModels";
+import {
+  BackupClientOptions,
+  BackupResult,
+  BeginBackupOptions,
+  BeginRestoreOptions,
+  RestoreResult
+} from "./backupClientModels";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants";
 import { logger } from "./log";
 import { BackupPoller } from "./lro/backup/poller";
@@ -45,7 +51,6 @@ export class KeyVaultBackupClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -144,7 +149,7 @@ export class KeyVaultBackupClient {
     blobStorageUri: string,
     sasToken: string,
     options: BeginBackupOptions = {}
-  ): Promise<PollerLike<BackupOperationState, string>> {
+  ): Promise<PollerLike<BackupOperationState, BackupResult>> {
     if (!(blobStorageUri && sasToken)) {
       throw new Error(
         "beginBackup requires non-empty strings for the parameters: blobStorageUri and sasToken."
@@ -206,7 +211,7 @@ export class KeyVaultBackupClient {
     sasToken: string,
     folderName: string,
     options: BeginRestoreOptions = {}
-  ): Promise<PollerLike<RestoreOperationState, undefined>> {
+  ): Promise<PollerLike<RestoreOperationState, RestoreResult>> {
     if (!(blobStorageUri && sasToken && folderName)) {
       throw new Error(
         "beginRestore requires non-empty strings for the parameters: blobStorageUri, sasToken and folderName."
