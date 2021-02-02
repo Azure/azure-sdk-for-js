@@ -190,7 +190,7 @@ export interface ServiceBusReceiver {
    *
    * @param propertiesToModify - The properties of the message to modify while abandoning the message.
    *
-   * @return Promise<void>.
+   * @returns Promise<void>.
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,

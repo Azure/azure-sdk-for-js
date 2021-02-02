@@ -42,7 +42,7 @@ export interface ServiceBusSender {
    * @param messages - A single message or an array of messages or a batch of messages created via the createBatch()
    * method to send.
    * @param options - Options bag to pass an abort signal or tracing options.
-   * @return Promise<void>
+   * @returns Promise<void>
    * @throws `ServiceBusError` with the code `MessageSizeExceeded` if the provided messages do not fit in a single `ServiceBusMessageBatch`.
    * @throws Error if the underlying connection, client or sender is closed.
    * @throws `ServiceBusError` if the service returns an error while sending messages to the service.

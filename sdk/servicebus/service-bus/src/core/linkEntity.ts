@@ -186,7 +186,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Determines whether the AMQP link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this._link ? this._link.isOpen() : false;
@@ -345,7 +345,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Provides the current type of the ClientEntity.
-   * @return {string} The entity type.
+   * @returns The entity type.
    */
   private get _type(): string {
     let result = "LinkEntity";
@@ -366,7 +366,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   /**
    * Negotiates the cbs claim for the ClientEntity.
    * @param setTokenRenewal - Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);

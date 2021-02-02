@@ -349,7 +349,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Closes the AMQP management session to the ServiceBus namespace for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @return Promise<void>
+   * @returns Promise<void>
    */
   async close(): Promise<void> {
     try {

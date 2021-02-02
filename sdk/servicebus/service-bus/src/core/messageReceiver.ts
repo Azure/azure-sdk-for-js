@@ -222,7 +222,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**
    * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
    * removes current MessageReceiver instance from cache, and closes the underlying AMQP receiver.
-   * @return {Promise<void>} Promise<void>.
+   * @returns Promise<void>.
    */
   async close(): Promise<void> {
     this._lockRenewer?.stopAll(this);

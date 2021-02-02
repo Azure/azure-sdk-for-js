@@ -158,7 +158,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *
    * @param encodedMessage - The encoded message to be sent to ServiceBus.
    * @param sendBatch - Boolean indicating whether the encoded message represents a batch of messages or not
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @returns Promise<Delivery>
    */
   private _trySend(
     encodedMessage: Buffer,
@@ -330,7 +330,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this.link == null ? false : this.link.isOpen();
@@ -390,7 +390,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * of the envelope (batch message).
    * @param inputMessages - An array of Message objects to be sent in a
    * Batch message.
-   * @return {Promise<void>}
+   * @returns {Promise<void>}
    */
   async sendMessages(
     inputMessages: ServiceBusMessage[],

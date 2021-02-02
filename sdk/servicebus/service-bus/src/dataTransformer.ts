@@ -16,7 +16,7 @@ export const defaultDataTransformer = {
    * and returns an encoded body (some form of AMQP type).
    *
    * @param body - The AMQP message body
-   * @return {DataSection} encodedBody - The encoded AMQP message body as an AMQP Data type
+   * @returns The encoded AMQP message body as an AMQP Data type
    * (data section in rhea terms). Section object with following properties:
    * - typecode: 117 (0x75)
    * - content: The given AMQP message body as a Buffer.
@@ -53,7 +53,7 @@ export const defaultDataTransformer = {
    * If it cannot decode the body then it returns the body
    * as-is.
    * @param body - The AMQP message body
-   * @return {*} decoded body or the given body as-is.
+   * @returns decoded body or the given body as-is.
    */
   decode(body: any): any {
     let processedBody: any = body;
