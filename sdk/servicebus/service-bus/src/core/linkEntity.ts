@@ -13,7 +13,7 @@ import {
   SenderOptions
 } from "rhea-promise";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
 import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 import { ServiceBusError } from "../serviceBusError";
@@ -203,7 +203,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @returns A Promise that resolves when the link has been properly initialized
    * @throws {AbortError} if the link has been closed via 'close'
    */
-  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
+  async initLink(
+    options: LinkOptionsT<LinkT>,
+    operationOptions: OperationOptionsBase = {}
+  ): Promise<void> {
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
     await this._context.readyToOpenLink();
 
@@ -214,17 +217,16 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._logger.verbose(
         `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`
       );
-      return this._initLinkImpl(options, abortSignal);
+      return this._initLinkImpl(options, operationOptions);
     });
   }
 
   private async _initLinkImpl(
     options: LinkOptionsT<LinkT>,
-    operationOptions?: OperationOptionsBase
+    operationOptions: OperationOptionsBase = {}
   ): Promise<void> {
-    if (!operationOptions) operationOptions = {};
     const checkAborted = (): void => {
-      if (operationOptions && operationOptions.abortSignal?.aborted) {
+      if (operationOptions.abortSignal?.aborted) {
         throw new AbortError(StandardAbortMessage);
       }
     };

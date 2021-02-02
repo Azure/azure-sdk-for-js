@@ -24,6 +24,7 @@ import {
 } from "./shared";
 import { LockRenewer } from "./autoLockRenewer";
 import { translateServiceBusError } from "../serviceBusError";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -186,16 +187,19 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
+  protected async _init(
+    options: ReceiverOptions,
+    operationOptions: OperationOptionsBase = {}
+  ): Promise<void> {
     try {
-      await this.initLink(options, abortSignal);
+      await this.initLink(options, operationOptions);
 
       // It is possible for someone to close the receiver and then start it again.
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
       err = translateServiceBusError(err);
-      logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
+      logger.logError(err, "%s An error occurred while creating the receiver", this.logPrefix);
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((err as MessagingError).code === "OperationTimeoutError") {

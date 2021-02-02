@@ -34,7 +34,6 @@ import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer } from "../dataTransformer";
 
@@ -164,7 +163,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _trySend(
     encodedMessage: Buffer,
     sendBatch: boolean,
-    options: OperationOptionsBase | undefined
+    options: OperationOptionsBase ={}
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs =
@@ -178,7 +177,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         if (!this.isOpen()) {
           try {
             await waitForTimeoutOrAbortOrResolve({
-              actionFn: () => this.open(undefined, options?.abortSignal),
+              actionFn: () => this.open(undefined, options),
               abortSignal: options?.abortSignal,
               timeoutMs: timeoutInMs,
               timeoutMessage:
@@ -300,13 +299,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   public async open(
     options?: AwaitableSenderOptions,
-    abortSignal?: AbortSignalLike
+    operationOptions: OperationOptionsBase = {}
   ): Promise<void> {
     try {
       if (!options) {
         options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
       }
-      await this.initLink(options, abortSignal);
+      await this.initLink(options, operationOptions);
     } catch (err) {
       err = translateServiceBusError(err);
       logger.logError(err, `${this.logPrefix} An error occurred while creating the sender`);
@@ -483,7 +482,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async getMaxMessageSize(
     options: {
       retryOptions?: RetryOptions;
-    } & Pick<OperationOptionsBase, "abortSignal"> = {}
+    } & OperationOptionsBase= {}
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
@@ -492,7 +491,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     return new Promise<number>(async (resolve, reject) => {
       try {
         const config: RetryConfig<void> = {
-          operation: () => this.open(undefined, options?.abortSignal),
+          operation: () => this.open(undefined, options),
           connectionId: this._context.connectionId,
           operationType: RetryOperationType.senderLink,
           retryOptions: retryOptions,

@@ -53,12 +53,7 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * @internal
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
-export type MessageSessionOptions = Pick<
-  ServiceBusSessionReceiverOptions,
-  "maxAutoLockRenewalDurationInMs" | "abortSignal"
-> & {
-  receiveMode?: ReceiveMode;
-};
+export type MessageSessionOptions = ServiceBusSessionReceiverOptions;
 
 /**
  * @internal
@@ -248,10 +243,10 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
+  private async _init(operationOptions?: OperationOptionsBase): Promise<void> {
     try {
       const options = this._createMessageSessionOptions();
-      await this.initLink(options, abortSignal);
+      await this.initLink(options, operationOptions);
 
       if (this.link == null) {
         throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
@@ -300,7 +295,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       this._ensureSessionLockRenewal();
     } catch (err) {
       const errObj = translateServiceBusError(err);
-      logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
+      logger.logError(errObj, "%s An error occurred while creating the receiver", this.logPrefix);
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
       if ((errObj as MessagingError).code === "OperationTimeoutError") {
@@ -844,7 +839,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
     const messageSession = new MessageSession(context, entityPath, sessionId, options);
-    await messageSession._init(options?.abortSignal);
+    await messageSession._init(options);
     return messageSession;
   }
 }
