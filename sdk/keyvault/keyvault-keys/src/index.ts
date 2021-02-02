@@ -436,7 +436,12 @@ export class KeyClient {
 
       return getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultUrl, name, "OCT", options);
+      const response = await this.client.createKey(
+        this.vaultUrl,
+        name,
+        KnownJsonWebKeyType.Oct,
+        options
+      );
       return getKeyFromKeyBundle(response);
     }
   }
