@@ -179,10 +179,8 @@ export class ArtifactsClient extends ArtifactsClientContext {
     dataset: DatasetOperation;
     // (undocumented)
     integrationRuntimes: IntegrationRuntimesOperation;
-    // Warning: (ae-forgotten-export) The symbol "Library" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    library: Library;
+    library: LibraryOperation;
     // (undocumented)
     linkedService: LinkedServiceOperation;
     // (undocumented)
@@ -846,7 +844,6 @@ export type AzureTableStorageLinkedService = LinkedService & {
 
 // @public (undocumented)
 export interface BaseResult extends RestResponse {
-    // Warning: (ae-forgotten-export) The symbol "LROOperationResponse" needs to be exported by the entry point index.d.ts
     _response: LROOperationResponse;
 }
 
@@ -2256,6 +2253,9 @@ export type FilterActivity = ControlActivity & {
     items: Expression;
     condition: Expression;
 };
+
+// @public (undocumented)
+export type FinalStateVia = "azure-async-operation" | "location" | "original-uri";
 
 // @public
 export type ForEachActivity = ControlActivity & {
@@ -4077,6 +4077,17 @@ export interface LibraryListResponse {
 }
 
 // @public
+export class LibraryOperation {
+    constructor(client: ArtifactsClient);
+    createOrAppend(libraryName: string, content: coreHttp.HttpRequestBody, options?: LibraryCreateOrAppendOptionalParams): Promise<LROPoller<coreHttp.RestResponse>>;
+    delete(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    flush(libraryName: string, options?: coreHttp.OperationOptions): Promise<LROPoller<coreHttp.RestResponse>>;
+    get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
+    getOperationResult(operationId: string, options?: coreHttp.OperationOptions): Promise<LibraryGetOperationResultResponse>;
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
+    }
+
+// @public
 export interface LibraryRequirements {
     content?: string;
     filename?: string;
@@ -4240,10 +4251,13 @@ export type LookupActivity = ExecutionActivity & {
     firstRowOnly?: any;
 };
 
+// @public
+export type LROOperationResponse = HttpOperationResponse & {
+    [LROSYM]?: LROResponseInfo;
+};
+
 // @public (undocumented)
 export interface LROOperationState<TResult extends BaseResult> extends PollOperationState<TResult> {
-    // Warning: (ae-forgotten-export) The symbol "FinalStateVia" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     finalStateVia?: FinalStateVia;
     // (undocumented)

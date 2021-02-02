@@ -3,3 +3,4 @@
 export * from "./models";
 export { SparkClient } from "./sparkClient";
 export { SparkClientContext } from "./sparkClientContext";
+export { SparkBatch as SparkBatchOperation, SparkSession as SparkSessionOperation} from "./operations";
