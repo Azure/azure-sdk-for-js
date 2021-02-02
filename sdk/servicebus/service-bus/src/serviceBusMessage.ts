@@ -528,10 +528,11 @@ export function fromRheaMessage(
       props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
   }
-  if (msg.ttl != null && msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc!.getTime()) {
+  if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
+  if (msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc!.getTime()) {
     props.expiresAtUtc = new Date(Constants.maxDurationValue);
   } else {
-    props.expiresAtUtc = new Date(props.enqueuedTimeUtc!.getTime() + msg.ttl!);
+    props.expiresAtUtc = new Date(props.enqueuedTimeUtc!.getTime() + msg.ttl);
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
@@ -554,7 +555,6 @@ export function fromRheaMessage(
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as string
   };
-  console.log("===========", rcvdsbmsg);
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
