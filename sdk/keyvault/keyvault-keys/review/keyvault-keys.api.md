@@ -189,7 +189,7 @@ export type KeyOperation = string;
 
 // @public
 export interface KeyOperationsOptions extends CryptographyOptions {
-    additionalAuthenticatedData?: Uint8Array;
+    readonly additionalAuthenticatedData?: Uint8Array;
     iv?: Uint8Array;
     tag?: Uint8Array;
 }
@@ -339,9 +339,6 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
-
-// @public
-export function parseKeyVaultKeyId(id: string): KeyVaultKeyId;
 
 export { PipelineOptions }
 

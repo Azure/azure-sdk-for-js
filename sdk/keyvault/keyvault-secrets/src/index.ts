@@ -61,7 +61,7 @@ import {
   SecretClientOptions,
   LATEST_API_VERSION
 } from "./secretsModels";
-import { parseKeyVaultSecretId, KeyVaultSecretId } from "./identifier";
+import { KeyVaultSecretId } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";
 
 export {
@@ -84,7 +84,6 @@ export {
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
-  parseKeyVaultSecretId,
   SecretProperties,
   SecretPollerOptions,
   BeginDeleteSecretOptions,

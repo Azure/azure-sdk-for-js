@@ -132,7 +132,6 @@ export {
   KeyType,
   KnownKeyTypes,
   KeyPollerOptions,
-  parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
