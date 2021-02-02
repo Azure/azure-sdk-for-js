@@ -38,10 +38,9 @@ export class Storage {
       blobDetails,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      sasUriOperationSpec
-    ) as Promise<StorageSasUriResponse>;
+    return this.client.sendOperationRequest(operationArguments, sasUriOperationSpec) as Promise<
+      StorageSasUriResponse
+    >;
   }
 }
 // Operation Specifications

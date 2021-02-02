@@ -19,22 +19,22 @@ async function main() {
     const credential = new DefaultAzureCredential();
 
     // Create a QuantumJobClient
-    const subscriptionId = "677fc922-91d0-4bf6-9b06-4274d319a0fa";//"your_subscription_id";
-    const resourceGroupName = "sdk-review-rg";//"your_resource_group_name";
-    const workspaceName = "workspace-ms";//"your_quantum_workspace_name";
+    const subscriptionId = "677fc922-91d0-4bf6-9b06-4274d319a0fa"; //"your_subscription_id";
+    const resourceGroupName = "sdk-review-rg"; //"your_resource_group_name";
+    const workspaceName = "workspace-ms"; //"your_quantum_workspace_name";
     const storageContainerName = "mycontainer";
-    const location = "westus";//"your_location";
-    const endpoint = 'https://'+location+'.quantum.azure.com';
+    const location = "westus"; //"your_location";
+    const endpoint = "https://" + location + ".quantum.azure.com";
 
-    const quantumJobClient =
-        new QuantumJobClient(
-            credential,
-            subscriptionId,
-            resourceGroupName,
-            workspaceName,
-            {
-              endpoint: endpoint
-            });
+    const quantumJobClient = new QuantumJobClient(
+      credential,
+      subscriptionId,
+      resourceGroupName,
+      workspaceName,
+      {
+        endpoint: endpoint
+      }
+    );
 
     console.log(`Created QuantumJobClient for:
 SubscriptionId: ${subscriptionId}
@@ -46,10 +46,11 @@ location: ${location}
     console.log(`Getting Container Uri with SAS key...`);
 
     // Get container Uri with SAS key
-    const containerUri = (await quantumJobClient.storage.sasUri(
-        {
-          containerName: storageContainerName
-        })).sasUri;
+    const containerUri = (
+      await quantumJobClient.storage.sasUri({
+        containerName: storageContainerName
+      })
+    ).sasUri;
 
     console.log(`Container Uri with SAS key:
 ${containerUri}
@@ -65,16 +66,17 @@ ${containerUri}
 
     // Get input data blob Uri with SAS key
     const blobName = "myjobinput.json";
-    const inputDataUri = (await quantumJobClient.storage.sasUri(
-        {
-          containerName: containerName,
-          blobName: blobName
-        })).sasUri;
+    const inputDataUri = (
+      await quantumJobClient.storage.sasUri({
+        containerName: containerName,
+        blobName: blobName
+      })
+    ).sasUri;
 
     // Upload input data to blob
     const blobClient = new BlockBlobClient(inputDataUri, credentials);
     const problemFilename = "problem.json";
-    const fileContent = fs.readFileSync(problemFilename, 'utf8');
+    const fileContent = fs.readFileSync(problemFilename, "utf8");
     await blobquantumJobClient.upload(fileContent, Buffer.byteLength(fileContent));
 
     console.log(`Input data Uri with SAS key:
@@ -83,7 +85,7 @@ ${inputDataUri}
 
     console.log(`Creating Quantum job...`);
 
-    const randomId = `${Math.floor((Math.random() * 10000) + 1)}`;
+    const randomId = `${Math.floor(Math.random() * 10000 + 1)}`;
 
     // Submit job
     const jobId = `job-${randomId}`;
@@ -93,17 +95,17 @@ ${inputDataUri}
     const providerId = "microsoft";
     const target = "microsoft.paralleltempering-parameterfree.cpu";
     const createJobDetails = {
-        containerUri: containerUri, 
-        inputDataFormat: inputDataFormat,
-        providerId: providerId, 
-        target: target,
-        id: jobId,
-        inputDataUri: inputDataUri,
-        name: jobName,
-        outputDataFormat: outputDataFormat
-      };
-      const createdJob = await quantumJobquantumJobClient.jobs.create(jobId, createJobDetails);
-    
+      containerUri: containerUri,
+      inputDataFormat: inputDataFormat,
+      providerId: providerId,
+      target: target,
+      id: jobId,
+      inputDataUri: inputDataUri,
+      name: jobName,
+      outputDataFormat: outputDataFormat
+    };
+    const createdJob = await quantumJobquantumJobClient.jobs.create(jobId, createJobDetails);
+
     console.log(`Job created:
 Id: ${createdJob.Id}
 Name: ${createdJob.Name}
@@ -134,11 +136,10 @@ OutputDataUri: ${myJob.OutputDataUri}
     var allJobs = await quantumJobquantumJobClient.jobs.list();
 
     console.log(`${allJobs.Count} jobs found. Listing the first 10...`);
-    allJobs.forEach(function (job) {
+    allJobs.forEach(function(job) {
       console.log(`  ${job.Name}`);
-    }); 
+    });
     console.log();
-
   } catch (err) {
     console.log(err);
   }

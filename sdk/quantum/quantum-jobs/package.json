@@ -8,7 +8,13 @@
     "@azure/core-http": "^1.1.4",
     "tslib": "^1.9.3"
   },
-  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "license": "MIT",
   "main": "./dist/quantum-jobs.js",
   "module": "./esm/index.js",
@@ -27,7 +33,9 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",

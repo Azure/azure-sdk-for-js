@@ -35,7 +35,7 @@ export async function authenticate(that: any): Promise<any> {
     credential,
     env.SUBSCRIPTION_ID,
     env.RESOURCE_GROUP,
-    env.WORKSPACE_NAME,
+    env.WORKSPACE_NAME
   );
   const testClient = new TestClient(client);
 
