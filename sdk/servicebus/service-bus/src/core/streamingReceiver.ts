@@ -43,8 +43,6 @@ export interface StreamingReceiverInitArgs
  * @internal
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
- * @class StreamingReceiver
- * @extends MessageReceiver
  */
 export class StreamingReceiver extends MessageReceiver {
   /**
@@ -116,7 +114,6 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
-   * @constructor
    * @param context - The client entity context.
    * @param options - Options for how you'd like to connect.
    */

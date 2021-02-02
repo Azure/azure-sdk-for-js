@@ -163,7 +163,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Creates a new ClientEntity instance.
-   * @constructor
    * @param baseName - The base name to use for the link. A unique ID will be appended to this.
    * @param entityPath - The entity path (ex: 'your-queue')
    * @param context - The connection context.

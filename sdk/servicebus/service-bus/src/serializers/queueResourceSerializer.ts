@@ -269,8 +269,6 @@ export interface CreateQueueOptions extends OperationOptions {
 /**
  * Represents the input for updateQueue.
  *
- * @export
- * @interface QueueProperties
  */
 export interface QueueProperties {
   /**

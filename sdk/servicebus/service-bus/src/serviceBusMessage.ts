@@ -353,7 +353,6 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
 
 /**
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
- * @class ServiceBusReceivedMessage
  */
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   /**

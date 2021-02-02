@@ -26,14 +26,11 @@ import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
- * @class BatchingReceiver
- * @extends MessageReceiver
  */
 export class BatchingReceiver extends MessageReceiver {
   /**
    * Instantiate a new BatchingReceiver.
    *
-   * @constructor
    * @param context - The client entity context.
    * @param options - Options for how you'd like to connect.
    */

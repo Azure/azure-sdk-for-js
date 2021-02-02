@@ -180,7 +180,6 @@ export interface ManagementClientOptions {
 
 /**
  * @internal
- * @class ManagementClient
  * Describes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
@@ -195,7 +194,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   private _lastPeekedSequenceNumber: Long = Long.ZERO;
 
   /**
-   * @constructor
    * Instantiates the management client.
    * @param context - The connection context
    * @param entityPath - The name/path of the entity (queue/topic/subscription name)

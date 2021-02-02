@@ -92,7 +92,6 @@ export interface OnErrorNoContext {
 /**
  * @internal
  * Describes the MessageReceiver that will receive messages from ServiceBus.
- * @class MessageReceiver
  */
 export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**

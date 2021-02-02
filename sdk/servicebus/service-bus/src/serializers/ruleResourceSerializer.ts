@@ -153,7 +153,6 @@ export interface SqlRuleFilter {
 /**
  * @internal
  *
- * @interface InternalRuleOptions
  */
 export interface InternalRuleOptions {
   Name: string;

@@ -12,8 +12,6 @@ import { getInteger, getString, getDate } from "../util/utils";
 /**
  * Represents the metadata related to a service bus namespace.
  *
- * @export
- * @interface NamespaceProperties
  */
 export interface NamespaceProperties {
   /**

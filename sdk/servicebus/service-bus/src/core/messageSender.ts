@@ -41,7 +41,6 @@ import { defaultDataTransformer } from "../dataTransformer";
 /**
  * @internal
  * Describes the MessageSender that will send messages to ServiceBus.
- * @class MessageSender
  */
 export class MessageSender extends LinkEntity<AwaitableSender> {
   /**

@@ -188,7 +188,6 @@ export async function recreateSubscription(
 /**
  * Utility that verifies the message count of an entity.
  *
- * @export
  * @param expectedMessageCount -
  * @param queueName -
  * @param topicName -

@@ -269,8 +269,6 @@ export interface CreateSubscriptionOptions extends OperationOptions {
 /**
  * Represents the input for updateSubscription.
  *
- * @export
- * @interface SubscriptionProperties
  */
 export interface SubscriptionProperties {
   /**

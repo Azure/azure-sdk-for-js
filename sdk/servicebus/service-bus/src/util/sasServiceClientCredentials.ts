@@ -19,7 +19,6 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
   /**
    * Creates a new sasServiceClientCredentials object.
    *
-   * @constructor
    * @param sharedAccessKeyName - The SAS key name to use.
    * @param sharedAccessKey - The SAS key value to use
    */

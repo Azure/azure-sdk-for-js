@@ -42,7 +42,6 @@ const smallMessageMaxBytes = 255;
 /**
  * A batch of messages that you can create using the {@link createBatch} method.
  *
- * @export
  */
 export interface ServiceBusMessageBatch {
   /**
@@ -99,7 +98,6 @@ export interface ServiceBusMessageBatch {
 /**
  * An internal class representing a batch of messages which can be used to send messages to Service Bus.
  *
- * @class
  * @internal
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
@@ -118,7 +116,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * ServiceBusMessageBatch should not be constructed using `new ServiceBusMessageBatch()`
    * Use the `createBatch()` method on your `Sender` instead.
-   * @constructor
    * @internal
    * @hidden
    */
@@ -164,7 +161,6 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
    * Generates an AMQP message that contains the provided encoded messages and annotations.
    *
-   * @private
    * @param encodedMessages - The already encoded messages to include in the AMQP batch.
    * @param annotations - The message annotations to set on the batch.
    * @param applicationProperties - The application properties to set on the batch.

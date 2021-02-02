@@ -4,7 +4,6 @@
 /**
  * @internal
  * A simple Semaphore
- * @class Semaphore
  */
 export class Semaphore {
   /**

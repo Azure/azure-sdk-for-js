@@ -209,8 +209,6 @@ export interface CreateTopicOptions extends OperationOptions {
 /**
  * Represents the input for updateTopic.
  *
- * @export
- * @interface TopicProperties
  */
 export interface TopicProperties {
   /**
