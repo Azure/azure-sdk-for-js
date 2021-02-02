@@ -53,7 +53,7 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
-    it.only("fails to read databases with bad AAD authentication", async function() {
+    it("fails to read databases with bad AAD authentication", async function() {
       try {
         const credentials = new UsernamePasswordCredential(
           "fake-tenant-id",
