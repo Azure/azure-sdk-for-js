@@ -168,7 +168,7 @@ export async function deserializeAtomXmlResponse(
  * Utility to deserialize the given JSON content in response body based on
  * if it's a single `entry` or `feed` and updates the `response.parsedBody` to hold the evaluated output.
  * @param response - Response containing the JSON value in `response.parsedBody`
- * @nameProperties The set of 'name' properties to be constructed on the
+ * @param nameProperties - The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * */
 function parseAtomResult(response: HttpOperationResponse, nameProperties: string[]): void {
