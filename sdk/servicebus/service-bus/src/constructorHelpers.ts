@@ -42,9 +42,9 @@ export interface ServiceBusClientOptions {
 /**
  * @internal
  *
- * @param {string} connectionString
- * @param {(SharedKeyCredential | TokenCredential)} credential
- * @param {ServiceBusClientOptions} options
+ * @param connectionString
+ * @param credential
+ * @param options
  */
 export function createConnectionContext(
   connectionString: string,

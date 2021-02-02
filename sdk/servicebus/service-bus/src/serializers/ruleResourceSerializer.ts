@@ -164,7 +164,7 @@ export interface InternalRuleOptions {
 /**
  * @internal
  *
- * @param {CreateRuleOptions} rule
+ * @param rule
  */
 export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRuleOptions {
   const resource: InternalRuleOptions = {

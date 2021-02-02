@@ -454,7 +454,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * @param {OperationOptions} [options]
+   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     QueueProperties,
    *     EntitiesResponse<QueueProperties>,
@@ -561,7 +561,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
    *
    *
-   * @param {OperationOptions} [options]
+   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     QueueRuntimeProperties,
    *     EntitiesResponse<QueueRuntimeProperties>,
@@ -943,7 +943,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list the topics in pages.
    *
    *
-   * @param {OperationOptions} [options]
+   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     TopicProperties,
    *     EntitiesResponse<TopicProperties>,
@@ -1050,7 +1050,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
    *
    *
-   * @param {OperationOptions} [options]
+   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     TopicRuntimeProperties,
    *     EntitiesResponse<TopicRuntimeProperties>,
@@ -1455,8 +1455,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @param {string} topicName
-   * @param {OperationOptions} [options]
+   * @param topicName
+   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionProperties,
    *     EntitiesResponse<SubscriptionProperties>
@@ -1575,8 +1575,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
    *
-   * @param {string} topicName
-   * @param {OperationOptions} [options]
+   * @param topicName
+   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionRuntimeProperties,
    *     EntitiesResponse<SubscriptionRuntimeProperties>,
@@ -2001,9 +2001,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the rules in pages.
    *
-   * @param {string} topicName
-   * @param {string} subscriptionName
-   * @param {OperationOptions} [options]
+   * @param topicName
+   * @param subscriptionName
+   * @param options -
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
    */
   public listRules(
@@ -2153,10 +2153,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Checks whether a given rule exists or not.
    *
-   * @param {string} topicName
-   * @param {string} subscriptionName
-   * @param {string} ruleName
-   * @param {OperationOptions} [operationOptions]
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param operationOptions -
    */
   async ruleExists(
     topicName: string,

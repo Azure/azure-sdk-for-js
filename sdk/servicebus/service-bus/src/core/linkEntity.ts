@@ -366,7 +366,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Negotiates the cbs claim for the ClientEntity.
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
+   * @param [setTokenRenewal] Set the token renewal timer. Default false.
    * @return {Promise<void>} Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {

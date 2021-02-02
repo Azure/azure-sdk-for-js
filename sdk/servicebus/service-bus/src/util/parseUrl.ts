@@ -11,7 +11,7 @@ const url = require("url");
 
 /**
  * @internal
- * @param {string} rawUrl
+ * @param rawUrl
  */
 export const parseURL = (rawUrl: string) => {
   return new url.URL(rawUrl);
