@@ -192,7 +192,7 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 | credential                     | usage                                                              |
 | ------------------------------ | ------------------------------------------------------------------ |
-| `InteractiveBrowserCredential` | Interactively authenticates a user with the default system browser. Read more about how this happens [here](./interactive-browser-credential.md). |
+| `InteractiveBrowserCredential` | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md). |
 | `DeviceCodeCredential`         | Interactively authenticates a user on devices with limited UI.      |
 | `UserPasswordCredential`       | Authenticates a user with a username and password.                  |
 | `AuthorizationCodeCredential`  | Authenticate a user with a previously obtained authorization code.  |
