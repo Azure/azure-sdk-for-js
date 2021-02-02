@@ -21,7 +21,7 @@ export class MetricsAdvisorKeyCredential {
   /**
    * Subscription access key from the Azure portal
    */
-  private _subscriptionKey!: string;
+  private _subscriptionKey: string;
 
   /**
    * API key from the Metrics Advisor web portal
@@ -35,8 +35,12 @@ export class MetricsAdvisorKeyCredential {
    * @param apiKey - API key from the Metrics Advisor web portal
    */
   constructor(subscriptionKey: string, apiKey: string) {
-    if (!subscriptionKey && !apiKey) this._subscriptionKey = subscriptionKey;
-    this._apiKey = apiKey;
+    if (!subscriptionKey || !apiKey) {
+      throw new RangeError("Subscription Key or Api Key doesn't have a valid value");
+    }  
+      this._subscriptionKey = subscriptionKey;
+      this._apiKey = apiKey;
+   
   }
 
   /**
@@ -45,20 +49,12 @@ export class MetricsAdvisorKeyCredential {
   public get apiKey(): string {
     return this._apiKey;
   }
-  
-  public set apiKey(apiKey: string) {
-    this._apiKey = apiKey;
-  }
 
-    /**
+  /**
    * Get Subscription key
    */
   public get subscriptionKey(): string {
     return this._subscriptionKey;
-  }
-
-  public set subscriptionKey(subscriptionKey: string) {
-    this._subscriptionKey = subscriptionKey;
   }
 
   /**
@@ -111,17 +107,13 @@ export function createMetricsAdvisorKeyCredentialPolicy(
  * using the appropriate header
  */
 class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
-  private _subscriptionKey: string;
-  private _apiKey: string;
 
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptionsLike,
-    credential: MetricsAdvisorKeyCredential
+    private _credential: MetricsAdvisorKeyCredential
   ) {
     super(nextPolicy, options);
-    this._subscriptionKey = credential.apiKey;
-    this._apiKey = credential.subscriptionKey;
   }
 
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
@@ -129,8 +121,8 @@ class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
       throw new Error("webResource cannot be null or undefined");
     }
 
-    webResource.headers.set(API_KEY_HEADER_NAME, this._subscriptionKey);
-    webResource.headers.set(X_API_KEY_HEADER_NAME, this._apiKey);
+    webResource.headers.set(API_KEY_HEADER_NAME, this._credential.subscriptionKey);
+    webResource.headers.set(X_API_KEY_HEADER_NAME, this._credential.apiKey);
     return this._nextPolicy.sendRequest(webResource);
   }
 }
