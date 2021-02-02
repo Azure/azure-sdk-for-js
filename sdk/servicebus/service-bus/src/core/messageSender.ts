@@ -348,7 +348,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * Sends the given message, with the given options on this link
    *
-   * @param data Message to send. Will be sent as UTF8-encoded JSON string.
+   * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
   async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
@@ -389,7 +389,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @param inputMessages An array of Message objects to be sent in a
+   * @param inputMessages - An array of Message objects to be sent in a
    * Batch message.
    * @return {Promise<void>}
    */

@@ -20,8 +20,8 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
    * Creates a new sasServiceClientCredentials object.
    *
    * @constructor
-   * @param sharedAccessKeyName The SAS key name to use.
-   * @param sharedAccessKey The SAS key value to use
+   * @param sharedAccessKeyName - The SAS key name to use.
+   * @param sharedAccessKey - The SAS key value to use
    */
   constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
     this.keyName = sharedAccessKeyName;
@@ -38,7 +38,7 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
    *
-   * @param webResource The WebResource to be signed.
+   * @param webResource - The WebResource to be signed.
    * @returns {Promise<WebResource>} The signed request object.
    */
   async signRequest(webResource: WebResource): Promise<WebResource> {

@@ -165,10 +165,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * Generates an AMQP message that contains the provided encoded messages and annotations.
    *
    * @private
-   * @param encodedMessages The already encoded messages to include in the AMQP batch.
-   * @param annotations The message annotations to set on the batch.
-   * @param applicationProperties The application properties to set on the batch.
-   * @param messageProperties The message properties to set on the batch.
+   * @param encodedMessages - The already encoded messages to include in the AMQP batch.
+   * @param annotations - The message annotations to set on the batch.
+   * @param applicationProperties - The application properties to set on the batch.
+   * @param messageProperties - The message properties to set on the batch.
    * @returns {Buffer}
    */
   private _generateBatch(

@@ -46,7 +46,7 @@ export class SharedKeyCredential {
    * Creates the sas token based on the provided information
    * @param expiry - The time period in unix time after which the token will expire.
    * @param audience - The audience for which the token is desired.
-   * @param hashInput The input to be provided to hmac to create the hash.
+   * @param hashInput - The input to be provided to hmac to create the hash.
    */
   protected _createToken(
     expiry: number,
