@@ -7,7 +7,10 @@
  */
 
 export {
+  ApiError,
+  ApiErrorBase,
   CloudError,
-  VirtualMachineSize,
-  VirtualMachineSizeListResult
+  InnerError,
+  UpdateDomain,
+  UpdateDomainListResult
 } from "../models/mappers";

@@ -7,7 +7,12 @@
  */
 
 export {
+  ApiError,
+  ApiErrorBase,
   CloudError,
-  VirtualMachineSize,
-  VirtualMachineSizeListResult
+  CloudServiceRole,
+  CloudServiceRoleListResult,
+  CloudServiceRoleProperties,
+  CloudServiceRoleSku,
+  InnerError
 } from "../models/mappers";
