@@ -29,16 +29,22 @@ const options = minimist(process.argv, {
   string: ["testToRun"]
 });
 
-if (!options.testToRun || !fs.existsSync(path.join("dist", options.testToRun))) {
-  console.error("Usage: runcontainer.js --testToRun <name of file in `dist`>");
+if (!options.testToRun) {
+  console.error("Usage: runcontainer.js --testToRun <name of a stress test file`>");
   process.exit(1);
 }
+
+console.log(`Running \`npm run build\``);
+spawn(`npm run build`);
 
 const { name: testFileNameWithoutExtension } = path.parse(options.testToRun);
 const containerInstanceName = `${resourceGroup}-sb-stressperf-${testFileNameWithoutExtension.toLowerCase()}`;
 
-console.log(`Running \`npm run build\``);
-spawn(`npm run build`);
+const expectedJsFile = path.join(`dist`, `${testFileNameWithoutExtension}.js`);
+if (!fs.existsSync(expectedJsFile)) {
+  console.error(`No file named ${expectedJsFile}. Need a valid JS file when creating your container group.`);
+  process.exit(1);
+}
 
 console.log(`Building container image: ${imageName}...`);
 spawn(`docker build -t "${imageName}" --no-cache .`);

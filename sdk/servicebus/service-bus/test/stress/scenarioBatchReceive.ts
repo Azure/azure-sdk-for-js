@@ -45,7 +45,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> 
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    sendAllMessagesBeforeReceiveStarts: options.sendAllMessagesBeforeReceiveStarts,
+    sendAllMessagesBeforeReceiveStarts: !!options.sendAllMessagesBeforeReceiveStarts,
     maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
     settleMessageOnReceive: options.settleMessageOnReceive,
     numberOfParallelSends: options.numberOfParallelSends || 5
@@ -97,7 +97,7 @@ export async function scenarioReceiveBatch() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
       elapsedTime < testDurationForSendInMs &&
-      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages(
         new Array(numberOfParallelSends).fill(sender),
