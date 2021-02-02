@@ -166,10 +166,10 @@ describe("Keys client - create, read, update and delete operations", () => {
       this.skip();
     }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    let options: CreateOctKeyOptions = {
+    const options: CreateOctKeyOptions = {
       hsm: true
     };
-    let result = await client.createOctKey(keyName, options);
+    const result = await client.createOctKey(keyName, options);
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     assert.equal(result.keyType, "oct-HSM");
     await testClient.flushKey(keyName);
