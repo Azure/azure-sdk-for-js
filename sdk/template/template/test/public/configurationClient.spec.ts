@@ -21,22 +21,10 @@ const replaceableVariables: Record<string, string> = {
   APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value"
 };
 
-function getEnv(name: string): string {
-  // If a value exists on the real environment, use it, otherwise, try to use
-  // the default values from replaceableVariables
-  const value = env[name] ?? replaceableVariables[name];
-
-  if (value === undefined) {
-    throw new Error(`Required environment variable ${name} was not provided.`);
-  }
-
-  return value;
-}
-
 function createConfigurationClient(): ConfigurationClient {
   // Retrieve the endpoint from the environment variable
   // we saved to the .env file earlier
-  const endpoint = getEnv("AZ_CONFIG_ENDPOINT");
+  const endpoint = env.AZ_CONFIG_ENDPOINT;
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If
@@ -44,9 +32,9 @@ function createConfigurationClient(): ConfigurationClient {
   // than on others, depending on which credentials are available (such as
   // Managed Identity or developer credentials).
   const credential = new ClientSecretCredential(
-    getEnv("AZURE_TENANT_ID"),
-    getEnv("AZURE_CLIENT_ID"),
-    getEnv("AZURE_CLIENT_SECRET")
+    env.AZURE_TENANT_ID,
+    env.AZURE_CLIENT_ID,
+    env.AZURE_CLIENT_SECRET
   );
 
   return new ConfigurationClient(endpoint, credential);
@@ -100,8 +88,8 @@ describe("[AAD] ConfigurationClient functional tests", function() {
   });
 
   it("predetermined setting has expected value", async () => {
-    const key = getEnv("APPCONFIG_TEST_SETTING_KEY");
-    const expectedValue = getEnv("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
+    const key = env.APPCONFIG_TEST_SETTING_KEY;
+    const expectedValue = env.APPCONFIG_TEST_SETTING_EXPECTED_VALUE;
 
     const setting = await client.getConfigurationSetting(key);
 
