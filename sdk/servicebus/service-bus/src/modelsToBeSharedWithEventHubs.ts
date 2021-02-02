@@ -11,8 +11,22 @@ import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
  * NOTE: This type is intended to mirror the relevant fields and structure from @azure/core-http OperationOptions
  *
  * Options for configuring tracing and the abortSignal.
+ * (This interface is exactly same as the GetTokenOptions from `@azure/core-auth`.)
  */
-export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
+export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions"> & {
+  /**
+   * Options used when creating and sending HTTP requests for this operation.
+   * (Not applicable for the AMQP operations.)
+   */
+  requestOptions?: {
+    /**
+     * The number of milliseconds a request can take before automatically being terminated.
+     * If provided, this timeout will be passed/used for the auth operations such as
+     * obtaining the token while using `@azure/identity` and Azure AD credentials.
+     */
+    timeout?: number;
+  };
+};
 
 /**
  * @internal
