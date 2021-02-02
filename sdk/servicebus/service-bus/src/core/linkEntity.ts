@@ -374,7 +374,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     setTokenRenewal?: boolean,
     operationOptions?: OperationOptionsBase
   ): Promise<void> {
-    this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
+    this._logger.verbose(`${this._logPrefix} _negotiateClaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
     this.checkIfConnectionReady();
