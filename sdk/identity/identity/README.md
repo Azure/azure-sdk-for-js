@@ -66,7 +66,7 @@ In the browser, two authentication flows are provided:
 
 While [Auth Code Flow][AuthCodeFlow] is the recommended authentication flow, [Implicit Grant Flow][ImplicitGrantFlow] is still available by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`.
 
-The `InteractiveBrowserCredential` allows users to pass an optional `redirectUri` property that is assumed to be the website's URL if not provided. This redirect URI should be configured in your Azure Active Directory App Registration. Follow the instructions for [creating your single-page application](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
+The `InteractiveBrowserCredential` allows users to pass an optional `redirectUri` property that is assumed to be the website's URL if not provided. This redirect URI should be configured in your Azure Active Directory App Registration. Follow the instructions for [creating your single-page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
 
 If you attempt to use the authorization code flow and see this error:
 
