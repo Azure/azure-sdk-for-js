@@ -37,10 +37,9 @@ export class MetricsAdvisorKeyCredential {
   constructor(subscriptionKey: string, apiKey: string) {
     if (!subscriptionKey || !apiKey) {
       throw new RangeError("Subscription Key or Api Key doesn't have a valid value");
-    }  
-      this._subscriptionKey = subscriptionKey;
-      this._apiKey = apiKey;
-   
+    }
+    this._subscriptionKey = subscriptionKey;
+    this._apiKey = apiKey;
   }
 
   /**
@@ -107,7 +106,6 @@ export function createMetricsAdvisorKeyCredentialPolicy(
  * using the appropriate header
  */
 class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
-
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptionsLike,
