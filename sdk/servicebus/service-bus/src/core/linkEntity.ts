@@ -17,6 +17,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
 import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 import { ServiceBusError } from "../serviceBusError";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -369,7 +370,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
    * @return {Promise<void>} Promise<void>
    */
-  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+  private async _negotiateClaim(
+    setTokenRenewal?: boolean,
+    operationOptions?: OperationOptionsBase
+  ): Promise<void> {
     this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
@@ -405,7 +409,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         this._tokenTimeout = (3600 - 900) * 1000;
       }
     } else {
-      const aadToken = await this._context.tokenCredential.getToken(Constants.aadServiceBusScope);
+      const aadToken = await this._context.tokenCredential.getToken(
+        Constants.aadServiceBusScope,
+        operationOptions
+      );
       if (!aadToken) {
         throw new Error(`Failed to get token from the provided "TokenCredential" object`);
       }
