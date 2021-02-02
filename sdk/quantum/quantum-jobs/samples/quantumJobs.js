@@ -3,8 +3,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { ContainerClient, BlockBlobClient } = require("@azure/storage-blob");
-const { QuantumJobClient } = require("@azure/quantum-jobs");
-const { inspect } = require("util");
+const { QuantumJobClient } = require("../dist-esm/src");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -20,19 +19,22 @@ async function main() {
     const credential = new DefaultAzureCredential();
 
     // Create a QuantumJobClient
-    const subscriptionId = "your_subscription_id";
-    const resourceGroupName = "your_resource_group_name";
-    const workspaceName = "your_quantum_workspace_name";
-    const location = "your_location";
-    const storageContainerName = "your_container_name";
+    const subscriptionId = "677fc922-91d0-4bf6-9b06-4274d319a0fa";//"your_subscription_id";
+    const resourceGroupName = "sdk-review-rg";//"your_resource_group_name";
+    const workspaceName = "workspace-ms";//"your_quantum_workspace_name";
+    const storageContainerName = "mycontainer";
+    const location = "westus";//"your_location";
+    const endpoint = 'https://'+location+'.quantum.azure.com';
 
     const quantumJobClient =
         new QuantumJobClient(
+            credential,
             subscriptionId,
             resourceGroupName,
             workspaceName,
-            location,
-            credential);
+            {
+              endpoint: endpoint
+            });
 
     console.log(`Created QuantumJobClient for:
 SubscriptionId: ${subscriptionId}
@@ -44,7 +46,7 @@ location: ${location}
     console.log(`Getting Container Uri with SAS key...`);
 
     // Get container Uri with SAS key
-    const containerUri = (await client.storage.sasUri(
+    const containerUri = (await quantumJobClient.storage.sasUri(
         {
           containerName: storageContainerName
         })).sasUri;
@@ -57,13 +59,13 @@ ${containerUri}
 
     // Create container if not exists
     const containerClient = new ContainerClient(new Uri(containerUri));
-    containerClient.CreateIfNotExists();
+    containerquantumJobClient.CreateIfNotExists();
 
     console.log(`Uploading data into a blob...`);
 
     // Get input data blob Uri with SAS key
     const blobName = "myjobinput.json";
-    const inputDataUri = (await client.storage.sasUri(
+    const inputDataUri = (await quantumJobClient.storage.sasUri(
         {
           containerName: containerName,
           blobName: blobName
@@ -73,7 +75,7 @@ ${containerUri}
     const blobClient = new BlockBlobClient(inputDataUri, credentials);
     const problemFilename = "problem.json";
     const fileContent = fs.readFileSync(problemFilename, 'utf8');
-    await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
+    await blobquantumJobClient.upload(fileContent, Buffer.byteLength(fileContent));
 
     console.log(`Input data Uri with SAS key:
 ${inputDataUri}
@@ -100,7 +102,7 @@ ${inputDataUri}
         name: jobName,
         outputDataFormat: outputDataFormat
       };
-      const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
+      const createdJob = await quantumJobquantumJobClient.jobs.create(jobId, createJobDetails);
     
     console.log(`Job created:
 Id: ${createdJob.Id}
@@ -112,7 +114,7 @@ Status: ${createdJob.Status}
     console.log(`Getting Quantum job...`);
 
     // Get the job that we've just created based on its jobId
-    const myJob = await quantumJobClient.jobs.get(jobId);
+    const myJob = await quantumJobquantumJobClient.jobs.get(jobId);
 
     console.log(`Job obtained:
 Id: ${myJob.Id}
@@ -129,7 +131,7 @@ OutputDataUri: ${myJob.OutputDataUri}
     console.log(`Getting list of Quantum jobs...`);
 
     // Get all jobs from the workspace (.ToList() will force all pages to be fetched)
-    var allJobs = await quantumJobClient.jobs.list();
+    var allJobs = await quantumJobquantumJobClient.jobs.list();
 
     console.log(`${allJobs.Count} jobs found. Listing the first 10...`);
     allJobs.forEach(function (job) {

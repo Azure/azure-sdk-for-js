@@ -32,11 +32,10 @@ export async function authenticate(that: any): Promise<any> {
   );
 
   const client = new QuantumJobClient(
+    credential,
     env.SUBSCRIPTION_ID,
     env.RESOURCE_GROUP,
     env.WORKSPACE_NAME,
-    env.LOCATION,
-    credential
   );
   const testClient = new TestClient(client);
 

@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  TokenCredential,
-  getDefaultUserAgentValue,
-  ServiceClient
-} from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import { QuantumJobClientOptionalParams } from "./models";
 
 const packageName = "@azure/quantum-jobs";
 const packageVersion = "1.0.0-beta.1";
 
-export class QuantumJobClientContext extends ServiceClient {
+export class QuantumJobClientContext extends coreHttp.ServiceClient {
   $host: string;
   subscriptionId: string;
   resourceGroupName: string;
@@ -24,6 +20,7 @@ export class QuantumJobClientContext extends ServiceClient {
 
   /**
    * Initializes a new instance of the QuantumJobClientContext class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000)
    * @param resourceGroupName Name of an Azure resource group.
@@ -31,13 +28,15 @@ export class QuantumJobClientContext extends ServiceClient {
    * @param options The parameter options
    */
   constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
-    location: string,
-    credential: TokenCredential,
     options?: QuantumJobClientOptionalParams
   ) {
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
     }
@@ -47,12 +46,6 @@ export class QuantumJobClientContext extends ServiceClient {
     if (workspaceName === undefined) {
       throw new Error("'workspaceName' cannot be null");
     }
-    if (location === undefined) {
-      throw new Error("'location' cannot be null");
-    }
-    if (credential === undefined) {
-      throw new Error("'credential' cannot be null");
-    }
 
     // Initializing default values for options
     if (!options) {
@@ -60,18 +53,15 @@ export class QuantumJobClientContext extends ServiceClient {
     }
 
     if (!options.userAgent) {
-      const defaultUserAgent = getDefaultUserAgentValue();
+      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
-    if (!options.credentialScopes) {
-      options.credentialScopes = "https://quantum.microsoft.com";
-    }
 
-    super(credential, options);
+    super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || `https://${location}.quantum.azure.com`;
+    this.baseUri = options.endpoint || "https://quantum.azure.com";
 
     // Parameter assignments
     this.subscriptionId = subscriptionId;

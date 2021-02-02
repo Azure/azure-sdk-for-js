@@ -29,7 +29,9 @@ export class Quotas {
    * List quotas for the given workspace.
    * @param options The options parameters.
    */
-  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<Quota> {
+  public list(
+    options?: coreHttp.OperationOptions
+  ): PagedAsyncIterableIterator<Quota> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -57,7 +59,9 @@ export class Quotas {
     }
   }
 
-  private async *listPagingAll(options?: coreHttp.OperationOptions): AsyncIterableIterator<Quota> {
+  private async *listPagingAll(
+    options?: coreHttp.OperationOptions
+  ): AsyncIterableIterator<Quota> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -67,13 +71,16 @@ export class Quotas {
    * List quotas for the given workspace.
    * @param options The options parameters.
    */
-  private _list(options?: coreHttp.OperationOptions): Promise<QuotasListResponse> {
+  private _list(
+    options?: coreHttp.OperationOptions
+  ): Promise<QuotasListResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
-      QuotasListResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listOperationSpec
+    ) as Promise<QuotasListResponse>;
   }
 
   /**
@@ -89,9 +96,10 @@ export class Quotas {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
-      QuotasListNextResponse
-    >;
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listNextOperationSpec
+    ) as Promise<QuotasListNextResponse>;
   }
 }
 // Operation Specifications

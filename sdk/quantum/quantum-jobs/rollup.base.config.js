@@ -2,69 +2,36 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
+import path from "path";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
+import shim from "rollup-plugin-shim";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
-import shim from "rollup-plugin-shim";
-import json from "@rollup/plugin-json";
-import * as path from "path";
-import inject from "@rollup/plugin-inject";
+import viz from "rollup-plugin-visualizer";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
-const version = pkg.version;
-const banner = [
-  "/*!",
-  " * Copyright (c) Microsoft and contributors. All rights reserved.",
-  " * Licensed under the MIT License. See License.txt in the project root for",
-  " * license information.",
-  " * ",
-  ` * Azure Quantum Jobs SDK for JavaScript - ${version}`,
-  " */"
-].join("\n");
-
-const ignoreKnownWarnings = (warning) => {
-  if (warning.code === "THIS_IS_UNDEFINED") {
-    // This error happens frequently due to TypeScript emitting `this` at the
-    // top-level of a module. In this case its fine if it gets rewritten to
-    // undefined, so ignore this error.
-    return;
-  }
-
-  if (
-    warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-  ) {
-    // Chai contains circular references, but they are not fatal and can be ignored.
-    return;
-  }
-
-  console.error(`(!) ${warning.message}`);
-};
-
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "crypto", "path"];
+  const externalNodeBuiltins = ["events", "path"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
-    output: {
-      file: "dist/index.js",
-      format: "cjs",
-      sourcemap: true,
-      banner: banner,
-      name: "azurequantumjobs"
-    },
+    output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
-        delimiters: ["", ""]
+        delimiters: ["", ""],
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
@@ -73,19 +40,19 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/**/*.spec.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/node/*.spec.js",
+      "dist-esm/test/internal/node/*.spec.js"
+    ];
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
-    baseConfig.output.file = "test-dist/index.node.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
-    // mark assert packages we use as external
-    baseConfig.external.push("assert");
-
-    baseConfig.external.push(...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies));
+    // mark devdeps as external
+    baseConfig.external.push(...devDepNames);
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -102,59 +69,67 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "dist-browser/quantumjobs.js",
+      file: "dist-browser/azure-quantum.js",
       format: "umd",
-      name: "Azure.QuantumJobs",
-      globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
-      },
-      sourcemap: true
+      name: "SearchClient",
+      sourcemap: true,
+      globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
-    external: ["fs-extra"],
     preserveSymlinks: false,
+    external: ["fs-extra"],
     plugins: [
       sourcemaps(),
       replace({
-        delimiters: ["", ""]
+        delimiters: ["", ""],
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)"
       }),
-
+      shim({
+        constants: `export default {}`,
+        fs: `export default {}`,
+        os: `export default {}`,
+        dotenv: `export function config() { }`,
+        path: `export default {}`
+      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
         namedExports: {
-          chai: ["assert", "expect", "use"],
-          assert: ["ok", "equal", "strictEqual", "deepEqual", "fail", "throws", "notEqual"],
-          events: ["EventEmitter"],
+          chai: ["assert"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
-
-      inject({
-        modules: {
-          process: "process"
-        },
-        exclude: ["./**/package.json"]
-      }),
-
-      json()
+      // disable the plugin in the rollup config to cut-out errors
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
   };
 
-  baseConfig.onwarn = ignoreKnownWarnings;
-
   if (test) {
-    baseConfig.input = ["dist-esm/test/public/*.spec.js", "dist-esm/test/internal/*.spec.js"];
-
-    baseConfig.external.unshift(...["process"]);
-
+    // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/browser/*.spec.js",
+      "dist-esm/test/internal/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.plugins.unshift(
-      ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
-    );
+    baseConfig.output.file = "dist-test/index.browser.js";
 
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.onwarn = (warning) => {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
