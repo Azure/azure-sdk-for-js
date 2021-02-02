@@ -2255,7 +2255,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const token =
           this.credentials instanceof SasServiceClientCredentials
             ? this.credentials.getToken(this.endpoint).token
-            : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+            : (await this.credentials.getToken(
+                [AMQPConstants.aadServiceBusScope],
+                updatedOperationOptions
+              ))!.token;
 
         if (queueOrSubscriptionFields.ForwardTo) {
           webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
