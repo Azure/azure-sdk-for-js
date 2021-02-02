@@ -29,8 +29,6 @@ async function getManagementClient() {
  * Utility to apply retries to a given `operationCallBack`.
  * Default policy is performing linear retries of up to `5` attempts that are `1000 milliseconds` apart.
  * The retries will be preempted if given `breakConditionCallback` evaluates to `true` early on.
- * @param operationCallback -
- * @param breakConditionCallback -
  * @param operationDescription - Text describing the operation. Used for logging purposes.
  */
 async function retry(
@@ -73,8 +71,6 @@ async function retry(
 
 /**
  * Utility that deletes and creates a queue using given parameters.
- * @param queueName -
- * @param parameters -
  */
 export async function recreateQueue(
   queueName: string,
@@ -111,8 +107,6 @@ export async function recreateQueue(
 
 /**
  * Utility that deletes and creates a topic using given parameters.
- * @param topicName -
- * @param parameters -
  */
 export async function recreateTopic(
   topicName: string,
@@ -149,9 +143,6 @@ export async function recreateTopic(
 
 /**
  * Utility that creates a subscription using given parameters.
- * @param topicName -
- * @param subscriptionName -
- * @param parameters -
  */
 export async function recreateSubscription(
   topicName: string,
@@ -188,10 +179,6 @@ export async function recreateSubscription(
 /**
  * Utility that verifies the message count of an entity.
  *
- * @param expectedMessageCount -
- * @param queueName -
- * @param topicName -
- * @param subscriptionName -
  * @returns {Promise<void>}
  */
 export async function verifyMessageCount(
@@ -213,7 +200,6 @@ export async function verifyMessageCount(
 
 /**
  * Utility function to get namespace string from given connection string
- * @param serviceBusConnectionString -
  */
 export function getNamespace(serviceBusConnectionString: string): string {
   return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];

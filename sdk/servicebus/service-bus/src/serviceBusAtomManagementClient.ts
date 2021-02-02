@@ -217,7 +217,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the metadata related to a service bus namespace.
-   * @param queueName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    */
@@ -250,7 +249,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a queue with given name, configured using the given options
-   * @param queueName -
    * @param options - Options to configure the Queue being created(For example, you can configure a queue to support partitions or sessions)
    *  and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -300,7 +298,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns an object representing the Queue and its properties.
    * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeProperties` API.
-   * @param queueName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -342,7 +339,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Queue runtime info like message count details.
-   * @param queueName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -454,7 +450,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the queues in pages.
    *
-   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     QueueProperties,
    *     EntitiesResponse<QueueProperties>,
@@ -561,7 +556,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
    *
    *
-   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     QueueRuntimeProperties,
    *     EntitiesResponse<QueueRuntimeProperties>,
@@ -664,7 +658,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a queue.
-   * @param queueName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -706,7 +699,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Checks whether a given queue exists or not.
-   * @param queueName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
@@ -738,7 +730,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a topic with given name, configured using the given options
-   * @param topicName -
    * @param options - Options to configure the Topic being created(For example, you can configure a topic to support partitions)
    * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -788,7 +779,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns an object representing the Topic and its properties.
    * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeProperties` API.
-   * @param topicName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -830,7 +820,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Topic runtime info like subscription count.
-   * @param topicName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -943,7 +932,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list the topics in pages.
    *
    *
-   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     TopicProperties,
    *     EntitiesResponse<TopicProperties>,
@@ -1050,7 +1038,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
    *
    *
-   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     TopicRuntimeProperties,
    *     EntitiesResponse<TopicRuntimeProperties>,
@@ -1157,7 +1144,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a topic.
-   * @param topicName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1199,7 +1185,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Checks whether a given topic exists or not.
-   * @param topicName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
@@ -1231,8 +1216,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a subscription with given name, configured using the given options
-   * @param topicName -
-   * @param subscriptionName -
    * @param options - Options to configure the Subscription being created(For example, you can configure a Subscription to support partitions or sessions)
    * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -1284,8 +1267,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns an object representing the Subscription and its properties.
    * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeProperties` API.
-   * @param topicName -
-   * @param subscriptionName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1331,8 +1312,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Subscription runtime info like message count details.
-   * @param topicName -
-   * @param subscriptionName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1379,7 +1358,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Subscription along with its properties.
    * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeProperties` API instead.
-   * @param topicName -
    * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1455,8 +1433,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @param topicName -
-   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionProperties,
    *     EntitiesResponse<SubscriptionProperties>
@@ -1496,7 +1472,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Subscription's runtime info like message count details.
-   * @param topicName -
    * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1575,8 +1550,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
    *
-   * @param topicName -
-   * @param options -
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionRuntimeProperties,
    *     EntitiesResponse<SubscriptionRuntimeProperties>,
@@ -1689,8 +1662,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a subscription.
-   * @param topicName -
-   * @param subscriptionName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1736,8 +1707,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Checks whether a given subscription exists in the topic or not.
-   * @param topicName -
-   * @param subscriptionName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async subscriptionExists(
@@ -1775,9 +1744,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates a rule with given name, configured using the given options.
-   * @param topicName -
-   * @param subscriptionName -
-   * @param ruleName -
    * @param ruleFilter - Defines the filter expression that the rule evaluates.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -1800,9 +1766,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): Promise<WithResponse<RuleProperties>>;
   /**
    * Creates a rule with given name, configured using the given options.
-   * @param topicName -
-   * @param subscriptionName -
-   * @param ruleName -
    * @param ruleFilter - Defines the filter expression that the rule evaluates.
    * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
@@ -1877,9 +1840,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Returns an object representing the Rule with the given name along with all its properties.
-   * @param topicName -
-   * @param subscriptionName -
-   * @param ruleName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1924,8 +1884,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Lists existing rules.
-   * @param topicName -
-   * @param subscriptionName -
    * @param options - The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -2001,9 +1959,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the rules in pages.
    *
-   * @param topicName -
-   * @param subscriptionName -
-   * @param options -
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
    */
   public listRules(
@@ -2041,8 +1996,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All rule properties must be set even if one of them is being updated.
    * Therefore, the suggested flow is to use the output from `getRule()`, update the desired properties in it, and then pass the modified object to `updateRule()`.
    *
-   * @param topicName -
-   * @param subscriptionName -
    * @param rule - Options to configure the Rule being updated and the raw response.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
@@ -2105,9 +2058,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a rule.
-   * @param topicName -
-   * @param subscriptionName -
-   * @param ruleName -
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -2153,10 +2103,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Checks whether a given rule exists or not.
    *
-   * @param topicName -
-   * @param subscriptionName -
-   * @param ruleName -
-   * @param operationOptions -
    */
   async ruleExists(
     topicName: string,
@@ -2192,10 +2138,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Creates or updates a resource based on `isUpdate` parameter.
-   * @param name -
-   * @param entityFields -
-   * @param isUpdate -
-   * @param serializer -
    */
   private async putResource(
     name: string,
@@ -2265,8 +2207,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Gets a resource.
-   * @param name -
-   * @param serializer -
    */
   private async getResource(
     name: string,
@@ -2313,9 +2253,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Lists existing resources
-   * @param name -
-   * @param options -
-   * @param serializer -
    */
   private async listResources(
     name: string,
@@ -2353,7 +2290,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   /**
    * Deletes a resource.
-   * @param name -
    */
   private async deleteResource(
     name: string,

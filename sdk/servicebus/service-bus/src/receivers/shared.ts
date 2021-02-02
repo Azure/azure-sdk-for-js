@@ -70,9 +70,6 @@ export function wrapProcessErrorHandler(
 /**
  * @internal
  *
- * @param message -
- * @param context -
- * @param entityPath -
  */
 export function completeMessage(
   message: ServiceBusMessageImpl,
@@ -90,10 +87,6 @@ export function completeMessage(
 /**
  * @internal
  *
- * @param message -
- * @param context -
- * @param entityPath -
- * @param propertiesToModify -
  */
 export function abandonMessage(
   message: ServiceBusMessageImpl,
@@ -114,10 +107,6 @@ export function abandonMessage(
 /**
  * @internal
  *
- * @param message -
- * @param context -
- * @param entityPath -
- * @param propertiesToModify -
  */
 export function deferMessage(
   message: ServiceBusMessageImpl,
@@ -138,10 +127,6 @@ export function deferMessage(
 /**
  * @internal
  *
- * @param message -
- * @param context -
- * @param entityPath -
- * @param propertiesToModify -
  */
 export function deadLetterMessage(
   message: ServiceBusMessageImpl,
@@ -181,11 +166,6 @@ export function deadLetterMessage(
 /**
  * @internal
  *
- * @param message -
- * @param operation -
- * @param context -
- * @param entityPath -
- * @param options -
  */
 function settleMessage(
   message: ServiceBusMessageImpl,

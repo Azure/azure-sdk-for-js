@@ -476,7 +476,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
    * }
    * ```
-   * @param options -
    * @returns {Promise<number>}
    */
   async getMaxMessageSize(

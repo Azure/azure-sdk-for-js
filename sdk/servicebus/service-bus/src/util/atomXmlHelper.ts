@@ -34,8 +34,6 @@ export interface AtomXmlSerializer {
 /**
  * @internal
  * Utility to execute Atom XML operations as HTTP requests
- * @param webResource -
- * @param serializer -
  */
 export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
@@ -99,7 +97,6 @@ export async function executeAtomXmlOperation(
  *
  * This method recursively removes the key-value pairs with undefined/null as the values from the request object that is to be serialized.
  *
- * @param resource -
  */
 export function sanitizeSerializableObject(resource: { [key: string]: any }) {
   Object.keys(resource).forEach(function(property) {
@@ -146,8 +143,6 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: any): 
  * Transforms response to contain the parsed data.
  * @param nameProperties - The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
- * @param response -
- * @param shouldParseResponse -
  */
 export async function deserializeAtomXmlResponse(
   nameProperties: string[],
@@ -214,7 +209,6 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
 /**
  * @internal
  * Utility to help parse given `entry` result
- * @param entry -
  */
 function parseEntryResult(entry: any): object | undefined {
   let result: any;
@@ -262,7 +256,6 @@ function parseEntryResult(entry: any): object | undefined {
 /**
  * @internal
  * Utility to help parse link info from the given `feed` result
- * @param feedLink -
  */
 function parseLinkInfo(
   feedLink: { [Constants.XML_METADATA_MARKER]: { rel: string; href: string } }[],
@@ -282,7 +275,6 @@ function parseLinkInfo(
 /**
  * @internal
  * Utility to help parse given `feed` result
- * @param feed -
  */
 function parseFeedResult(feed: any): object[] & { nextLink?: string } {
   const result: object[] & { nextLink?: string } = [];
@@ -307,7 +299,6 @@ function parseFeedResult(feed: any): object[] & { nextLink?: string } {
 
 /**
  * @internal
- * @param statusCode -
  * @returns {statusCode is keyof typeof Constants.HttpResponseCodes}
  */
 function isKnownResponseCode(
@@ -330,8 +321,6 @@ function isKnownResponseCode(
  *     - `<namespace-component>/<topic-name>/Subscriptions/<subscription-name>`
  *     - `<namespace-component>/<any-entity-name>`
  *
- * @param entry -
- * @param nameProperties -
  */
 function setName(entry: any, nameProperties: any): any {
   if (entry[Constants.ATOM_METADATA_MARKER]) {
@@ -379,7 +368,6 @@ function setName(entry: any, nameProperties: any): any {
  * @internal
  * Utility to help construct the normalized `RestError` object based on given error
  * information and other data present in the received `response` object.
- * @param response -
  */
 export function buildError(response: HttpOperationResponse): RestError {
   if (!isKnownResponseCode(response.status)) {
@@ -425,8 +413,6 @@ export function buildError(response: HttpOperationResponse): RestError {
  * @internal
  * Helper utility to construct user friendly error codes based on based on given error
  * information and other data present in the received `response` object.
- * @param response -
- * @param errorMessage -
  */
 function getErrorCode(response: HttpOperationResponse, errorMessage: string): string {
   if (response.status == 401) {

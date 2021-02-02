@@ -70,8 +70,6 @@ export interface ServiceBusLogger extends AzureLogger {
    *   receiverLogger.logError(new Error("hello, this is the error"), "this is my message");
    * will output:
    *   azure:service-bus:receiver:warning this is my message : Error: hello, this is the error
-   * @param err -
-   * @param args -
    */
   logError(err: Error | AmqpError | undefined, ...args: any[]): void;
 }

@@ -304,7 +304,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * NOTE: This method should be implemented by any child classes to actually create the underlying
    * Rhea link (AwaitableSender or Receiver or RequestResponseLink)
    *
-   * @param _options -
    */
   protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
 

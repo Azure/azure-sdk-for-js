@@ -26,10 +26,6 @@ export function getParentSpan(
 /**
  * @internal
  *
- * @param parentSpan -
- * @param spanContextsToLink -
- * @param entityPath -
- * @param host -
  */
 export function createSendSpan(
   parentSpan?: Span | SpanContext | null,

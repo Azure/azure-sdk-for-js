@@ -103,7 +103,6 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
    *
-   * @param state -
    * @returns {Promise<void>}
    */
   setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;

@@ -257,9 +257,6 @@ export class SBStressTestsBase {
   }
 
   /**
-   * @param message -
-   * @param duration -
-   * @param completeMessageAfterDuration -
    */
   public renewMessageLockUntil(
     message: ServiceBusReceivedMessage,
@@ -319,7 +316,6 @@ export class SBStressTestsBase {
   }
 
   /**
-   * @param receiver -
    * @param duration Duration until which the lock is renewed
    */
   public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {

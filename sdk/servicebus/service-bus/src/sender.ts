@@ -58,7 +58,6 @@ export interface ServiceBusSender {
    * @param options - Configures the behavior of the batch.
    * - `maxSizeInBytes`: The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    *
-   * @param options -
    * @returns {Promise<ServiceBusMessageBatch>}
    * @throws `ServiceBusError` if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
