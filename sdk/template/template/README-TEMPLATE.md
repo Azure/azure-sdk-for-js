@@ -103,7 +103,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### CORS
 
-> note to package authors: If the service supports CORS please use this section to describe how to enable CORS, or delete this section otherwise. See an example below from Azure Storage:
+> note to package authors: If the service supports CORS please use this section to describe how to enable CORS, otherwise delete this section. See an example below from Azure Storage:
 
 You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
