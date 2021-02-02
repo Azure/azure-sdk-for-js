@@ -257,9 +257,9 @@ export class SBStressTestsBase {
   }
 
   /**
-   * @param {ServiceBusReceivedMessageWithLock} message
-   * @param {number} duration
-   * @param {boolean} completeMessageAfterDuration
+   * @param message -
+   * @param duration -
+   * @param completeMessageAfterDuration -
    */
   public renewMessageLockUntil(
     message: ServiceBusReceivedMessage,
@@ -319,8 +319,8 @@ export class SBStressTestsBase {
   }
 
   /**
-   * @param {ServiceBusSessionReceiver<ServiceBusReceivedMessage>} receiver
-   * @param {number} duration Duration until which the lock is renewed
+   * @param receiver -
+   * @param duration Duration until which the lock is renewed
    */
   public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {
     // TODO: pass in max number of lock renewals? and close the receiver at the end of max??

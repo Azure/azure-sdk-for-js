@@ -189,10 +189,10 @@ export async function recreateSubscription(
  * Utility that verifies the message count of an entity.
  *
  * @export
- * @param {number} expectedMessageCount
- * @param {string} [queueName]
- * @param {string} [topicName]
- * @param {string} [subscriptionName]
+ * @param expectedMessageCount -
+ * @param queueName -
+ * @param topicName -
+ * @param subscriptionName -
  * @returns {Promise<void>}
  */
 export async function verifyMessageCount(
