@@ -13,18 +13,18 @@ import { env, record, Recorder } from "@azure/test-utils-recorder";
 // recorded HTTP request or response, it will replace them with the values they
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
-  AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+  APPCONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+  APPCONFIG_TEST_SETTING_KEY: "test-key",
+  APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  APPCONFIG_TEST_SETTING_KEY: "test-key",
-  APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value"
+  AZURE_CLIENT_SECRET: "azure_client_secret"
 };
 
 function createConfigurationClient(): ConfigurationClient {
   // Retrieve the endpoint from the environment variable
   // we saved to the .env file earlier
-  const endpoint = env.AZ_CONFIG_ENDPOINT;
+  const endpoint = env.APPCONFIG_ENDPOINT;
 
   // We use ClientSecretCredential instead of DefaultAzureCredential in order
   // to ensure that the requests made to the AAD server are always the same. If

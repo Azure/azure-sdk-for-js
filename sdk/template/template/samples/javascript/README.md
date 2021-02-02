@@ -1,14 +1,22 @@
 <!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publically -->
 
-<!-- ---
+<!--
+---
 page_type: sample
 languages:
   - javascript
 products:
+  # NOTE: You MUST use valid product slugs from the docs.microsoft.com taxonomy
+  # in this array. Please check to make sure that the items you enter into this
+  # list are valid! For example, "azure-template" is NOT a valid product slug
+  # and is provided here as an example only.
   - azure
   - azure-template
+# For urlFragment, use the base name of the package (not including the namespace)
+# and append "-typescript" or "-javascript"
 urlFragment: template-javascript
---- -->
+---
+-->
 
 # Azure Template client library samples for JavaScript
 

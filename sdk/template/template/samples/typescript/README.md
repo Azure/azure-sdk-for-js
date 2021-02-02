@@ -1,14 +1,21 @@
-<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publically -->
+<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/update it when the samples can be published publicly -->
 
-<!-- ---
+<!--
+---
 page_type: sample
 languages:
   - typescript
 products:
+  # NOTE: You MUST use valid product slugs from the docs.microsoft.com taxonomy
+  # in this array. Please check to make sure that the items you enter into this
+  # list are valid!
   - azure
   - azure-template
+# For urlFragment, use the base name of the package (not including the namespace)
+# and append "-typescript" or "-javascript"
 urlFragment: template-typescript
---- -->
+---
+-->
 
 # Azure Template client library samples for TypeScript
 
