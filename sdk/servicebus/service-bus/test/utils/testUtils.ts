@@ -165,7 +165,7 @@ export async function checkWithTimeout(
 
 /**
  * Utility function to get namespace string from given connection string
- * @param serviceBusConnectionString
+ * @param serviceBusConnectionString -
  */
 export function getNamespace(serviceBusConnectionString: string): string {
   return (serviceBusConnectionString.match("Endpoint=.*://(.*).servicebus.windows.net") || "")[1];
