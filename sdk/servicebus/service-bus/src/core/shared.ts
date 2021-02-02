@@ -80,10 +80,10 @@ export function onMessageSettled(
  * Creates the options that need to be specified while creating an AMQP receiver link.
  *
  * @internal
- * @param name
- * @param receiveMode
- * @param source
- * @param handlers
+ * @param name -
+ * @param receiveMode -
+ * @param source -
+ * @param handlers -
  */
 export function createReceiverOptions(
   name: string,

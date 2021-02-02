@@ -45,7 +45,7 @@ export interface NamespaceProperties {
  * @internal
  * Builds the namespace object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawNamespace
+ * @param rawNamespace -
  */
 export function buildNamespace(rawNamespace: any): NamespaceProperties {
   const messagingSku = <"Basic" | "Premium" | "Standard">(

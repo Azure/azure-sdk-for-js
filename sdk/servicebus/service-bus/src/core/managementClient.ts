@@ -1207,7 +1207,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
   /**
    * Removes the rule on the Subscription identified by the given rule name.
-   * @param ruleName
+   * @param ruleName -
    */
   async removeRule(
     ruleName: string,

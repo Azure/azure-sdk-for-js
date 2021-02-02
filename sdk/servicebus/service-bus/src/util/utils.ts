@@ -171,7 +171,7 @@ export function toBuffer(input: any): Buffer {
  * @internal
  * Helper utility to retrieve `string` value from given string,
  * or throws error if undefined.
- * @param value
+ * @param value -
  */
 export function getString(value: any, nameOfProperty: string): string {
   const result = getStringOrUndefined(value);
@@ -187,7 +187,7 @@ export function getString(value: any, nameOfProperty: string): string {
  * @internal
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
- * @param value
+ * @param value -
  */
 export function getStringOrUndefined(value: any): string | undefined {
   if (value == undefined) {
@@ -200,7 +200,7 @@ export function getStringOrUndefined(value: any): string | undefined {
  * @internal
  * Helper utility to retrieve `integer` value from given string,
  * or throws error if undefined.
- * @param value
+ * @param value -
  */
 export function getInteger(value: any, nameOfProperty: string): number {
   const result = getIntegerOrUndefined(value);
@@ -216,7 +216,7 @@ export function getInteger(value: any, nameOfProperty: string): number {
  * @internal
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
- * @param value
+ * @param value -
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
   if (value == undefined) {
@@ -229,7 +229,7 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 /**
  * @internal
  * Helper utility to convert ISO-8601 time into Date type.
- * @param value
+ * @param value -
  */
 export function getDate(value: string, nameOfProperty: string): Date {
   return new Date(getString(value, nameOfProperty));
@@ -239,7 +239,7 @@ export function getDate(value: string, nameOfProperty: string): Date {
  * @internal
  * Helper utility to retrieve `boolean` value from given string,
  * or throws error if undefined.
- * @param value
+ * @param value -
  */
 export function getBoolean(value: any, nameOfProperty: string): boolean {
   const result = getBooleanOrUndefined(value);
@@ -255,7 +255,7 @@ export function getBoolean(value: any, nameOfProperty: string): boolean {
  * @internal
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
- * @param value
+ * @param value -
  */
 export function getBooleanOrUndefined(value: any): boolean | undefined {
   if (value == undefined) {
@@ -278,7 +278,7 @@ const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
 /**
  * @internal
  * Returns `true` if given input is a JSON like object.
- * @param value
+ * @param value -
  */
 export function isJSONLikeObject(value: any): boolean {
   // `value.constructor === {}.constructor` differentiates among the "object"s,
@@ -299,7 +299,7 @@ export function isJSONLikeObject(value: any): boolean {
 /**
  * @internal
  * Helper utility to retrieve message count details from given input,
- * @param value
+ * @param value -
  */
 export function getMessageCountDetails(value: any): MessageCountDetails {
   const xmlnsPrefix = getXMLNSPrefix(value);
@@ -397,7 +397,7 @@ export interface AuthorizationRule {
  * @internal
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
- * @param value
+ * @param value -
  */
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
@@ -425,7 +425,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
 /**
  * @internal
  * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input.
- * @param value
+ * @param value -
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
   let accessRights;
@@ -451,7 +451,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * @internal
  * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
- * @param value
+ * @param value -
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
   if (authorizationRules == undefined) {
@@ -512,7 +512,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 /**
  * @internal
  * Helper utility to check if given string is an absolute URL
- * @param url
+ * @param url -
  */
 export function isAbsoluteUrl(url: string) {
   const _url = url.toLowerCase();
@@ -646,7 +646,7 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
  * @internal
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
  *
- * @param prefix
+ * @param prefix -
  * @returns {string}
  */
 export function formatUserAgentPrefix(prefix?: string): string {
