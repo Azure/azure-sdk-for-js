@@ -220,10 +220,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   private async _initLinkImpl(
     options: LinkOptionsT<LinkT>,
-    abortSignal?: AbortSignalLike
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
+    if (!operationOptions) operationOptions = {};
     const checkAborted = (): void => {
-      if (abortSignal?.aborted) {
+      if (operationOptions && operationOptions.abortSignal?.aborted) {
         throw new AbortError(StandardAbortMessage);
       }
     };
@@ -251,7 +252,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     );
 
     try {
-      await this._negotiateClaim();
+      await this._negotiateClaim(undefined, operationOptions);
 
       checkAborted();
       this.checkIfConnectionReady();
@@ -479,7 +480,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Ensures that the token is renewed within the predefined renewal margin.
    * @returns {void}
    */
-  private _ensureTokenRenewal(): void {
+  private _ensureTokenRenewal(operationOptions?: OperationOptionsBase): void {
     if (!this._tokenTimeout) {
       return;
     }
@@ -491,7 +492,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this._negotiateClaim(true);
+        await this._negotiateClaim(true, operationOptions);
       } catch (err) {
         this._logger.logError(
           err,
