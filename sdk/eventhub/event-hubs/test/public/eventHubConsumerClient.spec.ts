@@ -79,8 +79,6 @@ describe("EventHubConsumerClient", () => {
 
       await Promise.all(clients.map((client) => client.close()));
       clients = [];
-
-      return producerClient.close();
     });
 
     describe("#close()", function(): void {
