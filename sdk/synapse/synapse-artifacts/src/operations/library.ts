@@ -9,22 +9,20 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { LROPoller, shouldDeserializeLRO } from "../lro";
 import {
-  SqlScriptResource,
-  SqlScriptGetSqlScriptsByWorkspaceResponse,
-  SqlScriptCreateOrUpdateSqlScriptOptionalParams,
-  SqlScriptCreateOrUpdateSqlScriptResponse,
-  SqlScriptGetSqlScriptOptionalParams,
-  SqlScriptGetSqlScriptResponse,
-  ArtifactRenameRequest,
-  SqlScriptGetSqlScriptsByWorkspaceNextResponse
+  LibraryResource,
+  LibraryListOperationResponse,
+  LibraryGetOperationResultResponse,
+  LibraryGetResponse,
+  LibraryCreateOrAppendOptionalParams,
+  LibraryListNextResponse
 } from "../models";
 
-/** Class representing a SqlScript. */
-export class SqlScript {
+/** Class representing a Library. */
+export class Library {
   private readonly client: ArtifactsClient;
 
   /**
-   * Initialize a new instance of the class SqlScript class.
+   * Initialize a new instance of the class Library class.
    * @param client Reference to the service client
    */
   constructor(client: ArtifactsClient) {
@@ -32,13 +30,11 @@ export class SqlScript {
   }
 
   /**
-   * Lists sql scripts.
+   * Lists Library.
    * @param options The options parameters.
    */
-  public listSqlScriptsByWorkspace(
-    options?: coreHttp.OperationOptions
-  ): PagedAsyncIterableIterator<SqlScriptResource> {
-    const iter = this.getSqlScriptsByWorkspacePagingAll(options);
+  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource> {
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -47,52 +43,47 @@ export class SqlScript {
         return this;
       },
       byPage: () => {
-        return this.getSqlScriptsByWorkspacePagingPage(options);
+        return this.listPagingPage(options);
       }
     };
   }
 
-  private async *getSqlScriptsByWorkspacePagingPage(
+  private async *listPagingPage(
     options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<SqlScriptResource[]> {
-    let result = await this._getSqlScriptsByWorkspace(options);
+  ): AsyncIterableIterator<LibraryResource[]> {
+    let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(continuationToken, options);
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *getSqlScriptsByWorkspacePagingAll(
+  private async *listPagingAll(
     options?: coreHttp.OperationOptions
-  ): AsyncIterableIterator<SqlScriptResource> {
-    for await (const page of this.getSqlScriptsByWorkspacePagingPage(options)) {
+  ): AsyncIterableIterator<LibraryResource> {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists sql scripts.
+   * Lists Library.
    * @param options The options parameters.
    */
-  private async _getSqlScriptsByWorkspace(
-    options?: coreHttp.OperationOptions
-  ): Promise<SqlScriptGetSqlScriptsByWorkspaceResponse> {
+  private async _list(options?: coreHttp.OperationOptions): Promise<LibraryListOperationResponse> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspace",
+      "ArtifactsClient-_list",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
       options: updatedOptions
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getSqlScriptsByWorkspaceOperationSpec
-      );
-      return result as SqlScriptGetSqlScriptsByWorkspaceResponse;
+      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
+      return result as LibraryListOperationResponse;
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -105,23 +96,21 @@ export class SqlScript {
   }
 
   /**
-   * Creates or updates a Sql Script.
-   * @param sqlScriptName The sql script name.
-   * @param sqlScript Sql Script resource definition.
+   * Flush Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
    * @param options The options parameters.
    */
-  async createOrUpdateSqlScript(
-    sqlScriptName: string,
-    sqlScript: SqlScriptResource,
-    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
-  ): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>> {
+  async flush(
+    libraryName: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createOrUpdateSqlScript",
+      "ArtifactsClient-flush",
       this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
-      sqlScriptName,
-      sqlScript,
+      libraryName,
       options: updatedOptions
     };
     const sendOperation = async (
@@ -130,7 +119,7 @@ export class SqlScript {
     ) => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as SqlScriptCreateOrUpdateSqlScriptResponse;
+        return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
           code: CanonicalCode.UNKNOWN,
@@ -142,41 +131,38 @@ export class SqlScript {
       }
     };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      createOrUpdateSqlScriptOperationSpec
-    );
+    const initialOperationResult = await sendOperation(operationArguments, flushOperationSpec);
     return new LROPoller({
       initialOperationArguments: operationArguments,
-      initialOperationSpec: createOrUpdateSqlScriptOperationSpec,
+      initialOperationSpec: flushOperationSpec,
       initialOperationResult,
       sendOperation
     });
   }
 
   /**
-   * Gets a sql script.
-   * @param sqlScriptName The sql script name.
+   * Get Operation result for Library
+   * @param operationId operation id for which status is requested
    * @param options The options parameters.
    */
-  async getSqlScript(
-    sqlScriptName: string,
-    options?: SqlScriptGetSqlScriptOptionalParams
-  ): Promise<SqlScriptGetSqlScriptResponse> {
+  async getOperationResult(
+    operationId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<LibraryGetOperationResultResponse> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getSqlScript",
+      "ArtifactsClient-getOperationResult",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      sqlScriptName,
+      operationId,
       options: updatedOptions
     };
     try {
       const result = await this.client.sendOperationRequest(
         operationArguments,
-        getSqlScriptOperationSpec
+        getOperationResultOperationSpec
       );
-      return result as SqlScriptGetSqlScriptResponse;
+      return result as LibraryGetOperationResultResponse;
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -189,20 +175,99 @@ export class SqlScript {
   }
 
   /**
-   * Deletes a Sql Script.
-   * @param sqlScriptName The sql script name.
+   * Delete Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
    * @param options The options parameters.
    */
-  async deleteSqlScript(
-    sqlScriptName: string,
+  async delete(
+    libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteSqlScript",
+      "ArtifactsClient-delete",
       this.getOperationOptions(options, "undefined")
     );
     const operationArguments: coreHttp.OperationArguments = {
-      sqlScriptName,
+      libraryName,
+      options: updatedOptions
+    };
+    const sendOperation = async (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
+      try {
+        const result = await this.client.sendOperationRequest(args, spec);
+        return result as coreHttp.RestResponse;
+      } catch (error) {
+        span.setStatus({
+          code: CanonicalCode.UNKNOWN,
+          message: error.message
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    };
+
+    const initialOperationResult = await sendOperation(operationArguments, deleteOperationSpec);
+    return new LROPoller({
+      initialOperationArguments: operationArguments,
+      initialOperationSpec: deleteOperationSpec,
+      initialOperationResult,
+      sendOperation
+    });
+  }
+
+  /**
+   * Get Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  async get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      libraryName,
+      options: updatedOptions
+    };
+    try {
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
+      return result as LibraryGetResponse;
+    } catch (error) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a library with the library name. Use query param 'comp=appendblock' to append the data to
+   * the library resource created using the create operation.
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param content Library file chunk. Use this content in with append operation.
+   * @param options The options parameters.
+   */
+  async createOrAppend(
+    libraryName: string,
+    content: coreHttp.HttpRequestBody,
+    options?: LibraryCreateOrAppendOptionalParams
+  ): Promise<LROPoller<coreHttp.RestResponse>> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrAppend",
+      this.getOperationOptions(options, "undefined")
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      libraryName,
+      content,
       options: updatedOptions
     };
     const sendOperation = async (
@@ -225,78 +290,27 @@ export class SqlScript {
 
     const initialOperationResult = await sendOperation(
       operationArguments,
-      deleteSqlScriptOperationSpec
+      createOrAppendOperationSpec
     );
     return new LROPoller({
       initialOperationArguments: operationArguments,
-      initialOperationSpec: deleteSqlScriptOperationSpec,
+      initialOperationSpec: createOrAppendOperationSpec,
       initialOperationResult,
       sendOperation
     });
   }
 
   /**
-   * Renames a sqlScript.
-   * @param sqlScriptName The sql script name.
-   * @param request proposed new name.
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  async renameSqlScript(
-    sqlScriptName: string,
-    request: ArtifactRenameRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameSqlScript",
-      this.getOperationOptions(options, "undefined")
-    );
-    const operationArguments: coreHttp.OperationArguments = {
-      sqlScriptName,
-      request,
-      options: updatedOptions
-    };
-    const sendOperation = async (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as coreHttp.RestResponse;
-      } catch (error) {
-        span.setStatus({
-          code: CanonicalCode.UNKNOWN,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
-    };
-
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      renameSqlScriptOperationSpec
-    );
-    return new LROPoller({
-      initialOperationArguments: operationArguments,
-      initialOperationSpec: renameSqlScriptOperationSpec,
-      initialOperationResult,
-      sendOperation
-    });
-  }
-
-  /**
-   * GetSqlScriptsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetSqlScriptsByWorkspace
-   *                 method.
-   * @param options The options parameters.
-   */
-  private async _getSqlScriptsByWorkspaceNext(
+  private async _listNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse> {
+  ): Promise<LibraryListNextResponse> {
     const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
+      "ArtifactsClient-_listNext",
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -306,9 +320,9 @@ export class SqlScript {
     try {
       const result = await this.client.sendOperationRequest(
         operationArguments,
-        getSqlScriptsByWorkspaceNextOperationSpec
+        listNextOperationSpec
       );
-      return result as SqlScriptGetSqlScriptsByWorkspaceNextResponse;
+      return result as LibraryListNextResponse;
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -335,15 +349,15 @@ export class SqlScript {
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getSqlScriptsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
-  path: "/sqlScripts",
+const listOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlScriptsListResponse
+      bodyMapper: Mappers.LibraryListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -351,69 +365,8 @@ const getSqlScriptsByWorkspaceOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateSqlScriptOperationSpec: coreHttp.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlScriptResource
-    },
-    201: {
-      bodyMapper: Mappers.SqlScriptResource
-    },
-    202: {
-      bodyMapper: Mappers.SqlScriptResource
-    },
-    204: {
-      bodyMapper: Mappers.SqlScriptResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.sqlScript,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
-  mediaType: "json",
-  serializer
-};
-const getSqlScriptOperationSpec: coreHttp.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SqlScriptResource
-    },
-    304: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
-};
-const deleteSqlScriptOperationSpec: coreHttp.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const renameSqlScriptOperationSpec: coreHttp.OperationSpec = {
-  path: "/sqlScripts/{sqlScriptName}/rename",
+const flushOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}/flush",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -421,25 +374,99 @@ const renameSqlScriptOperationSpec: coreHttp.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const getSqlScriptsByWorkspaceNextOperationSpec: coreHttp.OperationSpec = {
+const getOperationResultOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraryOperationResults/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryResource
+    },
+    202: {
+      bodyMapper: Mappers.OperationResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.operationId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LibraryResource
+    },
+    304: {},
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrAppendOperationSpec: coreHttp.OperationSpec = {
+  path: "/libraries/{libraryName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudErrorAutoGenerated
+    }
+  },
+  requestBody: Parameters.content,
+  queryParameters: [Parameters.apiVersion, Parameters.comp],
+  urlParameters: [Parameters.endpoint, Parameters.libraryName],
+  headerParameters: [
+    Parameters.contentType1,
+    Parameters.accept1,
+    Parameters.xMsBlobConditionAppendpos
+  ],
+  mediaType: "binary",
+  serializer
+};
+const listNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlScriptsListResponse
+      bodyMapper: Mappers.LibraryListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   queryParameters: [Parameters.apiVersion],
