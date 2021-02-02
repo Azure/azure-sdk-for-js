@@ -200,7 +200,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param context - The connection context
    * @param entityPath - The name/path of the entity (queue/topic/subscription name)
    * for which the management request needs to be made.
-   * @param [options] Options to be provided for creating the
+   * @param options Options to be provided for creating the
    * "$management" client.
    */
   constructor(context: ConnectionContext, entityPath: string, options?: ManagementClientOptions) {

@@ -93,7 +93,7 @@ export function completeMessage(
  * @param message
  * @param context
  * @param entityPath
- * @param [propertiesToModify]
+ * @param propertiesToModify
  */
 export function abandonMessage(
   message: ServiceBusMessageImpl,
@@ -117,7 +117,7 @@ export function abandonMessage(
  * @param message
  * @param context
  * @param entityPath
- * @param [propertiesToModify]
+ * @param propertiesToModify
  */
 export function deferMessage(
   message: ServiceBusMessageImpl,
@@ -185,7 +185,7 @@ export function deadLetterMessage(
  * @param operation
  * @param context
  * @param entityPath
- * @param [options]
+ * @param options
  */
 function settleMessage(
   message: ServiceBusMessageImpl,

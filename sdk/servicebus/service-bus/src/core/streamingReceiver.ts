@@ -118,7 +118,7 @@ export class StreamingReceiver extends MessageReceiver {
    *
    * @constructor
    * @param context                      The client entity context.
-   * @param [options]                         Options for how you'd like to connect.
+   * @param options                         Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
     super(context, entityPath, "streaming", options);

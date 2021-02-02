@@ -646,7 +646,7 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
  * @internal
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
  *
- * @param [prefix]
+ * @param prefix
  * @returns {string}
  */
 export function formatUserAgentPrefix(prefix?: string): string {
