@@ -8,6 +8,7 @@
 - Added a constructor overload to `CryptographyClient` that takes a `JsonWebKey` and allows for local-only subset of operations.
 - Added `KeyId` to the public API of CryptographyClient.
 - Removed `parseKeyVaultKeysId` from the public API and made `KeyOptionsOptions.additionalAuthenticatedData` a readonly property.
+- Added a `createOctKey` convenience method to create a key of type `oct` or `oct-HSM` as appropriate.
 
 ## 4.2.0-beta.2 (2020-10-06)
 
