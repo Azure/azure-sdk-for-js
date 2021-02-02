@@ -2,16 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  deserializationPolicy,
-  HttpHeaders,
-  WebResource,
-  ServiceClient,
-  RequestPrepareOptions,
+  createHttpHeaders,
+  PipelineRequest,
+  createPipelineRequest,
   RawHttpHeaders,
-  HttpOperationResponse,
-  OperationOptions,
-  RestError
-} from "@azure/core-http";
+  PipelineResponse,
+  RestError,
+  createEmptyPipeline
+} from "@azure/core-https";
+import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
@@ -24,10 +23,7 @@ import {
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
-import {
-  BatchHeaderFilterPolicyFactory,
-  BatchRequestAssemblePolicyFactory
-} from "./TableBatchPolicies";
+import { batchHeaderFilterPolicy, batchRequestAssemblePolicy } from "./TableBatchPolicies";
 import { InnerBatchRequest, TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -153,24 +149,21 @@ export class TableBatchImpl implements TableBatch {
     };
 
     const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {} as OperationOptions);
-    const request = new WebResource(this.url, "POST", body, undefined, new HttpHeaders(headers));
-
-    request.spanOptions = updatedOptions.tracingOptions?.spanOptions;
+    const request = createPipelineRequest({
+      url: this.url,
+      method: "POST",
+      body,
+      headers: createHttpHeaders(headers),
+      spanOptions: updatedOptions.tracingOptions?.spanOptions
+    });
 
     if (this.credential) {
       const authHeader = getAuthorizationHeader(request, this.credential);
       request.headers.set("Authorization", authHeader);
     }
 
-    const requestOptions: RequestPrepareOptions = {
-      method: "POST",
-      url: this.url,
-      headers: request.headers.rawHeaders(),
-      body,
-      disableJsonStringifyOnBody: true
-    };
     try {
-      const rawBatchResponse = await client.sendRequest(requestOptions);
+      const rawBatchResponse = await client.sendRequest(request);
       return parseBatchResponse(rawBatchResponse);
     } catch (error) {
       span.setStatus({
@@ -190,7 +183,7 @@ export class TableBatchImpl implements TableBatch {
   }
 }
 
-function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchResponse {
+function parseBatchResponse(batchResponse: PipelineResponse): TableBatchResponse {
   const subResponsePrefix = `--changesetresponse_`;
   const status = batchResponse.status;
   const rawBody = batchResponse.bodyAsText || "";
@@ -216,13 +209,12 @@ function parseBatchResponse(batchResponse: HttpOperationResponse): TableBatchRes
       if (parsedError && parsedError["odata.error"]) {
         const error: TableServiceErrorOdataError = parsedError["odata.error"];
         const message = error.message?.value || "One of the batch operations failed";
-        throw new RestError(
-          message,
-          error.code,
-          subResponseStatus,
-          batchResponse.request,
-          batchResponse
-        );
+        throw new RestError(message, {
+          code: error.code,
+          statusCode: subResponseStatus,
+          request: batchResponse.request,
+          response: batchResponse
+        });
       }
     }
 
@@ -275,13 +267,13 @@ export function createInnerBatchRequest(batchGuid: string, changesetId: string):
     ],
     createPipeline() {
       // Use batch assemble policy to assemble request and intercept request from going to wire
-      return [
-        deserializationPolicy(),
-        new BatchHeaderFilterPolicyFactory(),
-        new BatchRequestAssemblePolicyFactory(this)
-      ];
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
+      pipeline.addPolicy(batchHeaderFilterPolicy());
+      pipeline.addPolicy(batchRequestAssemblePolicy(this));
+      return pipeline;
     },
-    appendSubRequestToBody(request: WebResource) {
+    appendSubRequestToBody(request: PipelineRequest) {
       const subRequestUrl = getSubRequestUrl(request.url);
       // Start to assemble sub request
       const subRequest = [
@@ -291,12 +283,15 @@ export function createInnerBatchRequest(batchGuid: string, changesetId: string):
       ];
 
       // Add required headers
-      for (const header of request.headers.headersArray()) {
-        subRequest.push(`${header.name}: ${header.value}`);
+      for (const [name, value] of request.headers) {
+        subRequest.push(`${name}: ${value}`);
       }
 
       // Append sub-request body
-      subRequest.push(`${HTTP_LINE_ENDING}${request.body}`); // sub request's headers need end with an empty line
+      subRequest.push(`${HTTP_LINE_ENDING}`); // sub request's headers need end with an empty line
+      if (request.body) {
+        subRequest.push(String(request.body));
+      }
 
       // Add subrequest to batch body
       this.body.push(subRequest.join(HTTP_LINE_ENDING));

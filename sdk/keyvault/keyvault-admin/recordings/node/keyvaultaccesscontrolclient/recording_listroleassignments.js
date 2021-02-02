@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "35cfadfb466022e6ec4de357d76294db";
+module.exports.hash = "56d7e691eb86750cc7e1ee277eec4bdc";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -19,7 +19,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'content-length',
   '2',
   'x-ms-request-id',
-  'f4068c26-5ace-11eb-8415-0242ac120006',
+  '1cde8d9c-6196-11eb-b6fa-0242ac120008',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -29,7 +29,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'cache-control',
   'no-cache',
   'x-ms-server-latency',
-  '0'
+  '2'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -50,17 +50,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '34572a1e-f2c4-4290-bed6-1f54cfd00801',
+  '7315331b-99ab-46b6-8e34-f688a38eb900',
   'x-ms-ests-server',
-  '2.1.11397.13 - EUS ProdSlices',
+  '2.1.11444.8 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AruM6-s0o4dGuoROwfwoa4NdWxHLBAAAAFGZmdcOAAAA; expires=Fri, 19-Feb-2021 03:24:07 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsL5eNaSdj9Hv8NUxPN0i95dWxHLAQAAAHP4pNcOAAAA; expires=Sat, 27-Feb-2021 18:24:52 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 20 Jan 2021 03:24:06 GMT',
+  'Thu, 28 Jan 2021 18:24:51 GMT',
   'Content-Length',
   '1322'
 ]);
@@ -72,7 +72,7 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  'f43b7724-5ace-11eb-8415-0242ac120006',
+  '1d0869f0-6196-11eb-b6fa-0242ac120008',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
@@ -92,5 +92,5 @@ nock('https://azure_managedhsm.managedhsm.azure.net:443', {"encodedQueryParams":
   'x-ms-keyvault-network-info',
   'addr=50.35.231.105',
   'x-ms-server-latency',
-  '0'
+  '1'
 ]);
