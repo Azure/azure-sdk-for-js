@@ -1041,10 +1041,8 @@ export interface MetricsAdvisorClientOptions extends PipelineOptions {
 // @public
 export class MetricsAdvisorKeyCredential {
     constructor(subscriptionKey: string, apiKey: string);
-    set apiKey(apiKey: string);
     get apiKey(): string;
     get subscriptionKey(): string;
-    set subscriptionKey(subscriptionKey: string);
     updateApiKey(apiKey: string): Promise<void>;
     updateSubscriptionKey(subscriptionKey: string): Promise<void>;
 }
