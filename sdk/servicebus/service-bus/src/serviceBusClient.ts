@@ -304,7 +304,7 @@ export class ServiceBusClient {
       {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
-        abortSignal: options?.abortSignal
+        ...options
       }
     );
 
@@ -385,7 +385,7 @@ export class ServiceBusClient {
       {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
-        abortSignal: options?.abortSignal
+        ...options
       }
     );
 
