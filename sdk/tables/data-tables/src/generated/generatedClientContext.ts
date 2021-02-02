@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClient } from "@azure/core-client";
+import { stringifyXML, parseXML } from "@azure/core-xml";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/data-tables";
-const packageVersion = "1.0.0-beta.5";
-
-/** @hidden */
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+export class GeneratedClientContext extends ServiceClient {
   url: string;
   version: string;
 
@@ -22,26 +19,24 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
    * @param url The URL of the service account or table that is the target of the desired operation.
    * @param options The parameter options
    */
-  constructor(url: string, options?: GeneratedClientOptionalParams) {
-    if (url === undefined) {
-      throw new Error("'url' cannot be null");
+  constructor(url: string, options: GeneratedClientOptionalParams = {}) {
+    if (!url) {
+      throw new Error("'url' cannot be null or empty");
     }
 
-    // Initializing default values for options
-    if (!options) {
-      options = {};
-    }
+    const defaults: GeneratedClientOptionalParams = {
+      baseUri: "{url}",
+      requestContentType: "application/json; charset=utf-8",
+      stringifyXML,
+      parseXML
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options
+    };
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{url}";
+    super(optionsWithDefaults);
 
     // Parameter assignments
     this.url = url;
