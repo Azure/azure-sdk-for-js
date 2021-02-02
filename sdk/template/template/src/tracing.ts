@@ -12,6 +12,8 @@ type OperationTracingOptions = OperationOptions["tracingOptions"];
  *
  * @param name - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.
+ *
+ * @internal
  */
 export function createSpan<T extends OperationOptions>(
   operationName: string,

@@ -8,16 +8,14 @@ import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
-// @public (undocumented)
+// @public
 export class ConfigurationClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: ConfigurationClientOptions);
-    // (undocumented)
     getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
-    // (undocumented)
     getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
 }
 
-// @public (undocumented)
+// @public
 export interface ConfigurationClientOptions extends PipelineOptions {
 }
 

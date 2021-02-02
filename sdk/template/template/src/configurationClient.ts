@@ -9,12 +9,13 @@ import {
   createPipelineFromOptions,
   InternalPipelineOptions
 } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { ConfigurationSetting, GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
 import { quoteETag } from "./util";
-import { CanonicalCode } from "@opentelemetry/api";
 
 // re-export generated types that are used as public interfaces.
 export { ConfigurationSetting };
@@ -23,13 +24,36 @@ export interface GetConfigurationSettingOptions extends OperationOptions {
   onlyIfChanged?: boolean;
 }
 
+/**
+ * Client options used to configure App Configuration API requests.
+ */
 export interface ConfigurationClientOptions extends PipelineOptions {
-  // any custom options go here.
+  // Any custom options configured at the client level go here.
 }
 
+/**
+ * The client class used to interact with the App Configuration service.
+ */
 export class ConfigurationClient {
   private client: GeneratedClient;
 
+  /**
+   * Creates an instance of a ConfigurationClient.
+   *
+   * Example usage:
+   * ```ts
+   * import { ConfigurationClient} from "@azure/ai-text-analytics";
+   * import { DefaultAzureCredential} from "@azure/identity";
+   *
+   * const client = new ConfigurationClient(
+   *    "<app configuration endpoint>",
+   *    new DefaultAzureCredential()
+   * );
+   * ```
+   * @param endpointUrl - the URL to the App Configuration endpoint
+   * @param credential - used to authenticate requests to the service
+   * @param options - optional configuration used to send requests to the service
+   */
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
@@ -77,11 +101,24 @@ export class ConfigurationClient {
     this.client = new GeneratedClient(endpointUrl, pipeline);
   }
 
+  /**
+   * Retrieve the contents of an App Configuration setting by name (key).
+   *
+   * @param key - the unique name of the setting to get
+   * @param options - optional configuration for the operation
+   */
   public async getConfigurationSetting(
     key: string,
     options?: GetConfigurationSettingOptions
   ): Promise<ConfigurationSetting>;
 
+  /**
+   * Retrieve an updated value of an App Configuration setting, allowing for
+   * the use of entity tags to request the new value only if it has changed.
+   *
+   * @param setting - the setting to retrieve from the service
+   * @param options - optional configuration for the operation
+   */
   public async getConfigurationSetting(
     setting: ConfigurationSetting,
     options?: GetConfigurationSettingOptions
