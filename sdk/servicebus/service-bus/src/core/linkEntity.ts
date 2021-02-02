@@ -261,7 +261,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._link = await this.createRheaLink(options);
       checkAborted();
 
-      this._ensureTokenRenewal();
+      this._ensureTokenRenewal(operationOptions);
 
       this._logger.verbose(`${this._logPrefix} Link has been created.`);
     } catch (err) {
@@ -451,7 +451,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.address
     );
     if (setTokenRenewal) {
-      this._ensureTokenRenewal();
+      this._ensureTokenRenewal(operationOptions);
     }
   }
 
