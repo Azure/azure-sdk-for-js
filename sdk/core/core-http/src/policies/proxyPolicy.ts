@@ -14,6 +14,9 @@ import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
 import { getEnvironmentValue } from "../util/utils";
 
+/**
+ * @internal
+ */
 export const noProxyList: string[] = loadNoProxy();
 const byPassedList: Map<string, boolean> = new Map();
 
@@ -31,6 +34,7 @@ function loadEnvironmentProxyValue(): string | undefined {
 
 // Check whether the host of a given `uri` is in the noProxyList.
 // If there's a match, any request sent to the same host won't have the proxy settings set.
+// This implementation is a port of https://github.com/Azure/azure-sdk-for-net/blob/8cca811371159e527159c7eb65602477898683e2/sdk/core/Azure.Core/src/Pipeline/Internal/HttpEnvironmentProxy.cs#L210
 function isBypassed(uri: string): boolean | undefined {
   if (noProxyList.length === 0) {
     return false;
@@ -61,6 +65,9 @@ function isBypassed(uri: string): boolean | undefined {
   return isBypassedFlag;
 }
 
+/**
+ * @internal
+ */
 export function loadNoProxy(): string[] {
   const noProxy = getEnvironmentValue(Constants.NO_PROXY);
   if (noProxy) {
