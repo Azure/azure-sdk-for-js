@@ -15,7 +15,6 @@ import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { createAndEndProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
@@ -37,13 +36,17 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
+  constructor(
+    context: ConnectionContext,
+    entityPath: string,
+    options: ReceiveOptions
+  ) {
     super(context, entityPath, "batching", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
       entityPath,
-      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
+      async (operationOptions: OperationOptionsBase = {}): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
         const rcvrOptions = this._createReceiverOptions(false, {
@@ -60,7 +63,7 @@ export class BatchingReceiver extends MessageReceiver {
           onMessage: async () => {}
         });
 
-        await this._init(rcvrOptions, abortSignal);
+        await this._init(rcvrOptions, operationOptions);
 
         if (lastError != null) {
           throw lastError;
@@ -237,7 +240,7 @@ export class BatchingReceiverLite {
     private _connectionContext: ConnectionContext,
     public entityPath: string,
     private _getCurrentReceiver: (
-      abortSignal?: AbortSignalLike
+      operationOptions: OperationOptionsBase
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode
   ) {
@@ -278,7 +281,7 @@ export class BatchingReceiverLite {
   public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
     try {
       this.isReceivingMessages = true;
-      const receiver = await this._getCurrentReceiver(args.abortSignal);
+      const receiver = await this._getCurrentReceiver(args);
 
       if (receiver == null) {
         // (was somehow closed in between the init() and the return)

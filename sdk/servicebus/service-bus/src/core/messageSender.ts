@@ -163,7 +163,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _trySend(
     encodedMessage: Buffer,
     sendBatch: boolean,
-    options: OperationOptionsBase ={}
+    options: OperationOptionsBase = {}
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs =
@@ -482,7 +482,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async getMaxMessageSize(
     options: {
       retryOptions?: RetryOptions;
-    } & OperationOptionsBase= {}
+    } & OperationOptionsBase = {}
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {

@@ -25,7 +25,6 @@ import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
 import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
-import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
 import { ReceiverHandlers } from "./shared";
@@ -371,10 +370,7 @@ export class StreamingReceiver extends MessageReceiver {
    * 3. aborting the abortSignal they passed in when calling subscribe (this does not apply in onDetached, however)
    */
   async init(
-    args: { useNewName: boolean; connectionId: string; onError: OnError } & Pick<
-      OperationOptionsBase,
-      "abortSignal"
-    >
+    args: { useNewName: boolean; connectionId: string; onError: OnError } & OperationOptionsBase
   ) {
     let numRetryCycles = 0;
 
@@ -382,7 +378,7 @@ export class StreamingReceiver extends MessageReceiver {
       ++numRetryCycles;
 
       const config: RetryConfig<void> = {
-        operation: () => this._initOnce(args),
+        operation: () => this._initOnce({ useNewName: args.useNewName, operationOptions: args }),
         connectionId: args.connectionId,
         operationType: RetryOperationType.receiverLink,
         // even though we're going to loop infinitely we allow them to control the pattern we use on each
@@ -422,10 +418,10 @@ export class StreamingReceiver extends MessageReceiver {
 
   private async _initOnce(args: {
     useNewName: boolean;
-    abortSignal?: AbortSignalLike;
+    operationOptions: OperationOptionsBase;
   }): Promise<void> {
     const options = this._createReceiverOptions(args.useNewName, this._getHandlers());
-    await this._init(options, args.abortSignal);
+    await this._init(options, args.operationOptions);
 
     // this might seem odd but in reality this entire class is like one big function call that
     // results in a receive(). Once we're being initialized we should consider ourselves the

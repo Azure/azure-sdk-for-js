@@ -375,7 +375,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
       entityPath,
-      async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+      async (_operationOptions?: OperationOptionsBase): Promise<MinimalReceiver> => {
         return this.link!;
       },
       this.receiveMode
@@ -644,7 +644,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             try {
               logger.logError(
                 error,
-                "%s Abandoning the message with id '%s' on the receiver since an error occured",
+                "%s Abandoning the message with id '%s' on the receiver since an error occurred",
                 this.logPrefix,
                 bMessage.messageId
               );
