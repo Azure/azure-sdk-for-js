@@ -19,9 +19,7 @@ import {
   DatasetGetDatasetsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Dataset.
- */
+/** Class representing a Dataset. */
 export class Dataset {
   private readonly client: ArtifactsClient;
 
@@ -334,7 +332,6 @@ export class Dataset {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getDatasetsByWorkspaceOperationSpec: coreHttp.OperationSpec = {

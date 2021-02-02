@@ -19,9 +19,7 @@ import {
   DataFlowGetDataFlowsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a DataFlow.
- */
+/** Class representing a DataFlow. */
 export class DataFlow {
   private readonly client: ArtifactsClient;
 
@@ -335,7 +333,6 @@ export class DataFlow {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {

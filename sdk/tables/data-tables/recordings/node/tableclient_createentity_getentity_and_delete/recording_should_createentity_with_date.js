@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "863e289a59927f30b076ac8746af91b5";
+module.exports.hash = "b514e17eaa36dd365a6e6674b159a41e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -13,15 +13,15 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Content-Length',
   '0',
   'ETag',
-  `W/"datetime'2020-11-20T20%3A53%3A23.1334566Z'"`,
+  `W/"datetime'2021-02-01T20%3A58%3A56.94687Z'"`,
   'Location',
   "https://fakestorageaccount.table.core.windows.net/tableClientTestnode(PartitionKey='P2_node',RowKey='R2')",
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '921386a0-3002-0041-6b7f-bf81ea000000',
+  'd63fa612-2002-00b8-38dd-f8a3cb000000',
   'x-ms-client-request-id',
-  'cdd1359c-2af5-4ebd-9124-11d0b81e87f1',
+  'a9a02ec4-f949-4899-8028-a1982109e564',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -31,13 +31,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'DataServiceId',
   "https://fakestorageaccount.table.core.windows.net/tableClientTestnode(PartitionKey='P2_node',RowKey='R2')",
   'Date',
-  'Fri, 20 Nov 2020 20:53:22 GMT'
+  'Mon, 01 Feb 2021 20:58:56 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/tableClientTestnode(PartitionKey=%27P2_node%27,RowKey=%27R2%27)')
+  .get(`/tableClientTestnode(PartitionKey='P2_node',RowKey='R2')`)
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestnode/@Element","odata.etag":"W/\"datetime'2020-11-20T20%3A53%3A23.1334566Z'\"","PartitionKey":"P2_node","RowKey":"R2","Timestamp":"2020-11-20T20:53:23.1334566Z","testField@odata.type":"Edm.DateTime","testField":"2020-09-17T00:00:00.111Z"}, [
+  .reply(200, {"odata.metadata":"https://fakestorageaccount.table.core.windows.net/$metadata#tableClientTestnode/@Element","odata.etag":"W/\"datetime'2021-02-01T20%3A58%3A56.94687Z'\"","PartitionKey":"P2_node","RowKey":"R2","Timestamp":"2021-02-01T20:58:56.94687Z","testField@odata.type":"Edm.DateTime","testField":"2020-09-17T00:00:00.111Z"}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -45,13 +45,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Content-Type',
   'application/json;odata=minimalmetadata;streaming=true;charset=utf-8',
   'ETag',
-  `W/"datetime'2020-11-20T20%3A53%3A23.1334566Z'"`,
+  `W/"datetime'2021-02-01T20%3A58%3A56.94687Z'"`,
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '921386a9-3002-0041-727f-bf81ea000000',
+  'd63fa61f-2002-00b8-43dd-f8a3cb000000',
   'x-ms-client-request-id',
-  '9257f564-cc35-42ea-9863-382a448d88ef',
+  '9016d0b1-9cfb-4831-9ba3-d5ce2467bc36',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -61,11 +61,11 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 20 Nov 2020 20:53:22 GMT'
+  'Mon, 01 Feb 2021 20:58:56 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/tableClientTestnode(PartitionKey=%27P2_node%27,RowKey=%27R2%27)')
+  .delete(`/tableClientTestnode(PartitionKey='P2_node',RowKey='R2')`)
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -75,13 +75,13 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '921386b0-3002-0041-797f-bf81ea000000',
+  'd63fa625-2002-00b8-49dd-f8a3cb000000',
   'x-ms-client-request-id',
-  'e0332ebf-04ce-4175-af69-232062cb1659',
+  'c29707e9-8736-4aa8-97c7-7b0b98fe8d30',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 20:53:22 GMT'
+  'Mon, 01 Feb 2021 20:58:56 GMT'
 ]);

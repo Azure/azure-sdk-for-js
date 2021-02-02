@@ -7,13 +7,15 @@ export {
   LROPollerOptions,
   LROOperationStep,
   LROStrategy,
-  LROOperationResponse,
   LROResponseInfo,
   BaseResult,
   LROOperationState,
-  FinalStateVia,
   SendOperationFn
 } from "./lro";
+export { LROOperationResponse } from "./lro/models";
+
+export { FinalStateVia } from "./lro/models";
+
 export { ArtifactsClient } from "./artifactsClient";
 export { ArtifactsClientContext } from "./artifactsClientContext";
 export {
@@ -32,5 +34,6 @@ export {
   Pipeline as PipelineOperation,
   Notebook as NotebookOperation,
   LinkedService as LinkedServiceOperation,
-  IntegrationRuntimes as IntegrationRuntimesOperation
+  IntegrationRuntimes as IntegrationRuntimesOperation,
+  Library as LibraryOperation
 } from "./operations";
