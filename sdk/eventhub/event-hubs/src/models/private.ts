@@ -32,13 +32,11 @@ export interface EventHubProducerOptions {
 
 /**
  * @internal
- * @hidden
  */
 export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties";
 
 /**
  * @internal
- * @hidden
  */
 export interface CommonEventProcessorOptions
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
@@ -92,7 +90,6 @@ export interface CommonEventProcessorOptions
  * }
  * ```
  * @internal
- * @hidden
  */
 export interface EventHubConsumerOptions {
   /**

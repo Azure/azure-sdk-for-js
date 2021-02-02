@@ -249,6 +249,10 @@ export interface SecurityRule extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * The type of the resource.
+   */
+  type?: string;
 }
 
 /**
@@ -345,6 +349,10 @@ export interface CustomDnsConfigPropertiesFormat {
  * Private endpoint resource.
  */
 export interface PrivateEndpoint extends Resource {
+  /**
+   * The extended location of the load balancer.
+   */
+  extendedLocation?: ExtendedLocation;
   /**
    * The ID of the subnet from which the private IP will be allocated.
    */
@@ -679,6 +687,10 @@ export interface Route extends SubResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
+   * A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
+   */
+  hasBgpOverride?: boolean;
+  /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
    */
@@ -688,6 +700,10 @@ export interface Route extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * The type of the resource.
+   */
+  type?: string;
 }
 
 /**
@@ -713,6 +729,11 @@ export interface RouteTable extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource GUID property of the route table.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceGuid?: string;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1369,6 +1390,10 @@ export interface LoadBalancerBackendAddress {
  * Pool of backend IP addresses.
  */
 export interface BackendAddressPool extends SubResource {
+  /**
+   * The location of the backend address pool.
+   */
+  location?: string;
   /**
    * An array of backend addresses.
    */
@@ -3998,6 +4023,10 @@ export interface DnsNameAvailabilityResult {
  * Custom IP prefix resource.
  */
 export interface CustomIpPrefix extends Resource {
+  /**
+   * The extended location of the custom IP prefix.
+   */
+  extendedLocation?: ExtendedLocation;
   /**
    * The prefix range in CIDR notation. Should include the start address and the prefix length.
    */
@@ -9020,6 +9049,10 @@ export interface PrivateLinkServicePropertiesAutoApproval extends ResourceSet {
  */
 export interface PrivateLinkService extends Resource {
   /**
+   * The extended location of the load balancer.
+   */
+  extendedLocation?: ExtendedLocation;
+  /**
    * An array of references to the load balancer IP configurations.
    */
   loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
@@ -11458,6 +11491,10 @@ export interface VpnSiteLinkConnection extends SubResource {
    */
   routingWeight?: number;
   /**
+   * Vpn link connection mode. Possible values include: 'Default', 'ResponderOnly', 'InitiatorOnly'
+   */
+  vpnLinkConnectionMode?: VpnLinkConnectionMode;
+  /**
    * The connection status. Possible values include: 'Unknown', 'Connecting', 'Connected',
    * 'NotConnected'
    */
@@ -11510,6 +11547,14 @@ export interface VpnSiteLinkConnection extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * List of ingress NatRules.
+   */
+  ingressNatRules?: SubResource[];
+  /**
+   * List of egress NatRules.
+   */
+  egressNatRules?: SubResource[];
   /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
@@ -11700,6 +11745,73 @@ export interface VpnGatewayIpConfiguration {
 }
 
 /**
+ * Vpn NatRule mapping.
+ */
+export interface VpnNatRuleMapping {
+  /**
+   * Address space for Vpn NatRule mapping.
+   */
+  addressSpace?: string;
+}
+
+/**
+ * VpnGatewayNatRule Resource.
+ */
+export interface VpnGatewayNatRule extends SubResource {
+  /**
+   * The provisioning state of the NAT Rule resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The type of NAT rule for VPN NAT. Possible values include: 'Static', 'Dynamic'
+   */
+  vpnGatewayNatRulePropertiesType?: VpnNatRuleType;
+  /**
+   * The Source NAT direction of a VPN NAT. Possible values include: 'EgressSnat', 'IngressSnat'
+   */
+  mode?: VpnNatRuleMode;
+  /**
+   * The private IP address internal mapping for NAT.
+   */
+  internalMappings?: VpnNatRuleMapping[];
+  /**
+   * The private IP address external mapping for NAT.
+   */
+  externalMappings?: VpnNatRuleMapping[];
+  /**
+   * The IP Configuration ID this NAT rule applies to.
+   */
+  ipConfigurationId?: string;
+  /**
+   * List of egress VpnSiteLinkConnections.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly egressVpnSiteLinkConnections?: SubResource[];
+  /**
+   * List of ingress VpnSiteLinkConnections.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ingressVpnSiteLinkConnections?: SubResource[];
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
  * VpnGateway Resource.
  */
 export interface VpnGateway extends Resource {
@@ -11734,6 +11846,10 @@ export interface VpnGateway extends Resource {
    * Enable Routing Preference property for the Public IP Interface of the VpnGateway.
    */
   isRoutingPreferenceInternet?: boolean;
+  /**
+   * List of all the nat Rules associated with the gateway.
+   */
+  natRules?: VpnGatewayNatRule[];
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -12340,6 +12456,10 @@ export interface ExpressRouteConnection extends SubResource {
    * Enable internet security.
    */
   enableInternetSecurity?: boolean;
+  /**
+   * Enable FastPath to vWan Firewall hub.
+   */
+  expressRouteGatewayBypass?: boolean;
   /**
    * The Routing Configuration indicating the associated and propagated route tables on this
    * connection.
@@ -14403,6 +14523,19 @@ export interface ListVpnSiteLinkConnectionsResult extends Array<VpnSiteLinkConne
 
 /**
  * @interface
+ * Result of the request to list all nat rules to a virtual wan vpn gateway. It contains a list of
+ * Nat rules and a URL nextLink to get the next set of results.
+ * @extends Array<VpnGatewayNatRule>
+ */
+export interface ListVpnGatewayNatRulesResult extends Array<VpnGatewayNatRule> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list P2SVpnGateways. It contains a list of P2SVpnGateways and a URL
  * nextLink to get the next set of results.
  * @extends Array<P2SVpnGateway>
@@ -15537,6 +15670,30 @@ export type HubBgpConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'N
  * @enum {string}
  */
 export type VpnConnectionStatus = 'Unknown' | 'Connecting' | 'Connected' | 'NotConnected';
+
+/**
+ * Defines values for VpnLinkConnectionMode.
+ * Possible values include: 'Default', 'ResponderOnly', 'InitiatorOnly'
+ * @readonly
+ * @enum {string}
+ */
+export type VpnLinkConnectionMode = 'Default' | 'ResponderOnly' | 'InitiatorOnly';
+
+/**
+ * Defines values for VpnNatRuleType.
+ * Possible values include: 'Static', 'Dynamic'
+ * @readonly
+ * @enum {string}
+ */
+export type VpnNatRuleType = 'Static' | 'Dynamic';
+
+/**
+ * Defines values for VpnNatRuleMode.
+ * Possible values include: 'EgressSnat', 'IngressSnat'
+ * @readonly
+ * @enum {string}
+ */
+export type VpnNatRuleMode = 'EgressSnat' | 'IngressSnat';
 
 /**
  * Defines values for VirtualWanSecurityProviderType.
@@ -26781,6 +26938,31 @@ export type VirtualNetworkGatewayConnectionsStopPacketCaptureResponse = {
 };
 
 /**
+ * Contains response data for the getIkeSas operation.
+ */
+export type VirtualNetworkGatewayConnectionsGetIkeSasResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type VirtualNetworkGatewayConnectionsBeginCreateOrUpdateResponse = VirtualNetworkGatewayConnection & {
@@ -26889,6 +27071,31 @@ export type VirtualNetworkGatewayConnectionsBeginStartPacketCaptureResponse = {
  * Contains response data for the beginStopPacketCapture operation.
  */
 export type VirtualNetworkGatewayConnectionsBeginStopPacketCaptureResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: string;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: string;
+    };
+};
+
+/**
+ * Contains response data for the beginGetIkeSas operation.
+ */
+export type VirtualNetworkGatewayConnectionsBeginGetIkeSasResponse = {
   /**
    * The parsed response body.
    */
@@ -28833,6 +29040,106 @@ export type VpnLinkConnectionsListByVpnConnectionNextResponse = ListVpnSiteLinkC
 /**
  * Contains response data for the get operation.
  */
+export type NatRulesGetResponse = VpnGatewayNatRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnGatewayNatRule;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type NatRulesCreateOrUpdateResponse = VpnGatewayNatRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnGatewayNatRule;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnGateway operation.
+ */
+export type NatRulesListByVpnGatewayResponse = ListVpnGatewayNatRulesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnGatewayNatRulesResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type NatRulesBeginCreateOrUpdateResponse = VpnGatewayNatRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VpnGatewayNatRule;
+    };
+};
+
+/**
+ * Contains response data for the listByVpnGatewayNext operation.
+ */
+export type NatRulesListByVpnGatewayNextResponse = ListVpnGatewayNatRulesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListVpnGatewayNatRulesResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
 export type P2sVpnGatewaysGetResponse = P2SVpnGateway & {
   /**
    * The underlying HTTP response.
@@ -29371,6 +29678,26 @@ export type ExpressRouteGatewaysCreateOrUpdateResponse = ExpressRouteGateway & {
 };
 
 /**
+ * Contains response data for the updateTags operation.
+ */
+export type ExpressRouteGatewaysUpdateTagsResponse = ExpressRouteGateway & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGateway;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type ExpressRouteGatewaysGetResponse = ExpressRouteGateway & {
@@ -29394,6 +29721,26 @@ export type ExpressRouteGatewaysGetResponse = ExpressRouteGateway & {
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ExpressRouteGatewaysBeginCreateOrUpdateResponse = ExpressRouteGateway & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteGateway;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdateTags operation.
+ */
+export type ExpressRouteGatewaysBeginUpdateTagsResponse = ExpressRouteGateway & {
   /**
    * The underlying HTTP response.
    */

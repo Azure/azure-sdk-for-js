@@ -901,7 +901,7 @@ export class WebResource implements WebResourceLike {
         [key: string]: any;
     }, headers?: {
         [key: string]: any;
-    } | HttpHeadersLike, streamResponseBody?: boolean, withCredentials?: boolean, abortSignal?: AbortSignalLike, timeout?: number, onUploadProgress?: (progress: TransferProgressEvent) => void, onDownloadProgress?: (progress: TransferProgressEvent) => void, proxySettings?: ProxySettings, keepAlive?: boolean, decompressResponse?: boolean);
+    } | HttpHeadersLike, streamResponseBody?: boolean, withCredentials?: boolean, abortSignal?: AbortSignalLike, timeout?: number, onUploadProgress?: (progress: TransferProgressEvent) => void, onDownloadProgress?: (progress: TransferProgressEvent) => void, proxySettings?: ProxySettings, keepAlive?: boolean, decompressResponse?: boolean, streamResponseStatusCodes?: Set<number>);
     // (undocumented)
     abortSignal?: AbortSignalLike;
     // (undocumented)
@@ -932,7 +932,9 @@ export class WebResource implements WebResourceLike {
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
+    // @deprecated (undocumented)
     streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
     // (undocumented)
     timeout: number;
     // (undocumented)
@@ -965,7 +967,9 @@ export interface WebResourceLike {
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
+    // @deprecated (undocumented)
     streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
     timeout: number;
     url: string;
     validateRequestProperties(): void;

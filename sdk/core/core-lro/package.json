@@ -88,7 +88,7 @@
     "unit-test:node": "npm run build:test && nyc mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --mode file --out ./dist/docs ./src"
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "dependencies": {
@@ -121,7 +121,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "npm-run-all": "^4.1.5",
@@ -136,6 +136,6 @@
     "ts-node": "^8.3.0",
     "typescript": "4.1.2",
     "uglify-js": "^3.4.9",
-    "typedoc": "0.15.0"
+    "typedoc": "0.15.2"
   }
 }

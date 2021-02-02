@@ -27,7 +27,6 @@ declare const navigator: Navigator;
 
 /**
  * @internal
- * @hidden
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
  * @param name The nme of the entity
@@ -38,7 +37,6 @@ export function getUniqueName(name: string): string {
 
 /**
  * @internal
- * @hidden
  * If you try to turn a Guid into a Buffer in .NET, the bytes of the first three groups get
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
@@ -77,7 +75,6 @@ export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
 
 /**
  * @internal
- * @hidden
  * Provides the time in milliseconds after which the lock renewal should occur.
  * @param lockedUntilUtc - The time until which the message is locked.
  */
@@ -99,7 +96,6 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 
 /**
  * @internal
- * @hidden
  * Converts the .net ticks to a JS Date object.
  *
  * - The epoch for the DateTimeOffset type is `0000-01-01`, while the epoch for JS Dates is
@@ -126,7 +122,6 @@ export function convertTicksToDate(buf: number[]): Date {
 
 /**
  * @internal
- * @hidden
  * Returns the number of logical processors in the system.
  */
 export function getProcessorCount(): number {
@@ -140,7 +135,6 @@ export function getProcessorCount(): number {
 
 /**
  * @internal
- * @hidden
  * Converts any given input to a Buffer.
  * @param input The input that needs to be converted to a Buffer.
  */
@@ -175,7 +169,6 @@ export function toBuffer(input: any): Buffer {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve `string` value from given string,
  * or throws error if undefined.
  * @param value
@@ -192,7 +185,6 @@ export function getString(value: any, nameOfProperty: string): string {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
  * @param value
@@ -206,7 +198,6 @@ export function getStringOrUndefined(value: any): string | undefined {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve `integer` value from given string,
  * or throws error if undefined.
  * @param value
@@ -223,7 +214,6 @@ export function getInteger(value: any, nameOfProperty: string): number {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -238,7 +228,6 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 
 /**
  * @internal
- * @hidden
  * Helper utility to convert ISO-8601 time into Date type.
  * @param value
  */
@@ -248,7 +237,6 @@ export function getDate(value: string, nameOfProperty: string): Date {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve `boolean` value from given string,
  * or throws error if undefined.
  * @param value
@@ -265,7 +253,6 @@ export function getBoolean(value: any, nameOfProperty: string): boolean {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  * @param value
@@ -284,14 +271,12 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
 
 /**
  * @internal
- * @hidden
  * Helps in differentiating JSON like objects from other kinds of objects.
  */
 const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
 
 /**
  * @internal
- * @hidden
  * Returns `true` if given input is a JSON like object.
  * @param value
  */
@@ -313,27 +298,66 @@ export function isJSONLikeObject(value: any): boolean {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve message count details from given input,
  * @param value
  */
 export function getMessageCountDetails(value: any): MessageCountDetails {
+  const xmlnsPrefix = getXMLNSPrefix(value);
   if (value == undefined) {
     value = {};
   }
   return {
-    activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
-    deadLetterMessageCount: parseInt(value["d2p1:DeadLetterMessageCount"]) || 0,
-    scheduledMessageCount: parseInt(value["d2p1:ScheduledMessageCount"]) || 0,
-    transferMessageCount: parseInt(value["d2p1:TransferMessageCount"]) || 0,
-    transferDeadLetterMessageCount: parseInt(value["d2p1:TransferDeadLetterMessageCount"]) || 0
+    activeMessageCount: parseInt(value[`${xmlnsPrefix}:ActiveMessageCount`]) || 0,
+    deadLetterMessageCount: parseInt(value[`${xmlnsPrefix}:DeadLetterMessageCount`]) || 0,
+    scheduledMessageCount: parseInt(value[`${xmlnsPrefix}:ScheduledMessageCount`]) || 0,
+    transferMessageCount: parseInt(value[`${xmlnsPrefix}:TransferMessageCount`]) || 0,
+    transferDeadLetterMessageCount:
+      parseInt(value[`${xmlnsPrefix}:TransferDeadLetterMessageCount`]) || 0
   };
+}
+
+/**
+ * @internal
+ * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
+ */
+export function getXMLNSPrefix(value: any) {
+  if (!value[Constants.XML_METADATA_MARKER]) {
+    throw new Error(
+      `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
+        value
+      )}`
+    );
+  }
+  const keys = Object.keys(value[Constants.XML_METADATA_MARKER]);
+  if (keys.length !== 1) {
+    throw new Error(
+      `Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at ${JSON.stringify(
+        value[Constants.XML_METADATA_MARKER]
+      )}`
+    );
+  }
+  if (!keys[0].startsWith("xmlns:")) {
+    throw new Error(
+      `Error occurred while parsing the response body - unexpected key at ${JSON.stringify(
+        value[Constants.XML_METADATA_MARKER]
+      )}`
+    );
+  }
+  // Pick the substring that's after "xmlns:"
+  const xmlnsPrefix = keys[0].substring(6);
+  if (!xmlnsPrefix) {
+    throw new Error(
+      `Error occurred while parsing the response body - unexpected xmlns prefix at ${JSON.stringify(
+        value[Constants.XML_METADATA_MARKER]
+      )}`
+    );
+  }
+  return xmlnsPrefix;
 }
 
 /**
  * Represents type of message count details in ATOM based management operations.
  * @internal
- * @hidden
  */
 export type MessageCountDetails = {
   activeMessageCount: number;
@@ -371,7 +395,6 @@ export interface AuthorizationRule {
 
 /**
  * @internal
- * @hidden
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
  * @param value
@@ -401,7 +424,6 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
 
 /**
  * @internal
- * @hidden
  * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input.
  * @param value
  */
@@ -427,7 +449,6 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
 
 /**
  * @internal
- * @hidden
  * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
  * @param value
@@ -456,7 +477,6 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 
 /**
  * @internal
- * @hidden
  * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input.
  * @param authorizationRule parsed Authorization Rule instance
  */
@@ -491,7 +511,6 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 
 /**
  * @internal
- * @hidden
  * Helper utility to check if given string is an absolute URL
  * @param url
  */
@@ -526,7 +545,6 @@ export type EntityAvailabilityStatus =
 
 /**
  * @internal
- * @hidden
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
@@ -541,7 +559,6 @@ export const StandardAbortMessage = "The operation was aborted.";
  * @returns {Promise<T>} - Resolved promise
  *
  * @internal
- * @hidden
  */
 export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
@@ -595,7 +612,6 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
  * the abortSignal was not defined.
  *
  * @internal
- * @hidden
  */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
@@ -621,7 +637,6 @@ export function checkAndRegisterWithAbortSignal(
 
 /**
  * @internal
- * @hidden
  * @property {string} libInfo The user agent prefix string for the ServiceBus client.
  * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
  */
@@ -629,7 +644,6 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
 
 /**
  * @internal
- * @hidden
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
  *
  * @param {string} [prefix]
@@ -643,7 +657,6 @@ export function formatUserAgentPrefix(prefix?: string): string {
 
 /**
  * @internal
- * @hidden
  * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
  * @returns {HttpResponse}
  */

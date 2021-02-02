@@ -3,7 +3,7 @@
 
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../testUtils";
 import { assert } from "chai";
 import { ConnectionString } from "../../src/utils/internalModels";
 

@@ -56,7 +56,7 @@ import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger } from "./logger";
 
-export const SDK_VERSION: string = "1.0.2";
+export const SDK_VERSION: string = "1.0.3";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**

@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { WorkspaceGetResponse } from "../models";
 
-/**
- * Class representing a Workspace.
- */
+/** Class representing a Workspace. */
 export class Workspace {
   private readonly client: ArtifactsClient;
 
@@ -49,7 +47,6 @@ export class Workspace {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreHttp.OperationSpec = {

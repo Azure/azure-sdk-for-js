@@ -24,7 +24,13 @@ export {
 /**
  * Supported algorithms for key wrapping/unwrapping
  */
-export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm =
+  | "A128KW"
+  | "A192KW"
+  | "A256KW"
+  | "RSA-OAEP"
+  | "RSA-OAEP-256"
+  | "RSA1_5";
 
 /**
  * Result of the {@link encrypt} operation.
@@ -74,6 +80,10 @@ export interface UnwrapResult {
    * The ID of the Key Vault Key used to unwrap the data.
    */
   keyID?: string;
+  /**
+   * The {@link KeyWrapAlgorithm} used to unwrap the data.
+   */
+  algorithm: KeyWrapAlgorithm;
 }
 /**
  * Result of the {@link decrypt} operation.

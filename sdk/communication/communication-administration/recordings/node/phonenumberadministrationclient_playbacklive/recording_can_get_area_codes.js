@@ -1,10 +1,10 @@
 let nock = require("nock");
 
-module.exports.hash = "e84b74df0f7534f262dbf049e526cf38";
+module.exports.hash = "928546984836e09bc337975d29dfcdda";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true })
+nock("https://endpoint", { encodedQueryParams: false })
   .post("/administration/phonenumbers/countries/US/areacodes", {
     locationOptions: [
       { labelId: "state", optionsValue: "CA" },
@@ -12,17 +12,19 @@ nock("https://endpoint", { encodedQueryParams: true })
     ]
   })
   .query(true)
-  .reply(200, { primaryAreaCodes: ["213"], secondaryAreaCodes: [], nextLink: null }, [
+  .reply(200, { primaryAreaCodes: ["213", "818"], secondaryAreaCodes: [], nextLink: null }, [
     "Transfer-Encoding",
     "chunked",
     "Content-Type",
     "application/json; charset=utf-8",
+    "Request-Context",
+    "appId=",
     "MS-CV",
-    "974aMwfm90e4T3mprBvOlw.0",
+    "X3/1RBP6FU6xbMoggoWeBg.0",
     "X-Processing-Time",
-    "189ms",
+    "367ms",
     "X-Azure-Ref",
-    "0/Yy4XwAAAAC6OPAI7YHXR6VxyPj+eC3JWVZSMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "0hOUFYAAAAACiEOFcrM6zQKCC1Jokqtl9RVdSMzBFREdFMDYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "Date",
-    "Sat, 21 Nov 2020 03:43:56 GMT"
+    "Mon, 18 Jan 2021 19:46:12 GMT"
   ]);

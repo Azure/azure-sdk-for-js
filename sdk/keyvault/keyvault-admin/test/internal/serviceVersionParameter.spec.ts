@@ -8,6 +8,7 @@ import { LATEST_API_VERSION } from "../../src/constants";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
+import { URL } from "url";
 
 // Adding this to the source would change the public API.
 type ApIVersions = "7.2-preview";
@@ -22,6 +23,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           request: httpRequest,
           parsedBody: {
             id: `${env.KEYVAULT_URI}${path}`,
+            startTime: new Date(),
             attributes: {}
           }
         };
@@ -35,11 +37,12 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
   let credential: ClientSecretCredential;
 
   beforeEach(async () => {
-    credential = await new ClientSecretCredential(
+    credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!
     );
+    sandbox = createSandbox();
   });
 
   afterEach(() => {
@@ -49,7 +52,6 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
   describe("KeyVaultAccessControlClient", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/providers/Microsoft.Authorization/roleDefinitions");
-      sandbox = createSandbox();
       spy = sandbox.spy(mockHttpClient, "sendRequest");
     });
 
@@ -58,11 +60,11 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
         httpClient: mockHttpClient
       });
       await client.listRoleDefinitions("/").next();
+
+      assert.ok(spy.called);
       const calls = spy.getCalls();
-      assert.equal(
-        calls[0].args[0].url,
-        `${env.KEYVAULT_URI}///providers/Microsoft.Authorization/roleDefinitions?api-version=${LATEST_API_VERSION}`
-      );
+      const params = new URL(calls[0].args[0].url);
+      assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
@@ -73,19 +75,16 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.listRoleDefinitions("/").next();
 
+      assert.ok(spy.called);
       const calls = spy.getCalls();
-      const lastCall = calls[calls.length - 1];
-      assert.equal(
-        lastCall.args[0].url,
-        `${env.KEYVAULT_URI}///providers/Microsoft.Authorization/roleDefinitions?api-version=${serviceVersion}`
-      );
+      const params = new URL(calls[0].args[0].url);
+      assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
   });
 
   describe("KeyVaultBackupClient", () => {
     beforeEach(async () => {
       mockHttpClient = makeHTTPMock("/backup", 202);
-      sandbox = createSandbox();
       spy = sandbox.spy(mockHttpClient, "sendRequest");
     });
 
@@ -95,11 +94,10 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.beginBackup("secretName", "value");
 
+      assert.ok(spy.called);
       const calls = spy.getCalls();
-      assert.equal(
-        calls[0].args[0].url,
-        `${env.KEYVAULT_URI}/backup?api-version=${LATEST_API_VERSION}`
-      );
+      const params = new URL(calls[0].args[0].url);
+      assert.equal(params.searchParams.get("api-version"), LATEST_API_VERSION);
     });
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
@@ -110,12 +108,10 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       });
       await client.beginBackup("secretName", "value");
 
+      assert.ok(spy.called);
       const calls = spy.getCalls();
-      const lastCall = calls[calls.length - 1];
-      assert.equal(
-        lastCall.args[0].url,
-        `${env.KEYVAULT_URI}/backup?api-version=${serviceVersion}`
-      );
+      const params = new URL(calls[0].args[0].url);
+      assert.equal(params.searchParams.get("api-version"), serviceVersion);
     });
   });
 });

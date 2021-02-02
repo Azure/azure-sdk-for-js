@@ -11,7 +11,6 @@ import { generateKey } from "./crypto";
 
 /**
  * @internal
- * @hidden
  * @class SasServiceClientCredentials
  * @implements {ServiceClientCredentials}
  */

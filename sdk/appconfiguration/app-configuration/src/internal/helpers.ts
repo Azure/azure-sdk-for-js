@@ -17,7 +17,6 @@ import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generat
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
- * @hidden
  */
 export function quoteETag(etag: string | undefined): string | undefined {
   // https://tools.ietf.org/html/rfc7232#section-3.1
@@ -41,7 +40,6 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * and throws an Error. Otherwise, returns the properties properly quoted.
  * @param options - An options object with onlyIfChanged/onlyIfUnchanged fields
  * @internal
- * @hidden
  */
 export function checkAndFormatIfAndIfNoneMatch(
   configurationSetting: ConfigurationSettingId,
@@ -69,27 +67,17 @@ export function checkAndFormatIfAndIfNoneMatch(
 }
 
 /**
- * Transforms the keys/labels parameters in the listConfigurationSettings and listRevisions
- * into the format the REST call will need.
+ * Transforms some of the key fields in ListConfigurationSettingsOptions and ListRevisionsOptions
+ * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
+ * - `options.acceptDateTime` is converted into an ISO string
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter and labelFilter are moved to key and label, respectively.
  *
  * @internal
- * @hidden
  */
-export function formatWildcards(
+export function formatFiltersAndSelect(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
 ): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
-  let fieldsToGet: (keyof KeyValue)[] | undefined;
-
-  if (listConfigOptions.fields) {
-    fieldsToGet = listConfigOptions.fields.map((opt) => {
-      if (opt === "isReadOnly") {
-        return "locked";
-      }
-
-      return opt;
-    });
-  }
-
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -100,7 +88,7 @@ export function formatWildcards(
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
     acceptDatetime,
-    select: fieldsToGet
+    select: formatFieldsForSelect(listConfigOptions.fields)
   };
 }
 
@@ -108,7 +96,6 @@ export function formatWildcards(
  * Handles translating a Date acceptDateTime into a string as needed by the API
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
- * @hidden
  */
 export function formatAcceptDateTime(newOptions: {
   acceptDateTime?: Date;
@@ -122,7 +109,6 @@ export function formatAcceptDateTime(newOptions: {
  * Take the URL that gets returned from next link and extract the 'after' token needed
  * to get the next page of results.
  * @internal
- * @hidden
  */
 export function extractAfterTokenFromNextLink(nextLink: string) {
   const parsedLink = URLBuilder.parse(nextLink);
@@ -161,7 +147,6 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
@@ -175,7 +160,6 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -190,7 +174,6 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponse<
@@ -215,4 +198,36 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
   delete newResponse.eTag;
 
   return newResponse;
+}
+
+/**
+ * Translates user-facing field names into their `select` equivalents (these can be
+ * seen in the `KnownEnum5`)
+ *
+ * @param fieldNames fieldNames from users.
+ * @returns The field names translated into the `select` field equivalents.
+ *
+ * @internal
+ */
+export function formatFieldsForSelect(
+  fieldNames: (keyof ConfigurationSetting)[] | undefined
+): string[] | undefined {
+  if (fieldNames == null) {
+    return undefined;
+  }
+
+  const mappedFieldNames = fieldNames.map((fn) => {
+    switch (fn) {
+      case "lastModified":
+        return "last_modified";
+      case "contentType":
+        return "content_type";
+      case "isReadOnly":
+        return "locked";
+      default:
+        return fn;
+    }
+  });
+
+  return mappedFieldNames;
 }

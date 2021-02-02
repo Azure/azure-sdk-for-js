@@ -111,7 +111,6 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
 /**
  * @internal
- * @hidden
  */
 export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver {
   public sessionId: string;

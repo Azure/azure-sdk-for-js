@@ -55,10 +55,12 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Used in record and playback modes
     "se",
     "sig",
+    "sip",
     "sp",
     "spr",
     "srt",
     "ss",
+    "sr",
     "st",
     "sv"
   ]

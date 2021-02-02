@@ -93,6 +93,20 @@ export class ExpressRouteGateways {
   }
 
   /**
+   * Updates express route gateway tags.
+   * @param resourceGroupName The resource group name of the ExpressRouteGateway.
+   * @param expressRouteGatewayName The name of the gateway.
+   * @param expressRouteGatewayParameters Parameters supplied to update a virtual wan express route
+   * gateway tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ExpressRouteGatewaysUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, expressRouteGatewayName: string, expressRouteGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.ExpressRouteGatewaysUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,expressRouteGatewayName,expressRouteGatewayParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ExpressRouteGatewaysUpdateTagsResponse>;
+  }
+
+  /**
    * Fetches the details of a ExpressRoute gateway in a resource group.
    * @param resourceGroupName The name of the resource group.
    * @param expressRouteGatewayName The name of the ExpressRoute gateway.
@@ -155,6 +169,27 @@ export class ExpressRouteGateways {
         options
       },
       beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates express route gateway tags.
+   * @param resourceGroupName The resource group name of the ExpressRouteGateway.
+   * @param expressRouteGatewayName The name of the gateway.
+   * @param expressRouteGatewayParameters Parameters supplied to update a virtual wan express route
+   * gateway tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, expressRouteGatewayName: string, expressRouteGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        expressRouteGatewayName,
+        expressRouteGatewayParameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
       options);
   }
 
@@ -280,6 +315,39 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.ExpressRouteGateway
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.expressRouteGatewayName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "expressRouteGatewayParameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExpressRouteGateway
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

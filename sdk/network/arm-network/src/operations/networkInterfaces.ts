@@ -389,7 +389,7 @@ export class NetworkInterfaces {
   }
 
   /**
-   * Gets information about all network interfaces in a role instance in a cloud service
+   * Gets information about all network interfaces in a role instance in a cloud service.
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
    * @param roleInstanceName The name of role instance.
@@ -460,7 +460,7 @@ export class NetworkInterfaces {
    * Get the specified network interface in a cloud service.
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
-   * @param roleInstanceName The name of role instance
+   * @param roleInstanceName The name of role instance.
    * @param networkInterfaceName The name of the network interface.
    * @param [options] The optional parameters
    * @returns Promise<Models.NetworkInterfacesGetCloudServiceNetworkInterfaceResponse>
@@ -469,7 +469,7 @@ export class NetworkInterfaces {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
-   * @param roleInstanceName The name of role instance
+   * @param roleInstanceName The name of role instance.
    * @param networkInterfaceName The name of the network interface.
    * @param callback The callback
    */
@@ -477,7 +477,7 @@ export class NetworkInterfaces {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param cloudServiceName The name of the cloud service.
-   * @param roleInstanceName The name of role instance
+   * @param roleInstanceName The name of role instance.
    * @param networkInterfaceName The name of the network interface.
    * @param options The optional parameters
    * @param callback The callback
@@ -714,7 +714,7 @@ export class NetworkInterfaces {
   }
 
   /**
-   * Gets information about all network interfaces in a role instance in a cloud service
+   * Gets information about all network interfaces in a role instance in a cloud service.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns

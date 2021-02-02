@@ -4,7 +4,7 @@ import * as coreHttp from "@azure/core-http";
 import { AccessControlClientOptionalParams } from "./models";
 
 const packageName = "@azure/synapse-access-control";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class AccessControlClientContext extends coreHttp.ServiceClient {
   endpoint: string;

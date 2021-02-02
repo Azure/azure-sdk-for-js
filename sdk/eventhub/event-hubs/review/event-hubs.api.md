@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
@@ -74,9 +75,20 @@ export interface EventDataBatch {
 
 // @public
 export interface EventHubClientOptions {
+    customEndpointAddress?: string;
     retryOptions?: RetryOptions;
     userAgent?: string;
     webSocketOptions?: WebSocketOptions;
+}
+
+// @public
+export interface EventHubConnectionStringProperties {
+    endpoint: string;
+    eventHubName?: string;
+    fullyQualifiedNamespace: string;
+    sharedAccessKey?: string;
+    sharedAccessKeyName?: string;
+    sharedAccessSignature?: string;
 }
 
 // @public
@@ -176,6 +188,9 @@ export interface OperationOptions {
 }
 
 // @public
+export function parseEventHubConnectionString(connectionString: string): Readonly<EventHubConnectionStringProperties>;
+
+// @public
 export interface PartitionContext {
     readonly consumerGroup: string;
     readonly eventHubName: string;
@@ -233,6 +248,8 @@ export interface ReceivedEventData {
         [key: string]: any;
     };
 }
+
+export { RetryMode }
 
 export { RetryOptions }
 
