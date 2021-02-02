@@ -4,28 +4,17 @@
 import fs from "fs-extra";
 import path from "path";
 
-import { findMatchingFiles } from "../../util/findMatchingFiles";
+import { findMatchingFiles, toFileInfo } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
+import { SampleConfiguration, shouldSkip } from "../../util/shouldSkip";
 
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
 
 const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
-
-/**
- * An interface for the sample configuration metadata within an Azure SDK for
- * JavaScript package.json file
- */
-interface SampleConfiguration {
-  /**
-   * The names of sample files to skip (if a file extension is provided, it
-   * will be ignored)
-   */
-  skip: string[];
-}
 
 export const commandInfo = makeCommandInfo(
   "run",
@@ -64,7 +53,8 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
 
 export default leafCommand(commandInfo, async (options) => {
   if (options.args.length === 0) {
-    throw new Error("At least one argument is required for run-samples");
+    log.error("at least one argument is required");
+    return false;
   }
 
   const { packageJson, path: packageLocation } = await resolveProject(process.cwd());
@@ -75,25 +65,19 @@ export default leafCommand(commandInfo, async (options) => {
     | SampleConfiguration
     | undefined;
 
-  const skips = sampleConfiguration?.skip?.map((skip) => skip.replace(/\.[jt]s$/, "")) ?? [];
+  const skips = sampleConfiguration?.skip ?? [];
 
   log.debug("Skipping the following samples:", skips);
 
   const samples = options.args.map((dir) => path.resolve(dir));
-
-  // Patch the environment for the sample helper
-  process.env.BATCH_RUN_SAMPLES = "true";
 
   const errors: Array<[string, string]> = [];
 
   for (const sample of samples) {
     const stats = await fs.stat(sample);
     if (stats.isFile()) {
-      if (skips.some((skip) => sample.replace(/\.[jt]s$/, "").endsWith(skip))) {
-        log.info(`Skipping ${sample} because it was configured to be skipped.`);
-      } else {
-        runSingle(sample, errors);
-      }
+      // We don't consider the skips if the file was _explicitly_ asked for
+      runSingle(sample, errors);
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,

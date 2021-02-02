@@ -4,16 +4,32 @@
 import fs from "fs-extra";
 import path from "path";
 import { createPrinter } from "./printer";
+import { shouldSkip } from "./shouldSkip";
 
-const { debug } = createPrinter("find-matching-files");
+const { debug, info: logInfo } = createPrinter("find-matching-files");
 
 /**
  * File information used during breadth-first search
+ *
+ * In a collection of `FileInfo`, such as `FileInfo[]`, or `Set<FileInfo>`, all
+ * FileInfo objects are considered to be relative to a common base directory.
  */
-interface FileInfo {
+export interface FileInfo {
+  /**
+   * The directory part of the file name
+   */
   dir: string;
+  /**
+   * A full path to the file relative to the base directory
+   */
   fullPath: string;
+  /**
+   * The file's basename (does not include the directory part)
+   */
   name: string;
+  /**
+   * File stats from the `fs.stat` Node API
+   */
   stat: fs.Stats;
 }
 
@@ -33,9 +49,9 @@ const defaultFindOptions: FindOptions = {
 /**
  * Breadth-first search for files matching a given predicate
  *
- * @param dir The root of the sample tree to search
+ * @param dir The root of the directory tree to search
  * @param matches Predicate that decides whether or not a file entry is included
- * @param options options bag for
+ * @param options options bag for extra settings
  */
 export async function* findMatchingFiles(
   dir: string,
@@ -69,16 +85,11 @@ export async function* findMatchingFiles(
       continue;
     }
 
-    // Check if any skip in the skip list matches this file (ends with the same path pattern)
-    const shouldSkip = options.skips.some((skip) => {
-      const x = info.name.replace(/\.[jt]s$/, "");
-      const y = x.endsWith(skip);
-      debug("Debug stats for compare skip:", x, y);
-    });
-
     if (info.stat.isDirectory()) {
       await enqueueAll(info.fullPath);
-    } else if (!shouldSkip && matches(info.name, info.stat)) {
+    } else if (shouldSkip(info, options.skips)) {
+      logInfo(`Skipping ${info.fullPath} because it was configured to be skipped.`);
+    } else if (matches(info.name, info.stat)) {
       yield info.fullPath;
     } else if (
       info.stat.isBlockDevice() ||
