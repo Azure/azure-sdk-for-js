@@ -16,9 +16,7 @@ import {
   SparkBatchGetSparkBatchJobResponse
 } from "../models";
 
-/**
- * Class representing a SparkBatch.
- */
+/** Class representing a SparkBatch. */
 export class SparkBatch {
   private readonly client: SparkClient;
 
@@ -164,7 +162,6 @@ export class SparkBatch {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkBatchJobsOperationSpec: coreHttp.OperationSpec = {

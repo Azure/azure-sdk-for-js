@@ -72,9 +72,9 @@ export async function setAuthorizationHeader(
     if (typeof clientOptions.aadCredentials?.getToken !== "function") {
       throw new Error("Cannot use AAD Credentials without `getToken`. See @azure/identity docs");
     }
-    const token = await clientOptions.aadCredentials.getToken(clientOptions.endpoint);
+    const token = await clientOptions.aadCredentials.getToken(`${clientOptions.endpoint}/.default`);
     const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-    const authorizationToken = `${AUTH_PREFIX}${token}`;
+    const authorizationToken = `${AUTH_PREFIX}${token.token}`;
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(authorizationToken);
   }
 }

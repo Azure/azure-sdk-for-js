@@ -10,7 +10,7 @@ import { Documents } from "./operations";
 import { SearchClientContext } from "./searchClientContext";
 import { SearchClientOptionalParams, ApiVersion20200630 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class SearchClient extends SearchClientContext {
   /**
    * Initializes a new instance of the SearchClient class.

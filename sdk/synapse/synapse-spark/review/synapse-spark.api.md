@@ -81,9 +81,9 @@ export const enum KnownSparkSessionResultType {
 // @public
 export const enum KnownSparkStatementLanguageType {
     // (undocumented)
-    Dotnetspark = "dotnetspark",
+    DotNetSpark = "dotnetspark",
     // (undocumented)
-    Pyspark = "pyspark",
+    PySpark = "pyspark",
     // (undocumented)
     Spark = "spark",
     // (undocumented)
@@ -303,7 +303,7 @@ export interface SparkRequest {
 // @public (undocumented)
 export interface SparkScheduler {
     // (undocumented)
-    cancellationRequestedAt?: Date;
+    cancellationRequestedAt?: Date | null;
     // (undocumented)
     currentState?: SchedulerCurrentState;
     // (undocumented)
@@ -550,15 +550,14 @@ export interface SparkStatement {
     // (undocumented)
     id: number;
     // (undocumented)
-    output?: SparkStatementOutput;
+    output?: SparkStatementOutput | null;
     // (undocumented)
     state?: string;
 }
 
 // @public (undocumented)
 export interface SparkStatementCancellationResult {
-    // (undocumented)
-    msg?: string;
+    message?: string;
 }
 
 // @public (undocumented)
@@ -584,15 +583,15 @@ export interface SparkStatementOptions {
 export interface SparkStatementOutput {
     data?: any;
     // (undocumented)
-    errorName?: string;
+    errorName?: string | null;
     // (undocumented)
-    errorValue?: string;
+    errorValue?: string | null;
     // (undocumented)
     executionCount: number;
     // (undocumented)
     status?: string;
     // (undocumented)
-    traceback?: string[];
+    traceback?: string[] | null;
 }
 
 

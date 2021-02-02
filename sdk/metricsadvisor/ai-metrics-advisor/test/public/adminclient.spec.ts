@@ -201,8 +201,8 @@ matrix([[true, false]] as const, async (useAad) => {
             ]
           };
 
-          const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
-
+          await client.updateDetectionConfig(createdDetectionConfigId, expected);
+          const actual = await client.getDetectionConfig(createdDetectionConfigId);
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
 
@@ -320,8 +320,8 @@ matrix([[true, false]] as const, async (useAad) => {
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
           };
 
-          const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
-
+          await client.updateAlertConfig(createdAlertConfigId, patch);
+          const actual = await client.getAlertConfig(createdAlertConfigId);
           assert.ok(actual.id, "Expecting valid alerting config");
           assert.equal(actual.name, "new alert config name");
           assert.equal(actual.description, "new alert config description");
