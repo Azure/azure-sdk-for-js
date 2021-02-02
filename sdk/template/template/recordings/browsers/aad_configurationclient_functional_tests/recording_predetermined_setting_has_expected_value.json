@@ -30,7 +30,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"etag\":\"cbARBFLodwGLL3qktvCwmLa1vet\",\"key\":\"test-key\",\"label\":null,\"content_type\":\"\",\"value\":\"EHXGJuokzjWEMUA2\",\"tags\":{},\"locked\":false,\"last_modified\":\"2020-10-16T00:08:12+00:00\"}",
+   "response": "{\"etag\":\"cbARBFLodwGLL3qktvCwmLa1vet\",\"key\":\"test-key\",\"label\":null,\"content_type\":\"\",\"value\":\"test-value\",\"tags\":{},\"locked\":false,\"last_modified\":\"2020-10-16T00:08:12+00:00\"}",
    "responseHeaders": {
     "access-control-allow-credentials": "true",
     "access-control-allow-origin": "*",

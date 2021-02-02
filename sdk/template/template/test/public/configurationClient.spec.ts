@@ -16,7 +16,9 @@ const replaceableVariables: Record<string, string> = {
   AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret"
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  APPCONFIG_TEST_SETTING_KEY: "test-key",
+  APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value"
 };
 
 function getEnv(name: string): string {

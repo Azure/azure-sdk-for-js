@@ -40,7 +40,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/kv/test-key')
   .query(true)
-  .reply(200, {"etag":"cbARBFLodwGLL3qktvCwmLa1vet","key":"test-key","label":null,"content_type":"","value":"EHXGJuokzjWEMUA2","tags":{},"locked":false,"last_modified":"2020-10-16T00:08:12+00:00"}, [
+  .reply(200, {"etag":"cbARBFLodwGLL3qktvCwmLa1vet","key":"test-key","label":null,"content_type":"","value":"test-value","tags":{},"locked":false,"last_modified":"2020-10-16T00:08:12+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
