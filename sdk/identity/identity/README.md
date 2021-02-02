@@ -59,23 +59,6 @@ For systems without a default web browser, the `az login` command will use the d
 
 To authenticate Azure SDKs within web browsers, we currently offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
 
-In the browser, two authentication flows are provided:
-
-- OAuth 2.0's [Auth Code Flow][AuthCodeFlow], which is the preferred flow, uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636), uses [MSAL v2.x](https://github.com/AzureAD/microsoft-authentication-library-for-js), and is enabled by default.
-- OAuth 2.0's [Implicit Grant Flow][ImplicitGrantFlow], which is an older authentication method that uses third party cookies (which are set to be removed from browsers at some point).
-
-While [Auth Code Flow][AuthCodeFlow] is the recommended authentication flow, [Implicit Grant Flow][ImplicitGrantFlow] is still available by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`.
-
-The `InteractiveBrowserCredential` allows users to pass an optional `redirectUri` property that is assumed to be the website's URL if not provided. This redirect URI should be configured in your Azure Active Directory App Registration. Follow the instructions for [creating your single-page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
-
-If you attempt to use the authorization code flow and see this error:
-
-```
-access to XMLHttpRequest at 'https://login.microsoftonline.com/common/v2.0/oauth2/token' from origin 'yourApp.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
-```
-
-Then you need to visit your app registration and update the redirect URI for your app to type `spa` (for "single page application").
-
 ## Key concepts
 
 If this is your first time using `@azure/identity` or the Microsoft identity platform (Azure Active Directory), we recommend that you read [Using `@azure/identity` with Microsoft Identity Platform](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/using-azure-identity.md) first. This document will give you a deeper understanding of the platform and how to configure your Azure account correctly.
@@ -193,33 +176,33 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 | credential                  | usage                                                                                                           |
 | --------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `DefaultAzureCredential`    | provides a simplified authentication experience to quickly start developing applications run in the Azure cloud |
-| `ChainedTokenCredential`    | allows users to define custom authentication flows composing multiple credentials                               |
-| `EnvironmentCredential`     | authenticates a service principal or user via credential information specified in environment variables         |
-| `ManagedIdentityCredential` | authenticates the managed identity of an Azure resource                                                         |
+| `DefaultAzureCredential`    | Provides a simplified authentication experience to quickly start developing applications run in the Azure cloud. |
+| `ChainedTokenCredential`    | Allows users to define custom authentication flows composing multiple credentials.                               |
+| `EnvironmentCredential`     | Authenticates a service principal or user via credential information specified in environment variables.         |
+| `ManagedIdentityCredential` | Authenticates the managed identity of an Azure resource.                                                         |
 
 ### Authenticating Service Principals
 
 | credential                    | usage                                                 |
 | ----------------------------- | ----------------------------------------------------- |
-| `ClientSecretCredential`      | authenticates a service principal using a secret      |
-| `ClientCertificateCredential` | authenticates a service principal using a certificate |
+| `ClientSecretCredential`      | Authenticates a service principal using a secret.      |
+| `ClientCertificateCredential` | Authenticates a service principal using a certificate. |
 
 ### Authenticating Users
 
 | credential                     | usage                                                              |
 | ------------------------------ | ------------------------------------------------------------------ |
-| `InteractiveBrowserCredential` | interactively authenticates a user with the default system browser |
-| `DeviceCodeCredential`         | interactively authenticates a user on devices with limited UI      |
-| `UserPasswordCredential`       | authenticates a user with a username and password                  |
-| `AuthorizationCodeCredential`  | authenticate a user with a previously obtained authorization code  |
+| `InteractiveBrowserCredential` | Interactively authenticates a user with the default system browser. Read more about how this happens [here](./interactive-browser-credential.md). |
+| `DeviceCodeCredential`         | Interactively authenticates a user on devices with limited UI.      |
+| `UserPasswordCredential`       | Authenticates a user with a username and password.                  |
+| `AuthorizationCodeCredential`  | Authenticate a user with a previously obtained authorization code.  |
 
 ### Authenticating via Development Tools
 
 | credential                   | usage                                                             |
 | ---------------------------- | ----------------------------------------------------------------- |
-| `AzureCliCredential`         | authenticate in a development environment with the Azure CLI      |
-| `VisualStudioCodeCredential` | authenticate in a development environment with Visual Studio Code |
+| `AzureCliCredential`         | Authenticate in a development environment with the Azure CLI.      |
+| `VisualStudioCodeCredential` | Authenticate in a development environment with Visual Studio Code. |
 
 ## Troubleshooting
 
@@ -265,7 +248,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png
-[AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
-[ImplicitGrantFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

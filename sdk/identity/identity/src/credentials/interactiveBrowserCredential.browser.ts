@@ -5,14 +5,12 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { IdentityClient } from "../client/identityClient";
 import {
   BrowserLoginStyle,
-  InteractiveBrowserAuthenticateOptions,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import { AuthenticationRecord } from "../client/msalClient";
 import { MSALAuthCode } from "./msalBrowser/msalAuthCode";
 import { MSALImplicit } from "./msalBrowser/msalImplicit";
 import { IMSALBrowserFlow, MSALOptions } from "./msalBrowser/msalCommon";
@@ -94,16 +92,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
     } else {
       this.msal = new MSALAuthCode(msalOptions);
     }
-  }
-
-  /**
-   * Allows users to manually authenticate and retrieve the AuthenticationRecord.
-   * @param options - Optional parameters to authenticate with, like the scope.
-   */
-  public async authenticate(
-    options: InteractiveBrowserAuthenticateOptions
-  ): Promise<AuthenticationRecord | undefined> {
-    return this.msal.authenticate(options);
   }
 
   /**

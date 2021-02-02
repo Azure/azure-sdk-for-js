@@ -1,11 +1,8 @@
 # Release History
 
-## 1.2.3 (Unreleased)
+## 1.2.3-beta.1 (Unreleased)
 
-- Upgraded `InteractiveBrowserCredential` to use the latest MSAL available for the browser. The authentication flow [Auth Code Flow][AuthCodeFlow] (with PKCE) will be used by default, but users can revert back to the previously used [Implicit Grant Flow][ImplicitGrantFlow] by setting the `flow` property to `implicit-grant` on the `InteractiveBrowserCredential` constructor.
-
-[AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
-[ImplicitGrantFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
+- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](./interactive-browser-credential.md).
 
 ## 1.2.2 (2021-01-12)
 
