@@ -529,10 +529,12 @@ export function fromRheaMessage(
     }
   }
   if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
-  if (msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc!.getTime()) {
-    props.expiresAtUtc = new Date(Constants.maxDurationValue);
-  } else {
-    props.expiresAtUtc = new Date(props.enqueuedTimeUtc!.getTime() + msg.ttl);
+  if (props.enqueuedTimeUtc) {
+    if (msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()) {
+      props.expiresAtUtc = new Date(Constants.maxDurationValue);
+    } else {
+      props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl);
+    }
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
