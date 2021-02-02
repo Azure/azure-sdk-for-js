@@ -12,9 +12,7 @@ export {
   LROOperationState,
   SendOperationFn
 } from "./lro";
-export {
-    LROOperationResponse
-} from "./lro/models";
+export { LROOperationResponse } from "./lro/models";
 
 export { FinalStateVia } from "./lro/models";
 
@@ -37,5 +35,5 @@ export {
   Notebook as NotebookOperation,
   LinkedService as LinkedServiceOperation,
   IntegrationRuntimes as IntegrationRuntimesOperation,
-  Library as LibraryOperation,
+  Library as LibraryOperation
 } from "./operations";
