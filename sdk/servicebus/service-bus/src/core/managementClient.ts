@@ -532,9 +532,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param options Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
+  async renewLock(lockToken: string, options: SendManagementRequestOptions2 = {}): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
-    if (!options) options = {};
     if (options.timeoutInMs == null) options.timeoutInMs = 5000;
 
     try {
@@ -562,7 +561,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request
       );
       const result = await this._makeManagementRequest(request, receiverLogger, {
-        abortSignal: options?.abortSignal,
+        ...options,
         requestName: "renewLock"
       });
       const lockedUntilUtc = new Date(result.body.expirations[0]);
