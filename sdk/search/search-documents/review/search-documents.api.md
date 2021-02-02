@@ -1653,7 +1653,7 @@ export interface SearchIndexerWarning {
 
 // @public
 export class SearchIndexingBufferedSender<T> {
-    constructor(client: IndexDocumentsClient<T>, options?: SearchIndexingBufferedSenderOptions);
+    constructor(client: IndexDocumentsClient<T>, documentKeyRetriever: (document: T) => string, options?: SearchIndexingBufferedSenderOptions);
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;

@@ -2,6 +2,9 @@
 
 ## 7.0.4 (Unreleased)
 
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `ServiceBusClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
 
 ## 7.0.3 (2021-01-26)
 

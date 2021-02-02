@@ -92,7 +92,7 @@ export class BatchingReceiver extends MessageReceiver {
       );
     }
 
-    this._batchingReceiverLite.close(connectionError);
+    this._batchingReceiverLite.terminate(connectionError);
   }
 
   /**
@@ -301,7 +301,7 @@ export class BatchingReceiverLite {
    *
    * @param connectionError An optional error (rhea doesn't always deliver one for certain disconnection events)
    */
-  close(connectionError?: Error | AmqpError) {
+  terminate(connectionError?: Error | AmqpError) {
     if (this._closeHandler) {
       this._closeHandler(connectionError);
       this._closeHandler = undefined;

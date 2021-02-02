@@ -15,4 +15,5 @@ export * from "./workspace";
 export * from "./sqlPools";
 export * from "./bigDataPools";
 export * from "./integrationRuntimes";
+export * from "./library";
 export * from "./workspaceGitRepoManagement";

@@ -24,7 +24,7 @@ import {
   SearchServiceClientGetServiceStatisticsResponse
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class SearchServiceClient extends SearchServiceClientContext {
   /**
    * Initializes a new instance of the SearchServiceClient class.

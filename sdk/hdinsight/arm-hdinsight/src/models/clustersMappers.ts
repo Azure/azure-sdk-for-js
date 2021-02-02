@@ -38,6 +38,7 @@ export {
   EncryptionInTransitProperties,
   ErrorResponse,
   Errors,
+  ExcludedServicesConfig,
   ExecuteScriptActionParameters,
   GatewaySettings,
   HardwareProfile,
