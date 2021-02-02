@@ -31,7 +31,7 @@ async function getManagementClient() {
  * The retries will be preempted if given `breakConditionCallback` evaluates to `true` early on.
  * @param operationCallback -
  * @param breakConditionCallback -
- * @param operationDescription Text describing the operation. Used for logging purposes.
+ * @param operationDescription - Text describing the operation. Used for logging purposes.
  */
 async function retry(
   operationCallback: () => void,

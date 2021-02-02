@@ -347,7 +347,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Constructs a MessageSession instance which lets you receive messages as batches
    * or via callbacks using subscribe.
    *
-   * @param _providedSessionId The sessionId provided by the user. This can be the
+   * @param _providedSessionId - The sessionId provided by the user. This can be the
    * name of a session ID to open (empty string is also valid) or it can be undefined,
    * to indicate we want the next unlocked non-empty session.
    */

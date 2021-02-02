@@ -118,7 +118,7 @@ export class SharedAccessSignatureCredential extends SharedKeyCredential {
   /**
    * Retrieve a valid token for authenticaton.
    *
-   * @param _audience Not applicable in SharedAccessSignatureCredential as the token is not re-generated at every invocation of the method
+   * @param _audience - Not applicable in SharedAccessSignatureCredential as the token is not re-generated at every invocation of the method
    */
   getToken(_audience: string): AccessToken {
     return this._accessToken;
