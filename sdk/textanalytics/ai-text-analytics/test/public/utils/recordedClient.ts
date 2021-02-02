@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
-import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../src/";
+import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
 import "./env";
 
 const replaceableVariables: { [k: string]: string } = {

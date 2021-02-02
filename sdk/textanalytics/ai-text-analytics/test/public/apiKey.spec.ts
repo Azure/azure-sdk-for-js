@@ -7,10 +7,10 @@ chaiUse(chaiPromises);
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createClient, createRecorder } from "../utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { TextAnalyticsClient } from "../../src";
-import { assertAllSuccess } from "../utils/resultHelper";
-import { checkEntityTextOffset } from "../utils/stringIndexTypeHelpers";
+import { assertAllSuccess } from "./utils/resultHelper";
+import { checkEntityTextOffset } from "./utils/stringIndexTypeHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",

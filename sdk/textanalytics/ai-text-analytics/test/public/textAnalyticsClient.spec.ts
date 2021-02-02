@@ -7,7 +7,7 @@ import { assert } from "chai";
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createClient, createRecorder } from "../utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
@@ -21,8 +21,8 @@ import {
   OpinionSentiment,
   PiiEntityDomainType
 } from "../../src";
-import { assertAllSuccess, isSuccess } from "../utils/resultHelper";
-import { checkEntityTextOffset, checkOffsetAndLength } from "../utils/stringIndexTypeHelpers";
+import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
+import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
