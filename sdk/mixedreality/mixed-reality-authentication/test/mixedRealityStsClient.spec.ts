@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { AzureKeyCredential } from "@azure/core-auth";
-import { MixedRealityStsClient } from "../src";
+import { AzureKeyCredential, MixedRealityStsClient } from "../src";
 import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper";
 import { Recorder } from "@azure/test-utils-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";

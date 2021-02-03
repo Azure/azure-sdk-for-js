@@ -12,6 +12,8 @@ import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
+export { AzureKeyCredential }
+
 // @public
 export interface GetTokenOptions extends OperationOptions {
 }
