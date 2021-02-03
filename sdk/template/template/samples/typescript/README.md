@@ -29,9 +29,9 @@ languages:
 
 These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
 
-| **File Name**               | **Description**                   |
-| --------------------------- | --------------------------------- |
-| [helloWorld.ts][helloworld] | basic example of a sample program |
+| **File Name**                                         | **Description**                                                            |
+| ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| [getConfigurationSetting.ts][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
 
 ## Prerequisites
 
@@ -68,20 +68,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/helloWorld.js
+node dist/getConfigurationSetting.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/helloWorld.js
+npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/getConfigurationSetting.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/helloWorld.ts
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/getConfigurationSetting.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md

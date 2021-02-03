@@ -31,9 +31,9 @@ languages:
 
 These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
 
-| **File Name**               | **Description**                   |
-| --------------------------- | --------------------------------- |
-| [helloWorld.js][helloworld] | basic example of a sample program |
+| **File Name**                                         | **Description**                                                            |
+| ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| [getConfigurationSetting.js][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
 
 ## Prerequisites
 
@@ -58,20 +58,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node helloWorld.js
+node getConfigurationSetting.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node helloWorld.js
+npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node getConfigurationSetting.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/samples/javascript/helloWorld.js
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/samples/javascript/getConfigurationSetting.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
