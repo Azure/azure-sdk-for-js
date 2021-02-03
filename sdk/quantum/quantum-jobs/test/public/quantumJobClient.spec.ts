@@ -4,6 +4,7 @@
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import { QuantumJobClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
+import { replaceStorageSig } from "../utils/recorderUtils";
 import { Recorder } from "@azure/test-utils-recorder";
 import chai from "chai";
 import * as fs from "fs";
@@ -58,22 +59,26 @@ describe("Quantum job lifecycle", () => {
   it("Test Quantum Job Lifecycle", async function() {
     // Get container Uri with SAS key
     const containerName = "testcontainer";
-    const containerUri =
+    let containerUri =
       (
         await client.storage.sasUri({
           containerName: containerName
         })
       ).sasUri ?? "";
 
+    if (isPlaybackMode()){
+      containerUri = replaceStorageSig(containerUri);
+    }
+
     // Create container if not exists (if not in Playback mode)
-    if (!isPlaybackMode) {
+    if (!isPlaybackMode()) {
       const containerClient = new ContainerClient(containerUri, credentials);
       await containerClient.createIfNotExists();
     }
 
     // Get input data blob Uri with SAS key
     const blobName = `${recorder.getUniqueName("input-")}.json`;
-    const inputDataUri =
+    let inputDataUri =
       (
         await client.storage.sasUri({
           containerName: containerName,
@@ -81,10 +86,14 @@ describe("Quantum job lifecycle", () => {
         })
       ).sasUri ?? "";
 
+    if (isPlaybackMode()){
+      inputDataUri = replaceStorageSig(inputDataUri);
+    }
+
     // Upload input data to blob (if not in Playback mode)
-    if (!isPlaybackMode) {
+    if (!isPlaybackMode()) {
       const blobClient = new BlockBlobClient(inputDataUri, credentials);
-      const problemFilename = "problem.json";
+      const problemFilename = "./test/problem.json";
       const fileContent = fs.readFileSync(problemFilename, "utf8");
       await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
     }
@@ -116,13 +125,13 @@ describe("Quantum job lifecycle", () => {
     assert.isNotEmpty(jobDetails.id);
     assert.isNotEmpty(jobDetails.name);
     assert.isNotEmpty(jobDetails.inputDataUri);
-    if (!isPlaybackMode) {
-      assert.isTrue(jobDetails.id?.startsWith("job-"));
-      assert.isTrue(jobDetails.name?.startsWith("jobName-"));
-    } else {
-      assert.equal(jobId, jobDetails.id);
-      assert.equal(jobName, jobDetails.name);
+    assert.equal(jobId, jobDetails.id);
+    assert.equal(jobName, jobDetails.name);
+    if (!isPlaybackMode()) {
       assert.equal(inputDataUri, jobDetails.inputDataUri);
+    }
+    else {
+      assert.equal(inputDataUri, replaceStorageSig(jobDetails.inputDataUri as string));
     }
 
     // Get the job that we've just created based on the jobId

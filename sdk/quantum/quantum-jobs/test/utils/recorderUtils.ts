@@ -16,3 +16,7 @@ export function getUniqueString(defaultValue: string): string {
         .toString()
         .slice(2);
 }
+
+export function replaceStorageSig(value: string): string {
+  return value.replace(/sig=[^&]*&/g, `sig=0000000000000000000000000000000000000000000000&`);
+}

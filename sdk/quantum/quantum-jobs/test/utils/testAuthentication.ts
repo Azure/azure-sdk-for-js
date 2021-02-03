@@ -5,25 +5,21 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { QuantumJobClient } from "../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import TestClient from "./testClient";
+import { replaceStorageSig } from "./recorderUtils";
 
 export async function authenticate(that: any): Promise<any> {
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
-      SUBSCRIPTION_ID: "subscription_id",
-      RESOURCE_GROUP: "resource_group",
-      WORKSPACE_NAME: "workspace_name",
-      AZURE_CLIENT_ID: "client_id",
-      AZURE_CLIENT_SECRET: "client_secre",
-      AZURE_TENANT_ID: "tenant_id",
-      LOCATION: "location"
+      SUBSCRIPTION_ID: "677fc922-91d0-4bf6-0000-4274d319a0fa",
+      RESOURCE_GROUP: "resourcegroup",
+      WORKSPACE_NAME: "workspace",
+      AZURE_CLIENT_ID: "ce7bd34e-0000-0000-0000-000000000000",
+      AZURE_CLIENT_SECRET: "clientsecret"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any => recording.replace(/client_id=[^&]*&/g, `client_id=client_id&`),
-      (recording: any): any =>
-        recording.replace(/client_secret=[^&]*&/g, `client_secret=client_secret&`),
-      (recording: any): any => recording.replace(/sig=[^&]*&/g, `sig=sig&`)
+      replaceStorageSig,
     ],
     queryParametersToSkip: ["sr", "sig", "sp"]
   };
