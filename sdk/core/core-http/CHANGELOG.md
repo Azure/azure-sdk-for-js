@@ -4,6 +4,7 @@
 
 - Fix an issue where non-streaming response body was treated as stream [PR 13192](https://github.com/Azure/azure-sdk-for-js/pull/13192)
 - Browser XML parser now lazily load parser error namespace into cache. Fixed [issue 13268](https://github.com/Azure/azure-sdk-for-js/issues/13268)
+- Add ms-cv header used as correlation vector (used for distributed tracing) to list of non-redacted headers so that clients can share this header for debugging purposes. [PR 13541](https://github.com/Azure/azure-sdk-for-js/pull/13541)
 
 ## 1.2.2 (2021-01-07)
 
