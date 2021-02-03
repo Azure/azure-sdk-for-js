@@ -56,7 +56,7 @@ describe("ServiceBusMessageImpl AmqpAnnotations unit tests", () => {
   const message_annotations: MessageAnnotations = {};
   message_annotations[Constants.enqueuedTime] = Date.now();
   message_annotations[Constants.partitionKey] = "dummy-partition-key";
-  //message_annotations[Constants.viaPartitionKey] = "dummy-via-partition-key";
+  // message_annotations[Constants.viaPartitionKey] = "dummy-via-partition-key";
   message_annotations["random-msg-annotation-key"] = "random-msg-annotation-value";
 
   const delivery_annotations: DeliveryAnnotations = {

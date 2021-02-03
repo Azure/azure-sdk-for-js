@@ -137,7 +137,6 @@ export async function drainAllMessages(receiver: ServiceBusReceiver) {
 
 /**
  * Returns a TestClientType for either a Queue or a Subscription
- * @param useSessions
  */
 export function getRandomTestClientType(): TestClientType {
   const allTestClientTypes = [

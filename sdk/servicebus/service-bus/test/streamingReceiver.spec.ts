@@ -965,7 +965,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
  * Creates a validator for processError that can handle the differences
  * between a browser and node.js when it comes to reported errors.
  *
- * @param receivedErrors Errors received while detaching
+ * @param receivedErrors - Errors received while detaching
  */
 export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
   /**
