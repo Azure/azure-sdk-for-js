@@ -7,7 +7,7 @@ import {
   isKeyCredential,
   createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   PipelineOptions,
   InternalPipelineOptions,
@@ -51,7 +51,7 @@ import {
 export interface PhoneNumbersClientOptions extends PipelineOptions {}
 
 const isPhoneNumbersClientOptions = (options: any): options is PhoneNumbersClientOptions =>
-  options && !isKeyCredential(options);
+  options && !isKeyCredential(options) && !isTokenCredential(options);
 
 /**
  * Client class for interacting with Azure Communication Services Phone Number Administration.

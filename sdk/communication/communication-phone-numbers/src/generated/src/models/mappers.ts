@@ -258,6 +258,7 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
       },
       createdDateTime: {
         serializedName: "createdDateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -271,13 +272,14 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
       },
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
       },
       operationType: {
         serializedName: "operationType",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
         }
@@ -397,6 +399,7 @@ export const AcquiredPhoneNumbers: coreHttp.CompositeMapper = {
     modelProperties: {
       phoneNumbers: {
         serializedName: "phoneNumbers",
+        required: true,
         type: {
           name: "Sequence",
           element: {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import { HttpClient, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
 import { AcquiredPhoneNumber } from "../../src";
 
 export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: T): HttpClient => {
   return {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
       return {
         status,
-        headers: new HttpHeaders(),
-        request: httpRequest,
+        request,
+        headers: request.headers,
         parsedBody
       };
     }

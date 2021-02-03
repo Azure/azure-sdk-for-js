@@ -30,7 +30,7 @@
     "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o communication-phone-numbers-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test": "rimraf dist-test && npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test:watch": "npm run test -- --watch --reporter min",

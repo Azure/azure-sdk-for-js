@@ -161,7 +161,7 @@ export interface PhoneNumberOperation {
   /**
    * The date that the operation was created.
    */
-  createdDateTime?: Date;
+  createdDateTime: Date;
   /**
    * The Communication Services error.
    */
@@ -169,11 +169,11 @@ export interface PhoneNumberOperation {
   /**
    * Id of operation.
    */
-  id?: string;
+  id: string;
   /**
    * The type of operation, e.g. Search
    */
-  readonly operationType?: PhoneNumberOperationType;
+  operationType: PhoneNumberOperationType;
   /**
    * The most recent date that the operation was changed.
    */
@@ -250,7 +250,7 @@ export interface AcquiredPhoneNumbers {
   /**
    * Represents a list of phone numbers.
    */
-  phoneNumbers?: AcquiredPhoneNumber[];
+  phoneNumbers: AcquiredPhoneNumber[];
   /**
    * Represents the URL link to the next page of phone number results.
    */
