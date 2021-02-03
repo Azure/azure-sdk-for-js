@@ -6,8 +6,11 @@ const { spawnSync } = require("child_process");
 
 dotenv.config();
 
+// these should match what we have in your .env file (you can use sample.env 
+// as the template for your own file)
 const serviceBusConnectionString = process.env.SERVICEBUS_CONNECTION_STRING;
 const appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY;
+const subscriptionId = process.env.AZURE_SUBSCRIPTION_ID;
 const resourceGroup = process.env.RESOURCE_GROUP;
 const registryUserName = process.env.REGISTRY_USERNAME;
 const registryPassword = process.env.REGISTRY_PASSWORD;
@@ -53,17 +56,17 @@ console.log(`Pushing image (will fail if you have not yet run \`docker login ${r
 spawn(`docker push "${imageName}"`);
 
 console.log(`Deleting Azure Container Instance (if exists)`);
-spawn(`az container delete --resource-group "${resourceGroup}" --name "${containerInstanceName}"`);
+spawn(`az container delete --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}"`);
 
 console.log(`Creating Azure Container Instance for stress/perf that runs ${options.testToRun}`);
 spawn(
-  `az container create --resource-group "${resourceGroup}" --name "${containerInstanceName}" ` +
+  `az container create --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}" ` +
     `--image ${imageName}  ` +
     "--cpu 1 --memory 0.7 " +
     "--restart-policy Never " +
     `--registry-username ${registryUserName} ` +
     `--registry-password "${registryPassword}" ` +
-    `--command-line "node /src/${options.testToRun}" ` +
+    `--command-line "node /src/${path.basename(expectedJsFile)}" ` +
     `--secure-environment-variables "SERVICEBUS_CONNECTION_STRING=${serviceBusConnectionString}" "APPINSIGHTS_INSTRUMENTATIONKEY=${appInsightsInstrumentationKey}"`
 );
 
@@ -73,11 +76,11 @@ console.log(
 
 console.log(`Some other commands you might find useful to manage your container:\n`);
 console.log(
-  `az container stop --resource-group "${resourceGroup}" --name "${containerInstanceName}"`
+  `az container stop --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}"`
 );
 console.log(
-  `az container delete --resource-group "${resourceGroup}" --name "${containerInstanceName}"`
+  `az container delete --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}"`
 );
 console.log(
-  `az container logs --resource-group "${resourceGroup}" --name "${containerInstanceName}" --follow`
+  `az container logs --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}" --follow`
 );
