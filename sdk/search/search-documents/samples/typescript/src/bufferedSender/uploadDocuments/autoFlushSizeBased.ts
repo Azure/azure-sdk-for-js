@@ -5,7 +5,7 @@ import {
   GeographyPoint,
   SearchIndexClient
 } from "@azure/search-documents";
-import { createIndex, WAIT_TIME } from "../../utils/setup";
+import { createIndex, documentKeyRetriever, WAIT_TIME } from "../../utils/setup";
 import { Hotel } from "../../utils/interfaces";
 import { delay } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -65,9 +65,13 @@ export async function main() {
   await createIndex(indexClient, TEST_INDEX_NAME);
   await delay(WAIT_TIME);
 
-  const bufferedClient = new SearchIndexingBufferedSender<Hotel>(searchClient, {
-    autoFlush: true
-  });
+  const bufferedClient = new SearchIndexingBufferedSender<Hotel>(
+    searchClient,
+    documentKeyRetriever,
+    {
+      autoFlush: true
+    }
+  );
 
   bufferedClient.on("batchAdded", (response: any) => {
     console.log(`Batch Added Event has been receieved: ${response}`);

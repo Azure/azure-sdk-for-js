@@ -18,7 +18,7 @@ add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210121.2"
-package-version: "3.1.0-beta.1"
+package-version: "3.1.0-beta.2"
 disable-async-iterators: true
 hide-clients: true
 ```
@@ -162,4 +162,36 @@ directive:
     where: $.paths["/custom/models/{modelId}/analyze"].post
     transform: >
       $.consumes.push("image/bmp");
+```
+
+### Rename Appearance types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextAppearance) {
+          $.TextAppearance = $.Appearance;
+          delete $.Appearance;
+      }
+  - from: swagger-document
+    where: $.definitions.TextLine.properties.appearance
+    transform: >
+      $["$ref"] = "#/definitions/TextAppearance";
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      if (!$.TextStyle) {
+          $.TextStyle = $.Style;
+          delete $.Style;
+      }
+  - from: swagger-document
+    where: $.definitions.TextAppearance.properties.style
+    transform: >
+      $["$ref"] = "#/definitions/TextStyle";
+  - from: swagger-document
+    where: $.definitions.TextStyle.properties.name
+    transform: >
+      $["x-ms-enum"].name = "StyleName"
 ```

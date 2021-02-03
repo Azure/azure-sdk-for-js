@@ -174,7 +174,7 @@ export interface TextLine {
   /** List of words in the text line. */
   words: TextWord[];
   /** Text appearance properties. */
-  appearance?: Appearance;
+  appearance?: TextAppearance;
 }
 
 /** An object representing a word. */
@@ -188,15 +188,15 @@ export interface TextWord {
 }
 
 /** An object representing the appearance of the text line. */
-export interface Appearance {
+export interface TextAppearance {
   /** An object representing the style of the text line. */
-  style: Style;
+  style: TextStyle;
 }
 
 /** An object representing the style of the text line. */
-export interface Style {
+export interface TextStyle {
   /** The text line style name, including handwriting and other. */
-  name: TextStyle;
+  name: StyleName;
   /** The confidence of text line style. */
   confidence: number;
 }
@@ -484,21 +484,21 @@ export const enum KnownLanguage {
  */
 export type Language = string;
 
-/** Known values of {@link TextStyle} that the service accepts. */
-export const enum KnownTextStyle {
+/** Known values of {@link StyleName} that the service accepts. */
+export const enum KnownStyleName {
   Other = "other",
   Handwriting = "handwriting"
 }
 
 /**
- * Defines values for TextStyle. \
- * {@link KnownTextStyle} can be used interchangeably with TextStyle,
+ * Defines values for StyleName. \
+ * {@link KnownStyleName} can be used interchangeably with StyleName,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **other** \
  * **handwriting**
  */
-export type TextStyle = string;
+export type StyleName = string;
 
 /** Known values of {@link SelectionMarkState} that the service accepts. */
 export const enum KnownSelectionMarkState {

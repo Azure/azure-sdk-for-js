@@ -35,7 +35,8 @@ import {
   EnrichmentStatus,
   GetMetricSeriesDataResponse,
   MetricFeedbackPageResponse,
-  AlertQueryTimeMode
+  AlertQueryTimeMode,
+  CreateFeedbackResponse
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
@@ -91,7 +92,7 @@ export type ListIncidentsForAlertOptions = {
  * Options for listing dimension values for detection configurations
  */
 
-export type ListDimensionValuesForDetectionConfigOptions = {
+export type ListAnomalyDimensionValuesOptions = {
   skip?: number;
   dimensionFilter?: DimensionKey;
 } & OperationOptions;
@@ -1191,15 +1192,15 @@ export class MetricsAdvisorClient {
     }
   }
 
-  // ## list dimension values for detection config - segments
-  private async *listSegmentsOfDimensionValuesForDetectionConfig(
+  // ## list segments of dimension values of anomalies detected by a detection configuration
+  private async *listSegmentsOfAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date,
     endTime: Date,
     dimensionName: string,
     continuationToken?: string,
     maxPageSize?: number,
-    options: ListDimensionValuesForDetectionConfigOptions = {}
+    options: ListAnomalyDimensionValuesOptions = {}
   ): AsyncIterableIterator<DimensionValuesPageResponse> {
     let segmentResponse;
     const optionsBody = {
@@ -1251,15 +1252,15 @@ export class MetricsAdvisorClient {
     }
   }
 
-  // ## list dimension values for detection config - items
-  private async *listItemsOfDimensionValues(
+  // ## list items of dimension values of anomalies detected by a detection configuration
+  private async *listItemsOfAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date,
     endTime: Date,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigOptions
+    options: ListAnomalyDimensionValuesOptions
   ): AsyncIterableIterator<string> {
-    for await (const segment of this.listSegmentsOfDimensionValuesForDetectionConfig(
+    for await (const segment of this.listSegmentsOfAnomalyDimensionValues(
       detectionConfigId,
       startTime,
       endTime,
@@ -1275,7 +1276,7 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * Returns an async iterable iterator to list dimension values for a detection configuration.
+   * Returns an async iterable iterator to list dimension values of anomalies detected by a detection configuration.
    *
    * `.byPage()` returns an async iterable iterator to list the dimension values in pages.
    *
@@ -1285,7 +1286,7 @@ export class MetricsAdvisorClient {
    * const client = new MetricsAdvisorClient(endpoint,
    *   new MetricsAdvisorKeyCredential(subscriptionKey, apiKey));
    * const dimensionValues = client
-   *   .listDimensionValuesForDetectionConfiguration(detectionConfigId, startTime, endTime, dimensionName);
+   *   .listAnomalyDimensionValues(detectionConfigId, startTime, endTime, dimensionName);
    * let i = 1;
    * for await (const dv of dimensionValues) {
    *   console.log(`dimension value ${i++}: ${dv}`);
@@ -1295,7 +1296,7 @@ export class MetricsAdvisorClient {
    *
    * ```js
    * let iter = client
-   *   .listDimensionValuesForDetectionConfiguration(detectionConfigId, startTime, endTime, dimensionName);
+   *   .listAnomalyDimensionValues(detectionConfigId, startTime, endTime, dimensionName);
    * let result = await iter.next();
    * while (!result.done) {
    *   console.log(` dimension value - '${result.value}'`);
@@ -1307,7 +1308,7 @@ export class MetricsAdvisorClient {
    *
    * ```js
    * const pages = client
-   *   .listDimensionValuesForDetectionConfiguration(
+   *   .listAnomalyDimensionValues(
    *     detectionConfigId,
    *     startTime,
    *     endTime,
@@ -1327,18 +1328,19 @@ export class MetricsAdvisorClient {
    * }
    * ```
    * @param detectionConfigId - Anomaly detection configuration id
+   * @param dimensionName - Name of the dimension for anomaly detection config
    * @param startTime - The start of time range to query anomalies
    * @param endTime - The end of time range to query anomalies
    * @param options - The options parameter.
    */
-  public listDimensionValuesForDetectionConfig(
+  public listAnomalyDimensionValues(
     detectionConfigId: string,
     startTime: Date | string,
     endTime: Date | string,
     dimensionName: string,
-    options: ListDimensionValuesForDetectionConfigOptions = {}
+    options: ListAnomalyDimensionValuesOptions = {}
   ): PagedAsyncIterableIterator<string, DimensionValuesPageResponse> {
-    const iter = this.listItemsOfDimensionValues(
+    const iter = this.listItemsOfAnomalyDimensionValues(
       detectionConfigId,
       typeof startTime === "string" ? new Date(startTime) : startTime,
       typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -1362,7 +1364,7 @@ export class MetricsAdvisorClient {
        * @returns An AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegmentsOfDimensionValuesForDetectionConfig(
+        return this.listSegmentsOfAnomalyDimensionValues(
           detectionConfigId,
           typeof startTime === "string" ? new Date(startTime) : startTime,
           typeof endTime === "string" ? new Date(endTime) : endTime,
@@ -1580,7 +1582,7 @@ export class MetricsAdvisorClient {
   public async createFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
-  ): Promise<GetFeedbackResponse> {
+  ): Promise<CreateFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createFeedback",
       options
@@ -1595,7 +1597,7 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      return this.getFeedback(feedbackId);
+      return { id: feedbackId, _response: result._response };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

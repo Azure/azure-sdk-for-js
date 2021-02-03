@@ -20,10 +20,10 @@ import {
   TrainStatus as TrainingStatus,
   OperationStatus,
   ModelStatus,
-  Appearance,
-  Style,
+  TextAppearance,
   TextStyle,
-  KnownTextStyle
+  StyleName,
+  KnownStyleName
 } from "./generated/models";
 
 export {
@@ -43,10 +43,10 @@ export {
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus,
-  Appearance,
-  Style,
+  TextAppearance,
   TextStyle,
-  KnownTextStyle
+  StyleName,
+  KnownStyleName
 };
 
 /**
@@ -123,7 +123,7 @@ export interface FormLine extends FormElementCommon {
   /**
    * Text appearance properties, such as style.
    */
-  appearance?: Appearance;
+  appearance?: TextAppearance;
 }
 
 /**
