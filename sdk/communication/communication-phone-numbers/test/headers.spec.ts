@@ -47,7 +47,7 @@ describe("PhoneNumbersClient headers", function() {
       request.headers.get(userAgentHeader) as string,
       new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g")
     );
-  })
+  });
 
   it("sets date header", function() {
     const dateHeader = isNode ? "date" : "x-ms-date";
@@ -94,10 +94,7 @@ describe("PhoneNumbersClient headers", function() {
 
     request = spy.getCall(0).args[0];
     assert.isDefined(request.headers.get("authorization"));
-    assert.match(
-      request.headers.get("authorization") as string,
-      /Bearer ./
-    );
+    assert.match(request.headers.get("authorization") as string, /Bearer ./);
   });
 
   it("can set custom user-agent prefix", async function() {
@@ -117,7 +114,10 @@ describe("PhoneNumbersClient headers", function() {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`phonenumbersclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g")
+      new RegExp(
+        `phonenumbersclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`,
+        "g"
+      )
     );
   });
 });
