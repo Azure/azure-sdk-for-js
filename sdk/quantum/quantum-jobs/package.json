@@ -47,7 +47,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/quantum-jobs.d.ts",
+    "types/latest/quantum-jobs.d.ts",
     "README.md",
     "LICENSE"
   ],
