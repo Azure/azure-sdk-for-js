@@ -4,25 +4,11 @@
     "strict": true,
     "target": "es5",
     "sourceMap": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "declaration": true,
     "outDir": "./dist-esm",
     "declarationDir": "./types"
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-esm",
-    "./samples/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"],
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }

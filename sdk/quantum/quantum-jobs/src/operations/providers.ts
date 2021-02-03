@@ -75,16 +75,13 @@ export class Providers {
    * Get provider status.
    * @param options The options parameters.
    */
-  private _getStatus(
-    options?: coreHttp.OperationOptions
-  ): Promise<ProvidersGetStatusResponse> {
+  private _getStatus(options?: coreHttp.OperationOptions): Promise<ProvidersGetStatusResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getStatusOperationSpec
-    ) as Promise<ProvidersGetStatusResponse>;
+    return this.client.sendOperationRequest(operationArguments, getStatusOperationSpec) as Promise<
+      ProvidersGetStatusResponse
+    >;
   }
 
   /**

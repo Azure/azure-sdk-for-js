@@ -4,18 +4,18 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { ContainerClient, BlockBlobClient } = require("@azure/storage-blob");
 const { QuantumJobClient } = require("../dist-esm/src");
-const fs = require('fs');
+const fs = require("fs");
 
 class TestTokenCredential {
   constructor(token, expiresOn) {
     this.token = token;
-    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60*60*1000;
+    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60 * 60 * 1000;
   }
-  async getToken(_scopes,_options) {
+  async getToken(_scopes, _options) {
     return {
-      token : this.token,
-      expiresOnTimestamp : this.expiresOn
-    }
+      token: this.token,
+      expiresOnTimestamp: this.expiresOn
+    };
   }
 }
 
