@@ -15,7 +15,7 @@ if (isNode) {
   require("dotenv").config();
 }
 
-describe("PhoneNumbersClient headers", function() {
+describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {

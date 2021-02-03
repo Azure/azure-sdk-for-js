@@ -8,7 +8,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"18332159176\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":null,\"applicationId\":null}",
+   "response": "{\"id\":\"18332159176\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":null,\"applicationId\":null}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

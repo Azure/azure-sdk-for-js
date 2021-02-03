@@ -7,7 +7,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../src";
 
-describe("PhoneNumbersClient Constructor", function() {
+describe("PhoneNumbersClient - constructor", function() {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
 

@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
 
-describe("PhoneNumbersClient getPhoneNumber", function() {
+describe("PhoneNumbersClient - get phone number", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
