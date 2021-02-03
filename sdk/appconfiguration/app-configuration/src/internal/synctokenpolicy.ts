@@ -14,7 +14,6 @@ import {
  * The sync token header, as described here:
  * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
  * @internal
- * @hidden
  */
 export const SyncTokenHeaderName = "sync-token";
 
@@ -22,7 +21,6 @@ export const SyncTokenHeaderName = "sync-token";
  * A policy factory for injecting sync tokens properly into outgoing requests.
  * @param syncTokens - the sync tokens store to be used across requests.
  * @internal
- * @hidden
  */
 export function syncTokenPolicy(syncTokens: SyncTokens): RequestPolicyFactory {
   return {
@@ -62,7 +60,6 @@ class SyncTokenPolicy extends BaseRequestPolicy {
  * https://github.com/Azure/AppConfiguration/blob/master/docs/REST/consistency.md
  *
  * @internal
- * @hidden
  */
 export class SyncTokens {
   private _currentSyncTokens = new Map<string, SyncToken>();
@@ -140,7 +137,6 @@ interface SyncToken {
  * @param syncToken - A single sync token.
  *
  * @internal
- * @hidden
  */
 export function parseSyncToken(syncToken: string): SyncToken {
   const matches = syncToken.match(syncTokenRegex);

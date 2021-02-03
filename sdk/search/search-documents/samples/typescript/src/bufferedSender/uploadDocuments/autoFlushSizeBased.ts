@@ -5,7 +5,7 @@ import {
   GeographyPoint,
   SearchIndexClient
 } from "@azure/search-documents";
-import { createIndex, WAIT_TIME } from "../../utils/setup";
+import { createIndex, documentKeyRetriever, WAIT_TIME } from "../../utils/setup";
 import { Hotel } from "../../utils/interfaces";
 import { delay } from "@azure/core-http";
 import * as dotenv from "dotenv";
@@ -42,7 +42,10 @@ function getDocumentsArray(size: number): Hotel[] {
       parkingIncluded: false,
       lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
-      location: new GeographyPoint(47.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 47.678581
+      })
     });
   }
   return array;
@@ -62,7 +65,9 @@ export async function main() {
   await createIndex(indexClient, TEST_INDEX_NAME);
   await delay(WAIT_TIME);
 
-  const bufferedClient: SearchIndexingBufferedSender<Hotel> = searchClient.getSearchIndexingBufferedSenderInstance(
+  const bufferedClient = new SearchIndexingBufferedSender<Hotel>(
+    searchClient,
+    documentKeyRetriever,
     {
       autoFlush: true
     }

@@ -6,7 +6,6 @@ import { isDefined } from "./typeGuards";
 
 /**
  * @internal
- * @hidden
  */
 export function getRetryAttemptTimeoutInMs(retryOptions: RetryOptions | undefined): number {
   const timeoutInMs =

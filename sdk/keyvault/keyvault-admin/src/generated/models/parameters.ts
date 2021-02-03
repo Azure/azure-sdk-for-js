@@ -7,16 +7,29 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
+  RoleDefinitionCreateParameters as RoleDefinitionCreateParametersMapper,
   RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper,
   SASTokenParameter as SASTokenParameterMapper,
   RestoreOperationParameters as RestoreOperationParametersMapper,
   SelectiveKeyRestoreOperationParameters as SelectiveKeyRestoreOperationParametersMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const vaultBaseUrl: OperationURLParameter = {
   parameterPath: "vaultBaseUrl",
@@ -42,10 +55,11 @@ export const scope: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
+export const roleDefinitionName: OperationURLParameter = {
+  parameterPath: "roleDefinitionName",
   mapper: {
-    serializedName: "$filter",
+    serializedName: "roleDefinitionName",
+    required: true,
     type: {
       name: "String"
     }
@@ -58,6 +72,45 @@ export const apiVersion: OperationQueryParameter = {
     defaultValue: "7.2-preview",
     isConstant: true,
     serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: RoleDefinitionCreateParametersMapper
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
     type: {
       name: "String"
     }
@@ -87,19 +140,7 @@ export const roleAssignmentName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters: OperationParameter = {
+export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: RoleAssignmentCreateParametersMapper
 };

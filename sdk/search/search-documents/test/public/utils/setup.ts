@@ -199,6 +199,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
     suggesters: [
       {
         name: "sg",
+        searchMode: "analyzingInfixMatching",
         sourceFields: ["description", "hotelName"]
       }
     ],
@@ -249,7 +250,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
-      location: new GeographyPoint(47.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 47.678581
+      })
     },
     {
       hotelId: "2",
@@ -262,7 +266,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: true,
       lastRenovationDate: new Date(1982, 3, 28),
       rating: 1,
-      location: new GeographyPoint(49.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 49.678581
+      })
     },
     {
       hotelId: "3",
@@ -275,7 +282,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(1995, 6, 1),
       rating: 4,
-      location: new GeographyPoint(46.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 46.678581
+      })
     },
     {
       hotelId: "4",
@@ -288,7 +298,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(1995, 6, 1),
       rating: 4,
-      location: new GeographyPoint(46.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 46.678581
+      })
     },
     {
       hotelId: "5",
@@ -301,7 +314,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: false,
       lastRenovationDate: new Date(2012, 7, 12),
       rating: 4,
-      location: new GeographyPoint(48.678581, -122.131577)
+      location: new GeographyPoint({
+        longitude: -122.131577,
+        latitude: 48.678581
+      })
     },
     {
       hotelId: "6",
@@ -334,7 +350,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: true,
       lastRenovationDate: new Date(1970, 0, 18),
       rating: 4,
-      location: new GeographyPoint(40.760586, -73.975403),
+      location: new GeographyPoint({
+        longitude: -73.975403,
+        latitude: 40.760586
+      }),
       address: {
         streetAddress: "677 5th Ave",
         city: "New York",
@@ -378,7 +397,10 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
       smokingAllowed: true,
       lastRenovationDate: new Date(1999, 8, 6),
       rating: 3,
-      location: new GeographyPoint(35.90416, -78.940483),
+      location: new GeographyPoint({
+        longitude: -78.940483,
+        latitude: 35.90416
+      }),
       address: {
         streetAddress: "6910 Fayetteville Rd",
         city: "Durham",

@@ -2,14 +2,7 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  BaseRequestPolicy,
-  WebResourceLike,
-  HttpOperationResponse,
-  RequestPolicyOptionsLike
-} from "@azure/core-http";
+import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
 
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { isKeyCredentialLike } from "./util";
@@ -25,46 +18,27 @@ const API_KEY_HEADER_NAME = "aeg-sas-key";
 const SAS_TOKEN_HEADER_NAME = "aeg-sas-token";
 
 /**
- * Create an HTTP pipeline policy to authenticate a request
- * using an `AzureKeyCredential` for Event Grid
+ * The programmatic identifier of the eventGridCredentialPolicy.
  */
-export function createEventGridCredentialPolicy(
-  credential: KeyCredential | SignatureCredential
-): RequestPolicyFactory {
-  return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => {
-      return new EventGridAzureKeyCredentialPolicy(nextPolicy, options, credential);
-    }
-  };
-}
+export const eventGridCredentialPolicyName = "eventGridCredentialPolicy";
 
 /**
  * A concrete implementation of an AzureKeyCredential policy
  * using the appropriate header for Event Grid
  */
-class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
-  private credential: KeyCredential | SignatureCredential;
+export function eventGridCredentialPolicy(
+  credential: KeyCredential | SignatureCredential
+): PipelinePolicy {
+  return {
+    name: eventGridCredentialPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (isKeyCredentialLike(credential)) {
+        request.headers.set(API_KEY_HEADER_NAME, credential.key);
+      } else {
+        request.headers.set(SAS_TOKEN_HEADER_NAME, credential.signature());
+      }
 
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike,
-    credential: KeyCredential | SignatureCredential
-  ) {
-    super(nextPolicy, options);
-    this.credential = credential;
-  }
-
-  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!webResource) {
-      throw new Error("webResource cannot be null or undefined");
+      return next(request);
     }
-
-    if (isKeyCredentialLike(this.credential)) {
-      webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
-    } else {
-      webResource.headers.set(SAS_TOKEN_HEADER_NAME, this.credential.signature());
-    }
-
-    return this._nextPolicy.sendRequest(webResource);
-  }
+  };
 }

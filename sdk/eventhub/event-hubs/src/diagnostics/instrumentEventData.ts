@@ -39,7 +39,6 @@ export function instrumentEventData(eventData: EventData, span: Span): EventData
  * Extracts the `SpanContext` from an `EventData` if the context exists.
  * @param eventData An individual `EventData` object.
  * @internal
- * @hidden
  */
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined {
   if (!eventData.properties || !eventData.properties[TRACEPARENT_PROPERTY]) {

@@ -25,6 +25,10 @@
       "path": "sdk/communication/communication-common"
     },
     {
+      "name": "communication-identity",
+      "path": "sdk/communication/communication-identity"
+    },
+    {
       "name": "communication-sms",
       "path": "sdk/communication/communication-sms"
     },
@@ -43,6 +47,10 @@
     {
       "name": "core-client",
       "path": "sdk/core/core-client"
+    },
+    {
+      "name": "core-crypto",
+      "path": "sdk/core/core-crypto"
     },
     {
       "name": "core-http",

@@ -21,8 +21,17 @@ import {
   SnapshotOptions,
   TrackedMessageIdsInfo
 } from "./utils";
-const writeFile = util.promisify(fs.writeFile);
-const appendFile = util.promisify(fs.appendFile);
+import * as appInsights from "applicationinsights";
+
+import * as dotenv from "dotenv";
+dotenv.config();
+
+appInsights
+  .setup()
+  .setUseDiskRetryCaching(true)
+  .start();
+
+export const defaultClient = appInsights.defaultClient;
 
 export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
@@ -82,11 +91,23 @@ export class SBStressTestsBase {
   ) {
     this.queueName =
       (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
-    this.reportFileName = `temp/report-${this.queueName}.txt`;
-    this.errorsFileName = `temp/errors-${this.queueName}.txt`;
     this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
     if (testOptions) console.log(testOptions);
-    await appendFile(this.reportFileName, JSON.stringify(testOptions, null, 2));
+
+    defaultClient.commonProperties = {
+      // these will be reported with each event
+      testName: this.snapshotOptions.testName
+    };
+
+    defaultClient.trackEvent({
+      name: "start",
+      properties: {
+        ...testOptions,
+        ...options,
+        queueName: this.queueName
+      }
+    });
+
     await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
   }
 
@@ -170,7 +191,7 @@ export class SBStressTestsBase {
   public async receiveStreaming(
     receiver: ServiceBusReceiver,
     duration: number,
-    options: Pick<SubscribeOptions, "autoComplete" | "maxConcurrentCalls"> & {
+    options: Pick<SubscribeOptions, "autoCompleteMessages" | "maxConcurrentCalls"> & {
       manualLockRenewal: boolean;
       completeMessageAfterDuration: boolean;
       maxAutoRenewLockDurationInMs: number;
@@ -185,7 +206,7 @@ export class SBStressTestsBase {
         if (options.settleMessageOnReceive) {
           await this.completeMessage(message, receiver);
         } else if (
-          !options.autoComplete &&
+          !options.autoCompleteMessages &&
           options.maxAutoRenewLockDurationInMs === 0 &&
           options.manualLockRenewal
         ) {
@@ -236,9 +257,6 @@ export class SBStressTestsBase {
   }
 
   /**
-   * @param {ServiceBusReceivedMessageWithLock} message
-   * @param {number} duration
-   * @param {boolean} completeMessageAfterDuration
    */
   public renewMessageLockUntil(
     message: ServiceBusReceivedMessage,
@@ -298,8 +316,7 @@ export class SBStressTestsBase {
   }
 
   /**
-   * @param {ServiceBusSessionReceiver<ServiceBusReceivedMessage>} receiver
-   * @param {number} duration Duration until which the lock is renewed
+   * @param duration Duration until which the lock is renewed
    */
   public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {
     // TODO: pass in max number of lock renewals? and close the receiver at the end of max??
@@ -342,101 +359,92 @@ export class SBStressTestsBase {
   }
 
   public async snapshot(): Promise<void> {
-    // TODO: get the options being set in the logs
-    // TODO: Get a title passed from the scenario file
+    const eventProperties: Record<string, string | number> = {};
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
-    const memoryUsage = process.memoryUsage();
-    const currentSnapshot = [
-      `Time: ${new Date().toJSON()}`,
-      `Elapsed time in seconds: ${elapsedTimeInSeconds}`,
-      `Queue name: ${this.queueName}`,
-      `Space occupied for the process(rss): ${memoryUsage.rss}`,
-      `Memory Consumed(heapUsed): ${memoryUsage.heapUsed}`,
-      `Number of messages sent so far: ${this.messagesSent.length}`,
-      `Number of messages received so far: ${this.messagesReceived.length}`
-    ]
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("send-info")
-          ? [
-              `Number of successful sends so far: ${this.sendInfo.numberOfSuccesses}`,
-              `Number of failed sends so far: ${this.sendInfo.numberOfFailures}`,
-              `(Avg)Number of sends per sec: ${this.sendInfo.numberOfSuccesses /
-                elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("receive-info")
-          ? [
-              `Number of successful receives so far: ${this.receiveInfo.numberOfSuccesses}`,
-              `Number of failed receives so far: ${this.receiveInfo.numberOfFailures}`,
-              `(Avg)Number of receives per sec: ${this.receiveInfo.numberOfSuccesses /
-                elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")
-          ? [
-              `Number of successful message lock renewals so far: ${this.messageLockRenewalInfo.numberOfSuccesses}`,
-              `Number of failed message lock renewals so far: ${this.messageLockRenewalInfo.numberOfFailures}`,
-              `(Avg)Number of message lock renewals per sec: ${this.messageLockRenewalInfo
-                .numberOfSuccesses / elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")
-          ? [
-              `Number of successful session lock renewals so far: ${this.sessionLockRenewalInfo.numberOfSuccesses}`,
-              `Number of failed session lock renewals so far: ${this.sessionLockRenewalInfo.numberOfFailures}`,
-              `(Avg)Number of session lock renewals per sec: ${this.sessionLockRenewalInfo
-                .numberOfSuccesses / elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("close-info")
-          ? [
-              `Number of successful closes for sender so far: ${this.closeInfo.sender.numberOfSuccesses}`,
-              `Number of failed closes for sender so far: ${this.closeInfo.sender.numberOfFailures}`,
-              `Number of successful closes for receiver so far: ${this.closeInfo.receiver.numberOfSuccesses}`,
-              `Number of failed closes for receiver so far: ${this.closeInfo.receiver.numberOfFailures}`
-            ]
-          : []
-      )
-      .reduce((output, entry) => output + "\n" + entry)
-      .concat("\n\n");
-    await appendFile(this.reportFileName, currentSnapshot);
-    console.log(currentSnapshot);
-  }
 
-  public async end() {
-    // Logging all the errors to a file
+    eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
+    eventProperties["messsages.sent"] = this.messagesSent.length;
+    eventProperties["messages.received"] = this.messagesReceived.length;
+
+    if (this.snapshotOptions.snapshotFocus.includes("send-info")) {
+      eventProperties["send.pass"] = this.sendInfo.numberOfSuccesses;
+      eventProperties["send.fail"] = this.sendInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
+      eventProperties["receive.pass"] = this.receiveInfo.numberOfSuccesses;
+      eventProperties["receive.fail"] = this.receiveInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")) {
+      eventProperties["lockRenewal.pass"] = this.messageLockRenewalInfo.numberOfSuccesses;
+      eventProperties["lockRenewal.fail"] = this.messageLockRenewalInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")) {
+      eventProperties["sessionLockRenewal.pass"] = this.sessionLockRenewalInfo.numberOfSuccesses;
+      eventProperties["sessionLockRenewal.fail"] = this.sessionLockRenewalInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus.includes("close-info")) {
+      eventProperties["close.sender.pass"] = -this.closeInfo.sender.numberOfSuccesses;
+      eventProperties["close.sender.fail"] = this.closeInfo.sender.numberOfFailures;
+      eventProperties["close.receiver.pass"] = this.closeInfo.receiver.numberOfSuccesses;
+      eventProperties["close.receiver.fail"] = this.closeInfo.receiver.numberOfFailures;
+    }
+
     const errors = [].concat(
       this.sendInfo.errors,
       this.receiveInfo.errors,
       this.messageLockRenewalInfo.errors,
       this.sessionLockRenewalInfo.errors
     );
+
+    // TODO: it would be nicer to report the errors as they occur rather than only doing
+    // this on snapshot boundaries.
+    for (const err of errors) {
+      defaultClient.trackException({
+        exception: err
+      });
+    }
+
+    this.sendInfo.errors = [];
+    this.receiveInfo.errors = [];
+    this.messageLockRenewalInfo.errors = [];
+    this.sessionLockRenewalInfo.errors = [];
+
+    defaultClient.trackEvent({
+      name: "summary",
+      properties: eventProperties
+    });
+
+    defaultClient.flush();
+
+    console.log(JSON.stringify(eventProperties, undefined, 2));
+  }
+
+  public async end() {
+    await this.snapshot();
+
     if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
-      await saveDiscrepanciesFromTrackedMessages(
-        this.trackedMessageIds,
-        this.messagesReportFileName
-      );
+      const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
+
+      defaultClient.trackEvent({
+        name: "discrepencies",
+        properties: {
+          messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
+          messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
+          messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
+          messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(
+            ","
+          ),
+          messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(
+            ","
+          )
+        }
+      });
     }
-    if (errors.length) {
-      await writeFile(
-        `errors-logged-${this.queueName}.txt`,
-        errors.reduce((output, entry) => output + "\n" + entry)
-      );
-    }
-    if (this.closeInfo) {
-      await writeFile(
-        `temp/close-calls-logged-${this.queueName}.json`,
-        JSON.stringify(this.closeInfo, null, 2) // Third argument prettifies
-      );
-    }
+
     // TODO: Log tracked messages in JSON
     // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
     // TODO: Add an argument to "end()" to not delete the resource

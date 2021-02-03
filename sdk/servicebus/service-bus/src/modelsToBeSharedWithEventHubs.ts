@@ -16,7 +16,6 @@ export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "traci
 
 /**
  * @internal
- * @hidden
  */
 export function getParentSpan(
   options?: OperationTracingOptions
@@ -26,12 +25,7 @@ export function getParentSpan(
 
 /**
  * @internal
- * @hidden
  *
- * @param {(Span | SpanContext | null)} [parentSpan]
- * @param {SpanContext[]} [spanContextsToLink=[]]
- * @param {string} [entityPath]
- * @param {string} [host]
  */
 export function createSendSpan(
   parentSpan?: Span | SpanContext | null,

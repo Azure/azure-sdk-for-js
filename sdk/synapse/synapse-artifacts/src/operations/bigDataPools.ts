@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { BigDataPoolsListResponse, BigDataPoolsGetResponse } from "../models";
 
-/**
- * Class representing a BigDataPools.
- */
+/** Class representing a BigDataPools. */
 export class BigDataPools {
   private readonly client: ArtifactsClient;
 
@@ -80,7 +78,6 @@ export class BigDataPools {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {

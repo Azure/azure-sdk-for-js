@@ -28,7 +28,6 @@ const smallMessageMaxBytes = 255;
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
  * @param eventDataBatch The instance of `EventDataBatch` to verify.
  * @internal
- * @hidden
  */
 export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is EventDataBatch {
   return (
@@ -132,7 +131,6 @@ export interface EventDataBatch {
  *
  * @class
  * @internal
- * @hidden
  */
 export class EventDataBatchImpl implements EventDataBatch {
   /**

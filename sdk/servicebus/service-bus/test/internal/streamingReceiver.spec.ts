@@ -244,7 +244,7 @@ describe("StreamingReceiver unit tests", () => {
       try {
         let args: ProcessErrorArgs | undefined;
 
-        let eventContext = {
+        const eventContext = {
           delivery: {},
           message: {
             message_annotations: {
@@ -330,7 +330,7 @@ describe("StreamingReceiver unit tests", () => {
         }
       };
 
-      let errorsAfterRetryCycle: (Error | MessagingError | undefined)[] = [];
+      const errorsAfterRetryCycle: (Error | MessagingError | undefined)[] = [];
 
       await streamingReceiver.init({
         useNewName: false,

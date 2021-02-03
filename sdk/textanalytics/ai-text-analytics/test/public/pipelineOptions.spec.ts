@@ -4,7 +4,7 @@
 import { assert } from "chai";
 
 import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
-import { createClient } from "../utils/recordedClient";
+import { createClient } from "./utils/recordedClient";
 
 import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 

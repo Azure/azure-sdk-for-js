@@ -99,8 +99,8 @@ describe("serialization.deserialize", () => {
       }
     });
     assert.instanceOf(result.location, GeographyPoint);
-    assert.equal(result.location.latitude, -84.527771);
-    assert.equal(result.location.longitude, 37.989769);
+    assert.equal(result.location.latitude, 37.989769);
+    assert.equal(result.location.longitude, -84.527771);
   });
 
   afterEach(() => {

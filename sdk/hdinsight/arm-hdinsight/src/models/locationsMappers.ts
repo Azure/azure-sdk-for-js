@@ -23,5 +23,6 @@ export {
   VersionSpec,
   VmSizeCompatibilityFilter,
   VmSizeCompatibilityFilterV2,
+  VmSizeProperty,
   VmSizesCapability
 } from "../models/mappers";

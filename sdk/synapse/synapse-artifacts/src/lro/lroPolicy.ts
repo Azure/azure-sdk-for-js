@@ -18,7 +18,7 @@ export function lroPolicy() {
   };
 }
 
-export class LROPolicy extends BaseRequestPolicy {
+class LROPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
   }
