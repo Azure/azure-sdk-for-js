@@ -4,11 +4,11 @@
 import fs from "fs-extra";
 import path from "path";
 
-import { findMatchingFiles, toFileInfo } from "../../util/findMatchingFiles";
+import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
-import { SampleConfiguration, shouldSkip } from "../../util/shouldSkip";
+import { SampleConfiguration } from "../../util/shouldSkip";
 
 const log = createPrinter("run-samples");
 
