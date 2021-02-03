@@ -91,7 +91,7 @@ export class MixedRealityStsClient {
 
     this.accountId = accountId;
     this.endpointUrl =
-      options.endpointUrl || constructAuthenticationEndpointFromDomain(accountDomain);
+      options.customEndpointUrl || constructAuthenticationEndpointFromDomain(accountDomain);
 
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-mixed-reality-authentication/${SDK_VERSION}`;

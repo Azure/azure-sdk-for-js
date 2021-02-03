@@ -10,7 +10,7 @@ export interface MixedRealityStsClientOptions extends PipelineOptions {
   /**
    * Overrides the Mixed Reality STS service endpoint.
    */
-  endpointUrl?: string;
+  customEndpointUrl?: string;
 }
 
 /**

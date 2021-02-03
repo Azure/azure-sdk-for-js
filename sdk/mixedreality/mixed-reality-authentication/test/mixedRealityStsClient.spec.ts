@@ -54,7 +54,7 @@ describe("MixedRealityStsClient", () => {
     const expectedEndpointUrl = "https://sts.westus2.mixedreality.azure.com";
 
     const client = new MixedRealityStsClient(accountId, accountDomain, keyCredential, {
-      endpointUrl: expectedEndpointUrl
+      customEndpointUrl: expectedEndpointUrl
     });
 
     assert.isNotNull(client);

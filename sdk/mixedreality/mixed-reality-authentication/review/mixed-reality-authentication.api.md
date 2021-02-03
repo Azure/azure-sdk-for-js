@@ -35,7 +35,7 @@ export class MixedRealityStsClient {
 
 // @public
 export interface MixedRealityStsClientOptions extends PipelineOptions {
-    endpointUrl?: string;
+    customEndpointUrl?: string;
 }
 
 // @public
