@@ -79,7 +79,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param apiKey - The new api key value to be used
    */
-  public async updateApiKey(apiKey: string): Promise<void> {
+  public async updateApiKey(apiKey: string): void {
     if (!apiKey) {
       throw new RangeError("apiKey must be a non-empty string");
     }
