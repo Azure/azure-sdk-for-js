@@ -1,22 +1,22 @@
 {
- "recordings": [
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/%2B14155550100",
-   "query": {
-    "api-version": "2021-03-07"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"18332159176\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":null,\"applicationId\":null}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "4a43e19679d1e6152ade2afd15fa9173"
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/%2B14155550100",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"id\":\"18332159176\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":null,\"applicationId\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "4a43e19679d1e6152ade2afd15fa9173"
 }
