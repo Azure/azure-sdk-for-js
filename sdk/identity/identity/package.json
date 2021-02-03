@@ -95,7 +95,7 @@
     "uuid": "^8.3.0"
   },
   "optionalDependencies": {
-    "keytar": "^5.4.0"
+    "keytar": "^7.3.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
