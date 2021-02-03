@@ -6,13 +6,12 @@
 
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface SendOptions extends OperationOptions {
-    enableDeliveryReport?: boolean;
+    enableDeliveryReport: boolean;
     tag?: string;
 }
 
@@ -24,23 +23,27 @@ export interface SendRequest {
 }
 
 // @public
-export interface SendSmsResult {
-    errorMessage?: string;
-    httpStatusCode: number;
-    messageId?: string;
-    to: string;
-}
-
-// @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(_sendRequest: SendRequest, _options?: SendOptions): PagedAsyncIterableIterator<SendSmsResult>;
+    // Warning: (ae-forgotten-export) The symbol "SmsSendResponse" needs to be exported by the entry point index.d.ts
+    send(_sendRequest: SendRequest, _options?: SendOptions): Promise<SmsSendResponse>;
 }
 
 // @public
 export interface SmsClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface SmsSendResult {
+    errorMessage?: string;
+    httpStatusCode: number;
+    messageId?: string;
+    // Warning: (ae-forgotten-export) The symbol "SmsSendResultRepeatabilityResult" needs to be exported by the entry point index.d.ts
+    repeatabilityResult?: SmsSendResultRepeatabilityResult;
+    successful: boolean;
+    to: string;
 }
 
 

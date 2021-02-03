@@ -9,20 +9,25 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  //RestResponse,
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions
-  //operationOptionsToRequestOptionsBase
+  OperationOptions,
+  operationOptionsToRequestOptionsBase,
+  generateUuid
 } from "@azure/core-http";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
+import {
+  SmsSendResult,
+  SendMessageRequest,
+  SmsRecipient,
+  SmsSendResponse
+} from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
-//import { extractOperationOptions } from "./extractOperationOptions";
+import { extractOperationOptions } from "./extractOperationOptions";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -53,9 +58,10 @@ export interface SendRequest {
  */
 export interface SendOptions extends OperationOptions {
   /**
-   * Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid
+   * Enable this flag to receive a delivery report for this message on the Azure Resource
+   * EventGrid. Default value: false.
    */
-  enableDeliveryReport?: boolean;
+  enableDeliveryReport: boolean;
   /**
    * Use this field to provide metadata that will then be sent back in the corresponding Delivery
    * Report.
@@ -63,27 +69,7 @@ export interface SendOptions extends OperationOptions {
   tag?: string;
 }
 
-/**
- * Response for a single recipient.
- */
-export interface SendSmsResult {
-  /**
-   * The recipients's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * The identifier of the outgoing SMS message. Only present if message processed.
-   */
-  messageId?: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx or 5xx errors.
-   */
-  errorMessage?: string;
-}
+export { SmsSendResult };
 
 /**
  * Checks whether the type of a value is SmsClientOptions or not.
@@ -154,11 +140,7 @@ export class SmsClient {
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     this.api = new SmsApiClient(url, pipeline);
-    if (this.api) {
-      console.log("test");
-    }
   }
 
   /**
@@ -167,23 +149,35 @@ export class SmsClient {
    * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options - Additional request options
    */
-  public send(
+  public async send(
     _sendRequest: SendRequest,
-    _options: SendOptions = {}
-  ): PagedAsyncIterableIterator<SendSmsResult> {
-    const { span } = createSpan("SmsClient-Send", _options);
-    try {
+    _options: SendOptions = { enableDeliveryReport: false }
+  ): Promise<SmsSendResponse> {
+    const { operationOptions, restOptions } = extractOperationOptions(_options);
+    const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
+
+    const now = new Date().toUTCString();
+    const recipients: SmsRecipient[] = _sendRequest.to.map((phoneNumberStr) => {
       return {
-        next() {
-          throw new Error("Not yet implemented.");
-        },
-        [Symbol.asyncIterator]() {
-          throw new Error("Not yet implemented.");
-        },
-        byPage: (_settings: PageSettings = {}) => {
-          throw new Error("Not yet implemented.");
-        }
+        to: phoneNumberStr,
+        repeatabilityFirstSent: now,
+        repeatabilityRequestId: generateUuid()
       };
+    });
+
+    const sendRequest: SendMessageRequest = {
+      from: _sendRequest.from,
+      smsRecipient: recipients,
+      message: _sendRequest.message,
+      smsSendOptions: restOptions
+    };
+
+    try {
+      const response = await this.api.sms.send(
+        sendRequest,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return response;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
