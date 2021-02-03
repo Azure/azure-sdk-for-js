@@ -232,10 +232,8 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     accessMode: "Private",
     adminEmails: ["xyz@example.com"]
   };
-  const created = await adminClient.createDataFeed(dataFeed);
-  /* To get the full datafeed object, you can call the get method and pass the id of the created datafeed
-   */
-  const result = await adminClient.getDataFeed(created.id);
+  const result = await adminClient.createDataFeed(dataFeed);
+
   return result;
 }
 ```
@@ -319,12 +317,7 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  const created = await adminClient.createDetectionConfig(anomalyConfig);
-
-  /* To get the full detection config object, you can call the get method and pass the id of the created detection config
-   */
-  const result = await adminClient.getDetectionConfig(created.id);
-  return result;
+  return await adminClient.createDetectionConfig(anomalyConfig);
 }
 ```
 
@@ -365,11 +358,7 @@ async function createWebhookHook(adminClient) {
     }
   };
 
-  const created = await adminClient.createHook(hook);
-  /* To get the full hook object, you can call the get method and pass the id of the created hook
-   */
-  const result = await adminClient.getHook(created.id);
-  return result;
+  return await adminClient.createHook(hook);
 }
 ```
 
@@ -421,11 +410,7 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  const created = await adminClient.createAlertConfig(anomalyAlertConfig);
-  /* To get the full alert config object, you can call the get method and pass the id of the created alert config
-   */
-  const result = await adminClient.getAlertConfig(created.id);
-  return result;
+  return await adminClient.createAlertConfig(anomalyAlertConfig);
 }
 ```
 
