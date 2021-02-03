@@ -18,7 +18,8 @@ import {
 import {
   AnalyzeBatchActionsResult,
   PagedAsyncIterableAnalyzeBatchActionsResult,
-  PagedAnalyzeBatchActionsResult
+  PagedAnalyzeBatchActionsResult,
+  ActionsResultBuilder
 } from "../../analyzeBatchActionsResult";
 import { PageSettings } from "@azure/core-paging";
 import { getOperationId, handleInvalidDocumentBatch, nextLinkToTopAndSkip } from "../../util";
@@ -26,18 +27,6 @@ import { AnalysisPollOperation, AnalysisPollOperationState, OperationMetadata } 
 import { GeneratedClient as Client } from "../../generated";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
-import {
-  makeRecognizeCategorizedEntitiesResultArray,
-  RecognizeCategorizedEntitiesResultArray
-} from "../../recognizeCategorizedEntitiesResultArray";
-import {
-  makeRecognizePiiEntitiesResultArray,
-  RecognizePiiEntitiesResultArray
-} from "../../recognizePiiEntitiesResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray
-} from "../../extractKeyPhrasesResultArray";
 import { logger } from "../../logger";
 export { State };
 
@@ -195,34 +184,11 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
         operationId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
+      const actionResultsBuilder = new ActionsResultBuilder(response, this.documents);
       const result: AnalyzeBatchActionsResult = {
-        recognizeEntitiesResults:
-          response.tasks.entityRecognitionTasks?.map(
-            ({ results }): RecognizeCategorizedEntitiesResultArray =>
-              makeRecognizeCategorizedEntitiesResultArray(
-                this.documents,
-                results?.documents,
-                results?.errors,
-                results?.modelVersion,
-                results?.statistics
-              )
-          ) ?? [],
-        recognizePiiEntitiesResults:
-          response.tasks.entityRecognitionPiiTasks?.map(
-            ({ results }): RecognizePiiEntitiesResultArray =>
-              makeRecognizePiiEntitiesResultArray(this.documents, results)
-          ) ?? [],
-        extractKeyPhrasesResults:
-          response.tasks.keyPhraseExtractionTasks?.map(
-            ({ results }): ExtractKeyPhrasesResultArray =>
-              makeExtractKeyPhrasesResultArray(
-                this.documents,
-                results?.documents,
-                results?.errors,
-                results?.modelVersion,
-                results?.statistics
-              )
-          ) ?? []
+        recognizeEntitiesResults: actionResultsBuilder.makeRecognizeCategorizedEntitiesActionResult(),
+        recognizePiiEntitiesResults: actionResultsBuilder.makeRecognizePiiEntitiesActionResult(),
+        extractKeyPhrasesResults: actionResultsBuilder.makeExtractKeyPhrasesActionResult()
       };
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
