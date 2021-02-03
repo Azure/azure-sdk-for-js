@@ -8,26 +8,24 @@ import isBuffer from "is-buffer";
 import jssha from "jssha";
 
 /**
- * @class SharedKeyCredential
  * @internal
  * Defines the SharedKeyCredential.
  */
 export class SharedKeyCredential {
   /**
-   * @property {string} keyName - The name of the EventHub/ServiceBus key.
+   * The name of the EventHub/ServiceBus key.
    */
   keyName: string;
 
   /**
-   * @property {string} key - The secret value associated with the above EventHub/ServiceBus key.
+   * The secret value associated with the above EventHub/ServiceBus key.
    */
   key: string;
 
   /**
    * Initializes a new instance of SharedKeyCredential
-   * @constructor
-   * @param {string} keyName - The name of the EventHub/ServiceBus key.
-   * @param {string} key - The secret value associated with the above EventHub/ServiceBus key
+   * @param keyName - The name of the EventHub/ServiceBus key.
+   * @param key - The secret value associated with the above EventHub/ServiceBus key
    */
   constructor(keyName: string, key: string) {
     this.keyName = keyName;
@@ -36,7 +34,7 @@ export class SharedKeyCredential {
 
   /**
    * Gets the sas token for the specified audience
-   * @param {string} [audience] - The audience for which the token is desired.
+   * @param audience - The audience for which the token is desired.
    */
   getToken(audience: string): AccessToken {
     return this._createToken(Math.floor(Date.now() / 1000) + 3600, audience);
@@ -44,9 +42,9 @@ export class SharedKeyCredential {
 
   /**
    * Creates the sas token based on the provided information
-   * @param {string | number} expiry - The time period in unix time after which the token will expire.
-   * @param {string} [audience] - The audience for which the token is desired.
-   * @param {string | Buffer} [hashInput] The input to be provided to hmac to create the hash.
+   * @param expiry - The time period in unix time after which the token will expire.
+   * @param audience - The audience for which the token is desired.
+   * @param hashInput - The input to be provided to hmac to create the hash.
    */
   protected _createToken(
     expiry: number,
@@ -76,7 +74,7 @@ export class SharedKeyCredential {
 
   /**
    * Creates a token provider from the EventHub/ServiceBus connection string;
-   * @param {string} connectionString - The EventHub/ServiceBus connection string
+   * @param connectionString - The EventHub/ServiceBus connection string
    */
   static fromConnectionString(connectionString: string): SharedKeyCredential {
     const parsed = parseConnectionString<{
@@ -103,7 +101,7 @@ export class SharedAccessSignatureCredential extends SharedKeyCredential {
   private _accessToken: AccessToken;
 
   /**
-   * @param sharedAccessSignature A shared access signature of the form
+   * @param sharedAccessSignature - A shared access signature of the form
    * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
    */
   constructor(sharedAccessSignature: string) {
@@ -118,7 +116,7 @@ export class SharedAccessSignatureCredential extends SharedKeyCredential {
   /**
    * Retrieve a valid token for authenticaton.
    *
-   * @param _audience Not applicable in SharedAccessSignatureCredential as the token is not re-generated at every invocation of the method
+   * @param _audience - Not applicable in SharedAccessSignatureCredential as the token is not re-generated at every invocation of the method
    */
   getToken(_audience: string): AccessToken {
     return this._accessToken;

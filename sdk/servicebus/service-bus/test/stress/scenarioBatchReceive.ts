@@ -1,4 +1,8 @@
-import { ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusReceiver,
+  ServiceBusReceiverOptions
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -9,10 +13,9 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-type ReceiveMode = "receiveAndDelete" | "peekLock";
 interface ScenarioReceiveBatchOptions {
   testDurationInMs?: number;
-  receiveMode?: ReceiveMode;
+  receiveMode?: ServiceBusReceiverOptions["receiveMode"];
   receiveBatchMaxMessageCount?: number;
   receiveBatchMaxWaitTimeInMs?: number;
   delayBetweenReceivesInMs?: number;
@@ -35,7 +38,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> 
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
-    receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
+    receiveMode: options.receiveMode || "peekLock",
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
@@ -72,6 +75,7 @@ export async function scenarioReceiveBatch() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "batchAndReceive",
     snapshotFocus: ["send-info", "receive-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);

@@ -114,6 +114,7 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
           assert: ["ok", "equal", "strictEqual", "deepEqual"],
@@ -127,8 +128,8 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra", "path"];
+
+    baseConfig.external = ["path"];
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting

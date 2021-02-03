@@ -21,7 +21,7 @@ import {
   CompositeMapper,
   XmlOptions
 } from "./interfaces";
-import { isStreamOperation } from "./interfaceHelpers";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
@@ -195,8 +195,8 @@ export class ServiceClient {
       }
     }
 
-    if (request.streamResponseBody === undefined) {
-      request.streamResponseBody = isStreamOperation(operationSpec);
+    if (request.streamResponseStatusCodes === undefined) {
+      request.streamResponseStatusCodes = getStreamingResponseStatusCodes(operationSpec);
     }
 
     try {

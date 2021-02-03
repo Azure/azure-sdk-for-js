@@ -21,9 +21,7 @@ import {
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a DataFlowDebugSession.
- */
+/** Class representing a DataFlowDebugSession. */
 export class DataFlowDebugSession {
   private readonly client: ArtifactsClient;
 
@@ -318,7 +316,6 @@ export class DataFlowDebugSession {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const createDataFlowDebugSessionOperationSpec: coreHttp.OperationSpec = {

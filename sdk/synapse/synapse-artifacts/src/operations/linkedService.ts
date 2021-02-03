@@ -19,9 +19,7 @@ import {
   LinkedServiceGetLinkedServicesByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a LinkedService.
- */
+/** Class representing a LinkedService. */
 export class LinkedService {
   private readonly client: ArtifactsClient;
 
@@ -335,7 +333,6 @@ export class LinkedService {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getLinkedServicesByWorkspaceOperationSpec: coreHttp.OperationSpec = {

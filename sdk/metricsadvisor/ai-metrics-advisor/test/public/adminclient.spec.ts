@@ -137,11 +137,10 @@ matrix([[true, false]] as const, async (useAad) => {
             seriesDetectionConditions: []
           };
 
-          const actual = await client.createDetectionConfig(expected);
-
+          const created = await client.createDetectionConfig(expected);
+          const actual = await client.getDetectionConfig(created.id);
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
-
           assert.equal(actual.name, expected.name);
           assert.strictEqual(actual.description, expected.description);
           assert.equal(actual.metricId, expected.metricId);
@@ -202,8 +201,8 @@ matrix([[true, false]] as const, async (useAad) => {
             ]
           };
 
-          const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
-
+          await client.updateDetectionConfig(createdDetectionConfigId, expected);
+          const actual = await client.getDetectionConfig(createdDetectionConfigId);
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
 
@@ -280,8 +279,8 @@ matrix([[true, false]] as const, async (useAad) => {
             hookIds: []
           };
 
-          const actual = await client.createAlertConfig(expectedAlertConfig);
-
+          const created = await client.createAlertConfig(expectedAlertConfig);
+          const actual = await client.getAlertConfig(created.id);
           assert.ok(actual.id, "Expecting valid alert config");
           createdAlertConfigId = actual.id;
           assert.equal(actual.name, expectedAlertConfig.name);
@@ -321,8 +320,8 @@ matrix([[true, false]] as const, async (useAad) => {
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
           };
 
-          const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
-
+          await client.updateAlertConfig(createdAlertConfigId, patch);
+          const actual = await client.getAlertConfig(createdAlertConfigId);
           assert.ok(actual.id, "Expecting valid alerting config");
           assert.equal(actual.name, "new alert config name");
           assert.equal(actual.description, "new alert config description");

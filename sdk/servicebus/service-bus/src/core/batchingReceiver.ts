@@ -26,16 +26,13 @@ import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
- * @class BatchingReceiver
- * @extends MessageReceiver
  */
 export class BatchingReceiver extends MessageReceiver {
   /**
    * Instantiate a new BatchingReceiver.
    *
-   * @constructor
-   * @param {ClientEntityContext} context The client entity context.
-   * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
+   * @param context - The client entity context.
+   * @param options - Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, entityPath: string, options: ReceiveOptions) {
     super(context, entityPath, "batching", options);
@@ -80,7 +77,7 @@ export class BatchingReceiver extends MessageReceiver {
 
   /**
    * To be called when connection is disconnected to gracefully close ongoing receive request.
-   * @param {AmqpError | Error} [connectionError] The connection error if any.
+   * @param connectionError - The connection error if any.
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
@@ -92,15 +89,15 @@ export class BatchingReceiver extends MessageReceiver {
       );
     }
 
-    this._batchingReceiverLite.close(connectionError);
+    this._batchingReceiverLite.terminate(connectionError);
   }
 
   /**
    * Receives a batch of messages from a ServiceBus Queue/Topic.
-   * @param maxMessageCount The maximum number of messages to receive.
+   * @param maxMessageCount - The maximum number of messages to receive.
    * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
-   * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
-   * @param maxTimeAfterFirstMessageInMs The total amount of time to wait after the first message
+   * @param maxWaitTimeInMs - The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxTimeAfterFirstMessageInMs - The total amount of time to wait after the first message
    * has been received. Defaults to 1 second.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
@@ -160,8 +157,8 @@ export class BatchingReceiver extends MessageReceiver {
  * taking into account elapsed time from when getRemainingWaitTimeInMsFn
  * was called.
  *
- * @param maxWaitTimeInMs Maximum time to wait for the first message
- * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
+ * @param maxWaitTimeInMs - Maximum time to wait for the first message
+ * @param maxTimeAfterFirstMessageInMs - Maximum time to wait after the first message before completing the receive.
  *
  * @internal
  */
@@ -299,9 +296,9 @@ export class BatchingReceiverLite {
   /**
    * Closes the receiver (optionally with an error), cancelling any current operations.
    *
-   * @param connectionError An optional error (rhea doesn't always deliver one for certain disconnection events)
+   * @param connectionError - An optional error (rhea doesn't always deliver one for certain disconnection events)
    */
-  close(connectionError?: Error | AmqpError) {
+  terminate(connectionError?: Error | AmqpError) {
     if (this._closeHandler) {
       this._closeHandler(connectionError);
       this._closeHandler = undefined;

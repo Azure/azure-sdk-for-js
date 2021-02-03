@@ -34,20 +34,15 @@ describe("CommunicationIdentityClient [Playback/Live]", function() {
   });
 
   it("successfully issues a token for a user [single scope]", async function() {
-    const { token, expiresOn, user: receivedUser } = await client.issueToken(user, ["chat"]);
+    const { token, expiresOn } = await client.issueToken(user, ["chat"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
-    assert.deepEqual(receivedUser, user);
   });
 
   it("successfully issues a token for a user [multiple scopes]", async function() {
-    const { token, expiresOn, user: receivedUser } = await client.issueToken(user, [
-      "chat",
-      "voip"
-    ]);
+    const { token, expiresOn } = await client.issueToken(user, ["chat", "voip"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
-    assert.deepEqual(receivedUser, user);
   });
 
   it("successfully revokes tokens issued for a user", async function() {

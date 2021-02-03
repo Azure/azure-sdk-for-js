@@ -204,6 +204,15 @@ export interface KeyProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+
+  /**
+   * True if the secret's lifetime is managed by
+   * key vault. If this is a secret backing a certificate, then managed will be
+   * true.
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  readonly managed?: boolean;
 }
 
 /**
@@ -342,6 +351,20 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
   keySize?: number;
   /**
    * Whether to import as a hardware key (HSM) or software key.
+   */
+  hsm?: boolean;
+
+  /** The public exponent for a RSA key. */
+  publicExponent?: number;
+}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createOctKey}
+ */
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+  /**
+   * Whether to create a hardware-protected key in a hardware security module (HSM).
    */
   hsm?: boolean;
 }

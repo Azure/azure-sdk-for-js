@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
+import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
+
+export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
+  return document.hotelId;
+};
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {

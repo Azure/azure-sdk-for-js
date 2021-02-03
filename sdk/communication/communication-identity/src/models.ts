@@ -3,7 +3,6 @@
 
 import { PipelineOptions } from "@azure/core-http";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { CommunicationIdentityAccessToken } from "./generated/src/models";
 import { WithResponse } from "./common/models";
 
 /**
@@ -17,9 +16,23 @@ export type TokenScope = "chat" | "voip";
 export interface CommunicationIdentityOptions extends PipelineOptions {}
 
 /**
+ * The access token for a user.
+ */
+export interface CommunicationAccessToken {
+  /**
+   * The access token issued for the user.
+   */
+  token: string;
+  /**
+   * The expiry time of the token.
+   */
+  expiresOn: Date;
+}
+
+/**
  * The issued token and the user it was issued for.
  */
-export interface CommunicationUserToken extends CommunicationIdentityAccessToken {
+export interface CommunicationUserToken extends CommunicationAccessToken {
   /**
    * Represents the user the token was issued for
    */
@@ -27,18 +40,16 @@ export interface CommunicationUserToken extends CommunicationIdentityAccessToken
 }
 
 /**
- * Represents the response from creating a user
+ * Represents the response from creating a user.
  */
 export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 
 /**
- * Represents the response from issuing a token
+ * Represents the response from issuing a token.
  */
-export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
+export type IssueTokenResponse = WithResponse<CommunicationAccessToken>;
 
 /**
- * Represents the response from creating a user with a token
+ * Represents the response from creating a user with a token.
  */
 export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;
-
-export { CommunicationIdentityAccessToken } from "./generated/src/models";

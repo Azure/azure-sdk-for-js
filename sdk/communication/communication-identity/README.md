@@ -59,8 +59,6 @@ If you use a key to initialize the client you will also need to provide the appr
 
 ## Usage
 
-### CommunicationIdentityClient
-
 ### Creating an instance of CommunicationIdentityClient
 
 ```typescript
@@ -69,7 +67,7 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 const client = new CommunicationIdentityClient(CONNECTION_STRING);
 ```
 
-#### Creating a new user
+### Creating a new user
 
 Use the `createUser` method to create a new user.
 
@@ -77,7 +75,7 @@ Use the `createUser` method to create a new user.
 const user = await client.createUser();
 ```
 
-#### Creating and refreshing a user token
+### Creating and refreshing a user token
 
 Use the `issueToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
 
@@ -94,7 +92,15 @@ To refresh the user token, issue another token with the same user.
 { token } = await client.issueToken(user, ["chat"]);
 ```
 
-#### Revoking tokens for a user
+### Creating a user together with a token in a single request
+
+For convenience, use `createUserWithToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
+
+```typescript
+let { user, token } = await client.createUserWithToken(["chat"]);
+```
+
+### Revoking tokens for a user
 
 Use the `revokeTokens` method to revoke all issued tokens for a user.
 
@@ -102,7 +108,7 @@ Use the `revokeTokens` method to revoke all issued tokens for a user.
 await client.revokeTokens(user);
 ```
 
-#### Deleting a user
+### Deleting a user
 
 Use the `deleteUser` method to delete a user.
 

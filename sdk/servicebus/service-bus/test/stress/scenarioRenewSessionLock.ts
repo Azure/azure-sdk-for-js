@@ -73,6 +73,7 @@ export async function scenarioRenewSessionLock() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "renewSessionLock",
     snapshotFocus: ["send-info", "receive-info", "session-lock-renewal-info"]
   });
 

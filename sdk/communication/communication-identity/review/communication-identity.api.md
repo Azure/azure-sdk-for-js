@@ -12,7 +12,7 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface CommunicationIdentityAccessToken {
+export interface CommunicationAccessToken {
     expiresOn: Date;
     token: string;
 }
@@ -34,7 +34,7 @@ export interface CommunicationIdentityOptions extends PipelineOptions {
 }
 
 // @public
-export interface CommunicationUserToken extends CommunicationIdentityAccessToken {
+export interface CommunicationUserToken extends CommunicationAccessToken {
     user: CommunicationUserIdentifier;
 }
 
@@ -45,7 +45,7 @@ export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 export type CreateUserWithTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
-export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
+export type IssueTokenResponse = WithResponse<CommunicationAccessToken>;
 
 // @public
 export type TokenScope = "chat" | "voip";

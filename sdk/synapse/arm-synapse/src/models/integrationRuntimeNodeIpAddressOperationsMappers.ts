@@ -8,6 +8,8 @@
 
 export {
   discriminators,
-  CloudError,
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse,
   IntegrationRuntimeNodeIpAddress
 } from "../models/mappers";

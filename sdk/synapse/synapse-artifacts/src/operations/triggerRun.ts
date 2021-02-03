@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
 
-/**
- * Class representing a TriggerRun.
- */
+/** Class representing a TriggerRun. */
 export class TriggerRun {
   private readonly client: ArtifactsClient;
 
@@ -131,7 +129,6 @@ export class TriggerRun {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const rerunTriggerInstanceOperationSpec: coreHttp.OperationSpec = {

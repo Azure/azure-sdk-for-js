@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"French\",\"iso6391Name\":\"fr\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-09-01\"}",
    "responseHeaders": {
-    "apim-request-id": "6a7dab17-866d-46a4-a6c6-fb49eed3256c",
+    "apim-request-id": "270913e8-9c32-4fd8-b72d-b9a985db8955",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 22 Dec 2020 20:30:44 GMT",
+    "date": "Wed, 30 Dec 2020 17:53:20 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "19"
+    "x-envoy-upstream-service-time": "27"
    }
   }
  ],

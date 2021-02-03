@@ -16,8 +16,7 @@ export {
   EventGridPublisherClientOptions,
   SendEventsOptions,
   SendCloudEventsOptions,
-  SendCustomSchemaEventsOptions,
-  SendEventsResponse
+  SendCustomSchemaEventsOptions
 } from "./eventGridClient";
 
 export {
