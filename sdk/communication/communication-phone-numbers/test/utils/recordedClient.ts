@@ -31,14 +31,15 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "SomeClientSecret",
-  AZURE_TENANT_ID: "SomeTenantId"
+  AZURE_TENANT_ID: "SomeTenantId",
+  AZURE_PHONE_NUMBER: "+14155550100"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
+    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+14155550100"),
     (recording: string): string =>
       recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
   ],

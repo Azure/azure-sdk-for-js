@@ -3,12 +3,13 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode, WebResourceLike } from "@azure/core-http";
+import { DefaultAzureCredential } from "@azure/identity";
+import { isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "./utils/mockHttpClients";
 import { SDK_VERSION } from "../src/utils/constants";
-import { DefaultAzureCredential } from "@azure/identity";
 
 if (isNode) {
   require("dotenv").config();
@@ -80,7 +81,7 @@ describe("PhoneNumbersClient headers", function() {
   });
 
   it("sets bearer authorization header with TokenCredential", async function() {
-    if (!isNode) {
+    if (!isNode || isPlaybackMode()) {
       this.skip();
     }
 
