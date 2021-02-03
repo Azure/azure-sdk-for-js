@@ -64,7 +64,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param subscriptionKey - The new subscription key value to be used
    */
-  public async updateSubscriptionKey(subscriptionKey: string): void {
+  public updateSubscriptionKey(subscriptionKey: string): void {
     if (!subscriptionKey) {
       throw new RangeError("subscriptionKey must be a non-empty string");
     }
@@ -79,7 +79,7 @@ export class MetricsAdvisorKeyCredential {
    *
    * @param apiKey - The new api key value to be used
    */
-  public async updateApiKey(apiKey: string): void {
+  public updateApiKey(apiKey: string): void {
     if (!apiKey) {
       throw new RangeError("apiKey must be a non-empty string");
     }

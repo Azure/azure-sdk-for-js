@@ -18,13 +18,13 @@ describe("MetricsAdvisorKeyCredential", () => {
 
   it("update subscriptionKey", async function() {
     const newSubscriptionKey = "Abc";
-    await credential.updateSubscriptionKey(newSubscriptionKey);
+    credential.updateSubscriptionKey(newSubscriptionKey);
     assert.equal(credential.subscriptionKey, newSubscriptionKey);
   });
 
   it("update apiKey", async function() {
     const newApiKey = "Abcdef";
-    await credential.updateApiKey(newApiKey);
+    credential.updateApiKey(newApiKey);
     assert.equal(credential.apiKey, newApiKey);
   });
 });

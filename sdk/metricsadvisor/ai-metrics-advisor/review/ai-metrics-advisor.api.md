@@ -1043,8 +1043,8 @@ export class MetricsAdvisorKeyCredential {
     constructor(subscriptionKey: string, apiKey: string);
     get apiKey(): string;
     get subscriptionKey(): string;
-    updateApiKey(apiKey: string): Promise<void>;
-    updateSubscriptionKey(subscriptionKey: string): Promise<void>;
+    updateApiKey(apiKey: string): void;
+    updateSubscriptionKey(subscriptionKey: string): void;
 }
 
 // @public
