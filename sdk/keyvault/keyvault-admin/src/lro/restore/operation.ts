@@ -97,14 +97,14 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       fireProgress?: (state: RestorePollOperationState) => void;
     } = {}
   ): Promise<RestorePollOperation> {
-    const currentState = this.state;
-    const { blobStorageUri, sasToken, folderName } = currentState;
+    const state = this.state;
+    const { blobStorageUri, sasToken, folderName } = state;
 
     if (options.abortSignal) {
       this.requestOptions.abortSignal = options.abortSignal;
     }
 
-    if (!currentState.isStarted) {
+    if (!state.isStarted) {
       const serviceOperation = await this.fullRestore({
         ...this.requestOptions,
         restoreBlobDetails: {
@@ -116,23 +116,20 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
         }
       });
 
-      this.state = this.mapState(currentState, serviceOperation);
-    } else if (!currentState.isCompleted) {
-      if (!currentState.jobId) {
+      this.mapState(serviceOperation);
+    } else if (!state.isCompleted) {
+      if (!state.jobId) {
         throw new Error(`Missing "jobId" from the full restore operation.`);
       }
-      const serviceOperation = await this.restoreStatus(currentState.jobId, this.requestOptions);
-      this.state = this.mapState(currentState, serviceOperation);
+      const serviceOperation = await this.restoreStatus(state.jobId, this.requestOptions);
+      this.mapState(serviceOperation);
     }
 
     return this;
   }
 
-  private mapState(
-    currentState: RestorePollOperationState,
-    serviceOperation: RestoreOperation
-  ): RestorePollOperationState {
-    const newState = { ...currentState };
+  private mapState(serviceOperation: RestoreOperation): void {
+    const state = this.state;
     const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
 
     if (!startTime) {
@@ -141,26 +138,24 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
       );
     }
 
-    newState.isStarted = true;
-    newState.jobId = jobId;
-    newState.endTime = endTime;
-    newState.startTime = startTime;
-    newState.status = status;
-    newState.statusDetails = statusDetails;
+    state.isStarted = true;
+    state.jobId = jobId;
+    state.endTime = endTime;
+    state.startTime = startTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
 
-    newState.isCompleted = !!(endTime || error?.message);
+    state.isCompleted = !!endTime;
 
     if (error?.message || statusDetails) {
       throw new Error(error?.message || statusDetails);
     }
 
-    if (newState.isCompleted) {
-      newState.result = {
+    if (state.isCompleted) {
+      state.result = {
         startTime,
         endTime
       };
     }
-
-    return newState;
   }
 }
