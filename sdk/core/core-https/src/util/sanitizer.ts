@@ -36,6 +36,7 @@ const defaultAllowedHeaderNames = [
   "x-ms-correlation-request-id",
   "x-ms-request-id",
   "client-request-id",
+  "ms-cv",
   "return-client-request-id",
   "traceparent",
 
