@@ -6,7 +6,7 @@ import { QuantumJobClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import { Recorder } from "@azure/test-utils-recorder";
 import chai from "chai";
-import * as fs from 'fs';
+import * as fs from "fs";
 import { TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 
@@ -22,26 +22,25 @@ describe("Quantum job lifecycle", () => {
     client = authentication.client;
     recorder = authentication.recorder;
     credentials = authentication.credentials;
-
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("Test Get Providers Status", async function() {    
+  it("Test Get Providers Status", async function() {
     let index = 0;
     for await (const status of client.providers.listStatus()) {
-        assert.isNotEmpty(status.id);
-        assert.isNotNull(status.targets);
-        assert.isNotNull(status.currentAvailability);
-        ++index;
+      assert.isNotEmpty(status.id);
+      assert.isNotNull(status.targets);
+      assert.isNotNull(status.currentAvailability);
+      ++index;
     }
     // Should have at least one in the list.
     assert.isTrue(index >= 1);
   });
 
-  it("Test Get Quotas", async function() {    
+  it("Test Get Quotas", async function() {
     let index = 0;
     for await (const quota of client.quotas.list()) {
       assert.isNotEmpty(quota.dimension);
@@ -56,36 +55,38 @@ describe("Quantum job lifecycle", () => {
     assert.isTrue(index >= 1);
   });
 
-  it("Test Quantum Job Lifecycle", async function() {        
+  it("Test Quantum Job Lifecycle", async function() {
     // Get container Uri with SAS key
     const containerName = "testcontainer";
-    const containerUri = (await client.storage.sasUri(
-        {
+    const containerUri =
+      (
+        await client.storage.sasUri({
           containerName: containerName
-        })).sasUri ?? "";
+        })
+      ).sasUri ?? "";
 
-    // Create container if not exists (if not in Playback mode)    
-    if (!isPlaybackMode)
-    {
-        const containerClient = new ContainerClient(containerUri, credentials);
-        await containerClient.createIfNotExists();
+    // Create container if not exists (if not in Playback mode)
+    if (!isPlaybackMode) {
+      const containerClient = new ContainerClient(containerUri, credentials);
+      await containerClient.createIfNotExists();
     }
 
     // Get input data blob Uri with SAS key
     const blobName = `${recorder.getUniqueName("input-")}.json`;
-    const inputDataUri = (await client.storage.sasUri(
-        {
+    const inputDataUri =
+      (
+        await client.storage.sasUri({
           containerName: containerName,
           blobName: blobName
-        })).sasUri ?? "";
+        })
+      ).sasUri ?? "";
 
     // Upload input data to blob (if not in Playback mode)
-    if (!isPlaybackMode)
-    {
-        const blobClient = new BlockBlobClient(inputDataUri, credentials);
-        const problemFilename = "problem.json";
-        const fileContent = fs.readFileSync(problemFilename, 'utf8');
-        await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
+    if (!isPlaybackMode) {
+      const blobClient = new BlockBlobClient(inputDataUri, credentials);
+      const problemFilename = "problem.json";
+      const fileContent = fs.readFileSync(problemFilename, "utf8");
+      await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
     }
 
     // Submit job
@@ -96,16 +97,16 @@ describe("Quantum job lifecycle", () => {
     const providerId = "microsoft";
     const target = "microsoft.paralleltempering-parameterfree.cpu";
     const createJobDetails = {
-      containerUri: containerUri, 
+      containerUri: containerUri,
       inputDataFormat: inputDataFormat,
-      providerId: providerId, 
+      providerId: providerId,
       target: target,
       id: jobId,
       inputDataUri: inputDataUri,
       name: jobName,
       outputDataFormat: outputDataFormat
     };
-    const jobDetails = (await client.jobs.create(jobId, createJobDetails));
+    const jobDetails = await client.jobs.create(jobId, createJobDetails);
 
     // Check if job was created correctly
     assert.equal(inputDataFormat, jobDetails.inputDataFormat);
@@ -115,16 +116,13 @@ describe("Quantum job lifecycle", () => {
     assert.isNotEmpty(jobDetails.id);
     assert.isNotEmpty(jobDetails.name);
     assert.isNotEmpty(jobDetails.inputDataUri);
-    if (!isPlaybackMode)
-    {
-        assert.isTrue(jobDetails.id?.startsWith("job-"));
-        assert.isTrue(jobDetails.name?.startsWith("jobName-"));
-    }
-    else
-    {
-        assert.equal(jobId, jobDetails.id);
-        assert.equal(jobName, jobDetails.name);
-        assert.equal(inputDataUri, jobDetails.inputDataUri);
+    if (!isPlaybackMode) {
+      assert.isTrue(jobDetails.id?.startsWith("job-"));
+      assert.isTrue(jobDetails.name?.startsWith("jobName-"));
+    } else {
+      assert.equal(jobId, jobDetails.id);
+      assert.equal(jobName, jobDetails.name);
+      assert.equal(inputDataUri, jobDetails.inputDataUri);
     }
 
     // Get the job that we've just created based on the jobId
@@ -140,17 +138,15 @@ describe("Quantum job lifecycle", () => {
     let jobFound = false;
     const jobs = client.jobs.list();
     for await (const job of jobs) {
-        if (job.id == jobDetails.id)
-        {
-            jobFound = true;
-            assert.equal(jobDetails.inputDataFormat, gotJob.inputDataFormat);
-            assert.equal(jobDetails.outputDataFormat, gotJob.outputDataFormat);
-            assert.equal(jobDetails.providerId, gotJob.providerId);
-            assert.equal(jobDetails.target, gotJob.target);
-            assert.equal(jobDetails.name, gotJob.name);
-        }
+      if (job.id == jobDetails.id) {
+        jobFound = true;
+        assert.equal(jobDetails.inputDataFormat, gotJob.inputDataFormat);
+        assert.equal(jobDetails.outputDataFormat, gotJob.outputDataFormat);
+        assert.equal(jobDetails.providerId, gotJob.providerId);
+        assert.equal(jobDetails.target, gotJob.target);
+        assert.equal(jobDetails.name, gotJob.name);
+      }
     }
     assert.isTrue(jobFound);
   });
-
 });

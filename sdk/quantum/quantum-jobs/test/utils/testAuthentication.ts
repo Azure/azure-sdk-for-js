@@ -20,12 +20,10 @@ export async function authenticate(that: any): Promise<any> {
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any =>
-        recording.replace(/client_id=[^&]*&/g, `client_id=client_id&`),
+      (recording: any): any => recording.replace(/client_id=[^&]*&/g, `client_id=client_id&`),
       (recording: any): any =>
         recording.replace(/client_secret=[^&]*&/g, `client_secret=client_secret&`),
-      (recording: any): any =>
-        recording.replace(/sig=[^&]*&/g, `sig=sig&`),
+      (recording: any): any => recording.replace(/sig=[^&]*&/g, `sig=sig&`)
     ],
     queryParametersToSkip: ["sr", "sig", "sp"]
   };
