@@ -28,7 +28,13 @@ export class QuantumJobClient extends QuantumJobClientContext {
     workspaceName: string,
     options?: QuantumJobClientOptionalParams
   ) {
-    super(credentials, subscriptionId, resourceGroupName, workspaceName, options);
+    super(
+      credentials,
+      subscriptionId,
+      resourceGroupName,
+      workspaceName,
+      options
+    );
     this.jobs = new Jobs(this);
     this.providers = new Providers(this);
     this.storage = new Storage(this);

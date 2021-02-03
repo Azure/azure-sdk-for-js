@@ -4,6 +4,20 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { ContainerClient, BlockBlobClient } = require("@azure/storage-blob");
 const { QuantumJobClient } = require("../dist-esm/src");
+const fs = require('fs');
+
+class TestTokenCredential {
+  constructor(token, expiresOn) {
+    this.token = token;
+    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60*60*1000;
+  }
+  async getToken(_scopes,_options) {
+    return {
+      token : this.token,
+      expiresOnTimestamp : this.expiresOn
+    }
+  }
+}
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -32,15 +46,16 @@ async function main() {
       resourceGroupName,
       workspaceName,
       {
-        endpoint: endpoint
+        endpoint: endpoint,
+        credentialScopes: "https://quantum.microsoft.com/.default"
       }
     );
 
     console.log(`Created QuantumJobClient for:
-SubscriptionId: ${subscriptionId}
-ResourceGroup: ${resourceGroupName}
-workspaceName: ${workspaceName}
-location: ${location}
+  SubscriptionId: ${subscriptionId}
+  ResourceGroup: ${resourceGroupName}
+  WorkspaceName: ${workspaceName}
+  Location: ${location}
 `);
 
     console.log(`Getting Container Uri with SAS key...`);
@@ -53,14 +68,14 @@ location: ${location}
     ).sasUri;
 
     console.log(`Container Uri with SAS key:
-${containerUri}
+  ${containerUri}
 `);
 
     console.log(`Creating Container if not exist...`);
 
     // Create container if not exists
-    const containerClient = new ContainerClient(new Uri(containerUri));
-    containerquantumJobClient.CreateIfNotExists();
+    const containerClient = new ContainerClient(containerUri);
+    containerClient.createIfNotExists();
 
     console.log(`Uploading data into a blob...`);
 
@@ -68,19 +83,19 @@ ${containerUri}
     const blobName = "myjobinput.json";
     const inputDataUri = (
       await quantumJobClient.storage.sasUri({
-        containerName: containerName,
+        containerName: storageContainerName,
         blobName: blobName
       })
     ).sasUri;
 
     // Upload input data to blob
-    const blobClient = new BlockBlobClient(inputDataUri, credentials);
+    const blobClient = new BlockBlobClient(inputDataUri);
     const problemFilename = "problem.json";
     const fileContent = fs.readFileSync(problemFilename, "utf8");
-    await blobquantumJobClient.upload(fileContent, Buffer.byteLength(fileContent));
+    await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
 
     console.log(`Input data Uri with SAS key:
-${inputDataUri}
+  ${inputDataUri}
 `);
 
     console.log(`Creating Quantum job...`);
@@ -104,41 +119,41 @@ ${inputDataUri}
       name: jobName,
       outputDataFormat: outputDataFormat
     };
-    const createdJob = await quantumJobquantumJobClient.jobs.create(jobId, createJobDetails);
+    const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
 
     console.log(`Job created:
-Id: ${createdJob.Id}
-Name: ${createdJob.Name}
-CreationTime: ${createdJob.CreationTime}
-Status: ${createdJob.Status}
+  Id: ${createdJob.id}
+  Name: ${createdJob.name}
+  CreationTime: ${createdJob.creationTime}
+  Status: ${createdJob.status}
 `);
 
     console.log(`Getting Quantum job...`);
 
     // Get the job that we've just created based on its jobId
-    const myJob = await quantumJobquantumJobClient.jobs.get(jobId);
+    const myJob = await quantumJobClient.jobs.get(jobId);
 
     console.log(`Job obtained:
-Id: ${myJob.Id}
-Name: ${myJob.Name}
-CreationTime: ${myJob.CreationTime}
-Status: ${myJob.Status}
-BeginExecutionTime: ${myJob.BeginExecutionTime}
-EndExecutionTime: ${myJob.EndExecutionTime}
-CancellationTime: ${myJob.CancellationTime}
-OutputDataFormat: ${myJob.OutputDataFormat}
-OutputDataUri: ${myJob.OutputDataUri}
+  Id: ${myJob.id}
+  Name: ${myJob.name}
+  CreationTime: ${myJob.creationTime}
+  Status: ${myJob.status}
+  BeginExecutionTime: ${myJob.beginExecutionTime}
+  EndExecutionTime: ${myJob.endExecutionTime}
+  CancellationTime: ${myJob.cancellationTime}
+  OutputDataFormat: ${myJob.outputDataFormat}
+  OutputDataUri: ${myJob.outputDataUri}
 `);
 
     console.log(`Getting list of Quantum jobs...`);
+    let jobListResult = await quantumJobClient.jobs.list();
+    let listOfJobs = await jobListResult.next();
+    while (!listOfJobs.done) {
+      let job = listOfJobs.value;
+      console.log(`  ${job.name}`);
+      listOfJobs = await jobListResult.next();
+    }
 
-    // Get all jobs from the workspace (.ToList() will force all pages to be fetched)
-    var allJobs = await quantumJobquantumJobClient.jobs.list();
-
-    console.log(`${allJobs.Count} jobs found. Listing the first 10...`);
-    allJobs.forEach(function(job) {
-      console.log(`  ${job.Name}`);
-    });
     console.log();
   } catch (err) {
     console.log(err);

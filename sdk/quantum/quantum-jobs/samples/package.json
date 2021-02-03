@@ -8,7 +8,7 @@
   "main": "quantumJobs.js",
   "dependencies": {
     "@azure/core-http": "latest",
-    "@azure/quantum-jobs": "file:../dist-esm/src/index.js",
+    "@azure/storage-blob": "latest",
     "@azure/identity": "latest"
   }
 }
