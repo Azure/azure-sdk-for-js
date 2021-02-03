@@ -8,8 +8,8 @@
 
 export {
   SendMessageRequest,
-  SendSmsOptions,
-  SendSmsResponse,
-  SendSmsResult,
-  SmsSendHeaders
+  SmsSendHeaders,
+  SmsSendOptions,
+  SmsSendResponse,
+  SmsSendResult
 } from "../models/mappers";

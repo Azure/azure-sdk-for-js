@@ -12,10 +12,10 @@ import * as coreHttp from "@azure/core-http";
 /**
  * Optional configuration for sending SMS messages.
  */
-export interface SendSmsOptions {
+export interface SmsSendOptions {
   /**
    * Enable this flag to receive a delivery report for this message on the Azure Resource
-   * EventGrid.
+   * EventGrid. Default value: false.
    */
   enableDeliveryReport?: boolean;
   /**
@@ -43,13 +43,13 @@ export interface SendMessageRequest {
    * defined by RFC 5724.
    */
   message: string;
-  sendSmsOptions?: SendSmsOptions;
+  smsSendOptions?: SmsSendOptions;
 }
 
 /**
  * Response for a single recipient.
  */
-export interface SendSmsResult {
+export interface SmsSendResult {
   /**
    * The recipients's phone number in E.164 format.
    */
@@ -63,6 +63,10 @@ export interface SendSmsResult {
    */
   httpStatusCode: number;
   /**
+   * Flag to check if message processing succeeded or not.
+   */
+  succeeded: boolean;
+  /**
    * Optional error message in case of 4xx or 5xx errors.
    */
   errorMessage?: string;
@@ -71,8 +75,8 @@ export interface SendSmsResult {
 /**
  * Response for a successful or multi status send Sms request.
  */
-export interface SendSmsResponse {
-  value: SendSmsResult[];
+export interface SmsSendResponse {
+  value: SmsSendResult[];
   nextLink?: string;
 }
 
@@ -110,7 +114,7 @@ export interface SmsSendHeaders {
 /**
  * Contains response data for the send operation.
  */
-export type SmsSendResponse = SendSmsResponse & SmsSendHeaders & {
+export type SmsSendResponse2 = SmsSendResponse & SmsSendHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -128,6 +132,6 @@ export type SmsSendResponse = SendSmsResponse & SmsSendHeaders & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SendSmsResponse;
+      parsedBody: SmsSendResponse;
     };
 };

@@ -31,23 +31,23 @@ export class Sms {
    * @param sendMessageRequest Represents the body of the send message request.
    * @param apiVersion Version of API to invoke.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SmsSendResponse>
+   * @returns Promise<Models.SmsSendResponse2>
    */
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options?: Models.SmsSendOptionalParams): Promise<Models.SmsSendResponse>;
+  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options?: Models.SmsSendOptionalParams): Promise<Models.SmsSendResponse2>;
   /**
    * @param sendMessageRequest Represents the body of the send message request.
    * @param apiVersion Version of API to invoke.
    * @param callback The callback
    */
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, callback: coreHttp.ServiceCallback<Models.SendSmsResponse>): void;
+  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, callback: coreHttp.ServiceCallback<Models.SmsSendResponse>): void;
   /**
    * @param sendMessageRequest Represents the body of the send message request.
    * @param apiVersion Version of API to invoke.
    * @param options The optional parameters
    * @param callback The callback
    */
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options: Models.SmsSendOptionalParams, callback: coreHttp.ServiceCallback<Models.SendSmsResponse>): void;
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options?: Models.SmsSendOptionalParams | coreHttp.ServiceCallback<Models.SendSmsResponse>, callback?: coreHttp.ServiceCallback<Models.SendSmsResponse>): Promise<Models.SmsSendResponse> {
+  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options: Models.SmsSendOptionalParams, callback: coreHttp.ServiceCallback<Models.SmsSendResponse>): void;
+  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options?: Models.SmsSendOptionalParams | coreHttp.ServiceCallback<Models.SmsSendResponse>, callback?: coreHttp.ServiceCallback<Models.SmsSendResponse>): Promise<Models.SmsSendResponse2> {
     return this.client.sendOperationRequest(
       {
         sendMessageRequest,
@@ -55,7 +55,7 @@ export class Sms {
         options
       },
       sendOperationSpec,
-      callback) as Promise<Models.SmsSendResponse>;
+      callback) as Promise<Models.SmsSendResponse2>;
   }
 }
 
@@ -83,7 +83,7 @@ const sendOperationSpec: coreHttp.OperationSpec = {
   },
   responses: {
     202: {
-      bodyMapper: Mappers.SendSmsResponse,
+      bodyMapper: Mappers.SmsSendResponse,
       headersMapper: Mappers.SmsSendHeaders
     },
     default: {}

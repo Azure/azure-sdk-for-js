@@ -9,14 +9,15 @@
 import * as coreHttp from "@azure/core-http";
 
 
-export const SendSmsOptions: coreHttp.CompositeMapper = {
-  serializedName: "SendSmsOptions",
+export const SmsSendOptions: coreHttp.CompositeMapper = {
+  serializedName: "SmsSendOptions",
   type: {
     name: "Composite",
-    className: "SendSmsOptions",
+    className: "SmsSendOptions",
     modelProperties: {
       enableDeliveryReport: {
         serializedName: "enableDeliveryReport",
+        defaultValue: false,
         type: {
           name: "Boolean"
         }
@@ -67,22 +68,22 @@ export const SendMessageRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      sendSmsOptions: {
-        serializedName: "sendSmsOptions",
+      smsSendOptions: {
+        serializedName: "smsSendOptions",
         type: {
           name: "Composite",
-          className: "SendSmsOptions"
+          className: "SmsSendOptions"
         }
       }
     }
   }
 };
 
-export const SendSmsResult: coreHttp.CompositeMapper = {
-  serializedName: "SendSmsResult",
+export const SmsSendResult: coreHttp.CompositeMapper = {
+  serializedName: "SmsSendResult",
   type: {
     name: "Composite",
-    className: "SendSmsResult",
+    className: "SmsSendResult",
     modelProperties: {
       to: {
         required: true,
@@ -104,6 +105,13 @@ export const SendSmsResult: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      succeeded: {
+        required: true,
+        serializedName: "succeeded",
+        type: {
+          name: "Boolean"
+        }
+      },
       errorMessage: {
         serializedName: "errorMessage",
         type: {
@@ -114,11 +122,11 @@ export const SendSmsResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const SendSmsResponse: coreHttp.CompositeMapper = {
-  serializedName: "SendSmsResponse",
+export const SmsSendResponse: coreHttp.CompositeMapper = {
+  serializedName: "SmsSendResponse",
   type: {
     name: "Composite",
-    className: "SendSmsResponse",
+    className: "SmsSendResponse",
     modelProperties: {
       value: {
         required: true,
@@ -128,7 +136,7 @@ export const SendSmsResponse: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SendSmsResult"
+              className: "SmsSendResult"
             }
           }
         }
