@@ -6,8 +6,6 @@
 
 /**
  * @internal
- * @param {string} secret
- * @param {string} stringToSign
  * @returns {Promise<string>}
  */
 export async function generateKey(secret: string, stringToSign: string): Promise<string> {
@@ -30,7 +28,6 @@ export async function generateKey(secret: string, stringToSign: string): Promise
 
 /**
  * @internal
- * @param {string} value
  */
 function convertToUint8Array(value: string) {
   const arr = new Uint8Array(value.length);
@@ -42,9 +39,8 @@ function convertToUint8Array(value: string) {
 
 /**
  * Encodes a byte array in base64 format.
- * @param value the Uint8Aray to encode
+ * @param value - the Uint8Aray to encode
  * @internal
- * @param {Uint8Array} value
  * @returns {string}
  */
 function encodeByteArray(value: Uint8Array): string {
