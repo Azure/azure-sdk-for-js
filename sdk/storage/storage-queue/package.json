@@ -94,7 +94,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "anonymousCred.js",
       "azureAdAuth.js",
