@@ -20,7 +20,6 @@ interface ClientDetails {
   numberOfExecutions: number;
   cacheCredential: boolean;
   parallel: boolean;
-  preAuthenticate: boolean;
   serviceBusEndpoint: string;
   output: string;
 }
@@ -198,12 +197,6 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
             <br />
           </React.Fragment>
         ) : null}
-        <h4>Authenticate before calling to any method?</h4>
-        <Radio
-          values={["yes", "no"]}
-          checkedValue={clientDetails.preAuthenticate ? "yes" : "no"}
-          onChange={setDetail("preAuthenticate", (x) => x === "yes")}
-        />
       </form>
     </div>
   );
@@ -218,13 +211,6 @@ async function sendMessage(
 
   if (credential === undefined) {
     throw new Error("You must enter client details.");
-  }
-
-  if (clientDetails.preAuthenticate) {
-    const record = await credential.authenticate({
-      scopes: `https://servicebus.azure.net/.default`,
-    });
-    console.log({ record });
   }
 
   console.log("Working with", serviceBusEndpoint, clientDetails);
@@ -349,7 +335,6 @@ function TestPage() {
       numberOfExecutions: 1,
       cacheCredential: true,
       parallel: false,
-      preAuthenticate: true,
       serviceBusEndpoint: "",
       output: "",
     }
