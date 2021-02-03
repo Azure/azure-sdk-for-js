@@ -29,7 +29,8 @@ import {
   KeyItem,
   KeyVaultClientGetKeysOptionalParams,
   KeyVaultClientRestoreKeyResponse,
-  KeyVaultClientUpdateKeyResponse
+  KeyVaultClientUpdateKeyResponse,
+  KnownJsonWebKeyType
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -70,7 +71,8 @@ import {
   UpdateKeyPropertiesOptions,
   KeyClientOptions,
   CryptographyClientOptions,
-  LATEST_API_VERSION
+  LATEST_API_VERSION,
+  CreateOctKeyOptions
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -110,6 +112,7 @@ export {
   CreateEcKeyOptions,
   CreateKeyOptions,
   CreateRsaKeyOptions,
+  CreateOctKeyOptions,
   CryptographyClient,
   CryptographyOptions,
   DecryptOptions,
@@ -132,7 +135,6 @@ export {
   KeyType,
   KnownKeyTypes,
   KeyPollerOptions,
-  parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -387,6 +389,59 @@ export class KeyClient {
       return getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.createKey(this.vaultUrl, name, "RSA", options);
+      return getKeyFromKeyBundle(response);
+    }
+  }
+
+  /**
+   * The createOctKey method creates a new OCT key in Azure Key Vault. If the named key
+   * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
+   * permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(url, credentials);
+   * let result = await client.createOctKey("MyKey", { hsm: true });
+   * ```
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public async createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey> {
+    if (options) {
+      const requestOptions = operationOptionsToRequestOptionsBase(options);
+      const { enabled, notBefore, expiresOn: expires, hsm, ...remainingOptions } = requestOptions;
+      const unflattenedOptions = {
+        ...remainingOptions,
+        keyAttributes: {
+          enabled,
+          notBefore,
+          expires
+        }
+      };
+
+      const span = createSpan("createOctKey", unflattenedOptions);
+
+      let response: KeyVaultClientCreateKeyResponse;
+      try {
+        response = await this.client.createKey(
+          this.vaultUrl,
+          name,
+          hsm ? KnownJsonWebKeyType.OctHSM : KnownJsonWebKeyType.Oct,
+          setParentSpan(span, unflattenedOptions)
+        );
+      } finally {
+        span.end();
+      }
+
+      return getKeyFromKeyBundle(response);
+    } else {
+      const response = await this.client.createKey(
+        this.vaultUrl,
+        name,
+        KnownJsonWebKeyType.Oct,
+        options
+      );
       return getKeyFromKeyBundle(response);
     }
   }

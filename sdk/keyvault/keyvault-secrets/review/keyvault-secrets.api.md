@@ -92,9 +92,6 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public
-export function parseKeyVaultSecretId(id: string): KeyVaultSecretId;
-
 export { PipelineOptions }
 
 export { PollerLike }

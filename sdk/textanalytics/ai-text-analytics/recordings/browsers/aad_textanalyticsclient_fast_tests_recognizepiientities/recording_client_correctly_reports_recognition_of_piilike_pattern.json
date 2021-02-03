@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 20:31:51 GMT",
+    "date": "Wed, 30 Dec 2020 17:54:46 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - NCUS ProdSlices",
-    "x-ms-request-id": "c44ea060-5273-411b-b474-51fc117bd600"
+    "x-ms-ests-server": "2.1.11328.14 - EUS ProdSlices",
+    "x-ms-request-id": "6b0f333d-2c6f-4f08-8fd0-12d2c6e17000"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Your Social Security Number is ***********.\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":31,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "86d65b2d-aa7f-4076-a9c0-a48b753f9ad3",
+    "apim-request-id": "3102b7e1-5fa5-40cd-971c-3cb013448ce4",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 22 Dec 2020 20:31:52 GMT",
+    "date": "Wed, 30 Dec 2020 17:54:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "89"
+    "x-envoy-upstream-service-time": "71"
    }
   }
  ],

@@ -421,9 +421,6 @@ export const logger: import("@azure/logger").AzureLogger;
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
 
-// @public
-export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId;
-
 export { PipelineOptions }
 
 // @public

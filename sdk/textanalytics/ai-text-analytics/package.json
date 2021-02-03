@@ -48,7 +48,7 @@
   },
   "browser": {
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

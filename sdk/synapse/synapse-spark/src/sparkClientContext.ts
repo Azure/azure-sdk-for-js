@@ -4,7 +4,7 @@ import * as coreHttp from "@azure/core-http";
 import { SparkClientOptionalParams } from "./models";
 
 const packageName = "@azure/synapse-spark";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class SparkClientContext extends coreHttp.ServiceClient {
   endpoint: string;

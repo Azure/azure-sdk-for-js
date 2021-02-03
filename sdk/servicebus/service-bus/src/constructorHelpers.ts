@@ -30,7 +30,6 @@ export interface ServiceBusClientOptions {
    */
   retryOptions?: RetryOptions;
   /**
-   * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
@@ -43,9 +42,6 @@ export interface ServiceBusClientOptions {
 /**
  * @internal
  *
- * @param {string} connectionString
- * @param {(SharedKeyCredential | TokenCredential)} credential
- * @param {ServiceBusClientOptions} options
  */
 export function createConnectionContext(
   connectionString: string,
@@ -62,8 +58,6 @@ export function createConnectionContext(
 }
 
 /**
- * @param connectionString
- * @param options
  * @internal
  */
 export function createConnectionContextForConnectionString(
@@ -76,9 +70,6 @@ export function createConnectionContextForConnectionString(
 
 /**
  *
- * @param credential
- * @param host
- * @param options
  * @internal
  */
 export function createConnectionContextForTokenCredential(
@@ -100,7 +91,7 @@ export function createConnectionContextForTokenCredential(
 
 /**
  * Parses a connection string and extracts the EntityPath named entity out.
- * @param connectionString An entity specific Service Bus connection string.
+ * @param connectionString - An entity specific Service Bus connection string.
  * @internal
  */
 export function getEntityNameFromConnectionString(connectionString: string): string {

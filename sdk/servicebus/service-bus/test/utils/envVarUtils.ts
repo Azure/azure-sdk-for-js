@@ -16,7 +16,6 @@ export enum EnvVarNames {
 
 /**
  * Utility to retrieve the environment variable value with given name.
- * @param name
  */
 function getEnvVarValue(name: string): string | undefined {
   if (isNode) {

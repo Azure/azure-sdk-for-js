@@ -147,7 +147,7 @@ export interface KeyOperationsOptions extends CryptographyOptions {
    * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
    * algorithms.
    */
-  additionalAuthenticatedData?: Uint8Array;
+  readonly additionalAuthenticatedData?: Uint8Array;
   /**
    * The tag to authenticate when performing decryption with an authenticated algorithm.
    */

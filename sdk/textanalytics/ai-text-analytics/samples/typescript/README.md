@@ -24,8 +24,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [recognizeLinkedEntities.ts][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
 | [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
 | [recognizeEntities.ts][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
-| [beginAnalyzeHealthcare.ts][beginanalyzehealthcare]                       | detects healthcare entities of a piece of text                                                     |
-| [beginAnalyze.ts][beginanalyze]                                           | applies multiple tasks at once                                                                     |
+| [beginAnalyzeHealthcareEntities.ts][beginanalyzehealthcareentities]       | detects healthcare entities of a piece of text                                                     |
+| [beginAnalyzeBatchActions.ts][beginanalyzebatchactions]                   | applies multiple Text Analytics actions per document                                               |
 
 ## Prerequisites
 
@@ -84,7 +84,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [recognizepii]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizePii.ts
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizeLinkedEntities.ts
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/recognizeEntities.ts
-[beginanalyze]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/beginAnalyze.ts
+[beginanalyzebatchactions]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/beginAnalyzeBatchActions.ts
 [beginanalyzehealthcare]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/beginAnalyzeHealthcare.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

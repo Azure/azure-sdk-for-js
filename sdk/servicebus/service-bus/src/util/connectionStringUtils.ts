@@ -47,7 +47,7 @@ export interface ServiceBusConnectionStringProperties {
 /**
  * Parses given connection string into the different properties applicable to Azure Service Bus.
  * The properties are useful to then construct a ServiceBusClient.
- * @param connectionString The connection string associated with the Shared Access Policy created
+ * @param connectionString - The connection string associated with the Shared Access Policy created
  * for the Service Bus namespace, queue or topic.
  */
 export function parseServiceBusConnectionString(
