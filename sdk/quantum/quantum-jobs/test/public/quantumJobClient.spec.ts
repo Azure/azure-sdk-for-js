@@ -66,7 +66,7 @@ describe("Quantum job lifecycle", () => {
         })
       ).sasUri ?? "";
 
-    if (isPlaybackMode()){
+    if (isPlaybackMode()) {
       containerUri = replaceStorageSig(containerUri);
     }
 
@@ -86,7 +86,7 @@ describe("Quantum job lifecycle", () => {
         })
       ).sasUri ?? "";
 
-    if (isPlaybackMode()){
+    if (isPlaybackMode()) {
       inputDataUri = replaceStorageSig(inputDataUri);
     }
 
@@ -129,8 +129,7 @@ describe("Quantum job lifecycle", () => {
     assert.equal(jobName, jobDetails.name);
     if (!isPlaybackMode()) {
       assert.equal(inputDataUri, jobDetails.inputDataUri);
-    }
-    else {
+    } else {
       assert.equal(inputDataUri, replaceStorageSig(jobDetails.inputDataUri as string));
     }
 

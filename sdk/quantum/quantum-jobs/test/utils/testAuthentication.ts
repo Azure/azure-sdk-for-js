@@ -19,7 +19,7 @@ export async function authenticate(that: any): Promise<any> {
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      replaceStorageSig,
+      replaceStorageSig
     ],
     queryParametersToSkip: ["sr", "sig", "sp"]
   };
