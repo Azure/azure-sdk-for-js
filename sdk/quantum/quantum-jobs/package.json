@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/index.d.ts",
+  "types": "./types/latest/quantum-jobs.d.ts",
   "engines": {
     "node": ">=8.0.0"
   },
