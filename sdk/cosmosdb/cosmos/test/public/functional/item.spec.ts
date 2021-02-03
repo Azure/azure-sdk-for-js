@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container } from "../../../src";
+import { Container, ContainerRequest } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
   bulkDeleteItems,
@@ -501,6 +501,20 @@ describe("bulk item operations", function() {
 
       const deleteResponse = await container.items.bulk([operation]);
       assert.equal(deleteResponse[0].statusCode, 204);
+    });
+  });
+
+  describe("subpartitioned container item CRUD", async function() {
+    let container: Container;
+
+    before(async function() {
+      const database = await getTestDatabase("autoscale test");
+      const containerRequest: ContainerRequest = {
+        id: "subpartition conatiner",
+        partitionKey: ["/topLevel", "/lowerLevel"]
+      };
+      const response = await database.containers.create(containerRequest);
+      container = response.container;
     });
   });
 });
