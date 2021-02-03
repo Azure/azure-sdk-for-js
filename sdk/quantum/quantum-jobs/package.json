@@ -16,7 +16,8 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run extract-api",
     "build": "npm run build:node && npm run build:browser",
-    "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
+    "build:test:browser": "",
+    "build:test:browser1": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "npm run build:test:node && npm run build:test:browser",
     "build:samples": "echo Skipped.",
@@ -37,7 +38,8 @@
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "karma start --single-run",
+    "unit-test:browser": "",
+    "unit-test:browser1": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js --harmony",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
@@ -64,10 +66,9 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
-    "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.14.0",
+    "@azure/core-http": "^1.2.0",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

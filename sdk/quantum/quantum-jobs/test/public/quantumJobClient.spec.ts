@@ -56,7 +56,7 @@ describe("Quantum job lifecycle", () => {
     assert.isTrue(index >= 1);
   });
 
-  it("Test Quantum Job Lifecycle", async function() {    
+  it("Test Quantum Job Lifecycle", async function() {        
     // Get container Uri with SAS key
     const containerName = "testcontainer";
     const containerUri = (await client.storage.sasUri(

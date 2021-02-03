@@ -9295,7 +9295,7 @@ packages:
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@opentelemetry/api': 0.14.0
+      '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9308,7 +9308,7 @@ packages:
       chai: 4.2.0
       cross-env: 7.0.3
       dotenv: 8.2.0
-      eslint: 7.19.0
+      eslint: 7.18.0
       inherits: 2.0.4
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
@@ -9341,7 +9341,7 @@ packages:
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-Dv9k4BoZSmsS2enN9ALSVuwcfSN5ZOYIjHX68ssQXJFvg+dW72t4Aaju6AfThH4YuonMdqttgOUQ7P9w+Y+bbQ==
+      integrity: sha512-XPouSBvla9KRgRxU/dQ/8mJ+L5B+rLucQvMFp0BahqpAHFMmZ625YWEMThQ9GuNhoOQvNC5hpIuiQV+CSON4tQ==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:

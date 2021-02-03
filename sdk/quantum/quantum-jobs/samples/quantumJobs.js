@@ -33,9 +33,9 @@ async function main() {
     const credential = new DefaultAzureCredential();
 
     // Create a QuantumJobClient
-    const subscriptionId = "677fc922-91d0-4bf6-9b06-4274d319a0fa"; //"your_subscription_id";
-    const resourceGroupName = "sdk-review-rg"; //"your_resource_group_name";
-    const workspaceName = "workspace-ms"; //"your_quantum_workspace_name";
+    const subscriptionId = "your_subscription_id";
+    const resourceGroupName = "your_resource_group_name";
+    const workspaceName = "your_quantum_workspace_name";
     const storageContainerName = "mycontainer";
     const location = "westus"; //"your_location";
     const endpoint = "https://" + location + ".quantum.azure.com";

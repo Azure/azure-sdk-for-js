@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode, isRecordMode } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 
@@ -9,14 +9,10 @@ if (isNode) {
   dotenv.config();
 }
 
-export function uniqueString(): string {
-  return isPlaybackMode()
-    ? ""
+export function getUniqueString(defaultValue: string): string {
+  return isPlaybackMode() || isRecordMode()
+    ? defaultValue
     : Math.random()
         .toString()
         .slice(2);
 }
-
-export const testPollerProperties = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined
-};
