@@ -6,7 +6,7 @@ const { spawnSync } = require("child_process");
 
 dotenv.config();
 
-// these should match what we have in your .env file (you can use sample.env 
+// these should match what we have in your .env file (you can use sample.env
 // as the template for your own file)
 const serviceBusConnectionString = process.env.SERVICEBUS_CONNECTION_STRING;
 const appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY;
@@ -45,7 +45,9 @@ const containerInstanceName = `${resourceGroup}-sb-stressperf-${testFileNameWith
 
 const expectedJsFile = path.join(`dist`, `${testFileNameWithoutExtension}.js`);
 if (!fs.existsSync(expectedJsFile)) {
-  console.error(`No file named ${expectedJsFile}. Need a valid JS file when creating your container group.`);
+  console.error(
+    `No file named ${expectedJsFile}. Need a valid JS file when creating your container group.`
+  );
   process.exit(1);
 }
 
@@ -56,7 +58,9 @@ console.log(`Pushing image (will fail if you have not yet run \`docker login ${r
 spawn(`docker push "${imageName}"`);
 
 console.log(`Deleting Azure Container Instance (if exists)`);
-spawn(`az container delete --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}"`);
+spawn(
+  `az container delete --subscription "${subscriptionId}" --resource-group "${resourceGroup}" --name "${containerInstanceName}"`
+);
 
 console.log(`Creating Azure Container Instance for stress/perf that runs ${options.testToRun}`);
 spawn(
