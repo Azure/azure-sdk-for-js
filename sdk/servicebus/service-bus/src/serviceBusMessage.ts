@@ -32,23 +32,23 @@ export enum DispositionType {
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
   /**
-   * @property {string} [last_enqueued_offset] The offset of the last event.
+   * The offset of the last event.
    */
   last_enqueued_offset?: string;
   /**
-   * @property {number} [last_enqueued_sequence_number] The sequence number of the last event.
+   * The sequence number of the last event.
    */
   last_enqueued_sequence_number?: number;
   /**
-   * @property {number} [last_enqueued_time_utc] The enqueued time of the last event.
+   * The enqueued time of the last event.
    */
   last_enqueued_time_utc?: number;
   /**
-   * @property {number} [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   * The retrieval time of the last event.
    */
   runtime_info_retrieval_time_utc?: number;
   /**
-   * @property {string} Any unknown delivery annotations.
+   * Any unknown delivery annotations.
    */
   [x: string]: any;
 }
@@ -59,23 +59,23 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
   /**
-   * @property {string | null} [x-opt-partition-key] Annotation for the partition key set for the event.
+   * Annotation for the partition key set for the event.
    */
   "x-opt-partition-key"?: string | null;
   /**
-   * @property {number} [x-opt-sequence-number] Annontation for the sequence number of the event.
+   * Annontation for the sequence number of the event.
    */
   "x-opt-sequence-number"?: number;
   /**
-   * @property {number} [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   * Annotation for the enqueued time of the event.
    */
   "x-opt-enqueued-time"?: number;
   /**
-   * @property {string} [x-opt-offset] Annotation for the offset of the event.
+   * Annotation for the offset of the event.
    */
   "x-opt-offset"?: string;
   /**
-   * @property {string} [x-opt-locked-until] Annotation for the message being locked until.
+   * Annotation for the message being locked until.
    */
   "x-opt-locked-until"?: Date | number;
 }
@@ -86,11 +86,11 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
  */
 export interface DeadLetterOptions {
   /**
-   * @property The reason for deadlettering the message.
+   * The reason for deadlettering the message.
    */
   deadLetterReason: string;
   /**
-   * @property The error description for deadlettering the message.
+   * The error description for deadlettering the message.
    */
   deadLetterErrorDescription: string;
 }
@@ -100,34 +100,34 @@ export interface DeadLetterOptions {
  */
 export interface ServiceBusMessage {
   /**
-   * @property The message body that needs to be sent or is received.
+   * The message body that needs to be sent or is received.
    * If the application receiving the message is not using this SDK,
    * convert your body payload to a byte array or Buffer for better
    * cross-language compatibility.
    */
   body: any;
   /**
-   * @property The message identifier is an
+   * The message identifier is an
    * application-defined value that uniquely identifies the message and its payload.
    *
    * Note: Numbers that are not whole integers are not allowed.
    */
   messageId?: string | number | Buffer;
   /**
-   * @property The content type of the message. Optionally describes
+   * The content type of the message. Optionally describes
    * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
    * example "application/json".
    */
   contentType?: string;
   /**
-   * @property The correlation identifier that allows an
+   * The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
-   * @property The partition key for sending a message to a partitioned entity.
+   * The partition key for sending a message to a partitioned entity.
    * Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
    * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
@@ -138,7 +138,7 @@ export interface ServiceBusMessage {
    */
   partitionKey?: string;
   /**
-   * @property The partition key for sending a message into an entity
+   * The partition key for sending a message into an entity
    * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
@@ -150,7 +150,7 @@ export interface ServiceBusMessage {
   // viaPartitionKey?: string;
 
   /**
-   * @property The session identifier for a session-aware entity. Maximum
+   * The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
@@ -159,14 +159,14 @@ export interface ServiceBusMessage {
    */
   sessionId?: string;
   /**
-   * @property The session identifier augmenting the `replyTo` address.
+   * The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
-   * @property The message’s time to live value. This value is the relative
+   * The message’s time to live value. This value is the relative
    * duration after which the message expires, starting from the instant the message has been
    * accepted and stored by the broker, as captured in `enqueuedTimeUtc`. When not set explicitly,
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
@@ -176,20 +176,20 @@ export interface ServiceBusMessage {
    */
   timeToLive?: number;
   /**
-   * @property The application specific label. This property enables the
+   * The application specific label. This property enables the
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
    * similar to an email subject line. The mapped AMQP property is "subject".
    */
   subject?: string;
   /**
-   * @property The "to" address. This property is reserved for future use in routing
+   * The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
    * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
   /**
-   * @property The address of an entity to send replies to. This optional and
+   * The address of an entity to send replies to. This optional and
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
@@ -197,7 +197,7 @@ export interface ServiceBusMessage {
    */
   replyTo?: string;
   /**
-   * @property The date and time in UTC at which the message will
+   * The date and time in UTC at which the message will
    * be enqueued. This property returns the time in UTC; when setting the property, the
    * supplied DateTime value must also be in UTC. This value is for delayed message sending.
    * It is utilized to delay messages sending to a specific time in the future. Message enqueuing
@@ -206,7 +206,7 @@ export interface ServiceBusMessage {
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
-   * @property The application specific properties which can be
+   * The application specific properties which can be
    * used for custom message metadata.
    */
   applicationProperties?: { [key: string]: number | boolean | string | Date };
@@ -353,21 +353,20 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
 
 /**
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
- * @class ServiceBusReceivedMessage
  */
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   /**
-   * @property The reason for deadlettering the message.
+   * The reason for deadlettering the message.
    * @readonly
    */
   readonly deadLetterReason?: string;
   /**
-   * @property The error description for deadlettering the message.
+   * The error description for deadlettering the message.
    * @readonly
    */
   readonly deadLetterErrorDescription?: string;
   /**
-   * @property The lock token is a reference to the lock that is being held by the broker in
+   * The lock token is a reference to the lock that is being held by the broker in
    * `peekLock` receive mode. Locks are used internally settle messages as explained in the
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
@@ -376,25 +375,25 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly lockToken?: string;
   /**
-   * @property Number of deliveries that have been attempted for this message. The count is
+   * Number of deliveries that have been attempted for this message. The count is
    * incremented when a message lock expires, or the message is explicitly abandoned using the
    * `abandon()` method on the message.
    * @readonly
    */
   readonly deliveryCount?: number;
   /**
-   * @property The UTC instant at which the message has been accepted and stored in Service Bus.
+   * The UTC instant at which the message has been accepted and stored in Service Bus.
    * @readonly
    */
   readonly enqueuedTimeUtc?: Date;
   /**
-   * @property The UTC instant at which the message is marked for removal and no longer available for
+   * The UTC instant at which the message is marked for removal and no longer available for
    * retrieval from the entity due to expiration. This property is computed from 2 other properties
    * on the message: `enqueuedTimeUtc` + `timeToLive`.
    */
   readonly expiresAtUtc?: Date;
   /**
-   * @property The UTC instant until which the message is held locked in the queue/subscription.
+   * The UTC instant until which the message is held locked in the queue/subscription.
    * When the lock expires, the `deliveryCount` is incremented and the message is again available
    * for retrieval.
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
@@ -402,14 +401,14 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   lockedUntilUtc?: Date;
   /**
-   * @property The original sequence number of the message. For
+   * The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
    * first been assigned to the message at its original point of submission.
    * @readonly
    */
   readonly enqueuedSequenceNumber?: number;
   /**
-   * @property The unique number assigned to a message by Service Bus.
+   * The unique number assigned to a message by Service Bus.
    * The sequence number is a unique 64-bit integer assigned to a message as it is accepted
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
@@ -423,7 +422,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly sequenceNumber?: Long;
   /**
-   * @property The name of the queue or subscription that this message
+   * The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
    * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
@@ -431,7 +430,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    */
   readonly deadLetterSource?: string;
   /**
-   * @property The underlying raw amqp message.
+   * The underlying raw amqp message.
    * @readonly
    */
   readonly _rawAmqpMessage: AmqpAnnotatedMessage;
@@ -566,20 +565,18 @@ export function isServiceBusMessage(possible: any): possible is ServiceBusMessag
  * Describes the message received from Service Bus.
  *
  * @internal
- * @class ServiceBusMessageImpl
- * @implements {ServiceBusReceivedMessage}
  */
 export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**
-   * @property The message body that needs to be sent or is received.
+   * The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property The application specific properties.
+   * The application specific properties.
    */
   applicationProperties?: { [key: string]: any };
   /**
-   * @property The message identifier is an
+   * The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
    * is a free-form string and can reflect a GUID or an identifier derived from the application
    * context. If enabled, the
@@ -588,20 +585,20 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   messageId?: string | number | Buffer;
   /**
-   * @property The content type of the message. Optionally describes
+   * The content type of the message. Optionally describes
    * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
    * example "application/json".
    */
   contentType?: string;
   /**
-   * @property The correlation identifier that allows an
+   * The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
-   * @property The partition key for sending a message to a
+   * The partition key for sending a message to a
    * partitioned entity. Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
    * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
@@ -610,7 +607,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   partitionKey?: string;
   /**
-   * @property The partition key for sending a message into an entity
+   * The partition key for sending a message into an entity
    * via a partitioned transfer queue. Maximum length is 128 characters. If a message is sent via a
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
@@ -620,7 +617,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   // Will be required later for implementing Transactions
   // viaPartitionKey?: string;
   /**
-   * @property The session identifier for a session-aware entity. Maximum
+   * The session identifier for a session-aware entity. Maximum
    * length is 128 characters. For session-aware entities, this application-defined value specifies
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
@@ -629,14 +626,14 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   sessionId?: string;
   /**
-   * @property The session identifier augmenting the `replyTo` address.
+   * The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
    * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
-   * @property The message’s time to live value. This value is the relative
+   * The message’s time to live value. This value is the relative
    * duration after which the message expires, starting from the instant the message has been
    * accepted and stored by the broker, as captured in `enqueuedTimeUtc`. When not set explicitly,
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
@@ -646,20 +643,20 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   timeToLive?: number;
   /**
-   * @property The application specific label. This property enables the
+   * The application specific label. This property enables the
    * application to indicate the purpose of the message to the receiver in a standardized. fashion,
    * similar to an email subject line. The mapped AMQP property is "subject".
    */
   subject?: string;
   /**
-   * @property The "to" address. This property is reserved for future use in routing
+   * The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
    * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
   /**
-   * @property The address of an entity to send replies to. This optional and
+   * The address of an entity to send replies to. This optional and
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
@@ -667,7 +664,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   replyTo?: string;
   /**
-   * @property The date and time in UTC at which the message will
+   * The date and time in UTC at which the message will
    * be enqueued. This property returns the time in UTC; when setting the property, the
    * supplied DateTime value must also be in UTC. This value is for delayed message sending.
    * It is utilized to delay messages sending to a specific time in the future. Message enqueuing
@@ -676,7 +673,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   scheduledEnqueueTimeUtc?: Date;
   /**
-   * @property The lock token is a reference to the lock that is being held by the broker in
+   * The lock token is a reference to the lock that is being held by the broker in
    * `peekLock` receive mode. Locks are used internally settle messages as explained in the
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
@@ -685,25 +682,25 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly lockToken?: string;
   /**
-   * @property Number of deliveries that have been attempted for this message. The count is
+   * Number of deliveries that have been attempted for this message. The count is
    * incremented when a message lock expires, or the message is explicitly abandoned using the
    * `abandon()` method on the message.
    * @readonly
    */
   readonly deliveryCount?: number;
   /**
-   * @property The UTC instant at which the message has been accepted and stored in Service Bus.
+   * The UTC instant at which the message has been accepted and stored in Service Bus.
    * @readonly
    */
   readonly enqueuedTimeUtc?: Date;
   /**
-   * @property The UTC instant at which the message is marked for removal and no longer available for
+   * The UTC instant at which the message is marked for removal and no longer available for
    * retrieval from the entity due to expiration. This property is computed from 2 other properties
    * on the message: `enqueuedTimeUtc` + `timeToLive`.
    */
   readonly expiresAtUtc?: Date;
   /**
-   * @property The UTC instant until which the message is held locked in the queue/subscription.
+   * The UTC instant until which the message is held locked in the queue/subscription.
    * When the lock expires, the `deliveryCount` is incremented and the message is again available
    * for retrieval.
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
@@ -711,14 +708,14 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   lockedUntilUtc?: Date;
   /**
-   * @property The original sequence number of the message. For
+   * The original sequence number of the message. For
    * messages that have been auto-forwarded, this property reflects the sequence number that had
    * first been assigned to the message at its original point of submission.
    * @readonly
    */
   readonly enqueuedSequenceNumber?: number;
   /**
-   * @property The unique number assigned to a message by Service Bus.
+   * The unique number assigned to a message by Service Bus.
    * The sequence number is a unique 64-bit integer assigned to a message as it is accepted
    * and stored by the broker and functions as its true identifier. For partitioned entities,
    * the topmost 16 bits reflect the partition identifier. Sequence numbers monotonically increase.
@@ -727,7 +724,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly sequenceNumber?: Long;
   /**
-   * @property The name of the queue or subscription that this message
+   * The name of the queue or subscription that this message
    * was enqueued on, before it was deadlettered. Only set in messages that have been dead-lettered
    * and subsequently auto-forwarded from the dead-letter sub-queue to another entity. Indicates the
    * entity in which the message was dead-lettered.
@@ -739,17 +736,17 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly delivery: Delivery;
   /**
-   * @property {AmqpMessage} _rawAmqpMessage The underlying raw amqp annotated message.
+   * The underlying raw amqp annotated message.
    * @readonly
    */
   readonly _rawAmqpMessage: AmqpAnnotatedMessage;
   /**
-   * @property The reason for deadlettering the message.
+   * The reason for deadlettering the message.
    * @readonly
    */
   readonly deadLetterReason?: string;
   /**
-   * @property The error description for deadlettering the message.
+   * The error description for deadlettering the message.
    * @readonly
    */
   readonly deadLetterErrorDescription?: string;

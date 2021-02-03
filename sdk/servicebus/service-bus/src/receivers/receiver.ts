@@ -49,8 +49,8 @@ import { translateServiceBusError } from "../serviceBusError";
 export interface ServiceBusReceiver {
   /**
    * Streams messages to message handlers.
-   * @param handlers A handler that gets called for messages and errors.
-   * @param options Options for subscribe.
+   * @param handlers - A handler that gets called for messages and errors.
+   * @param options - Options for subscribe.
    * @returns An object that can be closed, sending any remaining messages to `handlers` and
    * stopping new messages from arriving.
    */
@@ -68,7 +68,7 @@ export interface ServiceBusReceiver {
    * Returns an iterator that can be used to receive messages from Service Bus.
    * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
    *
-   * @param options A set of options to control the receive operation.
+   * @param options - A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The time to wait to receive the message in each iteration.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
    *
@@ -83,8 +83,8 @@ export interface ServiceBusReceiver {
   /**
    * Returns a promise that resolves to an array of messages received from Service Bus.
    *
-   * @param maxMessageCount The maximum number of messages to receive.
-   * @param options A set of options to control the receive operation.
+   * @param maxMessageCount - The maximum number of messages to receive.
+   * @param options - A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
    * @returns Promise<ServiceBusReceivedMessage[]> A promise that resolves with an array of messages.
@@ -99,7 +99,7 @@ export interface ServiceBusReceiver {
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
-   * @param sequenceNumbers The sequence number or an array of sequence numbers for the messages that need to be received.
+   * @param sequenceNumbers - The sequence number or an array of sequence numbers for the messages that need to be received.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<ServiceBusMessage[]>}
    * - Returns a list of messages identified by the given sequenceNumbers.
@@ -119,8 +119,8 @@ export interface ServiceBusReceiver {
    * subsequent message.
    * - Unlike a "received" message, "peeked" message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
-   * @param maxMessageCount The maximum number of messages to peek.
-   * @param options Options that allow to specify the maximum number of messages to peek,
+   * @param maxMessageCount - The maximum number of messages to peek.
+   * @param options - Options that allow to specify the maximum number of messages to peek,
    * the sequenceNumber to start peeking from or an abortSignal to abort the operation.
    */
   peekMessages(
@@ -136,7 +136,7 @@ export interface ServiceBusReceiver {
    */
   receiveMode: "peekLock" | "receiveAndDelete";
   /**
-   * @property Returns `true` if either the receiver or the client that created it has been closed.
+   * Returns `true` if either the receiver or the client that created it has been closed.
    * @readonly
    */
   isClosed: boolean;
@@ -188,9 +188,9 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
-   * @param propertiesToModify The properties of the message to modify while abandoning the message.
+   * @param propertiesToModify - The properties of the message to modify while abandoning the message.
    *
-   * @return Promise<void>.
+   * @returns Promise<void>.
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,
@@ -216,7 +216,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
-   * @param propertiesToModify The properties of the message to modify while deferring the message
+   * @param propertiesToModify - The properties of the message to modify while deferring the message
    *
    * @returns Promise<void>
    */
@@ -244,7 +244,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` with the code `ServiceTimeout` if Service Bus does not acknowledge the request to settle
    * the message in time. The message may or may not have been settled successfully.
    *
-   * @param options The DeadLetter options that can be provided while
+   * @param options - The DeadLetter options that can be provided while
    * rejecting the message.
    *
    * @returns Promise<void>
@@ -274,7 +274,7 @@ export interface ServiceBusReceiver {
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _retryOptions: RetryOptions;
   /**
-   * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 

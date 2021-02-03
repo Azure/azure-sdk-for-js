@@ -24,11 +24,11 @@ import { ServiceBusError } from "../serviceBusError";
  */
 export interface LinkEntityOptions {
   /**
-   * @property {string} address The client entity address in one of the following forms:
+   * The client entity address in one of the following forms:
    */
   address?: string;
   /**
-   * @property {string} audience The client entity token audience in one of the following forms:
+   * The client entity token audience in one of the following forms:
    */
   audience?: string;
 }
@@ -85,12 +85,12 @@ type LinkTypeT<
  */
 export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
   /**
-   * @property {string} id The unique name for the entity in the format:
+   * The unique name for the entity in the format:
    * `${name of the entity}-${guid}`.
    */
   name: string;
   /**
-   * @property {string} address The client entity address in one of the following forms:
+   * The client entity address in one of the following forms:
    *
    * **Sender**
    * - `"<queue-name>"`.
@@ -105,7 +105,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   address: string;
   /**
-   * @property {string} audience The client entity token audience in one of the following forms:
+   * The client entity token audience in one of the following forms:
    *
    * **Sender**
    * - `"sb://<yournamespace>.servicebus.windows.net/<queue-name>"`
@@ -121,17 +121,17 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   audience: string;
   /**
-   * @property _context Provides relevant information about the amqp connection,
+   * Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
   protected _context: ConnectionContext;
   /**
-   * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
+   * The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
    */
   private _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property _tokenTimeout Indicates token timeout
+   * Indicates token timeout
    */
   protected _tokenTimeout?: number;
 
@@ -163,11 +163,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Creates a new ClientEntity instance.
-   * @constructor
-   * @param baseName The base name to use for the link. A unique ID will be appended to this.
-   * @param entityPath The entity path (ex: 'your-queue')
-   * @param context The connection context.
-   * @param options Options that can be provided while creating the LinkEntity.
+   * @param baseName - The base name to use for the link. A unique ID will be appended to this.
+   * @param entityPath - The entity path (ex: 'your-queue')
+   * @param context - The connection context.
+   * @param options - Options that can be provided while creating the LinkEntity.
    */
   constructor(
     public readonly baseName: string,
@@ -187,7 +186,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Determines whether the AMQP link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this._link ? this._link.isOpen() : false;
@@ -305,7 +304,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * NOTE: This method should be implemented by any child classes to actually create the underlying
    * Rhea link (AwaitableSender or Receiver or RequestResponseLink)
    *
-   * @param _options
    */
   protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
 
@@ -346,7 +344,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Provides the current type of the ClientEntity.
-   * @return {string} The entity type.
+   * @returns The entity type.
    */
   private get _type(): string {
     let result = "LinkEntity";
@@ -366,8 +364,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   /**
    * Negotiates the cbs claim for the ClientEntity.
-   * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
-   * @return {Promise<void>} Promise<void>
+   * @param setTokenRenewal - Set the token renewal timer. Default false.
+   * @returns Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     this._logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);

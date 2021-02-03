@@ -358,7 +358,7 @@ describe("Message session unit tests", () => {
       try {
         let errorArgs: ProcessErrorArgs | undefined;
 
-        let eventContext = {
+        const eventContext = {
           delivery: {},
           message: {
             message_annotations: {

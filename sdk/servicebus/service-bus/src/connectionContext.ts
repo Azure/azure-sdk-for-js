@@ -34,26 +34,26 @@ import { ReceiverType } from "./core/linkEntity";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * The credential to be used for Authentication.
    * Default value: SharedKeyCredentials.
    */
   tokenCredential: SharedKeyCredential | TokenCredential;
   /**
-   * @property A map of active Service Bus Senders with sender name as key.
+   * A map of active Service Bus Senders with sender name as key.
    */
   senders: { [name: string]: MessageSender };
   /**
-   * @property A map of active Service Bus receivers for non session enabled queues/subscriptions
+   * A map of active Service Bus receivers for non session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageReceivers: { [name: string]: MessageReceiver };
   /**
-   * @property A map of active Service Bus receivers for session enabled queues/subscriptions
+   * A map of active Service Bus receivers for session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageSessions: { [name: string]: MessageSession };
   /**
-   * @property A map of ManagementClient instances for operations over the $management link
+   * A map of ManagementClient instances for operations over the $management link
    * with key as the entity path.
    */
   managementClients: { [name: string]: ManagementClient };
