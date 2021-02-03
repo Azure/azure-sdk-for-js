@@ -191,7 +191,7 @@ export class CbsClient {
   ): Promise<CbsResponse> {
     try {
       if (!this._cbsSenderReceiverLink) {
-        throw new Error("Attempted to negotiate a claim but a CBS link does not exist.");
+        throw new Error("Attempted to negotiate a claim but the CBS link does not exist.");
       }
 
       const request: RheaMessage = {
