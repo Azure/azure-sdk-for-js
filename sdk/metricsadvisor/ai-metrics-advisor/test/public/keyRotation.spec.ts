@@ -10,7 +10,6 @@ describe("MetricsAdvisorKeyCredential", () => {
   let credential: MetricsAdvisorKeyCredential;
 
   beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
     credential = new MetricsAdvisorKeyCredential(
       testEnv.METRICS_ADVISOR_SUBSCRIPTION_KEY,
       testEnv.METRICS_ADVISOR_API_KEY
