@@ -59,6 +59,10 @@ export class CryptographyClient {
     constructor(key: JsonWebKey);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
+    // Warning: (ae-forgotten-export) The symbol "EncryptParameters" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    encrypt(encryptParameters: EncryptParameters, options?: CryptographyOptions): Promise<EncryptResult>;
     get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;

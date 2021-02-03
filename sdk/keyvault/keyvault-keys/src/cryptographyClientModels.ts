@@ -183,3 +183,33 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
  * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
+
+export interface BaseEncryptionParameters {
+  plaintext: Uint8Array;
+}
+
+export interface RsaEncryptionParameters extends BaseEncryptionParameters {
+  algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+}
+
+export interface AesGcmEncryptionParameters extends BaseEncryptionParameters {
+  algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+export interface AesCbcEncryptionParameters extends BaseEncryptionParameters {
+  algorithm: "A128CBC" | "A192CBC" | "A256CBC";
+  iv?: Uint8Array;
+}
+
+export interface AesCbcPadEncryptionParameters extends BaseEncryptionParameters {
+  algorithm: "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+  iv?: Uint8Array;
+}
+
+// TODO: what about Pad??
+export type EncryptParameters =
+  | RsaEncryptionParameters
+  | AesGcmEncryptionParameters
+  | AesCbcEncryptionParameters
+  | AesCbcPadEncryptionParameters;

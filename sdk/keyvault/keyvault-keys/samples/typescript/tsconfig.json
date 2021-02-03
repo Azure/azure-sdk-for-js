@@ -2,13 +2,14 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
+    "target": "ES2015",
 
     "lib": ["dom", "dom.iterable", "esnext.asynciterable"],
 
     "allowSyntheticDefaultImports": true,
 
-    "outDir": "dist",
-    "rootDir": "src"
+    "outDir": "dist"
+    // "rootDir": "src",
   },
   "include": ["src/**.ts"],
   "exclude": ["node_modules"]

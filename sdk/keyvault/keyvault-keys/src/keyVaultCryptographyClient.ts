@@ -137,6 +137,10 @@ export class KeyVaultCryptographyClient {
     plaintext: Uint8Array,
     options: EncryptOptions = {}
   ): Promise<EncryptResult> {
+    console.log("ENCRYPT CALL AFTER MAPPING");
+    console.log("algorithm", algorithm);
+    console.log("plaintext", plaintext);
+    console.log("options", options);
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("encrypt", requestOptions);

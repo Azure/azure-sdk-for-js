@@ -19,11 +19,13 @@ import {
   DecryptOptions,
   WrapKeyOptions,
   UnwrapKeyOptions,
+  EncryptParameters,
   SignOptions,
   VerifyOptions
 } from "./cryptographyClientModels";
 import { LocalSupportedAlgorithmName } from "./localCryptography/models";
 import { KeyVaultCryptographyClient } from "./keyVaultCryptographyClient";
+import { CryptographyOptions } from ".";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -125,8 +127,35 @@ export class CryptographyClient {
   public async encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
-    options: EncryptOptions = {}
+    options?: EncryptOptions
+  ): Promise<EncryptResult>;
+  public async encrypt(
+    encryptParameters: EncryptParameters,
+    options?: CryptographyOptions
+  ): Promise<EncryptResult>;
+  public async encrypt(
+    algorithmOrParameters: EncryptionAlgorithm | EncryptParameters,
+    ...plainTextOrOptions: [CryptographyOptions?] | [Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
+    console.log("algorithmOrParameters", algorithmOrParameters);
+    console.log("plainTextOrOptions", plainTextOrOptions);
+    let algorithm: EncryptionAlgorithm;
+    let plaintext: Uint8Array;
+    let options: Omit<EncryptOptions, "algorithm"> = {};
+    if (typeof algorithmOrParameters === "string") {
+      algorithm = algorithmOrParameters;
+      plaintext = plainTextOrOptions[0] as Uint8Array;
+      options = plainTextOrOptions[1] as EncryptOptions;
+    } else {
+      console.log("In here the new mode");
+      // Need to make an EncryptOptions from options and encryptParameters...
+      const { algorithm: a, plaintext: p, ...rest } = algorithmOrParameters;
+      algorithm = a;
+      plaintext = p;
+      console.log("before", algorithm, plaintext, options);
+      Object.assign(options, plainTextOrOptions[0] || {}, rest);
+      console.log("after", algorithm, plaintext, options);
+    }
     if (this.concreteClient.kind === "remote") {
       return this.concreteClient.client.encrypt(algorithm, plaintext, options);
     } else {
