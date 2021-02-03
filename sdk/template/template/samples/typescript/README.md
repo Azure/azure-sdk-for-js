@@ -1,29 +1,37 @@
 <!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/update it when the samples can be published publicly -->
 
-<!--
----
+## <!--
+
 page_type: sample
 languages:
-  - typescript
-products:
-  # NOTE: You MUST use valid product slugs from the docs.microsoft.com taxonomy
-  # in this array. Please check to make sure that the items you enter into this
-  # list are valid!
-  - azure
-  - azure-template
+
+- typescript
+  products:
+
+# NOTE: You MUST use valid product slugs from the docs.microsoft.com taxonomy
+
+# in this array. Please check to make sure that the items you enter into this
+
+# list are valid!
+
+- azure
+- azure-template
+
 # For urlFragment, use the base name of the package (not including the namespace)
+
 # and append "-typescript" or "-javascript"
-urlFragment: template-typescript
----
+
+## urlFragment: template-typescript
+
 -->
 
 # Azure Template client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
 
-| **File Name**                       | **Description** |
-| ----------------------------------- | --------------- |
-| [sampleTemplate.ts][sampletemplate] | sample template |
+| **File Name**               | **Description**                   |
+| --------------------------- | --------------------------------- |
+| [helloWorld.ts][helloworld] | basic example of a sample program |
 
 ## Prerequisites
 
@@ -60,20 +68,20 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/sampleTemplate.js
+node dist/helloWorld.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/sampleTemplate.js
+npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/helloWorld.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sampletemplate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/sampleTemplate.ts
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/helloWorld.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
