@@ -15,7 +15,6 @@ import { getString, getStringOrUndefined } from "../util/utils";
  * @internal
  * Builds the rule object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawRule
  */
 export function buildRule(rawRule: any): RuleProperties {
   return {
@@ -29,7 +28,6 @@ export function buildRule(rawRule: any): RuleProperties {
  * @internal
  * Helper utility to retrieve `filter` value from given input,
  * or undefined if not passed in.
- * @param value
  */
 function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
   let result: SqlRuleFilter | CorrelationRuleFilter;
@@ -61,7 +59,6 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 /**
  * @internal
  * Helper utility to retrieve rule `action` value from given input.
- * @param value
  */
 function getRuleAction(value: any): SqlRuleAction {
   return {
@@ -153,7 +150,6 @@ export interface SqlRuleFilter {
 /**
  * @internal
  *
- * @interface InternalRuleOptions
  */
 export interface InternalRuleOptions {
   Name: string;
@@ -164,7 +160,6 @@ export interface InternalRuleOptions {
 /**
  * @internal
  *
- * @param {CreateRuleOptions} rule
  */
 export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRuleOptions {
   const resource: InternalRuleOptions = {
@@ -311,7 +306,6 @@ const keyValuePairXMLTag = "KeyValueOfstringanyType";
  * @internal
  * Helper utility to retrieve the key-value pairs from the RawKeyValue object from given input,
  * or undefined if not passed in.
- * @param value
  */
 function getKeyValuePairsOrUndefined(
   value: any,
@@ -368,7 +362,6 @@ function getKeyValuePairsOrUndefined(
  * @internal
  * Helper utility to extract array of user properties key-value instances from given input,
  * or undefined if not passed in.
- * @param value
  */
 export function buildInternalRawKeyValuePairs(
   parameters: { [key: string]: any } | undefined,

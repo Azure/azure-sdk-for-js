@@ -27,7 +27,7 @@ export interface CreateConnectionContextForTestsOptions {
  *
  * Please feel free to expand this - every little bit helps the unit tests!
  *
- * @param options Makes it simple for you to modify the rhea
+ * @param options - Makes it simple for you to modify the rhea
  * receiver (via onCreateReceiverCalled) or get notified when a sender
  * is created (via onCreateAwaitableSenderCalled).
  *
@@ -113,7 +113,7 @@ export function createConnectionContextForTests(
  * Creates a test connection context that should work for testing ServiceBusSessionReceiverImpl
  * and MessageSession. By default it matches with an session ID of 'hello'.
  *
- * @param sessionId A session ID to use or the default ("hello")
+ * @param sessionId - A session ID to use or the default ("hello")
  */
 export function createConnectionContextForTestsWithSessionId(
   sessionId: string = "hello",

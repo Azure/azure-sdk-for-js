@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 20:31:52 GMT",
+    "date": "Wed, 30 Dec 2020 17:54:47 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - EUS ProdSlices",
-    "x-ms-request-id": "abd4a06a-0d6d-40ed-9402-9728bcd9dd00"
+    "x-ms-ests-server": "2.1.11328.14 - NCUS ProdSlices",
+    "x-ms-request-id": "fe0af16d-ff3f-4dbb-9685-3edf790f7300"
    }
   },
   {
@@ -33,14 +33,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"I work at Microsoft and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"333-333-3333\",\"category\":\"Phone Number\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "383c8e97-9f39-4577-a917-1d5a6c577a8f",
+    "apim-request-id": "b4204af2-1403-4ab8-9aee-ce14918eee8a",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 22 Dec 2020 20:31:52 GMT",
+    "date": "Wed, 30 Dec 2020 17:54:47 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "90"
+    "x-envoy-upstream-service-time": "84"
    }
   }
  ],

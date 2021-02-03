@@ -3,6 +3,7 @@
 ## 1.2.3 (Unreleased)
 
 - Fix an issue where non-streaming response body was treated as stream [PR 13192](https://github.com/Azure/azure-sdk-for-js/pull/13192)
+- Browser XML parser now lazily load parser error namespace into cache. Fixed [issue 13268](https://github.com/Azure/azure-sdk-for-js/issues/13268)
 
 ## 1.2.2 (2021-01-07)
 
