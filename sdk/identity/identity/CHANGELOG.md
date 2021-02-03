@@ -2,7 +2,7 @@
 
 ## 1.2.3 (Unreleased)
 
-- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`.
+- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
 
 ## 1.2.2 (2021-01-12)
 
