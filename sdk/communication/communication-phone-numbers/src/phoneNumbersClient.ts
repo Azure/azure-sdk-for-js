@@ -15,14 +15,11 @@ import {
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { logger, createSpan, attachHttpResponse, SDK_VERSION } from "./utils";
-import {
-  PhoneNumbers as GeneratedClient,
-  PhoneNumbersClient as PhoneNumbersGeneratedClient
-} from "./generated/src/phoneNumbersClient";
+import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
+import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
   AcquiredPhoneNumber,
   PhoneNumberUpdateRequest,
@@ -138,7 +135,7 @@ export class PhoneNumbersClient {
     try {
       const { _response, ...acquiredPhoneNumber } = await this.client.update(phoneNumber, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
-        body: update
+        ...update
       });
       return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
     } catch (e) {
@@ -181,53 +178,6 @@ export class PhoneNumbersClient {
   }
 
   /**
-   * @internal
-   * @ignore
-   * Deals with the pagination of listPhoneNumbers.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPhoneNumbersOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listPhoneNumbersPage(
-    continuationState: PageSettings,
-    options: ListPhoneNumbersOptions = {}
-  ): AsyncIterableIterator<AcquiredPhoneNumber[]> {
-    if (continuationState.continuationToken == null) {
-      const currentResponse = await this.client.listPhoneNumbers(options);
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.phoneNumbers) {
-        yield currentResponse.phoneNumbers;
-      }
-    }
-
-    while (continuationState.continuationToken) {
-      const currentResponse = await this.client.listPhoneNumbersNext(
-        continuationState.continuationToken,
-        options
-      );
-      continuationState.continuationToken = currentResponse.nextLink;
-
-      if (currentResponse.phoneNumbers) {
-        yield currentResponse.phoneNumbers;
-      }
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
-   * Deals with the iteration of all the available results of listPhoneNumbers.
-   * @param {ListPhoneNumbersOptions} [options] Optional parameters for the underlying HTTP request.
-   */
-  private async *listPhoneNumbersAll(
-    options: ListPhoneNumbersOptions = {}
-  ): AsyncIterableIterator<AcquiredPhoneNumber> {
-    for await (const phoneNumbers of this.listPhoneNumbersPage({}, options)) {
-      yield* phoneNumbers;
-    }
-  }
-
-  /**
    * Iterates the acquired phone numbers.
    *
    * Example usage:
@@ -242,23 +192,14 @@ export class PhoneNumbersClient {
    */
   public listPhoneNumbers(
     options: ListPhoneNumbersOptions = {}
-  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
+  ): PagedAsyncIterableIterator<AcquiredPhoneNumber, AcquiredPhoneNumber[], PageSettings> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-listAllPhoneNumbers",
       options
     );
-    const iter = this.listPhoneNumbersAll(options);
-
+    const iter = this.client.listPhoneNumbers(updatedOptions);
     span.end();
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings: PageSettings = {}) => this.listPhoneNumbersPage(settings, updatedOptions)
-    };
+    return iter;
   }
 
   /**
@@ -337,10 +278,17 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return await this.client.searchAvailablePhoneNumbers(countryCode, {
-        ...updatedOptions,
-        body: search
-      });
+      const { phoneNumberType, assignmentType, capabilities, ...rest } = search;
+      return await this.client.searchAvailablePhoneNumbers(
+        countryCode,
+        phoneNumberType,
+        assignmentType,
+        capabilities,
+        {
+          ...updatedOptions,
+          ...rest
+        }
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -383,7 +331,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.purchasePhoneNumbers({ ...updatedOptions, body: { searchId } });
+      return this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -430,7 +378,7 @@ export class PhoneNumbersClient {
     try {
       return this.client.updateCapabilities(phoneNumber, {
         ...updatedOptions,
-        body: { ...request }
+        ...request
       });
     } catch (e) {
       span.setStatus({

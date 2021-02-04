@@ -383,11 +383,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-phone-numbers",
-      "projectFolder": "sdk/communication/communication-phone-numbers",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
       "versionPolicyName": "client"

@@ -27,6 +27,11 @@ export type ListPhoneNumbersOptions = OperationOptions;
 
 export {
   AcquiredPhoneNumber,
+  BillingFrequency,
+  KnownBillingFrequency,
+  KnownPhoneNumberAssignmentType,
+  KnownPhoneNumberCapabilityValue,
+  KnownPhoneNumberType,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

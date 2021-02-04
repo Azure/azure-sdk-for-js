@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -21,7 +21,7 @@ describe("PhoneNumbersClient - get phone number", function() {
   });
 
   it("can get an acquired phone number", async function() {
-    const acquiredPhoneNumber = env.AZURE_PHONE_NUMBER;
+    const acquiredPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
     const { phoneNumber } = await client.getPhoneNumber(acquiredPhoneNumber);
 
     assert.strictEqual(acquiredPhoneNumber, phoneNumber);

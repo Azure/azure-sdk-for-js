@@ -60,7 +60,6 @@ module.exports = function(config) {
       "TEST_MODE",
       "COMMUNICATION_CONNECTION_STRING",
       "INCLUDE_PHONENUMBER_TESTS",
-      "COMMUNICATION_ENDPOINT",
       "AZURE_PHONE_NUMBER",
       "COMMUNICATION_ENDPOINT"
     ],

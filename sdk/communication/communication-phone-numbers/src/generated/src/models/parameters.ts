@@ -30,8 +30,40 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const phoneNumberType: OperationParameter = {
+  parameterPath: "phoneNumberType",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const assignmentType: OperationParameter = {
+  parameterPath: "assignmentType",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const capabilities: OperationParameter = {
+  parameterPath: "capabilities",
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const areaCode: OperationParameter = {
+  parameterPath: ["options", "areaCode"],
+  mapper: PhoneNumberSearchRequestMapper
+};
+
+export const quantity: OperationParameter = {
+  parameterPath: ["options", "quantity"],
   mapper: PhoneNumberSearchRequestMapper
 };
 
@@ -81,8 +113,8 @@ export const searchId: OperationURLParameter = {
   }
 };
 
-export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const searchId1: OperationParameter = {
+  parameterPath: ["options", "searchId"],
   mapper: PhoneNumberPurchaseRequestMapper
 };
 
@@ -120,8 +152,13 @@ export const contentType1: OperationParameter = {
   }
 };
 
-export const body2: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const callbackUri: OperationParameter = {
+  parameterPath: ["options", "callbackUri"],
+  mapper: PhoneNumberUpdateRequestMapper
+};
+
+export const applicationId: OperationParameter = {
+  parameterPath: ["options", "applicationId"],
   mapper: PhoneNumberUpdateRequestMapper
 };
 
@@ -146,8 +183,13 @@ export const top: OperationQueryParameter = {
   }
 };
 
-export const body3: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const calling: OperationParameter = {
+  parameterPath: ["options", "calling"],
+  mapper: PhoneNumberCapabilitiesRequestMapper
+};
+
+export const sms: OperationParameter = {
+  parameterPath: ["options", "sms"],
   mapper: PhoneNumberCapabilitiesRequestMapper
 };
 

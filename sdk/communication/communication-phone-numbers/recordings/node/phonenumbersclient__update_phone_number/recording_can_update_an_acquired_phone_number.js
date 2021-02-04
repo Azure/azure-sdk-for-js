@@ -10,11 +10,11 @@ nock("https://endpoint", { encodedQueryParams: true })
   .reply(
     200,
     {
-      id: "18332159176",
+      id: "14155550100",
       phoneNumber: "+14155550100",
       countryCode: "US",
       phoneNumberType: "TollFree",
-      capabilities: { calling: "inbound+outbound", sms: "outbound" },
+      capabilities: { calling: "none", sms: "outbound" },
       assignmentType: "Application",
       callbackUri: "https://endpoint",
       applicationId: null
@@ -27,12 +27,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Request-Context",
       "appId=",
       "MS-CV",
-      "p7ZbqSzjb0iq1Ftpg4Wc7A.0",
+      "bwfhFCSfkkqSitgQaGGGPA.0",
       "X-Processing-Time",
-      "1100ms",
+      "1156ms",
       "X-Azure-Ref",
-      "0K/4aYAAAAADrVFGlNnK6SLvmo1vpLvzAWVZSMzBFREdFMDQxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0FCIcYAAAAAAgkR4P3Pj3T5t/ZaX/BZAKWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 03 Feb 2021 19:49:00 GMT"
+      "Thu, 04 Feb 2021 16:34:29 GMT"
     ]
   );

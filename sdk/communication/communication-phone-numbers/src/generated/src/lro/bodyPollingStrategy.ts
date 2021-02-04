@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LROStrategy, BaseResult, LROOperationStep } from "./models";
+import { LROStrategy, BaseResult, LROOperationStep, LROSYM } from "./models";
 import { OperationSpec } from "@azure/core-http";
 import { terminalStates } from "./constants";
 import { SendOperationFn } from "./lroPoller";
@@ -19,7 +19,7 @@ export function createBodyPollingStrategy<TResult extends BaseResult>(
   initialOperation: LROOperationStep<TResult>,
   sendOperation: SendOperationFn<TResult>
 ): LROStrategy<TResult> {
-  if (!initialOperation.result._lroData) {
+  if (!initialOperation.result._response[LROSYM]) {
     throw new Error("Expected lroData to be defined for BodyPolling strategy");
   }
 
@@ -27,7 +27,7 @@ export function createBodyPollingStrategy<TResult extends BaseResult>(
 
   return {
     isTerminal: () => {
-      const currentResult = currentOperation.result._lroData;
+      const currentResult = currentOperation.result._response[LROSYM];
       if (!currentResult) {
         throw new Error("Expected lroData to determine terminal status");
       }

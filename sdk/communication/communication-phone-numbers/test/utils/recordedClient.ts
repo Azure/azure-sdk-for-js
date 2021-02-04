@@ -38,8 +38,8 @@ const replaceableVariables: { [k: string]: string } = {
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+14155550100"),
+    (recording: string): string => recording.replace(/(https:\/\/)([^\/'",}]*)/, "$1endpoint"),
+    (recording: string): string => recording.replace(/\d{1}\d{3}\d{3}\d{4}/g, "14155550100"),
     (recording: string): string =>
       recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
   ],

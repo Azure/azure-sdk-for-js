@@ -8,6 +8,7 @@ import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
@@ -43,17 +44,54 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPoll
 export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
 }
 
+// @public
+export type BillingFrequency = string;
+
 // @public (undocumented)
 export type GetPhoneNumberOptions = OperationOptions;
 
 // @public (undocumented)
 export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
+// @public
+export const enum KnownBillingFrequency {
+    // (undocumented)
+    Monthly = "monthly"
+}
+
+// @public
+export const enum KnownPhoneNumberAssignmentType {
+    // (undocumented)
+    Application = "application",
+    // (undocumented)
+    User = "user"
+}
+
+// @public
+export const enum KnownPhoneNumberCapabilityValue {
+    // (undocumented)
+    Inbound = "inbound",
+    // (undocumented)
+    InboundOutbound = "inbound+outbound",
+    // (undocumented)
+    None = "none",
+    // (undocumented)
+    Outbound = "outbound"
+}
+
+// @public
+export const enum KnownPhoneNumberType {
+    // (undocumented)
+    Geographic = "geographic",
+    // (undocumented)
+    TollFree = "tollFree"
+}
+
 // @public (undocumented)
 export type ListPhoneNumbersOptions = OperationOptions;
 
 // @public
-export type PhoneNumberAssignmentType = "user" | "application";
+export type PhoneNumberAssignmentType = string;
 
 // @public
 export interface PhoneNumberCapabilities {
@@ -68,12 +106,12 @@ export interface PhoneNumberCapabilitiesRequest {
 }
 
 // @public
-export type PhoneNumberCapabilityValue = "none" | "inbound" | "outbound" | "inbound+outbound";
+export type PhoneNumberCapabilityValue = string;
 
 // @public
 export interface PhoneNumberCost {
     amount?: number;
-    billingFrequency?: "monthly";
+    billingFrequency?: BillingFrequency;
     currencyCode?: string;
 }
 
@@ -95,7 +133,7 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(countryCode: string, search: PhoneNumberSearchRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
-    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
+    listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber, AcquiredPhoneNumber[], PageSettings>;
     updatePhoneNumber(phoneNumber: string, update: PhoneNumberUpdateRequest, options?: UpdatePhoneNumberOptions): Promise<UpdatePhoneNumberResponse>;
 }
 
@@ -124,7 +162,7 @@ export interface PhoneNumberSearchResult {
 }
 
 // @public
-export type PhoneNumberType = "geographic" | "tollFree";
+export type PhoneNumberType = string;
 
 // @public
 export interface PhoneNumberUpdateRequest {

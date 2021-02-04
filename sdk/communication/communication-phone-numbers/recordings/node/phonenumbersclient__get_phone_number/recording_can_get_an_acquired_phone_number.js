@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "3c0b6773c8363a8fc034ffc2603f15df";
+module.exports.hash = "2f252739ba3fe5de05eb23b395a8274c";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -10,11 +10,11 @@ nock("https://endpoint", { encodedQueryParams: true })
   .reply(
     200,
     {
-      id: "18332159176",
+      id: "14155550100",
       phoneNumber: "+14155550100",
       countryCode: "US",
       phoneNumberType: "TollFree",
-      capabilities: { calling: "inbound+outbound", sms: "outbound" },
+      capabilities: { calling: "none", sms: "outbound" },
       assignmentType: "Application",
       callbackUri: null,
       applicationId: null
@@ -27,12 +27,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Request-Context",
       "appId=",
       "MS-CV",
-      "E4Qk/JAt2kK5m4juJIq/vg.0",
+      "ujJCpOe1y0KDYkJXFPRb9w.0",
       "X-Processing-Time",
-      "736ms",
+      "1055ms",
       "X-Azure-Ref",
-      "0Kf4aYAAAAABSHaKO0banTKvuHdPyGrlxWVZSMzBFREdFMDQxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0EiIcYAAAAABOgcfi+PGJS4ljrDidtL9zWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 03 Feb 2021 19:48:58 GMT"
+      "Thu, 04 Feb 2021 16:34:27 GMT"
     ]
   );

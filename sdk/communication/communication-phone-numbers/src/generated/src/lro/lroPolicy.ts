@@ -13,6 +13,7 @@ import {
   HttpOperationResponse,
   WebResource
 } from "@azure/core-http";
+import { LROOperationResponse, LROSYM } from "./models";
 import { getLROData } from "./requestUtils";
 
 export function lroPolicy() {
@@ -29,12 +30,10 @@ class LROPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    let result = await this._nextPolicy.sendRequest(webResource);
+    let result: LROOperationResponse = await this._nextPolicy.sendRequest(webResource);
+    const _lroData = getLROData(result);
 
-    if (webResource.shouldDeserialize !== undefined) {
-      const _lroData = getLROData(result);
-      result.parsedBody = { ...result.parsedBody, _lroData };
-    }
+    result[LROSYM] = _lroData;
 
     return result;
   }

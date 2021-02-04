@@ -6,9 +6,9 @@
       "query": {
         "api-version": "2021-03-07"
       },
-      "requestBody": "{\"callbackUri\":\"https://endpoint",
+      "requestBody": "{\"callbackUri\":\"https://endpoint\"}",
       "status": 200,
-      "response": "{\"id\":\"18332159176\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":\"https://endpoint,\"applicationId\":null}",
+      "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":\"https://endpoint\",\"applicationId\":null}",
       "responseHeaders": {
         "content-type": "application/json; charset=utf-8"
       }

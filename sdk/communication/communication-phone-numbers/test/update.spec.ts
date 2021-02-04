@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { PhoneNumberUpdateRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
@@ -9,7 +9,7 @@ import { buildCapabilityUpdate } from "./utils";
 import { createRecordedClient } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - update phone number", function() {
-  const acquiredPhoneNumber = env.AZURE_PHONE_NUMBER;
+  const acquiredPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
@@ -29,7 +29,7 @@ describe("PhoneNumbersClient - update phone number", function() {
     };
     const { callbackUri } = await client.updatePhoneNumber(acquiredPhoneNumber, update);
     assert.strictEqual(update.callbackUri, callbackUri);
-  }).timeout(5000);
+  });
 
   it("errors if trying to update phone number not owned by resource", async function() {
     const fake = "+14155550100";

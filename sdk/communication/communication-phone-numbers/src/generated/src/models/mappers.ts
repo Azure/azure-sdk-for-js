@@ -92,7 +92,11 @@ export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
         serializedName: "phoneNumbers",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       phoneNumberType: {
@@ -149,8 +153,6 @@ export const PhoneNumberCost: coreHttp.CompositeMapper = {
         }
       },
       billingFrequency: {
-        defaultValue: "monthly",
-        isConstant: true,
         serializedName: "billingFrequency",
         type: {
           name: "String"
@@ -208,7 +210,10 @@ export const CommunicationError: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "CommunicationError" }
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
           }
         }
       },
@@ -403,7 +408,10 @@ export const AcquiredPhoneNumbers: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "AcquiredPhoneNumber" }
+            type: {
+              name: "Composite",
+              className: "AcquiredPhoneNumber"
+            }
           }
         }
       },
