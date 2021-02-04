@@ -73,12 +73,10 @@ export function browserConfig(test = false) {
     output: {
       file: "dist-browser/azure-quantum.js",
       format: "umd",
-      name: "SearchClient",
-      sourcemap: true,
-      globals: { "@azure/core-http": "Azure.Core.HTTP" }
+      name: "azquantumjobs",
+      sourcemap: true
     },
     preserveSymlinks: false,
-    external: ["fs-extra"],
     plugins: [
       sourcemaps(),
       replace({
@@ -102,6 +100,7 @@ export function browserConfig(test = false) {
       json(),
       cjs({
         namedExports: {
+          events: ["EventEmitter"],
           chai: ["assert"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
