@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { CAEChallengeEither, parseCAEChallenges } from "../src/CAE";
+import { CAEChallengeEither, parseCAEChallenges } from "../../src/CAE";
 
 interface TestChallenge {
   name: string;
@@ -122,6 +122,19 @@ describe("CAE", () => {
   });
 
   describe("parseCAEChallenges", () => {
+    it.only("Challenge with commas in the values", () => {
+      const expected = {
+        authorization: "authorizationValue,authorizationValue",
+        scope: "scopeValue,scopeValue"
+      };
+      const headerValue = `Bearer authorization="${expected.authorization}", scope="${expected.scope}"`;
+      // @"(\w+) ((?:\w+="".*?""(?:, )?)+)(?:, )?"
+      // s.match(/(\w+) ((?<name>\w+=".*"(?=, ))+)(?=, )/g)
+      // s.match(/(?<name>\w+=".*"(?=, ))/g)
+      console.log(headerValue);
+      const parsed = parseCAEChallenges(headerValue);
+      parsed.should.deep.equal(expected);
+    });
     it("All possible groups of some examples of known challenges", () => {
       const testChallenge = (headerValue: string, parsedChallenges: CAEChallengeEither[]): void => {
         const parsed = parseCAEChallenges(headerValue);

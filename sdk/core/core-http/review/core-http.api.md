@@ -112,36 +112,6 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
-// @public
-export type CAEChallengeAny = Record<CAEPropertiesAny, string>;
-
-// @public
-export type CAEChallengeEither = CAEParsed.InsufficientClaims | CAEParsed.SessionRevoked | CAEParsed.IPPolicy | CAEParsed.KeyVault | CAEParsed.ARM;
-
-// @public
-export namespace CAEParsed {
-    export type ARM = Record<CAEProperties.ARM, string>;
-    export type InsufficientClaims = Record<CAEProperties.InsufficientClaims, string>;
-    export type IPPolicy = Record<CAEProperties.IPPolicy, string>;
-    export type KeyVault = KeyVaultResource | KeyVaultScope;
-    export type KeyVaultResource = Record<CAEProperties.KeyVaultResource, string>;
-    export type KeyVaultScope = Record<CAEProperties.KeyVaultScope, string>;
-    export type SessionRevoked = Record<CAEProperties.SessionRevoked, string>;
-}
-
-// @public
-export namespace CAEProperties {
-    export type ARM = "authorization_uri" | "error" | "error_description";
-    export type InsufficientClaims = "authorization_uri" | "client_id" | "error" | "claims" | "realm";
-    export type IPPolicy = "authorization_uri" | "error" | "error_description" | "claims";
-    export type KeyVaultResource = "authorization" | "resource";
-    export type KeyVaultScope = "authorization" | "scope";
-    export type SessionRevoked = "authorization_uri" | "error" | "error_description" | "claims";
-}
-
-// @public
-export type CAEPropertiesAny = CAEProperties.InsufficientClaims | CAEProperties.SessionRevoked | CAEProperties.IPPolicy | CAEProperties.KeyVaultResource | CAEProperties.KeyVaultScope | CAEProperties.ARM;
-
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
     // (undocumented)
@@ -563,6 +533,8 @@ export interface ParameterValue {
     value: any;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CAEChallengeEither" needs to be exported by the entry point coreHttp.d.ts
+//
 // @public
 export function parseCAEChallenges(challenges: string): CAEChallengeEither[];
 

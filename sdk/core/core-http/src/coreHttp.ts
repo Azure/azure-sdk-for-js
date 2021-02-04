@@ -49,11 +49,6 @@ export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
 export { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 export {
-  CAEProperties,
-  CAEPropertiesAny,
-  CAEParsed,
-  CAEChallengeAny,
-  CAEChallengeEither,
   parseCAEChallenges
 } from "./CAE";
 export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
