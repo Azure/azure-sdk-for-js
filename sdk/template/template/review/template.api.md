@@ -33,9 +33,8 @@ export interface ConfigurationSetting {
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetConfigurationSettingOptions extends OperationOptions {
-    // (undocumented)
     onlyIfChanged?: boolean;
 }
 
