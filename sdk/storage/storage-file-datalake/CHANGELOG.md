@@ -1,5 +1,8 @@
 # Release History
 
+## 12.3.2 (Unreleased)
+
+
 ## 12.3.1 (2021-02-03)
 
 - Fixed a bug where `generateDataLakeSASQueryParameters()` won't correctly set the resource type if `DataLakeSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
