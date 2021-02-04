@@ -178,6 +178,7 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new data feed for a specific data source and provided settings
    * @param feed - the data feed object to create
    * @param options - The options parameter.
+   * @returns - An async response with Datafeed object
    */
 
   public async createDataFeed(
@@ -261,9 +262,6 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedId = result.location.substring(lastSlashIndex + 1);
-      /**
-       * @returns - An async response with Datafeed object
-       */
       return this.getDataFeed(feedId);
     } catch (e) {
       span.setStatus({
@@ -550,6 +548,7 @@ export class MetricsAdvisorAdministrationClient {
    * Creates an anomaly detection configuration for a given metric
    * @param config - The detection configuration object to create
    * @param options - The options parameter
+   * @returns - An async response with Detection Config object
    */
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
@@ -571,9 +570,6 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      /**
-       * @returns - An async response with Detection Config object
-       */
       return this.getDetectionConfig(configId);
     } catch (e) {
       span.setStatus({
@@ -683,6 +679,7 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Creates anomaly alerting configuration for a given metric
    * @param config - The alert configuration object to create
+   * @returns - An async response with Alert object
    */
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
@@ -704,9 +701,6 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
-      /**
-       * @returns - An async response with Alert object
-       */
       return this.getAlertConfig(configId);
     } catch (e) {
       span.setStatus({
@@ -939,6 +933,7 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new hook
    * @param hookInfo - Information for the new hook consists of the hook type, name, description, external link and hook parameter
    * @param options - The options parameter.
+   * @returns - An async response with Hook object
    */
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
@@ -967,9 +962,6 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const hookId = result.location.substring(lastSlashIndex + 1);
-      /**
-       * @returns - An async response with Hook object
-       */
       return this.getHook(hookId);
     } catch (e) {
       span.setStatus({

@@ -1577,6 +1577,7 @@ export class MetricsAdvisorClient {
    *
    * @param feedback - Content of the feedback
    * @param options - The options parameter
+   * @returns - An async response with Feedback object
    */
   public async createFeedback(
     feedback: MetricFeedbackUnion,
@@ -1596,9 +1597,6 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      /**
-       * @returns - An async response with Feedback object
-       */
       return this.getFeedback(feedbackId);
     } catch (e) {
       span.setStatus({
