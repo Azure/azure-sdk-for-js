@@ -53,6 +53,15 @@ export interface JobDetailsList {
 }
 
 // @public
+export class Jobs {
+    constructor(client: QuantumJobClient);
+    cancel(jobId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
+    create(jobId: string, job: JobDetails, options?: coreHttp.OperationOptions): Promise<JobsCreateResponse>;
+    get(jobId: string, options?: coreHttp.OperationOptions): Promise<JobsGetResponse>;
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<JobDetails>;
+    }
+
+// @public
 export type JobsCreateResponse = JobDetails & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -144,6 +153,12 @@ export type MeterPeriod = string;
 export type ProviderAvailability = string;
 
 // @public
+export class Providers {
+    constructor(client: QuantumJobClient);
+    listStatus(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<ProviderStatus>;
+}
+
+// @public
 export type ProvidersGetStatusNextResponse = ProviderStatusList & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -175,20 +190,12 @@ export interface ProviderStatusList {
 // @public (undocumented)
 export class QuantumJobClient extends QuantumJobClientContext {
     constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
-    // Warning: (ae-forgotten-export) The symbol "Jobs" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     jobs: Jobs;
-    // Warning: (ae-forgotten-export) The symbol "Providers" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     providers: Providers;
-    // Warning: (ae-forgotten-export) The symbol "Quotas" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     quotas: Quotas;
-    // Warning: (ae-forgotten-export) The symbol "Storage" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     storage: Storage;
 }
@@ -230,6 +237,12 @@ export interface QuotaList {
 }
 
 // @public
+export class Quotas {
+    constructor(client: QuantumJobClient);
+    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<Quota>;
+    }
+
+// @public
 export type QuotasListNextResponse = QuotaList & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -253,6 +266,12 @@ export interface RestError {
 // @public
 export interface SasUriResponse {
     sasUri?: string;
+}
+
+// @public
+export class Storage {
+    constructor(client: QuantumJobClient);
+    sasUri(blobDetails: BlobDetails, options?: coreHttp.OperationOptions): Promise<StorageSasUriResponse>;
 }
 
 // @public
