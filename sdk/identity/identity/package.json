@@ -95,7 +95,7 @@
     "uuid": "^8.3.0"
   },
   "optionalDependencies": {
-    "keytar": "^5.4.0"
+    "keytar": "^7.3.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -125,7 +125,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",

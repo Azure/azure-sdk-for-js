@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { checkKeyValidity } from "../../src/cryptographyClient";
+import { checkKeyValidity } from "../../src/keyVaultCryptographyClient";
 
-describe("CryptographyClient, internal tests", () => {
+describe("checkKeyValidity", () => {
   it("Checking that the key's notBefore is respected", async function() {
     const keyBundle = {
       attributes: {

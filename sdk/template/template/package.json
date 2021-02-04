@@ -1,14 +1,24 @@
 {
   "name": "@azure/template",
-  "version": "1.0.10-beta.1",
-  "description": "Template Library with typescript type definitions for node.js and browser.",
+  "version": "1.0.11-beta.1",
+  "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
-  },
+  "browser": {},
   "types": "types/template.d.ts",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -18,9 +28,11 @@
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript --v3 swagger",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -33,8 +45,7 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}/*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
@@ -57,7 +68,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -66,12 +77,13 @@
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
-    "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -90,21 +102,22 @@
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
+    "typedoc": "0.15.2",
     "typescript": "4.1.2",
-    "util": "^0.12.1",
-    "typedoc": "0.15.2"
+    "util": "^0.12.1"
   },
-  "//smokeTestConfiguration": {
-    "skipFolder": true
+  "//sampleConfiguration": {
+    "skipFolder": false
   }
 }

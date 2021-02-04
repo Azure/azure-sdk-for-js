@@ -21,9 +21,7 @@ import {
   SparkSessionCancelSparkStatementResponse
 } from "../models";
 
-/**
- * Class representing a SparkSession.
- */
+/** Class representing a SparkSession. */
 export class SparkSession {
   private readonly client: SparkClient;
 
@@ -348,7 +346,6 @@ export class SparkSession {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkSessionsOperationSpec: coreHttp.OperationSpec = {

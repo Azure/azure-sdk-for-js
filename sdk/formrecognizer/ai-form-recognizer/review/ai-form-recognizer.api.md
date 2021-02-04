@@ -21,11 +21,6 @@ export interface AccountProperties {
     customModelLimit: number;
 }
 
-// @public
-export interface Appearance {
-    style: Style;
-}
-
 export { AzureKeyCredential }
 
 // @public
@@ -211,7 +206,7 @@ export interface FormFieldsReport {
 
 // @public
 export interface FormLine extends FormElementCommon {
-    appearance?: Appearance;
+    appearance?: TextAppearance;
     kind: "line";
     text: string;
     words: FormWord[];
@@ -379,10 +374,54 @@ export interface KeyValuePairModel {
 }
 
 // @public
-export type KeyValueType = "string" | "selectionMark" | string;
+export type KeyValueType = string;
 
 // @public
-export type Language = "en" | "es" | "de" | "fr" | "it" | "nl" | "pt" | "zh-Hans" | string;
+export const enum KnownKeyValueType {
+    // (undocumented)
+    SelectionMark = "selectionMark",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
+export const enum KnownLanguage {
+    // (undocumented)
+    De = "de",
+    // (undocumented)
+    En = "en",
+    // (undocumented)
+    Es = "es",
+    // (undocumented)
+    Fr = "fr",
+    // (undocumented)
+    It = "it",
+    // (undocumented)
+    Nl = "nl",
+    // (undocumented)
+    Pt = "pt",
+    // (undocumented)
+    ZhHans = "zh-Hans"
+}
+
+// @public
+export const enum KnownSelectionMarkState {
+    // (undocumented)
+    Selected = "selected",
+    // (undocumented)
+    Unselected = "unselected"
+}
+
+// @public
+export const enum KnownStyleName {
+    // (undocumented)
+    Handwriting = "handwriting",
+    // (undocumented)
+    Other = "other"
+}
+
+// @public
+export type Language = string;
 
 // @public
 export type LengthUnit = "pixel" | "inch";
@@ -473,16 +512,21 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 export { RestResponse }
 
 // @public
-export type SelectionMarkState = "selected" | "unselected" | string;
+export type SelectionMarkState = string;
 
 // @public
-export interface Style {
-    confidence: number;
-    name: TextStyle;
+export type StyleName = string;
+
+// @public
+export interface TextAppearance {
+    style: TextStyle;
 }
 
 // @public
-export type TextStyle = "other" | "handwriting" | string;
+export interface TextStyle {
+    confidence: number;
+    name: StyleName;
+}
 
 // @public
 export interface TrainingDocumentInfo {

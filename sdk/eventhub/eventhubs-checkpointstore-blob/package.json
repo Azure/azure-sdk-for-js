@@ -62,7 +62,7 @@
   "dependencies": {
     "@azure/event-hubs": "^5.0.0",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.4.0",
+    "@azure/storage-blob": "^12.4.1",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
@@ -103,7 +103,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
@@ -119,7 +119,7 @@
     "util": "^0.12.1",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   }
 }

@@ -5,7 +5,7 @@ import { ArtifactsClientOptionalParams } from "./models";
 import { lroPolicy } from "./lro";
 
 const packageName = "@azure/synapse-artifacts";
-const packageVersion = "1.0.0-beta.1";
+const packageVersion = "1.0.0-beta.2";
 
 export class ArtifactsClientContext extends coreHttp.ServiceClient {
   endpoint: string;

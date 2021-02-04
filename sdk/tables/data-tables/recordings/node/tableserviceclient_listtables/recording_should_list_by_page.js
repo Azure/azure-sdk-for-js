@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "b9cd9da51b051f4025ee216c17a0a0a1";
+module.exports.hash = "16238993088f6a972e0b57b98089eeb7";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -17,21 +17,21 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd48babe4-f002-003a-638b-97ea5a000000',
+  'd63fa901-2002-00b8-47dd-f8a3cb000000',
   'x-ms-client-request-id',
-  '2d4cb63f-fce0-4ef9-86a1-e9d02e4a4cf9',
+  '2c602396-e3c7-4656-99f5-b10af88406a4',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-continuation-NextTableName',
-  '1!48!bGlzdHRhYmxldGVzdG5vZGUxMwEwMWQ2OTc4YjM0OTNkMzlk',
+  '1!48!bGlzdHRhYmxldGVzdG5vZGUxMwEwMWQ2ZjhkZDEwMzMwOWQ0',
   'Access-Control-Expose-Headers',
   'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextTableName,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:39 GMT'
+  'Mon, 01 Feb 2021 20:58:59 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -47,21 +47,21 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd48babe8-f002-003a-668b-97ea5a000000',
+  'd63fa916-2002-00b8-59dd-f8a3cb000000',
   'x-ms-client-request-id',
-  '48040d8a-1cc4-4919-843a-1dcee341de27',
+  '5d6b72c8-5b77-4f84-8f17-7e0a2bd2e652',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-continuation-NextTableName',
-  '1!48!bGlzdHRhYmxldGVzdG5vZGUxOAEwMWQ2OTc4YjM0YWM0MjBi',
+  '1!48!bGlzdHRhYmxldGVzdG5vZGUxOAEwMWQ2ZjhkZDEwNmVlNTBl',
   'Access-Control-Expose-Headers',
   'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextTableName,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:39 GMT'
+  'Mon, 01 Feb 2021 20:58:59 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -77,21 +77,21 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd48babe9-f002-003a-678b-97ea5a000000',
+  'd63fa922-2002-00b8-63dd-f8a3cb000000',
   'x-ms-client-request-id',
-  '54877489-b4ab-4419-b29b-54c668566896',
+  '8cf9c02c-5bfd-4ff5-9d37-59af2228eabe',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-continuation-NextTableName',
-  '1!48!bGlzdHRhYmxldGVzdG5vZGU1ATAxZDY5NzhiMzQ2OTM5NmE-',
+  '1!48!bGlzdHRhYmxldGVzdG5vZGU1ATAxZDZmOGRkMGZmYmMzNDQ-',
   'Access-Control-Expose-Headers',
   'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextTableName,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:39 GMT'
+  'Mon, 01 Feb 2021 20:58:59 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -107,21 +107,21 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd48babec-f002-003a-6a8b-97ea5a000000',
+  'd63fa92e-2002-00b8-6ddd-f8a3cb000000',
   'x-ms-client-request-id',
-  '53457249-dca3-43d1-a85d-2f660de4fd07',
+  '4fc4c44d-08dc-4b03-9570-455957bec0d7',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-continuation-NextTableName',
-  '1!48!dGFibGVjbGllbnR0ZXN0bm9kZQEwMWQ2OTc4YjMyOGVjYmVj',
+  '1!48!dGFibGVjbGllbnR0ZXN0bm9kZQEwMWQ2ZjhkZDBkNTAyNWYz',
   'Access-Control-Expose-Headers',
   'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextTableName,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:39 GMT'
+  'Mon, 01 Feb 2021 20:58:59 GMT'
 ]);
 
 nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -137,9 +137,9 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd48babed-f002-003a-6b8b-97ea5a000000',
+  'd63fa939-2002-00b8-74dd-f8a3cb000000',
   'x-ms-client-request-id',
-  '3ae1cf8e-f177-4e37-bf88-a6d13b30c608',
+  '45cbd270-14c3-410d-ad49-dbb7719fcc3b',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -149,5 +149,5 @@ nock('https://fakestorageaccount.table.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 01 Oct 2020 00:38:39 GMT'
+  'Mon, 01 Feb 2021 20:58:59 GMT'
 ]);

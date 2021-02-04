@@ -35,18 +35,18 @@ export class ServiceBusClient {
    * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
    * the Azure Service Bus namespace provided in the connection string. No connection is made to the service
    * until the senders/receivers created with the client are used to send/receive messages.
-   * @param connectionString A connection string for Azure Service Bus namespace.
+   * @param connectionString - A connection string for Azure Service Bus namespace.
    * NOTE: this connection string can contain an EntityPath, which is ignored.
-   * @param options Options for the service bus client.
+   * @param options - Options for the service bus client.
    */
   constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
    * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
    * the Azure Service Bus namespace provided. No connection is made to the service until
    * the senders/receivers created with the client are used to send/receive messages.
-   * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is
+   * @param fullyQualifiedNamespace - The full namespace of your Service Bus instance which is
    * likely to be similar to <yournamespace>.servicebus.windows.net.
-   * @param credential A credential object used by the client to get the token to authenticate the connection
+   * @param credential - A credential object used by the client to get the token to authenticate the connection
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using an own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
@@ -119,8 +119,8 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param queueName The name of the queue to receive from.
-   * @param options Options to pass the receiveMode, defaulted to peekLock.
+   * @param queueName - The name of the queue to receive from.
+   * @param options - Options to pass the receiveMode, defaulted to peekLock.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
   createReceiver(queueName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
@@ -147,9 +147,9 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param topicName Name of the topic for the subscription we want to receive from.
-   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param options Options to pass the receiveMode, defaulted to peekLock.
+   * @param topicName - Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options - Options to pass the receiveMode, defaulted to peekLock.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
   createReceiver(
@@ -216,9 +216,9 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param queueName The name of the queue to receive from.
-   * @param sessionId The id of the session from which messages need to be received
-   * @param options Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @param queueName - The name of the queue to receive from.
+   * @param sessionId - The id of the session from which messages need to be received
+   * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
   acceptSession(
@@ -240,10 +240,10 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param topicName Name of the topic for the subscription we want to receive from.
-   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param sessionId The id of the session from which messages need to be received
-   * @param options Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @param topicName - Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
+   * @param sessionId - The id of the session from which messages need to be received
+   * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
   acceptSession(
@@ -333,8 +333,8 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param queueName The name of the queue to receive from.
-   * @param options Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @param queueName - The name of the queue to receive from.
+   * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
   acceptNextSession(
@@ -355,9 +355,9 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param topicName Name of the topic for the subscription we want to receive from.
-   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param options Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @param topicName - Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
   acceptNextSession(
@@ -404,7 +404,7 @@ export class ServiceBusClient {
    * Creates a Sender which can be used to send messages, schedule messages to be
    * sent at a later time and cancel such scheduled messages. No connection is made
    * to the service until one of the methods on the sender is called.
-   * @param queueOrTopicName The name of a queue or topic to send messages to.
+   * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
   createSender(queueOrTopicName: string): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
@@ -434,7 +434,6 @@ export class ServiceBusClient {
  * topic, subscription, options
  *
  * @internal
- * @hidden
  */
 export function extractReceiverArguments<OptionsT extends { receiveMode?: ReceiveMode }>(
   queueOrTopicName1: string,
@@ -479,7 +478,6 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
  * queue or topic name passed to the methods that create senders and receivers.
  *
  * @internal
- * @hidden
  */
 function validateEntityPath(connectionConfig: ConnectionConfig, queueOrTopicName: string): void {
   if (connectionConfig.entityPath && connectionConfig.entityPath !== queueOrTopicName) {

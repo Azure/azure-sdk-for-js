@@ -200,8 +200,8 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   var fileContent = await packageUtils.readFile(filePath);
   console.log("Reading filePath = " + filePath);
   testAssetsContent = fileContent.replace('path.resolve(path.join(process.cwd(), "test-assets"','path.resolve(path.join(process.cwd(),"..","..", "test-assets"');
-  // Regex for internal references = /* ["']+[../]*src[/a-z]+["'] */
-  var internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//a-zA-Z]+[\"\']+/g);
+  // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
+  var internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z]+[\"\']+/g);
   var writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
@@ -211,7 +211,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
   else {
     var replaceText = "\"" + packageName + "\"";
     //Regex for public api references to be replaced by package name
-    writeContent = testAssetsContent.replace(/[\"\']+[..//]*src[\"\']+/g, replaceText);
+    writeContent = testAssetsContent.replace(/[\"\']+[..//]*src[//]*[\"\']+/g, replaceText);
   }
   await packageUtils.writeFile(filePath, writeContent);
 }

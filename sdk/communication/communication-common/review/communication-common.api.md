@@ -19,20 +19,10 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     }
 
 // @public
-export interface CallingApplicationIdentifier {
-    callingApplicationId: string;
-}
+export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
 
 // @public
-export interface CallingApplicationKind extends CallingApplicationIdentifier {
-    kind: "CallingApplication";
-}
-
-// @public
-export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberIdentifier | CallingApplicationIdentifier | MicrosoftTeamsUserIdentifier | UnknownIdentifier;
-
-// @public
-export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | CallingApplicationKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
+export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
 
 // @public
 export interface CommunicationTokenCredential {
@@ -54,7 +44,7 @@ export interface CommunicationUserIdentifier {
 
 // @public
 export interface CommunicationUserKind extends CommunicationUserIdentifier {
-    kind: "CommunicationUser";
+    kind: "communicationUser";
 }
 
 // @public
@@ -76,9 +66,6 @@ export interface EndpointCredential {
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
-export const isCallingApplicationIdentifier: (identifier: CommunicationIdentifier) => identifier is CallingApplicationIdentifier;
-
-// @public
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
 
 // @public
@@ -94,14 +81,15 @@ export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => i
 export const isUnknownIdentifier: (identifier: CommunicationIdentifier) => identifier is UnknownIdentifier;
 
 // @public
-export interface MicrosoftTeamsUserIdentifier {
-    isAnonymous: boolean | undefined;
+export interface MicrosoftTeamsUserIdentifier extends WithOptionalRawId {
+    cloud?: "public" | "dod" | "gcch";
+    isAnonymous?: boolean;
     microsoftTeamsUserId: string;
 }
 
 // @public
 export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
-    kind: "MicrosoftTeamsUser";
+    kind: "microsoftTeamsUser";
 }
 
 // @public
@@ -111,29 +99,45 @@ export const parseClientArguments: (connectionStringOrUrl: string, credentialOrO
 export const parseConnectionString: (connectionString: string) => EndpointCredential;
 
 // @public
-export interface PhoneNumberIdentifier {
+export interface PhoneNumberIdentifier extends WithOptionalRawId {
     phoneNumber: string;
 }
 
 // @public
 export interface PhoneNumberKind extends PhoneNumberIdentifier {
-    kind: "PhoneNumber";
+    kind: "phoneNumber";
 }
 
 // @internal
 export const _serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => _SerializedCommunicationIdentifier;
 
 // @internal
+export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
+
+// @internal
 export interface _SerializedCommunicationIdentifier {
-    id?: string;
-    isAnonymous?: boolean;
-    kind: _SerializedCommunicationIdentifierKind;
-    microsoftTeamsUserId?: string;
-    phoneNumber?: string;
+    communicationUser?: _SerializedCommunicationUserIdentifier;
+    microsoftTeamsUser?: _SerializedMicrosoftTeamsUserIdentifier;
+    phoneNumber?: _SerializedPhoneNumberIdentifier;
+    rawId?: string;
 }
 
 // @internal
-export type _SerializedCommunicationIdentifierKind = "unknown" | "communicationUser" | "phoneNumber" | "callingApplication" | "microsoftTeamsUser";
+export interface _SerializedCommunicationUserIdentifier {
+    id: string;
+}
+
+// @internal
+export interface _SerializedMicrosoftTeamsUserIdentifier {
+    cloud?: _SerializedCommunicationCloudEnvironment;
+    isAnonymous?: boolean;
+    userId: string;
+}
+
+// @internal
+export interface _SerializedPhoneNumberIdentifier {
+    value: string;
+}
 
 // @public
 export interface UnknownIdentifier {
@@ -142,7 +146,7 @@ export interface UnknownIdentifier {
 
 // @public
 export interface UnknownIdentifierKind extends UnknownIdentifier {
-    kind: "Unknown";
+    kind: "unknown";
 }
 
 // @public
@@ -150,6 +154,11 @@ export type UrlWithCredential = {
     url: string;
     credential: TokenCredential | KeyCredential;
 };
+
+// @public (undocumented)
+export interface WithOptionalRawId {
+    rawId?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

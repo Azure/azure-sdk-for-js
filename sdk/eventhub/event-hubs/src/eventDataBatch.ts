@@ -9,6 +9,7 @@ import { Span, SpanContext } from "@opentelemetry/api";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { defaultDataTransformer } from "./dataTransformer";
+import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -27,11 +28,10 @@ const smallMessageMaxBytes = 255;
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
  * @param eventDataBatch The instance of `EventDataBatch` to verify.
  * @internal
- * @hidden
  */
-export function isEventDataBatch(eventDataBatch: any): eventDataBatch is EventDataBatch {
+export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is EventDataBatch {
   return (
-    eventDataBatch &&
+    isObjectWithProperties(eventDataBatch, ["count", "sizeInBytes", "tryAdd"]) &&
     typeof eventDataBatch.tryAdd === "function" &&
     typeof eventDataBatch.count === "number" &&
     typeof eventDataBatch.sizeInBytes === "number"
@@ -131,7 +131,6 @@ export interface EventDataBatch {
  *
  * @class
  * @internal
- * @hidden
  */
 export class EventDataBatchImpl implements EventDataBatch {
   /**
@@ -192,8 +191,8 @@ export class EventDataBatchImpl implements EventDataBatch {
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
-    this._partitionKey = partitionKey != undefined ? String(partitionKey) : partitionKey;
-    this._partitionId = partitionId != undefined ? String(partitionId) : partitionId;
+    this._partitionKey = isDefined(partitionKey) ? String(partitionKey) : partitionKey;
+    this._partitionId = isDefined(partitionId) ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
     this._count = 0;
   }

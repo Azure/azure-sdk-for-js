@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "b15b1edb6fd215ff27f66c70053afbb8";
+module.exports.hash = "f54a8b7d13e4ae34fadeb0393c88eaf4";
 
-module.exports.testInfo = {"uniqueName":{"cloudSingleEventId":"cloudSingleEventId160161957312109296"},"newDate":{"cloudSingleEventDate":"2020-10-02T06:19:33.121Z"}}
+module.exports.testInfo = {"uniqueName":{"cloudSingleEventId":"cloudSingleEventId161168561021500558"},"newDate":{"cloudSingleEventDate":"2021-01-26T18:26:50.215Z"}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"cloudSingleEventId160161957312109296","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2020-10-02T06:19:33.121Z","specversion":"1.0","datacontenttype":"application/json"}])
+  .post('/api/events', [{"id":"cloudSingleEventId161168561021500558","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2021-01-26T18:26:50.215Z","specversion":"1.0","datacontenttype":"application/json"}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  '8cb4c799-b937-4ebf-b2c5-5803f9af5f30',
+  'd5f15325-e97d-4a27-ab57-531dd130301b',
   'Date',
-  'Fri, 02 Oct 2020 06:19:33 GMT'
+  'Tue, 26 Jan 2021 18:26:51 GMT'
 ]);

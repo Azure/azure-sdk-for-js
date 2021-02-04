@@ -10,6 +10,7 @@ import {
   ProxySettings,
   getDefaultProxySettings
 } from "../../src";
+import { noProxyList, loadNoProxy } from "../../src/policies/proxyPolicy";
 
 describe("proxyPolicy (node)", function() {
   it("Sets proxy settings on the request", function() {
@@ -54,6 +55,65 @@ describe("proxyPolicy (node)", function() {
 
     assert.isTrue(next.calledOnceWith(request), "next called with request");
     assert.strictEqual(request.proxySettings, requestProxySettings);
+  });
+
+  it("Doesn't assign proxy settings to request when NO_PROXY contains a match of host name", function() {
+    const saved = process.env["NO_PROXY"];
+    try {
+      process.env["NO_PROXY"] = ".proxytest.com, test.com";
+      noProxyList.splice(0, noProxyList.length);
+      noProxyList.push(...loadNoProxy());
+
+      const proxySettings: ProxySettings = {
+        host: "https://proxy.example.com",
+        port: 8080
+      };
+      const policy = proxyPolicy(proxySettings);
+
+      const request = createPipelineRequest({
+        url: "https://proxytest.com"
+      });
+
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+
+      policy.sendRequest(request, next);
+
+      assert.isTrue(next.calledOnceWith(request), "next called with request");
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "https://www.proxytest.com";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://test.proxytest.com";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://test.proxytest.com/path1";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://test.proxytest.com/path2";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://abcproxytest.com";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, proxySettings);
+
+      request.proxySettings = undefined;
+      request.url = "http://test.com";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, undefined);
+
+      request.url = "http://www.test.com";
+      policy.sendRequest(request, next);
+      assert.strictEqual(request.proxySettings, proxySettings);
+    } finally {
+      process.env["NO_PROXY"] = saved;
+      noProxyList.splice(0, noProxyList.length);
+      noProxyList.push(...loadNoProxy());
+    }
   });
 
   describe("getDefaultProxySettings", function() {

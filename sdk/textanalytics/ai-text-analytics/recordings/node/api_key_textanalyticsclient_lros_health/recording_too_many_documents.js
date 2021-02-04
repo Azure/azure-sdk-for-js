@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "df47c575705efb253a811dd95ec8fb81";
+module.exports.hash = "8522d29e9effdca56bd33c55db7512a3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -13,13 +13,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '8',
+  '11',
   'apim-request-id',
-  '97a34d54-aa4c-4372-8ef6-39062fe23b0b',
+  '8bba2c19-2a26-40d3-a12e-207a3a840044',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 22 Dec 2020 20:07:24 GMT'
+  'Wed, 30 Dec 2020 17:28:16 GMT'
 ]);

@@ -43,12 +43,12 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   },
   "browser": {
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -119,7 +119,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",

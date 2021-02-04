@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage } from "../src";
+import { delay, ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   createServiceBusClientForTests,
@@ -71,8 +71,8 @@ describe("Deferred Messages", () => {
 
   /**
    * Sends, defers, receives and then returns a test message
-   * @param testMessage Test message to send, defer, receive and then return
-   * @param passSequenceNumberInArray Boolean to indicate whether to pass the sequence number
+   * @param testMessage - Test message to send, defer, receive and then return
+   * @param passSequenceNumberInArray - Boolean to indicate whether to pass the sequence number
    * as is or in an array to ensure both get code coverage
    */
   async function deferMessage(
@@ -263,6 +263,7 @@ describe("Deferred Messages", () => {
     if (!sequenceNumber) {
       throw "Sequence Number can not be null";
     }
+    await delay(2000); // Add a delay after receiving the messages to make sure the msg.lockedUntil gets updated after the renewlock operation
     const lockedUntilBeforeRenewlock = deferredMsg.lockedUntilUtc;
     const lockedUntilAfterRenewlock = await receiver.renewMessageLock(deferredMsg);
     should.equal(

@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
@@ -76,38 +75,6 @@ export interface CarrierDetails {
 }
 
 // @public
-export class CommunicationIdentityClient {
-    constructor(connectionString: string, options?: CommunicationIdentityOptions);
-    constructor(url: string, credential: KeyCredential, options?: CommunicationIdentityOptions);
-    constructor(url: string, credential: TokenCredential, options?: CommunicationIdentityOptions);
-    createUser(options?: OperationOptions): Promise<CreateUserResponse>;
-    deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<VoidResponse>;
-    issueToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<IssueTokenResponse>;
-    revokeTokens(user: CommunicationUserIdentifier, tokensValidFrom?: Date, options?: OperationOptions): Promise<VoidResponse>;
-}
-
-// @public
-export interface CommunicationIdentityOptions extends PipelineOptions {
-}
-
-// @public (undocumented)
-export interface CommunicationIdentityToken {
-    expiresOn: Date;
-    id: string;
-    token: string;
-}
-
-// @public (undocumented)
-export interface CommunicationTokenRequest {
-    scopes: string[];
-}
-
-// @public
-export interface CommunicationUserToken extends Pick<CommunicationIdentityToken, "token" | "expiresOn"> {
-    user: CommunicationUserIdentifier;
-}
-
-// @public
 export interface ConfigurePhoneNumberOptions extends OperationOptions {
     applicationId?: string;
     azurePstnTargetId?: string;
@@ -141,9 +108,6 @@ export interface CreateReservationResponse {
     // (undocumented)
     reservationId: string;
 }
-
-// @public
-export type CreateUserResponse = WithResponse<CommunicationUserIdentifier>;
 
 // @public
 export type GetAreaCodesOptions = OperationOptions;
@@ -195,9 +159,6 @@ export type GetReservationOptions = OperationOptions;
 
 // @public
 export type GetReservationResponse = WithResponse<PhoneNumberReservation>;
-
-// @public
-export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
 
 // @public
 export type ListPhoneNumbersOptions = PageableLocalizationOptions;
@@ -289,6 +250,7 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: PhoneNumberAdministrationClientOptions);
     beginPurchaseReservation(reservationId: string, options?: BeginPurchaseReservationOptions): Promise<PollerLike<PollOperationState<void>, void>>;
     beginReleasePhoneNumbers(phoneNumbers: string[], options?: BeginReleasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>>;
     beginReservePhoneNumbers(reservationRequest: CreateReservationRequest, options?: BeginReservePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>>;
@@ -504,9 +466,6 @@ export type ReleaseStatus = "Pending" | "InProgress" | "Complete" | "Failed" | "
 
 // @public
 export type SearchStatus = "Pending" | "InProgress" | "Reserved" | "Expired" | "Expiring" | "Completing" | "Refreshing" | "Success" | "Manual" | "Cancelled" | "Cancelling" | "Error" | "PurchasePending";
-
-// @public
-export type TokenScope = "chat" | "voip" | "pstn";
 
 // @public
 export type UnconfigurePhoneNumberOptions = OperationOptions;

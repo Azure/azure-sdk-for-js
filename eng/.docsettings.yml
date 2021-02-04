@@ -17,11 +17,16 @@ omitted_paths:
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
   - sdk/servicebus/README.md
-  - sdk/servicebus/service-bus/test/perf/service-bus-*
+  - sdk/servicebus/service-bus/test/perf-js-libs/service-bus-*
+  - sdk/servicebus/service-bus/test/perf/**
   - sdk/servicebus/service-bus/test/stress/*
+  - sdk/eventhub/event-hubs/test/perf/track-1/*
+  - sdk/eventhub/event-hubs/test/perf/track-2/*
   - sdk/schemaregistry/README.md
   - sdk/storage/*/test/README.md
   - sdk/storage/storage-internal-avro/*
+  - sdk/storage/*/test/perfstress/track-1/*
+  - sdk/storage/*/test/perfstress/track-2/*
   - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
   - sdk/**/samples-*/*

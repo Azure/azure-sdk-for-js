@@ -19,7 +19,6 @@ import { MessageAlreadySettled } from "../util/errors";
 
 /**
  * @internal
- * @hidden
  */
 export function assertValidMessageHandlers(handlers: any) {
   if (
@@ -35,7 +34,6 @@ export function assertValidMessageHandlers(handlers: any) {
 
 /**
  * @internal
- * @hidden
  */
 export async function* getMessageIterator(
   receiver: Pick<ServiceBusReceiver, "receiveMessages">,
@@ -54,7 +52,6 @@ export async function* getMessageIterator(
 
 /**
  * @internal
- * @hidden
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
@@ -72,11 +69,7 @@ export function wrapProcessErrorHandler(
 
 /**
  * @internal
- * @hidden
  *
- * @param {ServiceBusMessageImpl} message
- * @param {ConnectionContext} context
- * @param {string} entityPath
  */
 export function completeMessage(
   message: ServiceBusMessageImpl,
@@ -93,12 +86,7 @@ export function completeMessage(
 
 /**
  * @internal
- * @hidden
  *
- * @param {ServiceBusMessageImpl} message
- * @param {ConnectionContext} context
- * @param {string} entityPath
- * @param {{ [key: string]: any }} [propertiesToModify]
  */
 export function abandonMessage(
   message: ServiceBusMessageImpl,
@@ -118,12 +106,7 @@ export function abandonMessage(
 
 /**
  * @internal
- * @hidden
  *
- * @param {ServiceBusMessageImpl} message
- * @param {ConnectionContext} context
- * @param {string} entityPath
- * @param {{ [key: string]: any }} [propertiesToModify]
  */
 export function deferMessage(
   message: ServiceBusMessageImpl,
@@ -143,12 +126,7 @@ export function deferMessage(
 
 /**
  * @internal
- * @hidden
  *
- * @param {ServiceBusMessageImpl} message
- * @param {ConnectionContext} context
- * @param {string} entityPath
- * @param {(DeadLetterOptions & { [key: string]: any })} [propertiesToModify]
  */
 export function deadLetterMessage(
   message: ServiceBusMessageImpl,
@@ -187,13 +165,7 @@ export function deadLetterMessage(
 
 /**
  * @internal
- * @hidden
  *
- * @param {ServiceBusMessageImpl} message
- * @param {DispositionType} operation
- * @param {ConnectionContext} context
- * @param {string} entityPath
- * @param {DispositionStatusOptions} [options]
  */
 function settleMessage(
   message: ServiceBusMessageImpl,

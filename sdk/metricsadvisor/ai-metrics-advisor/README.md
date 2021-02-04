@@ -77,6 +77,30 @@ const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API k
 const client = new MetricsAdvisorClient("<endpoint>", credential);
 const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
 ```
+#### Using Azure Service Directory
+
+API key authorization is used in most of the examples, but you can also authenticate the client with Azure Active Directory using the Azure Identity library. To use the DefaultAzureCredential provider shown below or other credential providers provided with the Azure SDK, please install the @azure/identity package:
+
+```
+npm install @azure/identity
+```
+
+To authenticate using a service principal, you will also need to register an AAD application and grant access to Form Recognizer by assigning the "Cognitive Services User" role to your service principal (note: other roles such as "Owner" will not grant the necessary permissions, only "Cognitive Services User" will suffice to run the examples and the sample code).
+
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET.
+We also support Authentication by Azure Active Directoty Credential. You will need the Azure Tenant ID, Azure Client ID and Azure Client Secret as environment variables.
+
+```javascript
+const {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorClient,
+  MetricsAdvisorAdministrationClient
+} = require("@azure/ai-metrics-advisor");
+import { DefaultAzureCredential } from "@azure/identity";
+const credential = new DefaultAzureCredential();
+const client = new MetricsAdvisorClient("<endpoint>", credential);
+const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
+```
 
 ## Key concepts
 
@@ -208,8 +232,10 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     accessMode: "Private",
     adminEmails: ["xyz@example.com"]
   };
-  const result = await adminClient.createDataFeed(dataFeed);
-
+  const created = await adminClient.createDataFeed(dataFeed);
+  /* To get the full datafeed object, you can call the get method and pass the id of the created datafeed
+   */
+  const result = await adminClient.getDataFeed(created.id);
   return result;
 }
 ```
@@ -293,7 +319,12 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
     },
     description: "Detection configuration description"
   };
-  return await adminClient.createDetectionConfig(anomalyConfig);
+  const created = await adminClient.createDetectionConfig(anomalyConfig);
+
+  /* To get the full detection config object, you can call the get method and pass the id of the created detection config
+   */
+  const result = await adminClient.getDetectionConfig(created.id);
+  return result;
 }
 ```
 
@@ -334,7 +365,11 @@ async function createWebhookHook(adminClient) {
     }
   };
 
-  return await adminClient.createHook(hook);
+  const created = await adminClient.createHook(hook);
+  /* To get the full hook object, you can call the get method and pass the id of the created hook
+   */
+  const result = await adminClient.getHook(created.id);
+  return result;
 }
 ```
 
@@ -386,7 +421,11 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
     hookIds,
     description: "Alerting config description"
   };
-  return await adminClient.createAlertConfig(anomalyAlertConfig);
+  const created = await adminClient.createAlertConfig(anomalyAlertConfig);
+  /* To get the full alert config object, you can call the get method and pass the id of the created alert config
+   */
+  const result = await adminClient.getAlertConfig(created.id);
+  return result;
 }
 ```
 

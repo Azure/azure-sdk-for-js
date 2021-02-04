@@ -1,27 +1,76 @@
-## Azure Template client library for JavaScript
+# Azure Template client library for JavaScript
 
-This template serves as a starting point for JavaScript libraries targeting both Node and the Browser and implemented in TypeScript.
+<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
 
-**Note:**
-For a more complete example of README.md file, please see [README template][readme_template]. Also see the [Azure SDK Document Guidelines][azsdk_doc_guidelines] for more information.
+This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
 
-## Building the Template
+## Getting started
 
-Please refer to the [Contributing Guide][contributing_guide] for information on how to build projects in this repository.
+### Currently supported environments
 
-## Implementation Details
+- Node.js version 8.x or higher
 
-The overall build pipeline looks like the following:
+### Prerequisites
 
-1. TypeScript builds all source files under `./src` to ECMAScript Modules (ESM) under `./dist-esm`.
-2. Rollup builds `./dist-esm` to an optimized single file at `./dist/index.js` as the Node entry point.
-3. Rollup builds `./dist-esm` to an optimized browser bundle under `./browser/azure-template.js`.
+- An [Azure subscription][azure_sub].
 
-Tests follow a similar pipeline, however test output is under `dist-test` folder.
+Usually you'd put a shell command for provisioning the necessary Azure services here.
 
+### Install the `@azure/template` package
+
+Install the Template client library for JavaScript with `npm`:
+
+```bash
+npm install @azure/template
+```
+
+### Further examples
+
+Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
+
+## Key concepts
+
+### ConfigurationClient
+
+Describe your primary client here. Talk about what operations it can do and when a developer would want to use it.
+
+### Additional Examples
+
+Create a section for each top-level service concept you want to explain.
+
+## Examples
+
+### First Example
+
+<!-- Examples should showcase the primary, or "champion" scenarios of the client SDK. -->
+
+Create several code examples for how someone would use your library to accomplish a common task with the service.
+
+## Troubleshooting
+
+### Enable logs
+
+You can set the following environment variable to see debug logs when using this library.
+
+- Getting debug logs from the Azure TextAnalytics client library
+
+```bash
+export DEBUG=azure*
+```
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
 
-[readme_template]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/README-TEMPLATE.md
-[azsdk_doc_guidelines]: https://review.docs.microsoft.com/help/contribute-ref/contribute-ref-how-to-document-sdk?branch=master#readme
-[contributing_guide]: https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/

@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import {
-  HttpHeaders,
-  HttpOperationResponse,
-  isNode,
-  RequestPolicyOptions,
-  WebResource
-} from "@azure/core-http";
+  SendRequest,
+  PipelineRequest,
+  PipelineResponse,
+  createHttpHeaders,
+  createPipelineRequest
+} from "@azure/core-https";
+import { isNode } from "../testUtils";
 import { assert } from "chai";
 
 import { TablesSharedKeyCredential } from "../../src/TablesSharedKeyCredential";
-import { TablesSharedKeyCredentialPolicy } from "../../src/TablesSharedKeyCredentialPolicy";
+import { tablesSharedKeyCredentialPolicy } from "../../src/TablesSharedKeyCredentialPolicy";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;
@@ -30,29 +31,23 @@ describe("TablesSharedKeyCredential", () => {
       // eslint-disable-next-line no-invalid-this
       this.skip();
     }
-    const defaultResponse = {
-      status: 200,
-      request: new WebResource(),
-      headers: new HttpHeaders()
-    };
-    const request = new WebResource();
-    request.url =
+    const url =
       "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";
-    const nextPolicy = {
-      sendRequest: (requestToSend: WebResource): Promise<HttpOperationResponse> => {
-        assert.deepEqual(
-          requestToSend.headers.get("authorization"),
-          "SharedKeyLite accountName:16/0SHs6v8s1QttELYnXerVacaJwSkejQsVh+coIzpo="
-        );
-        return Promise.resolve(defaultResponse);
-      }
+    const requestToSign = createPipelineRequest({ url });
+    const next: SendRequest = function(request: PipelineRequest): Promise<PipelineResponse> {
+      return Promise.resolve({
+        status: 200,
+        request,
+        headers: createHttpHeaders()
+      });
     };
     const cred = new TablesSharedKeyCredential("accountName", "accountKey");
-    const policy = new TablesSharedKeyCredentialPolicy(
-      nextPolicy,
-      new RequestPolicyOptions(),
-      cred
+    const policy = tablesSharedKeyCredentialPolicy(cred);
+    const response = await policy.sendRequest(requestToSign, next);
+    assert.strictEqual(response.status, 200);
+    assert.deepEqual(
+      response.request.headers.get("authorization"),
+      "SharedKeyLite accountName:mzKy4ZjXbTEueNQp2cxou+kKrfCnWpdau5I6kJIO58g="
     );
-    await policy.sendRequest(request);
   });
 });

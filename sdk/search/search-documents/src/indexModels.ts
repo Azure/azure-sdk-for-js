@@ -54,15 +54,15 @@ export interface SearchIndexingBufferedSenderOptions {
   /**
    * Maximum number of Retries
    */
-  maxRetries?: number;
+  maxRetriesPerAction?: number;
   /**
    * Delay between retries
    */
-  retryDelayInMs?: number;
+  throttlingDelayInMs?: number;
   /**
    * Max Delay between retries
    */
-  maxRetryDelayInMs?: number;
+  maxThrottlingDelayInMs?: number;
 }
 
 /**

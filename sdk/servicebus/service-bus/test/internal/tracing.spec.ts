@@ -259,7 +259,7 @@ describe("Tracing tests", () => {
   });
 
   function stubCreateProcessingSpan(receiver: any) {
-    let data: {
+    const data: {
       span?: TestSpan;
     } = {};
 
