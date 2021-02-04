@@ -20,7 +20,18 @@ import { quoteETag } from "./util";
 // re-export generated types that are used as public interfaces.
 export { ConfigurationSetting };
 
+/**
+ * Options for the `getConfigurationSetting` method of `ConfigurationClient`.
+ */
 export interface GetConfigurationSettingOptions extends OperationOptions {
+  /**
+   * If set to `true`, the method will use entity tags to instruct the service
+   * to send an updated value only if the value has changed.
+   *
+   * NOTE: This option is only supported if passing a full
+   * `ConfigurationSetting` object with an `etag` as the first parameter to
+   * `getConfigurationSetting`.
+   */
   onlyIfChanged?: boolean;
 }
 
