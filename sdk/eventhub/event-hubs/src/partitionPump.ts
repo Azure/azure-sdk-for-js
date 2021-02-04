@@ -209,7 +209,6 @@ export class PartitionPump {
 
 /**
  * @internal
- * @hidden
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],

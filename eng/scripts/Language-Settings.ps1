@@ -70,6 +70,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 
   $packageJSON = ResolvePkgJson -workFolder $workFolder | Get-Content | ConvertFrom-Json
   $pkgId = $packageJSON.name
+  $docsReadMeName = $pkgId -replace "^@azure/" , ""
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
@@ -94,6 +95,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
     Deployable     = $forceCreate -or !(IsNPMPackageVersionPublished -pkgId $pkgId -pkgVersion $pkgVersion)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
+    DocsReadMeName = $docsReadMeName
   }
 
   return $resultObj
@@ -240,4 +242,20 @@ function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $
   npm install
   node ./set-version.js --artifact-name $PackageName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
   Pop-Location
+}
+
+# PackageName: Pass full package name e.g. @azure/abort-controller
+# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
+function GetExistingPackageVersions ($PackageName, $GroupId = $null)
+{
+  try
+  {
+    $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
+    return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
+  }
+  catch
+  {
+    LogError "Failed to retrieve package versions. `n$_"
+    return $null
+  }
 }

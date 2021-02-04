@@ -94,7 +94,7 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.4.0",
+    "@azure/storage-blob": "^12.4.1",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
@@ -157,7 +157,7 @@
     "sinon": "^9.0.2",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   }
 }

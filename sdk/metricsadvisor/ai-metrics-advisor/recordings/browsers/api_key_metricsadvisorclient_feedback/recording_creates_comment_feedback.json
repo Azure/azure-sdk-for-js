@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric",
+   "query": {},
+   "requestBody": "{\"feedbackType\":\"Comment\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"value\":{\"commentValue\":\"This is a comment\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "d2477530-6c2f-4f23-ba3a-23429eb5dbf1",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:41:04 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/b7cb7277-f8bd-4ec1-a4c0-b687a82e6fc3",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "454",
+    "x-request-id": "d2477530-6c2f-4f23-ba3a-23429eb5dbf1"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/b7cb7277-f8bd-4ec1-a4c0-b687a82e6fc3",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"feedbackId\":\"b7cb7277-f8bd-4ec1-a4c0-b687a82e6fc3\",\"createdTime\":\"2021-01-20T18:41:05.284Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Comment\",\"startTime\":null,\"endTime\":null,\"value\":{\"commentValue\":\"This is a comment\"}}",
+   "responseHeaders": {
+    "apim-request-id": "ff0712ac-6a1d-42ac-a4c7-58990702d144",
+    "content-length": "362",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154",
+    "x-request-id": "ff0712ac-6a1d-42ac-a4c7-58990702d144"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c324856074fdb9e696dfa78a7c6fda4d"
+}

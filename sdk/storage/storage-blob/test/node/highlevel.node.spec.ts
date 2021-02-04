@@ -18,6 +18,7 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
+import { delay } from "../../src/utils/utils.common";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -704,6 +705,27 @@ describe("Highlevel", () => {
 
     assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
+  });
+
+  it("download abort should work when still fetching body", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      concurrency: 20
+    });
+
+    const aborter = new AbortController();
+    const res = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
+
+    let exceptionCaught = false;
+    res.readableStreamBody!.on("error", (err) => {
+      assert.equal(err.name, "AbortError");
+      exceptionCaught = true;
+    });
+
+    aborter.abort();
+    await delay(10);
+    assert.ok(exceptionCaught);
   });
 
   it("downloadToFile should success", async () => {

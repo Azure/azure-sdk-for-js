@@ -5,7 +5,7 @@ import { TableClient, odata } from "../../src";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../testUtils";
 import { Uuid } from "../../src/utils/uuid";
 import * as sinon from "sinon";
 

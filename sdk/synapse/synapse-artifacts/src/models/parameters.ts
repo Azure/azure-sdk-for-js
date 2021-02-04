@@ -386,6 +386,86 @@ export const integrationRuntimeName: OperationURLParameter = {
   }
 };
 
+export const libraryName: OperationURLParameter = {
+  parameterPath: "libraryName",
+  mapper: {
+    constraints: {
+      MaxLength: 100
+    },
+    serializedName: "libraryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const content: OperationParameter = {
+  parameterPath: "content",
+  mapper: {
+    serializedName: "content",
+    required: true,
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const comp: OperationQueryParameter = {
+  parameterPath: ["options", "comp"],
+  mapper: {
+    serializedName: "comp",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const xMsBlobConditionAppendpos: OperationParameter = {
+  parameterPath: ["options", "xMsBlobConditionAppendpos"],
+  mapper: {
+    serializedName: "x-ms-blob-condition-appendpos",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const gitHubAccessTokenRequest: OperationParameter = {
   parameterPath: "gitHubAccessTokenRequest",
   mapper: GitHubAccessTokenRequestMapper

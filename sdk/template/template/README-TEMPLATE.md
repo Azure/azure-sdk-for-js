@@ -97,6 +97,24 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
 ```
 
+### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+### CORS
+
+> note to package authors: If the service supports CORS please use this section to describe how to enable CORS, otherwise delete this section. See an example below from Azure Storage:
+
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+
+For example, you can create the following CORS settings for local development. But please customize the settings carefully according to your requirements in a production environment.
+
+- Allowed origins: \*
+- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
+- Allowed headers: \*
+- Exposed headers: \*
+- Maximum age (seconds): 86400
+
 ## Key concepts
 
 ### TextAnalyticsClient

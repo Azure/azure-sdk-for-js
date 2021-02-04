@@ -69,21 +69,18 @@ export interface LastEnqueuedEventProperties {
 /**
  * Describes the message handler signature.
  * @internal
- * @hidden
  */
 export type OnMessage = (eventData: ReceivedEventData) => void;
 
 /**
  * Describes the error handler signature.
  * @internal
- * @hidden
  */
 export type OnError = (error: MessagingError | Error) => void;
 
 /**
  * Describes the abort handler signature.
  * @internal
- * @hidden
  */
 export type OnAbort = () => void;
 
@@ -91,7 +88,6 @@ export type OnAbort = () => void;
  * Describes the EventHubReceiver that will receive event data from EventHub.
  * @class EventHubReceiver
  * @internal
- * @hidden
  */
 export class EventHubReceiver extends LinkEntity {
   /**

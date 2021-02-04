@@ -3,14 +3,13 @@
 
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 
 type OperationTracingOptions = OperationOptions["tracingOptions"];
 
 /**
  * Creates a span using the global tracer.
  * @internal
- * @hidden
  * @param name - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.
  */

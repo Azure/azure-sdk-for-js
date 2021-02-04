@@ -1,6 +1,15 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.5 (Unreleased)
+
+### Breaking Changes
+
+- Removed `CallingApplicationIdentifier` and `isCallingApplicationIdentifier`.
+- Removed `id` from `CommunicationUserIdentifier`.
+- Renamed `id` to `rawId` in `PhoneNumberIdentifier`.
+- Renamed `id` to `rawId` in `MicrosoftTeamsUserIdentifier`.
+
+## 1.0.0-beta.4 (2021-01-25)
 
 ### Added
 

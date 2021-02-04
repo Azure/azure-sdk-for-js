@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "3.1.0-beta.1",
+  "version": "3.1.0-beta.2",
   "keywords": [
     "node",
     "azure",
@@ -126,13 +126,15 @@
     "typescript": "4.1.2",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "createComposedModel.js",
       "customModelManagement.js",
       "differentiateLabeledUnlabeled.js",
       "getBoundingBoxes.js",
+      "recognizeBusinessCard.js",
       "recognizeCustomForm.js",
+      "recognizeInvoice.js",
       "trainLabeledModel.js",
       "trainUnlabeledModel.js",
       "copyModel.js",

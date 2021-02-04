@@ -71,8 +71,8 @@ describe("Deferred Messages", () => {
 
   /**
    * Sends, defers, receives and then returns a test message
-   * @param testMessage Test message to send, defer, receive and then return
-   * @param passSequenceNumberInArray Boolean to indicate whether to pass the sequence number
+   * @param testMessage - Test message to send, defer, receive and then return
+   * @param passSequenceNumberInArray - Boolean to indicate whether to pass the sequence number
    * as is or in an array to ensure both get code coverage
    */
   async function deferMessage(

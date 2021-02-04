@@ -13,9 +13,7 @@ import {
   MonitoringGetSqlJobQueryStringResponse
 } from "../models";
 
-/**
- * Class representing a Monitoring.
- */
+/** Class representing a Monitoring. */
 export class Monitoring {
   private readonly client: MonitoringClient;
 
@@ -90,7 +88,6 @@ export class Monitoring {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getSparkJobListOperationSpec: coreHttp.OperationSpec = {

@@ -1,0 +1,45 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric",
+   "query": {},
+   "requestBody": "{\"feedbackType\":\"Anomaly\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"startTime\":\"2020-08-05T00:00:00.000Z\",\"endTime\":\"2020-08-07T00:00:00.000Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "6f978fd4-b107-4038-ac29-148828921a44",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:41:01 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/feedback/metric/4c75adcd-78d5-4b62-84cc-5220ab0ea689",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "499",
+    "x-request-id": "6f978fd4-b107-4038-ac29-148828921a44"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/4c75adcd-78d5-4b62-84cc-5220ab0ea689",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"feedbackId\":\"4c75adcd-78d5-4b62-84cc-5220ab0ea689\",\"createdTime\":\"2021-01-20T18:41:01.831Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Anomaly\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-07T00:00:00Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"},\"anomalyDetectionConfigurationId\":null,\"anomalyDetectionConfigurationSnapshot\":null}",
+   "responseHeaders": {
+    "apim-request-id": "4a552cfa-79e5-43ef-ad34-9683cfb712b5",
+    "content-length": "475",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:01 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "131",
+    "x-request-id": "4a552cfa-79e5-43ef-ad34-9683cfb712b5"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a63b10abc994a9b2e6e3d1a58e7425e8"
+}

@@ -10,7 +10,6 @@ import { OnErrorNoContext } from "./messageReceiver";
 
 /**
  * @internal
- * @hidden
  */
 export type RenewableMessageProperties = Readonly<
   Pick<ServiceBusMessageImpl, "lockToken" | "messageId">
@@ -20,7 +19,6 @@ export type RenewableMessageProperties = Readonly<
 
 /**
  * @internal
- * @hidden
  */
 type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
 
@@ -28,11 +26,10 @@ type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
  * Tracks locks for messages, renewing until a configurable duration.
  *
  * @internal
- * @hidden
  */
 export class LockRenewer {
   /**
-   * @property _messageRenewLockTimers A map of link names to individual maps for each
+   * A map of link names to individual maps for each
    * link that map a message ID to its auto-renewal timer.
    */
   private _messageRenewLockTimers: Map<string, Map<string, NodeJS.Timer | undefined>> = new Map<
@@ -53,9 +50,9 @@ export class LockRenewer {
   /**
    * Creates an AutoLockRenewer.
    *
-   * @param linkEntity Your link entity instance (probably 'this')
-   * @param context The connection context for your link entity (probably 'this._context')
-   * @param options The ReceiveOptions passed through to your message receiver.
+   * @param linkEntity - Your link entity instance (probably 'this')
+   * @param context - The connection context for your link entity (probably 'this._context')
+   * @param options - The ReceiveOptions passed through to your message receiver.
    * @returns if the lock mode is peek lock (or if is unspecified, thus defaulting to peekLock)
    * and the options.maxAutoLockRenewalDurationInMs is > 0..Otherwise, returns undefined.
    */
@@ -99,7 +96,7 @@ export class LockRenewer {
   /**
    * Stops lock renewal for a single message.
    *
-   * @param bMessage The message whose lock renewal we will stop.
+   * @param bMessage - The message whose lock renewal we will stop.
    */
   stop(linkEntity: MinimalLink, bMessage: RenewableMessageProperties) {
     const messageId = bMessage.messageId as string;
@@ -116,7 +113,7 @@ export class LockRenewer {
   /**
    * Starts lock renewal for a single message.
    *
-   * @param bMessage The message whose lock renewal we will start.
+   * @param bMessage - The message whose lock renewal we will start.
    */
   start(linkEntity: MinimalLink, bMessage: RenewableMessageProperties, onError: OnErrorNoContext) {
     try {

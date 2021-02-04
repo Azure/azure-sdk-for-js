@@ -37,11 +37,10 @@ import { defaultDataTransformer } from "./dataTransformer";
  * Describes the EventHubSender that will send event data to EventHub.
  * @class EventHubSender
  * @internal
- * @hidden
  */
 export class EventHubSender extends LinkEntity {
   /**
-   * @property senderLock The unqiue lock name per connection that is used to acquire the
+   * @property senderLock The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */

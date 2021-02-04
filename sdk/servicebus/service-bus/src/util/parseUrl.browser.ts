@@ -6,8 +6,6 @@
 
 /**
  * @internal
- * @hidden
- * @param {string} rawUrl
  */
 export const parseURL = (rawUrl: string): any => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

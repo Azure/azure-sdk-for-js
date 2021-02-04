@@ -363,8 +363,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/quantum",
-      "projectFolder": "sdk/quantum/quantum",
+      "packageName": "@azure/quantum-jobs",
+      "projectFolder": "sdk/quantum/quantum-jobs",
       "versionPolicyName": "client"
     },
     {
@@ -380,6 +380,11 @@
     {
       "packageName": "@azure/communication-common",
       "projectFolder": "sdk/communication/communication-common",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-identity",
+      "projectFolder": "sdk/communication/communication-identity",
       "versionPolicyName": "client"
     },
     {

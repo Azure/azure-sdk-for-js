@@ -126,7 +126,6 @@ export interface CheckpointStore {
  * }
  * ```
  * @internal
- * @hidden
  */
 export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
@@ -175,7 +174,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  *
  * @class EventProcessor
  * @internal
- * @hidden
  */
 export class EventProcessor {
   private _processorOptions: FullEventProcessorOptions;

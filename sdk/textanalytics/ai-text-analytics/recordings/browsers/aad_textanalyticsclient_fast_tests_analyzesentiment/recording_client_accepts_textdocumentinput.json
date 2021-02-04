@@ -11,15 +11,15 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 22 Dec 2020 20:31:46 GMT",
+    "date": "Wed, 30 Dec 2020 17:54:40 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11328.13 - EUS ProdSlices",
-    "x-ms-request-id": "47f61eb3-6160-45d2-bfdb-755a01837500"
+    "x-ms-ests-server": "2.1.11328.14 - SCUS ProdSlices",
+    "x-ms-request-id": "e89b6a9b-c34b-4a0a-8137-653387957100"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"offset\":0,\"length\":86,\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":58,\"text\":\"Unfortunately, it rained during my entire trip to Seattle.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.7,\"negative\":0.29},\"offset\":59,\"length\":43,\"text\":\"I didn't even get to visit the Space Needle\"}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":101,\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"offset\":0,\"length\":42,\"text\":\"I didn't like the last book I read at all.\"}],\"warnings\":[]},{\"id\":\"5\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.89,\"neutral\":0.08,\"negative\":0.03},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.89,\"neutral\":0.08,\"negative\":0.03},\"offset\":0,\"length\":73,\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\"}],\"warnings\":[]},{\"id\":\"6\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.11,\"neutral\":0.29,\"negative\":0.6},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.11,\"neutral\":0.29,\"negative\":0.6},\"offset\":0,\"length\":29,\"text\":\"La carretera estaba atascada.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.09,\"neutral\":0.58,\"negative\":0.33},\"offset\":30,\"length\":35,\"text\":\"Había mucho tráfico el día de ayer.\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "40f1f486-d61b-422b-8bc0-aa3013d8e9b7",
+    "apim-request-id": "83b0ca73-1673-4c8a-b1c1-8a8c370e6b62",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Tue, 22 Dec 2020 20:31:46 GMT",
+    "date": "Wed, 30 Dec 2020 17:54:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "124"
+    "x-envoy-upstream-service-time": "205"
    }
   }
  ],

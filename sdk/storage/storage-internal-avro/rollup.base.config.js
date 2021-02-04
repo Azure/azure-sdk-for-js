@@ -151,7 +151,12 @@ export function browserConfig(test = false) {
       })
     ],
     onwarn(warning, warn) {
-      if (warning.code === "CIRCULAR_DEPENDENCY") {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" ||
+        warning.code === "UNRESOLVED_IMPORT"
+        // Unresolved imports in the browser may break apps with frameworks such as angular.
+        // Shim the modules with dummy src files for browser to avoid regressions.
+      ) {
         throw new Error(warning.message);
       }
       warn(warning);
@@ -162,8 +167,8 @@ export function browserConfig(test = false) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
-    baseConfig.external = ["fs-extra"];
+
+    baseConfig.external = [];
 
     baseConfig.context = "null";
 
