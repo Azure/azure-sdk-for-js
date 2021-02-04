@@ -3,6 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
@@ -72,7 +73,8 @@ export async function authenticate(that: any): Promise<any> {
   const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
     httpClient: new DefaultHttpClient()
   });
+  const keyClient = new KeyClient(keyVaultHsmUrl, credential);
   const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 
-  return { recorder, accessControlClient, backupClient, suffix, generateFakeUUID };
+  return { recorder, accessControlClient, backupClient, keyClient, suffix, generateFakeUUID };
 }
