@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { SqlPoolsListResponse, SqlPoolsGetResponse } from "../models";
 
-/**
- * Class representing a SqlPools.
- */
+/** Class representing a SqlPools. */
 export class SqlPools {
   private readonly client: ArtifactsClient;
 
@@ -80,7 +78,6 @@ export class SqlPools {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {

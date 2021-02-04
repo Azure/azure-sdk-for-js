@@ -28,9 +28,9 @@ describe("shared", () => {
     });
 
     it(`basic translation`, () => {
-      let messagingError = new MessagingError("hello");
+      const messagingError = new MessagingError("hello");
       messagingError.code = "MessagingEntityNotFoundError";
-      let translatedError = translateServiceBusError(messagingError) as ServiceBusError;
+      const translatedError = translateServiceBusError(messagingError) as ServiceBusError;
 
       assert.deepEqual(
         {
@@ -57,9 +57,9 @@ describe("shared", () => {
     "GeneralError"
   ].forEach((unknownCode) => {
     it(`any unknown codes are marked with reason 'GeneralError': ${unknownCode}`, () => {
-      let messagingError = new MessagingError("hello");
+      const messagingError = new MessagingError("hello");
       messagingError.code = unknownCode;
-      let translatedError = translateServiceBusError(messagingError) as ServiceBusError;
+      const translatedError = translateServiceBusError(messagingError) as ServiceBusError;
       const expectedMessage = unknownCode ? `${unknownCode}: hello` : "hello";
 
       assert.deepEqual(

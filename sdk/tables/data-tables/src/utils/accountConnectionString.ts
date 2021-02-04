@@ -4,7 +4,6 @@
 import { TableServiceClientOptions } from "..";
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
-import { createPipelineFromOptions } from "@azure/core-http";
 
 /**
  * Gets client parameters from an Account Connection String
@@ -23,7 +22,7 @@ export function fromAccountConnectionString(
 
   return {
     url: extractedCreds.url,
-    options: createPipelineFromOptions(options),
+    options,
     credential: sharedKeyCredential
   };
 }

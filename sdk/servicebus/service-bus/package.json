@@ -86,7 +86,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
