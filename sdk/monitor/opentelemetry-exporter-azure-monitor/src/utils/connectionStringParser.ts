@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { Logger } from "@opentelemetry/api";
-import { NoopLogger } from "@opentelemetry/core";
-import type { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
+import { Logger, NoopLogger } from "@opentelemetry/api";
+import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
 
 import * as Constants from "../Declarations/Constants";
 
@@ -68,7 +67,7 @@ export class ConnectionStringParser {
       );
     }
 
-    
+
     return result;
   }
 }

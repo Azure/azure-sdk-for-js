@@ -37,7 +37,7 @@ export class BasicScenario implements Scenario {
         foo: "bar"
       }
     });
-    await tracer.withSpan(root, async () => {
+    await opentelemetry.context.with(opentelemetry.setSpan(opentelemetry.context.active(), root), async () => {
       const child1 = tracer.startSpan(`${this.constructor.name}.Child.1`, {
         startTime: 0,
         kind: opentelemetry.SpanKind.CLIENT,
@@ -54,7 +54,7 @@ export class BasicScenario implements Scenario {
         }
       });
 
-      tracer.withSpan(child1, () => {
+      opentelemetry.context.with(opentelemetry.setSpan(opentelemetry.context.active(), child1), () => {
         child1.setStatus({ code: StatusCode.OK });
         child1.end(100);
       });

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Attributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
-import { NoopLogger, timeInputToHrTime } from "@opentelemetry/core";
+import { Attributes, HrTime, NoopLogger, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
+import { timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/tracing";
 import * as assert from "assert";
 import {
