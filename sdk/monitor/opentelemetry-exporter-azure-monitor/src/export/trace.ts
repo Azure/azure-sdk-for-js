@@ -37,8 +37,10 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString, this._logger);
-      this._options.instrumentationKey = parsedConnectionString.instrumentationkey ?? this._options.instrumentationKey;
-      this._options.endpointUrl = parsedConnectionString.ingestionendpoint ?? this._options.endpointUrl;
+      this._options.instrumentationKey =
+        parsedConnectionString.instrumentationkey ?? this._options.instrumentationKey;
+      this._options.endpointUrl =
+        parsedConnectionString.ingestionendpoint ?? this._options.endpointUrl;
     }
 
     // Instrumentation key is required
@@ -61,9 +63,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk.")
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk.")
+          };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
