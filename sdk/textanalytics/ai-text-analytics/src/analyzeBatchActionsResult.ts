@@ -49,7 +49,7 @@ export interface TextAnalyticsActionSuccessState {
   /**
    * When was the last time this action was updated by the service.
    */
-  readonly lastUpdatedOn: Date;
+  readonly completedOn: Date;
   /**
    * Discriminant to determine if that this is an error result.
    */
@@ -200,7 +200,7 @@ export class ActionsResultBuilder {
             actionResults?.modelVersion,
             actionResults?.statistics
           );
-          return { results: recognizeEntitiesResults, lastUpdatedOn: lastUpdateDateTime };
+          return { results: recognizeEntitiesResults, completedOn: lastUpdateDateTime };
         }
       }
     );
@@ -226,7 +226,7 @@ export class ActionsResultBuilder {
             this.documents,
             actionResults
           );
-          return { results: recognizePiiEntitiesResults, lastUpdatedOn: lastUpdateDateTime };
+          return { results: recognizePiiEntitiesResults, completedOn: lastUpdateDateTime };
         }
       }
     );
@@ -255,7 +255,7 @@ export class ActionsResultBuilder {
             actionResults?.modelVersion,
             actionResults?.statistics
           );
-          return { results: extractKeyPhrasesResults, lastUpdatedOn: lastUpdateDateTime };
+          return { results: extractKeyPhrasesResults, completedOn: lastUpdateDateTime };
         }
       }
     );
