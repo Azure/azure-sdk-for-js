@@ -35,55 +35,6 @@ describe("Blob Checkpoint Store", function(): void {
     await containerClient.delete();
   });
 
-  it("listOwnership should return an empty array", async function(): Promise<void> {
-    const checkpointStore = new BlobCheckpointStore(containerClient);
-    const listOwnership = await checkpointStore.listOwnership(
-      "testNamespace.servicebus.windows.net",
-      "testEventHub",
-      "testConsumerGroup"
-    );
-    should.equal(listOwnership.length, 0);
-  });
-
-  // these errors happen when we have multiple consumers starting up
-  // at the same time and load balancing amongst themselves. This is a
-  // normal thing and shouldn't be reported to the user.
-  it("claimOwnership ignores errors about etags", async () => {
-    const checkpointStore = new BlobCheckpointStore(containerClient);
-
-    const originalClaimedOwnerships = await checkpointStore.claimOwnership([
-      {
-        partitionId: "0",
-        consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace: "fqdn",
-        eventHubName: "ehname",
-        ownerId: "me"
-      }
-    ]);
-
-    const originalETag = originalClaimedOwnerships[0] && originalClaimedOwnerships[0].etag;
-
-    const newClaimedOwnerships = await checkpointStore.claimOwnership(originalClaimedOwnerships);
-    newClaimedOwnerships.length.should.equal(1);
-
-    newClaimedOwnerships[0]!.etag!.should.not.equal(originalETag);
-
-    // we've now invalidated the previous ownership's etag so using the old etag will
-    // fail.
-    const shouldNotThrowButNothingWillClaim = await checkpointStore.claimOwnership([
-      {
-        partitionId: "0",
-        consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace: "fqdn",
-        eventHubName: "ehname",
-        ownerId: "me",
-        etag: originalETag
-      }
-    ]);
-
-    shouldNotThrowButNothingWillClaim.length.should.equal(0);
-  });
-
   it("parseIntOrThrow", () => {
     parseIntOrThrow("blobname", "fieldname", "1").should.equal(1);
 
