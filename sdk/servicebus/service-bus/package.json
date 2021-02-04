@@ -96,7 +96,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^2.0.0",
+    "@azure/core-amqp": "^2.1.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
