@@ -19,6 +19,7 @@ import {
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
+import { SmsSendResult, SmsSendOptions as InternalSmsSendOptions } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
@@ -32,7 +33,7 @@ export interface SmsClientOptions extends PipelineOptions {}
 /**
  * Values used to configure Sms message
  */
-export interface SendRequest {
+export interface SmsSendRequest {
   /**
    * The sender's phone number in E.164 format that is owned by the authenticated account.
    */
@@ -51,38 +52,10 @@ export interface SendRequest {
 /**
  * Options to configure Sms requests
  */
-export interface SendOptions extends OperationOptions {
-  /**
-   * Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid
-   */
-  enableDeliveryReport?: boolean;
-  /**
-   * Use this field to provide metadata that will then be sent back in the corresponding Delivery
-   * Report.
-   */
-  tag?: string;
-}
+export interface SmsSendOptions extends OperationOptions, InternalSmsSendOptions {}
 
-/**
- * Response for a single recipient.
- */
-export interface SendSmsResult {
-  /**
-   * The recipients's phone number in E.164 format.
-   */
-  to: string;
-  /**
-   * The identifier of the outgoing SMS message. Only present if message processed.
-   */
-  messageId?: string;
-  /**
-   * HTTP Status code.
-   */
-  httpStatusCode: number;
-  /**
-   * Optional error message in case of 4xx or 5xx errors.
-   */
-  errorMessage?: string;
+export {
+  SmsSendResult
 }
 
 /**
@@ -168,9 +141,9 @@ export class SmsClient {
    * @param options Additional request options
    */
   public send(
-    _sendRequest: SendRequest,
-    _options: SendOptions = {}
-  ): PagedAsyncIterableIterator<SendSmsResult> {
+    _sendRequest: SmsSendRequest,
+    _options: SmsSendOptions = {}
+  ): PagedAsyncIterableIterator<SmsSendResult> {
     const { span } = createSpan("SmsClient-Send", _options);
     try {
       return {

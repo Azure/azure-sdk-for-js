@@ -11,7 +11,7 @@ import {
 //import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
-import { SendRequest } from "../src/smsClient";
+import { SmsSendRequest } from "../src/smsClient";
 import { apiVersion } from "../src/generated/src/models/parameters";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -46,7 +46,7 @@ describe("[mocked] SmsClient", async () => {
     //  httpClient: mockHttpClient
     //});
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
       to: ["+18768985487"],
       message: "message"
@@ -68,7 +68,7 @@ describe("[mocked] SmsClient", async () => {
     //const connectionString = `endpoint=${baseUri};accesskey=banana`;
     //smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
     const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const sendRequest: SendRequest = {
+    const sendRequest: SmsSendRequest = {
       from: "+18768984505651",
       to: ["+18768985487"],
       message: "message"
