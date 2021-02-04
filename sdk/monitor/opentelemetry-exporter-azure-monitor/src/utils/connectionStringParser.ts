@@ -67,7 +67,6 @@ export class ConnectionStringParser {
       );
     }
 
-
     return result;
   }
 }
