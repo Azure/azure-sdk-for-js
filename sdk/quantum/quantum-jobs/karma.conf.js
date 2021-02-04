@@ -50,8 +50,7 @@ module.exports = function(config) {
       "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "test-browser/index.js": ["coverage"]
-      "dist-test/index.browser.js": ["coverage"],
+      // "dist-test/index.browser.js": ["coverage"],
       "recordings/browsers/**/*.json": ["json"]
     },
 
@@ -101,7 +100,7 @@ module.exports = function(config) {
     },
 
     // web server port
-    port: 9878,
+    port: 9876,
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
@@ -117,7 +116,7 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
     // --no-sandbox allows our tests to run in Linux without having to change the system.
-    browsers: ["ChromeHeadlessNoSandbox"],
+    browsers: ["Chrome"],
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
