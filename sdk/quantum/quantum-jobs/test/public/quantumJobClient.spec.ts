@@ -4,12 +4,12 @@
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
 import { QuantumJobClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { replaceStorageSig } from "../utils/recorderUtils";
 import { Recorder } from "@azure/test-utils-recorder";
 import chai from "chai";
 import * as fs from "fs";
 import { TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
+import { replaceStorageAccountInfo } from "../utils/recorderUtils";
 
 const assert = chai.assert;
 
@@ -67,7 +67,7 @@ describe("Quantum job lifecycle", () => {
       ).sasUri ?? "";
 
     if (isPlaybackMode()) {
-      containerUri = replaceStorageSig(containerUri);
+      containerUri = replaceStorageAccountInfo(containerUri);
     }
 
     // Create container if not exists (if not in Playback mode)
@@ -87,7 +87,7 @@ describe("Quantum job lifecycle", () => {
       ).sasUri ?? "";
 
     if (isPlaybackMode()) {
-      inputDataUri = replaceStorageSig(inputDataUri);
+      inputDataUri = replaceStorageAccountInfo(inputDataUri);
     }
 
     // Upload input data to blob (if not in Playback mode)
@@ -130,7 +130,7 @@ describe("Quantum job lifecycle", () => {
     if (!isPlaybackMode()) {
       assert.equal(inputDataUri, jobDetails.inputDataUri);
     } else {
-      assert.equal(inputDataUri, replaceStorageSig(jobDetails.inputDataUri as string));
+      assert.equal(inputDataUri, replaceStorageAccountInfo(jobDetails.inputDataUri as string));
     }
 
     // Get the job that we've just created based on the jobId

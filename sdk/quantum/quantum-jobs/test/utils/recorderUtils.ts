@@ -17,6 +17,11 @@ export function getUniqueString(defaultValue: string): string {
         .slice(2);
 }
 
-export function replaceStorageSig(value: string): string {
-  return value.replace(/sig=[^&]*&/g, `sig=0000000000000000000000000000000000000000000000&`);
+export function replaceStorageAccountInfo(value: string): string {
+  return value
+    .replace(
+      /https\:\/\/(.*?).blob.core.windows.net/g,
+      "https://dummystorageaccount.blob.core.windows.net"
+    )
+    .replace(/sig=[^&]*&/g, `sig=0000000000000000000000000000000000000000000000&`);
 }
