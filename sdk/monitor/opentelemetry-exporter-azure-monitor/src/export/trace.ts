@@ -31,21 +31,14 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
   constructor(options: Partial<AzureExporterConfig> = {}) {
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
-
     this._logger = new ConsoleLogger(LogLevel.ERROR);
-    this._options = {
-      ...DEFAULT_EXPORTER_CONFIG,
-      ...options
-    };
+    this._options = DEFAULT_EXPORTER_CONFIG;
+    this._options.serviceApi = options.serviceApiVersion ?? this._options.serviceApi;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString, this._logger);
-      this._options = {
-        ...DEFAULT_EXPORTER_CONFIG,
-        // Overwrite options with connection string results, if any
-        instrumentationKey: parsedConnectionString.instrumentationkey ?? "",
-        endpointUrl: parsedConnectionString.ingestionendpoint ?? ""
-      };
+      this._options.instrumentationKey = parsedConnectionString.instrumentationkey ?? this._options.instrumentationKey;
+      this._options.endpointUrl = parsedConnectionString.ingestionendpoint ?? this._options.endpointUrl;
     }
 
     // Instrumentation key is required
@@ -56,7 +49,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       throw new Error(message);
     }
 
-    this._sender = new HttpSender();
+    this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
     this._retryTimer = null;
     this._logger.debug("AzureMonitorTraceExporter was successfully setup");
@@ -68,9 +61,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-            code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
-          };
+          code: ExportResultCode.FAILED,
+          error: new Error("Failed to persist envelope in disk.")
+        };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
