@@ -156,8 +156,8 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     state.status = status;
     state.statusDetails = statusDetails;
 
-    if (error?.message || statusDetails) {
-      throw new Error(error?.message || statusDetails);
+    if (error?.message) {
+      throw new Error(error?.message);
     }
 
     state.isCompleted = !!endTime;
