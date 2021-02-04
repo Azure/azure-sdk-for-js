@@ -4,22 +4,20 @@
 
 ```ts
 
-import { AccessToken } from '@azure/core-http';
+import { AccessToken } from '@azure/core-auth';
 import { AzureKeyCredential } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
-import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
+
+export { AccessToken }
 
 export { AzureKeyCredential }
 
 // @public
 export interface GetTokenOptions extends OperationOptions {
 }
-
-// @public
-export type GetTokenResponse = WithResponse<AccessToken>;
 
 // @public
 export const logger: AzureLogger;
@@ -30,18 +28,13 @@ export class MixedRealityStsClient {
     constructor(accountId: string, accountDomain: string, credential: TokenCredential, options?: MixedRealityStsClientOptions);
     readonly accountId: string;
     readonly endpointUrl: string;
-    getToken(options?: GetTokenOptions): Promise<GetTokenResponse>;
+    getToken(options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
 export interface MixedRealityStsClientOptions extends PipelineOptions {
     customEndpointUrl?: string;
 }
-
-// @public
-export type WithResponse<T> = T & {
-    _response: HttpResponse;
-};
 
 
 ```
