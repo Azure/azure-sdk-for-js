@@ -54,9 +54,7 @@ export interface SmsSendRequest {
  */
 export interface SmsSendOptions extends OperationOptions, InternalSmsSendOptions {}
 
-export {
-  SmsSendResult
-}
+export { SmsSendResult };
 
 /**
  * Checks whether the type of a value is SmsClientOptions or not.
