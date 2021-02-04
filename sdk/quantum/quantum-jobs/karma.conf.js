@@ -62,6 +62,9 @@ module.exports = function(config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
+      "SUBSCRIPTION_ID",
+      "RESOURCE_GROUP",
+      "WORKSPACE_NAME",
       "TEST_MODE"
     ],
 
