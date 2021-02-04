@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.3 (Unreleased)
+## 1.2.3 (2021-02-04)
 
 - Don't set a default content-type when there is no request body. [PR 13233](https://github.com/Azure/azure-sdk-for-js/pull/13233)
 - Clean up abort event handler properly for streaming operations. Fixed [issue 12029](https://github.com/Azure/azure-sdk-for-js/issues/12029)
