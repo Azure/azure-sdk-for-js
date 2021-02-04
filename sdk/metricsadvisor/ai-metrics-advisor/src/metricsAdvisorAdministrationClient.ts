@@ -261,6 +261,9 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedId = result.location.substring(lastSlashIndex + 1);
+      /**
+       * @returns - An async response with Datafeed object
+       */
       return this.getDataFeed(feedId);
     } catch (e) {
       span.setStatus({
@@ -568,6 +571,9 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
+      /**
+       * @returns - An async response with Detection Config object
+       */
       return this.getDetectionConfig(configId);
     } catch (e) {
       span.setStatus({
@@ -698,6 +704,9 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
+      /**
+       * @returns - An async response with Alert object
+       */
       return this.getAlertConfig(configId);
     } catch (e) {
       span.setStatus({
@@ -958,6 +967,9 @@ export class MetricsAdvisorAdministrationClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const hookId = result.location.substring(lastSlashIndex + 1);
+      /**
+       * @returns - An async response with Hook object
+       */
       return this.getHook(hookId);
     } catch (e) {
       span.setStatus({
