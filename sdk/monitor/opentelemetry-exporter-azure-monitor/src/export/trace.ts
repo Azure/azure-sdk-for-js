@@ -33,7 +33,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._logger = new ConsoleLogger(LogLevel.ERROR);
     this._options = {
-      ...DEFAULT_EXPORTER_CONFIG,
+      ...DEFAULT_EXPORTER_CONFIG
     };
     this._options.serviceApiVersion = options.serviceApiVersion ?? this._options.serviceApiVersion;
 
@@ -64,9 +64,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk.")
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk.")
+          };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
