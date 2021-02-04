@@ -2,12 +2,12 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3Afd140860689b488d8b0a9be080e92317%40thread.v2/readreceipts",
+   "url": "https://endpoint/chat/threads/19%3A18dfab168a9245feb44837c918781d14%40thread.v2/readReceipts",
    "query": {
-    "api-version": "2020-09-21-preview2"
+    "api-version": "2020-11-01-preview3"
    },
-   "requestBody": "{\"chatMessageId\":\"1611776457702\"}",
-   "status": 201,
+   "requestBody": "{\"chatMessageId\":\"1612470112922\"}",
+   "status": 200,
    "response": "",
    "responseHeaders": {
     "content-length": "0"
