@@ -50,7 +50,7 @@ export { logger } from "./util/logging";
 export { AzureAuthorityHosts } from "./constants";
 
 /**
- * Returns a new instance of the {@link DefaultAzureCredential}.
+ * Returns a new instance of the {@link @azure/identity.DefaultAzureCredential}.
  */
 export function getDefaultAzureCredential(): TokenCredential {
   return new DefaultAzureCredential();
