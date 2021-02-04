@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { Logger } from "@opentelemetry/api";
+import { Logger } from "@opentelemetry/api";
 import { NoopLogger } from "@opentelemetry/core";
-import type { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
+import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
 
 import * as Constants from "../Declarations/Constants";
 
@@ -53,9 +53,8 @@ export class ConnectionStringParser {
           result.liveendpoint || `https://${locationPrefix}live.${result.endpointsuffix}`;
       }
 
-      // apply the default endpoints
-      result.ingestionendpoint = result.ingestionendpoint || Constants.DEFAULT_BREEZE_ENDPOINT;
-      result.liveendpoint = result.liveendpoint || Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
+      result.ingestionendpoint = result.ingestionendpoint ? ConnectionStringParser.sanitizeUrl(result.ingestionendpoint) : Constants.DEFAULT_BREEZE_ENDPOINT;
+      result.liveendpoint = result.liveendpoint ? ConnectionStringParser.sanitizeUrl(result.liveendpoint) : Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         logger.warn(
           `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
@@ -68,7 +67,20 @@ export class ConnectionStringParser {
       );
     }
 
-    
+
     return result;
+  }
+
+  public static sanitizeUrl(url: string) {
+    let newUrl = url.trim();
+    if (newUrl.indexOf("https") < 0) {
+      // Try to update http to https
+      newUrl = newUrl.replace("http", "https");
+    }
+    // Remove final slash if present
+    if (newUrl.slice(-1) == "/") {
+      newUrl = newUrl.slice(0, -1);
+    }
+    return newUrl;
   }
 }

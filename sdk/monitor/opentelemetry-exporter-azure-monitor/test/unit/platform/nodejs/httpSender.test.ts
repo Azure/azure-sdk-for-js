@@ -65,9 +65,10 @@ describe("HttpSender", () => {
     it("should build endpoint using config", async () => {
       const sender = new HttpSender({
         endpointUrl: "https://test.com",
-        serviceApi: "13"
+        serviceApiVersion: "13"
       });
       assert.strictEqual(sender["_appInsightsClientOptions"].endpoint, "https://test.com/v13");
     });
+
   });
 });

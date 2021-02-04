@@ -33,16 +33,15 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._logger = new ConsoleLogger(LogLevel.ERROR);
     this._options = DEFAULT_EXPORTER_CONFIG;
-    this._options.serviceApi = options.serviceApiVersion ?? this._options.serviceApi;
+    this._options.serviceApiVersion = options.serviceApiVersion ?? this._options.serviceApiVersion;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString, this._logger);
       this._options.instrumentationKey =
         parsedConnectionString.instrumentationkey ?? this._options.instrumentationKey;
       this._options.endpointUrl =
-        parsedConnectionString.ingestionendpoint ?? this._options.endpointUrl;
+        parsedConnectionString.ingestionendpoint?.trim() ?? this._options.endpointUrl;
     }
-
     // Instrumentation key is required
     if (!this._options.instrumentationKey) {
       const message =

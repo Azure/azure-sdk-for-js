@@ -22,6 +22,18 @@ describe("ConnectionStringParser", () => {
       assert.deepEqual(result.liveendpoint, liveEndpoint);
     });
 
+    it("should sanitize URLs", () => {
+      const instrumentationKey = "instr_key";
+      const ingestionEndpoint = "http:test.com/ ";
+      const liveEndpoint = "http:livetest.net    ";
+      const connectionString = `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint};LiveEndpoint=${liveEndpoint}`;
+
+      const result = ConnectionStringParser.parse(connectionString);
+      assert.deepEqual(result.instrumentationkey, instrumentationKey);
+      assert.deepEqual(result.ingestionendpoint, "https:test.com");
+      assert.deepEqual(result.liveendpoint, "https:livetest.net");
+    });
+
     it("should ignore invalid fields", () => {
       const authorization = "ikey";
       const instrumentationKey = "ikey";
@@ -105,9 +117,9 @@ describe("ConnectionStringParser", () => {
     it("should parse Endpoint Override", () => {
       runTest({
         connectionString:
-          "InstrumentationKey=00000000-0000-0000-0000-000000000000;LiveEndpoint=http://custom.live.endpoint.com:444",
+          "InstrumentationKey=00000000-0000-0000-0000-000000000000;LiveEndpoint=https://custom.live.endpoint.com:444",
         expectedBreezeEndpoint: Constants.DEFAULT_BREEZE_ENDPOINT,
-        expectedLiveMetricsEndpoint: "http://custom.live.endpoint.com:444"
+        expectedLiveMetricsEndpoint: "https://custom.live.endpoint.com:444"
       });
     });
   });
