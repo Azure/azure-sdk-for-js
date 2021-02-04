@@ -53,8 +53,12 @@ export class ConnectionStringParser {
           result.liveendpoint || `https://${locationPrefix}live.${result.endpointsuffix}`;
       }
 
-      result.ingestionendpoint = result.ingestionendpoint ? ConnectionStringParser.sanitizeUrl(result.ingestionendpoint) : Constants.DEFAULT_BREEZE_ENDPOINT;
-      result.liveendpoint = result.liveendpoint ? ConnectionStringParser.sanitizeUrl(result.liveendpoint) : Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
+      result.ingestionendpoint = result.ingestionendpoint
+        ? ConnectionStringParser.sanitizeUrl(result.ingestionendpoint)
+        : Constants.DEFAULT_BREEZE_ENDPOINT;
+      result.liveendpoint = result.liveendpoint
+        ? ConnectionStringParser.sanitizeUrl(result.liveendpoint)
+        : Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         logger.warn(
           `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
@@ -66,7 +70,6 @@ export class ConnectionStringParser {
         connectionString
       );
     }
-
 
     return result;
   }

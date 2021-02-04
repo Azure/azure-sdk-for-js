@@ -69,6 +69,5 @@ describe("HttpSender", () => {
       });
       assert.strictEqual(sender["_appInsightsClientOptions"].endpoint, "https://test.com/v13");
     });
-
   });
 });
