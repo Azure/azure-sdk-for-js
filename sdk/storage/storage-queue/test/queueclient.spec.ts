@@ -110,7 +110,7 @@ describe("QueueClient", () => {
     const metadata = { key: "value" };
     const res2 = await queueClient.createIfNotExists({ metadata });
     assert.ok(!res2.succeeded);
-    assert.equal(res2.errorCode, "QueueAlreadyExists");
+    assert.equal((res2 as any).errorCode, "QueueAlreadyExists");
 
     queueClient = queueServiceClient.getQueueClient(recorder.getUniqueName("queue2"));
     const res3 = await queueClient.createIfNotExists();
@@ -121,7 +121,7 @@ describe("QueueClient", () => {
     const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
     const res = await qClient.deleteIfExists();
     assert.ok(!res.succeeded);
-    assert.equal(res.errorCode, "QueueNotFound");
+    assert.equal((res as any).errorCode, "QueueNotFound");
 
     await qClient.create();
     const res2 = await qClient.deleteIfExists();

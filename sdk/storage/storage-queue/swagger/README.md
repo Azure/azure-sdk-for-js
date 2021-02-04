@@ -15,6 +15,11 @@ output-folder: ../src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
+v3: true
+disable-async-iterators: true
+add-credentials: false
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20210121.2"
 ```
 
 ## Customizations for Track 2 Generator
@@ -243,6 +248,29 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $.properties.Code = { "type": "string" };
+```
+
+### Remove x-ms-pageable
+
+Currently breaking the latest version of autorest.python
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]..get
+    transform: >
+      if ($["x-ms-pageable"]) { delete $["x-ms-pageable"]; }
+```
+
+### Rename AccessPolicy start -> startsOn
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessPolicy.properties
+    transform: >
+      $.Start["format"] = "string";
+      $.Expiry["format"] = "format";
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2Fswagger%2FREADME.png)

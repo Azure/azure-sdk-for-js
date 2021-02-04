@@ -40,7 +40,7 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle,
   truncatedISO8061Date,
-  getStorageClientContext,
+  getStorageClient,
   appendToURLQuery
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -675,7 +675,7 @@ export class QueueClient extends StorageClient {
     }
     super(url, pipeline);
     this._name = this.getQueueNameFromUrl();
-    this.queueContext = new Queue(this.storageClientContext);
+    this.queueContext = new Queue(this.storageClient);
 
     // MessagesContext
     // Build the url with "messages"
@@ -684,7 +684,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], "messages") + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], "messages");
 
-    this.messagesContext = new Messages(getStorageClientContext(this._messagesUrl, this.pipeline));
+    this.messagesContext = new Messages(getStorageClient(this._messagesUrl, this.pipeline));
   }
 
   private getMessageIdContext(messageId: string): MessageId {
@@ -694,7 +694,7 @@ export class QueueClient extends StorageClient {
       ? appendToURLPath(partsOfUrl[0], messageId) + "?" + partsOfUrl[1]
       : appendToURLPath(partsOfUrl[0], messageId);
 
-    return new MessageId(getStorageClientContext(urlWithMessageId, this.pipeline));
+    return new MessageId(getStorageClient(urlWithMessageId, this.pipeline));
   }
 
   /**
@@ -718,7 +718,9 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.create({
         ...options,
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -852,9 +854,11 @@ export class QueueClient extends StorageClient {
   public async delete(options: QueueDeleteOptions = {}): Promise<QueueDeleteResponse> {
     const { span, spanOptions } = createSpan("QueueClient-delete", options.tracingOptions);
     try {
-      return await this.queueContext.deleteMethod({
+      return await this.queueContext.delete({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -925,7 +929,9 @@ export class QueueClient extends StorageClient {
     try {
       return await this.queueContext.getProperties({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -959,7 +965,9 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -991,7 +999,9 @@ export class QueueClient extends StorageClient {
     try {
       const response = await this.queueContext.getAccessPolicy({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
 
       const res: QueueGetAccessPolicyResponse = {
@@ -1000,8 +1010,7 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         signedIdentifiers: [],
-        version: response.version,
-        errorCode: response.errorCode
+        version: response.version
       };
 
       for (const identifier of response) {
@@ -1072,7 +1081,9 @@ export class QueueClient extends StorageClient {
       return await this.queueContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         queueAcl: acl,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -1100,7 +1111,9 @@ export class QueueClient extends StorageClient {
     try {
       return await this.messagesContext.clear({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -1148,7 +1161,9 @@ export class QueueClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           ...options,
-          spanOptions
+          tracingOptions: {
+            spanOptions
+          }
         }
       );
       const item = response[0];
@@ -1158,7 +1173,6 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         version: response.version,
-        errorCode: response.errorCode,
         messageId: item.messageId,
         popReceipt: item.popReceipt,
         nextVisibleOn: item.nextVisibleOn,
@@ -1210,7 +1224,9 @@ export class QueueClient extends StorageClient {
       const response = await this.messagesContext.dequeue({
         abortSignal: options.abortSignal,
         ...options,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
 
       const res: QueueReceiveMessageResponse = {
@@ -1219,8 +1235,7 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         receivedMessageItems: [],
-        version: response.version,
-        errorCode: response.errorCode
+        version: response.version
       };
 
       for (const item of response) {
@@ -1262,7 +1277,9 @@ export class QueueClient extends StorageClient {
       const response = await this.messagesContext.peek({
         abortSignal: options.abortSignal,
         ...options,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
 
       const res: QueuePeekMessagesResponse = {
@@ -1271,8 +1288,7 @@ export class QueueClient extends StorageClient {
         requestId: response.requestId,
         clientRequestId: response.clientRequestId,
         peekedMessageItems: [],
-        version: response.version,
-        errorCode: response.errorCode
+        version: response.version
       };
 
       for (const item of response) {
@@ -1308,9 +1324,11 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueDeleteMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-deleteMessage", options.tracingOptions);
     try {
-      return await this.getMessageIdContext(messageId).deleteMethod(popReceipt, {
+      return await this.getMessageIdContext(messageId).delete(popReceipt, {
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: {
+          spanOptions
+        }
       });
     } catch (e) {
       span.setStatus({
@@ -1357,7 +1375,9 @@ export class QueueClient extends StorageClient {
     try {
       return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
         abortSignal: options.abortSignal,
-        spanOptions,
+        tracingOptions: {
+          spanOptions
+        },
         queueMessage
       });
     } catch (e) {
@@ -1436,4 +1456,18 @@ export class QueueClient extends StorageClient {
 
     return appendToURLQuery(this.url, sas);
   }
+
+  // private stringifyMetaData(metadata?: Metadata): string | undefined {
+  //   if (!metadata) {
+  //     return metadata;
+  //   }
+
+  //   let result: string = "{";
+  //   for (const key of Object.keys(metadata)) {
+  //     result += `"${key}":"${metadata[key]}",`;
+  //   }
+  //   result = result.slice(0, -1);
+  //   result += "}";
+  //   return result;
+  // }
 }
