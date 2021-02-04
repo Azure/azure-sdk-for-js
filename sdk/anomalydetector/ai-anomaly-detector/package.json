@@ -114,7 +114,7 @@
     "@azure/test-utils-recorder": "^1.0.0",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   },
   "//metadata": {

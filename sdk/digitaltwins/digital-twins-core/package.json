@@ -122,7 +122,7 @@
     "typedoc": "0.15.2"
   },
   "sideEffects": false,
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   }
 }
