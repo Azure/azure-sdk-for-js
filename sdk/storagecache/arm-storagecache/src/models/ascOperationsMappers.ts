@@ -8,11 +8,7 @@
 
 export {
   discriminators,
-  ApiOperation,
-  ApiOperationDisplay,
-  ApiOperationListResult,
-  ApiOperationPropertiesServiceSpecification,
+  AscOperation,
   CloudError,
-  MetricDimension,
-  MetricSpecification
+  ErrorResponse
 } from "../models/mappers";
