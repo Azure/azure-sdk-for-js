@@ -101,7 +101,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "advanced.js",
       "anonymousCred.js",

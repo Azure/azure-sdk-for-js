@@ -47,9 +47,6 @@
     // "@azure/storage-blob": ["^12.3.0"],
 
     "@azure/ms-rest-js": ["^2.0.0"],
-    // The following is required for service-bus 7.0.3 release,
-    // To be reverted once the 7.0.3 is released
-    "@azure/core-amqp": ["^2.0.0"],
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
