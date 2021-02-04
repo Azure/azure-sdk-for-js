@@ -37,8 +37,8 @@ module.exports = function(config) {
       // polyfill service supporting IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "test-browser/index.js",
-      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
@@ -101,7 +101,7 @@ module.exports = function(config) {
     },
 
     // web server port
-    port: 9876,
+    port: 9878,
 
     // enable / disable colors in the output (reporters and logs)
     colors: true,
