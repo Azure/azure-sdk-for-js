@@ -47,7 +47,7 @@
     "dist-esm/src/",
     "types/latest/quantum-jobs.d.ts",
     "README.md",
-    "LICENSE"
+    "LICENSE.txt"
   ],
   "keywords": [
     "azure",
