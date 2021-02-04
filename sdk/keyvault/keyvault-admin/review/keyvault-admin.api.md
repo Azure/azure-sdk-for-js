@@ -96,7 +96,7 @@ export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
     beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
-    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
+    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>>;
     readonly vaultUrl: string;
 }
 
@@ -182,7 +182,7 @@ export interface RestoreResult {
 export const SDK_VERSION: string;
 
 // @public
-export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
 }
 
 // @public
