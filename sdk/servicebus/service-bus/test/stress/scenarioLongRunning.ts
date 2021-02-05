@@ -25,7 +25,7 @@ async function looper(fn: () => Promise<void>, delay: number, abortSignal: Abort
 async function sendMessagesForever(clientForSender: ServiceBusClient, abortSignal: AbortSignalLike) {
     console.log(`Started message sending`);
 
-    let sender: ServiceBusSender|undefined;
+    let sender: ServiceBusSender | undefined;
 
     return looper(async () => {
         if (abortSignal.aborted) {
