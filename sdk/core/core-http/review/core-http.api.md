@@ -100,17 +100,27 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 // @public
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher);
+    sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
+    }
+
+// @public
+export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
+
+// Warning: (ae-forgotten-export) The symbol "BaseChallengePolicy" needs to be exported by the entry point coreHttp.d.ts
+//
+// @public
+export class BearerTokenChallengeAuthenticationPolicy extends BaseChallengePolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher);
+    protected getChallenge(response: HttpOperationResponse): string | void;
     protected getToken(options: GetTokenOptions): Promise<string | undefined>;
     protected loadToken(webResource: WebResource, accessToken?: string): Promise<void>;
-    onBeforeRequest(webResource: WebResourceLike): Promise<void>;
-    onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean>;
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
     protected tokenCache: AccessTokenCache;
     protected tokenRefresher: AccessTokenRefresher;
     }
 
 // @public
-export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
+export function bearerTokenChallengeAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
@@ -533,10 +543,8 @@ export interface ParameterValue {
     value: any;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CAEChallengeEither" needs to be exported by the entry point coreHttp.d.ts
-//
 // @public
-export function parseCAEChallenges(challenges: string): CAEChallengeEither[];
+export function parseCAEChallenges<TChallenge>(challenges: string): TChallenge[];
 
 // @public
 export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;

@@ -4,7 +4,6 @@
 
 import {
   AccessTokenRefresher,
-  CAEParsed,
   parseCAEChallenges,
   TokenCredential,
   WebResourceLike
@@ -20,7 +19,7 @@ export const logger = createClientLogger("KeyVaultChallengeBasedAuthenticationPo
  * Representation of the Authentication Challenge
  */
 export class KeyVaultAuthenticationChallenge {
-  constructor(public authorization: string, public scope: string) {}
+  constructor(public authorization: string, public scope: string) { }
 
   /**
    * Checks that this KeyVaultAuthenticationChallenge is equal to another one given.
@@ -32,7 +31,7 @@ export class KeyVaultAuthenticationChallenge {
   public equalTo(other: KeyVaultAuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
-          this.authorization.toLowerCase() === other.authorization.toLowerCase()
+      this.authorization.toLowerCase() === other.authorization.toLowerCase()
       : false;
   }
 }

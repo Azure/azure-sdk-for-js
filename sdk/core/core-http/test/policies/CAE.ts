@@ -2,12 +2,50 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { CAEChallengeEither, parseCAEChallenges } from "../../src/CAE";
+import { parseCAEChallenges } from "../../src/CAE";
+
+/**
+ * CAEProperties represents known CAE challenge properties, with input examples on the comments.
+ */
+// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+export namespace CAEProperties {
+  /**
+   * CAE - Key Vault with the resource property.
+   * Even though the service is moving to "scope", both "resource" and "scope" should be supported.
+   * Example: Bearer authorization="https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47", resource="https://vault.azure.net"
+   */
+  export type KeyVaultResource = "authorization" | "resource";
+  /**
+   * CAE - Key Vault with the scope property.
+   * Even though the service is moving to "scope", both "resource" and "scope" should be supported.
+   * Example: Bearer authorization="https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47", scope="https://some.url"
+   */
+  export type KeyVaultScope = "authorization" | "scope";
+}
+
+/**
+ * Group of strict representation of the known CAE challenges, in their plain object form.
+ */
+// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+export namespace CAEParsed {
+  /**
+   * CAE - Key Vault with the resource property.
+   */
+  export type KeyVaultResource = Record<CAEProperties.KeyVaultResource, string>;
+  /**
+   * CAE - Key Vault with the scope property.
+   */
+  export type KeyVaultScope = Record<CAEProperties.KeyVaultScope, string>;
+  /**
+   * CAE - Key Vault
+   */
+  export type KeyVault = KeyVaultResource | KeyVaultScope;
+}
 
 interface TestChallenge {
   name: string;
   headerValue: string;
-  parsedChallenge: CAEChallengeEither;
+  parsedChallenge: Record<string, string>;
 }
 
 const testChallenges: TestChallenge[] = [
@@ -123,23 +161,34 @@ describe("CAE", () => {
 
   describe("parseCAEChallenges", () => {
     it("Challenge with commas in the values", () => {
-      const expected = {
+      const expected: CAEParsed.KeyVault = {
         authorization: "authorizationValue,authorizationValue",
         scope: "scopeValue,scopeValue"
       };
       const headerValue = `Bearer authorization="${expected.authorization}", scope="${expected.scope}"`;
-      const parsed = parseCAEChallenges(headerValue);
+      const parsed = parseCAEChallenges<CAEParsed.KeyVault>(headerValue);
       parsed.should.deep.equal([expected]);
     });
+
+    it("Challenge with empty values", () => {
+      const expected: CAEParsed.KeyVault = {
+        authorization: "",
+        scope: ""
+      };
+      const headerValue = `Bearer authorization="", scope=""`;
+      const parsed = parseCAEChallenges<CAEParsed.KeyVault>(headerValue);
+      parsed.should.deep.equal([expected]);
+    });
+
     it("All possible groups of some examples of known challenges", () => {
-      const testChallenge = (headerValue: string, parsedChallenges: CAEChallengeEither[]): void => {
+      const testChallenge = (headerValue: string, parsedChallenges: Record<string, string>[]): void => {
         const parsed = parseCAEChallenges(headerValue);
         parsed.should.deep.equal(parsedChallenges);
       };
 
       const joinHeaders = (challenges: TestChallenge[]): string =>
         challenges.map((ch) => ch.headerValue).join(", ");
-      const joinParsed = (challenges: TestChallenge[]): CAEChallengeEither[] =>
+      const joinParsed = (challenges: TestChallenge[]): Record<string, string>[] =>
         challenges.map((ch) => ch.parsedChallenge);
 
       const targets: TestChallenge[][] = permutationsAndTails(testChallenges);
