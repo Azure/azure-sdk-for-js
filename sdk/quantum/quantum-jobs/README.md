@@ -29,7 +29,7 @@ npm install @azure/quantum-jobs
 
 ### Authenticate the client
 
-To authenticate with the service, you can use [DefaultAzureCredential](https://docs.microsoft.com/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet). This will try different authentication mechanisms based on the environment (e.g. Environment Variables, ManagedIdentity, CachedTokens) and finally it will fallback to InteractiveBrowserCredential.
+To authenticate with the service, you can use [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library. This will try different authentication mechanisms based on the environment (e.g. Environment Variables, ManagedIdentity, CachedTokens) and finally, it will fallback to InteractiveBrowserCredential.
 
 The client also allows the user to override the above behavior by passing their own [TokenCredential](https://docs.microsoft.com/dotnet/api/azure.core.tokencredential?view=azure-dotnet).
 
