@@ -278,7 +278,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     ];
     try {
       const twin = await client.getDigitalTwin(DIGITAL_TWIN_ID);
-      let options: DigitalTwinsUpdateComponentOptionalParams = {
+      const options: DigitalTwinsUpdateComponentOptionalParams = {
         ifMatch: twin.etag
       };
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch, options);
@@ -303,7 +303,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
         value: "value2"
       }
     ];
-    let options: DigitalTwinsUpdateComponentOptionalParams = {
+    const options: DigitalTwinsUpdateComponentOptionalParams = {
       ifMatch: "etag-value"
     };
     let errorWasThrown = false;
