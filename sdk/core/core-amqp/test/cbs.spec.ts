@@ -17,7 +17,7 @@ describe("CbsClient", function() {
         await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.equal(err.message, "Attempted to negotiate a claim but a CBS link does not exist.");
+        assert.equal(err.message, "Attempted to negotiate a claim but the CBS link does not exist.");
       }
     });
   });
