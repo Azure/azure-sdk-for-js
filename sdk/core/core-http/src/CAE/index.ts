@@ -107,30 +107,31 @@ export type CAEChallengeAny = Record<CAEPropertiesAny, string>;
 export function parseCAEChallenges(challenges: string): CAEChallengeEither[] {
   if (!challenges) return [{} as CAEChallengeEither];
 
+  // Parses a `key="value"` string into an object with { key: "key", value: "value" }
+  const parseKeyValue = (keyValue: string): { key: string; value: string } =>
+    (keyValue.match(/(?<key>\w+(?==))="(?<value>[^"]*)"/) as any)?.groups || {};
+
+  // Receives an array of `key="value"` strings
+  // And produces an object with properties based on those keys and values.
+  const groupKeyValues = (keyValues: string[]): CAEChallengeEither =>
+    keyValues.reduce((parsedChallenge, keyValue) => {
+      const { key, value } = parseKeyValue(keyValue);
+      if (!key) {
+        return parsedChallenge;
+      }
+      return {
+        ...parsedChallenge,
+        [key]: value || ""
+      };
+    }, {}) as CAEChallengeEither;
+
+  // Splits a string challenge composed of key="value" elements separated by comma
+  // into an array of `key="value"` strings.
+  const separateKeyValues = (challenge: string): string[] =>
+    `${challenge}, `.match(/(\w+="[^"]*"(?=, ))/g) || [];
+
   // Each set of challenges will be separated by "Bearer ".
-  return (
-    challenges
-      .split("Bearer ")
-      // Keeping only the non-empty segments.
-      .filter((x) => x)
-      // Looping through each challenge.
-      .map((challenge) =>
-        // Each key-value pair in a challenge will be separated by a comma.
-        challenge.split(",").reduce((accumulator, property) => {
-          property = property.trim();
-          if (!property) return accumulator;
+  const bearerSeparated = challenges.split("Bearer").filter((x) => x);
 
-          // We can safely split key-value pairs by the equal sign "=".
-          const separatorPosition = property.indexOf("=");
-          const key = property.slice(0, separatorPosition);
-
-          // Will slice out the equal and the surrounding quotes.
-          const value = property.slice(separatorPosition + 2, -1);
-
-          const vagueAccumulator = accumulator as CAEChallengeAny;
-          vagueAccumulator[key as CAEPropertiesAny] = value;
-          return accumulator;
-        }, {} as CAEChallengeAny)
-      )
-  );
+  return bearerSeparated.map((challenge) => groupKeyValues(separateKeyValues(challenge)));
 }
