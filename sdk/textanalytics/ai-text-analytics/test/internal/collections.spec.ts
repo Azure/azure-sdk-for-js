@@ -391,7 +391,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
         completedOn: new Date()
       };
       const result = combineSucceededAndErredActions(
-        [succeededAction],
+        [succeededAction, succeededAction],
         [
           {
             code: "",
@@ -422,7 +422,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
             message: "2",
             target: undefined
           }
-        }
+        },
+        succeededAction
       ]);
     });
 
@@ -438,8 +439,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
           },
           {
             code: "",
-            index: 2,
-            message: "2",
+            index: 1,
+            message: "1",
             type: "ExtractKeyPhrases"
           }
         ]
@@ -455,7 +456,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
         {
           error: {
             code: "",
-            message: "2",
+            message: "1",
             target: undefined
           }
         }
@@ -466,8 +467,89 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
       const succeededAction = {
         completedOn: new Date()
       };
-      const result = combineSucceededAndErredActions([succeededAction], []);
-      assert.deepEqual(result, [succeededAction]);
+      const result = combineSucceededAndErredActions([succeededAction, succeededAction], []);
+      assert.deepEqual(result, [succeededAction, succeededAction]);
+    });
+
+    it("correctly handles a prefix of erred actions", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions(
+        [succeededAction],
+        [
+          {
+            code: "",
+            index: 0,
+            message: "0",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 1,
+            message: "1",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        {
+          error: {
+            code: "",
+            message: "0",
+            target: undefined
+          }
+        },
+        {
+          error: {
+            code: "",
+            message: "1",
+            target: undefined
+          }
+        },
+        succeededAction
+      ]);
+    });
+
+    it("correctly handles a prefix of succeeded actions", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions(
+        [succeededAction, succeededAction],
+        [
+          {
+            code: "",
+            index: 2,
+            message: "2",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 3,
+            message: "3",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        succeededAction,
+        succeededAction,
+        {
+          error: {
+            code: "",
+            message: "2",
+            target: undefined
+          }
+        },
+        {
+          error: {
+            code: "",
+            message: "3",
+            target: undefined
+          }
+        }
+      ]);
     });
   });
 });

@@ -288,26 +288,19 @@ export function combineSucceededAndErredActions<TSuccess extends TextAnalyticsAc
 ): (TSuccess | TextAnalyticsActionErrorResult)[] {
   const actions: (TSuccess | TextAnalyticsActionErrorResult)[] = [];
   let errorIndex = 0;
-  for (let actionIndex = 0; actionIndex < succeededActions.length; ++actionIndex) {
-    if (errorIndex < erredActions.length) {
-      const error = erredActions[errorIndex];
-      if (error.index === actionIndex) {
-        actions.push({
-          error: intoTextAnalyticsError(error)
-        });
-        ++errorIndex;
-      }
+  for (
+    let actionIndex = 0;
+    actionIndex < succeededActions.length + erredActions.length;
+    ++actionIndex
+  ) {
+    if (errorIndex < erredActions.length && erredActions[errorIndex].index === actionIndex) {
+      actions.push({
+        error: intoTextAnalyticsError(erredActions[errorIndex])
+      });
+      ++errorIndex;
+    } else {
+      actions.push(succeededActions[actionIndex - errorIndex]);
     }
-    actions.push(succeededActions[actionIndex]);
-  }
-  if (errorIndex < erredActions.length) {
-    actions.push(
-      ...erredActions.slice(errorIndex).map(
-        (obj: TextAnalyticsActionError): TextAnalyticsActionErrorResult => ({
-          error: intoTextAnalyticsError(obj)
-        })
-      )
-    );
   }
   return actions;
 }
