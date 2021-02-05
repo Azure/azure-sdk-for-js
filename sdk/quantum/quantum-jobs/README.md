@@ -83,7 +83,7 @@ Create an instance of the QuantumJobClient by passing in these parameters:
 
 ### Get Container SAS URI
 
-Create a storage container where to put your data.
+Create a storage container to put your data.
 
 ```Javascript Snippet
     // Get container Uri with SAS key
