@@ -1,6 +1,6 @@
 {
   "name": "@azure/quantum-jobs",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library for Azure Quantum",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
