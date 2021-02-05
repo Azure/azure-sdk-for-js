@@ -95,7 +95,7 @@ Create a storage container to put your data.
 
     // Create container if not exists
     const containerClient = new ContainerClient(containerUri);
-    containerClient.createIfNotExists();
+    await containerClient.createIfNotExists();
 ```
 
 ### Upload Input Data
