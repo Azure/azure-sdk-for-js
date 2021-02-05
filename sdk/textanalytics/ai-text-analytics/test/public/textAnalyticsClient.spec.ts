@@ -1739,6 +1739,32 @@ describe("[AAD] TextAnalyticsClient", function() {
           }
         }
       });
+
+      it("action failures are returned", async function() {
+        const docs = [{ id: "1", text: "I will go to the park." }];
+
+        const poller = await client.beginAnalyzeBatchActions(
+          docs,
+          {
+            recognizePiiEntitiesActions: [
+              { modelVersion: "bad" },
+              { modelVersion: "latest" },
+              { modelVersion: "bad", stringIndexType: "TextElements_v8" }
+            ]
+          },
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        for await (const page of result) {
+          const piiEntitiesResult = page.recognizePiiEntitiesResults;
+          assert.equal(piiEntitiesResult.length, 3);
+          assert.isDefined(piiEntitiesResult[0].error);
+          assert.isUndefined(piiEntitiesResult[1].error);
+          assert.isDefined(piiEntitiesResult[2].error);
+        }
+      });
     });
   });
 });

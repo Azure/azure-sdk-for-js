@@ -218,9 +218,11 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
  * @returns an action error with an action type and index
  * @internal
  */
-function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
+export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
-    const regex = new RegExp(/#\/tasks\/(\s+)\/(\d+)/);
+    const regex = new RegExp(
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks)\/(\d+)/
+    );
     const res = regex.exec(erredActions.target);
     if (res !== null) {
       return {
@@ -287,9 +289,8 @@ export function combineSucceededAndErredActions<TSuccess extends TextAnalyticsAc
   erredActions: TextAnalyticsActionError[]
 ): (TSuccess | TextAnalyticsActionErrorResult)[] {
   const actions: (TSuccess | TextAnalyticsActionErrorResult)[] = [];
-  let errorIndex = 0;
   for (
-    let actionIndex = 0;
+    let actionIndex = 0, errorIndex = 0;
     actionIndex < succeededActions.length + erredActions.length;
     ++actionIndex
   ) {
