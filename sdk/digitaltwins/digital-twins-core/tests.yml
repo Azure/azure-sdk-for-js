@@ -3,7 +3,7 @@ trigger: none
 extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
-    PackageName: "@azure/digitaltwins"
+    PackageName: "@azure/digital-twins-core"
     ResourceServiceDirectory: digitaltwins
     TestBrowser: true
     TestSamples: false

@@ -539,63 +539,78 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==
-  /@opentelemetry/api/0.14.0:
+  /@opentelemetry/api/0.16.0:
     dependencies:
-      '@opentelemetry/context-base': 0.14.0
+      '@opentelemetry/context-base': 0.16.0
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-L7RMuZr5LzMmZiQSQDy9O1jo0q+DaLy6XpYJfIGfYSfoJA5qzYwUP3sP1uMIQ549DvxAgM3ng85EaPTM/hUHwQ==
+      integrity: sha512-y5mNFAiktm7Zyf0GrQ6kjsRqace/WCXk9gMo/sOOna4TtMW8NaZgJceKrsQZl3qiPY9Upu8O9VvdlETXDx4U5A==
+  /@opentelemetry/api/0.6.1:
+    dependencies:
+      '@opentelemetry/context-base': 0.6.1
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-wpufGZa7tTxw7eAsjXJtiyIQ42IWQdX9iUQp7ACJcKo1hCtuhLU+K2Nv1U6oRwT1oAlZTE6m4CgWKZBhOiau3Q==
   /@opentelemetry/context-base/0.10.2:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-hZNKjKOYsckoOEgBziGMnBcX0M7EtstnCmwz5jZUOUYwlZ+/xxX6z3jPu1XVO2Jivk0eLfuP9GP+vFD49CMetw==
-  /@opentelemetry/context-base/0.14.0:
+  /@opentelemetry/context-base/0.16.0:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-sDOAZcYwynHFTbLo6n8kIbLiVF3a3BLkrmehJUyEbT9F+Smbi47kLGS2gG2g0fjBLR/Lr1InPD7kXL7FaTqEkw==
-  /@opentelemetry/core/0.14.0:
+      integrity: sha512-2h2s+3P40wIu8ZaJiqBF6E0rEJPeSVOErFlkx2MfRGPs9Vs9Th+i5YSpgvCW4s5LeYTFAf2BRwut39JivEyH9w==
+  /@opentelemetry/context-base/0.6.1:
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-5bHhlTBBq82ti3qPT15TRxkYTFPPQWbnkkQkmHPtqiS1XcTB69cEKd3Jm7Cfi/vkPoyxapmePE9tyA7EzLt8SQ==
+  /@opentelemetry/core/0.16.0:
     dependencies:
-      '@opentelemetry/api': 0.14.0
-      '@opentelemetry/context-base': 0.14.0
+      '@opentelemetry/api': 0.16.0
+      '@opentelemetry/context-base': 0.16.0
       semver: 7.3.4
     dev: false
     engines:
       node: '>=8.5.0'
     resolution:
-      integrity: sha512-HJ4VM0cV6c5qjdW7C7koB2IT4ADunCOehxnKFRslQkbDqAEA1w42AZ9679siYALpWYxNqcJyqF2jxCNtfNHa6Q==
-  /@opentelemetry/resources/0.14.0:
+      integrity: sha512-NFZwEW5TeFIAUlNty9al0KU9AQzpEiBowem/33d3ftxYHZ7dG1JklFnyKLTVb+pAZFm/peTziVddfHoTsIY4Rg==
+  /@opentelemetry/resources/0.16.0:
     dependencies:
-      '@opentelemetry/api': 0.14.0
-      '@opentelemetry/core': 0.14.0
+      '@opentelemetry/api': 0.16.0
+      '@opentelemetry/core': 0.16.0
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-7XVML4HxvoH6kWY+x0mhMc5m0a2YBvPCTSX7yAqyp9XIGvFpdjzAE2ggJ40DZrL1sPv9f0QYAbnIKFDVLBTfGA==
-  /@opentelemetry/semantic-conventions/0.14.0:
+      integrity: sha512-HOAmcRnZGbEhcddsjqvz3Q/mEg75PyEoH/CZZ3YGqYmwTPimTiusm8iz5nXMxp1UpT8rkzlEGei/E21SQ/Zh9g==
+  /@opentelemetry/semantic-conventions/0.16.0:
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-iDGRLQwo+ka1ljlLo4KyuUmzsJwtPw+PyCjetQwn3m/pTXjdyWLGOTARBrpQGpkQp7k87RaCCg5AqZaKFU2G6g==
-  /@opentelemetry/tracing/0.14.0:
+      integrity: sha512-RDYLf6lUtikIDTr6yVDehsUAlNb1U680eOV1QuDN0w6FDGubTnjbADlgpF41ByOow1Jp/WGmynFfOh19Ix4NWw==
+  /@opentelemetry/tracing/0.16.0:
     dependencies:
-      '@opentelemetry/api': 0.14.0
-      '@opentelemetry/context-base': 0.14.0
-      '@opentelemetry/core': 0.14.0
-      '@opentelemetry/resources': 0.14.0
-      '@opentelemetry/semantic-conventions': 0.14.0
+      '@opentelemetry/api': 0.16.0
+      '@opentelemetry/context-base': 0.16.0
+      '@opentelemetry/core': 0.16.0
+      '@opentelemetry/resources': 0.16.0
+      '@opentelemetry/semantic-conventions': 0.16.0
+      lodash.merge: 4.6.2
     dev: false
     engines:
       node: '>=8.0.0'
     resolution:
-      integrity: sha512-sw9lXJQUQO0xaCvHWFUzIhgh2jGFgXubRQ6g1O84Q/ILU93ZMMVt+d97mihcrtBrV89Sy39HF8tAwekjpzv+cA==
+      integrity: sha512-8UrNbzO56m8fe9ge+XR0Lruwld+W6SM6aWFQT32YCU8lS+Hzz2P6TbevmgT4DzeKszJxnHqzNnqx8HziNeUjTA==
   /@rollup/plugin-commonjs/11.0.2_rollup@1.32.1:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@1.32.1
@@ -4513,6 +4528,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=
+  /lodash.merge/4.6.2:
+    dev: false
+    resolution:
+      integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
   /lodash.once/4.1.1:
     dev: false
     resolution:
@@ -9257,11 +9276,11 @@ packages:
   file:projects/opentelemetry-exporter-azure-monitor.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@opentelemetry/api': 0.14.0
-      '@opentelemetry/core': 0.14.0
-      '@opentelemetry/resources': 0.14.0
-      '@opentelemetry/semantic-conventions': 0.14.0
-      '@opentelemetry/tracing': 0.14.0
+      '@opentelemetry/api': 0.16.0
+      '@opentelemetry/core': 0.16.0
+      '@opentelemetry/resources': 0.16.0
+      '@opentelemetry/semantic-conventions': 0.16.0
+      '@opentelemetry/tracing': 0.16.0
       '@types/mocha': 7.0.2
       '@types/node': 10.17.51
       eslint: 7.19.0
@@ -9281,7 +9300,7 @@ packages:
     dev: false
     name: '@rush-temp/opentelemetry-exporter-azure-monitor'
     resolution:
-      integrity: sha512-tRQxKK1wEKaiouodTlCH0qHRNsnv4vvOic2VIs8FZ5pvQkDrTF20avK00bpf7iBXMwvK7U11qwLIndCnh7uipQ==
+      integrity: sha512-GkOeLFZUDqi6deXNZW3SqacBZwxExidYQjk+FyPYRpRF9FaxxrZD0dcQ5eLmGNQYXvghOKk3gktWFES4JdBXMQ==
       tarball: file:projects/opentelemetry-exporter-azure-monitor.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
@@ -9295,12 +9314,13 @@ packages:
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 10.17.51
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.10
       chai: 4.3.0
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.19.0
+      esm: 3.2.25
       events: 3.2.0
       inherits: 2.0.4
       karma: 5.2.3
@@ -9330,11 +9350,12 @@ packages:
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.1.2
+      uglify-js: 3.12.6
       util: 0.12.3
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-7vaErqG6JWDYUBBD/kum3Ckp5k0OCRyWtFWzZQPGlGEKQpTXtbuujjcK184m8CMLQxNlGD8+azVUhEy4Pj0DoQ==
+      integrity: sha512-Jejqh29zciTFkzBTA0i2STaklFwhaqcnjRkNesTu+hSIQKXSpq/DEvDGr8Ki9dP10uCODTiq6uuzsZ/EhfW+ag==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:

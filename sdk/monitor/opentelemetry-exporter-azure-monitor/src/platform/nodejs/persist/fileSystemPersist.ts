@@ -4,8 +4,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { Logger } from "@opentelemetry/api";
-import { NoopLogger } from "@opentelemetry/core";
+import { Logger, NoopLogger } from "@opentelemetry/api";
 import { PersistentStorage } from "../../../types";
 import { DEFAULT_EXPORTER_CONFIG, AzureExporterInternalConfig } from "../../../config";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
