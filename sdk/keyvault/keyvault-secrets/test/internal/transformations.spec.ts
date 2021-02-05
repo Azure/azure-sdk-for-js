@@ -30,24 +30,32 @@ describe("Transformations", () => {
       value: "my secret value"
     };
 
+    const expectedResult: KeyVaultSecret = {
+      value: bundle.value,
+      name: "abc123",
+      properties: {
+        expiresOn: date,
+        createdOn: date,
+        updatedOn: date,
+        enabled: true,
+        notBefore: date,
+        recoverableDays: 7,
+        recoveryLevel: "Purgable",
+        id: "https://azure_keyvault.vault.azure.net/keys/abc123/1",
+        contentType: "content_type",
+        tags: {
+          tag1: "value1",
+          tag2: "value2"
+        },
+        managed: true,
+        vaultUrl: "https://azure_keyvault.vault.azure.net",
+        version: "1",
+        name: "abc123"
+      }
+    };
+
     const secret: KeyVaultSecret = getSecretFromSecretBundle(bundle);
-    assert.equal(secret.value, bundle.value);
-    assert.equal("abc123", secret.name);
-    assert.equal(secret.properties.expiresOn, date);
-    assert.equal(secret.properties.createdOn, date);
-    assert.equal(secret.properties.updatedOn, date);
-    assert.isTrue(secret.properties.enabled);
-    assert.equal(secret.properties.notBefore, date);
-    assert.equal(secret.properties.recoverableDays, 7);
-    assert.equal(secret.properties.recoveryLevel, "Purgable");
-    assert.equal(secret.properties.updatedOn, date);
-    assert.equal(secret.properties.id, bundle.id);
-    assert.equal(secret.properties.contentType, "content_type");
-    assert.deepEqual(secret.properties.tags, bundle.tags);
-    assert.isTrue(secret.properties.managed);
-    assert.equal("https://azure_keyvault.vault.azure.net", secret.properties.vaultUrl);
-    assert.equal("1", secret.properties.version);
-    assert.exists(secret.properties.name);
+    assert.deepEqual(secret, expectedResult);
   });
 
   it("correctly assigns all properties for a deleted secret", () => {
