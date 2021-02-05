@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import _default from '@opentelemetry/api';
 import chai from "chai";
 const should = chai.should();
 import fs from "fs";
