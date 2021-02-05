@@ -34,9 +34,12 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperat
 
 // @public
 export interface AnalyzeBatchActionsResult {
-    extractKeyPhrasesResults: ExtractKeyPhrasesResultArray[];
-    recognizeEntitiesResults: RecognizeCategorizedEntitiesResultArray[];
-    recognizePiiEntitiesResults: RecognizePiiEntitiesResultArray[];
+    // Warning: (ae-forgotten-export) The symbol "ExtractKeyPhrasesActionResult" needs to be exported by the entry point index.d.ts
+    extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
+    // Warning: (ae-forgotten-export) The symbol "RecognizeCategorizedEntitiesActionResult" needs to be exported by the entry point index.d.ts
+    recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
+    // Warning: (ae-forgotten-export) The symbol "RecognizePiiEntitiesActionResult" needs to be exported by the entry point index.d.ts
+    recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
 }
 
 // @public

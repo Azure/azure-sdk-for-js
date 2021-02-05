@@ -25,7 +25,7 @@ import {
 import { ErrorCode, intoTextAnalyticsError, TextAnalyticsError } from "./textAnalyticsResult";
 
 /**
- * The results of a successful analyze batch actions operation.
+ * The results of a succeeded analyze batch actions operation.
  */
 export interface AnalyzeBatchActionsResult {
   /**
@@ -43,11 +43,11 @@ export interface AnalyzeBatchActionsResult {
 }
 
 /**
- * The state of a successful action.
+ * The state of a succeeded action.
  */
 export interface TextAnalyticsActionSuccessState {
   /**
-   * When was the last time this action was updated by the service.
+   * When this action was completed by the service.
    */
   readonly completedOn: Date;
   /**
@@ -72,7 +72,7 @@ export interface TextAnalyticsActionErrorResult {
 export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a successful recognize categorized entities action.
+ * The results of a succeeded recognize categorized entities action.
  */
 export interface RecognizeCategorizedEntitiesActionSuccessResult
   extends TextAnalyticsActionSuccessState {
@@ -95,7 +95,7 @@ export type RecognizeCategorizedEntitiesActionResult =
 export type RecognizePiiEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a successful recognize pii entities action.
+ * The results of a succeeded recognize pii entities action.
  */
 export interface RecognizePiiEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
@@ -117,7 +117,7 @@ export type RecognizePiiEntitiesActionResult =
 export type ExtractKeyPhrasesActionErrorResult = TextAnalyticsActionErrorResult;
 
 /**
- * The results of a successful extract key phrases action.
+ * The results of a succeeded extract key phrases action.
  */
 export interface ExtractKeyPhrasesActionSuccessResult extends TextAnalyticsActionSuccessState {
   /**
@@ -305,7 +305,7 @@ function combineSucceededAndErredActions<TSuccess extends TextAnalyticsActionSuc
 /**
  * Creates a list of results for recognize categorized entities actions.
  * @param documents - list of input documents
- * @param succeededTasks - list of successful action results
+ * @param succeededTasks - list of succeeded action results
  * @param erredActions - list of erred actions
  * @internal
  */
@@ -319,7 +319,7 @@ function makeRecognizeCategorizedEntitiesActionResult(
     task: TasksStateTasksEntityRecognitionTasksItem
   ): RecognizeCategorizedEntitiesActionSuccessResult[] {
     const { results: actionResults, lastUpdateDateTime } = task;
-    if (actionResults.documents.length !== 0) {
+    if (actionResults.documents.length !== 0 || actionResults.errors.length !== 0) {
       const recognizeEntitiesResults = makeRecognizeCategorizedEntitiesResultArray(
         documents,
         actionResults?.documents,
@@ -346,7 +346,7 @@ function makeRecognizeCategorizedEntitiesActionResult(
 /**
  * Creates a list of results for recognize pii entities actions.
  * @param documents - list of input documents
- * @param succeededTasks - list of successful action results
+ * @param succeededTasks - list of succeeded action results
  * @param erredActions - list of erred actions
  * @internal
  */
@@ -360,7 +360,7 @@ function makeRecognizePiiEntitiesActionResult(
     task: TasksStateTasksEntityRecognitionPiiTasksItem
   ): RecognizePiiEntitiesActionSuccessResult[] {
     const { results: actionResults, lastUpdateDateTime } = task;
-    if (actionResults.documents.length !== 0) {
+    if (actionResults.documents.length !== 0 || actionResults.errors.length !== 0) {
       const recognizeEntitiesResults = makeRecognizePiiEntitiesResultArray(
         documents,
         actionResults
@@ -384,7 +384,7 @@ function makeRecognizePiiEntitiesActionResult(
 /**
  * Creates a list of results for extract key phrases actions.
  * @param documents - list of input documents
- * @param succeededTasks - list of successful action results
+ * @param succeededTasks - list of succeeded action results
  * @param erredActions - list of erred actions
  * @internal
  */
@@ -398,7 +398,7 @@ function makeExtractKeyPhrasesActionResult(
     task: TasksStateTasksKeyPhraseExtractionTasksItem
   ): ExtractKeyPhrasesActionSuccessResult[] {
     const { results: actionResults, lastUpdateDateTime } = task;
-    if (actionResults.documents.length !== 0) {
+    if (actionResults.documents.length !== 0 || actionResults.errors.length !== 0) {
       const recognizeEntitiesResults = makeExtractKeyPhrasesResultArray(
         documents,
         actionResults?.documents,
