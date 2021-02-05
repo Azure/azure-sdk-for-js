@@ -1577,7 +1577,7 @@ export class MetricsAdvisorClient {
    *
    * @param feedback - Content of the feedback
    * @param options - The options parameter
-   * @returns - An async response with Feedback object
+   * @returns Response with Feedback object
    */
   public async createFeedback(
     feedback: MetricFeedbackUnion,

@@ -178,7 +178,7 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new data feed for a specific data source and provided settings
    * @param feed - the data feed object to create
    * @param options - The options parameter.
-   * @returns - An async response with Datafeed object
+   * @returns Response with Datafeed object
    */
 
   public async createDataFeed(
@@ -548,7 +548,7 @@ export class MetricsAdvisorAdministrationClient {
    * Creates an anomaly detection configuration for a given metric
    * @param config - The detection configuration object to create
    * @param options - The options parameter
-   * @returns - An async response with Detection Config object
+   * @returns Response with Detection Config object
    */
   public async createDetectionConfig(
     config: Omit<AnomalyDetectionConfiguration, "id">,
@@ -679,7 +679,7 @@ export class MetricsAdvisorAdministrationClient {
   /**
    * Creates anomaly alerting configuration for a given metric
    * @param config - The alert configuration object to create
-   * @returns - An async response with Alert object
+   * @returns Response with Alert object
    */
   public async createAlertConfig(
     config: Omit<AnomalyAlertConfiguration, "id">,
@@ -933,7 +933,7 @@ export class MetricsAdvisorAdministrationClient {
    * Adds a new hook
    * @param hookInfo - Information for the new hook consists of the hook type, name, description, external link and hook parameter
    * @param options - The options parameter.
-   * @returns - An async response with Hook object
+   * @returns  Response with Hook object
    */
   public async createHook(
     hookInfo: EmailNotificationHook | WebNotificationHook,
