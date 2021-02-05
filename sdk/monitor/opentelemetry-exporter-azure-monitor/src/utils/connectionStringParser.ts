@@ -75,12 +75,12 @@ export class ConnectionStringParser {
 
   public static sanitizeUrl(url: string) {
     let newUrl = url.trim();
-    if (newUrl.indexOf("https") < 0) {
+    if (newUrl.indexOf("https://") < 0) {
       // Try to update http to https
-      newUrl = newUrl.replace("http", "https");
+      newUrl = newUrl.replace("http://", "https://");
     }
     // Remove final slash if present
-    if (newUrl.slice(-1) == "/") {
+    if (newUrl[newUrl.length - 1] == "/") {
       newUrl = newUrl.slice(0, -1);
     }
     return newUrl;

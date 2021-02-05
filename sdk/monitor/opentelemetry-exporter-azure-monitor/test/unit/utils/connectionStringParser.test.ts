@@ -24,14 +24,14 @@ describe("ConnectionStringParser", () => {
 
     it("should sanitize URLs", () => {
       const instrumentationKey = "instr_key";
-      const ingestionEndpoint = "http:test.com/ ";
-      const liveEndpoint = "http:livetest.net    ";
+      const ingestionEndpoint = "http://test.com/ ";
+      const liveEndpoint = "http://livetest.net    ";
       const connectionString = `InstrumentationKey=${instrumentationKey};IngestionEndpoint=${ingestionEndpoint};LiveEndpoint=${liveEndpoint}`;
 
       const result = ConnectionStringParser.parse(connectionString);
       assert.deepEqual(result.instrumentationkey, instrumentationKey);
-      assert.deepEqual(result.ingestionendpoint, "https:test.com");
-      assert.deepEqual(result.liveendpoint, "https:livetest.net");
+      assert.deepEqual(result.ingestionendpoint, "https://test.com");
+      assert.deepEqual(result.liveendpoint, "https://livetest.net");
     });
 
     it("should ignore invalid fields", () => {
