@@ -52,4 +52,4 @@ describe("Blob Checkpoint Store", function(): void {
       "Missing metadata property 'fieldname' on blob 'blobname'"
     );
   });
-}).timeout(90000);
+});
