@@ -6,7 +6,7 @@ import { DeletedSecret, KeyVaultSecret } from "../../src";
 import { DeletedSecretBundle, SecretBundle } from "../../src/generated";
 import { getSecretFromSecretBundle } from "../../src/transformations";
 
-describe.only("Transformations", () => {
+describe("Transformations", () => {
   it("correctly assigns all properties for a secret", () => {
     const date = new Date();
     const bundle: SecretBundle = {
