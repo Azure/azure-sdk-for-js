@@ -9,9 +9,9 @@
 import * as coreHttp from "@azure/core-http";
 import { LROSYM, LROResponseInfo } from "../lro/models";
 
-/** Represents a phone number search request to reserve some phone numbers. */
+/** Represents a phone number search request to find phone numbers. Found phone numbers are temporarily held for a following purchase. */
 export interface PhoneNumberSearchRequest {
-  /** The type of phone numbers to search for, e.g. Geographic, or TollFree. */
+  /** The type of phone numbers to search for, e.g. geographic, or tollFree. */
   phoneNumberType: PhoneNumberType;
   /** The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application. */
   assignmentType: PhoneNumberAssignmentType;
@@ -34,15 +34,15 @@ export interface PhoneNumberCapabilities {
 /** The result of a phone number search operation. */
 export interface PhoneNumberSearchResult {
   /** The search id. */
-  searchId?: string;
+  searchId: string;
   /** The phone numbers that are available. Can be fewer than the desired search quantity. */
-  phoneNumbers?: string[];
-  /** The phone number's type, e.g. Geographic, or TollFree. */
-  phoneNumberType?: PhoneNumberType;
+  phoneNumbers: string[];
+  /** The phone number's type, e.g. geographic, or tollFree. */
+  phoneNumberType: PhoneNumberType;
   /** Phone number's assignment type. */
-  assignmentType?: PhoneNumberAssignmentType;
+  assignmentType: PhoneNumberAssignmentType;
   /** Capabilities of a phone number. */
-  capabilities?: PhoneNumberCapabilities;
+  capabilities: PhoneNumberCapabilities;
   /** The incurred cost for a single phone number. */
   cost?: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
@@ -52,11 +52,11 @@ export interface PhoneNumberSearchResult {
 /** The incurred cost for a single phone number. */
 export interface PhoneNumberCost {
   /** The cost amount. */
-  amount?: number;
+  amount: number;
   /** The ISO 4217 currency code for the cost amount, e.g. USD. */
-  currencyCode?: string;
+  currencyCode: string;
   /** The frequency with which the cost gets billed. */
-  billingFrequency?: BillingFrequency;
+  billingFrequency: BillingFrequency;
 }
 
 /** The Communication Services error. */

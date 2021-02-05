@@ -87,8 +87,11 @@ export const enum KnownPhoneNumberType {
     TollFree = "tollFree"
 }
 
-// @public (undocumented)
-export type ListPhoneNumbersOptions = OperationOptions;
+// @public
+export interface ListPhoneNumbersOptions extends OperationOptions {
+    skip?: number;
+    top?: number;
+}
 
 // @public
 export type PhoneNumberAssignmentType = string;
@@ -110,9 +113,9 @@ export type PhoneNumberCapabilityValue = string;
 
 // @public
 export interface PhoneNumberCost {
-    amount?: number;
-    billingFrequency?: BillingFrequency;
-    currencyCode?: string;
+    amount: number;
+    billingFrequency: BillingFrequency;
+    currencyCode: string;
 }
 
 // @public (undocumented)
@@ -152,13 +155,13 @@ export interface PhoneNumberSearchRequest {
 
 // @public
 export interface PhoneNumberSearchResult {
-    assignmentType?: PhoneNumberAssignmentType;
-    capabilities?: PhoneNumberCapabilities;
+    assignmentType: PhoneNumberAssignmentType;
+    capabilities: PhoneNumberCapabilities;
     cost?: PhoneNumberCost;
-    phoneNumbers?: string[];
-    phoneNumberType?: PhoneNumberType;
+    phoneNumbers: string[];
+    phoneNumberType: PhoneNumberType;
     searchExpiresBy?: Date;
-    searchId?: string;
+    searchId: string;
 }
 
 // @public

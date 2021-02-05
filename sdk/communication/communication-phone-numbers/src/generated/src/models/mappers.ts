@@ -84,12 +84,14 @@ export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
     modelProperties: {
       searchId: {
         serializedName: "searchId",
+        required: true,
         type: {
           name: "String"
         }
       },
       phoneNumbers: {
         serializedName: "phoneNumbers",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -101,12 +103,14 @@ export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
       },
       phoneNumberType: {
         serializedName: "phoneNumberType",
+        required: true,
         type: {
           name: "String"
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
+        required: true,
         type: {
           name: "String"
         }
@@ -142,18 +146,21 @@ export const PhoneNumberCost: coreHttp.CompositeMapper = {
     modelProperties: {
       amount: {
         serializedName: "amount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       currencyCode: {
         serializedName: "currencyCode",
+        required: true,
         type: {
           name: "String"
         }
       },
       billingFrequency: {
         serializedName: "billingFrequency",
+        required: true,
         type: {
           name: "String"
         }

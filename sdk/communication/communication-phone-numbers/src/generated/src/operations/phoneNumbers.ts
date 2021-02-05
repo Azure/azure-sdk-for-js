@@ -92,7 +92,7 @@ export class PhoneNumbers {
   /**
    * Search for available phone numbers to purchase.
    * @param countryCode The ISO 3166-2 country code, e.g. US.
-   * @param phoneNumberType The type of phone numbers to search for, e.g. Geographic, or TollFree.
+   * @param phoneNumberType The type of phone numbers to search for, e.g. geographic, or tollFree.
    * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
    *                       assigned to a person, or to an application.
    * @param capabilities Capabilities of a phone number.
@@ -132,7 +132,7 @@ export class PhoneNumbers {
   }
 
   /**
-   * Gets phone number search by search id.
+   * Gets a phone number search result by search id.
    * @param searchId The search Id.
    * @param options The options parameters.
    */
@@ -219,7 +219,8 @@ export class PhoneNumbers {
 
   /**
    * Gets the details of the given acquired phone number.
-   * @param phoneNumber The acquired phone number whose details are to be fetched, e.g. +11234567890.
+   * @param phoneNumber The acquired phone number whose details are to be fetched in E.164 format, e.g.
+   *                    +11234567890.
    * @param options The options parameters.
    */
   getByNumber(
@@ -370,7 +371,7 @@ export class PhoneNumbers {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const searchAvailablePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/availablePhoneNumbers/countries/{countryCode}/:search",
+  path: "/availablePhoneNumbers/countries/{countryCode}/~search",
   httpMethod: "POST",
   responses: {
     200: {
@@ -426,7 +427,7 @@ const getSearchResultOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const purchasePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/availablePhoneNumbers/:purchase",
+  path: "/availablePhoneNumbers/~purchase",
   httpMethod: "POST",
   responses: {
     200: {
@@ -451,7 +452,7 @@ const purchasePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: { searchId: ["options", "searchId"] },
-    mapper: Mappers.PhoneNumberPurchaseRequest
+    mapper: { ...Mappers.PhoneNumberPurchaseRequest, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],

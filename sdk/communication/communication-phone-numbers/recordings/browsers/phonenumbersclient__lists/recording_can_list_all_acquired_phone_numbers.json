@@ -1,0 +1,23 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers",
+      "query": {
+        "api-version": "2021-03-07",
+        "top": "100"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phoneNumbers\":[{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"Geographic\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"assignmentType\":\"User\",\"callbackUri\":null,\"applicationId\":null},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"Geographic\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"assignmentType\":\"User\",\"callbackUri\":null,\"applicationId\":null},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":null,\"applicationId\":null},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"TollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"Application\",\"callbackUri\":null,\"applicationId\":null}]}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "af81817f949fc52d0943ba9ac87d5f21"
+}
