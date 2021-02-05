@@ -137,10 +137,11 @@ matrix([[true, false]] as const, async (useAad) => {
             seriesDetectionConditions: []
           };
 
-          const created = await client.createDetectionConfig(expected);
-          const actual = await client.getDetectionConfig(created.id);
+          const actual = await client.createDetectionConfig(expected);
+
           assert.ok(actual.id, "Expecting valid detection config");
           createdDetectionConfigId = actual.id!;
+
           assert.equal(actual.name, expected.name);
           assert.strictEqual(actual.description, expected.description);
           assert.equal(actual.metricId, expected.metricId);
@@ -279,8 +280,8 @@ matrix([[true, false]] as const, async (useAad) => {
             hookIds: []
           };
 
-          const created = await client.createAlertConfig(expectedAlertConfig);
-          const actual = await client.getAlertConfig(created.id);
+          const actual = await client.createAlertConfig(expectedAlertConfig);
+
           assert.ok(actual.id, "Expecting valid alert config");
           createdAlertConfigId = actual.id;
           assert.equal(actual.name, expectedAlertConfig.name);
