@@ -2,6 +2,8 @@
 
 ## 1.2.3 (Unreleased)
 
+- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`.
+- The 'keytar' dependency has been updated to the latest version.
 
 ## 1.2.2 (2021-01-12)
 

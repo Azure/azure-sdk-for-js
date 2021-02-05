@@ -272,16 +272,6 @@ export type DataFeedGranularity =
 export type DataFeedStatus = "Paused" | "Active" | string;
 
 /**
- * Represents newly created Metrics Advisor data feed.
- */
-export type CreatedDataFeed = {
-  /**
-   * Unique id of the data feed.
-   */
-  id: string;
-};
-
-/**
  * Represents a Metrics Advisor data feed.
  */
 export type DataFeed = {
@@ -647,15 +637,6 @@ export type ChangeThresholdConditionUnion =
     };
 
 /**
- * Represents newly created Metric Feedback
- */
-export type CreateMetricFeedback = {
-  /**
-   * feedback unique id
-   */
-  id: string;
-};
-/**
  * A union type of all metric feedback types.
  */
 export type MetricFeedbackUnion =
@@ -829,16 +810,6 @@ export type WebNotificationHook = {
  * A union type of all supported hooks
  */
 export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
-
-/**
- * A union type of all supported created hooks
- */
-export type CreatedNotificationHook = {
-  /**
-   * Hook unique id
-   */
-  id: string;
-};
 
 /**
  * Represents properties common to the patch input to the Update Hook operation.
@@ -1134,16 +1105,6 @@ export interface MetricAlertConfiguration {
 }
 
 /**
- * Represents created anomaly alert configuration.
- */
-export interface CreatedAnomalyAlertConfiguration {
-  /**
-   * anomaly alerting configuration unique id
-   */
-  id: string;
-}
-
-/**
  * Represents an anomaly alert configuration.
  */
 export interface AnomalyAlertConfiguration {
@@ -1207,16 +1168,6 @@ export interface AnomalyDetectionConfiguration {
    */
   seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
 }
-
-/**
- * Represents newly created metric anomaly detection configuration.
- */
-export type CreatedAnomalyDetectionConfiguration = {
-  /**
-   * Anomaly detection configuration unique id
-   */
-  id: string;
-};
 
 /**
  * Represents the root cause of an incident.
@@ -1331,35 +1282,7 @@ export type GetDataFeedResponse = DataFeed & {
     parsedBody: any;
   };
 };
-/**
- * Contains response data for the createDataFeed operation.
- */
-export type CreateDataFeedResponse = CreatedDataFeed & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: any;
-  };
-};
 
-/**
- * Contains response data for the createAnomalyDetectionConfiguration operation.
- */
-export type CreateAnomalyDetectionConfigurationResponse = CreatedAnomalyDetectionConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
-  };
-};
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.
  */
@@ -1381,21 +1304,6 @@ export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfigura
 };
 
 /**
- * Contains response data for the createAnomalyAlertConfiguration operation.
- */
-export type CreateAnomalyAlertConfigurationResponse = CreatedAnomalyAlertConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
-  };
-};
-
-/**
  * Contains response data for the getAnomalyAlertConfiguration operation.
  */
 export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
@@ -1412,21 +1320,6 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the createHook operation.
- */
-export type CreateHookResponse = CreatedNotificationHook & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
   };
 };
 
@@ -1488,21 +1381,6 @@ export type GetIncidentRootCauseResponse = {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the createFeedback operation.
- */
-export type CreateFeedbackResponse = CreateMetricFeedback & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
   };
 };
 

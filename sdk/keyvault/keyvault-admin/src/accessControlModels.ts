@@ -29,7 +29,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * The role assignment type.
    */
-  readonly roleAssignmentType: string;
+  readonly kind: string;
   /**
    * Role assignment properties.
    */
@@ -37,7 +37,7 @@ export interface KeyVaultRoleAssignment {
 }
 
 /**
- * VaA list of Key Vault permissions.
+ * A list of Key Vault permissions.
  */
 export interface KeyVaultPermission {
   /**
@@ -45,18 +45,54 @@ export interface KeyVaultPermission {
    */
   actions?: string[];
   /**
-   * Denied actions.
+   * Actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
   notActions?: string[];
   /**
    * Allowed Data actions.
    */
-  dataActions?: string[];
+  dataActions?: KeyVaultDataAction[];
   /**
-   * Denied Data actions.
+   * Data actions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
-  notDataActions?: string[];
+  notDataActions?: KeyVaultDataAction[];
 }
+
+/**
+ * A union type representing all possible values for
+ * both {@link KeyVaultPermission.dataActions} and {@link KeyVaultPermission.notDataActions}.
+ */
+export type KeyVaultDataAction =
+  | "Microsoft.KeyVault/managedHsm/keys/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/write/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action"
+  | "Microsoft.KeyVault/managedHsm/keys/backup/action"
+  | "Microsoft.KeyVault/managedHsm/keys/restore/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
+  | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/encrypt/action"
+  | "Microsoft.KeyVault/managedHsm/keys/decrypt/action"
+  | "Microsoft.KeyVault/managedHsm/keys/wrap/action"
+  | "Microsoft.KeyVault/managedHsm/keys/unwrap/action"
+  | "Microsoft.KeyVault/managedHsm/keys/sign/action"
+  | "Microsoft.KeyVault/managedHsm/keys/verify/action"
+  | "Microsoft.KeyVault/managedHsm/keys/create"
+  | "Microsoft.KeyVault/managedHsm/keys/delete"
+  | "Microsoft.KeyVault/managedHsm/keys/export/action"
+  | "Microsoft.KeyVault/managedHsm/keys/import/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/download/action"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read"
+  | "Microsoft.KeyVault/managedHsm/backup/start/action"
+  | "Microsoft.KeyVault/managedHsm/restore/start/action"
+  | "Microsoft.KeyVault/managedHsm/backup/status/action"
+  | "Microsoft.KeyVault/managedHsm/restore/status/action"
+  | string;
 
 /**
  * A Key Vault role definition.
@@ -73,7 +109,7 @@ export interface KeyVaultRoleDefinition {
   /**
    * The role definition type.
    */
-  readonly type: string;
+  readonly kind: string;
   /**
    * The role name.
    */
@@ -111,10 +147,10 @@ export interface KeyVaultRoleAssignmentProperties {
 }
 
 /**
- * A scope of the role assignment.
+ * A scope of the role assignment or definition.
  * The valid scopes are: "/", "/keys" and any a specific resource Id followed by a slash, as in "ID/".
  */
-export type RoleAssignmentScope = "/" | "/keys" | string;
+export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 /**
  * Role assignment properties with the scope property.
@@ -123,7 +159,7 @@ export interface KeyVaultRoleAssignmentPropertiesWithScope {
   /**
    * The role assignment scope.
    */
-  scope?: RoleAssignmentScope;
+  scope?: KeyVaultRoleScope;
   /**
    * The role definition ID.
    */
@@ -161,6 +197,21 @@ export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
  * An interface representing optional parameters passed to {@link listRoleDefinitions}.
  */
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link getRoleDefinition}.
+ */
+export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link upsertRoleDefinition}.
+ */
+export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {}
+
+/**
+ * An interface representing optional parameters passed to {@link deleteRoleDefinition}.
+ */
+export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {}
 
 /**
  * Arguments for retrieving the next page of search results.

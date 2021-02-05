@@ -14,7 +14,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/25616b92ccaec6c8bd3dd51f1312243bca88fe2d/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.3/TextAnalytics.json
 add-credentials: false
-package-version: 5.1.0-beta.3
+package-version: 5.1.0-beta.4
 v3: true
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210121.2"
@@ -154,18 +154,6 @@ directive:
     where: $.definitions.LinkedEntity.properties.id
     transform: >
       $["x-ms-client-name"] = "dataSourceEntityId";
-```
-
-### Remove Entity/Match offset/length
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties
-    transform: >
-      if ($.length !== undefined) {
-        $.length = undefined;
-      }
 ```
 
 ### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores

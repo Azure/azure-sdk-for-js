@@ -43,6 +43,11 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+    hsm?: boolean;
+}
+
+// @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     hsm?: boolean;
     keySize?: number;
@@ -163,6 +168,7 @@ export class KeyClient {
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
+    createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
@@ -189,7 +195,7 @@ export type KeyOperation = string;
 
 // @public
 export interface KeyOperationsOptions extends CryptographyOptions {
-    additionalAuthenticatedData?: Uint8Array;
+    readonly additionalAuthenticatedData?: Uint8Array;
     iv?: Uint8Array;
     tag?: Uint8Array;
 }
@@ -339,9 +345,6 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
-
-// @public
-export function parseKeyVaultKeyId(id: string): KeyVaultKeyId;
 
 export { PipelineOptions }
 

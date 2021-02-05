@@ -2,6 +2,7 @@ import path from "path";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import shim from "rollup-plugin-shim";
 import { terser } from "rollup-plugin-terser";
@@ -30,6 +31,7 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs()
     ]
   };
@@ -88,6 +90,7 @@ export function browserConfig(test = false, production = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
           chai: ["assert", "expect", "use"],

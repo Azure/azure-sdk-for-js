@@ -65,7 +65,7 @@
 /sdk/keyvault/ @jonathandturner @sadasant @maorleger
 
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu
 
 # PRLabel: %Synapse
 /sdk/synapse/ @jonathandturner

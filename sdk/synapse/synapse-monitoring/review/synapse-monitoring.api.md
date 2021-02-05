@@ -72,7 +72,7 @@ export interface SparkJob {
     // (undocumented)
     compute?: string;
     // (undocumented)
-    endTime?: Date;
+    endTime?: Date | null;
     // (undocumented)
     jobType?: string;
     // (undocumented)
@@ -94,7 +94,7 @@ export interface SparkJob {
     // (undocumented)
     submitter?: string;
     // (undocumented)
-    submitTime?: Date;
+    submitTime?: Date | null;
     // (undocumented)
     timing?: string[];
     // (undocumented)
@@ -106,7 +106,7 @@ export interface SparkJobListViewResponse {
     // (undocumented)
     nJobs?: number;
     // (undocumented)
-    sparkJobs?: SparkJob[];
+    sparkJobs?: SparkJob[] | null;
 }
 
 // @public (undocumented)

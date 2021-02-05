@@ -40,28 +40,27 @@ import { defaultDataTransformer } from "../dataTransformer";
 /**
  * @internal
  * Describes the MessageSender that will send messages to ServiceBus.
- * @class MessageSender
  */
 export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
-   * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
+   * The handler function to handle errors that happen on the
    * underlying sender.
    * @readonly
    */
   private readonly _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onAmqpClose The handler function to handle "sender_close" event
+   * The handler function to handle "sender_close" event
    * that happens on the underlying sender.
    * @readonly
    */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSessionClose The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEvent;
@@ -156,9 +155,9 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    *
-   * @param encodedMessage The encoded message to be sent to ServiceBus.
-   * @param sendBatch Boolean indicating whether the encoded message represents a batch of messages or not
-   * @return {Promise<Delivery>} Promise<Delivery>
+   * @param encodedMessage - The encoded message to be sent to ServiceBus.
+   * @param sendBatch - Boolean indicating whether the encoded message represents a batch of messages or not
+   * @returns Promise<Delivery>
    */
   private _trySend(
     encodedMessage: Buffer,
@@ -330,7 +329,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
+   * @returns boolean
    */
   isOpen(): boolean {
     const result: boolean = this.link == null ? false : this.link.isOpen();
@@ -347,7 +346,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * Sends the given message, with the given options on this link
    *
-   * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
+   * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
   async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
@@ -388,9 +387,9 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Send a batch of Message to the ServiceBus in a single AMQP message. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @param {Array<Message>} inputMessages  An array of Message objects to be sent in a
+   * @param inputMessages - An array of Message objects to be sent in a
    * Batch message.
-   * @return {Promise<void>}
+   * @returns {Promise<void>}
    */
   async sendMessages(
     inputMessages: ServiceBusMessage[],
@@ -476,7 +475,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *     retryOptions: { maxRetries: 5; timeoutInMs: 10 }
    * }
    * ```
-   * @param {{retryOptions?: RetryOptions}} [options={}]
    * @returns {Promise<number>}
    */
   async getMaxMessageSize(

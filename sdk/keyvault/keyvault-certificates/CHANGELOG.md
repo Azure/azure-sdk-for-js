@@ -5,6 +5,7 @@
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
 - Updated the Key Vault Certificates Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
+- Removed `parseKeyVaultCertificatesIdentifier` from the public API.
 
 ## 4.2.0-beta.1 (2020-09-11)
 
