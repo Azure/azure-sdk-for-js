@@ -25,7 +25,7 @@ import {
 import { ErrorCode, intoTextAnalyticsError, TextAnalyticsError } from "./textAnalyticsResult";
 
 /**
- * The results of a succeeded analyze batch actions operation.
+ * The results of an analyze batch actions operation.
  */
 export interface AnalyzeBatchActionsResult {
   /**
@@ -409,7 +409,7 @@ function makeExtractKeyPhrasesActionResult(
   ): ExtractKeyPhrasesActionSuccessResult[] {
     const { results: actionResults, lastUpdateDateTime } = task;
     if (actionResults.documents.length !== 0 || actionResults.errors.length !== 0) {
-      const recognizeEntitiesResults = makeExtractKeyPhrasesResultArray(
+      const extractKeyPhrasesResults = makeExtractKeyPhrasesResultArray(
         documents,
         actionResults?.documents,
         actionResults?.errors,
@@ -419,7 +419,7 @@ function makeExtractKeyPhrasesActionResult(
       return [
         ...actions,
         {
-          results: recognizeEntitiesResults,
+          results: extractKeyPhrasesResults,
           completedOn: lastUpdateDateTime
         }
       ];
