@@ -112,7 +112,7 @@ export class SBStressTestsBase {
 
   public async init(
     queueNamePrefix?: string,
-    options?: CreateQueueOptions | undefined,
+    options?: CreateQueueOptions,
     testOptions?: Record<string, string | number | boolean>
   ) {
     try {
