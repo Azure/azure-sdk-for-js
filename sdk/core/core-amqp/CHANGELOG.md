@@ -2,6 +2,8 @@
 
 ## 2.1.0 (Unreleased)
 
+- Fixes the bug reported in issue [13048](https://github.com/Azure/azure-sdk-for-js/issues/13048).
+  Now an informative error is thrown describing the circumstance that led to the error.
 - Adds the ability to configure the `amqpHostname` and `port` that a `ConnectionContextBase` will use when connecting to a service.
   The `host` field refers to the DNS host or IP address of the service, whereas the `amqpHostname`
   is the fully qualified host name of the service. Normally `host` and `amqpHostname` will be the same.
