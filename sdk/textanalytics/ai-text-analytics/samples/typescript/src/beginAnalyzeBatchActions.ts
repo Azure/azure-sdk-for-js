@@ -46,7 +46,7 @@ export async function main() {
     }`
   );
 
-  for (const page of resultPages) {
+  for await (const page of resultPages) {
     const keyPhrasesAction = page.extractKeyPhrasesResults[0];
     if (!keyPhrasesAction.error) {
       for (const doc of keyPhrasesAction.results) {
