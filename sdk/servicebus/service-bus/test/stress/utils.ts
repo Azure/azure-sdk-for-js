@@ -1,11 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import util from "util";
-import fs from "fs";
 
 export interface OperationInfo {
   numberOfSuccesses: number;
   numberOfFailures: number;
-  errors: any[];
 }
 
 export interface LockRenewalOperationInfo extends OperationInfo {
@@ -39,7 +36,6 @@ export interface TrackedMessageIdsInfo {
     sentCount: number;
     receivedCount: number;
     settledCount: number;
-    errors: any[];
   };
 }
 
@@ -47,7 +43,6 @@ export function initializeOperationInfo(): OperationInfo {
   return {
     numberOfSuccesses: 0,
     numberOfFailures: 0,
-    errors: []
   };
 }
 
@@ -67,12 +62,13 @@ export async function saveDiscrepanciesFromTrackedMessages(
   trackedMessageIds: TrackedMessageIdsInfo
 ) {
   const output = {
-    messages_sent_but_never_received: [],
-    messages_not_sent_but_received: [],
-    messages_sent_multiple_times: [],
-    messages_sent_once_but_received_multiple_times: [],
-    messages_sent_once_and_received_once: []
+    messages_sent_but_never_received: [] as string[],
+    messages_not_sent_but_received: [] as string[],
+    messages_sent_multiple_times: [] as string[],
+    messages_sent_once_but_received_multiple_times: [] as string[],
+    messages_sent_once_and_received_once: [] as string[],
   };
+
   for (const id in trackedMessageIds) {
     if (trackedMessageIds[id].sentCount <= 0) {
       // Message was not sent but received
