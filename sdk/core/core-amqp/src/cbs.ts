@@ -190,6 +190,10 @@ export class CbsClient {
     tokenType: TokenType
   ): Promise<CbsResponse> {
     try {
+      if (!this._cbsSenderReceiverLink) {
+        throw new Error("Attempted to negotiate a claim but the CBS link does not exist.");
+      }
+
       const request: RheaMessage = {
         body: token,
         message_id: generate_uuid(),
@@ -201,7 +205,7 @@ export class CbsClient {
           type: tokenType
         }
       };
-      const responseMessage = await this._cbsSenderReceiverLink!.sendRequest(request);
+      const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request);
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
       return this._fromRheaMessageResponse(responseMessage);
     } catch (err) {
