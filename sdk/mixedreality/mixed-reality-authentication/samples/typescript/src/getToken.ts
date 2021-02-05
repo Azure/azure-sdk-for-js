@@ -21,15 +21,13 @@ export async function main() {
   console.log("== Retrieving token ==");
   const keyCredential = new AzureKeyCredential(accountKey);
 
-  const client = new MixedRealityStsClient(
-    accountId,
-    accountDomain,
-    keyCredential
-  );
+  const client = new MixedRealityStsClient(accountId, accountDomain, keyCredential);
 
   const token = await client.getToken();
 
-  console.log("== Token retrieved ==");
+  if (token) {
+    console.log("== Token retrieved ==");
+  }
 }
 
 main().catch((err) => {
