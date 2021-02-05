@@ -223,13 +223,13 @@ export function parseActionError(erredActions: TextAnalyticsError): TextAnalytic
     const regex = new RegExp(
       /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks)\/(\d+)/
     );
-    const res = regex.exec(erredActions.target);
-    if (res !== null) {
+    const result = regex.exec(erredActions.target);
+    if (result !== null) {
       return {
         code: erredActions.code,
         message: erredActions.message,
-        index: parseInt(res[2]),
-        type: convertTaskTypeToActionType(res[1])
+        index: parseInt(result[2]),
+        type: convertTaskTypeToActionType(result[1])
       };
     } else {
       throw new Error(`Pointer "${erredActions.target}" is not a valid action pointer`);

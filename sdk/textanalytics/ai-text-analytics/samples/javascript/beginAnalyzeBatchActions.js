@@ -35,49 +35,49 @@ async function main() {
   };
   const poller = await client.beginAnalyzeBatchActions(documents, actions);
   const resultPages = await poller.pollUntilDone();
-  const page = (await resultPages.next()).value;
-
-  const keyPhrasesAction = page.extractKeyPhrasesResults[0];
-  if (!keyPhrasesAction.error) {
-    for (const doc of keyPhrasesAction.results) {
-      console.log(`- Document ${doc.id}`);
-      if (!doc.error) {
-        console.log("\tKey phrases:");
-        for (const phrase of doc.keyPhrases) {
-          console.log(`\t- ${phrase}`);
+  for (const page of resultPages) {
+    const keyPhrasesAction = page.extractKeyPhrasesResults[0];
+    if (!keyPhrasesAction.error) {
+      for (const doc of keyPhrasesAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log("\tKey phrases:");
+          for (const phrase of doc.keyPhrases) {
+            console.log(`\t- ${phrase}`);
+          }
+        } else {
+          console.error("\tError:", doc.error);
         }
-      } else {
-        console.error("\tError:", doc.error);
       }
     }
-  }
 
-  const entitiesAction = page.recognizeEntitiesResults[0];
-  if (!entitiesAction.error) {
-    for (const doc of entitiesAction.results) {
-      console.log(`- Document ${doc.id}`);
-      if (!doc.error) {
-        console.log("\tEntities:");
-        for (const entity of doc.entities) {
-          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+    const entitiesAction = page.recognizeEntitiesResults[0];
+    if (!entitiesAction.error) {
+      for (const doc of entitiesAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log("\tEntities:");
+          for (const entity of doc.entities) {
+            console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+          }
+        } else {
+          console.error("\tError:", doc.error);
         }
-      } else {
-        console.error("\tError:", doc.error);
       }
     }
-  }
 
-  const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
-  if (!piiEntitiesAction.error) {
-    for (const doc of piiEntitiesAction.results) {
-      console.log(`- Document ${doc.id}`);
-      if (!doc.error) {
-        console.log("\tPii Entities:");
-        for (const entity of doc.entities) {
-          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+    const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
+    if (!piiEntitiesAction.error) {
+      for (const doc of piiEntitiesAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log("\tPii Entities:");
+          for (const entity of doc.entities) {
+            console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+          }
+        } else {
+          console.error("\tError:", doc.error);
         }
-      } else {
-        console.error("\tError:", doc.error);
       }
     }
   }
