@@ -9295,12 +9295,13 @@ packages:
       '@rollup/plugin-replace': 2.3.4_rollup@1.32.1
       '@types/chai': 4.2.14
       '@types/mocha': 7.0.2
-      '@types/node': 10.17.51
+      '@types/node': 8.10.66
       '@types/sinon': 9.0.10
       chai: 4.3.0
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.19.0
+      esm: 3.2.25
       events: 3.2.0
       inherits: 2.0.4
       karma: 5.2.3
@@ -9330,11 +9331,12 @@ packages:
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.1.2
+      uglify-js: 3.12.6
       util: 0.12.3
     dev: false
     name: '@rush-temp/quantum-jobs'
     resolution:
-      integrity: sha512-7vaErqG6JWDYUBBD/kum3Ckp5k0OCRyWtFWzZQPGlGEKQpTXtbuujjcK184m8CMLQxNlGD8+azVUhEy4Pj0DoQ==
+      integrity: sha512-Jejqh29zciTFkzBTA0i2STaklFwhaqcnjRkNesTu+hSIQKXSpq/DEvDGr8Ki9dP10uCODTiq6uuzsZ/EhfW+ag==
       tarball: file:projects/quantum-jobs.tgz
     version: 0.0.0
   file:projects/schema-registry-avro.tgz:
