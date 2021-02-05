@@ -10,6 +10,7 @@ import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinke
 import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray";
 import { DetectLanguageInput, TextDocumentInput } from "../../src";
 import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray";
+import { combineSucceededAndErredActions } from "../../src/analyzeBatchActionsResult";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {
@@ -381,6 +382,92 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
       const inputOrder = input.map((item) => item.id);
       const outputOrder = result.map((item) => item.id);
       assert.deepEqual(inputOrder, outputOrder);
+    });
+  });
+
+  describe("combineSucceededAndErredActions", () => {
+    it("merges items in order", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions(
+        [succeededAction],
+        [
+          {
+            code: "",
+            index: 0,
+            message: "0",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 2,
+            message: "2",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        {
+          error: {
+            code: "",
+            message: "0",
+            target: undefined
+          }
+        },
+        succeededAction,
+        {
+          error: {
+            code: "",
+            message: "2",
+            target: undefined
+          }
+        }
+      ]);
+    });
+
+    it("correctly handles empty succeeded actions list", () => {
+      const result = combineSucceededAndErredActions(
+        [],
+        [
+          {
+            code: "",
+            index: 0,
+            message: "0",
+            type: "ExtractKeyPhrases"
+          },
+          {
+            code: "",
+            index: 2,
+            message: "2",
+            type: "ExtractKeyPhrases"
+          }
+        ]
+      );
+      assert.deepEqual(result, [
+        {
+          error: {
+            code: "",
+            message: "0",
+            target: undefined
+          }
+        },
+        {
+          error: {
+            code: "",
+            message: "2",
+            target: undefined
+          }
+        }
+      ]);
+    });
+
+    it("correctly handles empty erred actions list", () => {
+      const succeededAction = {
+        completedOn: new Date()
+      };
+      const result = combineSucceededAndErredActions([succeededAction], []);
+      assert.deepEqual(result, [succeededAction]);
     });
   });
 });

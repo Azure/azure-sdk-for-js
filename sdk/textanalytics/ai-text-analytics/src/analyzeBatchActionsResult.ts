@@ -61,7 +61,7 @@ export interface TextAnalyticsActionSuccessState {
  */
 export interface TextAnalyticsActionErrorResult {
   /**
-   * The Error for this document result.
+   * The Error for this action result.
    */
   readonly error: TextAnalyticsError;
 }
@@ -282,12 +282,13 @@ function categorizeActionErrors(
  * @returns a list of succeeded and erred actions
  * @internal
  */
-function combineSucceededAndErredActions<TSuccess extends TextAnalyticsActionSuccessState>(
+export function combineSucceededAndErredActions<TSuccess extends TextAnalyticsActionSuccessState>(
   succeededActions: TSuccess[],
   erredActions: TextAnalyticsActionError[]
 ): (TSuccess | TextAnalyticsActionErrorResult)[] {
   const actions: (TSuccess | TextAnalyticsActionErrorResult)[] = [];
-  for (let actionIndex = 0, errorIndex = 0; actionIndex < succeededActions.length; ++actionIndex) {
+  let errorIndex = 0;
+  for (let actionIndex = 0; actionIndex < succeededActions.length; ++actionIndex) {
     if (errorIndex < erredActions.length) {
       const error = erredActions[errorIndex];
       if (error.index === actionIndex) {
@@ -298,6 +299,15 @@ function combineSucceededAndErredActions<TSuccess extends TextAnalyticsActionSuc
       }
     }
     actions.push(succeededActions[actionIndex]);
+  }
+  if (errorIndex < erredActions.length) {
+    actions.push(
+      ...erredActions.slice(errorIndex).map(
+        (obj: TextAnalyticsActionError): TextAnalyticsActionErrorResult => ({
+          error: intoTextAnalyticsError(obj)
+        })
+      )
+    );
   }
   return actions;
 }
