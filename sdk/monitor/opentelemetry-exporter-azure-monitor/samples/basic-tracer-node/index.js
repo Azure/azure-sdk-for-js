@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const opentelemetry = require("@opentelemetry/api");
 const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/tracing");
-const { AzureMonitorTraceExporter } = require("@azure/opentelemetry-exporter-azure-monitor");
+const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 
 const provider = new BasicTracerProvider();
 

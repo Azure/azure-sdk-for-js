@@ -29,7 +29,7 @@
     "url": "https://github.com/open-telemetry/opentelemetry-js/issues"
   },
   "dependencies": {
-    "@azure/opentelemetry-exporter-azure-monitor": "latest",
+    "@azure/monitor-opentelemetry-exporter": "latest",
     "@opentelemetry/api": "latest",
     "@opentelemetry/core": "latest",
     "@opentelemetry/node": "latest",

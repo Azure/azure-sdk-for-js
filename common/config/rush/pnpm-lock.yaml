@@ -38,7 +38,7 @@ dependencies:
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
-  '@rush-temp/opentelemetry-exporter-azure-monitor': file:projects/opentelemetry-exporter-azure-monitor.tgz
+  '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -547,14 +547,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-y5mNFAiktm7Zyf0GrQ6kjsRqace/WCXk9gMo/sOOna4TtMW8NaZgJceKrsQZl3qiPY9Upu8O9VvdlETXDx4U5A==
-  /@opentelemetry/api/0.6.1:
-    dependencies:
-      '@opentelemetry/context-base': 0.6.1
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-wpufGZa7tTxw7eAsjXJtiyIQ42IWQdX9iUQp7ACJcKo1hCtuhLU+K2Nv1U6oRwT1oAlZTE6m4CgWKZBhOiau3Q==
   /@opentelemetry/context-base/0.10.2:
     dev: false
     engines:
@@ -567,12 +559,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-2h2s+3P40wIu8ZaJiqBF6E0rEJPeSVOErFlkx2MfRGPs9Vs9Th+i5YSpgvCW4s5LeYTFAf2BRwut39JivEyH9w==
-  /@opentelemetry/context-base/0.6.1:
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-5bHhlTBBq82ti3qPT15TRxkYTFPPQWbnkkQkmHPtqiS1XcTB69cEKd3Jm7Cfi/vkPoyxapmePE9tyA7EzLt8SQ==
   /@opentelemetry/core/0.16.0:
     dependencies:
       '@opentelemetry/api': 0.16.0
@@ -7821,7 +7807,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-nhL1aTORnhj0t5QpOOjtS1l/15DK+nImcY6QLf6lgSzybowm6pa3c8umqx2cRFZj4m8DNAc3vKlhR5B8X47djA==
+      integrity: sha512-i3KOyWl2aDfSk/1RL4KZIf+ZMF5GUxt3dKgGVFrrUqu8E8Tub7+8vuXpfO5FAdzBaUvo7Q7eR58LYfXANsDSYQ==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -9031,7 +9017,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-pSjOdUjTAth9ylj2BwYYrMlIGx8V8cfugSMI0TprzRpGO1ihgE5dUJo+W/FYjPc/mTCKCB9sWJFZNqd6nWabgg==
+      integrity: sha512-H3/yHvEC5jsPdl2owV1o0xpWmiVPs25gankrSY6FsSFLkdNduPCgQa5Z+4m6YWmFAIRwtN2kSKXrpiYdknKoOA==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
   file:projects/keyvault-certificates.tgz:
@@ -9273,7 +9259,7 @@ packages:
       integrity: sha512-9C/8ICw825JPlQ6DGhRDKFWo2jO3CYzJYZeqqgg1qkdPIthab+aId/EnoW3oLeEUUwnEF3Gy8unrlFCIMCs5mA==
       tarball: file:projects/logger.tgz
     version: 0.0.0
-  file:projects/opentelemetry-exporter-azure-monitor.tgz:
+  file:projects/monitor-opentelemetry-exporter.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.16.0
@@ -9298,10 +9284,10 @@ packages:
       typedoc: 0.15.2
       typescript: 4.1.2
     dev: false
-    name: '@rush-temp/opentelemetry-exporter-azure-monitor'
+    name: '@rush-temp/monitor-opentelemetry-exporter'
     resolution:
-      integrity: sha512-GkOeLFZUDqi6deXNZW3SqacBZwxExidYQjk+FyPYRpRF9FaxxrZD0dcQ5eLmGNQYXvghOKk3gktWFES4JdBXMQ==
-      tarball: file:projects/opentelemetry-exporter-azure-monitor.tgz
+      integrity: sha512-PQ9TYELaQ7eyzGfdPwoqAoUxEv9WH0sHPdwuXd7iyUXNRyqT5Hjg2a30zfOrd6QHB5IX4iQq6UtthzLKfCQwmA==
+      tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
@@ -10080,7 +10066,7 @@ packages:
     dev: false
     name: '@rush-temp/template'
     resolution:
-      integrity: sha512-7vYHfS2+EcYRylnk5SStmqNPqVsLPsiTiPE8kw2iSGR2+euWvPBxdL8WY75tYH8f+Q75d9wVqjodMJfMJL2o3g==
+      integrity: sha512-ZLhLgVN00A0XbT47yoidIifusG92TM2zzSDDbRV3M4ROXdY87RIDPfjuRDShYkS+ebdWnGtnKXgYqtlbZHtGEg==
       tarball: file:projects/template.tgz
     version: 0.0.0
   file:projects/test-utils-multi-version.tgz:
@@ -10251,7 +10237,7 @@ specifiers:
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
-  '@rush-temp/opentelemetry-exporter-azure-monitor': file:./projects/opentelemetry-exporter-azure-monitor.tgz
+  '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz

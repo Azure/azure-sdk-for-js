@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.3 (Unreleased)
 
+- Rename package to `@azure/monitor-opentelemetry-exporter`
+- Added serviceApiVersion config
+- Open Telemetry dependency updates
+
 ## 1.0.0-beta.2 (2021-01-20)
 
 - Ship the correct type declaration file

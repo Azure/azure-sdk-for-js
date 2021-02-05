@@ -2,7 +2,7 @@
 
 Code cloned from [azure-sdk-for-js/storage-blob/samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples).
 
-## `@azure/opentelemetry-exporter-azure-monitor`
+## `@azure/monitor-opentelemetry-exporter`
 
 All changes required to enable exporting trace data to Azure Monitor were made in `tracing.ts` / `tracing.js`.
 

@@ -3,7 +3,7 @@
 const opentelemetry = require("@opentelemetry/api");
 const { NodeTracerProvider } = require("@opentelemetry/node");
 const { BatchSpanProcessor } = require("@opentelemetry/tracing");
-const { AzureMonitorTraceExporter } = require("@azure/opentelemetry-exporter-azure-monitor");
+const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 const { ConsoleLogger, LogLevel } = require("@opentelemetry/core");
 
 module.exports = () => {
