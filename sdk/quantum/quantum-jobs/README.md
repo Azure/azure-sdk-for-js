@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK for QuantumJobClient.
 
-Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs or solve optimization problems in the cloud. Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines. You can use the Azure.Quantum.Jobs client library to:
+Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs or solve optimization problems in the cloud. Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines. You can use the `@azure/quantum-jobs` client library to:
 
 - Create, enumerate, and cancel quantum jobs
 - Enumerate provider status and quotas
