@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/virtualMachineImagesMappers";
+import * as Mappers from "../models/virtualMachineImagesEdgeZoneMappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClientContext } from "../computeManagementClientContext";
 
-/** Class representing a VirtualMachineImages. */
-export class VirtualMachineImages {
+/** Class representing a VirtualMachineImagesEdgeZone. */
+export class VirtualMachineImagesEdgeZone {
   private readonly client: ComputeManagementClientContext;
 
   /**
-   * Create a VirtualMachineImages.
+   * Create a VirtualMachineImagesEdgeZone.
    * @param {ComputeManagementClientContext} client Reference to the service client.
    */
   constructor(client: ComputeManagementClientContext) {
@@ -26,27 +26,30 @@ export class VirtualMachineImages {
   }
 
   /**
-   * Gets a virtual machine image.
+   * Gets a virtual machine image in an edge zone.
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
    * @param version A valid image SKU version.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineImagesGetResponse>
+   * @returns Promise<Models.VirtualMachineImagesEdgeZoneGetResponse>
    */
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesGetResponse>;
+  get(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesEdgeZoneGetResponse>;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
    * @param version A valid image SKU version.
    * @param callback The callback
    */
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, callback: msRest.ServiceCallback<Models.VirtualMachineImage>): void;
+  get(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, callback: msRest.ServiceCallback<Models.VirtualMachineImage>): void;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
@@ -54,11 +57,12 @@ export class VirtualMachineImages {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImage>): void;
-  get(location: string, publisherName: string, offer: string, skus: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImage>, callback?: msRest.ServiceCallback<Models.VirtualMachineImage>): Promise<Models.VirtualMachineImagesGetResponse> {
+  get(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImage>): void;
+  get(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, version: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImage>, callback?: msRest.ServiceCallback<Models.VirtualMachineImage>): Promise<Models.VirtualMachineImagesEdgeZoneGetResponse> {
     return this.client.sendOperationRequest(
       {
         location,
+        edgeZone,
         publisherName,
         offer,
         skus,
@@ -66,144 +70,161 @@ export class VirtualMachineImages {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesGetResponse>;
+      callback) as Promise<Models.VirtualMachineImagesEdgeZoneGetResponse>;
   }
 
   /**
-   * Gets a list of all virtual machine image versions for the specified location, publisher, offer,
-   * and SKU.
+   * Gets a list of all virtual machine image versions for the specified location, edge zone,
+   * publisher, offer, and SKU.
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineImagesListResponse>
+   * @returns Promise<Models.VirtualMachineImagesEdgeZoneListResponse>
    */
-  list(location: string, publisherName: string, offer: string, skus: string, options?: Models.VirtualMachineImagesListOptionalParams): Promise<Models.VirtualMachineImagesListResponse>;
+  list(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options?: Models.VirtualMachineImagesEdgeZoneListOptionalParams): Promise<Models.VirtualMachineImagesEdgeZoneListResponse>;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
    * @param callback The callback
    */
-  list(location: string, publisherName: string, offer: string, skus: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  list(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param skus A valid image SKU.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(location: string, publisherName: string, offer: string, skus: string, options: Models.VirtualMachineImagesListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  list(location: string, publisherName: string, offer: string, skus: string, options?: Models.VirtualMachineImagesListOptionalParams | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListResponse> {
+  list(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options: Models.VirtualMachineImagesEdgeZoneListOptionalParams, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  list(location: string, edgeZone: string, publisherName: string, offer: string, skus: string, options?: Models.VirtualMachineImagesEdgeZoneListOptionalParams | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesEdgeZoneListResponse> {
     return this.client.sendOperationRequest(
       {
         location,
+        edgeZone,
         publisherName,
         offer,
         skus,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListResponse>;
+      callback) as Promise<Models.VirtualMachineImagesEdgeZoneListResponse>;
   }
 
   /**
-   * Gets a list of virtual machine image offers for the specified location and publisher.
+   * Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineImagesListOffersResponse>
+   * @returns Promise<Models.VirtualMachineImagesEdgeZoneListOffersResponse>
    */
-  listOffers(location: string, publisherName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesListOffersResponse>;
+  listOffers(location: string, edgeZone: string, publisherName: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesEdgeZoneListOffersResponse>;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param callback The callback
    */
-  listOffers(location: string, publisherName: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listOffers(location: string, edgeZone: string, publisherName: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOffers(location: string, publisherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  listOffers(location: string, publisherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListOffersResponse> {
+  listOffers(location: string, edgeZone: string, publisherName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listOffers(location: string, edgeZone: string, publisherName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesEdgeZoneListOffersResponse> {
     return this.client.sendOperationRequest(
       {
         location,
+        edgeZone,
         publisherName,
         options
       },
       listOffersOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListOffersResponse>;
+      callback) as Promise<Models.VirtualMachineImagesEdgeZoneListOffersResponse>;
   }
 
   /**
-   * Gets a list of virtual machine image publishers for the specified Azure location.
+   * Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineImagesListPublishersResponse>
+   * @returns Promise<Models.VirtualMachineImagesEdgeZoneListPublishersResponse>
    */
-  listPublishers(location: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesListPublishersResponse>;
+  listPublishers(location: string, edgeZone: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesEdgeZoneListPublishersResponse>;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param callback The callback
    */
-  listPublishers(location: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listPublishers(location: string, edgeZone: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listPublishers(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  listPublishers(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListPublishersResponse> {
+  listPublishers(location: string, edgeZone: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listPublishers(location: string, edgeZone: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesEdgeZoneListPublishersResponse> {
     return this.client.sendOperationRequest(
       {
         location,
+        edgeZone,
         options
       },
       listPublishersOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListPublishersResponse>;
+      callback) as Promise<Models.VirtualMachineImagesEdgeZoneListPublishersResponse>;
   }
 
   /**
-   * Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
+   * Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and
+   * offer.
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param [options] The optional parameters
-   * @returns Promise<Models.VirtualMachineImagesListSkusResponse>
+   * @returns Promise<Models.VirtualMachineImagesEdgeZoneListSkusResponse>
    */
-  listSkus(location: string, publisherName: string, offer: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesListSkusResponse>;
+  listSkus(location: string, edgeZone: string, publisherName: string, offer: string, options?: msRest.RequestOptionsBase): Promise<Models.VirtualMachineImagesEdgeZoneListSkusResponse>;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param callback The callback
    */
-  listSkus(location: string, publisherName: string, offer: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listSkus(location: string, edgeZone: string, publisherName: string, offer: string, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
   /**
    * @param location The name of a supported Azure region.
+   * @param edgeZone The name of the edge zone.
    * @param publisherName A valid image publisher.
    * @param offer A valid image publisher offer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listSkus(location: string, publisherName: string, offer: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
-  listSkus(location: string, publisherName: string, offer: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesListSkusResponse> {
+  listSkus(location: string, edgeZone: string, publisherName: string, offer: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): void;
+  listSkus(location: string, edgeZone: string, publisherName: string, offer: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualMachineImageResource[]>, callback?: msRest.ServiceCallback<Models.VirtualMachineImageResource[]>): Promise<Models.VirtualMachineImagesEdgeZoneListSkusResponse> {
     return this.client.sendOperationRequest(
       {
         location,
+        edgeZone,
         publisherName,
         offer,
         options
       },
       listSkusOperationSpec,
-      callback) as Promise<Models.VirtualMachineImagesListSkusResponse>;
+      callback) as Promise<Models.VirtualMachineImagesEdgeZoneListSkusResponse>;
   }
 }
 
@@ -211,9 +232,10 @@ export class VirtualMachineImages {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions/{version}",
   urlParameters: [
     Parameters.location0,
+    Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -239,9 +261,10 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus/{skus}/versions",
   urlParameters: [
     Parameters.location0,
+    Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -280,9 +303,10 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const listOffersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers",
   urlParameters: [
     Parameters.location0,
+    Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.subscriptionId
   ],
@@ -316,9 +340,10 @@ const listOffersOperationSpec: msRest.OperationSpec = {
 
 const listPublishersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers",
   urlParameters: [
     Parameters.location0,
+    Parameters.edgeZone,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -351,9 +376,10 @@ const listPublishersOperationSpec: msRest.OperationSpec = {
 
 const listSkusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/publishers/{publisherName}/artifacttypes/vmimage/offers/{offer}/skus",
   urlParameters: [
     Parameters.location0,
+    Parameters.edgeZone,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.subscriptionId

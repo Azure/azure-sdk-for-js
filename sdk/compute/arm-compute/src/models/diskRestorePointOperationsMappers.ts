@@ -7,7 +7,13 @@
  */
 
 export {
+  ApiError,
+  ApiErrorBase,
   CloudError,
-  VirtualMachineSize,
-  VirtualMachineSizeListResult
+  DiskRestorePoint,
+  DiskRestorePointList,
+  Encryption,
+  InnerError,
+  ProxyOnlyResource,
+  PurchasePlan
 } from "../models/mappers";
