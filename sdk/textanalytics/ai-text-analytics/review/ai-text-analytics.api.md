@@ -34,11 +34,8 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperat
 
 // @public
 export interface AnalyzeBatchActionsResult {
-    // Warning: (ae-forgotten-export) The symbol "ExtractKeyPhrasesActionResult" needs to be exported by the entry point index.d.ts
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
-    // Warning: (ae-forgotten-export) The symbol "RecognizeCategorizedEntitiesActionResult" needs to be exported by the entry point index.d.ts
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
-    // Warning: (ae-forgotten-export) The symbol "RecognizePiiEntitiesActionResult" needs to be exported by the entry point index.d.ts
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
 }
 
@@ -194,6 +191,17 @@ export interface ExtractKeyPhrasesAction {
 }
 
 // @public
+export type ExtractKeyPhrasesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type ExtractKeyPhrasesActionResult = ExtractKeyPhrasesActionSuccessResult | ExtractKeyPhrasesActionErrorResult;
+
+// @public
+export interface ExtractKeyPhrasesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: ExtractKeyPhrasesResultArray;
+}
+
+// @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 // @public
@@ -327,6 +335,17 @@ export type RecognizeCategorizedEntitiesAction = {
 };
 
 // @public
+export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type RecognizeCategorizedEntitiesActionResult = RecognizeCategorizedEntitiesActionSuccessResult | RecognizeCategorizedEntitiesActionErrorResult;
+
+// @public
+export interface RecognizeCategorizedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: RecognizeCategorizedEntitiesResultArray;
+}
+
+// @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
@@ -376,6 +395,17 @@ export type RecognizePiiEntitiesAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
 };
+
+// @public
+export type RecognizePiiEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type RecognizePiiEntitiesActionResult = RecognizePiiEntitiesActionSuccessResult | RecognizePiiEntitiesActionErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: RecognizePiiEntitiesResultArray;
+}
 
 // @public
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
@@ -438,10 +468,21 @@ export interface SentimentConfidenceScores {
 export type StringIndexType = "TextElements_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
+export interface TextAnalyticsActionErrorResult {
+    readonly error: TextAnalyticsError;
+}
+
+// @public
 export interface TextAnalyticsActions {
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
+}
+
+// @public
+export interface TextAnalyticsActionSuccessState {
+    readonly completedOn: Date;
+    readonly error?: undefined;
 }
 
 // @public
