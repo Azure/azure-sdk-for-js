@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ManagementClient } from "../../src/core/managementClient";
-import { createConnectionContextForTests } from "./unittestUtils";
+import { createConnectionContextForTests } from "./unit/unittestUtils";
 import { delay, generate_uuid, Message as RheaMessage } from "rhea-promise";
 import { createServiceBusLogger } from "../../src/log";
 import chai from "chai";
