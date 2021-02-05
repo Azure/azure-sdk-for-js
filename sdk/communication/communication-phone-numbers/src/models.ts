@@ -15,10 +15,6 @@ export type WithResponse<T> = T & { _response: HttpResponse };
  */
 export type VoidResponse = WithResponse<{}>;
 
-export type UpdatePhoneNumberOptions = OperationOptions;
-
-export type UpdatePhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
-
 export type GetPhoneNumberOptions = OperationOptions;
 
 export type GetPhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
@@ -54,6 +50,5 @@ export {
   PhoneNumberCost,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
-  PhoneNumberType,
-  PhoneNumberUpdateRequest
+  PhoneNumberType
 } from "./generated/src/models/";

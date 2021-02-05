@@ -137,7 +137,6 @@ export class PhoneNumbersClient {
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
     getPhoneNumber(phoneNumber: string, options?: GetPhoneNumberOptions): Promise<GetPhoneNumberResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber, AcquiredPhoneNumber[], PageSettings>;
-    updatePhoneNumber(phoneNumber: string, update: PhoneNumberUpdateRequest, options?: UpdatePhoneNumberOptions): Promise<UpdatePhoneNumberResponse>;
 }
 
 // @public
@@ -166,18 +165,6 @@ export interface PhoneNumberSearchResult {
 
 // @public
 export type PhoneNumberType = string;
-
-// @public
-export interface PhoneNumberUpdateRequest {
-    applicationId?: string;
-    callbackUri?: string;
-}
-
-// @public (undocumented)
-export type UpdatePhoneNumberOptions = OperationOptions;
-
-// @public (undocumented)
-export type UpdatePhoneNumberResponse = WithResponse<AcquiredPhoneNumber>;
 
 // @public
 export type VoidResponse = WithResponse<{}>;

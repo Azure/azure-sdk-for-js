@@ -11,8 +11,7 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import {
   PipelineOptions,
   InternalPipelineOptions,
-  createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  createPipelineFromOptions
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -22,7 +21,6 @@ import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/s
 import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
   AcquiredPhoneNumber,
-  PhoneNumberUpdateRequest,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult
@@ -31,8 +29,6 @@ import {
   GetPhoneNumberOptions,
   GetPhoneNumberResponse,
   ListPhoneNumbersOptions,
-  UpdatePhoneNumberOptions,
-  UpdatePhoneNumberResponse,
   VoidResponse
 } from "./models";
 import {
@@ -117,36 +113,6 @@ export class PhoneNumbersClient {
     const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new PhoneNumbersGeneratedClient(url, pipeline).phoneNumbers;
-  }
-
-  /**
-   * Updates an acquired phone number.
-   *
-   * @param {string} phoneNumber The E.164 formatted phone number to be updated. The leading plus can be either + or encoded as %2B.
-   * @param {PhoneNumberUpdateRequest} update The updated properties which will be applied to the phone number.
-   * @param {UpdatePhoneNumberOptions} options Additional request options.
-   */
-  public async updatePhoneNumber(
-    phoneNumber: string,
-    update: PhoneNumberUpdateRequest,
-    options: UpdatePhoneNumberOptions = {}
-  ): Promise<UpdatePhoneNumberResponse> {
-    const { span, updatedOptions } = createSpan("PhoneNumbersClient-updatePhoneNumber", options);
-    try {
-      const { _response, ...acquiredPhoneNumber } = await this.client.update(phoneNumber, {
-        ...operationOptionsToRequestOptionsBase(updatedOptions),
-        ...update
-      });
-      return attachHttpResponse<AcquiredPhoneNumber>(acquiredPhoneNumber, _response);
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
