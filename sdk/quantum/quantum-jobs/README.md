@@ -2,7 +2,8 @@
 
 This package contains an isomorphic SDK for QuantumJobClient.
 
-Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs or solve optimization problems in the cloud.  Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines.  You can use the Azure.Quantum.Jobs client library to:
+Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs or solve optimization problems in the cloud. Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines. You can use the Azure.Quantum.Jobs client library to:
+
 - Create, enumerate, and cancel quantum jobs
 - Enumerate provider status and quotas
 
@@ -10,7 +11,7 @@ Azure Quantum is a Microsoft Azure service that you can use to run quantum compu
 
 ## Getting started
 
-This section includes everything a developer needs to install and create their first client connection *very quickly*.
+This section includes everything a developer needs to install and create their first client connection _very quickly_.
 
 ### Install the package
 
@@ -49,12 +50,13 @@ The client also allows the user to override the above behavior by passing their 
 ### Create the client
 
 Create an instance of the QuantumJobClient by passing in these parameters:
+
 - [Subscription Id][subscriptions] - looks like XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX and can be found in your list of subscriptions on azure
-- [Resource Group Name][resource-groups] - a container that holds related resources for an Azure solution 
+- [Resource Group Name][resource-groups] - a container that holds related resources for an Azure solution
 - [Workspace Name][workspaces] - a collection of assets associated with running quantum or optimization applications
-- [Location][location] - choose the best data center by geographical region 
-- [Storage Container Name][blob-storage] - your blob storage 
-- [Credential][credentials] - used to authenticate 
+- [Location][location] - choose the best data center by geographical region
+- [Storage Container Name][blob-storage] - your blob storage
+- [Credential][credentials] - used to authenticate
 
 ```Javascript Snippet
     const credential = new DefaultAzureCredential();
@@ -168,17 +170,16 @@ To enumerate all the jobs in the workspace, use the `jobs.list` method.
     }
 ```
 
-
 ## Next steps
 
-*  Visit our [Product documentation](https://docs.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
+- Visit our [Product documentation](https://docs.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
 
 ## Contributing
 
 See the [CONTRIBUTING.md][contributing] for details on building,
 testing, and contributing to this library.
 
-This project welcomes contributions and suggestions.  Most contributions require
+This project welcomes contributions and suggestions. Most contributions require
 you to agree to a Contributor License Agreement (CLA) declaring that you have
 the right to, and actually do, grant us the rights to use your contribution. For
 details, visit [cla.microsoft.com](cla.microsoft.com).
@@ -193,6 +194,7 @@ additional questions or comments.
 All Quantum Jobs service operations will throw a RequestFailedException on failure with helpful ErrorCodes. Many of these errors are recoverable.
 
 <!-- LINKS -->
+
 [source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/quantum/quantum-jobs/src
 [resource-groups]: https://docs.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
 [workspaces]: https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
