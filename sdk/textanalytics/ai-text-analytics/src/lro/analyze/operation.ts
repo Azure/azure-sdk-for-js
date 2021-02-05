@@ -19,7 +19,7 @@ import {
   AnalyzeBatchActionsResult,
   PagedAsyncIterableAnalyzeBatchActionsResult,
   PagedAnalyzeBatchActionsResult,
-  ActionsResultBuilder
+  createAnalyzeBatchActionsResult
 } from "../../analyzeBatchActionsResult";
 import { PageSettings } from "@azure/core-paging";
 import { getOperationId, handleInvalidDocumentBatch, nextLinkToTopAndSkip } from "../../util";
@@ -184,12 +184,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
         operationId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      const actionResultsBuilder = new ActionsResultBuilder(response, this.documents);
-      const result: AnalyzeBatchActionsResult = {
-        recognizeEntitiesResults: actionResultsBuilder.makeRecognizeCategorizedEntitiesActionResult(),
-        recognizePiiEntitiesResults: actionResultsBuilder.makeRecognizePiiEntitiesActionResult(),
-        extractKeyPhrasesResults: actionResultsBuilder.makeExtractKeyPhrasesActionResult()
-      };
+      const result = createAnalyzeBatchActionsResult(response, this.documents);
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
         : { result };
@@ -222,8 +217,10 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       switch (response.status) {
-        case "partiallySucceeded":
-        case "succeeded": {
+        case "notStarted":
+        case "running":
+          break;
+        default: {
           return {
             done: true,
             statistics: response.statistics,
@@ -238,21 +235,6 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
               displayName: response.displayName
             }
           };
-        }
-        case "failed": {
-          const errors = response.errors
-            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
-            .join("\n");
-          const message = `Analysis failed. Error(s): ${errors || ""}`;
-          throw new Error(message);
-        }
-        case "notStarted":
-        case "running":
-          break;
-        default: {
-          throw new Error(
-            `Unrecognized state of the analyze batch actions operation!: ${response.status}`
-          );
         }
       }
       return { done: false };
