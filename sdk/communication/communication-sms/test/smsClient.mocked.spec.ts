@@ -52,13 +52,10 @@ describe("[mocked] SmsClient", async () => {
     //   message: "message"
     // };
     //const { _response } = await smsClient.send(sendRequest);
-
     // sinon.assert.calledOnce(spy);
     //assert.equal(_response.status, 200);
     //assert.equal(_response.parsedBody.messageId, "id");
-
     // const request = spy.getCall(0).args[0];
-
     // assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     // assert.equal(request.method, "POST");
     // assert.deepEqual(JSON.parse(request.body), { ...sendRequest, sendSmsOptions: {} });
@@ -74,13 +71,10 @@ describe("[mocked] SmsClient", async () => {
     //   message: "message"
     // };
     //const { _response } = await smsClient.send(sendRequest);
-
     // sinon.assert.calledOnce(spy);
     //assert.equal(_response.status, 200);
     //assert.equal(_response.parsedBody.messageId, "id");
-
     // const request = spy.getCall(0).args[0];
-
     // assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     // assert.equal(request.method, "POST");
     // assert.deepEqual(JSON.parse(request.body), { ...sendRequest, sendSmsOptions: {} });
@@ -97,16 +91,12 @@ describe("[mocked] SmsClient", async () => {
     //  message: "message"
     //};
     //const { _response } = await smsClient.send(sendRequest);
-
     // sinon.assert.calledOnce(spy);
     //assert.equal(_response.status, 200);
-
     // const request = spy.getCall(0).args[0];
-
     // if (isNode) {
     //   assert.equal(request.headers.get("host"), "contoso.api.fake:443");
     // }
-
     // assert.typeOf(request.headers.get(dateHeader), "string");
     // assert.isDefined(request.headers.get("authorization"));
     // assert.match(
