@@ -23,7 +23,7 @@ const banner = [
   " * license information.",
   " * ",
   ` * Azure KeyVault Secrets SDK for JavaScript - ${version}`,
-  " */"
+  " */",
 ].join("\n");
 
 const depNames = Object.keys(pkg.dependencies);
@@ -40,7 +40,7 @@ export function nodeConfig(test = false) {
       format: "cjs",
       name: "azurekeyvaultsecrets",
       sourcemap: true,
-      banner: banner
+      banner: banner,
     },
     plugins: [
       sourcemaps(),
@@ -48,12 +48,12 @@ export function nodeConfig(test = false) {
         delimiters: ["", ""],
         // replace dynamic checks with if (true) since this is for node only.
         // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+        "if (isNode)": "if (true)",
       }),
       nodeResolve({ preferBuiltins: true }),
       json(),
-      cjs()
-    ]
+      cjs(),
+    ],
   };
 
   if (test) {
@@ -64,7 +64,7 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "chai");
 
     baseConfig.context = "null";
 
@@ -88,9 +88,9 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "azurekeyvaultsecrets",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
+        "@azure/core-http": "Azure.Core.HTTP",
       },
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -100,7 +100,7 @@ export function browserConfig(test = false) {
         // replace dynamic checks with if (false) since this is for
         // browser only. Rollup's dead code elimination will remove
         // any code guarded by if (isNode) { ... }
-        "if (isNode)": "if (false)"
+        "if (isNode)": "if (false)",
       }),
       // os is not used by the browser bundle, so just shim it
       shim({
@@ -108,20 +108,21 @@ export function browserConfig(test = false) {
         os: `
           export const type = 1;
           export const release = 1;
-        `
+        `,
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       json(),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
-        }
-      })
-    ]
+          chai: ["assert"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "exists"],
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"],
+        },
+      }),
+    ],
   };
 
   if (test) {
