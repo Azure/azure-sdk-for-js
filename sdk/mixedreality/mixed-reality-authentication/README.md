@@ -155,7 +155,7 @@ export DEBUG=azure*
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/mixed-reality-authentication/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixed-reality-authentication/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
