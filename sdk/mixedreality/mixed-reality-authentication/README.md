@@ -140,6 +140,24 @@ const token = await client.getToken();
 See the authentication examples [above](#authenticate-the-client) or [Azure Identity][azure_identity] for more complex
 authentication scenarios.
 
+#### Using the access token in a Mixed Reality client library
+
+Some Mixed Reality client libraries might accept an access token in place of a credential. For example:
+
+```js
+// GetMixedRealityAccessTokenFromWebService is a hypothetical method that retrieves
+// a Mixed Reality access token from a web service. The web service would use the
+// MixedRealityStsClient and credentials to obtain an access token to be returned
+// to the client.
+const accessToken = await GetMixedRealityAccessTokenFromWebService();
+
+const account = new SpatialAnchorsAccount(accountId, accountDomain);
+const client = new SpatialAnchorsClient(account, accessToken);
+```
+
+Note: The `SpatialAnchorsClient` usage above is hypothetical and may not reflect the actual library. Consult the
+documentation for the client library you're using to determine if and how this might be supported.
+
 ## Troubleshooting
 
 ### Enable logs
