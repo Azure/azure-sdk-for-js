@@ -13,7 +13,7 @@ import { logErrorStackTrace, logger } from "./log";
  */
 export class ReceiveHandler {
   /**
-   * @property _receiver  The underlying EventHubReceiver.
+   * The underlying EventHubReceiver.
    */
   private _receiver: EventHubReceiver;
 
@@ -28,7 +28,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property The partitionId from which the handler is receiving events.
+   * The partitionId from which the handler is receiving events.
    * @readonly
    */
   get partitionId(): string | undefined {
@@ -36,7 +36,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property The consumer group from which the handler is receiving events.
+   * The consumer group from which the handler is receiving events.
    * @readonly
    */
   get consumerGroup(): string | undefined {
@@ -44,7 +44,7 @@ export class ReceiveHandler {
   }
 
   /**
-   * @property Indicates whether the receiver is connected/open.
+   * Indicates whether the receiver is connected/open.
    * `true` - is open; `false` otherwise.
    * @readonly
    */

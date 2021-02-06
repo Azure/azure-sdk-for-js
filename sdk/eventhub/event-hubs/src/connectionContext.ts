@@ -30,30 +30,30 @@ import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property config The EventHub connection config that is created after
+   * The EventHub connection config that is created after
    * parsing the connection string.
    */
   readonly config: EventHubConnectionConfig;
   /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * The credential to be used for Authentication.
    * Default value: SharedKeyCredentials.
    */
   tokenCredential: SharedKeyCredential | TokenCredential;
   /**
-   * @property wasConnectionCloseCalled Indicates whether the close() method was
+   * Indicates whether the close() method was
    * called on theconnection object.
    */
   wasConnectionCloseCalled: boolean;
   /**
-   * @property receivers A dictionary of the EventHub Receivers associated with this client.
+   * A dictionary of the EventHub Receivers associated with this client.
    */
   receivers: Dictionary<EventHubReceiver>;
   /**
-   * @property senders A dictionary of the EventHub Senders associated with this client.
+   * A dictionary of the EventHub Senders associated with this client.
    */
   senders: Dictionary<EventHubSender>;
   /**
-   * @property managementSession A reference to the management session ($management endpoint) on
+   * A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
    */
   managementSession?: ManagementClient;
@@ -131,7 +131,7 @@ type ConnectionContextMethods = Omit<
  */
 export namespace ConnectionContext {
   /**
-   * @property userAgent The user agent string for the EventHubs client.
+   * The user agent string for the EventHubs client.
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventhubs/${

@@ -25,28 +25,28 @@ import { logger } from "./log";
  **/
 export interface Checkpoint {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name
+   * The event hub name
    */
   eventHubName: string;
   /**
-   * @property The consumer group name
+   * The consumer group name
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition
+   * The identifier of the Event Hub partition
    */
   partitionId: string;
   /**
-   * @property The sequence number of the event
+   * The sequence number of the event
    */
   sequenceNumber: number;
   /**
-   * @property The offset of the event.
+   * The offset of the event.
    */
   offset: number;
 }
@@ -73,7 +73,7 @@ export class PartitionProcessor implements PartitionContext {
   ) {}
 
   /**
-   * @property Information on the last enqueued event in the partition that is being processed.
+   * Information on the last enqueued event in the partition that is being processed.
    * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventProperties` option is set to true
    * when creating an instance of EventProcessor
    * @readonly
@@ -83,7 +83,7 @@ export class PartitionProcessor implements PartitionContext {
   }
 
   /**
-   * @property Information on the last enqueued event in the partition that is being processed.
+   * Information on the last enqueued event in the partition that is being processed.
    * This property is updated by the `EventProcessor` if the `trackLastEnqueuedEventProperties` option is set to true
    * when creating an instance of EventProcessor
    */
@@ -92,7 +92,7 @@ export class PartitionProcessor implements PartitionContext {
   }
 
   /**
-   * @property The fully qualified namespace from where the current partition is being processed. It is set by the `EventProcessor`
+   * The fully qualified namespace from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly
    */
   public get fullyQualifiedNamespace(): string {
@@ -100,7 +100,7 @@ export class PartitionProcessor implements PartitionContext {
   }
 
   /**
-   * @property The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
+   * The name of the consumer group from where the current partition is being processed. It is set by the `EventProcessor`
    * @readonly
    */
   public get consumerGroup(): string {
@@ -108,7 +108,7 @@ export class PartitionProcessor implements PartitionContext {
   }
 
   /**
-   * @property The name of the event hub to which the current partition belongs. It is set by the `EventProcessor`
+   * The name of the event hub to which the current partition belongs. It is set by the `EventProcessor`
    * @readonly
    */
   public get eventHubName(): string {
@@ -116,7 +116,7 @@ export class PartitionProcessor implements PartitionContext {
   }
 
   /**
-   * @property The identifier of the Event Hub partition that is being processed. It is set by the `EventProcessor`
+   * The identifier of the Event Hub partition that is being processed. It is set by the `EventProcessor`
    * @readonly
    */
   public get partitionId(): string {
@@ -124,7 +124,7 @@ export class PartitionProcessor implements PartitionContext {
   }
 
   /**
-   * @property The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
+   * The unique identifier of the `EventProcessor` that has spawned the current instance of `PartitionProcessor`. This is set by the `EventProcessor`
    */
   public get eventProcessorId(): string {
     return this._context.eventProcessorId;
