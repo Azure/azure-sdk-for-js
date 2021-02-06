@@ -109,7 +109,7 @@ describe("Send Batch", () => {
 
       // Size of each message will be > 20000 bytes, maxMessageSize/20000 would exceed the limit
       const numberOfMessagesToSend =
-        (await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize()) / 20000;
+        (await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize({})) / 20000;
 
       for (let i = 0; i < numberOfMessagesToSend; i++) {
         const messageToSend = {
@@ -406,7 +406,7 @@ describe("Send Batch", () => {
       try {
         await sender.createMessageBatch({ maxSizeInBytes });
       } catch (error) {
-        const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize();
+        const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize({});
         should.equal(
           error.message,
           `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,

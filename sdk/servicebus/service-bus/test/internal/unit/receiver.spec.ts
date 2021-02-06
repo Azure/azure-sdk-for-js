@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
+import { Receiver, ReceiverEvents } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -72,7 +72,7 @@ describe("Receiver unit tests", () => {
       };
 
       try {
-        await messageReceiver2["_init"]({} as ReceiverOptions);
+        await messageReceiver2["_init"]({}, {});
         assert.fail("Should throw");
       } catch (err) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
@@ -292,7 +292,8 @@ describe("Receiver unit tests", () => {
       const messageSession = await MessageSession.create(
         connectionContext,
         "entity path",
-        undefined
+        undefined,
+        {}
       );
 
       const impl = new ServiceBusSessionReceiverImpl(

@@ -112,7 +112,8 @@ describe("autoLockRenewer unit tests", () => {
         lockedUntilUtc: new Date(),
         messageId: "message id"
       },
-      onErrorFake
+      onErrorFake,
+      {}
     );
 
     clock.tick(limits.msToNextRenewal - 1); // right before the renew timer would run
@@ -159,7 +160,8 @@ describe("autoLockRenewer unit tests", () => {
         lockedUntilUtc: new Date(Date.now() + limits.maxAdditionalTimeToRenewLock + 1),
         messageId: "message id"
       },
-      onErrorFake
+      onErrorFake,
+      {}
     );
 
     assert.isFalse(
@@ -178,7 +180,8 @@ describe("autoLockRenewer unit tests", () => {
         lockedUntilUtc: new Date(),
         messageId: "message id"
       },
-      onErrorFake
+      onErrorFake,
+      {}
     );
 
     // force one tick - we'll renew the lock, which will extend it's lifetime by limits.nextLockExpirationTime
@@ -208,7 +211,8 @@ describe("autoLockRenewer unit tests", () => {
       {
         messageId: "my message id"
       },
-      onErrorFake
+      onErrorFake,
+      {}
     );
 
     assert.equal(

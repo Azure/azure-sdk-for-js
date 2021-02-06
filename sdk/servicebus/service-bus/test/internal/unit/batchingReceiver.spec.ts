@@ -652,7 +652,7 @@ describe("BatchingReceiver unit tests", () => {
       let rejectWasCalled = false;
 
       receiver["_receiveMessagesImpl"](
-        (await receiver["_getCurrentReceiver"]())!,
+        (await receiver["_getCurrentReceiver"]({}))!,
         {
           maxMessageCount: 1,
           maxTimeAfterFirstMessageInMs: 1,

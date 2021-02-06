@@ -47,7 +47,7 @@ describe("LinkEntity unit tests", () => {
     it("basic case", async () => {
       assert.isFalse(linkEntity.isOpen(), "link isn't yet open, the class is just created.");
 
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
 
       assert.match(linkEntity.name, /^some initial name-.*$/);
       assertLinkEntityOpen();
@@ -57,14 +57,14 @@ describe("LinkEntity unit tests", () => {
       await linkEntity["closeLink"]();
       assertLinkEntityClosedTemporarily();
 
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
       assertLinkEntityOpen();
 
       await linkEntity.close();
       assertLinkEntityClosedPermanently();
 
       try {
-        await linkEntity.initLink({});
+        await linkEntity.initLink({}, {});
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.message, "Link has been permanently closed. Not reopening.");
@@ -86,7 +86,7 @@ describe("LinkEntity unit tests", () => {
         assert.isTrue(isLinkLocked(linkEntity));
       };
 
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
 
       assert.equal(
         timesCalled,
@@ -102,7 +102,7 @@ describe("LinkEntity unit tests", () => {
         connectionContext["isConnectionClosing"] = () => true;
 
         try {
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, {});
           assert.fail("Should have thrown");
         } catch (err) {
           assertInitAbortError(err);
@@ -119,7 +119,7 @@ describe("LinkEntity unit tests", () => {
             old.apply(linkEntity);
           };
 
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, {});
           assert.fail("Should have thrown");
         } catch (err) {
           assertInitAbortError(err);
@@ -136,7 +136,7 @@ describe("LinkEntity unit tests", () => {
             old.apply(linkEntity);
           };
 
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, {});
           assert.fail("Should have thrown");
         } catch (err) {
           assertInitAbortError(err);
@@ -151,7 +151,7 @@ describe("LinkEntity unit tests", () => {
             connectionContext["isConnectionClosing"] = () => true;
           };
 
-          await linkEntity.initLink({});
+          await linkEntity.initLink({}, {});
           assert.fail("Should have thrown");
         } catch (err) {
           assertInitAbortError(err);
@@ -176,12 +176,12 @@ describe("LinkEntity unit tests", () => {
       };
 
       assert.isFalse(linkEntity.isOpen());
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
       assert.isTrue(linkEntity.isOpen());
     });
 
     it("early exit when link is already open", async () => {
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
 
       let negotiateClaimCalled = 0;
 
@@ -190,13 +190,13 @@ describe("LinkEntity unit tests", () => {
       };
 
       // connection already open
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
       assertLinkEntityOpen();
       assert.equal(negotiateClaimCalled, 0, "If the link is already open we don't open another");
     });
 
     it("early exit when link has been permanently closed", async () => {
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
       assert.exists(
         linkEntity["_tokenRenewalTimer"],
         "the tokenrenewal timer should have been set"
@@ -208,7 +208,7 @@ describe("LinkEntity unit tests", () => {
       assertLinkEntityClosedPermanently();
 
       try {
-        await linkEntity.initLink({});
+        await linkEntity.initLink({}, {});
         assert.fail("Should throw");
       } catch (err) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
@@ -223,7 +223,7 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({});
+        await linkEntity.initLink({}, {});
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.message, "SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
@@ -232,9 +232,14 @@ describe("LinkEntity unit tests", () => {
 
     it("abortSignal - simple abort signal flow", async () => {
       try {
-        await linkEntity.initLink({}, {
-          aborted: true
-        } as AbortSignalLike);
+        await linkEntity.initLink(
+          {},
+          {
+            abortSignal: {
+              aborted: true
+            } as AbortSignalLike
+          }
+        );
         assert.fail("Should have thrown.");
       } catch (err) {
         assert.equal(err.name, "AbortError");
@@ -259,11 +264,16 @@ describe("LinkEntity unit tests", () => {
       };
 
       try {
-        await linkEntity.initLink({}, {
-          get aborted(): boolean {
-            return isAborted;
+        await linkEntity.initLink(
+          {},
+          {
+            abortSignal: {
+              get aborted(): boolean {
+                return isAborted;
+              }
+            } as AbortSignalLike
           }
-        } as AbortSignalLike);
+        );
         assert.fail("Should have thrown");
       } catch (err) {
         assert.equal(err.name, "AbortError");
@@ -275,7 +285,7 @@ describe("LinkEntity unit tests", () => {
 
       // we can reinitialize an aborted link.
       linkEntity["createRheaLink"] = orig;
-      await linkEntity.initLink({});
+      await linkEntity.initLink({}, {});
 
       assert.isTrue(
         linkEntity.isOpen(),
@@ -286,9 +296,12 @@ describe("LinkEntity unit tests", () => {
     it("can use a custom name via options", async () => {
       assert.match(linkEntity.name, /some initial name-/);
 
-      await linkEntity.initLink({
-        name: "some new name"
-      });
+      await linkEntity.initLink(
+        {
+          name: "some new name"
+        },
+        {}
+      );
 
       assert.equal(linkEntity["_logPrefix"], "[connection-id|streaming:some new name]");
 

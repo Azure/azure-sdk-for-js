@@ -174,7 +174,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
   async sendMessages(
     messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
-    options?: OperationOptionsBase
+    options: OperationOptionsBase = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);

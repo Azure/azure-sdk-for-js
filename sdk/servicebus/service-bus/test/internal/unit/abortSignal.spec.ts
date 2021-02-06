@@ -172,7 +172,7 @@ describe("AbortSignal", () => {
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
-        await sender.open(undefined, abortSignal);
+        await sender.open(undefined, { abortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -189,7 +189,7 @@ describe("AbortSignal", () => {
       const abortSignal = createCountdownAbortSignal(2);
 
       try {
-        await sender.open(undefined, abortSignal);
+        await sender.open(undefined, { abortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -268,7 +268,7 @@ describe("AbortSignal", () => {
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
-        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, { abortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -294,7 +294,7 @@ describe("AbortSignal", () => {
       };
 
       try {
-        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, { abortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -319,7 +319,7 @@ describe("AbortSignal", () => {
       messageReceiver["_negotiateClaim"] = async () => {};
 
       try {
-        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, { abortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -339,7 +339,12 @@ describe("AbortSignal", () => {
     it("SessionReceiver.subscribe", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
 
-      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello");
+      const messageSession = await MessageSession.create(
+        connectionContext,
+        "entityPath",
+        "hello",
+        {}
+      );
 
       const session = new ServiceBusSessionReceiverImpl(
         messageSession,
