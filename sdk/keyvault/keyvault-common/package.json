@@ -59,8 +59,8 @@
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "tslib": "^2.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
-    "@opentelemetry/api": "^0.10.2"
+    "@azure/core-tracing": "1.0.0-beta.1",
+    "@opentelemetry/api": "^0.16.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

@@ -79,7 +79,7 @@
   "dependencies": {
     "@azure/core-http": "^1.2.0",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
+    "@opentelemetry/api": "^0.16.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
