@@ -180,7 +180,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
    * more than the configured totalAutoLockRenewDuration.
    */
-  private _ensureSessionLockRenewal(): void {
+  private _ensureSessionLockRenewal(operationOptions: OperationOptionsBase = {}): void {
     if (
       this.autoRenewLock &&
       new Date(this._totalAutoLockRenewDuration) > this.sessionLockedUntilUtc! &&
@@ -200,7 +200,8 @@ export class MessageSession extends LinkEntity<Receiver> {
             .getManagementClient(this.entityPath)
             .renewSessionLock(this.sessionId, {
               associatedLinkName: this.name,
-              timeoutInMs: 10000
+              timeoutInMs: 10000,
+              ...operationOptions
             });
           logger.verbose(
             "%s Successfully renewed the session lock for MessageSession '%s' " + "with name '%s'.",

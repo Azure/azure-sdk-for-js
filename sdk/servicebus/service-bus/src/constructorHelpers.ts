@@ -6,6 +6,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { UserAgentOptions } from "@azure/core-http";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -24,7 +25,7 @@ import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
  *    - `timeoutInMs`: Amount of time in milliseconds to wait before the operation times out. This will trigger a retry if there are any
  *       retry attempts remaining. Minimum value: 60000 milliseconds.
  */
-export interface ServiceBusClientOptions {
+export interface ServiceBusClientOptions extends OperationOptionsBase {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */

@@ -26,6 +26,7 @@ import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 import { ReceiverType } from "./core/linkEntity";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -139,7 +140,8 @@ type ConnectionContextMethods = Omit<
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
-  receiverType: ReceiverType
+  receiverType: ReceiverType,
+  operationOptions: OperationOptionsBase = {}
 ) {
   const detachCalls: Promise<void>[] = [];
 
@@ -153,7 +155,7 @@ async function callOnDetachedOnReceivers(
         receiver.name
       );
       detachCalls.push(
-        receiver.onDetached(contextOrConnectionError).catch((err) => {
+        receiver.onDetached(contextOrConnectionError, operationOptions).catch((err) => {
           logger.logError(
             err,
             "[%s] An error occurred while calling onDetached() on the %s receiver '%s'",
@@ -424,7 +426,8 @@ export namespace ConnectionContext {
         await callOnDetachedOnReceivers(
           connectionContext,
           connectionError || contextError,
-          "batching"
+          "batching",
+          options
         );
 
         // TODO:

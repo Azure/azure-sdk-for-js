@@ -3,6 +3,7 @@
 
 import { ConnectionContext } from "../connectionContext";
 import { receiverLogger as logger } from "../log";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { LinkEntity } from "./linkEntity";
@@ -115,7 +116,12 @@ export class LockRenewer {
    *
    * @param bMessage - The message whose lock renewal we will start.
    */
-  start(linkEntity: MinimalLink, bMessage: RenewableMessageProperties, onError: OnErrorNoContext) {
+  start(
+    linkEntity: MinimalLink,
+    bMessage: RenewableMessageProperties,
+    onError: OnErrorNoContext,
+    operationOptions: OperationOptionsBase
+  ) {
     try {
       const logPrefix = linkEntity.logPrefix;
 
@@ -181,7 +187,8 @@ export class LockRenewer {
                 bMessage.lockedUntilUtc = await this._context
                   .getManagementClient(linkEntity.entityPath)
                   .renewLock(lockToken, {
-                    associatedLinkName: linkEntity.name
+                    associatedLinkName: linkEntity.name,
+                    ...operationOptions
                   });
                 logger.verbose(
                   `${logPrefix} Successfully renewed the lock for message with id '${bMessage.messageId}'. Starting next auto-lock-renew cycle for message.`

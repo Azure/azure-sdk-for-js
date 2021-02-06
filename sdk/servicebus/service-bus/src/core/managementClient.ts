@@ -839,7 +839,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async updateDispositionStatus(
     lockToken: string,
     dispositionType: DispositionType,
-    options?: DispositionStatusOptions & ManagementRequestOptions
+    options?: DispositionStatusOptions & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};

@@ -32,9 +32,7 @@ import { ReceiverHandlers } from "./shared";
 /**
  * @internal
  */
-export interface StreamingReceiverInitArgs
-  extends ReceiveOptions,
-    Pick<OperationOptionsBase, "abortSignal"> {
+export interface StreamingReceiverInitArgs extends ReceiveOptions, OperationOptionsBase {
   onError: OnError;
 }
 
@@ -143,7 +141,7 @@ export class StreamingReceiver extends MessageReceiver {
       this._lockRenewer?.stopAll(this);
 
       if (receiver && !receiver.isItselfClosed()) {
-        await this.onDetached(receiverError);
+        await this.onDetached(receiverError, options);
       } else {
         logger.verbose(
           "%s 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -168,7 +166,7 @@ export class StreamingReceiver extends MessageReceiver {
       this._lockRenewer?.stopAll(this);
 
       if (receiver && !receiver.isSessionItselfClosed()) {
-        await this.onDetached(sessionError);
+        await this.onDetached(sessionError, options);
       } else {
         logger.verbose(
           "%s 'session_close' event occurred on the session of receiver '%s' with address " +
@@ -222,16 +220,21 @@ export class StreamingReceiver extends MessageReceiver {
         this.receiveMode
       );
 
-      this._lockRenewer?.start(this, bMessage, (err) => {
-        if (this._onError) {
-          this._onError({
-            error: err,
-            errorSource: "renewLock",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
-      });
+      this._lockRenewer?.start(
+        this,
+        bMessage,
+        (err) => {
+          if (this._onError) {
+            this._onError({
+              error: err,
+              errorSource: "renewLock",
+              entityPath: this.entityPath,
+              fullyQualifiedNamespace: this._context.config.host
+            });
+          }
+        },
+        options
+      );
 
       try {
         await this._onMessage(bMessage);
@@ -367,7 +370,11 @@ export class StreamingReceiver extends MessageReceiver {
    * 3. aborting the abortSignal they passed in when calling subscribe (this does not apply in onDetached, however)
    */
   async init(
-    args: { useNewName: boolean; connectionId: string; onError: OnError } & OperationOptionsBase
+    args: {
+      useNewName: boolean;
+      connectionId: string;
+      onError: OnError;
+    } & OperationOptionsBase
   ) {
     let numRetryCycles = 0;
 
@@ -446,7 +453,10 @@ export class StreamingReceiver extends MessageReceiver {
    * @param receiverError - The receiver error or connection error, if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(receiverError?: AmqpError | Error): Promise<void> {
+  async onDetached(
+    receiverError?: AmqpError | Error,
+    operationOptions: OperationOptionsBase = {}
+  ): Promise<void> {
     logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
 
     // User explicitly called `close` on the receiver, so link is already closed
@@ -498,7 +508,8 @@ export class StreamingReceiver extends MessageReceiver {
         // the service does not send an error stating that the link is still open.
         useNewName: true,
         connectionId: this._context.connectionId,
-        onError: (args) => this._onError && this._onError(args)
+        onError: (args) => this._onError && this._onError(args),
+        ...operationOptions
       });
 
       this._receiverHelper.addCredit(this.maxConcurrentCalls);

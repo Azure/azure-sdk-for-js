@@ -668,7 +668,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
   }
 
-  async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
+  async renewMessageLock(
+    message: ServiceBusReceivedMessage,
+    operationOptions: OperationOptionsBase = {}
+  ): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
 
@@ -681,7 +684,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     }
     return this._context
       .getManagementClient(this.entityPath)
-      .renewLock(message.lockToken!, { associatedLinkName })
+      .renewLock(message.lockToken!, { associatedLinkName, ...operationOptions })
       .then((lockedUntil) => {
         message.lockedUntilUtc = lockedUntil;
         return lockedUntil;

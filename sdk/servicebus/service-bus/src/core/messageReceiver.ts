@@ -221,7 +221,10 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * You may want to set up retries to recover the broken link and/or report error to user.
    * @param error - The error accompanying the receiver/session error or connection disconnected events
    */
-  abstract onDetached(error?: AmqpError | Error): Promise<void>;
+  abstract onDetached(
+    error?: AmqpError | Error,
+    operationOptions?: OperationOptionsBase
+  ): Promise<void>;
 
   /**
    * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
