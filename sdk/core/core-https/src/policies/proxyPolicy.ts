@@ -87,7 +87,7 @@ export function loadNoProxy(): string[] {
  * This method converts a proxy url into `ProxySettings` for use with ProxyPolicy.
  * If no argument is given, it attempts to parse a proxy URL from the environment
  * variables `HTTPS_PROXY` or `HTTP_PROXY`.
- * @param proxyUrl The url of the proxy to use. May contain authentication information.
+ * @param proxyUrl - The url of the proxy to use. May contain authentication information.
  */
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   if (!proxyUrl) {
@@ -111,7 +111,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
  * A policy that allows one to apply proxy settings to all requests.
  * If not passed static settings, they will be retrieved from the HTTPS_PROXY
  * or HTTP_PROXY environment variables.
- * @param proxySettings ProxySettings to use on each request.
+ * @param proxySettings - ProxySettings to use on each request.
  */
 export function proxyPolicy(proxySettings = getDefaultProxySettings()): PipelinePolicy {
   return {

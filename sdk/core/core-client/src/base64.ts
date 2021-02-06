@@ -3,7 +3,7 @@
 
 /**
  * Encodes a string in base64 format.
- * @param value the string to encode
+ * @param value - the string to encode
  * @internal @hidden
  */
 export function encodeString(value: string): string {
@@ -12,7 +12,7 @@ export function encodeString(value: string): string {
 
 /**
  * Encodes a byte array in base64 format.
- * @param value the Uint8Aray to encode
+ * @param value - the Uint8Aray to encode
  * @internal @hidden
  */
 export function encodeByteArray(value: Uint8Array): string {
@@ -24,7 +24,7 @@ export function encodeByteArray(value: Uint8Array): string {
 
 /**
  * Decodes a base64 string into a byte array.
- * @param value the base64 string to decode
+ * @param value - the base64 string to decode
  * @internal @hidden
  */
 export function decodeString(value: string): Uint8Array {
