@@ -127,17 +127,6 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenChall
       return false;
     }
 
-    let scope = parsedChallenge.resource || parsedChallenge.scope;
-    if (!scope) {
-      logger.info("The challenge received didn't have a resource nor a scope. Bypassing the challenge authentication policy.");
-      return false;
-    }
-
-    const defaultPath = "/.default";
-    if (scope?.indexOf(defaultPath) !== scope.length - defaultPath.length) {
-      scope += defaultPath;
-    }
-
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
@@ -149,8 +138,19 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenChall
       this.tokenCache.setCachedToken(undefined);
     }
 
+    let scope = parsedChallenge.resource || parsedChallenge.scope;
+    if (!scope) {
+      logger.info("The challenge received didn't have a resource nor a scope. Bypassing the challenge authentication policy.");
+      return false;
+    }
+
+    const defaultPath = "/.default";
+    if (scope?.indexOf(defaultPath) !== scope.length - defaultPath.length) {
+      scope += defaultPath;
+    }
+    this.scope = scope;
+
     logger.info("Loading the token.");
-    this.tokenRefresher.setScopes(scope);
     await this.loadToken(webResource);
 
     logger.info("Sending the original request.");

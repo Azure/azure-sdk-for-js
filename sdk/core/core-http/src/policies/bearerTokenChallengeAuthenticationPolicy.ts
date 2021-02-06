@@ -39,6 +39,9 @@ export abstract class BaseChallengePolicy extends BaseRequestPolicy {
  *
  */
 export class BearerTokenChallengeAuthenticationPolicy<TChallenge> extends BaseChallengePolicy {
+  protected scope?: string;
+  protected claims?: string;
+
   /**
    * Creates a new BearerTokenChallengeAuthenticationPolicy object.
    *
@@ -64,12 +67,16 @@ export class BearerTokenChallengeAuthenticationPolicy<TChallenge> extends BaseCh
    */
   protected async loadToken(webResource: WebResource, accessToken?: string): Promise<void> {
     if (!accessToken) {
-      accessToken = await this.getToken({
+      const getTokenOptions: GetTokenOptions = {
         abortSignal: webResource.abortSignal,
         tracingOptions: {
           spanOptions: webResource.spanOptions
         }
-      });
+      };
+      if (this.claims) {
+        getTokenOptions.claims = this.claims;
+      }
+      accessToken = await this.getToken(getTokenOptions);
     }
 
     if (accessToken) {
@@ -128,6 +135,10 @@ export class BearerTokenChallengeAuthenticationPolicy<TChallenge> extends BaseCh
   protected async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
+      // Updating the scope based on the local one
+      if (this.scope) {
+        this.tokenRefresher.setScopes(this.scope);
+      }
       // Waiting for the next refresh only if the cache is unable to retrieve the access token,
       // which means that it has expired, or it has never been set.
       accessToken = await this.tokenRefresher.refresh(options);

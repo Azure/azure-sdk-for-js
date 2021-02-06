@@ -113,9 +113,13 @@ export class BearerTokenChallengeAuthenticationPolicy<TChallenge> extends BaseCh
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher, challengeCache: ChallengeCache<TChallenge>);
     // (undocumented)
     protected challengeCache: ChallengeCache<TChallenge>;
+    // (undocumented)
+    protected claims?: string;
     protected getChallenge(response: HttpOperationResponse): string | undefined;
     protected getToken(options: GetTokenOptions): Promise<string | undefined>;
     protected loadToken(webResource: WebResource, accessToken?: string): Promise<void>;
+    // (undocumented)
+    protected scope?: string;
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
     // (undocumented)
     protected tokenCache: AccessTokenCache;
