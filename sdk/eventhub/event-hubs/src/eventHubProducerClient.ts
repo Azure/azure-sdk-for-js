@@ -161,7 +161,7 @@ export class EventHubProducerClient {
    * }
    * ```
    *
-   * @param options  Configures the behavior of the batch.
+   * @param options -  Configures the behavior of the batch.
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
    * - `partitionId`   : Id of the partition to which the batch of events need to be sent.
@@ -218,8 +218,8 @@ export class EventHubProducerClient {
    * await client.sendBatch(messages);
    * ```
    *
-   * @param batch An array of {@link EventData}.
-   * @param options A set of options that can be specified to influence the way in which
+   * @param batch - An array of {@link EventData}.
+   * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    * - `partitionId`  : The partition this batch will be sent to. If set, `partitionKey` can not be set.
@@ -251,8 +251,8 @@ export class EventHubProducerClient {
    *   }
    * }
    * ```
-   * @param batch A batch of events that you can create using the {@link createBatch} method.
-   * @param options A set of options that can be specified to influence the way in which
+   * @param batch - A batch of events that you can create using the {@link createBatch} method.
+   * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    *
@@ -378,7 +378,7 @@ export class EventHubProducerClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the Event Hub instance.
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -392,7 +392,7 @@ export class EventHubProducerClient {
 
   /**
    * Provides the id for each partition associated with the Event Hub.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings representing the id for
    * each partition associated with the Event Hub.
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
@@ -411,8 +411,8 @@ export class EventHubProducerClient {
 
   /**
    * Provides information about the state of the specified partition.
-   * @param partitionId The id of the partition for which information is required.
-   * @param options The set of options to apply to the operation call.
+   * @param partitionId - The id of the partition for which information is required.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the state of the partition .
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.

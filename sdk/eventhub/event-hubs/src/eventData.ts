@@ -129,7 +129,7 @@ const messagePropertiesMap = {
 
 /**
  * Converts the AMQP message to an EventData.
- * @param msg The AMQP message that needs to be converted to EventData.
+ * @param msg - The AMQP message that needs to be converted to EventData.
  * @hidden
  */
 export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
@@ -190,8 +190,8 @@ export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
 
 /**
  * Converts an EventData object to an AMQP message.
- * @param data The EventData object that needs to be converted to an AMQP message.
- * @param partitionKey An optional key to determine the partition that this event should land in.
+ * @param data - The EventData object that needs to be converted to an AMQP message.
+ * @param partitionKey - An optional key to determine the partition that this event should land in.
  * @hidden
  */
 export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessage {

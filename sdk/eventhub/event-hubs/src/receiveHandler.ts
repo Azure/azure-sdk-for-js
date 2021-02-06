@@ -18,7 +18,7 @@ export class ReceiveHandler {
   /**
    * Creates an instance of the ReceiveHandler.
    * @internal
-   * @param receiver The underlying EventHubReceiver.
+   * @param receiver - The underlying EventHubReceiver.
    */
   constructor(receiver: EventHubReceiver) {
     this._receiver = receiver;

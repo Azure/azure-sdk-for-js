@@ -140,7 +140,6 @@ export function validateEventPositions(
 /**
  * Determines whether a position is an EventPosition.
  * Does not validate that the position is allowed.
- * @param position
  * @internal
  */
 export function isEventPosition(position: unknown): position is EventPosition {
