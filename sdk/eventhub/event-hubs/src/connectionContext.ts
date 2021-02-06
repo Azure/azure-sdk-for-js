@@ -76,7 +76,6 @@ export interface ConnectionContext extends ConnectionContextBase {
 /**
  * Describes the members on the ConnectionContext that are only
  * used by it internally.
- * @hidden
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
@@ -432,7 +431,6 @@ export namespace ConnectionContext {
  * Helper method to create a ConnectionContext from the input passed to either
  * EventHubProducerClient or EventHubConsumerClient constructors
  *
- * @hidden
  * @internal
  */
 export function createConnectionContext(

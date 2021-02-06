@@ -90,7 +90,6 @@ export function parseEventHubConnectionString(
 
 /**
  * @internal
- * @ignore
  */
 function validateProperties(
   endpoint?: string,

@@ -59,7 +59,6 @@ interface EventProcessorCounts {
  * @param partitionOwnershipMap The existing PartitionOwnerships mapped by partition.
  * @param expirationIntervalInMs The length of time a PartitionOwnership claim is valid.
  * @hidden
- * @internal
  */
 function getActivePartitionOwnerships(
   partitionOwnershipMap: Map<string, PartitionOwnership>,
@@ -89,7 +88,6 @@ function getActivePartitionOwnerships(
  * and the number of EventProcessors that should have an extra partition assigned.
  * @param ownerToOwnershipMap The current ownerships for partitions.
  * @param partitionIds The full list of the Event Hub's partition ids.
- * @hidden
  * @internal
  */
 function calculateBalancedLoadCounts(
@@ -171,7 +169,6 @@ function getEventProcessorCounts(
  * @param requiredNumberOfOwnersWithExtraPartition The # of EventProcessors that process an additional partition, in addition to the required minimum.
  * @param totalExpectedProcessors The total # of EventProcessors we expect.
  * @param eventProcessorCounts EventProcessor counts, grouped by criteria.
- * @hidden
  * @internal
  */
 function isLoadBalanced(
@@ -192,7 +189,6 @@ function isLoadBalanced(
  * @param requiredNumberOfOwnersWithExtraPartition The current number of processors that should have an additional partition.
  * @param numPartitionsOwnedByUs The number of partitions we currently own.
  * @param eventProcessorCounts Processors, grouped by criteria.
- * @hidden
  * @internal
  */
 function getNumberOfPartitionsToClaim(

@@ -14,7 +14,6 @@ import { ConnectionContext } from "./connectionContext";
  * The PumpManager handles the creation and removal of PartitionPumps.
  * It also starts a PartitionPump when it is created, and stops a
  * PartitionPump when it is removed.
- * @hidden
  * @internal
  */
 export interface PumpManager {
@@ -24,7 +23,6 @@ export interface PumpManager {
    * @param eventHubClient The EventHubClient to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @param abortSignal Used to cancel pump creation.
-   * @hidden
    */
   createPump(
     startPosition: EventPosition,
@@ -36,15 +34,12 @@ export interface PumpManager {
   /**
    * Indicates whether the pump manager is actively receiving events from a given partition.
    * @param partitionId The partition to check.
-   * @hidden
-   * @internal
    */
   isReceivingFromPartition(partitionId: string): boolean;
 
   /**
    * Stops all PartitionPumps and removes them from the internal map.
    * @param reason The reason for removing the pump.
-   * @hidden
    */
   removeAllPumps(reason: CloseReason): Promise<void>;
 }
@@ -85,7 +80,6 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * Indicates whether the pump manager is actively receiving events from a given partition.
    * @param partitionId
-   * @hidden
    * @internal
    */
   public isReceivingFromPartition(partitionId: string): boolean {

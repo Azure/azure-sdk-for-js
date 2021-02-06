@@ -86,7 +86,6 @@ export type OnAbort = () => void;
 
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
- * @class EventHubReceiver
  * @internal
  */
 export class EventHubReceiver extends LinkEntity {
@@ -193,7 +192,6 @@ export class EventHubReceiver extends LinkEntity {
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
    * @hidden
-   * @constructor
    * @param context        The connection context corresponding to the EventHubClient instance
    * @param consumerGroup  The consumer group from which the receiver should receive events from.
    * @param partitionId    The Partition ID from which to receive.

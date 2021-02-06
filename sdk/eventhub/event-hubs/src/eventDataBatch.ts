@@ -63,7 +63,6 @@ export interface EventDataBatch {
    * set the partitionKey.
    * @readonly
    * @internal
-   * @hidden
    */
   readonly partitionKey?: string;
 
@@ -72,7 +71,6 @@ export interface EventDataBatch {
    * the `EventHubProducerClient` to set the partitionId.
    * @readonly
    * @internal
-   * @hidden
    */
   readonly partitionId?: string;
 
@@ -113,7 +111,6 @@ export interface EventDataBatch {
    * This is not meant for the user to use directly.
    *
    * @internal
-   * @hidden
    */
   _generateMessage(): Buffer;
 
@@ -121,7 +118,6 @@ export interface EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -129,7 +125,6 @@ export interface EventDataBatch {
 /**
  * An internal class representing a batch of events which can be used to send events to Event Hub.
  *
- * @class
  * @internal
  */
 export class EventDataBatchImpl implements EventDataBatch {
@@ -179,9 +174,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
    * Use the `createBatch()` method on your `EventHubProducer` instead.
-   * @constructor
    * @internal
-   * @hidden
    */
   constructor(
     context: ConnectionContext,
@@ -243,7 +236,6 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
-   * @hidden
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;

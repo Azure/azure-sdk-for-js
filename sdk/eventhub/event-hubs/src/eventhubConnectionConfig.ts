@@ -10,7 +10,6 @@ import { parseEndpoint } from "./util/parseEndpoint";
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
  * @internal
- * @ignore
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**
@@ -69,7 +68,6 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
  * @internal
- * @ignore
  */
 export const EventHubConnectionConfig = {
   /**
