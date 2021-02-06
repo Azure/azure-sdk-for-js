@@ -509,7 +509,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     throwErrorIfConnectionClosed(this._context);
     let maxMessageSize = await this.getMaxMessageSize({
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      ...options
     });
     if (options?.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize!) {

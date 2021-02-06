@@ -584,7 +584,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[],
-    options: SendManagementRequestOptions = {}
+    options: ManagementRequestOptions = {}
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context);
     if (!messages.length) {
@@ -839,7 +839,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async updateDispositionStatus(
     lockToken: string,
     dispositionType: DispositionType,
-    options?: DispositionStatusOptions & SendManagementRequestOptions
+    options?: DispositionStatusOptions & ManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};
