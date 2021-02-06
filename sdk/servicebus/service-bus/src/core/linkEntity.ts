@@ -253,7 +253,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     );
 
     try {
-      await this._negotiateClaim(undefined, operationOptions);
+      await this._negotiateClaim(false, operationOptions);
 
       checkAborted();
       this.checkIfConnectionReady();
