@@ -29,33 +29,44 @@ export class Sms {
   /**
    * @summary Sends a SMS message from a phone number that belongs to the authenticated account.
    * @param sendMessageRequest Represents the body of the send message request.
-   * @param apiVersion Version of API to invoke.
    * @param [options] The optional parameters
    * @returns Promise<Models.SmsSendResponse2>
    */
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options?: Models.SmsSendOptionalParams): Promise<Models.SmsSendResponse2>;
+  send(
+    sendMessageRequest: Models.SendMessageRequest,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.SmsSendResponse2>;
   /**
    * @param sendMessageRequest Represents the body of the send message request.
-   * @param apiVersion Version of API to invoke.
    * @param callback The callback
    */
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, callback: coreHttp.ServiceCallback<Models.SmsSendResponse>): void;
+  send(
+    sendMessageRequest: Models.SendMessageRequest,
+    callback: coreHttp.ServiceCallback<Models.SmsSendResponse>
+  ): void;
   /**
    * @param sendMessageRequest Represents the body of the send message request.
-   * @param apiVersion Version of API to invoke.
    * @param options The optional parameters
    * @param callback The callback
    */
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options: Models.SmsSendOptionalParams, callback: coreHttp.ServiceCallback<Models.SmsSendResponse>): void;
-  send(sendMessageRequest: Models.SendMessageRequest, apiVersion: string, options?: Models.SmsSendOptionalParams | coreHttp.ServiceCallback<Models.SmsSendResponse>, callback?: coreHttp.ServiceCallback<Models.SmsSendResponse>): Promise<Models.SmsSendResponse2> {
+  send(
+    sendMessageRequest: Models.SendMessageRequest,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.SmsSendResponse>
+  ): void;
+  send(
+    sendMessageRequest: Models.SendMessageRequest,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SmsSendResponse>,
+    callback?: coreHttp.ServiceCallback<Models.SmsSendResponse>
+  ): Promise<Models.SmsSendResponse2> {
     return this.client.sendOperationRequest(
       {
         sendMessageRequest,
-        apiVersion,
         options
       },
       sendOperationSpec,
-      callback) as Promise<Models.SmsSendResponse2>;
+      callback
+    ) as Promise<Models.SmsSendResponse2>;
   }
 }
 
@@ -64,16 +75,8 @@ const serializer = new coreHttp.Serializer(Mappers);
 const sendOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "sms",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.repeatabilityRequestId,
-    Parameters.repeatabilityFirstSent
-  ],
+  urlParameters: [Parameters.endpoint],
+  queryParameters: [Parameters.apiVersion],
   requestBody: {
     parameterPath: "sendMessageRequest",
     mapper: {
@@ -83,8 +86,7 @@ const sendOperationSpec: coreHttp.OperationSpec = {
   },
   responses: {
     202: {
-      bodyMapper: Mappers.SmsSendResponse,
-      headersMapper: Mappers.SmsSendHeaders
+      bodyMapper: Mappers.SmsSendResponse
     },
     default: {}
   },

@@ -6,8 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import * as coreHttp from "@azure/core-http";
+
+/**
+ * Recipient details for sending SMS messages.
+ */
+export interface SmsRecipient {
+  /**
+   * The recipient's phone number in E.164 format.
+   */
+  to: string;
+  /**
+   * If specified, the client directs that the request is repeatable; that is, the client can make
+   * the request multiple times with the same Repeatability-Request-ID and get back an appropriate
+   * response without the server executing the request multiple times. The value of the
+   * Repeatability-Request-ID is an opaque string representing a client-generated, 36-character
+   * hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request.
+   */
+  repeatabilityRequestId?: string;
+  /**
+   * MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is
+   * used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019
+   * 16:06:51 GMT
+   */
+  repeatabilityFirstSent?: string;
+}
 
 /**
  * Optional configuration for sending SMS messages.
@@ -17,7 +40,7 @@ export interface SmsSendOptions {
    * Enable this flag to receive a delivery report for this message on the Azure Resource
    * EventGrid. Default value: false.
    */
-  enableDeliveryReport?: boolean;
+  enableDeliveryReport: boolean;
   /**
    * Use this field to provide metadata that will then be sent back in the corresponding Delivery
    * Report.
@@ -37,7 +60,7 @@ export interface SendMessageRequest {
    * The recipient's phone number in E.164 format. In this version, a minimum of 1 and upto 100
    * recipients in the list are supported.
    */
-  to: string[];
+  smsRecipient: SmsRecipient[];
   /**
    * The contents of the message that will be sent to the recipient. The allowable content is
    * defined by RFC 5724.
@@ -63,11 +86,16 @@ export interface SmsSendResult {
    */
   httpStatusCode: number;
   /**
-   * Flag to check if message processing succeeded or not.
+   * The result of a repeatable request with one of the case-insensitive values accepted or
+   * rejected. Possible values include: 'accepted', 'rejected'
    */
-  succeeded: boolean;
+  repeatabilityResult?: RepeatabilityResult;
   /**
-   * Optional error message in case of 4xx or 5xx errors.
+   * Indicates if the message is processed successfully or not.
+   */
+  successful: boolean;
+  /**
+   * Optional error message in case of 4xx/5xx/repeatibility errors.
    */
   errorMessage?: string;
 }
@@ -81,57 +109,29 @@ export interface SmsSendResponse {
 }
 
 /**
- * Optional Parameters.
+ * Defines values for RepeatabilityResult.
+ * Possible values include: 'accepted', 'rejected'
+ * @readonly
+ * @enum {string}
  */
-export interface SmsSendOptionalParams extends coreHttp.RequestOptionsBase {
-  /**
-   * If specified, the client directs that the request is repeatable; that is, the client can make
-   * the request multiple times with the same Repeatability-Request-ID and get back an appropriate
-   * response without the server executing the request multiple times. The value of the
-   * Repeatability-Request-ID is an opaque string representing a client-generated, 36-character
-   * hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request.
-   */
-  repeatabilityRequestId?: string;
-  /**
-   * MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is
-   * used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019
-   * 16:06:51 GMT
-   */
-  repeatabilityFirstSent?: string;
-}
-
-/**
- * Defines headers for Send operation.
- */
-export interface SmsSendHeaders {
-  /**
-   * Result of repeatibility request, if repeatability-request-id is provided.Values could be
-   * accepted or rejected.
-   */
-  repeatabilityResult?: string;
-}
+export type RepeatabilityResult = "accepted" | "rejected";
 
 /**
  * Contains response data for the send operation.
  */
-export type SmsSendResponse2 = SmsSendResponse & SmsSendHeaders & {
+export type SmsSendResponse2 = SmsSendResponse & {
   /**
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: SmsSendHeaders;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SmsSendResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SmsSendResponse;
+  };
 };

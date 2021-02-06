@@ -14,7 +14,9 @@ export const apiVersion: coreHttp.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: "2021-03-07",
     type: {
       name: "String"
     }
@@ -25,34 +27,10 @@ export const endpoint: coreHttp.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "endpoint",
-    defaultValue: '',
+    defaultValue: "",
     type: {
       name: "String"
     }
   },
   skipEncoding: true
-};
-export const repeatabilityFirstSent: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "repeatabilityFirstSent"
-  ],
-  mapper: {
-    serializedName: "repeatability-first-sent",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const repeatabilityRequestId: coreHttp.OperationParameter = {
-  parameterPath: [
-    "options",
-    "repeatabilityRequestId"
-  ],
-  mapper: {
-    serializedName: "repeatability-request-id",
-    type: {
-      name: "String"
-    }
-  }
 };

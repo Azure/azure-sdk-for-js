@@ -19,7 +19,7 @@ import {
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SmsApiClient } from "./generated/src/smsApiClient";
-import { SmsSendResult, SmsSendOptions as InternalSmsSendOptions } from "./generated/src/models";
+import { SmsSendResult } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
@@ -33,7 +33,7 @@ export interface SmsClientOptions extends PipelineOptions {}
 /**
  * Values used to configure Sms message
  */
-export interface SmsSendRequest {
+export interface SendRequest {
   /**
    * The sender's phone number in E.164 format that is owned by the authenticated account.
    */
@@ -52,7 +52,18 @@ export interface SmsSendRequest {
 /**
  * Options to configure Sms requests
  */
-export interface SmsSendOptions extends OperationOptions, InternalSmsSendOptions {}
+export interface SendOptions extends OperationOptions {
+  /**
+   * Enable this flag to receive a delivery report for this message on the Azure Resource
+   * EventGrid. Default value: false.
+   */
+  enableDeliveryReport: boolean;
+  /**
+   * Use this field to provide metadata that will then be sent back in the corresponding Delivery
+   * Report.
+   */
+  tag?: string;
+}
 
 export { SmsSendResult };
 
@@ -139,10 +150,14 @@ export class SmsClient {
    * @param options Additional request options
    */
   public send(
-    _sendRequest: SmsSendRequest,
-    _options: SmsSendOptions = {}
+    _sendRequest: SendRequest,
+    _options: SendOptions = { enableDeliveryReport: false }
   ): PagedAsyncIterableIterator<SmsSendResult> {
     const { span } = createSpan("SmsClient-Send", _options);
+
+    // let request = new SendMessageRequest(_sendRequest.from);
+    // const user: CommunicationUserIdentifier = { communicationUserId: identity.id };
+
     try {
       return {
         next() {

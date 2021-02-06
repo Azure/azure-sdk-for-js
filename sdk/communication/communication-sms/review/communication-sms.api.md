@@ -11,28 +11,28 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface SendOptions extends OperationOptions {
+    enableDeliveryReport: boolean;
+    tag?: string;
+}
+
+// @public
+export interface SendRequest {
+    from: string;
+    message: string;
+    to: string[];
+}
+
+// @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
-    send(_sendRequest: SmsSendRequest, _options?: SmsSendOptions): PagedAsyncIterableIterator<SmsSendResult>;
+    send(_sendRequest: SendRequest, _options?: SendOptions): PagedAsyncIterableIterator<SmsSendResult>;
 }
 
 // @public
 export interface SmsClientOptions extends PipelineOptions {
-}
-
-// Warning: (ae-forgotten-export) The symbol "SmsSendOptions" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface SmsSendOptions extends OperationOptions, SmsSendOptions_2 {
-}
-
-// @public
-export interface SmsSendRequest {
-    from: string;
-    message: string;
-    to: string[];
 }
 
 // @public
@@ -40,7 +40,9 @@ export interface SmsSendResult {
     errorMessage?: string;
     httpStatusCode: number;
     messageId?: string;
-    succeeded: boolean;
+    // Warning: (ae-forgotten-export) The symbol "RepeatabilityResult" needs to be exported by the entry point index.d.ts
+    repeatabilityResult?: RepeatabilityResult;
+    successful: boolean;
     to: string;
 }
 

@@ -8,7 +8,7 @@
 
 export {
   SendMessageRequest,
-  SmsSendHeaders,
+  SmsRecipient,
   SmsSendOptions,
   SmsSendResponse,
   SmsSendResult

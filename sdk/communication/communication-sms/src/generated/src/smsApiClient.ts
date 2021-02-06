@@ -31,10 +31,5 @@ class SmsApiClient extends SmsApiClientContext {
 
 // Operation Specifications
 
-export {
-  SmsApiClient,
-  SmsApiClientContext,
-  Models as SmsApiModels,
-  Mappers as SmsApiMappers
-};
+export { SmsApiClient, SmsApiClientContext, Models as SmsApiModels, Mappers as SmsApiMappers };
 export * from "./operations";
