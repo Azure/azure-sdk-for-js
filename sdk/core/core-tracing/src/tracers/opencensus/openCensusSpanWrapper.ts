@@ -1,10 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanContext, Span, SpanOptions, Attributes, Status, TraceFlags, Exception, TimeInput, StatusCode } from "@opentelemetry/api";
+import {
+  SpanContext,
+  Span,
+  SpanOptions,
+  Attributes,
+  Status,
+  TraceFlags,
+  Exception,
+  TimeInput,
+  StatusCode
+} from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
-import { Attributes as OpenCensusAttributes, CanonicalCode, Span as OpenCensusSpan } from "@opencensus/web-types";
+import {
+  Attributes as OpenCensusAttributes,
+  CanonicalCode,
+  Span as OpenCensusSpan
+} from "@opencensus/web-types";
 
 function isWrappedSpan(span?: Span | SpanContext | null): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
@@ -125,7 +139,24 @@ export class OpenCensusSpanWrapper implements Span {
    * @param status - The status to set.
    */
   setStatus(status: Status): this {
-    this._span.setStatus(status.code, status.message);
+    // TODO: there isn't a great way to convert these, AFAICT
+    switch (status.code) {
+      case StatusCode.UNSET:
+        // TODO: the default value would be CanonicalCode.OK and there's no other
+        // value that seems to map to "not set". So we'll just not set it
+        // and hope that's sensible.
+        break;
+      case StatusCode.ERROR:
+        this._span.setStatus(CanonicalCode.UNKNOWN, status.message);
+        break;
+      case StatusCode.OK:
+        this._span.setStatus(CanonicalCode.OK, status.message);
+        break;
+      default:
+        this._span.setStatus(CanonicalCode.UNKNOWN, status.message);
+        break;
+    }
+
     return this;
   }
 
