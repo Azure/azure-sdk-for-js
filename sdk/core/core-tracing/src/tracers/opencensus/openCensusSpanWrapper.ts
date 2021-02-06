@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanContext, Span, SpanOptions, Attributes, Status, TraceFlags } from "@opentelemetry/api";
+import { SpanContext, Span, SpanOptions, Attributes, Status, TraceFlags, Exception, TimeInput, StatusCode } from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
-import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
+import { Attributes as OpenCensusAttributes, CanonicalCode, Span as OpenCensusSpan } from "@opencensus/web-types";
 
 function isWrappedSpan(span?: Span | SpanContext | null): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
@@ -144,5 +144,15 @@ export class OpenCensusSpanWrapper implements Span {
   isRecording(): boolean {
     // NoRecordSpans have an empty traceId
     return !!this._span.traceId;
+  }
+
+  /**
+   * Sets exception as a span event
+   * @param exception the exception the only accepted values are string or Error
+   * @param [time] the time to set as Span's event time. If not provided,
+   *     use the current time.
+   */
+  recordException(_exception: Exception, _time?: TimeInput): void {
+    throw new Error("Method not implemented.");
   }
 }

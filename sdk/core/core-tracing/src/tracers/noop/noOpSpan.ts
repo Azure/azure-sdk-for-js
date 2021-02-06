@@ -1,7 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, SpanContext, Attributes, Status, TraceFlags, Exception, TimeInput } from "@opentelemetry/api";
+import {
+  Span,
+  SpanContext,
+  Attributes,
+  Status,
+  TraceFlags,
+  Exception,
+  TimeInput
+} from "@opentelemetry/api";
 
 /**
  * A no-op implementation of Span that can safely be used without side-effects.
@@ -82,6 +90,5 @@ export class NoOpSpan implements Span {
    * @param [time] the time to set as Span's event time. If not provided,
    *     use the current time.
    */
-  recordException(_exception: Exception, _time?: TimeInput): void {
-  }
+  recordException(_exception: Exception, _time?: TimeInput): void {}
 }
