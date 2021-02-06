@@ -56,7 +56,12 @@ export class OpenCensusSpanWrapper implements Span {
    * @param name - The name of the Span
    * @param options - Options for the Span
    */
-  constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions, context?: Context);
+  constructor(
+    tracer: OpenCensusTracerWrapper,
+    name: string,
+    options?: SpanOptions,
+    context?: Context
+  );
   constructor(
     tracerOrSpan: OpenCensusTracerWrapper | OpenCensusSpan,
     name: string = "",
@@ -67,7 +72,7 @@ export class OpenCensusSpanWrapper implements Span {
       let parent: OpenCensusSpan | undefined;
 
       if (context != null) {
-        const parentSpan = getSpan(context!);   // this constructor overload would require that context be passed in.
+        const parentSpan = getSpan(context); // this constructor overload would require that context be passed in.
         parent = isWrappedSpan(parentSpan) ? parentSpan.getWrappedSpan() : undefined;
       }
 

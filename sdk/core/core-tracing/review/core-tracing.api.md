@@ -5,6 +5,9 @@
 ```ts
 
 import { Attributes } from '@opentelemetry/api';
+import { AttributeValue } from '@opentelemetry/api';
+import { Context } from '@opentelemetry/api';
+import { Exception } from '@opentelemetry/api';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
 import { SpanContext as OTSpanContext } from '@opentelemetry/api';
@@ -31,6 +34,7 @@ export class NoOpSpan implements Span {
     context(): OTSpanContext;
     end(_endTime?: number): void;
     isRecording(): boolean;
+    recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(_key: string, _value: unknown): this;
     setAttributes(_attributes: Attributes): this;
     setStatus(_status: Status): this;
@@ -50,12 +54,13 @@ export { OpenCensusSpan }
 // @public
 export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
-    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions);
+    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions, context?: Context);
     addEvent(_name: string, _attributes?: Attributes): this;
     context(): OTSpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
     isRecording(): boolean;
+    recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(key: string, value: unknown): this;
     setAttributes(attributes: Attributes): this;
     setStatus(status: Status): this;
@@ -70,7 +75,7 @@ export class OpenCensusTracerWrapper implements Tracer {
     bind<T>(_target: T, _span?: Span): T;
     getCurrentSpan(): Span | undefined;
     getWrappedTracer(): TracerBase;
-    startSpan(name: string, options?: OTSpanOptions): Span;
+    startSpan(name: string, options?: OTSpanOptions, context?: Context): Span;
     withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
 
@@ -106,9 +111,7 @@ export interface SpanGraphNode {
 
 // @public
 export interface SpanOptions {
-    attributes?: {
-        [key: string]: unknown;
-    };
+    attributes?: Attributes;
     parent?: SpanContext | null;
 }
 
@@ -123,7 +126,7 @@ export class TestSpan extends NoOpSpan {
     kind: SpanKind;
     name: string;
     readonly parentSpanId?: string;
-    setAttribute(key: string, value: unknown): this;
+    setAttribute(key: string, value: AttributeValue): this;
     setAttributes(attributes: Attributes): this;
     setStatus(status: Status): this;
     readonly startTime: TimeInput;
@@ -137,7 +140,7 @@ export class TestTracer extends NoOpTracer {
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];
     getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: OTSpanOptions): TestSpan;
+    startSpan(name: string, options?: OTSpanOptions, currentContext?: Context): TestSpan;
     }
 
 // @public

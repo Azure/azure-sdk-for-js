@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Attributes } from "@opentelemetry/api";
+
 /**
  * Shorthand enum for common traceFlags values inside SpanContext
  */
@@ -42,7 +44,7 @@ export interface SpanOptions {
   /**
    * Attributes to set on the Span
    */
-  attributes?: { [key: string]: unknown };
+  attributes?: Attributes;
 }
 
 /**
