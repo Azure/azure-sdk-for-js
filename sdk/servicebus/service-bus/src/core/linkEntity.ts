@@ -204,7 +204,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   async initLink(
     options: LinkOptionsT<LinkT>,
-    operationOptions: OperationOptionsBase = {}
+    operationOptions: OperationOptionsBase
   ): Promise<void> {
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
     await this._context.readyToOpenLink();
@@ -222,7 +222,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
   private async _initLinkImpl(
     options: LinkOptionsT<LinkT>,
-    operationOptions: OperationOptionsBase = {}
+    operationOptions: OperationOptionsBase
   ): Promise<void> {
     const checkAborted = (): void => {
       if (operationOptions.abortSignal?.aborted) {

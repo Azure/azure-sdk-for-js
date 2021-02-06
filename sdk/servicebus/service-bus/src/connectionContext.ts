@@ -141,7 +141,7 @@ async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
   receiverType: ReceiverType,
-  operationOptions: OperationOptionsBase = {}
+  operationOptions: OperationOptionsBase
 ) {
   const detachCalls: Promise<void>[] = [];
 
@@ -199,7 +199,7 @@ export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
     tokenCredential: SharedKeyCredential | TokenCredential,
-    options?: ServiceBusClientOptions
+    options: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
     const userAgent = `${formatUserAgentPrefix(
@@ -458,7 +458,8 @@ export namespace ConnectionContext {
         await callOnDetachedOnReceivers(
           connectionContext,
           connectionError || contextError,
-          "streaming"
+          "streaming",
+          options
         );
       }
     };

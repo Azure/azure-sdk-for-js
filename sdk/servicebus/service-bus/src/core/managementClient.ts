@@ -211,7 +211,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     this._context = context;
   }
 
-  private async _init(operationOptions: OperationOptionsBase = {}): Promise<void> {
+  private async _init(operationOptions: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const rxopt: ReceiverOptions = {

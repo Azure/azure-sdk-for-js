@@ -455,7 +455,7 @@ export class StreamingReceiver extends MessageReceiver {
    */
   async onDetached(
     receiverError?: AmqpError | Error,
-    operationOptions: OperationOptionsBase = {}
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
     logger.verbose(`${this.logPrefix} onDetached: reinitializing link.`);
 

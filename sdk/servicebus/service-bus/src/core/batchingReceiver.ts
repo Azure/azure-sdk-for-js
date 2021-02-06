@@ -39,7 +39,7 @@ export class BatchingReceiver extends MessageReceiver {
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
       entityPath,
-      async (operationOptions: OperationOptionsBase = {}): Promise<MinimalReceiver | undefined> => {
+      async (operationOptions: OperationOptionsBase): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
         const rcvrOptions = this._createReceiverOptions(false, {

@@ -188,7 +188,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected async _init(
     options: ReceiverOptions,
-    operationOptions: OperationOptionsBase = {}
+    operationOptions: OperationOptionsBase
   ): Promise<void> {
     try {
       await this.initLink(options, operationOptions);

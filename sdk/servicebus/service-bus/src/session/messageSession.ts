@@ -180,7 +180,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
    * more than the configured totalAutoLockRenewDuration.
    */
-  private _ensureSessionLockRenewal(operationOptions: OperationOptionsBase = {}): void {
+  private _ensureSessionLockRenewal(operationOptions: OperationOptionsBase): void {
     if (
       this.autoRenewLock &&
       new Date(this._totalAutoLockRenewDuration) > this.sessionLockedUntilUtc! &&
@@ -214,7 +214,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.logPrefix,
             this.sessionId
           );
-          this._ensureSessionLockRenewal();
+          this._ensureSessionLockRenewal(operationOptions);
         } catch (err) {
           logger.logError(
             err,
@@ -244,7 +244,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(operationOptions?: OperationOptionsBase): Promise<void> {
+  private async _init(operationOptions: OperationOptionsBase): Promise<void> {
     try {
       const options = this._createMessageSessionOptions();
       await this.initLink(options, operationOptions);
@@ -293,7 +293,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         this._context.messageSessions[this.name] = this;
       }
       this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-      this._ensureSessionLockRenewal();
+      this._ensureSessionLockRenewal(operationOptions);
     } catch (err) {
       const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occurred while creating the receiver", this.logPrefix);
@@ -836,7 +836,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     context: ConnectionContext,
     entityPath: string,
     sessionId: string | undefined,
-    options?: MessageSessionOptions
+    options: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
     const messageSession = new MessageSession(context, entityPath, sessionId, options);

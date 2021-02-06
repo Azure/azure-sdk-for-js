@@ -162,7 +162,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   private _trySend(
     encodedMessage: Buffer,
     sendBatch: boolean,
-    options: OperationOptionsBase = {}
+    options: OperationOptionsBase
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs =
@@ -298,13 +298,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   public async open(
     options?: AwaitableSenderOptions,
-    operationOptions: OperationOptionsBase = {}
+    operationOptions?: OperationOptionsBase
   ): Promise<void> {
     try {
       if (!options) {
         options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
       }
-      await this.initLink(options, operationOptions);
+      await this.initLink(options, operationOptions || {});
     } catch (err) {
       err = translateServiceBusError(err);
       logger.logError(err, `${this.logPrefix} An error occurred while creating the sender`);
@@ -349,7 +349,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
+  async send(data: ServiceBusMessage, options: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const amqpMessage = toRheaMessage(data);
@@ -393,7 +393,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   async sendMessages(
     inputMessages: ServiceBusMessage[],
-    options?: OperationOptionsBase
+    options: OperationOptionsBase
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
@@ -480,7 +480,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   async getMaxMessageSize(
     options: {
       retryOptions?: RetryOptions;
-    } & OperationOptionsBase = {}
+    } & OperationOptionsBase
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
@@ -525,7 +525,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   async sendBatch(
     batchMessage: ServiceBusMessageBatch,
-    options?: OperationOptionsBase
+    options: OperationOptionsBase
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
