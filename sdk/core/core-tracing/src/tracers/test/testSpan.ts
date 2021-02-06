@@ -7,8 +7,8 @@ import {
   SpanKind,
   Status,
   SpanContext,
-  CanonicalCode,
-  Attributes
+  Attributes,
+  AttributeValue
 } from "@opentelemetry/api";
 import { NoOpSpan } from "../noop/noOpSpan";
 
@@ -129,7 +129,7 @@ export class TestSpan extends NoOpSpan {
    * @param key - The attribute key
    * @param value - The attribute value
    */
-  setAttribute(key: string, value: unknown): this {
+  setAttribute(key: string, value: AttributeValue): this {
     this.attributes[key] = value;
     return this;
   }
