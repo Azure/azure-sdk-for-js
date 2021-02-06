@@ -1,50 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
-import {
-  BaseRequestPolicy,
-  RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
-} from "../policies/requestPolicy";
+import { GetTokenOptions } from "@azure/core-auth";
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { HttpHeaders } from "../httpHeaders";
 import { WebResource, WebResourceLike } from "../webResource";
-import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
+import { AccessTokenCache } from "../credentials/accessTokenCache";
 import { AccessTokenRefresher } from "../credentials/accessTokenRefresher";
-
-/**
- * The automated token refresh will only start to happen at the
- * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
- * which is by default 30 seconds.
- */
-const timeBetweenRefreshAttemptsInMs = 30000;
-
-/**
- * Creates a new BearerTokenChallengeAuthenticationPolicy factory.
- *
- * @param credential - The TokenCredential implementation that can supply the bearer token.
- * @param scopes - The scopes for which the bearer token applies.
- */
-export function bearerTokenChallengeAuthenticationPolicy(
-  credential: TokenCredential,
-  scopes: string | string[]
-): RequestPolicyFactory {
-  const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const tokenRefresher = new AccessTokenRefresher(
-    credential,
-    scopes,
-    timeBetweenRefreshAttemptsInMs
-  );
-
-  return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new BearerTokenChallengeAuthenticationPolicy(nextPolicy, options, tokenCache, tokenRefresher);
-    }
-  };
-}
+import { ChallengeCache } from "../CAE/challengeCache";
 
 /**
  * Represents a policy that handles challenges.
@@ -58,12 +23,12 @@ export abstract class BaseChallengePolicy extends BaseRequestPolicy {
   /**
    * Tries to retrieve the challenge.
    */
-  protected getChallenge?(response: HttpOperationResponse): string | void;
+  protected getChallenge?(response: HttpOperationResponse): string | undefined;
 
   /**
    * Authorizes request according to an authentication challenge.
    */
-  protected processChallenge?(_webResource: WebResourceLike): Promise<boolean>;
+  protected processChallenge?(_webResource: WebResourceLike, challenge?: string): Promise<boolean>;
 }
 
 /**
@@ -73,17 +38,7 @@ export abstract class BaseChallengePolicy extends BaseRequestPolicy {
  * as a Bearer token.
  *
  */
-export class BearerTokenChallengeAuthenticationPolicy extends BaseChallengePolicy {
-  /**
-   * Local cache of the access token.
-   */
-  protected tokenCache: AccessTokenCache;
-
-  /**
-   * Optimization on the refreshing of tokens.
-   */
-  protected tokenRefresher: AccessTokenRefresher;
-
+export class BearerTokenChallengeAuthenticationPolicy<TChallenge> extends BaseChallengePolicy {
   /**
    * Creates a new BearerTokenChallengeAuthenticationPolicy object.
    *
@@ -92,16 +47,16 @@ export class BearerTokenChallengeAuthenticationPolicy extends BaseChallengePolic
    * @param scopes - The scopes for which the bearer token applies.
    * @param tokenCache - The cache for the most recent AccessToken returned from the TokenCredential.
    * @param tokenRefresher - The AccessToken refresher.
+   * @param challengeCache - The cache for the challenge.
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    tokenCache: AccessTokenCache,
-    tokenRefresher: AccessTokenRefresher
+    protected tokenCache: AccessTokenCache,
+    protected tokenRefresher: AccessTokenRefresher,
+    protected challengeCache: ChallengeCache<TChallenge>
   ) {
     super(nextPolicy, options);
-    this.tokenCache = tokenCache;
-    this.tokenRefresher = tokenRefresher;
   }
 
   /**
@@ -125,11 +80,12 @@ export class BearerTokenChallengeAuthenticationPolicy extends BaseChallengePolic
   /**
    * Tries to retrieve the challenge.
    */
-  protected getChallenge(response: HttpOperationResponse): string | void {
+  protected getChallenge(response: HttpOperationResponse): string | undefined {
     const challenges = response.headers.get("WWW-Authenticate");
     if (response.status === 401 && challenges) {
       return challenges;
     }
+    return;
   }
 
   /**
@@ -137,14 +93,19 @@ export class BearerTokenChallengeAuthenticationPolicy extends BaseChallengePolic
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource.headers) webResource.headers = new HttpHeaders();
-    await this.loadToken(webResource);
+
     if (this.prepareRequest) {
       await this.prepareRequest(webResource);
+    } else {
+      await this.loadToken(webResource);
     }
 
     const response = await this._nextPolicy.sendRequest(webResource);
 
-    if (this.getChallenge(response) && this.processChallenge && await this.processChallenge(webResource)) {
+    if (
+      this.processChallenge &&
+      (await this.processChallenge(webResource, this.getChallenge(response)))
+    ) {
       return this._nextPolicy.sendRequest(webResource);
     }
 

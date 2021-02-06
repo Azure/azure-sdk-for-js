@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { parseCAEChallenges } from "../../src/CAE";
+import { parseCAEChallenges } from "../../src/CAE/parseCAEChallenges";
 
 /**
  * CAEProperties represents known CAE challenge properties, with input examples on the comments.
@@ -181,7 +181,10 @@ describe("CAE", () => {
     });
 
     it("All possible groups of some examples of known challenges", () => {
-      const testChallenge = (headerValue: string, parsedChallenges: Record<string, string>[]): void => {
+      const testChallenge = (
+        headerValue: string,
+        parsedChallenges: Record<string, string>[]
+      ): void => {
         const parsed = parseCAEChallenges(headerValue);
         parsed.should.deep.equal(parsedChallenges);
       };

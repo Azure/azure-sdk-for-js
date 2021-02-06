@@ -109,18 +109,28 @@ export function bearerTokenAuthenticationPolicy(credential: TokenCredential, sco
 // Warning: (ae-forgotten-export) The symbol "BaseChallengePolicy" needs to be exported by the entry point coreHttp.d.ts
 //
 // @public
-export class BearerTokenChallengeAuthenticationPolicy extends BaseChallengePolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher);
-    protected getChallenge(response: HttpOperationResponse): string | void;
+export class BearerTokenChallengeAuthenticationPolicy<TChallenge> extends BaseChallengePolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher, challengeCache: ChallengeCache<TChallenge>);
+    // (undocumented)
+    protected challengeCache: ChallengeCache<TChallenge>;
+    protected getChallenge(response: HttpOperationResponse): string | undefined;
     protected getToken(options: GetTokenOptions): Promise<string | undefined>;
     protected loadToken(webResource: WebResource, accessToken?: string): Promise<void>;
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
+    // (undocumented)
     protected tokenCache: AccessTokenCache;
+    // (undocumented)
     protected tokenRefresher: AccessTokenRefresher;
     }
 
 // @public
-export function bearerTokenChallengeAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
+export class ChallengeCache<TChallenge> {
+    // (undocumented)
+    challenge?: TChallenge;
+    equalTo(other: TChallenge | undefined): boolean;
+    // (undocumented)
+    setCachedChallenge(challenge: TChallenge): void;
+}
 
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {

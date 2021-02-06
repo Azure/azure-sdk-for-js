@@ -4,49 +4,26 @@
 
 import {
   AccessTokenRefresher,
+  BearerTokenChallengeAuthenticationPolicy,
+  ChallengeCache,
   parseCAEChallenges,
   TokenCredential,
   WebResourceLike
 } from "@azure/core-http";
 import { RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-import { BearerTokenAuthenticationPolicy } from "@azure/core-http";
 import { createClientLogger } from "@azure/logger";
 
 export const logger = createClientLogger("KeyVaultChallengeBasedAuthenticationPolicy");
 
 /**
- * Representation of the Authentication Challenge
+ * Key Vault Challenge structure
  */
-export class KeyVaultAuthenticationChallenge {
-  constructor(public authorization: string, public scope: string) { }
-
-  /**
-   * Checks that this KeyVaultAuthenticationChallenge is equal to another one given.
-   * Only compares the scope.
-   * This is exactly what C# is doing, as we can see here:
-   * https://github.com/Azure/azure-sdk-for-net/blob/70e54b878ff1d01a45266fb3674a396b4ab9c1d2/sdk/keyvault/Azure.Security.KeyVault.Shared/src/ChallengeBasedAuthenticationPolicy.cs#L143-L147
-   * @param other - The other KeyVaultAuthenticationChallenge
-   */
-  public equalTo(other: KeyVaultAuthenticationChallenge | undefined): boolean {
-    return other
-      ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
-      this.authorization.toLowerCase() === other.authorization.toLowerCase()
-      : false;
-  }
-}
-
-/**
- * Helps keep a copy of any previous authentication challenges,
- * so that we can compare on any further request.
- */
-export class KeyVaultAuthenticationChallengeCache {
-  public challenge?: KeyVaultAuthenticationChallenge;
-
-  public setCachedChallenge(challenge: KeyVaultAuthenticationChallenge): void {
-    this.challenge = challenge;
-  }
-}
+export interface KeyVaultChallenge {
+  authorization: string,
+  resource?: string,
+  scope?: string
+};
 
 /**
  * Creates a new KeyVaultChallengeBasedAuthenticationPolicy factory.
@@ -58,7 +35,7 @@ export function keyVaultChallengeAuthenticationPolicy(
 ): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
   const tokenRefresher = new AccessTokenRefresher(credential, "https://vault.azure.net/.default");
-  const challengeCache = new KeyVaultAuthenticationChallengeCache();
+  const challengeCache = new ChallengeCache<KeyVaultChallenge>();
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new KeyVaultChallengeBasedAuthenticationPolicy(
@@ -80,7 +57,7 @@ export function keyVaultChallengeAuthenticationPolicy(
  * If a challenge is indeed received, we use it to retrieve the token, then finally we send the originally intended request.
  *
  */
-export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthenticationPolicy {
+export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenChallengeAuthenticationPolicy<KeyVaultChallenge> {
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
@@ -93,11 +70,11 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthe
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    protected tokenCache: AccessTokenCache,
-    protected tokenRefresher: AccessTokenRefresher,
-    protected challengeCache: KeyVaultAuthenticationChallengeCache
+    tokenCache: AccessTokenCache,
+    tokenRefresher: AccessTokenRefresher,
+    challengeCache: ChallengeCache<KeyVaultChallenge>
   ) {
-    super(nextPolicy, options, tokenCache, tokenRefresher);
+    super(nextPolicy, options, tokenCache, tokenRefresher, challengeCache);
   }
 
   /**
@@ -115,7 +92,7 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthe
    * based on a unique identifier we can find on the request.
    * @param webResource The network request.
    */
-  async onBeforeRequest(webResource: WebResourceLike): Promise<void> {
+  async prepareRequest(webResource: WebResourceLike): Promise<void> {
     if (this.tokenCache.getCachedToken()) {
       logger.info("Cached token found.");
       await this.loadToken(webResource);
@@ -132,37 +109,43 @@ export class KeyVaultChallengeBasedAuthenticationPolicy extends BearerTokenAuthe
    * (which helps in case we had concurrent requests), then we proceed to load the token based on the challenge received,
    * and finally we return true, so that the BearerTokenAuthenticationPolicy can re-send the request.
    */
-  async onChallenge(webResource: WebResourceLike, challenges: string): Promise<boolean> {
-    const parsedChallenges = parseCAEChallenges(challenges);
-    if (parsedChallenges.length !== 1) {
+  async processChallenge(webResource: WebResourceLike, challenge?: string): Promise<boolean> {
+    if (!challenge) {
+      return false;
+    }
+    const [parsedChallenge]: KeyVaultChallenge[] = parseCAEChallenges(challenge) || [];
+    if (!parsedChallenge) {
       logger.info("No challenges received. Bypassing the challenge authentication policy.");
       return false;
     }
 
-    const resourceChallenge = parsedChallenges[0] as CAEParsed.KeyVaultResource;
-    const scopeChallenge = parsedChallenges[0] as CAEParsed.KeyVaultScope;
-
-    const authorization = resourceChallenge.authorization;
-    const resource = resourceChallenge.resource || scopeChallenge.scope;
-    const scope = resource + "/.default";
-
-    if (!(authorization && resource)) {
+    const authorization = parsedChallenge.authorization;
+    if (!authorization) {
       logger.info(
-        "The Key Vault challenge received is not valid. Bypassing the challenge authentication policy."
+        "The Key Vault challenge received didn't have an authorization property. Bypassing the challenge authentication policy."
       );
       return false;
     }
 
-    const kvChallenge = new KeyVaultAuthenticationChallenge(authorization, scope);
+    let scope = parsedChallenge.resource || parsedChallenge.scope;
+    if (!scope) {
+      logger.info("The challenge received didn't have a resource nor a scope. Bypassing the challenge authentication policy.");
+      return false;
+    }
+
+    const defaultPath = "/.default";
+    if (scope?.indexOf(defaultPath) !== scope.length - defaultPath.length) {
+      scope += defaultPath;
+    }
 
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
-    if (!this.challengeCache.challenge?.equalTo(kvChallenge)) {
+    if (!this.challengeCache.equalTo(parsedChallenge)) {
       logger.info(
         "The challenge received invalidated previous challenges. Ensuring a new token is requested."
       );
-      this.challengeCache.setCachedChallenge(kvChallenge);
+      this.challengeCache.setCachedChallenge(parsedChallenge);
       this.tokenCache.setCachedToken(undefined);
     }
 

@@ -8,11 +8,7 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import {
-  KeyVaultAuthenticationChallenge,
-  KeyVaultAuthenticationChallengeCache
-} from "../../../keyvault-common";
-import { parseCAEChallenges } from "@azure/core-http";
+import { ChallengeCache } from "@azure/core-http";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -45,8 +41,8 @@ describe("Challenge based authentication tests", () => {
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
     const sandbox = createSandbox();
-    const spy = sandbox.spy(KeyVaultAuthenticationChallengeCache.prototype, "setCachedChallenge");
-    const spyEqualTo = sandbox.spy(KeyVaultAuthenticationChallenge.prototype, "equalTo");
+    const spy = sandbox.spy(ChallengeCache.prototype, "setCachedChallenge");
+    const spyEqualTo = sandbox.spy(ChallengeCache.prototype, "equalTo");
 
     const promises = keyNames.map((name) => {
       const promise = client.createKey(name, "RSA");
@@ -77,7 +73,7 @@ describe("Challenge based authentication tests", () => {
     // Subsequent network calls should not set new challenges.
 
     const sandbox = createSandbox();
-    const spy = sandbox.spy(KeyVaultAuthenticationChallengeCache.prototype, "setCachedChallenge");
+    const spy = sandbox.spy(ChallengeCache.prototype, "setCachedChallenge");
 
     // Now we run what would be a normal use of the client.
     // Here we will create two keys, then flush them.
@@ -98,41 +94,5 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
 
     // Note: Failing to authenticate will make network requests throw.
-  });
-
-  describe("parseCAEChallenges tests", () => {
-    it("Should work for known shapes of the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
-      const [parsed1] = parseCAEChallenges(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
-        resource: "https://some.url"
-      });
-
-      const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
-      const [parsed2] = parseCAEChallenges(wwwAuthenticate2);
-      assert.deepEqual(parsed2, {
-        authorization: "some_authorization",
-        scope: "https://some.url"
-      });
-    });
-
-    it("Should skip unexpected properties on the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
-      const [parsed1] = parseCAEChallenges(wwwAuthenticate1);
-      assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
-        a: "a",
-        b: "b"
-      });
-
-      const wwwAuthenticate2 = `scope="https://some.url", a="a", c="c"`;
-      const [parsed2] = parseCAEChallenges(wwwAuthenticate2);
-      assert.deepEqual(parsed2, {
-        scope: "https://some.url",
-        a: "a",
-        c: "c"
-      });
-    });
   });
 });
