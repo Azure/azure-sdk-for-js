@@ -3,7 +3,7 @@
 
 import { TestSpan } from "./testSpan";
 import { NoOpTracer } from "../noop/noOpTracer";
-import { SpanContext, SpanKind, SpanOptions, TraceFlags } from "@opentelemetry/api";
+import { Context, SpanContext, SpanKind, SpanOptions, TraceFlags, context as openTelemetryContext, getSpan } from "@opentelemetry/api";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -116,8 +116,8 @@ export class TestTracer extends NoOpTracer {
    * @param name - The name of the span.
    * @param options - The SpanOptions used during Span creation.
    */
-  startSpan(name: string, options: SpanOptions = {}): TestSpan {
-    const parentContext = this._getParentContext(options);
+  startSpan(name: string, options: SpanOptions = {}, currentContext: Context = openTelemetryContext.active()): TestSpan {
+    const parentContext = this._getParentContext(currentContext);
 
     let traceId: string;
     let isRootSpan = false;
@@ -149,8 +149,11 @@ export class TestTracer extends NoOpTracer {
     return span;
   }
 
-  private _getParentContext(options: SpanOptions): SpanContext | undefined {
-    const parent = options.parent;
+  private _getParentContext(context: Context): SpanContext | undefined {
+    // options: SpanOptions, 
+    // const parent = options.parent;
+    const parent = getSpan(context);
+
     let result: SpanContext | undefined;
     if (parent) {
       if ("traceId" in parent) {

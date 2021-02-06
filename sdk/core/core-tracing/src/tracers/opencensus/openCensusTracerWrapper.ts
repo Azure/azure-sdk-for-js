@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Tracer, Span, SpanOptions } from "@opentelemetry/api";
+import { Tracer, Span, SpanOptions, Context } from "@opentelemetry/api";
 import { OpenCensusSpanWrapper } from "./openCensusSpanWrapper";
 import { TracerBase as OpenCensusTracer } from "@opencensus/web-types";
 
@@ -31,8 +31,8 @@ export class OpenCensusTracerWrapper implements Tracer {
    * @param name - The name of the span.
    * @param options - The SpanOptions used during Span creation.
    */
-  startSpan(name: string, options?: SpanOptions): Span {
-    return new OpenCensusSpanWrapper(this, name, options);
+  startSpan(name: string, options?: SpanOptions, context?: Context): Span {
+    return new OpenCensusSpanWrapper(this, name, options, context);
   }
 
   /**

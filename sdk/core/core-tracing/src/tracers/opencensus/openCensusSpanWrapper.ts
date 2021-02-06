@@ -10,7 +10,9 @@ import {
   TraceFlags,
   Exception,
   TimeInput,
-  StatusCode
+  StatusCode,
+  Context,
+  getSpan
 } from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
@@ -54,14 +56,21 @@ export class OpenCensusSpanWrapper implements Span {
    * @param name - The name of the Span
    * @param options - Options for the Span
    */
-  constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions);
+  constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions, context?: Context);
   constructor(
     tracerOrSpan: OpenCensusTracerWrapper | OpenCensusSpan,
     name: string = "",
-    options: SpanOptions = {}
+    options: SpanOptions = {},
+    context?: Context
   ) {
     if (isTracer(tracerOrSpan)) {
-      const parent = isWrappedSpan(options.parent) ? options.parent.getWrappedSpan() : undefined;
+      let parent: OpenCensusSpan | undefined;
+
+      if (context != null) {
+        const parentSpan = getSpan(context!);   // this constructor overload would require that context be passed in.
+        parent = isWrappedSpan(parentSpan) ? parentSpan.getWrappedSpan() : undefined;
+      }
+
       this._span = tracerOrSpan.getWrappedTracer().startChildSpan({
         name,
         childOf: parent
