@@ -14,20 +14,20 @@ import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
  */
 export interface LinkEntityOptions {
   /**
-   * @property [name] The unique name for the entity. If not provided then a guid will be
+   * The unique name for the entity. If not provided then a guid will be
    * assigned.
    */
   name?: string;
   /**
-   * @property [partitionId] The partitionId associated with the link entity.
+   * The partitionId associated with the link entity.
    */
   partitionId?: string;
   /**
-   * @property address The link entity address in one of the following forms:
+   * The link entity address in one of the following forms:
    */
   address?: string;
   /**
-   * @property audience The link entity token audience in one of the following forms:
+   * The link entity token audience in one of the following forms:
    */
   audience?: string;
 }
@@ -39,11 +39,11 @@ export interface LinkEntityOptions {
  */
 export class LinkEntity {
   /**
-   * @property [name] The unique name for the entity (mostly a guid).
+   * The unique name for the entity (mostly a guid).
    */
   name: string;
   /**
-   * @property address The link entity address in one of the following forms:
+   * The link entity address in one of the following forms:
    *
    * **Sender**
    * - `"<hubName>"`
@@ -57,7 +57,7 @@ export class LinkEntity {
    */
   address: string;
   /**
-   * @property audience The link entity token audience in one of the following forms:
+   * The link entity token audience in one of the following forms:
    *
    * **Sender**
    * - `"sb://<yournamespace>.servicebus.windows.net/<hubName>"`
@@ -71,26 +71,26 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * @property [partitionId] The partitionId associated with the link entity.
+   * The partitionId associated with the link entity.
    */
   partitionId?: string;
   /**
-   * @property isConnecting Indicates whether the link is in the process of connecting
+   * Indicates whether the link is in the process of connecting
    * (establishing) itself. Default value: `false`.
    */
   isConnecting: boolean = false;
   /**
-   * @property _context Provides relevant information about the amqp connection,
+   * Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
   protected _context: ConnectionContext;
   /**
-   * @property _tokenRenewalTimer The token renewal timer that keeps track of when
+   * The token renewal timer that keeps track of when
    * the Link Entity is due for token renewal.
    */
   protected _tokenRenewalTimer?: NodeJS.Timer;
   /**
-   * @property _tokenTimeout Indicates token timeout in milliseconds
+   * Indicates token timeout in milliseconds
    */
   protected _tokenTimeoutInMs?: number;
   /**

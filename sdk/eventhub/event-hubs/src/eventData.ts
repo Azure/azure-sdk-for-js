@@ -11,23 +11,23 @@ import { isDefined } from "./util/typeGuards";
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
-   * @property [last_enqueued_offset] The offset of the last event.
+   * The offset of the last event.
    */
   last_enqueued_offset?: string;
   /**
-   * @property [last_enqueued_sequence_number] The sequence number of the last event.
+   * The sequence number of the last event.
    */
   last_enqueued_sequence_number?: number;
   /**
-   * @property [last_enqueued_time_utc] The enqueued time of the last event.
+   * The enqueued time of the last event.
    */
   last_enqueued_time_utc?: number;
   /**
-   * @property [runtime_info_retrieval_time_utc] The retrieval time of the last event.
+   * The retrieval time of the last event.
    */
   runtime_info_retrieval_time_utc?: number;
   /**
-   * @property Any unknown delivery annotations.
+   * Any unknown delivery annotations.
    */
   [x: string]: any;
 }
@@ -38,23 +38,23 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
-   * @property [x-opt-partition-key] Annotation for the partition key set for the event.
+   * Annotation for the partition key set for the event.
    */
   "x-opt-partition-key"?: string | null;
   /**
-   * @property [x-opt-sequence-number] Annontation for the sequence number of the event.
+   * Annontation for the sequence number of the event.
    */
   "x-opt-sequence-number"?: number;
   /**
-   * @property [x-opt-enqueued-time] Annotation for the enqueued time of the event.
+   * Annotation for the enqueued time of the event.
    */
   "x-opt-enqueued-time"?: number;
   /**
-   * @property [x-opt-offset] Annotation for the offset of the event.
+   * Annotation for the offset of the event.
    */
   "x-opt-offset"?: string;
   /**
-   * @property Any other annotation that can be added to the message.
+   * Any other annotation that can be added to the message.
    */
   [x: string]: any;
 }
@@ -65,48 +65,48 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
  */
 export interface EventDataInternal {
   /**
-   * @property body - The message body that needs to be sent or is received.
+   * The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property [enqueuedTimeUtc] The enqueued time of the event.
+   * The enqueued time of the event.
    */
   enqueuedTimeUtc?: Date;
   /**
-   * @property [partitionKey] If specified EventHub will hash this to a partitionId.
+   * If specified EventHub will hash this to a partitionId.
    * It guarantees that messages end up in a specific partition on the event hub.
    */
   partitionKey?: string | null;
   /**
-   * @property [offset] The offset of the event.
+   * The offset of the event.
    */
   offset?: number;
   /**
-   * @property [sequenceNumber] The sequence number of the event.
+   * The sequence number of the event.
    */
   sequenceNumber?: number;
   /**
-   * @property [properties] The application specific properties.
+   * The application specific properties.
    */
   properties?: { [property: string]: any };
   /**
-   * @property [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
+   * The last sequence number of the event within the partition stream of the Event Hub.
    */
   lastSequenceNumber?: number;
   /**
-   * @property [lastEnqueuedOffset] The offset of the last enqueued event.
+   * The offset of the last enqueued event.
    */
   lastEnqueuedOffset?: string;
   /**
-   * @property [lastEnqueuedTime] The enqueued UTC time of the last event.
+   * The enqueued UTC time of the last event.
    */
   lastEnqueuedTime?: Date;
   /**
-   * @property [retrievalTime] The time when the runtime info was retrieved
+   * The time when the runtime info was retrieved
    */
   retrievalTime?: Date;
   /**
-   * @property [systemProperties] The properties set by the service.
+   * The properties set by the service.
    */
   systemProperties?: { [property: string]: any };
 }
@@ -229,14 +229,14 @@ export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessa
  */
 export interface EventData {
   /**
-   * @property The message body that needs to be sent.
+   * The message body that needs to be sent.
    * If the application reading the events is not using this SDK,
    * convert your body payload to a byte array or Buffer for better
    * cross-language compatibility.
    */
   body: any;
   /**
-   * @property Set of key value pairs that can be used to set properties specific to user application.
+   * Set of key value pairs that can be used to set properties specific to user application.
    */
   properties?: {
     [key: string]: any;
@@ -250,34 +250,34 @@ export interface EventData {
  */
 export interface ReceivedEventData {
   /**
-   * @property The message body that needs to be sent or is received.
+   * The message body that needs to be sent or is received.
    */
   body: any;
   /**
-   * @property The application specific properties.
+   * The application specific properties.
    */
   properties?: {
     [key: string]: any;
   };
   /**
-   * @property The enqueued time of the event.
+   * The enqueued time of the event.
    */
   enqueuedTimeUtc: Date;
   /**
-   * @property When specified Event Hub will hash this to a partitionId.
+   * When specified Event Hub will hash this to a partitionId.
    * It guarantees that messages end up in a specific partition on the event hub.
    */
   partitionKey: string | null;
   /**
-   * @property The offset of the event.
+   * The offset of the event.
    */
   offset: number;
   /**
-   * @property The sequence number of the event.
+   * The sequence number of the event.
    */
   sequenceNumber: number;
   /**
-   * @property The properties set by the service.
+   * The properties set by the service.
    */
   systemProperties?: {
     [key: string]: any;

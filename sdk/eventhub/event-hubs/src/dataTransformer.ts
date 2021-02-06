@@ -50,7 +50,7 @@ export const defaultDataTransformer = {
   },
 
   /**
-   * @property {Function} [decode] A function that takes the body property from an AMQP message
+   * A function that takes the body property from an AMQP message
    * (an AMQP Data type (data section in rhea terms)) and returns the decoded message body.
    * If it cannot decode the body then it returns the body
    * as-is.

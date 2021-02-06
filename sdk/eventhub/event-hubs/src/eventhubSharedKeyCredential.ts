@@ -13,12 +13,12 @@ import jssha from "jssha";
  */
 export class SharedKeyCredential {
   /**
-   * @property {string} keyName - The name of the EventHub/ServiceBus key.
+   * The name of the EventHub/ServiceBus key.
    */
   keyName: string;
 
   /**
-   * @property {string} key - The secret value associated with the above EventHub/ServiceBus key.
+   * The secret value associated with the above EventHub/ServiceBus key.
    */
   key: string;
 

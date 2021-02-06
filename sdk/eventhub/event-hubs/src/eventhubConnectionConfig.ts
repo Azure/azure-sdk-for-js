@@ -14,7 +14,7 @@ import { parseEndpoint } from "./util/parseEndpoint";
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**
-   * @property {string} entityPath - The name/path of the entity (event hub name) to which the
+   * The name/path of the entity (event hub name) to which the
    * connection needs to happen.
    */
   entityPath: string;
