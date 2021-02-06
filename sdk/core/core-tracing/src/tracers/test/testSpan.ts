@@ -8,7 +8,8 @@ import {
   Status,
   SpanContext,
   Attributes,
-  AttributeValue
+  AttributeValue,
+  StatusCode
 } from "@opentelemetry/api";
 import { NoOpSpan } from "../noop/noOpSpan";
 
@@ -78,7 +79,7 @@ export class TestSpan extends NoOpSpan {
     this.startTime = startTime;
     this.parentSpanId = parentSpanId;
     this.status = {
-      code: CanonicalCode.OK
+      code: StatusCode.OK
     };
     this.endCalled = false;
     this._context = context;
