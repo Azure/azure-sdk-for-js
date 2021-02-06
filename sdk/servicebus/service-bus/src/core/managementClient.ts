@@ -52,7 +52,7 @@ import { defaultDataTransformer } from "../dataTransformer";
 /**
  * @internal
  */
-export interface SendManagementRequestOptions extends SendRequestOptions {
+export interface SendManagementRequestOptions extends SendRequestOptions, OperationOptionsBase {
   /**
    * The name of the sender or receiver link associated with the management operations.
    * This is used for service side optimization.
@@ -177,8 +177,6 @@ export interface ManagementClientOptions {
   audience?: string;
 }
 
-export type ManagementRequestOptions = SendManagementRequestOptions & OperationOptionsBase;
-
 /**
  * @internal
  * Describes the ServiceBus Management Client that talks
@@ -293,7 +291,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   private async _makeManagementRequest(
     request: RheaMessage,
     internalLogger: ServiceBusLogger,
-    sendRequestOptions: ManagementRequestOptions
+    sendRequestOptions: SendManagementRequestOptions
   ): Promise<RheaMessage> {
     if (request.message_id == undefined) {
       request.message_id = generate_uuid();
@@ -385,7 +383,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async peek(
     messageCount: number,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
@@ -412,7 +410,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async peekMessagesBySession(
     sessionId: string,
     messageCount: number,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
@@ -435,7 +433,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     fromSequenceNumber: Long,
     maxMessageCount: number,
     sessionId?: string,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     const connId = this._context.connectionId;
@@ -530,7 +528,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param options - Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(lockToken: string, options: ManagementRequestOptions = {}): Promise<Date> {
+  async renewLock(lockToken: string, options: SendManagementRequestOptions = {}): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
     if (options.timeoutInMs == null) options.timeoutInMs = 5000;
 
@@ -584,7 +582,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[],
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context);
     if (!messages.length) {
@@ -676,7 +674,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async cancelScheduledMessages(
     sequenceNumbers: Long[],
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     if (!sequenceNumbers.length) {
@@ -748,7 +746,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
     sessionId?: string,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
 
@@ -903,7 +901,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param options - Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewSessionLock(sessionId: string, options: ManagementRequestOptions = {}): Promise<Date> {
+  async renewSessionLock(
+    sessionId: string,
+    options: SendManagementRequestOptions = {}
+  ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const messageBody: any = {};
@@ -953,7 +954,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async setSessionState(
     sessionId: string,
     state: any,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
 
@@ -994,7 +995,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param sessionId - The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
-  async getSessionState(sessionId: string, options: ManagementRequestOptions = {}): Promise<any> {
+  async getSessionState(
+    sessionId: string,
+    options: SendManagementRequestOptions = {}
+  ): Promise<any> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const messageBody: any = {};
@@ -1040,7 +1044,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     skip: number,
     top: number,
     lastUpdatedTime?: Date,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<string[]> {
     throwErrorIfConnectionClosed(this._context);
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
@@ -1091,7 +1095,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * Get all the rules on the Subscription.
    * @returns Promise<RuleDescription[]> A list of rules.
    */
-  async getRules(options: ManagementRequestOptions = {}): Promise<RuleDescription[]> {
+  async getRules(options: SendManagementRequestOptions = {}): Promise<RuleDescription[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const request: RheaMessage = {
@@ -1198,7 +1202,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * Removes the rule on the Subscription identified by the given rule name.
    */
-  async removeRule(ruleName: string, options: ManagementRequestOptions = {}): Promise<void> {
+  async removeRule(ruleName: string, options: SendManagementRequestOptions = {}): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "ruleName", ruleName);
     ruleName = String(ruleName);
@@ -1242,7 +1246,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     ruleName: string,
     filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
-    options: ManagementRequestOptions = {}
+    options: SendManagementRequestOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
 
