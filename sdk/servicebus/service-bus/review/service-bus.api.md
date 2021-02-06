@@ -161,7 +161,11 @@ export interface NamespaceProperties {
 export { OperationOptions }
 
 // @public
-export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
+export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions"> & {
+    requestOptions?: {
+        timeout?: number;
+    };
+};
 
 // @public
 export function parseServiceBusConnectionString(connectionString: string): ServiceBusConnectionStringProperties;
@@ -287,7 +291,7 @@ export class ServiceBusClient {
 }
 
 // @public
-export interface ServiceBusClientOptions {
+export interface ServiceBusClientOptions extends OperationOptionsBase {
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
     webSocketOptions?: WebSocketOptions;
