@@ -205,7 +205,6 @@ export class FormRecognizerClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -361,7 +360,6 @@ export class FormRecognizerClient {
   /**
    * Retrieves result of content recognition operation.
    * @internal
-   * @hidden
    */
   private async getRecognizedContent(
     resultId: string,
