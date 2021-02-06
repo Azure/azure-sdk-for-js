@@ -11,7 +11,6 @@ import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingSt
  * - `partitionId`  : The string identifier of the partition that the producer can be bound to.
  * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
  * A simple usage can be `{ "maxRetries": 4 }`.
- * @hidden
  * @internal
  */
 export interface EventHubProducerOptions {

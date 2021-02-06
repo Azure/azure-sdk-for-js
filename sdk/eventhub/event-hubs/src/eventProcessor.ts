@@ -131,7 +131,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal
-   * @hidden
    */
   pumpManager?: PumpManager;
   /**
@@ -172,7 +171,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
- * @class EventProcessor
  * @internal
  */
 export class EventProcessor {

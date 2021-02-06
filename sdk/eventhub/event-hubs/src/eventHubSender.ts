@@ -35,7 +35,6 @@ import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
- * @class EventHubSender
  * @internal
  */
 export class EventHubSender extends LinkEntity {
@@ -75,7 +74,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Creates a new EventHubSender instance.
    * @hidden
-   * @constructor
    * @param context The connection context.
    * @param [partitionId] The EventHub partition id to which the sender
    * wants to send the event data.

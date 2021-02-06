@@ -13,9 +13,7 @@ import { generate_uuid } from "rhea-promise";
  * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  * Please note - this is only meant for use within the test and not in production code
- * @class
  * @internal
- * @ignore
  */
 export class TestInMemoryCheckpointStore implements CheckpointStore {
   private _partitionOwnershipMap: Map<string, PartitionOwnership> = new Map();

@@ -8,7 +8,6 @@ import isBuffer from "is-buffer";
 import jssha from "jssha";
 
 /**
- * @class SharedKeyCredential
  * Defines the SharedKeyCredential .
  */
 export class SharedKeyCredential {
@@ -24,7 +23,6 @@ export class SharedKeyCredential {
 
   /**
    * Initializes a new instance of SharedKeyCredential
-   * @constructor
    * @param {string} keyName - The name of the EventHub/ServiceBus key.
    * @param {string} key - The secret value associated with the above EventHub/ServiceBus key
    */

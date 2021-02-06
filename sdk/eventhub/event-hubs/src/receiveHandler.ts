@@ -7,8 +7,6 @@ import { logErrorStackTrace, logger } from "./log";
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.
  * The ReceiveHandler is used to stop receiving more messages.
- * @class ReceiveHandler
- * @hidden
  * @internal
  */
 export class ReceiveHandler {
@@ -19,7 +17,6 @@ export class ReceiveHandler {
 
   /**
    * Creates an instance of the ReceiveHandler.
-   * @constructor
    * @internal
    * @param receiver The underlying EventHubReceiver.
    */

@@ -17,7 +17,6 @@ import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 
 /**
- * @hidden
  * @internal
  */
 export class PartitionPump {
@@ -248,7 +247,6 @@ export function createProcessingSpan(
 }
 
 /**
- * @hidden
  * @internal
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {

@@ -96,7 +96,6 @@ export interface ManagementClientOptions {
 }
 
 /**
- * @class ManagementClient
  * @internal
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
@@ -119,7 +118,6 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Instantiates the management client.
-   * @constructor
    * @hidden
    * @param context The connection context.
    * @param [address] The address for the management endpoint. For IotHub it will be
@@ -137,7 +135,6 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Gets the security token for the management application properties.
-   * @hidden
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {
