@@ -21,9 +21,7 @@ import {
   PipelineGetPipelinesByWorkspaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Pipeline.
- */
+/** Class representing a Pipeline. */
 export class Pipeline {
   private readonly client: ArtifactsClient;
 
@@ -371,7 +369,6 @@ export class Pipeline {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getPipelinesByWorkspaceOperationSpec: coreHttp.OperationSpec = {

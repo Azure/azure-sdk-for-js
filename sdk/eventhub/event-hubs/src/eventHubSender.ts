@@ -35,47 +35,45 @@ import { defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.
- * @class EventHubSender
  * @internal
  */
 export class EventHubSender extends LinkEntity {
   /**
-   * @property senderLock The unqiue lock name per connection that is used to acquire the
+   * The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
    * @readonly
    */
   readonly senderLock: string = `sender-${uuid()}`;
   /**
-   * @property _onAmqpError The handler function to handle errors that happen on the
+   * The handler function to handle errors that happen on the
    * underlying sender.
    * @readonly
    */
   private readonly _onAmqpError: OnAmqpEvent;
   /**
-   * @property _onAmqpClose The handler function to handle "sender_close" event
+   * The handler function to handle "sender_close" event
    * that happens on the underlying sender.
    * @readonly
    */
   private readonly _onAmqpClose: OnAmqpEvent;
   /**
-   * @property _onSessionError The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_error" event.
    */
   private _onSessionError: OnAmqpEvent;
   /**
-   * @property _onSessionClose The message handler that will be set as the handler on
+   * The message handler that will be set as the handler on
    * the underlying rhea sender's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEvent;
   /**
-   * @property [_sender] The AMQP sender link.
+   * The AMQP sender link.
    */
   private _sender?: AwaitableSender;
 
   /**
    * Creates a new EventHubSender instance.
    * @hidden
-   * @constructor
    * @param context The connection context.
    * @param [partitionId] The EventHub partition id to which the sender
    * wants to send the event data.

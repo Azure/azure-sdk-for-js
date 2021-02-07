@@ -21,8 +21,8 @@ export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
  * Populates the `ServiceBusMessage` with `SpanContext` info to support trace propagation.
  * Creates and returns a copy of the passed in `ServiceBusMessage` unless the `ServiceBusMessage`
  * has already been instrumented.
- * @param message The `ServiceBusMessage` to instrument.
- * @param span The `Span` containing the context to propagate tracing information.
+ * @param message - The `ServiceBusMessage` to instrument.
+ * @param span - The `Span` containing the context to propagate tracing information.
  * @hidden
  * @internal
  */
@@ -47,7 +47,7 @@ export function instrumentServiceBusMessage(
 
 /**
  * Extracts the `SpanContext` from an `ServiceBusMessage` if the context exists.
- * @param message An individual `ServiceBusMessage` object.
+ * @param message - An individual `ServiceBusMessage` object.
  * @internal
  */
 export function extractSpanContextFromServiceBusMessage(
@@ -65,7 +65,7 @@ export function extractSpanContextFromServiceBusMessage(
  * Provides an iterable over messages, whether it is a single message or multiple
  * messages.
  *
- * @param receivedMessages A single message or a set of messages
+ * @param receivedMessages - A single message or a set of messages
  * @internal
  */
 function* getReceivedMessages(

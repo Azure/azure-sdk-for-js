@@ -37,35 +37,41 @@ export class BasicScenario implements Scenario {
         foo: "bar"
       }
     });
-    await tracer.withSpan(root, async () => {
-      const child1 = tracer.startSpan(`${this.constructor.name}.Child.1`, {
-        startTime: 0,
-        kind: opentelemetry.SpanKind.CLIENT,
-        attributes: {
-          numbers: "123"
-        }
-      });
+    await opentelemetry.context.with(
+      opentelemetry.setSpan(opentelemetry.context.active(), root),
+      async () => {
+        const child1 = tracer.startSpan(`${this.constructor.name}.Child.1`, {
+          startTime: 0,
+          kind: opentelemetry.SpanKind.CLIENT,
+          attributes: {
+            numbers: "123"
+          }
+        });
 
-      const child2 = tracer.startSpan(`${this.constructor.name}.Child.2`, {
-        startTime: 0,
-        kind: opentelemetry.SpanKind.CLIENT,
-        attributes: {
-          numbers: "1234"
-        }
-      });
+        const child2 = tracer.startSpan(`${this.constructor.name}.Child.2`, {
+          startTime: 0,
+          kind: opentelemetry.SpanKind.CLIENT,
+          attributes: {
+            numbers: "1234"
+          }
+        });
 
-      tracer.withSpan(child1, () => {
-        child1.setStatus({ code: StatusCode.OK });
-        child1.end(100);
-      });
+        opentelemetry.context.with(
+          opentelemetry.setSpan(opentelemetry.context.active(), child1),
+          () => {
+            child1.setStatus({ code: StatusCode.OK });
+            child1.end(100);
+          }
+        );
 
-      await delay(0);
-      child2.setStatus({ code: StatusCode.OK });
-      child2.end(100);
+        await delay(0);
+        child2.setStatus({ code: StatusCode.OK });
+        child2.end(100);
 
-      root.setStatus({ code: StatusCode.OK });
-      root.end(600);
-    });
+        root.setStatus({ code: StatusCode.OK });
+        root.end(600);
+      }
+    );
   }
 
   cleanup(): void {

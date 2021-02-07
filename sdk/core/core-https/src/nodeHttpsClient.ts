@@ -127,7 +127,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = getResponseStream(res, headers, shouldDecompress);
+          let responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
@@ -137,7 +137,7 @@ export class NodeHttpsClient implements HttpsClient {
             responseStream = downloadReportStream;
           }
 
-          if (request.streamResponseBody) {
+          if (request.streamResponseStatusCodes?.has(response.status)) {
             response.readableStreamBody = responseStream;
           } else {
             response.bodyAsText = await streamToText(responseStream);
@@ -249,15 +249,10 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
   return headers;
 }
 
-function getResponseStream(
+function getDecodedResponseStream(
   stream: IncomingMessage,
-  headers: HttpHeaders,
-  skipDecompressResponse = false
+  headers: HttpHeaders
 ): NodeJS.ReadableStream {
-  if (skipDecompressResponse) {
-    return stream;
-  }
-
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();

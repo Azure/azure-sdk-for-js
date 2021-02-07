@@ -1,5 +1,10 @@
 # Release History
 
+## 3.1.0-beta.2 (Unreleased)
+
+- Renamed `Appearance` to `TextAppearance`, `Style` to `TextStyle` (previously the name of the enum for `Style.name`, and the `TextStyle` enum to `StyleName` for the sake of clarity in the type names.
+- Added `KnownStyleName`, `KnownLanguage`, `KnownSelectionMarkState`, and `KnownKeyValueType` enums to access the well-known possible values of the `StyleName`, `Language`, `SelectionMarkState`, and `KeyValueType` parameters/fields respectively.
+
 ## 3.1.0-beta.1 (2020-11-23)
 
 - Added a `pages` option to `BeginRecognizeContentOptions`. This option allows for the specification of which pages of a document to include in the content results. If a value is provided, pages that are not included in the `pages` field will not be analyzed.

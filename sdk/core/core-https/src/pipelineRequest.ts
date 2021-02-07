@@ -64,9 +64,9 @@ export interface PipelineRequestOptions {
   formData?: FormDataMap;
 
   /**
-   * Whether or not the body of the PipelineResponse should be treated as a stream.
+   * A list of response status codes whose corresponding PipelineResponse body should be treated as a stream.
    */
-  streamResponseBody?: boolean;
+  streamResponseStatusCodes?: Set<number>;
 
   /**
    * Proxy configuration.
@@ -77,11 +77,6 @@ export interface PipelineRequestOptions {
    * If the connection should be reused. Defaults to true.
    */
   keepAlive?: boolean;
-
-  /**
-   * Disable automatic decompression based on Accept-Encoding header (Node only)
-   */
-  skipDecompressResponse?: boolean;
 
   /**
    * Used to abort the request later.
@@ -110,10 +105,9 @@ class PipelineRequestImpl implements PipelineRequest {
   public withCredentials: boolean;
   public body?: RequestBodyType;
   public formData?: FormDataMap;
-  public streamResponseBody: boolean;
+  public streamResponseStatusCodes?: Set<number>;
   public proxySettings?: ProxySettings;
   public keepAlive: boolean;
-  public skipDecompressResponse: boolean;
   public abortSignal?: AbortSignalLike;
   public requestId: string;
   public spanOptions?: SpanOptions;
@@ -129,8 +123,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.formData = options.formData;
     this.keepAlive = options.keepAlive ?? true;
     this.proxySettings = options.proxySettings;
-    this.skipDecompressResponse = options.skipDecompressResponse ?? false;
-    this.streamResponseBody = options.streamResponseBody ?? false;
+    this.streamResponseStatusCodes = options.streamResponseStatusCodes;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
     this.spanOptions = options.spanOptions;

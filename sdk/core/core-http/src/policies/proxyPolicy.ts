@@ -14,8 +14,10 @@ import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
 import { getEnvironmentValue } from "../util/utils";
 
-let noProxyList: string[] = [];
-let isNoProxyInitalized = false;
+/**
+ * @internal
+ */
+export const noProxyList: string[] = loadNoProxy();
 const byPassedList: Map<string, boolean> = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
@@ -30,43 +32,52 @@ function loadEnvironmentProxyValue(): string | undefined {
   return httpsProxy || allProxy || httpProxy;
 }
 
-// Check whether the given `uri` matches the noProxyList. If it matches, any request sent to that same `uri` won't set the proxy settings.
+// Check whether the host of a given `uri` is in the noProxyList.
+// If there's a match, any request sent to the same host won't have the proxy settings set.
+// This implementation is a port of https://github.com/Azure/azure-sdk-for-net/blob/8cca811371159e527159c7eb65602477898683e2/sdk/core/Azure.Core/src/Pipeline/Internal/HttpEnvironmentProxy.cs#L210
 function isBypassed(uri: string): boolean | undefined {
-  if (byPassedList.has(uri)) {
-    return byPassedList.get(uri);
+  if (noProxyList.length === 0) {
+    return false;
   }
-  loadNoProxy();
-  let isBypassedFlag = false;
   const host = URLBuilder.parse(uri).getHost()!;
-  for (const proxyString of noProxyList) {
-    if (proxyString[0] === ".") {
-      if (uri.endsWith(proxyString)) {
+  if (byPassedList.has(host)) {
+    return byPassedList.get(host);
+  }
+  let isBypassedFlag = false;
+  for (const pattern of noProxyList) {
+    if (pattern[0] === ".") {
+      // This should match either domain it self or any subdomain or host
+      // .foo.com will match foo.com it self or *.foo.com
+      if (host.endsWith(pattern)) {
         isBypassedFlag = true;
       } else {
-        if (host === proxyString.slice(1) && host.length === proxyString.length - 1) {
+        if (host.length === pattern.length - 1 && host === pattern.slice(1)) {
           isBypassedFlag = true;
         }
       }
     } else {
-      if (host === proxyString) {
+      if (host === pattern) {
         isBypassedFlag = true;
       }
     }
   }
-  byPassedList.set(uri, isBypassedFlag);
+  byPassedList.set(host, isBypassedFlag);
   return isBypassedFlag;
 }
 
-function loadNoProxy(): void {
-  if (isNoProxyInitalized) {
-    return;
-  }
+/**
+ * @internal
+ */
+export function loadNoProxy(): string[] {
   const noProxy = getEnvironmentValue(Constants.NO_PROXY);
   if (noProxy) {
-    const list = noProxy.split(",");
-    noProxyList = list.map((item) => item.trim()).filter((item) => item.length);
+    return noProxy
+      .split(",")
+      .map((item) => item.trim())
+      .filter((item) => item.length);
   }
-  isNoProxyInitalized = true;
+
+  return [];
 }
 
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {

@@ -10,11 +10,10 @@ import { parseEndpoint } from "./util/parseEndpoint";
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
  * @internal
- * @ignore
  */
 export interface EventHubConnectionConfig extends ConnectionConfig {
   /**
-   * @property {string} entityPath - The name/path of the entity (event hub name) to which the
+   * The name/path of the entity (event hub name) to which the
    * connection needs to happen.
    */
   entityPath: string;
@@ -69,7 +68,6 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
  * string. It also provides some convenience methods for getting the address and audience for
  * different entities.
  * @internal
- * @ignore
  */
 export const EventHubConnectionConfig = {
   /**

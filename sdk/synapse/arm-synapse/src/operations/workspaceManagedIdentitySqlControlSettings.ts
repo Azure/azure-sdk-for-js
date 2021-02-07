@@ -113,7 +113,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ManagedIdentitySqlControlSettingsModel
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -146,7 +146,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     },
     201: {},
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

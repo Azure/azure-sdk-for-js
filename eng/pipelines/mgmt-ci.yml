@@ -24,7 +24,7 @@ trigger:
       - sdk/core/core-xml/
       - sdk/core/logger/
       - sdk/cosmosdb/cosmos/
-      - sdk/digitaltwins/digital-twins/
+      - sdk/digitaltwins/digital-twins-core/
       - sdk/eventgrid/eventgrid/
       - sdk/eventhub/event-hubs/
       - sdk/eventhub/event-processor-host/

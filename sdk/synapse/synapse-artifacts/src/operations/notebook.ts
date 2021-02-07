@@ -21,9 +21,7 @@ import {
   NotebookGetNotebookSummaryByWorkSpaceNextResponse
 } from "../models";
 
-/**
- * Class representing a Notebook.
- */
+/** Class representing a Notebook. */
 export class Notebook {
   private readonly client: ArtifactsClient;
 
@@ -445,7 +443,6 @@ export class Notebook {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getNotebooksByWorkspaceOperationSpec: coreHttp.OperationSpec = {

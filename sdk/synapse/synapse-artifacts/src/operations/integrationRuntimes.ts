@@ -8,9 +8,7 @@ import * as Parameters from "../models/parameters";
 import { ArtifactsClient } from "../artifactsClient";
 import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
 
-/**
- * Class representing a IntegrationRuntimes.
- */
+/** Class representing a IntegrationRuntimes. */
 export class IntegrationRuntimes {
   private readonly client: ArtifactsClient;
 
@@ -80,7 +78,6 @@ export class IntegrationRuntimes {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreHttp.OperationSpec = {

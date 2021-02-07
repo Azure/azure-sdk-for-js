@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
 import { AmqpError } from "rhea-promise";
 
@@ -111,12 +114,12 @@ export class ServiceBusError extends MessagingError {
   code: ServiceBusErrorCode;
 
   /**
-   * @param message The error message that provides more information about the error.
-   * @param code The reason for the failure.
+   * @param message - The error message that provides more information about the error.
+   * @param code - The reason for the failure.
    */
   constructor(message: string, code: ServiceBusErrorCode);
   /**
-   * @param messagingError An error whose properties will be copied to the ServiceBusError.
+   * @param messagingError - An error whose properties will be copied to the ServiceBusError.
    */
   constructor(messagingError: MessagingError);
   constructor(messageOrError: string | MessagingError, code?: ServiceBusErrorCode) {
@@ -176,7 +179,7 @@ export function translateServiceBusError(err: AmqpError | Error): ServiceBusErro
 /**
  * Determines if an error is of type `ServiceBusError`
  *
- * @param err An error to check to see if it's of type ServiceBusError
+ * @param err - An error to check to see if it's of type ServiceBusError
  */
 export function isServiceBusError(err: any): err is ServiceBusError {
   return err?.name === "ServiceBusError";

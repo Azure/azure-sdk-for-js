@@ -57,7 +57,7 @@ Use the `createThread` method to create a chat thread.
 - Use `topic` to give a thread topic;
 - Use `members` to list the thread members to be added to the thread;
 
-`chatThreadClient` is the response returned from creating a thread, it contains an `threadId` which is the unique ID of the thread.
+`createThreadResult` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
 
 ```Javascript
 let createThreadRequest =
@@ -75,8 +75,8 @@ let createThreadRequest =
             }
         ]
 };
-let chatThreadClient= await chatClient.createChatThread(createThreadRequest);
-let threadId = chatThreadClient.threadId;
+let chatThreadResult = await chatClient.createChatThread(createThreadRequest);
+let threadId = chatThreadResult.chatThread.id;
 ```
 
 ### Send a message to the thread

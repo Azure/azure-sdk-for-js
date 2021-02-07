@@ -22,32 +22,32 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
  */
 export interface PartitionOwnership {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name
+   * The event hub name
    */
   eventHubName: string;
   /**
-   * @property The consumer group name
+   * The consumer group name
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition.
+   * The identifier of the Event Hub partition.
    */
   partitionId: string;
   /**
-   * @property The unique identifier of the event processor.
+   * The unique identifier of the event processor.
    */
   ownerId: string;
   /**
-   * @property The last modified time.
+   * The last modified time.
    */
   lastModifiedTimeInMs?: number;
   /**
-   * @property The unique identifier for the operation.
+   * The unique identifier for the operation.
    */
   etag?: string;
 }
@@ -131,7 +131,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal
-   * @hidden
    */
   pumpManager?: PumpManager;
   /**
@@ -172,7 +171,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
- * @class EventProcessor
  * @internal
  */
 export class EventProcessor {

@@ -13,20 +13,20 @@ import { MessagingError } from "@azure/core-amqp";
  */
 export interface BasicPartitionProperties {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name.
+   * The event hub name.
    */
   eventHubName: string;
   /**
-   * @property The consumer group name.
+   * The consumer group name.
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition.
+   * The identifier of the Event Hub partition.
    */
   partitionId: string;
 }
@@ -39,20 +39,20 @@ export interface BasicPartitionProperties {
  */
 export interface PartitionContext {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   readonly fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name.
+   * The event hub name.
    */
   readonly eventHubName: string;
   /**
-   * @property The consumer group name.
+   * The consumer group name.
    */
   readonly consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition.
+   * The identifier of the Event Hub partition.
    */
   readonly partitionId: string;
   /**

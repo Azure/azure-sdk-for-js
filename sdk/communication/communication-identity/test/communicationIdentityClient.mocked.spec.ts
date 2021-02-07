@@ -53,7 +53,6 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     const spy = sinon.spy(issueTokenHttpClient, "sendRequest");
     const response = await client.issueTokenTest(user, ["chat"]);
 
-    assert.equal(response.user.communicationUserId, "ACS_ID");
     assert.equal(response.token, "token");
     assert.equal(response.expiresOn.toDateString(), new Date("2011/11/30").toDateString());
     sinon.assert.calledOnce(spy);

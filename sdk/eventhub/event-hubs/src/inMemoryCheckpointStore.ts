@@ -15,7 +15,6 @@ import { throwTypeErrorIfParameterMissing } from "./util/error";
  * But in production, you should choose an implementation of the `CheckpointStore` interface that will
  * store the checkpoints and partition ownerships to a durable store instead.
  *
- * @class
  * @internal
  */
 export class InMemoryCheckpointStore implements CheckpointStore {

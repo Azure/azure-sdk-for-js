@@ -40,15 +40,15 @@ import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
  */
 export interface EventHubProperties {
   /**
-   * @property The name of the event hub.
+   * The name of the event hub.
    */
   name: string;
   /**
-   * @property The date and time the hub was created in UTC.
+   * The date and time the hub was created in UTC.
    */
   createdOn: Date;
   /**
-   * @property The slice of string partition identifiers.
+   * The slice of string partition identifiers.
    */
   partitionIds: string[];
 }
@@ -58,31 +58,31 @@ export interface EventHubProperties {
  */
 export interface PartitionProperties {
   /**
-   * @property The name of the Event Hub.
+   * The name of the Event Hub.
    */
   eventHubName: string;
   /**
-   * @property Identifier of the partition within the Event Hub.
+   * Identifier of the partition within the Event Hub.
    */
   partitionId: string;
   /**
-   * @property The starting sequence number of the partition's message log.
+   * The starting sequence number of the partition's message log.
    */
   beginningSequenceNumber: number;
   /**
-   * @property The last sequence number of the partition's message log.
+   * The last sequence number of the partition's message log.
    */
   lastEnqueuedSequenceNumber: number;
   /**
-   * @property The offset of the last enqueued message in the partition's message log.
+   * The offset of the last enqueued message in the partition's message log.
    */
   lastEnqueuedOffset: number;
   /**
-   * @property The time of the last enqueued message in the partition's message log in UTC.
+   * The time of the last enqueued message in the partition's message log in UTC.
    */
   lastEnqueuedOnUtc: Date;
   /**
-   * @property Indicates whether the partition is empty.
+   * Indicates whether the partition is empty.
    */
   isEmpty: boolean;
 }
@@ -96,7 +96,6 @@ export interface ManagementClientOptions {
 }
 
 /**
- * @class ManagementClient
  * @internal
  * Descibes the EventHubs Management Client that talks
  * to the $management endpoint over AMQP connection.
@@ -104,12 +103,12 @@ export interface ManagementClientOptions {
 export class ManagementClient extends LinkEntity {
   readonly managementLock: string = `${Constants.managementRequestKey}-${uuid()}`;
   /**
-   * @property entityPath - The name/path of the entity (hub name) for which the management
+   * The name/path of the entity (hub name) for which the management
    * request needs to be made.
    */
   entityPath: string;
   /**
-   * @property replyTo The reply to Guid for the management client.
+   * The reply to Guid for the management client.
    */
   replyTo: string = uuid();
   /**
@@ -119,7 +118,6 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Instantiates the management client.
-   * @constructor
    * @hidden
    * @param context The connection context.
    * @param [address] The address for the management endpoint. For IotHub it will be
@@ -137,7 +135,6 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Gets the security token for the management application properties.
-   * @hidden
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {

@@ -23,6 +23,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           request: httpRequest,
           parsedBody: {
             id: `${env.KEYVAULT_URI}${path}`,
+            startTime: new Date(),
             attributes: {}
           }
         };

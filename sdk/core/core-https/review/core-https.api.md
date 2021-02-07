@@ -166,7 +166,7 @@ export interface PipelineRequest {
     proxySettings?: ProxySettings;
     requestId: string;
     spanOptions?: SpanOptions;
-    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
     timeout: number;
     url: string;
     withCredentials: boolean;
@@ -184,9 +184,8 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
-    skipDecompressResponse?: boolean;
     spanOptions?: SpanOptions;
-    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     url: string;
     withCredentials?: boolean;

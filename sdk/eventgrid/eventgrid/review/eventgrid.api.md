@@ -5,10 +5,9 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
+import { PipelineOptions } from '@azure/core-https';
 
 // @public
 export interface ACSChatEventBase {
@@ -350,9 +349,9 @@ export class EventGridPublisherClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
-    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<SendEventsResponse>;
-    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
+    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<void>;
+    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<void>;
+    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<void>;
 }
 
 // @public
@@ -1002,11 +1001,6 @@ export interface SendEventGridEventInput<T> {
 
 // @public
 export type SendEventsOptions = OperationOptions;
-
-// @public
-export interface SendEventsResponse {
-    _response: HttpResponse;
-}
 
 // @public
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {

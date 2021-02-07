@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing";
-import { SpanKind, StatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
+import { NoopLogger, SpanKind, StatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
-import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource, SERVICE_RESOURCE } from "@opentelemetry/resources";
 
 import { Tags, Properties, Measurements } from "../../../src/types";
@@ -120,7 +120,7 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
           success: true,
-          responseCode: "0",
+          responseCode: "1",
           url: "/foo.Example/Foo",
           name: `parent span`,
           version: 1,
@@ -174,7 +174,7 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
           success: true,
-          resultCode: "0",
+          resultCode: "1",
           target: "/foo.Example/Foo",
           data: "/foo.Example/Foo",
           type: "GRPC",
@@ -226,7 +226,7 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
           success: true,
-          responseCode: "0",
+          responseCode: "1",
           name: `parent span`,
           version: 1,
           source: undefined,
@@ -275,7 +275,7 @@ describe("spanUtils.ts", () => {
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
           success: true,
-          resultCode: "0",
+          resultCode: "1",
           target: undefined,
           type: "Dependency",
           name: `parent span`,

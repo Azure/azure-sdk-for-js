@@ -4,18 +4,10 @@
 
 ```ts
 
-import { BaseRequestPolicy } from '@azure/core-http';
-import * as coreHttp from '@azure/core-http';
-import { HttpOperationResponse } from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RequestPolicy } from '@azure/core-http';
-import { RequestPolicyFactory } from '@azure/core-http';
-import { RequestPolicyOptionsLike } from '@azure/core-http';
-import { WebResource } from '@azure/core-http';
-import { WebResourceLike } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-https';
+import { PipelinePolicy } from '@azure/core-https';
 
 // @public
 export interface AccessPolicy {
@@ -41,24 +33,10 @@ export type CreateTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type CreateTableEntityResponse = TableInsertEntityHeaders & {
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: {
-            [propertyName: string]: any;
-        };
-        parsedHeaders: TableInsertEntityHeaders;
-    };
-};
+export type CreateTableEntityResponse = TableInsertEntityHeaders;
 
 // @public
-export type CreateTableItemResponse = TableCreateHeaders & {
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableResponse;
-        parsedHeaders: TableCreateHeaders;
-    };
-};
+export type CreateTableItemResponse = TableCreateHeaders;
 
 // @public
 export type CreateTableOptions = OperationOptions & {
@@ -75,23 +53,15 @@ export type DeleteTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type DeleteTableEntityResponse = TableDeleteEntityHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: TableDeleteEntityHeaders;
-    };
-};
+export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
 
 // @public
-export interface DeleteTableOptions extends coreHttp.OperationOptions {
+export interface DeleteTableOptions extends OperationOptions {
     requestId?: string;
 }
 
 // @public
-export type DeleteTableResponse = TableDeleteHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: TableDeleteHeaders;
-    };
-};
+export type DeleteTableResponse = TableDeleteHeaders;
 
 // @public
 export interface Edm<T extends EdmTypes> {
@@ -112,49 +82,31 @@ export interface GeoReplication {
 export type GeoReplicationStatusType = string;
 
 // @public
-export interface GetAccessPolicyOptions extends coreHttp.OperationOptions {
+export interface GetAccessPolicyOptions extends OperationOptions {
     requestId?: string;
     timeout?: number;
 }
 
 // @public
-export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[] & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SignedIdentifier[];
-        parsedHeaders: TableGetAccessPolicyHeaders;
-    };
-};
+export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[];
 
 // @public
-export interface GetPropertiesOptions extends coreHttp.OperationOptions {
+export interface GetPropertiesOptions extends OperationOptions {
     requestId?: string;
     timeout?: number;
 }
 
 // @public
-export type GetPropertiesResponse = ServiceGetPropertiesHeaders & ServiceProperties & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ServiceProperties;
-        parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-};
+export type GetPropertiesResponse = ServiceGetPropertiesHeaders & ServiceProperties;
 
 // @public
-export interface GetStatisticsOptions extends coreHttp.OperationOptions {
+export interface GetStatisticsOptions extends OperationOptions {
     requestId?: string;
     timeout?: number;
 }
 
 // @public
-export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceStats & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableServiceStats;
-        parsedHeaders: ServiceGetStatisticsHeaders;
-    };
-};
+export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceStats;
 
 // @public
 export type GetTableEntityOptions = OperationOptions & {
@@ -164,15 +116,7 @@ export type GetTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: {
-            [propertyName: string]: any;
-        };
-        parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
-    };
-};
+export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
 
 // @public
 export const enum KnownGeoReplicationStatusType {
@@ -185,18 +129,9 @@ export const enum KnownGeoReplicationStatusType {
 }
 
 // @public
-export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
+export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
     nextPartitionKey?: string;
     nextRowKey?: string;
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: {
-            value?: {
-                [key: string]: any;
-            };
-        };
-        parsedHeaders: TableQueryEntitiesHeaders;
-    };
 };
 
 // @public
@@ -218,11 +153,6 @@ export type ListTableItemsOptions = OperationOptions & {
 // @public
 export type ListTableItemsResponse = Array<TableResponseProperties> & {
     nextTableName?: string;
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableQueryResponse;
-        parsedHeaders: TableQueryHeaders;
-    };
 };
 
 // @public
@@ -282,31 +212,23 @@ export interface ServiceSetPropertiesHeaders {
 }
 
 // @public
-export interface SetAccessPolicyOptions extends coreHttp.OperationOptions {
+export interface SetAccessPolicyOptions extends OperationOptions {
     requestId?: string;
     tableAcl?: SignedIdentifier[];
     timeout?: number;
 }
 
 // @public
-export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: TableSetAccessPolicyHeaders;
-    };
-};
+export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 // @public
-export interface SetPropertiesOptions extends coreHttp.OperationOptions {
+export interface SetPropertiesOptions extends OperationOptions {
     requestId?: string;
     timeout?: number;
 }
 
 // @public
-export type SetPropertiesResponse = ServiceSetPropertiesHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceSetPropertiesHeaders;
-    };
-};
+export type SetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 // @public
 export interface SignedIdentifier {
@@ -460,14 +382,6 @@ export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
 // @public
 export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
     [propertyName: string]: any;
-} & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: {
-            [propertyName: string]: any;
-        };
-        parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
-    };
 };
 
 // @public
@@ -542,21 +456,16 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): TablesSharedKeyCredentialPolicy;
 }
 
 // @public
-export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
+export interface TablesSharedKeyCredentialLike {
     accountName: string;
     computeHMACSHA256: (stringToSign: string) => string;
 }
 
 // @public
-export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: TablesSharedKeyCredentialLike);
-    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
-    signRequest(request: WebResourceLike): WebResource;
-}
+export function tablesSharedKeyCredentialPolicy(credential: TablesSharedKeyCredentialLike): PipelinePolicy;
 
 // @public
 export interface TableUpdateEntityHeaders {
@@ -568,11 +477,7 @@ export interface TableUpdateEntityHeaders {
 }
 
 // @public
-export type UpdateEntityResponse = TableUpdateEntityHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: TableUpdateEntityHeaders;
-    };
-};
+export type UpdateEntityResponse = TableUpdateEntityHeaders;
 
 // @public
 export type UpdateMode = "Merge" | "Replace";
@@ -586,11 +491,7 @@ export type UpdateTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type UpsertEntityResponse = TableMergeEntityHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: TableMergeEntityHeaders;
-    };
-};
+export type UpsertEntityResponse = TableMergeEntityHeaders;
 
 // @public
 export type UpsertTableEntityOptions = OperationOptions & {

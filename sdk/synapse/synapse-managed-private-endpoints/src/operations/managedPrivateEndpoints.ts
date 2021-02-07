@@ -15,9 +15,7 @@ import {
   ManagedPrivateEndpointsListNextResponse
 } from "../models";
 
-/**
- * Class representing a ManagedPrivateEndpoints.
- */
+/** Class representing a ManagedPrivateEndpoints. */
 export class ManagedPrivateEndpoints {
   private readonly client: ManagedPrivateEndpointsClient;
 
@@ -255,7 +253,6 @@ export class ManagedPrivateEndpoints {
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreHttp.OperationSpec = {

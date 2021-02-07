@@ -56,22 +56,15 @@ describe("EventHubConsumerClient", () => {
     partitionIds = await producerClient.getPartitionIds({});
   });
 
-  afterEach("Closing the clients", async () => {
-    await producerClient.close();
-    await consumerClient.close();
+  afterEach("Closing the clients", () => {
+    return Promise.all([producerClient.close(), consumerClient.close()]);
   });
 
   describe("functional tests", () => {
     let clients: EventHubConsumerClient[];
-    let producerClient: EventHubProducerClient;
-    let partitionIds: string[];
     let subscriptions: Subscription[];
 
-    beforeEach(async () => {
-      producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
-
-      partitionIds = await producerClient.getPartitionIds();
-
+    beforeEach(() => {
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
 
@@ -84,12 +77,8 @@ describe("EventHubConsumerClient", () => {
         await subscription.close();
       }
 
-      for (const client of clients) {
-        await client.close();
-      }
-
+      await Promise.all(clients.map((client) => client.close()));
       clients = [];
-      await producerClient.close();
     });
 
     describe("#close()", function(): void {
@@ -291,12 +280,14 @@ describe("EventHubConsumerClient", () => {
         const consumerClient1 = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
+          { loadBalancingOptions: { updateIntervalInMs: 1000 } }
         );
         const consumerClient2 = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
+          { loadBalancingOptions: { updateIntervalInMs: 1000 } }
         );
 
         clients.push(consumerClient1, consumerClient2);

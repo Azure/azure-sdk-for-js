@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "5.1.0-beta.3",
+  "version": "5.1.0-beta.4",
   "keywords": [
     "node",
     "azure",
@@ -43,12 +43,12 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skipFolder": true
   },
   "browser": {
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/test/utils/env.js": "./dist-esm/test/utils/env.browser.js"
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
