@@ -1,4 +1,4 @@
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -369,13 +369,19 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("renameFileSystem should work", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
     const serviceClient = getDataLakeServiceClient();
     const fileSystemName = recorder.getUniqueName("filesystem");
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 
     const newFileSystemName = recorder.getUniqueName("newfilesystem");
-    const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
+    // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName);
+    const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName);
 
     const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
     assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
@@ -385,6 +391,11 @@ describe("DataLakeServiceClient", () => {
   });
 
   it("renameFileSystem should work with source lease", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
     const serviceClient = getDataLakeServiceClient();
     const fileSystemName = recorder.getUniqueName("filesystem");
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
@@ -394,7 +405,8 @@ describe("DataLakeServiceClient", () => {
     await leaseClient.acquireLease(-1);
 
     const newFileSystemName = recorder.getUniqueName("newfilesystem");
-    const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
+    // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
+    const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName, {
       sourceCondition: { leaseId: leaseClient.leaseId }
     });
 

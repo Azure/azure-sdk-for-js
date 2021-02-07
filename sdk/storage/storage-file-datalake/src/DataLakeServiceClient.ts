@@ -370,7 +370,8 @@ export class DataLakeServiceClient extends StorageClient {
    * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Rename operation.
    * @memberof DataLakeServiceClient
    */
-  public async renameFileSystem(
+  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
+  private async renameFileSystem(
     sourceFileSystemName: string,
     destinationFileSystemName: string,
     options: ServiceRenameFileSystemOptions = {}
@@ -383,7 +384,8 @@ export class DataLakeServiceClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const res = await this.blobServiceClient.renameContainer(
+      // const res = await this.blobServiceClient.renameContainer(
+      const res = await this.blobServiceClient["renameContainer"](
         sourceFileSystemName,
         destinationFileSystemName,
         {

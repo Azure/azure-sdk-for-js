@@ -331,10 +331,6 @@ export class DataLakeServiceClient extends StorageClient {
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
-    renameFileSystem(sourceFileSystemName: string, destinationFileSystemName: string, options?: ServiceRenameFileSystemOptions): Promise<{
-        fileSystemClient: DataLakeFileSystemClient;
-        fileSystemRenameResponse: FileSystemRenameResponse;
-    }>;
     undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
         fileSystemClient: DataLakeFileSystemClient;
         fileSystemUndeleteResponse: FileSystemUndeleteResponse;
