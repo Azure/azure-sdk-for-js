@@ -45,7 +45,6 @@ export class Context {
     /**
      * Path to end user application folder which contains `package.json`
      * relative to `Context.ROOT_PATH`
-     * @default `../../`
      */
     private _appPrefix = "../../../"
   ) {
