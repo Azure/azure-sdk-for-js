@@ -1,5 +1,8 @@
 # Release History
 
+## 12.4.2 (Unreleased)
+
+
 ## 12.4.1 (2021-02-03)
 
 - Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
