@@ -124,9 +124,9 @@ export class BlobBatchClient {
 
     const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
 
-    // Container scoped.
     const path = getURLPath(url);
     if (path && path !== "/") {
+      // Container scoped.
       this.serviceOrContainerContext = new Container(storageClientContext);
     } else {
       this.serviceOrContainerContext = new Service(storageClientContext);

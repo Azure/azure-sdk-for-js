@@ -2,7 +2,7 @@
 
 ## 12.5.0-beta.1 (2021-02-09)
 
-- Now support Batch operations scoped to the Container level. You can use `ContainerClient.getBlobBatchClient()` to get such kind of `BlobBatchClient`. The `ContainerClient` can be authenticated via a Container-level SAS.
+- Now support Batch operations scoped to the Container level. You can use `ContainerClient.getBlobBatchClient()` to get such a `BlobBatchClient`.
 
 ## 12.4.1 (2021-02-03)
 

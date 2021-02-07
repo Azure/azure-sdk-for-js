@@ -455,7 +455,7 @@ export interface ServiceRenameContainerOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 
   /**
-   * Condition to met for the source container.
+   * Condition to meet for the source container.
    *
    * @type {LeaseAccessConditions}
    * @memberof ServiceRenameContainerOptions
@@ -775,7 +775,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Renames an existing Blob Container.
+   * Rename an existing Blob Container.
    *
    * @param {string} sourceContainerName The name of the source container.
    * @param {string} destinationContainerName The new name of the container.

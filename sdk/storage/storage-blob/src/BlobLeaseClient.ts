@@ -1,8 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 import { generateUuid, HttpResponse } from "@azure/core-http";
 import { StorageClientContext } from "./generated/src/storageClient";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { CanonicalCode } from "@opentelemetry/api";
 import { Blob as StorageBlob, Container } from "./generated/src/operations";
