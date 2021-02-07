@@ -24,7 +24,7 @@ class LROPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    let result: LROOperationResponse = await this._nextPolicy.sendRequest(webResource);
+    const result: LROOperationResponse = await this._nextPolicy.sendRequest(webResource);
     const _lroData = getLROData(result);
 
     result[LROSYM] = _lroData;

@@ -8465,7 +8465,7 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
 }
 
 /** Known values of {@link IntegrationRuntimeReferenceType} that the service accepts. */
-export const enum KnownIntegrationRuntimeReferenceType {
+export enum KnownIntegrationRuntimeReferenceType {
   IntegrationRuntimeReference = "IntegrationRuntimeReference"
 }
 
@@ -8479,7 +8479,7 @@ export const enum KnownIntegrationRuntimeReferenceType {
 export type IntegrationRuntimeReferenceType = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
-export const enum KnownParameterType {
+export enum KnownParameterType {
   Object = "Object",
   String = "String",
   Int = "Int",
@@ -8505,7 +8505,7 @@ export const enum KnownParameterType {
 export type ParameterType = string;
 
 /** Known values of {@link Type} that the service accepts. */
-export const enum KnownType {
+export enum KnownType {
   LinkedServiceReference = "LinkedServiceReference"
 }
 
@@ -8519,7 +8519,7 @@ export const enum KnownType {
 export type Type = string;
 
 /** Known values of {@link DependencyCondition} that the service accepts. */
-export const enum KnownDependencyCondition {
+export enum KnownDependencyCondition {
   Succeeded = "Succeeded",
   Failed = "Failed",
   Skipped = "Skipped",
@@ -8539,7 +8539,7 @@ export const enum KnownDependencyCondition {
 export type DependencyCondition = string;
 
 /** Known values of {@link VariableType} that the service accepts. */
-export const enum KnownVariableType {
+export enum KnownVariableType {
   String = "String",
   Bool = "Bool",
   Boolean = "Boolean",
@@ -8559,7 +8559,7 @@ export const enum KnownVariableType {
 export type VariableType = string;
 
 /** Known values of {@link RunQueryFilterOperand} that the service accepts. */
-export const enum KnownRunQueryFilterOperand {
+export enum KnownRunQueryFilterOperand {
   PipelineName = "PipelineName",
   Status = "Status",
   RunStart = "RunStart",
@@ -8595,7 +8595,7 @@ export const enum KnownRunQueryFilterOperand {
 export type RunQueryFilterOperand = string;
 
 /** Known values of {@link RunQueryFilterOperator} that the service accepts. */
-export const enum KnownRunQueryFilterOperator {
+export enum KnownRunQueryFilterOperator {
   Equals = "Equals",
   NotEquals = "NotEquals",
   In = "In",
@@ -8615,7 +8615,7 @@ export const enum KnownRunQueryFilterOperator {
 export type RunQueryFilterOperator = string;
 
 /** Known values of {@link RunQueryOrderByField} that the service accepts. */
-export const enum KnownRunQueryOrderByField {
+export enum KnownRunQueryOrderByField {
   RunStart = "RunStart",
   RunEnd = "RunEnd",
   PipelineName = "PipelineName",
@@ -8645,7 +8645,7 @@ export const enum KnownRunQueryOrderByField {
 export type RunQueryOrderByField = string;
 
 /** Known values of {@link RunQueryOrder} that the service accepts. */
-export const enum KnownRunQueryOrder {
+export enum KnownRunQueryOrder {
   ASC = "ASC",
   Desc = "DESC"
 }
@@ -8661,7 +8661,7 @@ export const enum KnownRunQueryOrder {
 export type RunQueryOrder = string;
 
 /** Known values of {@link TriggerRuntimeState} that the service accepts. */
-export const enum KnownTriggerRuntimeState {
+export enum KnownTriggerRuntimeState {
   Started = "Started",
   Stopped = "Stopped",
   Disabled = "Disabled"
@@ -8679,7 +8679,7 @@ export const enum KnownTriggerRuntimeState {
 export type TriggerRuntimeState = string;
 
 /** Known values of {@link EventSubscriptionStatus} that the service accepts. */
-export const enum KnownEventSubscriptionStatus {
+export enum KnownEventSubscriptionStatus {
   Enabled = "Enabled",
   Provisioning = "Provisioning",
   Deprovisioning = "Deprovisioning",
@@ -8701,7 +8701,7 @@ export const enum KnownEventSubscriptionStatus {
 export type EventSubscriptionStatus = string;
 
 /** Known values of {@link TriggerRunStatus} that the service accepts. */
-export const enum KnownTriggerRunStatus {
+export enum KnownTriggerRunStatus {
   Succeeded = "Succeeded",
   Failed = "Failed",
   Inprogress = "Inprogress"
@@ -8719,7 +8719,7 @@ export const enum KnownTriggerRunStatus {
 export type TriggerRunStatus = string;
 
 /** Known values of {@link SqlScriptType} that the service accepts. */
-export const enum KnownSqlScriptType {
+export enum KnownSqlScriptType {
   SqlQuery = "SqlQuery"
 }
 
@@ -8733,7 +8733,7 @@ export const enum KnownSqlScriptType {
 export type SqlScriptType = string;
 
 /** Known values of {@link SqlConnectionType} that the service accepts. */
-export const enum KnownSqlConnectionType {
+export enum KnownSqlConnectionType {
   SqlOnDemand = "SqlOnDemand",
   SqlPool = "SqlPool"
 }
@@ -8749,7 +8749,7 @@ export const enum KnownSqlConnectionType {
 export type SqlConnectionType = string;
 
 /** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
-export const enum KnownBigDataPoolReferenceType {
+export enum KnownBigDataPoolReferenceType {
   BigDataPoolReference = "BigDataPoolReference"
 }
 
@@ -8763,7 +8763,7 @@ export const enum KnownBigDataPoolReferenceType {
 export type BigDataPoolReferenceType = string;
 
 /** Known values of {@link SparkJobType} that the service accepts. */
-export const enum KnownSparkJobType {
+export enum KnownSparkJobType {
   SparkBatch = "SparkBatch",
   SparkSession = "SparkSession"
 }
@@ -8779,7 +8779,7 @@ export const enum KnownSparkJobType {
 export type SparkJobType = string;
 
 /** Known values of {@link SparkBatchJobResultType} that the service accepts. */
-export const enum KnownSparkBatchJobResultType {
+export enum KnownSparkBatchJobResultType {
   Uncertain = "Uncertain",
   Succeeded = "Succeeded",
   Failed = "Failed",
@@ -8799,7 +8799,7 @@ export const enum KnownSparkBatchJobResultType {
 export type SparkBatchJobResultType = string;
 
 /** Known values of {@link SchedulerCurrentState} that the service accepts. */
-export const enum KnownSchedulerCurrentState {
+export enum KnownSchedulerCurrentState {
   Queued = "Queued",
   Scheduled = "Scheduled",
   Ended = "Ended"
@@ -8817,7 +8817,7 @@ export const enum KnownSchedulerCurrentState {
 export type SchedulerCurrentState = string;
 
 /** Known values of {@link PluginCurrentState} that the service accepts. */
-export const enum KnownPluginCurrentState {
+export enum KnownPluginCurrentState {
   Preparation = "Preparation",
   ResourceAcquisition = "ResourceAcquisition",
   Queued = "Queued",
@@ -8843,7 +8843,7 @@ export const enum KnownPluginCurrentState {
 export type PluginCurrentState = string;
 
 /** Known values of {@link SparkErrorSource} that the service accepts. */
-export const enum KnownSparkErrorSource {
+export enum KnownSparkErrorSource {
   System = "System",
   User = "User",
   Unknown = "Unknown",
@@ -8863,7 +8863,7 @@ export const enum KnownSparkErrorSource {
 export type SparkErrorSource = string;
 
 /** Known values of {@link CellOutputType} that the service accepts. */
-export const enum KnownCellOutputType {
+export enum KnownCellOutputType {
   ExecuteResult = "execute_result",
   DisplayData = "display_data",
   Stream = "stream",
@@ -8883,7 +8883,7 @@ export const enum KnownCellOutputType {
 export type CellOutputType = string;
 
 /** Known values of {@link NodeSize} that the service accepts. */
-export const enum KnownNodeSize {
+export enum KnownNodeSize {
   None = "None",
   Small = "Small",
   Medium = "Medium",
@@ -8909,7 +8909,7 @@ export const enum KnownNodeSize {
 export type NodeSize = string;
 
 /** Known values of {@link NodeSizeFamily} that the service accepts. */
-export const enum KnownNodeSizeFamily {
+export enum KnownNodeSizeFamily {
   None = "None",
   MemoryOptimized = "MemoryOptimized"
 }
@@ -8925,7 +8925,7 @@ export const enum KnownNodeSizeFamily {
 export type NodeSizeFamily = string;
 
 /** Known values of {@link IntegrationRuntimeType} that the service accepts. */
-export const enum KnownIntegrationRuntimeType {
+export enum KnownIntegrationRuntimeType {
   Managed = "Managed",
   SelfHosted = "SelfHosted"
 }
@@ -8941,7 +8941,7 @@ export const enum KnownIntegrationRuntimeType {
 export type IntegrationRuntimeType = string;
 
 /** Known values of {@link ExpressionType} that the service accepts. */
-export const enum KnownExpressionType {
+export enum KnownExpressionType {
   Expression = "Expression"
 }
 
@@ -8955,7 +8955,7 @@ export const enum KnownExpressionType {
 export type ExpressionType = string;
 
 /** Known values of {@link PipelineReferenceType} that the service accepts. */
-export const enum KnownPipelineReferenceType {
+export enum KnownPipelineReferenceType {
   PipelineReference = "PipelineReference"
 }
 
@@ -8969,7 +8969,7 @@ export const enum KnownPipelineReferenceType {
 export type PipelineReferenceType = string;
 
 /** Known values of {@link DatasetReferenceType} that the service accepts. */
-export const enum KnownDatasetReferenceType {
+export enum KnownDatasetReferenceType {
   DatasetReference = "DatasetReference"
 }
 
@@ -8983,7 +8983,7 @@ export const enum KnownDatasetReferenceType {
 export type DatasetReferenceType = string;
 
 /** Known values of {@link DataFlowReferenceType} that the service accepts. */
-export const enum KnownDataFlowReferenceType {
+export enum KnownDataFlowReferenceType {
   DataFlowReference = "DataFlowReference"
 }
 
@@ -8997,7 +8997,7 @@ export const enum KnownDataFlowReferenceType {
 export type DataFlowReferenceType = string;
 
 /** Known values of {@link NotebookReferenceType} that the service accepts. */
-export const enum KnownNotebookReferenceType {
+export enum KnownNotebookReferenceType {
   NotebookReference = "NotebookReference"
 }
 
@@ -9011,7 +9011,7 @@ export const enum KnownNotebookReferenceType {
 export type NotebookReferenceType = string;
 
 /** Known values of {@link SparkJobReferenceType} that the service accepts. */
-export const enum KnownSparkJobReferenceType {
+export enum KnownSparkJobReferenceType {
   SparkJobDefinitionReference = "SparkJobDefinitionReference"
 }
 
@@ -9025,7 +9025,7 @@ export const enum KnownSparkJobReferenceType {
 export type SparkJobReferenceType = string;
 
 /** Known values of {@link SqlPoolReferenceType} that the service accepts. */
-export const enum KnownSqlPoolReferenceType {
+export enum KnownSqlPoolReferenceType {
   SqlPoolReference = "SqlPoolReference"
 }
 
@@ -9039,7 +9039,7 @@ export const enum KnownSqlPoolReferenceType {
 export type SqlPoolReferenceType = string;
 
 /** Known values of {@link JsonFormatFilePattern} that the service accepts. */
-export const enum KnownJsonFormatFilePattern {
+export enum KnownJsonFormatFilePattern {
   SetOfObjects = "setOfObjects",
   ArrayOfObjects = "arrayOfObjects"
 }
@@ -9055,7 +9055,7 @@ export const enum KnownJsonFormatFilePattern {
 export type JsonFormatFilePattern = string;
 
 /** Known values of {@link DatasetCompressionLevel} that the service accepts. */
-export const enum KnownDatasetCompressionLevel {
+export enum KnownDatasetCompressionLevel {
   Optimal = "Optimal",
   Fastest = "Fastest"
 }
@@ -9071,7 +9071,7 @@ export const enum KnownDatasetCompressionLevel {
 export type DatasetCompressionLevel = string;
 
 /** Known values of {@link AvroCompressionCodec} that the service accepts. */
-export const enum KnownAvroCompressionCodec {
+export enum KnownAvroCompressionCodec {
   None = "none",
   Deflate = "deflate",
   Snappy = "snappy",
@@ -9093,7 +9093,7 @@ export const enum KnownAvroCompressionCodec {
 export type AvroCompressionCodec = string;
 
 /** Known values of {@link ParquetCompressionCodec} that the service accepts. */
-export const enum KnownParquetCompressionCodec {
+export enum KnownParquetCompressionCodec {
   None = "none",
   Gzip = "gzip",
   Snappy = "snappy",
@@ -9113,7 +9113,7 @@ export const enum KnownParquetCompressionCodec {
 export type ParquetCompressionCodec = string;
 
 /** Known values of {@link DelimitedTextCompressionCodec} that the service accepts. */
-export const enum KnownDelimitedTextCompressionCodec {
+export enum KnownDelimitedTextCompressionCodec {
   Bzip2 = "bzip2",
   Gzip = "gzip",
   Deflate = "deflate",
@@ -9137,7 +9137,7 @@ export const enum KnownDelimitedTextCompressionCodec {
 export type DelimitedTextCompressionCodec = string;
 
 /** Known values of {@link OrcCompressionCodec} that the service accepts. */
-export const enum KnownOrcCompressionCodec {
+export enum KnownOrcCompressionCodec {
   None = "none",
   Zlib = "zlib",
   Snappy = "snappy"
@@ -9155,7 +9155,7 @@ export const enum KnownOrcCompressionCodec {
 export type OrcCompressionCodec = string;
 
 /** Known values of {@link DynamicsDeploymentType} that the service accepts. */
-export const enum KnownDynamicsDeploymentType {
+export enum KnownDynamicsDeploymentType {
   Online = "Online",
   OnPremisesWithIfd = "OnPremisesWithIfd"
 }
@@ -9171,7 +9171,7 @@ export const enum KnownDynamicsDeploymentType {
 export type DynamicsDeploymentType = string;
 
 /** Known values of {@link DynamicsAuthenticationType} that the service accepts. */
-export const enum KnownDynamicsAuthenticationType {
+export enum KnownDynamicsAuthenticationType {
   Office365 = "Office365",
   Ifd = "Ifd",
   AADServicePrincipal = "AADServicePrincipal"
@@ -9189,7 +9189,7 @@ export const enum KnownDynamicsAuthenticationType {
 export type DynamicsAuthenticationType = string;
 
 /** Known values of {@link DynamicsServicePrincipalCredentialType} that the service accepts. */
-export const enum KnownDynamicsServicePrincipalCredentialType {
+export enum KnownDynamicsServicePrincipalCredentialType {
   ServicePrincipalKey = "ServicePrincipalKey",
   ServicePrincipalCert = "ServicePrincipalCert"
 }
@@ -9205,7 +9205,7 @@ export const enum KnownDynamicsServicePrincipalCredentialType {
 export type DynamicsServicePrincipalCredentialType = string;
 
 /** Known values of {@link SybaseAuthenticationType} that the service accepts. */
-export const enum KnownSybaseAuthenticationType {
+export enum KnownSybaseAuthenticationType {
   Basic = "Basic",
   Windows = "Windows"
 }
@@ -9221,7 +9221,7 @@ export const enum KnownSybaseAuthenticationType {
 export type SybaseAuthenticationType = string;
 
 /** Known values of {@link Db2AuthenticationType} that the service accepts. */
-export const enum KnownDb2AuthenticationType {
+export enum KnownDb2AuthenticationType {
   Basic = "Basic"
 }
 
@@ -9235,7 +9235,7 @@ export const enum KnownDb2AuthenticationType {
 export type Db2AuthenticationType = string;
 
 /** Known values of {@link TeradataAuthenticationType} that the service accepts. */
-export const enum KnownTeradataAuthenticationType {
+export enum KnownTeradataAuthenticationType {
   Basic = "Basic",
   Windows = "Windows"
 }
@@ -9251,7 +9251,7 @@ export const enum KnownTeradataAuthenticationType {
 export type TeradataAuthenticationType = string;
 
 /** Known values of {@link ODataAuthenticationType} that the service accepts. */
-export const enum KnownODataAuthenticationType {
+export enum KnownODataAuthenticationType {
   Basic = "Basic",
   Anonymous = "Anonymous",
   Windows = "Windows",
@@ -9273,7 +9273,7 @@ export const enum KnownODataAuthenticationType {
 export type ODataAuthenticationType = string;
 
 /** Known values of {@link ODataAadServicePrincipalCredentialType} that the service accepts. */
-export const enum KnownODataAadServicePrincipalCredentialType {
+export enum KnownODataAadServicePrincipalCredentialType {
   ServicePrincipalKey = "ServicePrincipalKey",
   ServicePrincipalCert = "ServicePrincipalCert"
 }
@@ -9289,7 +9289,7 @@ export const enum KnownODataAadServicePrincipalCredentialType {
 export type ODataAadServicePrincipalCredentialType = string;
 
 /** Known values of {@link WebAuthenticationType} that the service accepts. */
-export const enum KnownWebAuthenticationType {
+export enum KnownWebAuthenticationType {
   Basic = "Basic",
   Anonymous = "Anonymous",
   ClientCertificate = "ClientCertificate"
@@ -9307,7 +9307,7 @@ export const enum KnownWebAuthenticationType {
 export type WebAuthenticationType = string;
 
 /** Known values of {@link MongoDbAuthenticationType} that the service accepts. */
-export const enum KnownMongoDbAuthenticationType {
+export enum KnownMongoDbAuthenticationType {
   Basic = "Basic",
   Anonymous = "Anonymous"
 }
@@ -9323,7 +9323,7 @@ export const enum KnownMongoDbAuthenticationType {
 export type MongoDbAuthenticationType = string;
 
 /** Known values of {@link RestServiceAuthenticationType} that the service accepts. */
-export const enum KnownRestServiceAuthenticationType {
+export enum KnownRestServiceAuthenticationType {
   Anonymous = "Anonymous",
   Basic = "Basic",
   AadServicePrincipal = "AadServicePrincipal",
@@ -9343,7 +9343,7 @@ export const enum KnownRestServiceAuthenticationType {
 export type RestServiceAuthenticationType = string;
 
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
-export const enum KnownHttpAuthenticationType {
+export enum KnownHttpAuthenticationType {
   Basic = "Basic",
   Anonymous = "Anonymous",
   Digest = "Digest",
@@ -9365,7 +9365,7 @@ export const enum KnownHttpAuthenticationType {
 export type HttpAuthenticationType = string;
 
 /** Known values of {@link FtpAuthenticationType} that the service accepts. */
-export const enum KnownFtpAuthenticationType {
+export enum KnownFtpAuthenticationType {
   Basic = "Basic",
   Anonymous = "Anonymous"
 }
@@ -9381,7 +9381,7 @@ export const enum KnownFtpAuthenticationType {
 export type FtpAuthenticationType = string;
 
 /** Known values of {@link SftpAuthenticationType} that the service accepts. */
-export const enum KnownSftpAuthenticationType {
+export enum KnownSftpAuthenticationType {
   Basic = "Basic",
   SshPublicKey = "SshPublicKey"
 }
@@ -9397,7 +9397,7 @@ export const enum KnownSftpAuthenticationType {
 export type SftpAuthenticationType = string;
 
 /** Known values of {@link SapHanaAuthenticationType} that the service accepts. */
-export const enum KnownSapHanaAuthenticationType {
+export enum KnownSapHanaAuthenticationType {
   Basic = "Basic",
   Windows = "Windows"
 }
@@ -9413,7 +9413,7 @@ export const enum KnownSapHanaAuthenticationType {
 export type SapHanaAuthenticationType = string;
 
 /** Known values of {@link GoogleBigQueryAuthenticationType} that the service accepts. */
-export const enum KnownGoogleBigQueryAuthenticationType {
+export enum KnownGoogleBigQueryAuthenticationType {
   ServiceAuthentication = "ServiceAuthentication",
   UserAuthentication = "UserAuthentication"
 }
@@ -9429,7 +9429,7 @@ export const enum KnownGoogleBigQueryAuthenticationType {
 export type GoogleBigQueryAuthenticationType = string;
 
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
-export const enum KnownHBaseAuthenticationType {
+export enum KnownHBaseAuthenticationType {
   Anonymous = "Anonymous",
   Basic = "Basic"
 }
@@ -9445,7 +9445,7 @@ export const enum KnownHBaseAuthenticationType {
 export type HBaseAuthenticationType = string;
 
 /** Known values of {@link HiveServerType} that the service accepts. */
-export const enum KnownHiveServerType {
+export enum KnownHiveServerType {
   HiveServer1 = "HiveServer1",
   HiveServer2 = "HiveServer2",
   HiveThriftServer = "HiveThriftServer"
@@ -9463,7 +9463,7 @@ export const enum KnownHiveServerType {
 export type HiveServerType = string;
 
 /** Known values of {@link HiveThriftTransportProtocol} that the service accepts. */
-export const enum KnownHiveThriftTransportProtocol {
+export enum KnownHiveThriftTransportProtocol {
   Binary = "Binary",
   Sasl = "SASL",
   Http = "HTTP "
@@ -9481,7 +9481,7 @@ export const enum KnownHiveThriftTransportProtocol {
 export type HiveThriftTransportProtocol = string;
 
 /** Known values of {@link HiveAuthenticationType} that the service accepts. */
-export const enum KnownHiveAuthenticationType {
+export enum KnownHiveAuthenticationType {
   Anonymous = "Anonymous",
   Username = "Username",
   UsernameAndPassword = "UsernameAndPassword",
@@ -9501,7 +9501,7 @@ export const enum KnownHiveAuthenticationType {
 export type HiveAuthenticationType = string;
 
 /** Known values of {@link ImpalaAuthenticationType} that the service accepts. */
-export const enum KnownImpalaAuthenticationType {
+export enum KnownImpalaAuthenticationType {
   Anonymous = "Anonymous",
   SaslUsername = "SASLUsername",
   UsernameAndPassword = "UsernameAndPassword"
@@ -9519,7 +9519,7 @@ export const enum KnownImpalaAuthenticationType {
 export type ImpalaAuthenticationType = string;
 
 /** Known values of {@link PhoenixAuthenticationType} that the service accepts. */
-export const enum KnownPhoenixAuthenticationType {
+export enum KnownPhoenixAuthenticationType {
   Anonymous = "Anonymous",
   UsernameAndPassword = "UsernameAndPassword",
   WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
@@ -9537,7 +9537,7 @@ export const enum KnownPhoenixAuthenticationType {
 export type PhoenixAuthenticationType = string;
 
 /** Known values of {@link PrestoAuthenticationType} that the service accepts. */
-export const enum KnownPrestoAuthenticationType {
+export enum KnownPrestoAuthenticationType {
   Anonymous = "Anonymous",
   Ldap = "LDAP"
 }
@@ -9553,7 +9553,7 @@ export const enum KnownPrestoAuthenticationType {
 export type PrestoAuthenticationType = string;
 
 /** Known values of {@link ServiceNowAuthenticationType} that the service accepts. */
-export const enum KnownServiceNowAuthenticationType {
+export enum KnownServiceNowAuthenticationType {
   Basic = "Basic",
   OAuth2 = "OAuth2"
 }
@@ -9569,7 +9569,7 @@ export const enum KnownServiceNowAuthenticationType {
 export type ServiceNowAuthenticationType = string;
 
 /** Known values of {@link SparkServerType} that the service accepts. */
-export const enum KnownSparkServerType {
+export enum KnownSparkServerType {
   SharkServer = "SharkServer",
   SharkServer2 = "SharkServer2",
   SparkThriftServer = "SparkThriftServer"
@@ -9587,7 +9587,7 @@ export const enum KnownSparkServerType {
 export type SparkServerType = string;
 
 /** Known values of {@link SparkThriftTransportProtocol} that the service accepts. */
-export const enum KnownSparkThriftTransportProtocol {
+export enum KnownSparkThriftTransportProtocol {
   Binary = "Binary",
   Sasl = "SASL",
   Http = "HTTP "
@@ -9605,7 +9605,7 @@ export const enum KnownSparkThriftTransportProtocol {
 export type SparkThriftTransportProtocol = string;
 
 /** Known values of {@link SparkAuthenticationType} that the service accepts. */
-export const enum KnownSparkAuthenticationType {
+export enum KnownSparkAuthenticationType {
   Anonymous = "Anonymous",
   Username = "Username",
   UsernameAndPassword = "UsernameAndPassword",
@@ -9625,7 +9625,7 @@ export const enum KnownSparkAuthenticationType {
 export type SparkAuthenticationType = string;
 
 /** Known values of {@link HdiNodeTypes} that the service accepts. */
-export const enum KnownHdiNodeTypes {
+export enum KnownHdiNodeTypes {
   Headnode = "Headnode",
   Workernode = "Workernode",
   Zookeeper = "Zookeeper"
@@ -9643,7 +9643,7 @@ export const enum KnownHdiNodeTypes {
 export type HdiNodeTypes = string;
 
 /** Known values of {@link GoogleAdWordsAuthenticationType} that the service accepts. */
-export const enum KnownGoogleAdWordsAuthenticationType {
+export enum KnownGoogleAdWordsAuthenticationType {
   ServiceAuthentication = "ServiceAuthentication",
   UserAuthentication = "UserAuthentication"
 }
@@ -9659,7 +9659,7 @@ export const enum KnownGoogleAdWordsAuthenticationType {
 export type GoogleAdWordsAuthenticationType = string;
 
 /** Known values of {@link JsonWriteFilePattern} that the service accepts. */
-export const enum KnownJsonWriteFilePattern {
+export enum KnownJsonWriteFilePattern {
   SetOfObjects = "setOfObjects",
   ArrayOfObjects = "arrayOfObjects"
 }
@@ -9675,7 +9675,7 @@ export const enum KnownJsonWriteFilePattern {
 export type JsonWriteFilePattern = string;
 
 /** Known values of {@link SalesforceSourceReadBehavior} that the service accepts. */
-export const enum KnownSalesforceSourceReadBehavior {
+export enum KnownSalesforceSourceReadBehavior {
   Query = "Query",
   QueryAll = "QueryAll"
 }
@@ -9691,7 +9691,7 @@ export const enum KnownSalesforceSourceReadBehavior {
 export type SalesforceSourceReadBehavior = string;
 
 /** Known values of {@link SapHanaPartitionOption} that the service accepts. */
-export const enum KnownSapHanaPartitionOption {
+export enum KnownSapHanaPartitionOption {
   None = "None",
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   SapHanaDynamicRange = "SapHanaDynamicRange"
@@ -9709,7 +9709,7 @@ export const enum KnownSapHanaPartitionOption {
 export type SapHanaPartitionOption = string;
 
 /** Known values of {@link SapTablePartitionOption} that the service accepts. */
-export const enum KnownSapTablePartitionOption {
+export enum KnownSapTablePartitionOption {
   None = "None",
   PartitionOnInt = "PartitionOnInt",
   PartitionOnCalendarYear = "PartitionOnCalendarYear",
@@ -9733,7 +9733,7 @@ export const enum KnownSapTablePartitionOption {
 export type SapTablePartitionOption = string;
 
 /** Known values of {@link StoredProcedureParameterType} that the service accepts. */
-export const enum KnownStoredProcedureParameterType {
+export enum KnownStoredProcedureParameterType {
   String = "String",
   Int = "Int",
   Int64 = "Int64",
@@ -9759,7 +9759,7 @@ export const enum KnownStoredProcedureParameterType {
 export type StoredProcedureParameterType = string;
 
 /** Known values of {@link OraclePartitionOption} that the service accepts. */
-export const enum KnownOraclePartitionOption {
+export enum KnownOraclePartitionOption {
   None = "None",
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
   DynamicRange = "DynamicRange"
@@ -9777,7 +9777,7 @@ export const enum KnownOraclePartitionOption {
 export type OraclePartitionOption = string;
 
 /** Known values of {@link TeradataPartitionOption} that the service accepts. */
-export const enum KnownTeradataPartitionOption {
+export enum KnownTeradataPartitionOption {
   None = "None",
   Hash = "Hash",
   DynamicRange = "DynamicRange"
@@ -9795,7 +9795,7 @@ export const enum KnownTeradataPartitionOption {
 export type TeradataPartitionOption = string;
 
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
-export const enum KnownCassandraSourceReadConsistencyLevels {
+export enum KnownCassandraSourceReadConsistencyLevels {
   ALL = "ALL",
   EachQuorum = "EACH_QUORUM",
   Quorum = "QUORUM",
@@ -9827,7 +9827,7 @@ export const enum KnownCassandraSourceReadConsistencyLevels {
 export type CassandraSourceReadConsistencyLevels = string;
 
 /** Known values of {@link NetezzaPartitionOption} that the service accepts. */
-export const enum KnownNetezzaPartitionOption {
+export enum KnownNetezzaPartitionOption {
   None = "None",
   DataSlice = "DataSlice",
   DynamicRange = "DynamicRange"
@@ -9845,7 +9845,7 @@ export const enum KnownNetezzaPartitionOption {
 export type NetezzaPartitionOption = string;
 
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
-export const enum KnownSapCloudForCustomerSinkWriteBehavior {
+export enum KnownSapCloudForCustomerSinkWriteBehavior {
   Insert = "Insert",
   Update = "Update"
 }
@@ -9861,7 +9861,7 @@ export const enum KnownSapCloudForCustomerSinkWriteBehavior {
 export type SapCloudForCustomerSinkWriteBehavior = string;
 
 /** Known values of {@link PolybaseSettingsRejectType} that the service accepts. */
-export const enum KnownPolybaseSettingsRejectType {
+export enum KnownPolybaseSettingsRejectType {
   Value = "value",
   Percentage = "percentage"
 }
@@ -9877,7 +9877,7 @@ export const enum KnownPolybaseSettingsRejectType {
 export type PolybaseSettingsRejectType = string;
 
 /** Known values of {@link AzureSearchIndexWriteBehaviorType} that the service accepts. */
-export const enum KnownAzureSearchIndexWriteBehaviorType {
+export enum KnownAzureSearchIndexWriteBehaviorType {
   Merge = "Merge",
   Upload = "Upload"
 }
@@ -9893,7 +9893,7 @@ export const enum KnownAzureSearchIndexWriteBehaviorType {
 export type AzureSearchIndexWriteBehaviorType = string;
 
 /** Known values of {@link DynamicsSinkWriteBehavior} that the service accepts. */
-export const enum KnownDynamicsSinkWriteBehavior {
+export enum KnownDynamicsSinkWriteBehavior {
   Upsert = "Upsert"
 }
 
@@ -9907,7 +9907,7 @@ export const enum KnownDynamicsSinkWriteBehavior {
 export type DynamicsSinkWriteBehavior = string;
 
 /** Known values of {@link SalesforceSinkWriteBehavior} that the service accepts. */
-export const enum KnownSalesforceSinkWriteBehavior {
+export enum KnownSalesforceSinkWriteBehavior {
   Insert = "Insert",
   Upsert = "Upsert"
 }
@@ -9923,7 +9923,7 @@ export const enum KnownSalesforceSinkWriteBehavior {
 export type SalesforceSinkWriteBehavior = string;
 
 /** Known values of {@link HDInsightActivityDebugInfoOption} that the service accepts. */
-export const enum KnownHDInsightActivityDebugInfoOption {
+export enum KnownHDInsightActivityDebugInfoOption {
   None = "None",
   Always = "Always",
   Failure = "Failure"
@@ -9941,7 +9941,7 @@ export const enum KnownHDInsightActivityDebugInfoOption {
 export type HDInsightActivityDebugInfoOption = string;
 
 /** Known values of {@link SsisPackageLocationType} that the service accepts. */
-export const enum KnownSsisPackageLocationType {
+export enum KnownSsisPackageLocationType {
   Ssisdb = "SSISDB",
   File = "File",
   InlinePackage = "InlinePackage"
@@ -9959,7 +9959,7 @@ export const enum KnownSsisPackageLocationType {
 export type SsisPackageLocationType = string;
 
 /** Known values of {@link SsisLogLocationType} that the service accepts. */
-export const enum KnownSsisLogLocationType {
+export enum KnownSsisLogLocationType {
   File = "File"
 }
 
@@ -9973,7 +9973,7 @@ export const enum KnownSsisLogLocationType {
 export type SsisLogLocationType = string;
 
 /** Known values of {@link WebActivityMethod} that the service accepts. */
-export const enum KnownWebActivityMethod {
+export enum KnownWebActivityMethod {
   GET = "GET",
   Post = "POST",
   PUT = "PUT",
@@ -9993,7 +9993,7 @@ export const enum KnownWebActivityMethod {
 export type WebActivityMethod = string;
 
 /** Known values of {@link AzureFunctionActivityMethod} that the service accepts. */
-export const enum KnownAzureFunctionActivityMethod {
+export enum KnownAzureFunctionActivityMethod {
   GET = "GET",
   Post = "POST",
   PUT = "PUT",
@@ -10019,7 +10019,7 @@ export const enum KnownAzureFunctionActivityMethod {
 export type AzureFunctionActivityMethod = string;
 
 /** Known values of {@link WebHookActivityMethod} that the service accepts. */
-export const enum KnownWebHookActivityMethod {
+export enum KnownWebHookActivityMethod {
   Post = "POST"
 }
 
@@ -10033,7 +10033,7 @@ export const enum KnownWebHookActivityMethod {
 export type WebHookActivityMethod = string;
 
 /** Known values of {@link DataFlowComputeType} that the service accepts. */
-export const enum KnownDataFlowComputeType {
+export enum KnownDataFlowComputeType {
   General = "General",
   MemoryOptimized = "MemoryOptimized",
   ComputeOptimized = "ComputeOptimized"
@@ -10051,7 +10051,7 @@ export const enum KnownDataFlowComputeType {
 export type DataFlowComputeType = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
-export const enum KnownRecurrenceFrequency {
+export enum KnownRecurrenceFrequency {
   NotSpecified = "NotSpecified",
   Minute = "Minute",
   Hour = "Hour",
@@ -10077,7 +10077,7 @@ export const enum KnownRecurrenceFrequency {
 export type RecurrenceFrequency = string;
 
 /** Known values of {@link BlobEventType} that the service accepts. */
-export const enum KnownBlobEventType {
+export enum KnownBlobEventType {
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
   MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted"
 }
@@ -10093,7 +10093,7 @@ export const enum KnownBlobEventType {
 export type BlobEventType = string;
 
 /** Known values of {@link TumblingWindowFrequency} that the service accepts. */
-export const enum KnownTumblingWindowFrequency {
+export enum KnownTumblingWindowFrequency {
   Minute = "Minute",
   Hour = "Hour"
 }
@@ -10109,7 +10109,7 @@ export const enum KnownTumblingWindowFrequency {
 export type TumblingWindowFrequency = string;
 
 /** Known values of {@link TriggerReferenceType} that the service accepts. */
-export const enum KnownTriggerReferenceType {
+export enum KnownTriggerReferenceType {
   TriggerReference = "TriggerReference"
 }
 
@@ -10123,7 +10123,7 @@ export const enum KnownTriggerReferenceType {
 export type TriggerReferenceType = string;
 
 /** Known values of {@link IntegrationRuntimeState} that the service accepts. */
-export const enum KnownIntegrationRuntimeState {
+export enum KnownIntegrationRuntimeState {
   Initial = "Initial",
   Stopped = "Stopped",
   Started = "Started",
@@ -10155,7 +10155,7 @@ export const enum KnownIntegrationRuntimeState {
 export type IntegrationRuntimeState = string;
 
 /** Known values of {@link IntegrationRuntimeSsisCatalogPricingTier} that the service accepts. */
-export const enum KnownIntegrationRuntimeSsisCatalogPricingTier {
+export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
   Basic = "Basic",
   Standard = "Standard",
   Premium = "Premium",
@@ -10175,7 +10175,7 @@ export const enum KnownIntegrationRuntimeSsisCatalogPricingTier {
 export type IntegrationRuntimeSsisCatalogPricingTier = string;
 
 /** Known values of {@link IntegrationRuntimeLicenseType} that the service accepts. */
-export const enum KnownIntegrationRuntimeLicenseType {
+export enum KnownIntegrationRuntimeLicenseType {
   BasePrice = "BasePrice",
   LicenseIncluded = "LicenseIncluded"
 }
@@ -10191,7 +10191,7 @@ export const enum KnownIntegrationRuntimeLicenseType {
 export type IntegrationRuntimeLicenseType = string;
 
 /** Known values of {@link IntegrationRuntimeEntityReferenceType} that the service accepts. */
-export const enum KnownIntegrationRuntimeEntityReferenceType {
+export enum KnownIntegrationRuntimeEntityReferenceType {
   IntegrationRuntimeReference = "IntegrationRuntimeReference",
   LinkedServiceReference = "LinkedServiceReference"
 }
@@ -10207,7 +10207,7 @@ export const enum KnownIntegrationRuntimeEntityReferenceType {
 export type IntegrationRuntimeEntityReferenceType = string;
 
 /** Known values of {@link IntegrationRuntimeEdition} that the service accepts. */
-export const enum KnownIntegrationRuntimeEdition {
+export enum KnownIntegrationRuntimeEdition {
   Standard = "Standard",
   Enterprise = "Enterprise"
 }
@@ -10223,7 +10223,7 @@ export const enum KnownIntegrationRuntimeEdition {
 export type IntegrationRuntimeEdition = string;
 
 /** Known values of {@link CopyBehaviorType} that the service accepts. */
-export const enum KnownCopyBehaviorType {
+export enum KnownCopyBehaviorType {
   PreserveHierarchy = "PreserveHierarchy",
   FlattenHierarchy = "FlattenHierarchy",
   MergeFiles = "MergeFiles"
