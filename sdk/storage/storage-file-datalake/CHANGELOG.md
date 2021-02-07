@@ -5,6 +5,7 @@
 - Fixed a bug where `generateDataLakeSASQueryParameters()` won't correctly set the resource type if `DataLakeSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
 - Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
 - The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).
+- Added `fromConnectionString` to `DataLakeServiceClient` to support construction from a connection string. Fixed bug [13396](https://github.com/Azure/azure-sdk-for-js/issues/13396).
 
 ## 12.3.0 (2021-01-12)
 
