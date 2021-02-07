@@ -782,7 +782,8 @@ export class BlobServiceClient extends StorageClient {
    * @param {ServiceRenameContainerOptions} [options] Options to configure Container Rename operation.
    * @memberof BlobServiceClient
    */
-  public async renameContainer(
+  // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
+  private async renameContainer(
     sourceContainerName: string,
     destinationContainerName: string,
     options: ServiceRenameContainerOptions = {}

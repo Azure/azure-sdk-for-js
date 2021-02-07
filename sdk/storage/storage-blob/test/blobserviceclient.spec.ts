@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   sleep
 } from "./utils";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { Tags } from "../src/models";
 dotenv.config();
 
@@ -651,6 +651,11 @@ describe("BlobServiceClient", () => {
   });
 
   it("rename container", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container");
@@ -658,7 +663,8 @@ describe("BlobServiceClient", () => {
     await containerClient.create();
 
     const newContainerName = recorder.getUniqueName("newcontainer");
-    const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
+    // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
+    const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName);
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
     assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
@@ -669,6 +675,11 @@ describe("BlobServiceClient", () => {
   });
 
   it("rename container should work with source lease", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container");
@@ -680,7 +691,8 @@ describe("BlobServiceClient", () => {
 
     const newContainerName = recorder.getUniqueName("newcontainer");
 
-    const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
+    // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
+    const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {
       sourceCondition: { leaseId: leaseClient.leaseId }
     });
 

@@ -1086,10 +1086,6 @@ export class BlobServiceClient extends StorageClient {
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
-    renameContainer(sourceContainerName: string, destinationContainerName: string, options?: ServiceRenameContainerOptions): Promise<{
-        containerClient: ContainerClient;
-        containerRenameResponse: ContainerRenameResponse;
-    }>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
     undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
         containerClient: ContainerClient;
