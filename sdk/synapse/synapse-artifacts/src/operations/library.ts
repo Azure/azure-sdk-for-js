@@ -23,7 +23,7 @@ export class Library {
 
   /**
    * Initialize a new instance of the class Library class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -31,7 +31,7 @@ export class Library {
 
   /**
    * Lists Library.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listPagingAll(options);
@@ -71,7 +71,7 @@ export class Library {
 
   /**
    * Lists Library.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _list(options?: coreHttp.OperationOptions): Promise<LibraryListOperationResponse> {
     const { span, updatedOptions } = createSpan(
@@ -97,9 +97,9 @@ export class Library {
 
   /**
    * Flush Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async flush(
     libraryName: string,
@@ -142,8 +142,8 @@ export class Library {
 
   /**
    * Get Operation result for Library
-   * @param operationId operation id for which status is requested
-   * @param options The options parameters.
+   * @param operationId - operation id for which status is requested
+   * @param options - The options parameters.
    */
   async getOperationResult(
     operationId: string,
@@ -176,9 +176,9 @@ export class Library {
 
   /**
    * Delete Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async delete(
     libraryName: string,
@@ -221,9 +221,9 @@ export class Library {
 
   /**
    * Get Library
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse> {
     const { span, updatedOptions } = createSpan(
@@ -251,10 +251,10 @@ export class Library {
   /**
    * Creates a library with the library name. Use query param 'comp=appendblock' to append the data to
    * the library resource created using the create operation.
-   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   * @param libraryName - file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
-   * @param content Library file chunk. Use this content in with append operation.
-   * @param options The options parameters.
+   * @param content - Library file chunk. Use this content in with append operation.
+   * @param options - The options parameters.
    */
   async createOrAppend(
     libraryName: string,
@@ -302,8 +302,8 @@ export class Library {
 
   /**
    * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
+   * @param nextLink - The nextLink from the previous successful call to the List method.
+   * @param options - The options parameters.
    */
   private async _listNext(
     nextLink: string,
