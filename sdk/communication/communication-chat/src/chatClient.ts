@@ -65,9 +65,9 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param url The url of the Communication Services resouce.
-   * @param credential The token credential. Use AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
-   * @param options Additional client options.
+   * @param url - The url of the Communication Services resouce.
+   * @param credential - The token credential. Use AzureCommunicationTokenCredential from @azure/communication-common to create a credential.
+   * @param options - Additional client options.
    */
   constructor(
     private readonly url: string,
@@ -109,7 +109,7 @@ export class ChatClient {
 
   /**
    * Returns ChatThreadClient with the specific thread id.
-   * @param threadId Thread ID for the ChatThreadClient
+   * @param threadId - Thread ID for the ChatThreadClient
    */
   public async getChatThreadClient(threadId: string): Promise<ChatThreadClient> {
     return new ChatThreadClient(threadId, this.url, this.tokenCredential, this.clientOptions);
@@ -118,8 +118,8 @@ export class ChatClient {
   /**
    * Creates a chat thread.
    * Returns thread client with the id of the created thread.
-   * @param request Request for creating a chat thread.
-   * @param options Operation options.
+   * @param request - Request for creating a chat thread.
+   * @param options - Operation options.
    */
   public async createChatThread(
     request: CreateChatThreadRequest,
@@ -151,8 +151,8 @@ export class ChatClient {
   /**
    * Gets a chat thread.
    * Returns the chat thread.
-   * @param threadId The ID of the thread to get.
-   * @param options  Operation options.
+   * @param threadId - The ID of the thread to get.
+   * @param options -  Operation options.
    */
   public async getChatThread(
     threadId: string,
@@ -215,7 +215,7 @@ export class ChatClient {
 
   /**
    * Gets the list of chat threads of a user.
-   * @param options List chat threads options.
+   * @param options - List chat threads options.
    */
   public listChatThreads(
     options: ListChatThreadsOptions = {}
@@ -247,8 +247,8 @@ export class ChatClient {
 
   /**
    * Deletes a chat thread.
-   * @param threadId The ID of the thread to delete.
-   * @param options  Operation options.
+   * @param threadId - The ID of the thread to delete.
+   * @param options -  Operation options.
    */
   public async deleteChatThread(
     threadId: string,
@@ -308,32 +308,32 @@ export class ChatClient {
    * Subscribe function for chatMessageReceived.
    * The initial sender will also receive this event.
    * You need to call startRealtimeNotifications before subscribing to any event.
-   * @param event The ChatMessageReceivedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatMessageReceivedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
 
   /**
    * Subscribe function for chatMessageEdited.
    * The initial sender will also receive this event.
-   * @param event The ChatMessageEditedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatMessageEditedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
 
   /**
    * Subscribe function for chatMessageDeleted.
    * The initial sender will also receive this event.
-   * @param event The ChatMessageDeletedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatMessageDeletedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
 
   /**
    * Subscribe function for typingIndicatorReceived.
    * The initial sender will also receive this event.
-   * @param event The TypingIndicatorReceivedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The TypingIndicatorReceivedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(
     event: "typingIndicatorReceived",
@@ -342,8 +342,8 @@ export class ChatClient {
 
   /**
    * Subscribe function for readReceiptReceived.
-   * @param event The ReadReceiptReceivedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ReadReceiptReceivedEvent.
+   * @param listener - The listener to handle the event.
    */
   public on(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
 
@@ -363,29 +363,29 @@ export class ChatClient {
 
   /**
    * Unsubscribe from chatMessageReceived.
-   * @param event The ChatMessageReceivedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatMessageReceivedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
 
   /**
    * Unsubscribe from chatMessageEdited.
-   * @param event The ChatMessageEditedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatMessageEditedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
 
   /**
    * Unsubscribe from chatMessageDeleted.
-   * @param event The ChatMessageDeletedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ChatMessageDeletedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
 
   /**
    * Unsubscribe from typingIndicatorReceived.
-   * @param event The TypingIndicatorReceivedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The TypingIndicatorReceivedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(
     event: "typingIndicatorReceived",
@@ -394,8 +394,8 @@ export class ChatClient {
 
   /**
    * Unsubscribe from readReceiptReceived.
-   * @param event The ReadReceiptReceivedEvent.
-   * @param listener The listener to handle the event.
+   * @param event - The ReadReceiptReceivedEvent.
+   * @param listener - The listener to handle the event.
    */
   public off(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
 
