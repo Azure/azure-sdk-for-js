@@ -63,10 +63,10 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Creates a new serializer.
    *
-   * @param registry Schema Registry where schemas are registered and obtained.
+   * @param registry - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    *
-   * @param schemaGroup The schema group to use when making requests to the
+   * @param schemaGroup - The schema group to use when making requests to the
    *                    registry.
    */
   constructor(
@@ -108,11 +108,11 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Serializes a value into a buffer.
    *
-   * @param value The value to serialize.
-   * @param schema The Avro schema to use.
+   * @param value - The value to serialize.
+   * @param schema - The Avro schema to use.
    * @returns A new buffer with the serialized value
    */
-  async serialize(value: any, schema: string): Promise<Buffer> {
+  async serialize(value: unknown, schema: string): Promise<Buffer> {
     const entry = await this.getSchemaByContent(schema);
     const payload = entry.type.toBuffer(value);
     const buffer = Buffer.alloc(PAYLOAD_OFFSET + payload.length);
@@ -127,8 +127,8 @@ export class SchemaRegistryAvroSerializer {
   /**
    * Deserializes a value from a buffer.
    *
-   * @param buffer The buffer with the serialized value.
-   * @return The deserialized value.
+   * @param buffer - The buffer with the serialized value.
+   * @returns The deserialized value.
    */
   async deserialize<T>(buffer: Buffer): Promise<T> {
     if (buffer.length < PAYLOAD_OFFSET) {
