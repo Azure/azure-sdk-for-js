@@ -8,6 +8,8 @@ import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import { ContainerRenameResponse } from '@azure/storage-blob';
+import { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -32,6 +34,7 @@ import { RequestPolicyOptions } from '@azure/core-http';
 import { RestError } from '@azure/core-http';
 import { ServiceClientOptions } from '@azure/core-http';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
+import { ServiceRenameContainerOptions } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-http';
 import { TransferProgressEvent } from '@azure/core-http';
 import { UserAgentOptions } from '@azure/core-http';
@@ -328,6 +331,10 @@ export class DataLakeServiceClient extends StorageClient {
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listFileSystems(options?: ServiceListFileSystemsOptions): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>;
+    undeleteFileSystem(deletedFileSystemName: string, deleteFileSystemVersion: string, options?: ServiceUndeleteFileSystemOptions): Promise<{
+        fileSystemClient: DataLakeFileSystemClient;
+        fileSystemUndeleteResponse: FileSystemUndeleteResponse;
+    }>;
 }
 
 export { deserializationPolicy }
@@ -766,11 +773,15 @@ export type FileSystemGetPropertiesResponse = FileSystemGetPropertiesHeaders & {
 // @public (undocumented)
 export interface FileSystemItem {
     // (undocumented)
+    deleted?: boolean;
+    // (undocumented)
     metadata?: Metadata;
     // (undocumented)
     name: string;
     // (undocumented)
     properties: FileSystemProperties;
+    // (undocumented)
+    versionId?: string;
 }
 
 // @public
@@ -797,6 +808,8 @@ export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders 
 // @public (undocumented)
 export interface FileSystemProperties {
     // (undocumented)
+    deletedOn?: Date;
+    // (undocumented)
     etag: string;
     // (undocumented)
     hasImmutabilityPolicy?: boolean;
@@ -812,7 +825,12 @@ export interface FileSystemProperties {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     publicAccess?: PublicAccessType;
+    // (undocumented)
+    remainingRetentionDays?: number;
 }
+
+// @public
+export type FileSystemRenameResponse = ContainerRenameResponse;
 
 // @public
 export class FileSystemSASPermissions {
@@ -891,6 +909,9 @@ export type FileSystemSetMetadataResponse = FileSystemSetMetadataHeaders & {
         parsedHeaders: FileSystemSetMetadataHeaders;
     };
 };
+
+// @public
+export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
 // @public
 export function generateAccountSASQueryParameters(accountSASSignatureValues: AccountSASSignatureValues, sharedKeyCredential: StorageSharedKeyCredential): SASQueryParameters;
@@ -1742,6 +1763,7 @@ export { ServiceListContainersSegmentResponse }
 export interface ServiceListFileSystemsOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     // (undocumented)
     includeMetadata?: boolean;
     // (undocumented)
@@ -1766,6 +1788,15 @@ export type ServiceListFileSystemsSegmentResponse = ListFileSystemsSegmentRespon
         parsedBody: ListFileSystemsSegmentResponse;
     };
 };
+
+// @public
+export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
+
+// @public
+export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    destinationFileSystemName?: string;
+}
 
 // @public (undocumented)
 export interface SignedIdentifier<T> {

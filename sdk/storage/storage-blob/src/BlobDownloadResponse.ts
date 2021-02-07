@@ -460,6 +460,17 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   }
 
   /**
+   * Indicates whether version of this blob is a current version.
+   *
+   * @readonly
+   * @type {(boolean | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get isCurrentVersion(): boolean | undefined {
+    return this.originalResponse.isCurrentVersion;
+  }
+
+  /**
    * The SHA-256 hash of the encryption key used to encrypt the blob. This value is only returned
    * when the blob was encrypted with a customer-provided key.
    *
