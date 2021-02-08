@@ -26,10 +26,10 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
  *       retry attempts remaining. Minimum value: 60000 milliseconds.
  * - `requestOptions`   : Options used when creating and sending HTTP requests for this operation. (Not applicable for the pure AMQP operations.)
  *    - `timeout`   : The number of milliseconds a request can take before automatically being terminated. If provided, this timeout will be passed/used for the auth operations such as obtaining the token while using `@azure/identity` and Azure AD credentials.
- * - `tracingOptions`   : Tracing options to set on an operation.
- *    - `spanOptions` : OpenTelemetry SpanOptions used to create a span when tracing is enabled.
  */
 export interface ServiceBusClientOptions extends Pick<OperationOptionsBase, "requestOptions"> {
+  // TODO: Instead of picking "requestOptions" from OperationOptionsBase,
+  //       use the whole OperationOptionsBase and properly propagate the abortSignal and tracingOptions.
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
