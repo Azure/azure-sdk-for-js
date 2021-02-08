@@ -1,5 +1,8 @@
 # Release History
 
+## 2.1.1 (Unreleased)
+
+
 ## 2.1.0 (2021-02-08)
 
 - Fixes the bug reported in issue [13048](https://github.com/Azure/azure-sdk-for-js/issues/13048).
