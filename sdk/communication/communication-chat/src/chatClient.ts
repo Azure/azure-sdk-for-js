@@ -13,7 +13,12 @@ import {
   ChatMessageEditedEvent,
   ChatMessageDeletedEvent,
   ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent
+  TypingIndicatorReceivedEvent,
+  ChatThreadCreatedEvent,
+  ChatThreadDeletedEvent,
+  ChatThreadPropertiesUpdatedEvent,
+  ParticipantsAddedEvent,
+  ParticipantsRemovedEvent
 } from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
 import {
@@ -347,6 +352,44 @@ export class ChatClient {
    */
   public on(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
 
+  /**
+   * Subscribe function for chatThreadCreated.
+   * @param event The ChatThreadCreatedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public on(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
+
+  /**
+   * Subscribe function for chatThreadDeleted.
+   * @param event The ChatThreadDeletedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public on(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
+
+  /**
+   * Subscribe function for chatThreadPropertiesUpdated.
+   * @param event The ChatThreadPropertiesUpdatedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public on(
+    event: "chatThreadPropertiesUpdated",
+    listener: (e: ChatThreadPropertiesUpdatedEvent) => void
+  ): void;
+
+  /**
+   * Subscribe function for participantsAdded.
+   * @param event The ParticipantsAddedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+
+  /**
+   * Subscribe function for participantsRemoved.
+   * @param event The ParticipantsRemovedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+
   public on(event: ChatEventId, listener: (e: any) => void): void {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
@@ -399,6 +442,44 @@ export class ChatClient {
    */
   public off(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
 
+  /**
+   *  Unsubscribe from chatThreadCreated.
+   * @param event The ChatThreadCreatedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public off(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
+
+  /**
+   *  Unsubscribe from chatThreadDeleted.
+   * @param event The ChatThreadDeletedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public off(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
+
+  /**
+   * Unsubscribe from chatThreadPropertiesUpdated.
+   * @param event The ChatThreadPropertiesUpdatedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public off(
+    event: "chatThreadPropertiesUpdated",
+    listener: (e: ChatThreadPropertiesUpdatedEvent) => void
+  ): void;
+
+  /**
+   * Unsubscribe from participantsAdded.
+   * @param event The ParticipantsAddedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+
+  /**
+   * Unsubscribe from participantsRemoved.
+   * @param event The ParticipantsRemovedEvent.
+   * @param listener The listener to handle the event.
+   */
+  public off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+
   public off(event: ChatEventId, listener: (e: any) => void): void {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
@@ -430,6 +511,26 @@ export class ChatClient {
 
     this.signalingClient.on("readReceiptReceived", (payload) => {
       this.emitter.emit("readReceiptReceived", payload);
+    });
+
+    this.signalingClient.on("chatThreadCreated", (payload) => {
+      this.emitter.emit("chatThreadCreated", payload);
+    });
+
+    this.signalingClient.on("chatThreadDeleted", (payload) => {
+      this.emitter.emit("chatThreadDeleted", payload);
+    });
+
+    this.signalingClient.on("chatThreadPropertiesUpdated", (payload) => {
+      this.emitter.emit("chatThreadPropertiesUpdated", payload);
+    });
+
+    this.signalingClient.on("participantsAdded", (payload) => {
+      this.emitter.emit("participantsAdded", payload);
+    });
+
+    this.signalingClient.on("participantsRemoved", (payload) => {
+      this.emitter.emit("participantsRemoved", payload);
     });
   }
 }
