@@ -84,6 +84,7 @@
     ]
   },
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
@@ -93,7 +94,6 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@azure/abort-controller": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",

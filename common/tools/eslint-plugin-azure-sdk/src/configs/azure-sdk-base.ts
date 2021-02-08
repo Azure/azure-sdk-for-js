@@ -11,7 +11,7 @@ export default {
     sourceType: "module",
     extraFileExtensions: [".json"]
   },
-  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc"],
+  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc", "import"],
   extends: [
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
@@ -29,6 +29,14 @@ export default {
     curly: ["error", "multi-line"],
     "eol-last": ["error", "always"],
     eqeqeq: ["error", "always", { null: "ignore" }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: ["test/**/*.ts", "samples/**/*.ts", "samples/**/*.js"],
+        optionalDependencies: false,
+        peerDependencies: false
+      }
+    ],
     "no-console": "off",
     "no-dupe-class-members": "off",
     "no-empty": "error",
