@@ -1,8 +1,8 @@
-# Using Azure Key Vault in a Web Application
+# CORS considerations for web applications
 
 Browser security prevents a web page from making requests to a different domain than the one that served the web page. This restriction is called the same-origin policy. The same-origin policy prevents a malicious site from reading sensitive data from another site. Sometimes, you might want to allow other sites to make cross-origin requests to your app. That's where [Cross-Origin Resource Sharing (CORS)][cors] policies become necessary.
 
-While CORS is configurable for some Azure services, Azure Key Vault does not currently support CORS natively. So what can you do if you'd like to integrate with Azure Key Vault from a client side web application?
+While CORS is configurable for some Azure services, other services do not yet support CORS natively. So what can you do if you'd like to integrate with an Azure service from a web application?
 
 Fortunately, there are a few options:
 
@@ -10,6 +10,8 @@ Fortunately, there are a few options:
 - Use [Azure API Management][azureapimanagement] to route requests to Azure Key Vault.
 
 > Remember: CORS is a _browser_ restriction, and is not a concern for Node applications.
+
+In this sample we'll use Azure Key Vault - but it can be used as a guideline for any Azure service that does not support CORS natively.
 
 Interested in enabling CORS in Key Vault? [Let us know!](https://feedback.azure.com/forums/906355-azure-key-vault/suggestions/34753195-enable-cors-for-key-vault)
 
