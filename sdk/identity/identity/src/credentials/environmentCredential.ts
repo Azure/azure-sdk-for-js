@@ -5,12 +5,8 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import {
-  AuthenticationError,
-  AuthenticationErrorName,
-  CredentialUnavailable
-} from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { AuthenticationError, CredentialUnavailable } from "../client/errors";
+import { StatusCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
@@ -129,12 +125,12 @@ export class EnvironmentCredential implements TokenCredential {
         logger.getToken.info(formatSuccess(scopes));
         return result;
       } catch (err) {
-        const code =
-          err.name === AuthenticationErrorName
-            ? CanonicalCode.UNAUTHENTICATED
-            : CanonicalCode.UNKNOWN;
+        // const code =
+        //   // err.name === AuthenticationErrorName
+        //   //   ? CanonicalCode.UNAUTHENTICATED
+        //   //   : CanonicalCode.UNKNOWN;
         span.setStatus({
-          code,
+          code: StatusCode.ERROR,
           message: err.message
         });
         const authenticationError = new AuthenticationError(400, {
@@ -153,7 +149,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     // If by this point we don't have a credential, throw an exception so that
     // the user knows the credential was not configured appropriately
-    span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
+    span.setStatus({ code: StatusCode.ERROR });
     span.end();
     const error = new CredentialUnavailable(
       "EnvironmentCredential is unavailable. Environment variables are not fully configured."

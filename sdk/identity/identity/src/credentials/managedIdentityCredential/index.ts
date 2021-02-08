@@ -5,11 +5,10 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http"
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
 import {
-  AuthenticationErrorName,
   AuthenticationError,
   CredentialUnavailable
 } from "../../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
@@ -108,12 +107,8 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       return availableMSI.getToken(this.identityClient, resource, clientId, options);
     } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code,
+        code: StatusCode.ERROR,
         message: err.message
       });
       throw err;
@@ -192,7 +187,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       //   but no identity is available.
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: err.message
       });
 

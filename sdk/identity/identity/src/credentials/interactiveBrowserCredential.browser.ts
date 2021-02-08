@@ -9,7 +9,7 @@ import {
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
 import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
@@ -168,7 +168,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
     } catch (err) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));

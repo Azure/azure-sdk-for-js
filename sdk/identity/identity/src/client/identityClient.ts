@@ -14,7 +14,7 @@ import {
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
@@ -168,7 +168,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         // initiate the authentication flow again.
         logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
-          code: CanonicalCode.UNAUTHENTICATED,
+          code: StatusCode.ERROR,
           message: err.message
         });
 
@@ -178,7 +178,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
         );
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: StatusCode.ERROR,
           message: err.message
         });
         throw err;

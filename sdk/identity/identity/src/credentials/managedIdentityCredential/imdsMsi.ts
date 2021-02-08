@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
@@ -91,7 +91,7 @@ export const imdsMsi: MSI = {
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
-            code: CanonicalCode.UNAVAILABLE,
+            code: StatusCode.ERROR,
             message: err.message
           });
 
@@ -110,7 +110,7 @@ export const imdsMsi: MSI = {
       // This error should bubble up to the user.
       logger.info(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`);
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: err.message
       });
       throw err;

@@ -3,8 +3,8 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { CredentialUnavailable } from "../client/errors";
+import { StatusCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 
@@ -118,12 +118,8 @@ export class AzureCliCredential implements TokenCredential {
           }
         })
         .catch((err) => {
-          const code =
-            err.name === AuthenticationErrorName
-              ? CanonicalCode.UNAUTHENTICATED
-              : CanonicalCode.UNKNOWN;
           span.setStatus({
-            code,
+            code: StatusCode.ERROR,
             message: err.message
           });
           logger.getToken.info(formatError(scopes, err));

@@ -3,10 +3,9 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
@@ -189,12 +188,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
       logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code,
+        code: StatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));
