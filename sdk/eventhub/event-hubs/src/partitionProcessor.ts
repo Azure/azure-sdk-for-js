@@ -133,8 +133,6 @@ export class PartitionProcessor implements PartitionContext {
   /**
    * This method is called when the `EventProcessor` takes ownership of a new partition and before any
    * events are received.
-   *
-   * @return {Promise<EventPosition>}
    */
   async initialize(): Promise<void> {
     if (this._eventHandlers.processInitialize) {
@@ -146,7 +144,6 @@ export class PartitionProcessor implements PartitionContext {
    * This method is called before the partition processor is closed by the EventProcessor.
    *
    * @param reason - The reason for closing this partition processor.
-   * @return {Promise<void>}
    */
   async close(reason: CloseReason): Promise<void> {
     if (this._eventHandlers.processClose) {
@@ -160,7 +157,6 @@ export class PartitionProcessor implements PartitionContext {
    * This is also a good place to update checkpoints as appropriate.
    *
    * @param event - The received events to be processed.
-   * @return {Promise<void>}
    */
   async processEvents(events: ReceivedEventData[]): Promise<void> {
     await this._eventHandlers.processEvents(events, this);
@@ -170,7 +166,6 @@ export class PartitionProcessor implements PartitionContext {
    * This method is called when an error occurs while receiving events from Event Hubs.
    *
    * @param error - The error to be processed.
-   * @return {Promise<void>}
    */
   async processError(error: Error): Promise<void> {
     if (this._eventHandlers.processError) {
@@ -189,7 +184,6 @@ export class PartitionProcessor implements PartitionContext {
    * partition of a consumer group in an Event Hub instance.
    *
    * @param eventData - The event that you want to update the checkpoint with.
-   * @return Promise<void>
    */
   public async updateCheckpoint(eventData: ReceivedEventData): Promise<void> {
     const checkpoint: Checkpoint = {

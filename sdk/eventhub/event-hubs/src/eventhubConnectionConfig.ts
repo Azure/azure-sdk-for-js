@@ -77,7 +77,7 @@ export const EventHubConnectionConfig = {
    * @param path - The name/path of the entity (hub name) to which the
    * connection needs to happen. This will override the EntityPath in the connectionString
    * if present.
-   * @returns {EventHubConnectionConfig} EventHubConnectionConfig
+   * @returns EventHubConnectionConfig
    */
   create(connectionString: string, path?: string): EventHubConnectionConfig {
     const config = ConnectionConfig.create(connectionString, path);
@@ -162,7 +162,7 @@ export const EventHubConnectionConfig = {
   /**
    * Validates the properties of connection config.
    * @param config - The connection config to be validated.
-   * @returns {void} void
+   * @returns void
    */
   validate(config: EventHubConnectionConfig): void {
     return ConnectionConfig.validate(config, { isEntityPathRequired: true });

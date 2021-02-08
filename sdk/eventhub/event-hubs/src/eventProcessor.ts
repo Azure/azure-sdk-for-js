@@ -73,7 +73,7 @@ export interface CheckpointStore {
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName - The event hub name.
    * @param consumerGroup - The consumer group name.
-   * @return A list of partition ownership details of all the partitions that have/had an owner.
+   * @returnsA list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
@@ -85,7 +85,7 @@ export interface CheckpointStore {
    * successfully.
    *
    * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
-   * @return A list of partitions this instance successfully claimed ownership.
+   * @returnsA list of partitions this instance successfully claimed ownership.
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
 
@@ -234,8 +234,6 @@ export class EventProcessor {
 
   /**
    * The unique identifier for the EventProcessor.
-   *
-   * @return {string}
    */
   get id(): string {
     return this._id;
@@ -542,7 +540,6 @@ export class EventProcessor {
    * Subsequent calls to start will be ignored if this event processor is already running.
    * Calling `start()` after `stop()` is called will restart this event processor.
    *
-   * @return {void}
    */
   start(): void {
     if (this._isRunning) {

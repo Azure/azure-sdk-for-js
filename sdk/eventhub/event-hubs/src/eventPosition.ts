@@ -46,7 +46,7 @@ export interface EventPosition {
 /**
  * @internal
  * Gets the expression to be set as the filter clause when creating the receiver
- * @return {string} filterExpression
+ * @returns filterExpression
  */
 export function getEventPositionFilter(eventPosition: EventPosition): string {
   let result;

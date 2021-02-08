@@ -27,7 +27,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName - The event hub name.
    * @param consumerGroup - The consumer group name.
-   * @return Partition ownership details of all the partitions that have/had an owner..
+   * @returnsPartition ownership details of all the partitions that have/had an owner..
    */
   async listOwnership(
     _fullyQualifiedNamespace: string,
@@ -48,7 +48,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
    * successfully.
    *
    * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
-   * @return A list partitions this instance successfully claimed ownership.
+   * @returnsA list partitions this instance successfully claimed ownership.
    */
   async claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]> {
     const claimedOwnerships = [];

@@ -69,7 +69,6 @@ export interface PartitionContext {
    * partition of a consumer group in an Event Hub instance.
    *
    * @param eventData - The event that you want to update the checkpoint with.
-   * @return Promise<void>
    */
   updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
 }

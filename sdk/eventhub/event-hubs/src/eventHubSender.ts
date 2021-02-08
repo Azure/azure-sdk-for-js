@@ -288,7 +288,6 @@ export class EventHubSender extends LinkEntity {
    * @hidden
    * @param events -  An array of EventData objects to be sent in a Batch message.
    * @param options - Options to control the way the events are batched along with request options
-   * @return Promise<void>
    */
   async send(
     events: EventData[] | EventDataBatch,
