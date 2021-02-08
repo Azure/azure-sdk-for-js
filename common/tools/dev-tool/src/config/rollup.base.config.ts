@@ -82,7 +82,7 @@ function makeBrowserTestConfig() {
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           // OpenTelemetry uses an __exportStar downleveled helper function to
           // declare its exports, and so we have to add them here as well.
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@opentelemetry/api": ["SpanKind", "TraceFlags", "StatusCode", "getSpan"]
         }
       }),
       json(),
