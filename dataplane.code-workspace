@@ -202,7 +202,7 @@
     },
     {
       "name": "monitor",
-      "path": "sdk/monitor/opentelemetry-exporter-azure-monitor"
+      "path": "sdk/monitor/monitor-opentelemetry-exporter"
     },
     {
       "name": "test recorder",
@@ -264,6 +264,9 @@
     "typescript.tsdk": "core-http/node_modules/typescript/lib"
   },
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
   }
 }

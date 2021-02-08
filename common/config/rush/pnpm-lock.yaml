@@ -38,7 +38,7 @@ dependencies:
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
-  '@rush-temp/opentelemetry-exporter-azure-monitor': file:projects/opentelemetry-exporter-azure-monitor.tgz
+  '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -9299,7 +9299,7 @@ packages:
       integrity: sha512-9C/8ICw825JPlQ6DGhRDKFWo2jO3CYzJYZeqqgg1qkdPIthab+aId/EnoW3oLeEUUwnEF3Gy8unrlFCIMCs5mA==
       tarball: file:projects/logger.tgz
     version: 0.0.0
-  file:projects/opentelemetry-exporter-azure-monitor.tgz:
+  file:projects/monitor-opentelemetry-exporter.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.16.0
@@ -9324,10 +9324,10 @@ packages:
       typedoc: 0.15.2
       typescript: 4.1.2
     dev: false
-    name: '@rush-temp/opentelemetry-exporter-azure-monitor'
+    name: '@rush-temp/monitor-opentelemetry-exporter'
     resolution:
-      integrity: sha512-GkOeLFZUDqi6deXNZW3SqacBZwxExidYQjk+FyPYRpRF9FaxxrZD0dcQ5eLmGNQYXvghOKk3gktWFES4JdBXMQ==
-      tarball: file:projects/opentelemetry-exporter-azure-monitor.tgz
+      integrity: sha512-PQ9TYELaQ7eyzGfdPwoqAoUxEv9WH0sHPdwuXd7iyUXNRyqT5Hjg2a30zfOrd6QHB5IX4iQq6UtthzLKfCQwmA==
+      tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
@@ -9743,7 +9743,6 @@ packages:
   file:projects/storage-file-datalake.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
-      '@azure/storage-blob': 12.4.1
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -9798,7 +9797,7 @@ packages:
     dev: false
     name: '@rush-temp/storage-file-datalake'
     resolution:
-      integrity: sha512-ZTT2TePLq/moo4yFQSA30elk3sIkh81Hon2fB2xJr/i6K5llayjjkVtEEfXfgO6AvlAYEy7HjvzTGKwiB6K/1w==
+      integrity: sha512-W5quuvIxHZQWIevkfCqx/pZW2vPJJMqpwlyOdIvhv/u5dHWn6z9fteDBpaEHSfEFdRa++7VeV5EjRPNEo3ED0A==
       tarball: file:projects/storage-file-datalake.tgz
     version: 0.0.0
   file:projects/storage-file-share.tgz:
@@ -10280,7 +10279,7 @@ specifiers:
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
-  '@rush-temp/opentelemetry-exporter-azure-monitor': file:./projects/opentelemetry-exporter-azure-monitor.tgz
+  '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
