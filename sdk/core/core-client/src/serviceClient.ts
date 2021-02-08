@@ -97,9 +97,8 @@ export class ServiceClient {
 
   /**
    * The ServiceClient constructor
-   * @constructor
-   * @param credential The credentials used for authentication with the service.
-   * @param options The service client options that govern the behavior of the client.
+   * @param credential - The credentials used for authentication with the service.
+   * @param options - The service client options that govern the behavior of the client.
    */
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
@@ -126,8 +125,8 @@ export class ServiceClient {
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
    * @typeParam T The typed result of the request, based on the OperationSpec.
-   * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
-   * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
+   * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
+   * @param operationSpec - The OperationSpec to use to populate the httpRequest.
    */
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
@@ -269,7 +268,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
  * Creates a new Pipeline for use with a Service Client.
  * Adds in deserializationPolicy by default.
  * Also adds in bearerTokenAuthenticationPolicy if passed a TokenCredential.
- * @param options Options to customize the created pipeline.
+ * @param options - Options to customize the created pipeline.
  */
 export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
   const pipeline = createPipelineFromOptions(options ?? {});

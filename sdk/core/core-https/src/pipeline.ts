@@ -71,8 +71,8 @@ export interface PipelinePolicy {
   name: string;
   /**
    * The main method to implement that manipulates a request/response.
-   * @param request The request being performed.
-   * @param next The next policy in the pipeline. Must be called to continue the pipeline.
+   * @param request - The request being performed.
+   * @param next - The next policy in the pipeline. Must be called to continue the pipeline.
    */
   sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
 }
@@ -85,19 +85,19 @@ export interface PipelinePolicy {
 export interface Pipeline {
   /**
    * Add a new policy to the pipeline.
-   * @param policy A policy that manipulates a request.
-   * @param options A set of options for when the policy should run.
+   * @param policy - A policy that manipulates a request.
+   * @param options - A set of options for when the policy should run.
    */
   addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
   /**
    * Remove a policy from the pipeline.
-   * @param options Options that let you specify which policies to remove.
+   * @param options - Options that let you specify which policies to remove.
    */
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
   /**
    * Uses the pipeline to make a HTTPS request.
-   * @param httpsClient The HttpsClient that actually performs the request.
-   * @param request The request to be made.
+   * @param httpsClient - The HttpsClient that actually performs the request.
+   * @param request - The request to be made.
    */
   sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
   /**
@@ -437,7 +437,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
 
 /**
  * Create a new pipeline with a default set of customizable policies.
- * @param options Options to configure a custom pipeline.
+ * @param options - Options to configure a custom pipeline.
  */
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = HttpsPipeline.create();

@@ -24,7 +24,7 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 export class XhrHttpsClient implements HttpsClient {
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const xhr = new XMLHttpRequest();
