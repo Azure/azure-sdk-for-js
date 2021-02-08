@@ -194,7 +194,7 @@ async function sendFinalGet<TResult extends BaseResult>(
     ...(path && { path })
   };
 
-  let operationArgs: OperationArguments = initialOperation.args;
+  const operationArgs: OperationArguments = initialOperation.args;
   if (operationArgs.options) {
     operationArgs.options.shouldDeserialize = true;
   }
