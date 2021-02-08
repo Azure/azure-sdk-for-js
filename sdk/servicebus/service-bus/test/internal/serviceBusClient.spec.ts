@@ -844,8 +844,8 @@ function reduceRetries(receiver: ServiceBusReceiver) {
   // the error. This reduces everything so we run a short retry cycle.
   //
   // There are other tests that ensure that the retry cycle does work properly.
-  (receiver as ServiceBusReceiverImpl)["_retryOptions"] = {
-    ...(receiver as ServiceBusReceiverImpl)["_retryOptions"],
+  (receiver as ServiceBusReceiverImpl)["_clientOptions"].retryOptions = {
+    ...(receiver as ServiceBusReceiverImpl)["_clientOptions"].retryOptions,
     maxRetries: 0,
     timeoutInMs: 0,
     maxRetryDelayInMs: 0,
