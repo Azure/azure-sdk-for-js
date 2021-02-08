@@ -46,6 +46,12 @@ $context = New-AzStorageContext -StorageAccountName $datalakeStorageAccountName
 Set-AzStorageCORSRule -ServiceType 'Blob' -CorsRules $corsRules -Context $context
 Write-Verbose "CORS rule set for $datalakeStorageAccountName"
 
+
+# $datalakeSoftDeleteAccountName = $DeploymentOutputs['DFS_SOFT_DELETE_ACCOUNT_NAME']
+# $context = New-AzStorageContext -StorageAccountName $datalakeSoftDeleteAccountName
+# Set-AzStorageCORSRule -ServiceType 'Blob' -CorsRules $corsRules -Context $context
+# Write-Verbose "CORS rule set for $datalakeSoftDeleteAccountName"
+
 # Run any post deployment script and set any additional keys to set in Env
 $AdditionalEnvKeys = @{}
 

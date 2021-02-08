@@ -228,6 +228,26 @@
             "containerDeleteRetentionPolicy": {
               "enabled": true,
               "days": 7
+            },
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
             }
           }
         }
