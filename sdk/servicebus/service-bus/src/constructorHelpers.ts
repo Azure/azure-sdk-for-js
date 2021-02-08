@@ -29,8 +29,7 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
  * - `tracingOptions`   : Tracing options to set on an operation.
  *    - `spanOptions` : OpenTelemetry SpanOptions used to create a span when tracing is enabled.
  */
-export interface ServiceBusClientOptions
-  extends Pick<OperationOptionsBase, "requestOptions" | "tracingOptions"> {
+export interface ServiceBusClientOptions extends Pick<OperationOptionsBase, "requestOptions"> {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
