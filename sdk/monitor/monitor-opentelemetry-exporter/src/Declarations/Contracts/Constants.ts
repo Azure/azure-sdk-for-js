@@ -3,12 +3,12 @@
  * allow for case-insensitivity across field names
  * @type ConnectionStringKey
  */
-export type ConnectionString = { [key in ConnectionStringKey]?: string }
+export type ConnectionString = { [key in ConnectionStringKey]?: string };
 
 export type ConnectionStringKey =
-  | 'authorization'
-  | 'instrumentationkey'
-  | 'ingestionendpoint'
-  | 'liveendpoint'
-  | 'location'
-  | 'endpointsuffix';
+  | "authorization"
+  | "instrumentationkey"
+  | "ingestionendpoint"
+  | "liveendpoint"
+  | "location"
+  | "endpointsuffix";

@@ -108,11 +108,13 @@ async function streamToString(readableStream: NodeJS.ReadableStream) {
 }
 
 // OPTIONAL: Manually start and propagate a root span
-const rootSpan = tracer.startSpan('root span');
+const rootSpan = tracer.startSpan("root span");
 tracer.withSpan(rootSpan, () => {
-  main().catch((err) => {
-    console.error("Error running sample:", err.message);
-  }).then(() => rootSpan.end()); // End the optional root span on completion
+  main()
+    .catch((err) => {
+      console.error("Error running sample:", err.message);
+    })
+    .then(() => rootSpan.end()); // End the optional root span on completion
 });
 
 console.log("Waiting batched span processor to export batched spans");
