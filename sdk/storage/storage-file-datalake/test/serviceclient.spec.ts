@@ -417,7 +417,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("undelete and list deleted file system should work", async function() {
+  it.only("undelete and list deleted file system should work", async function() {
     let serviceClient: DataLakeServiceClient;
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
