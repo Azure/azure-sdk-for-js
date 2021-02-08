@@ -4,10 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
-import {
-  AuthenticationError,
-  CredentialUnavailable
-} from "../../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../../client/errors";
 import { StatusCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
