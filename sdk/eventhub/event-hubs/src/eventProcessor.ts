@@ -69,11 +69,11 @@ export interface CheckpointStore {
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
-   * @return A list of partition ownership details of all the partitions that have/had an owner.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @returns A list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
@@ -84,25 +84,25 @@ export interface CheckpointStore {
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
-   * @return A list of partitions this instance successfully claimed ownership.
+   * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @returns A list of partitions this instance successfully claimed ownership.
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
 
   /**
    * Updates the checkpoint in the data store for a partition.
    *
-   * @param checkpoint The checkpoint.
+   * @param checkpoint - The checkpoint.
    */
   updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
 
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
    */
   listCheckpoints(
     fullyQualifiedNamespace: string,
@@ -196,13 +196,13 @@ export class EventProcessor {
   private _fullyQualifiedNamespace: string;
 
   /**
-   * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
-   * @param PartitionProcessorClass A user-provided class that extends the `PartitionProcessor` class.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
+   * @param eventHubClient - An instance of `EventHubClient` that was created for the Event Hub instance.
+   * @param PartitionProcessorClass - A user-provided class that extends the `PartitionProcessor` class.
    * This class will be responsible for processing and checkpointing events.
-   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
+   * @param checkpointStore - An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
    * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
-   * @param options A set of options to configure the Event Processor
+   * @param options - A set of options to configure the Event Processor
    * - `maxBatchSize`         : The max size of the batch of events passed each time to user code for processing.
    * - `maxWaitTimeInSeconds` : The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
@@ -234,8 +234,6 @@ export class EventProcessor {
 
   /**
    * The unique identifier for the EventProcessor.
-   *
-   * @return {string}
    */
   get id(): string {
     return this._id;
@@ -542,7 +540,6 @@ export class EventProcessor {
    * Subsequent calls to start will be ignored if this event processor is already running.
    * Calling `start()` after `stop()` is called will restart this event processor.
    *
-   * @return {void}
    */
   start(): void {
     if (this._isRunning) {

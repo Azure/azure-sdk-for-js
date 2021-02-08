@@ -74,8 +74,8 @@ export class EventHubSender extends LinkEntity {
   /**
    * Creates a new EventHubSender instance.
    * @hidden
-   * @param context The connection context.
-   * @param [partitionId] The EventHub partition id to which the sender
+   * @param context - The connection context.
+   * @param partitionId - The EventHub partition id to which the sender
    * wants to send the event data.
    */
   constructor(context: ConnectionContext, partitionId?: string) {
@@ -206,7 +206,7 @@ export class EventHubSender extends LinkEntity {
   }
   /**
    * Returns maximum message size on the AMQP sender link.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    * @returns Promise<number>
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -286,9 +286,8 @@ export class EventHubSender extends LinkEntity {
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
    * @hidden
-   * @param events  An array of EventData objects to be sent in a Batch message.
-   * @param options Options to control the way the events are batched along with request options
-   * @return Promise<void>
+   * @param events -  An array of EventData objects to be sent in a Batch message.
+   * @param options - Options to control the way the events are batched along with request options
    */
   async send(
     events: EventData[] | EventDataBatch,
@@ -388,7 +387,7 @@ export class EventHubSender extends LinkEntity {
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
    * @hidden
-   * @param rheaMessage The message to be sent to EventHub.
+   * @param rheaMessage - The message to be sent to EventHub.
    * @returns Promise<void>
    */
   private _trySendBatch(
@@ -600,7 +599,7 @@ export class EventHubSender extends LinkEntity {
    * not present in the context or returns the one present in the context.
    * @hidden
    * @static
-   * @param [partitionId] Partition ID to which it will send event data.
+   * @param partitionId - Partition ID to which it will send event data.
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {
     const ehSender: EventHubSender = new EventHubSender(context, partitionId);

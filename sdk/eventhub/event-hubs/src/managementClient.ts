@@ -119,8 +119,8 @@ export class ManagementClient extends LinkEntity {
   /**
    * Instantiates the management client.
    * @hidden
-   * @param context The connection context.
-   * @param [address] The address for the management endpoint. For IotHub it will be
+   * @param context - The connection context.
+   * @param address - The address for the management endpoint. For IotHub it will be
    * `/messages/events/$management`.
    */
   constructor(context: ConnectionContext, options?: ManagementClientOptions) {
@@ -211,7 +211,7 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides information about the specified partition.
    * @hidden
-   * @param partitionId Partition ID for which partition information is required.
+   * @param partitionId - Partition ID for which partition information is required.
    */
   async getPartitionProperties(
     partitionId: string,
@@ -374,8 +374,8 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Helper method to make the management request
-   * @param request The AMQP message to send
-   * @param options The options to use when sending a request over a $management link
+   * @param request - The AMQP message to send
+   * @param options - The options to use when sending a request over a $management link
    */
   private async _makeManagementRequest(
     request: Message,

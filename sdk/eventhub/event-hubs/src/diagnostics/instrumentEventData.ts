@@ -14,8 +14,8 @@ export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
  * Populates the `EventData` with `SpanContext` info to support trace propagation.
  * Creates and returns a copy of the passed in `EventData` unless the `EventData`
  * has already been instrumented.
- * @param eventData The `EventData` to instrument.
- * @param span The `Span` containing the context to propagate tracing information.
+ * @param eventData - The `EventData` to instrument.
+ * @param span - The `Span` containing the context to propagate tracing information.
  */
 export function instrumentEventData(eventData: EventData, span: Span): EventData {
   if (eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]) {
@@ -35,7 +35,7 @@ export function instrumentEventData(eventData: EventData, span: Span): EventData
 
 /**
  * Extracts the `SpanContext` from an `EventData` if the context exists.
- * @param eventData An individual `EventData` object.
+ * @param eventData - An individual `EventData` object.
  * @internal
  */
 export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined {

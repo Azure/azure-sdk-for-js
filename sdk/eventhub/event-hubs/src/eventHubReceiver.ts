@@ -192,11 +192,11 @@ export class EventHubReceiver extends LinkEntity {
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
    * @hidden
-   * @param context        The connection context corresponding to the EventHubClient instance
-   * @param consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param partitionId    The Partition ID from which to receive.
-   * @param eventPosition  The position in the stream from where to start receiving events.
-   * @param [options]      Receiver options.
+   * @param context -        The connection context corresponding to the EventHubClient instance
+   * @param consumerGroup -  The consumer group from which the receiver should receive events from.
+   * @param partitionId -    The Partition ID from which to receive.
+   * @param eventPosition -  The position in the stream from where to start receiving events.
+   * @param options -      Receiver options.
    */
   constructor(
     context: ConnectionContext,
@@ -652,10 +652,10 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Returns a promise that resolves to an array of events received from the service.
    *
-   * @param maxMessageCount The maximum number of messages to receive.
-   * @param maxWaitTimeInSeconds The maximum amount of time to wait to build up the requested message count;
+   * @param maxMessageCount - The maximum number of messages to receive.
+   * @param maxWaitTimeInSeconds - The maximum amount of time to wait to build up the requested message count;
    * If not provided, it defaults to 60 seconds.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @returns Promise<ReceivedEventData[]>.

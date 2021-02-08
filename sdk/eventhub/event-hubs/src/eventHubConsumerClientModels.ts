@@ -68,8 +68,7 @@ export interface PartitionContext {
    * A checkpoint is meant to represent the last successfully processed event by the user from a particular
    * partition of a consumer group in an Event Hub instance.
    *
-   * @param eventData The event that you want to update the checkpoint with.
-   * @return Promise<void>
+   * @param eventData - The event that you want to update the checkpoint with.
    */
   updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
 }
@@ -182,7 +181,6 @@ export interface SubscribeOptions {
    */
   startPosition?: EventPosition | { [partitionId: string]: EventPosition };
   /**
-   * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 

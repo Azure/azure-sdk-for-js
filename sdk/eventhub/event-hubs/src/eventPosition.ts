@@ -46,7 +46,7 @@ export interface EventPosition {
 /**
  * @internal
  * Gets the expression to be set as the filter clause when creating the receiver
- * @return {string} filterExpression
+ * @returns filterExpression
  */
 export function getEventPositionFilter(eventPosition: EventPosition): string {
   let result;
@@ -140,7 +140,6 @@ export function validateEventPositions(
 /**
  * Determines whether a position is an EventPosition.
  * Does not validate that the position is allowed.
- * @param position
  * @internal
  */
 export function isEventPosition(position: unknown): position is EventPosition {

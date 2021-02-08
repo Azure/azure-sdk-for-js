@@ -95,8 +95,8 @@ export class LinkEntity {
   /**
    * Creates a new LinkEntity instance.
    * @hidden
-   * @param context The connection context.
-   * @param [options] Options that can be provided while creating the LinkEntity.
+   * @param context - The connection context.
+   * @param options - Options that can be provided while creating the LinkEntity.
    */
   constructor(context: ConnectionContext, options?: LinkEntityOptions) {
     if (!options) options = {};
@@ -110,7 +110,7 @@ export class LinkEntity {
   /**
    * Negotiates cbs claim for the LinkEntity.
    * @hidden
-   * @param [setTokenRenewal] Set the token renewal timer. Default false.
+   * @param setTokenRenewal - Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
   protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
@@ -225,7 +225,7 @@ export class LinkEntity {
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
    * @hidden
-   * @param [link] The Sender or Receiver link that needs to be closed and
+   * @param link - The Sender or Receiver link that needs to be closed and
    * removed.
    */
   protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {

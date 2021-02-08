@@ -26,7 +26,7 @@ const smallMessageMaxBytes = 255;
 
 /**
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
- * @param eventDataBatch The instance of `EventDataBatch` to verify.
+ * @param eventDataBatch - The instance of `EventDataBatch` to verify.
  * @internal
  */
 export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is EventDataBatch {
@@ -100,7 +100,7 @@ export interface EventDataBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData  An individual event data object.
+   * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
@@ -243,8 +243,8 @@ export class EventDataBatchImpl implements EventDataBatch {
 
   /**
    * Generates an AMQP message that contains the provided encoded events and annotations.
-   * @param encodedEvents The already encoded events to include in the AMQP batch.
-   * @param annotations The message annotations to set on the batch.
+   * @param encodedEvents - The already encoded events to include in the AMQP batch.
+   * @param annotations - The message annotations to set on the batch.
    */
   private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
     const batchEnvelope: RheaMessage = {
@@ -275,7 +275,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData  An individual event data object.
+   * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {
