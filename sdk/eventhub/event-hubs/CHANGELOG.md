@@ -1,6 +1,6 @@
 # Release History
 
-## 5.4.0 (Unreleased)
+## 5.4.0 (2021-02-09)
 
 - A helper method `parseEventHubConnectionString` has been added which validates and
   parses a given connection string for Azure Event Hubs.
