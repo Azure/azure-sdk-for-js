@@ -193,7 +193,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       if (!Array.isArray(messages)) {
         messages = [messages];
       }
-      batch = await this.createMessageBatch(options);
+      batch = await this.createMessageBatch({ ...this._clientOptions, ...options });
       for (const message of messages) {
         throwIfNotValidServiceBusMessage(message, invalidTypeErrMsg);
         if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
@@ -214,7 +214,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     );
 
     try {
-      const result = await this._sender.sendBatch(batch, options);
+      const result = await this._sender.sendBatch(batch, { ...this._clientOptions, ...options });
       sendSpan.setStatus({ code: CanonicalCode.OK });
       return result;
     } catch (error) {
