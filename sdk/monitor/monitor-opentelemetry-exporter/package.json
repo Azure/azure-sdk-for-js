@@ -6,7 +6,7 @@
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/opentelemetry-exporter-azure-monitor.d.ts",
+  "types": "types/monitor-opentelemetry-exporter.d.ts",
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:autorest": "autorest ./swagger/README.md --typescript --v3",
@@ -41,13 +41,13 @@
     "dist-esm/src/",
     "dist/src/",
     "browser/src/",
-    "types/opentelemetry-exporter-azure-monitor.d.ts",
+    "types/monitor-opentelemetry-exporter.d.ts",
     "README.md",
     "SECURITY.md",
     "LICENSE"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter-azure-monitor/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-opentelemetry-exporter/",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
