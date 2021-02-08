@@ -130,6 +130,35 @@ describe("helper methods", () => {
     });
   });
 
+  const fakeHttp204Response: HttpResponseField<any> = {
+    _response: {
+      request: {
+        url: "unused",
+        abortSignal: {
+          aborted: true,
+          addEventListener: () => {},
+          removeEventListener: () => {}
+        },
+        method: "GET",
+        withCredentials: false,
+        headers: new HttpHeaders(),
+        timeout: 0,
+        requestId: "",
+        clone: function() {
+          return this;
+        },
+        validateRequestProperties: () => {},
+        prepare: function() {
+          return this;
+        }
+      },
+      status: 204,
+      headers: new HttpHeaders(),
+      bodyAsText: "",
+      parsedHeaders: {}
+    }
+  };
+
   it("makeConfigurationSettingEmpty", () => {
     const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
       key: "mykey",
@@ -269,37 +298,8 @@ describe("helper methods", () => {
     keyof ConfigurationSetting,
     "key"
   >[] {
-    let keys = getAllConfigurationSettingFields().filter((key) => key !== "key");
+    const keys = getAllConfigurationSettingFields().filter((key) => key !== "key");
 
     return keys as Exclude<keyof ConfigurationSetting, "key">[];
   }
-
-  const fakeHttp204Response: HttpResponseField<any> = {
-    _response: {
-      request: {
-        url: "unused",
-        abortSignal: {
-          aborted: true,
-          addEventListener: () => {},
-          removeEventListener: () => {}
-        },
-        method: "GET",
-        withCredentials: false,
-        headers: new HttpHeaders(),
-        timeout: 0,
-        requestId: "",
-        clone: function() {
-          return this;
-        },
-        validateRequestProperties: () => {},
-        prepare: function() {
-          return this;
-        }
-      },
-      status: 204,
-      headers: new HttpHeaders(),
-      bodyAsText: "",
-      parsedHeaders: {}
-    }
-  };
 });
