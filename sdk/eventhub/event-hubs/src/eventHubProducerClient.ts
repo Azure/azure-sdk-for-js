@@ -51,7 +51,6 @@ export class EventHubProducerClient {
    */
   private _sendersMap: Map<string, EventHubSender>;
   /**
-   * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
@@ -60,7 +59,6 @@ export class EventHubProducerClient {
   }
 
   /**
-   * @property
    * @readonly
    * The fully qualified namespace of the Event Hub instance for which this client is created.
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.

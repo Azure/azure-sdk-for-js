@@ -181,7 +181,6 @@ export interface SubscribeOptions {
    */
   startPosition?: EventPosition | { [partitionId: string]: EventPosition };
   /**
-   * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 

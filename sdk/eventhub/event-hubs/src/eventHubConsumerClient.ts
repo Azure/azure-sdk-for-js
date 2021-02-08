@@ -74,7 +74,6 @@ export class EventHubConsumerClient {
   private _subscriptions = new Set<Subscription>();
 
   /**
-   * @property
    * The name of the default consumer group in the Event Hubs service.
    */
   static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
@@ -88,7 +87,6 @@ export class EventHubConsumerClient {
   private readonly _loadBalancingOptions: Required<LoadBalancingOptions>;
 
   /**
-   * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
@@ -97,7 +95,6 @@ export class EventHubConsumerClient {
   }
 
   /**
-   * @property
    * @readonly
    * The fully qualified namespace of the Event Hub instance for which this client is created.
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
