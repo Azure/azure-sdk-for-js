@@ -73,7 +73,7 @@ export interface CheckpointStore {
    * <yournamespace>.servicebus.windows.net.
    * @param eventHubName - The event hub name.
    * @param consumerGroup - The consumer group name.
-   * @returnsA list of partition ownership details of all the partitions that have/had an owner.
+   * @returns A list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
@@ -85,7 +85,7 @@ export interface CheckpointStore {
    * successfully.
    *
    * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
-   * @returnsA list of partitions this instance successfully claimed ownership.
+   * @returns A list of partitions this instance successfully claimed ownership.
    */
   claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
 
