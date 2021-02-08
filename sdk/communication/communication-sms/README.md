@@ -109,7 +109,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[get_phone_number_az_portal]: https://docs.microsoft.com/en-us/azure/communication-services/quickstarts/telephony-sms/get-phone-number
+[get_phone_number_az_portal]: https://docs.microsoft.com/azure/communication-services/quickstarts/telephony-sms/get-phone-number
 [azure_communication_admin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration
 [azure_communication_admin_readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/README.md
 
