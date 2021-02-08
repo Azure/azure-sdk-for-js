@@ -213,7 +213,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "FloorContainsRoom";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: FLOOR_DIGITAL_TWIN_ID,
       $relationshipName: "contains",
@@ -241,7 +241,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "FloorContainsRoom";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: FLOOR_DIGITAL_TWIN_ID,
       $relationshipName: "contains",
@@ -332,7 +332,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -415,7 +415,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -522,7 +522,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -612,7 +612,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -696,7 +696,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -778,7 +778,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -870,7 +870,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -957,7 +957,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -1066,7 +1066,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -1182,7 +1182,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",
@@ -1241,7 +1241,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await setUpDigitalTwins();
 
     const relationshipId = "BuildingHasFloor";
-    let relationship = {
+    const relationship = {
       $relationshipId: relationshipId,
       $sourceId: BUILDING_DIGITAL_TWIN_ID,
       $relationshipName: "has",

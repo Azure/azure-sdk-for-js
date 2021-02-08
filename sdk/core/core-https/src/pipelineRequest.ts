@@ -136,7 +136,7 @@ class PipelineRequestImpl implements PipelineRequest {
 /**
  * Creates a new pipeline request with the given options.
  * This method is to allow for the easy setting of default values and not required.
- * @param options The options to create the request with.
+ * @param options - The options to create the request with.
  */
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
   return new PipelineRequestImpl(options);

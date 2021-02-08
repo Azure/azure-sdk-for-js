@@ -30,7 +30,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioCloseOptions> {
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBeforeCallingCloseInMs: options.delayBeforeCallingCloseInMs || 100,
-    shouldCreateNewClientEachTime: options.shouldCreateNewClientEachTime
+    shouldCreateNewClientEachTime: !!options.shouldCreateNewClientEachTime
   };
 }
 

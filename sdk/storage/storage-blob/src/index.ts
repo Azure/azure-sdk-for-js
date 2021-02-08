@@ -6,6 +6,8 @@ import { RestError } from "@azure/core-http";
 export { PollerLike, PollOperationState } from "@azure/core-lro";
 export * from "./BlobServiceClient";
 export * from "./Clients";
+export * from "./ContainerClient";
+export * from "./BlobLeaseClient";
 export * from "./sas/AccountSASPermissions";
 export * from "./sas/AccountSASResourceTypes";
 export * from "./sas/AccountSASServices";

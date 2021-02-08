@@ -28,7 +28,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioSimpleSendOptions> {
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    useScheduleApi: options.useScheduleApi
+    useScheduleApi: !!options.useScheduleApi
   };
 }
 
@@ -52,7 +52,7 @@ async function main() {
   let elapsedTime = 0;
   while (
     elapsedTime < testDurationInMs &&
-    stressBase.messagesSent.length < totalNumberOfMessagesToSend
+    stressBase.numMessagesSent() < totalNumberOfMessagesToSend
   ) {
     await stressBase.sendMessages([sender], numberOfMessagesPerSend, false, useScheduleApi);
     elapsedTime = new Date().valueOf() - startedAt.valueOf();

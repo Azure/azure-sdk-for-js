@@ -21,6 +21,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
     DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    DFS_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
     AZURE_CLIENT_ID: `${mockAccountKey}`,
     AZURE_TENANT_ID: `${mockAccountKey}`,
     AZURE_CLIENT_SECRET: `${mockAccountKey}`

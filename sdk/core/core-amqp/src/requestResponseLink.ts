@@ -24,16 +24,16 @@ import { logErrorStackTrace, logger } from "./log";
  */
 export interface SendRequestOptions {
   /**
-   * @property {AbortSignalLike} [abortSignal] Cancels the operation.
+   * Cancels the operation.
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @property {number} [timeoutInMs] Max time to wait for the operation to complete.
+   * Max time to wait for the operation to complete.
    * Default: `60000 milliseconds`.
    */
   timeoutInMs?: number;
   /**
-   * @property {string} [requestName] Name of the request being performed.
+   * Name of the request being performed.
    */
   requestName?: string;
 }
@@ -52,14 +52,12 @@ export interface DeferredPromiseWithCallback {
 
 /**
  * Describes an amqp request(sender)-response(receiver) link that is created over an amqp session.
- * @class RequestResponseLink
  */
 export class RequestResponseLink implements ReqResLink {
   /**
-   * @constructor
-   * @param {Session} session The amqp session.
-   * @param {Sender} sender The amqp sender link.
-   * @param {Receiver} receiver The amqp receiver link.
+   * @param session - The amqp session.
+   * @param sender - The amqp sender link.
+   * @param receiver - The amqp receiver link.
    */
   constructor(public session: Session, public sender: Sender, public receiver: Receiver) {
     this.session = session;
@@ -71,7 +69,7 @@ export class RequestResponseLink implements ReqResLink {
   }
 
   /**
-   * @property {Map<string, Promise<any>>} _responsesMap Maintains a map of responses that
+   * Maintains a map of responses that
    * are being actively returned. It acts as a store for correlating the responses received for
    * the send requests.
    */
@@ -82,7 +80,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Provides the underlying amqp connection object.
-   * @returns {Connection} Connection.
+   * @returns Connection.
    */
   get connection(): Connection {
     return this.session.connection;
@@ -90,7 +88,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Indicates whether the session and the sender and receiver links are all open or closed.
-   * @returns {boolean} boolean - `true` - `open`, `false` - `closed`.
+   * @returns boolean - `true` - `open`, `false` - `closed`.
    */
   isOpen(): boolean {
     return this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen();
@@ -100,9 +98,9 @@ export class RequestResponseLink implements ReqResLink {
    * Sends the given request message and returns the received response. If the operation is not
    * completed in the provided timeout in milliseconds `default: 60000`, then `OperationTimeoutError` is thrown.
    *
-   * @param {RheaMessage} request The AMQP (request) message.
-   * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
-   * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
+   * @param request - The AMQP (request) message.
+   * @param options - Options that can be provided while sending a request.
+   * @returns Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: RheaMessage, options: SendRequestOptions = {}): Promise<RheaMessage> {
     const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
@@ -186,7 +184,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Closes the sender, receiver link and the underlying session.
-   * @returns {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   async close(): Promise<void> {
     await this.sender.close({ closeSession: false });
@@ -196,7 +194,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Removes the sender, receiver link and it's underlying session.
-   * @returns {void} void
+   * @returns void
    */
   remove(): void {
     this.sender.remove();
@@ -207,10 +205,10 @@ export class RequestResponseLink implements ReqResLink {
   /**
    * Creates an amqp request/response link.
    *
-   * @param {Connection} connection The amqp connection.
-   * @param {SenderOptions} senderOptions Options that must be provided to create the sender link.
-   * @param {ReceiverOptions} receiverOptions Options that must be provided to create the receiver link.
-   * @returns {Promise<RequestResponseLink>} Promise<RequestResponseLink>
+   * @param connection - The amqp connection.
+   * @param senderOptions - Options that must be provided to create the sender link.
+   * @param receiverOptions - Options that must be provided to create the receiver link.
+   * @returns Promise<RequestResponseLink>
    */
   static async create(
     connection: Connection,
@@ -242,9 +240,6 @@ type NormalizedInfo = {
  * @internal
  *
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
- *
- * @param {*} props
- * @returns {NormalizedInfo}
  */
 export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
   if (!props) props = {};
