@@ -198,7 +198,7 @@ export class ServiceBusClient {
       entityPathWithSubQueue,
       receiveMode,
       maxLockAutoRenewDurationInMs,
-      this._clientOptions.retryOptions
+      this._clientOptions
     );
   }
 
@@ -313,7 +313,7 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
-      this._clientOptions.retryOptions
+      this._clientOptions
     );
 
     return sessionReceiver;
@@ -394,7 +394,7 @@ export class ServiceBusClient {
       this._connectionContext,
       entityPath,
       receiveMode,
-      this._clientOptions.retryOptions
+      this._clientOptions
     );
 
     return sessionReceiver;
@@ -409,11 +409,7 @@ export class ServiceBusClient {
   createSender(queueOrTopicName: string): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 
-    return new ServiceBusSenderImpl(
-      this._connectionContext,
-      queueOrTopicName,
-      this._clientOptions.retryOptions
-    );
+    return new ServiceBusSenderImpl(this._connectionContext, queueOrTopicName, this._clientOptions);
   }
 
   /**

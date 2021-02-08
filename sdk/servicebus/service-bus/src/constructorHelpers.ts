@@ -24,8 +24,13 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
  *       this is used to compute the exponentially increasing delays between retries. Default: 30000 milliseconds.
  *    - `timeoutInMs`: Amount of time in milliseconds to wait before the operation times out. This will trigger a retry if there are any
  *       retry attempts remaining. Minimum value: 60000 milliseconds.
+ * - `requestOptions`   : Options used when creating and sending HTTP requests for this operation. (Not applicable for the pure AMQP operations.)
+ *    - `timeout`   : The number of milliseconds a request can take before automatically being terminated. If provided, this timeout will be passed/used for the auth operations such as obtaining the token while using `@azure/identity` and Azure AD credentials.
+ * - `tracingOptions`   : Tracing options to set on an operation.
+ *    - `spanOptions` : OpenTelemetry SpanOptions used to create a span when tracing is enabled.
  */
-export interface ServiceBusClientOptions extends OperationOptionsBase {
+export interface ServiceBusClientOptions
+  extends Pick<OperationOptionsBase, "requestOptions" | "tracingOptions"> {
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */

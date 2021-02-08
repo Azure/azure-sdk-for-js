@@ -14,7 +14,7 @@ import {
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "./models";
-import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
+import { RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
 import {
   createSendSpan,
   getParentSpan,
@@ -23,6 +23,7 @@ import {
 import { CanonicalCode } from "@opentelemetry/api";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
+import { ServiceBusClientOptions } from "./constructorHelpers";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -131,7 +132,7 @@ export interface ServiceBusSender {
  * @internal
  */
 export class ServiceBusSenderImpl implements ServiceBusSender {
-  private _retryOptions: RetryOptions;
+  private _clientOptions: ServiceBusClientOptions;
   /**
    * Denotes if close() was called on this sender
    */
@@ -150,12 +151,16 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   constructor(
     private _context: ConnectionContext,
     private _entityPath: string,
-    retryOptions: RetryOptions = {}
+    clientOptions: ServiceBusClientOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
-    this._sender = MessageSender.create(this._context, _entityPath, retryOptions);
-    this._retryOptions = retryOptions;
+    this._sender = MessageSender.create(
+      this._context,
+      _entityPath,
+      clientOptions.retryOptions || {}
+    );
+    this._clientOptions = clientOptions;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
@@ -256,14 +261,14 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "scheduleMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
         });
     };
     const config: RetryConfig<Long[]> = {
       operation: scheduleMessageOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<Long[]>(config);
@@ -296,7 +301,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "cancelScheduledMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
         }
       );
     };
@@ -304,7 +309,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       operation: cancelSchedulesMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<void>(config);

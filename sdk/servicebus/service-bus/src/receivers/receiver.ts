@@ -36,12 +36,13 @@ import {
 } from "./shared";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
-import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
+import { Constants, RetryConfig, RetryOperationType, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
+import { ServiceBusClientOptions } from "../constructorHelpers";
 
 /**
  * A receiver that does not handle sessions.
@@ -272,7 +273,7 @@ export interface ServiceBusReceiver {
  * @internal
  */
 export class ServiceBusReceiverImpl implements ServiceBusReceiver {
-  private _retryOptions: RetryOptions;
+  private _clientOptions: ServiceBusClientOptions;
   /**
    * Denotes if close() was called on this receiver
    */
@@ -303,10 +304,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
     maxAutoRenewLockDurationInMs: number,
-    retryOptions: RetryOptions = {}
+    clientOptions: ServiceBusClientOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
-    this._retryOptions = retryOptions;
+    this._clientOptions = clientOptions;
     this._lockRenewer = LockRenewer.create(
       this._context,
       maxAutoRenewLockDurationInMs,
@@ -380,7 +381,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._createStreamingReceiver({
       ...options,
       receiveMode: this.receiveMode,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       lockRenewer: this._lockRenewer,
       onError
     })
@@ -503,7 +504,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       operation: receiveMessages,
       operationType: RetryOperationType.receiveMessage,
       abortSignal: options?.abortSignal,
-      retryOptions: this._retryOptions
+      retryOptions: this._clientOptions.retryOptions
     };
     return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
       throw translateServiceBusError(err);
@@ -542,7 +543,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           ...options,
           associatedLinkName: this._getAssociatedReceiverName(),
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
         });
       return deferredMessages;
     };
@@ -550,7 +551,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ServiceBusReceivedMessage[]>(config);
@@ -568,7 +569,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       ...options,
       associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
-      timeoutInMs: this._retryOptions?.timeoutInMs
+      timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
@@ -591,7 +592,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       operation: peekOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ServiceBusReceivedMessage[]>(config);

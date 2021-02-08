@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { ConnectionContext } from "../connectionContext";
-import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
+import {
+  MessageHandlers,
+  ReceiveMessagesOptions,
+  ServiceBusClientOptions,
+  ServiceBusReceivedMessage
+} from "..";
 import { PeekMessagesOptions, GetMessageIteratorOptions, SubscribeOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
@@ -32,7 +37,6 @@ import {
   Constants,
   RetryConfig,
   RetryOperationType,
-  RetryOptions,
   retry,
   ErrorNameConditionMapper
 } from "@azure/core-amqp";
@@ -135,7 +139,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     private _context: ConnectionContext,
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _retryOptions: RetryOptions = {}
+    private _clientOptions: ServiceBusClientOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
@@ -217,7 +221,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "renewSessionLock",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
         });
       return this._messageSession!.sessionLockedUntilUtc!;
     };
@@ -225,7 +229,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       operation: renewSessionLockOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<Date>(config);
@@ -249,7 +253,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "setState",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
         });
       return;
     };
@@ -257,7 +261,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       operation: setSessionStateOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<void>(config);
@@ -279,14 +283,14 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
         ...options,
         associatedLinkName: this._messageSession.name,
         requestName: "getState",
-        timeoutInMs: this._retryOptions.timeoutInMs
+        timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
       });
     };
     const config: RetryConfig<any> = {
       operation: getSessionStateOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<any>(config);
@@ -302,7 +306,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       ...options,
       associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
-      timeoutInMs: this._retryOptions?.timeoutInMs
+      timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
@@ -325,7 +329,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       operation: peekOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ServiceBusReceivedMessage[]>(config);
@@ -357,7 +361,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           ...options,
           associatedLinkName: this._messageSession.name,
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
         });
       return deferredMessages;
     };
@@ -365,7 +369,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       operation: receiveDeferredMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ServiceBusReceivedMessage[]>(config);
@@ -407,7 +411,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       operation: receiveBatchOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.receiveMessage,
-      retryOptions: this._retryOptions,
+      retryOptions: this._clientOptions.retryOptions,
       abortSignal: options?.abortSignal
     };
     return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
