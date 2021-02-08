@@ -13,6 +13,15 @@ export interface AccessToken {
 }
 
 // @public
+export interface Attributes {
+    // (undocumented)
+    [attributeKey: string]: AttributeValue | undefined;
+}
+
+// @public
+export type AttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
+
+// @public
 export class AzureKeyCredential implements KeyCredential {
     constructor(key: string);
     get key(): string;
@@ -59,9 +68,7 @@ export interface SpanContext {
 
 // @public
 export interface SpanOptions {
-    attributes?: {
-        [key: string]: unknown;
-    };
+    attributes?: Attributes;
     parent?: SpanContext | null;
 }
 

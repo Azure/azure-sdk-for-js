@@ -93,7 +93,7 @@ class MockTracer extends NoOpTracer {
 
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 
-describe("tracingPolicy", function () {
+describe("tracingPolicy", function() {
   const TRACE_VERSION = "00";
 
   it("will not create a span if spanOptions are missing", async () => {
