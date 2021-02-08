@@ -3,8 +3,6 @@
 
 /**
  * @internal
- *
- * @interface Window
  */
 interface Window {}
 
@@ -15,8 +13,6 @@ declare let self: Window & typeof globalThis & { navigator: Navigator };
 
 /**
  * @internal
- *
- * @interface Navigator
  */
 interface Navigator {
   /**
@@ -46,7 +42,7 @@ export function getFrameworkInfo(): string {
 /**
  * @internal
  *
- * @returns {string}
+ * @returns
  */
 function getReleaseInfo(): string {
   if (typeof self === "undefined") {
