@@ -50,7 +50,7 @@ describe("http request related tests", function() {
         chai.assert.match(
           prefix,
           new RegExp(
-            `^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
+            `^MyCustomUserAgent azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`
           ),
           `Using a custom user agent`
         );
@@ -61,7 +61,7 @@ describe("http request related tests", function() {
 
         chai.assert.match(
           prefix,
-          new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`),
+          new RegExp(`^azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`),
           `Using the default user agent`
         );
       });
@@ -194,7 +194,7 @@ describe("http request related tests", function() {
 
       await assertThrowsRestError(
         async () =>
-          await client.getConfigurationSetting({
+          client.getConfigurationSetting({
             key: "doesntmatter"
           }),
         418

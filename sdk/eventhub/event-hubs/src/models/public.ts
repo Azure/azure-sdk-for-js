@@ -64,7 +64,6 @@ export interface SendBatchOptions extends OperationOptions {
  */
 export interface SendOptions extends OperationOptions {
   /**
-   * @property
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
@@ -240,7 +239,6 @@ export interface CreateBatchOptions extends OperationOptions {
    */
   partitionId?: string;
   /**
-   * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;

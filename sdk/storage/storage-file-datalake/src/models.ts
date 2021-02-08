@@ -7,9 +7,93 @@ import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel,
-  BlobQueryArrowConfiguration
+  BlobQueryArrowConfiguration,
+  ServiceRenameContainerOptions,
+  ContainerRenameResponse,
+  ContainerUndeleteResponse
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
+
+/**
+ * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
+ *
+ * @export
+ * @interface FileQueryArrowConfiguration
+ */
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
+
+/**
+ * Options to configure {@link DataLakeServiceClient.renameFileSystem}.
+ *
+ * @export
+ * @interface ServiceRenameFileSystemOptions
+ */
+export type ServiceRenameFileSystemOptions = ServiceRenameContainerOptions;
+
+/**
+ * Contains response data for the {@link DataLakeServiceClient.renameFileSystem} operation.
+ * @export
+ * @interface FileSystemRenameResponse
+ */
+export type FileSystemRenameResponse = ContainerRenameResponse;
+
+/**
+ * Contains response data for the {@link DataLakeServiceClient.undeleteFileSystem} operation.
+ * @export
+ * @interface FileSystemUndeleteResponse
+ */
+export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
+
+import {
+  FileSystemListPathsHeaders,
+  PathCreateResponse,
+  PathDeleteResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  PathList as PathListModel
+} from "./generated/src/models";
+import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
+import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
+import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
+import { SasIPRange } from "./sas/SasIPRange";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { CommonOptions } from "./StorageClient";
+
+export {
+  LeaseAccessConditions,
+  UserDelegationKeyModel,
+  ServiceListContainersSegmentResponse,
+  Lease,
+  LeaseOperationOptions,
+  LeaseOperationResponse
+} from "@azure/storage-blob";
+
+export {
+  FileSystemListPathsHeaders,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  FileSystemListPathsResponse as ListPathsSegmentResponse,
+  Path as PathModel,
+  PathList as PathListModel,
+  PathCreateHeaders,
+  PathDeleteHeaders,
+  PathDeleteResponse,
+  PathSetAccessControlHeaders,
+  PathSetAccessControlResponse,
+  PathSetAccessControlResponse as PathSetPermissionsResponse,
+  PathResourceType as PathResourceTypeModel,
+  PathUpdateHeaders,
+  PathAppendDataHeaders,
+  PathFlushDataHeaders,
+  PathAppendDataResponse as FileAppendResponse,
+  PathFlushDataResponse as FileFlushResponse,
+  PathFlushDataResponse as FileUploadResponse,
+  PathGetPropertiesAction as PathGetPropertiesActionModel,
+  PathRenameMode as PathRenameModeModel,
+  PathExpiryOptions as FileExpiryMode,
+  PathSetExpiryResponse as FileSetExpiryResponse,
+  PathSetExpiryHeaders as FileSetExpiryHeaders
+} from "./generated/src/models";
+
+export { PathCreateResponse };
 
 /**
  * Common options of the {@link FileSystemGenerateSasUrlOptions}, {@link DirectoryGenerateSasUrlOptions}
@@ -111,65 +195,6 @@ export interface CommonGenerateSasUrlOptions {
   contentType?: string;
 }
 
-/**
- * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
- *
- * @export
- * @interface FileQueryArrowConfiguration
- */
-export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
-
-import {
-  FileSystemListPathsHeaders,
-  PathCreateResponse,
-  PathDeleteResponse,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  PathList as PathListModel
-} from "./generated/src/models";
-import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
-import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
-import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
-import { SasIPRange } from "./sas/SasIPRange";
-import { SASProtocol } from "./sas/SASQueryParameters";
-import { CommonOptions } from "./StorageClient";
-
-export {
-  LeaseAccessConditions,
-  UserDelegationKeyModel,
-  ServiceListContainersSegmentResponse,
-  Lease,
-  LeaseOperationOptions,
-  LeaseOperationResponse
-} from "@azure/storage-blob";
-
-export {
-  FileSystemListPathsHeaders,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  FileSystemListPathsResponse as ListPathsSegmentResponse,
-  Path as PathModel,
-  PathList as PathListModel,
-  PathCreateHeaders,
-  PathDeleteHeaders,
-  PathDeleteResponse,
-  PathSetAccessControlHeaders,
-  PathSetAccessControlResponse,
-  PathSetAccessControlResponse as PathSetPermissionsResponse,
-  PathResourceType as PathResourceTypeModel,
-  PathUpdateHeaders,
-  PathAppendDataHeaders,
-  PathFlushDataHeaders,
-  PathAppendDataResponse as FileAppendResponse,
-  PathFlushDataResponse as FileFlushResponse,
-  PathFlushDataResponse as FileUploadResponse,
-  PathGetPropertiesAction as PathGetPropertiesActionModel,
-  PathRenameMode as PathRenameModeModel,
-  PathExpiryOptions as FileExpiryMode,
-  PathSetExpiryResponse as FileSetExpiryResponse,
-  PathSetExpiryHeaders as FileSetExpiryHeaders
-} from "./generated/src/models";
-
-export { PathCreateResponse };
-
 /*************************************************************/
 /** DataLakeServiceClient option and response related models */
 /*************************************************************/
@@ -209,6 +234,14 @@ export interface ServiceListFileSystemsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   prefix?: string;
   includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted File System should be included in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListFileSystemsOptions
+   */
+  includeDeleted?: boolean;
 }
 
 export type LeaseStatusType = "locked" | "unlocked";
@@ -225,12 +258,16 @@ export interface FileSystemProperties {
   publicAccess?: PublicAccessType;
   hasImmutabilityPolicy?: boolean;
   hasLegalHold?: boolean;
+  deletedOn?: Date;
+  remainingRetentionDays?: number;
 }
 
 export interface FileSystemItem {
   name: string;
   properties: FileSystemProperties;
   metadata?: Metadata;
+  deleted?: boolean;
+  versionId?: string;
 }
 
 export interface ListFileSystemsSegmentResponse {
@@ -295,6 +332,32 @@ export interface ServiceGenerateAccountSasUrlOptions {
    * @memberof ServiceGenerateAccountSasUrlOptions
    */
   ipRange?: SasIPRange;
+}
+
+/**
+ * Options to configure {@link DataLakeServiceClient.undeleteFileSystem}.
+ *
+ * @export
+ * @interface ServiceUndeleteFileSystemOptions
+ */
+export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceUndeleteFileSystemOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Optional. Specifies the new name of the restored File System.
+   * Will use its original name if this is not specified.
+   *
+   * @type {string}
+   * @memberof ServiceUndeleteFileSystemOptions
+   */
+  destinationFileSystemName?: string;
 }
 
 /****************************************************************/

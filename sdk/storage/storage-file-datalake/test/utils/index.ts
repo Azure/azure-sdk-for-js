@@ -11,10 +11,15 @@ import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
 import { newPipeline, StoragePipelineOptions } from "../../src/Pipeline";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
 import {
+  AccountSASPermissions,
+  AccountSASResourceTypes,
+  AccountSASServices,
   DataLakeFileSystemClient,
   DataLakeSASSignatureValues,
+  generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters
 } from "../../src";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
 
 dotenv.config();
 
@@ -239,4 +244,44 @@ export async function createRandomLocalFile(
     ws.on("finish", () => resolve(destFile));
     ws.on("error", reject);
   });
+}
+
+export function getConnectionStringFromEnvironment(accountType: string = "DFS_"): string {
+  const connectionStringEnvVar = `${accountType}STORAGE_CONNECTION_STRING`;
+  const connectionString = process.env[connectionStringEnvVar];
+
+  if (!connectionString) {
+    throw new Error(`${connectionStringEnvVar} environment variables not specified.`);
+  }
+
+  return connectionString;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+  const tmr = new Date();
+  tmr.setDate(tmr.getDate() + 1);
+
+  const sharedKeyCredential = getGenericCredential("DFS_");
+
+  const sas = generateAccountSASQueryParameters(
+    {
+      expiresOn: tmr,
+      permissions: AccountSASPermissions.parse("rwdlacup"),
+      resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+      services: AccountSASServices.parse("btqf").toString()
+    },
+    sharedKeyCredential as StorageSharedKeyCredential
+  ).toString();
+
+  const blobEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
+  return `BlobEndpoint=${blobEndpoint}/;QueueEndpoint=${blobEndpoint.replace(
+    ".blob.",
+    ".queue."
+  )}/;FileEndpoint=${blobEndpoint.replace(
+    ".queue.",
+    ".file."
+  )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
 }

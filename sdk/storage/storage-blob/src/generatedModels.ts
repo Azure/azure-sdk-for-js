@@ -149,5 +149,7 @@ export {
   ContainerRestoreResponse as ContainerUndeleteResponse,
   ContainerRestoreHeaders as ContainerUndeleteHeaders,
   BlockBlobPutBlobFromUrlResponse,
-  BlockBlobPutBlobFromUrlHeaders
+  BlockBlobPutBlobFromUrlHeaders,
+  ContainerRenameResponse,
+  ContainerRenameHeaders
 } from "./generated/src/models";

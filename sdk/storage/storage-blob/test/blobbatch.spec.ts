@@ -24,6 +24,7 @@ dotenv.config();
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;
   let blobBatchClient: BlobBatchClient;
+  let containerScopedBatchClient: BlobBatchClient;
   let credential: StorageSharedKeyCredential;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -39,9 +40,11 @@ describe("BlobBatch", () => {
     blobServiceClient = getGenericBSU("");
     blobBatchClient = blobServiceClient.getBlobBatchClient();
     credential = getGenericCredential("");
+
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
+    containerScopedBatchClient = containerClient.getBlobBatchClient();
 
     for (let i = 0; i < blockBlobCount - 1; i++) {
       let tmpBlobName = `blob${i}`;
@@ -672,6 +675,48 @@ describe("BlobBatch", () => {
       }
     }
     assert.ok(exceptionCaught);
+  });
+
+  it("Container scoped: submitBatch should work for batch delete", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
+    // Upload blobs.
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    let batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i].url, credential, {});
+    }
+
+    // Submit batch request and verify response.
+    const resp = await containerScopedBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (
+      await containerClient
+        .listBlobsFlat({
+          includeSnapshots: true
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
   });
 });
 

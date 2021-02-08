@@ -46,7 +46,7 @@ export interface EventHubConnectionStringProperties {
 /**
  * Parses given connection string into the different properties applicable to Azure Event Hubs.
  * The properties are useful to then construct an EventHub{Producer|Consumer}Client.
- * @param connectionString The connection string associated with the Shared Access Policy created
+ * @param connectionString - The connection string associated with the Shared Access Policy created
  * for the Event Hubs namespace.
  */
 export function parseEventHubConnectionString(
@@ -90,7 +90,6 @@ export function parseEventHubConnectionString(
 
 /**
  * @internal
- * @ignore
  */
 function validateProperties(
   endpoint?: string,
