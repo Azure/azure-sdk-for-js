@@ -1,0 +1,32 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"cloudTracingEventId161257785618904908\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"Azure.Sdk.TestEvent1\",\"time\":\"2021-02-06T02:17:36.189Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\",\"subject\":\"Single with Trace Parent\",\"traceparent\":\"00-1-3-00\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Sat, 06 Feb 2021 02:17:36 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "7421854e-8e9b-4745-ad28-c2d56d492c2b"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "cloudTracingEventId": "cloudTracingEventId161257785618904908"
+  },
+  "newDate": {
+   "cloudTracingEventDate": "2021-02-06T02:17:36.189Z"
+  }
+ },
+ "hash": "badb37befcede87aad3e487a7d3c68e3"
+}

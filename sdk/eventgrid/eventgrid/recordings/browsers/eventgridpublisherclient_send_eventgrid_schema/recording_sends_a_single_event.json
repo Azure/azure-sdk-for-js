@@ -1,0 +1,32 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"singleEventId161257785600109818\",\"subject\":\"Single 1\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2021-02-06T02:17:36.000Z\",\"dataVersion\":\"1.0\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Sat, 06 Feb 2021 02:17:35 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "ae45c3cc-4020-42f1-be25-207177b27947"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "singleEventId": "singleEventId161257785600109818"
+  },
+  "newDate": {
+   "singleEventDate": "2021-02-06T02:17:36.000Z"
+  }
+ },
+ "hash": "befd99472d8ea78a2a06de25d27db946"
+}

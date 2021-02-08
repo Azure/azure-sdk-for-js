@@ -3,23 +3,17 @@
 
 export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
-export {
-  CloudEvent,
-  CustomEventDataDeserializer,
-  EventGridEvent,
-  SendCloudEventInput,
-  SendEventGridEventInput
-} from "./models";
+export { CloudEvent, EventGridEvent, SendCloudEventInput, SendEventGridEventInput } from "./models";
 
 export {
   EventGridPublisherClient,
   EventGridPublisherClientOptions,
-  SendEventsOptions,
-  SendCloudEventsOptions,
-  SendCustomSchemaEventsOptions
+  SendEventOptions,
+  InputSchema,
+  InputSchemaToInputTypeMap
 } from "./eventGridClient";
 
-export { EventGridConsumer, EventGridConsumerOptions } from "./consumer";
+export { EventGridDeserializer } from "./consumer";
 
 export {
   generateSharedAccessSignature,
@@ -134,6 +128,7 @@ export {
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
   StorageDirectoryRenamedEventData,
+  StorageLifecyclePolicyActionSummaryDetail,
   StorageLifecyclePolicyCompletedEventData,
   WebAppUpdatedEventData,
   WebBackupOperationStartedEventData,
@@ -169,6 +164,5 @@ export {
   DeviceTwinProperties,
   DeviceTwinMetadata,
   AppServicePlanAction,
-  KnownAppServicePlanAction,
-  StorageLifecyclePolicyActionSummaryDetail
+  KnownAppServicePlanAction
 } from "./generated/models";
