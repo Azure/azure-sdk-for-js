@@ -291,7 +291,7 @@ export class ServiceBusClient {
 }
 
 // @public
-export interface ServiceBusClientOptions extends OperationOptionsBase {
+export interface ServiceBusClientOptions extends Pick<OperationOptionsBase, "requestOptions"> {
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
     webSocketOptions?: WebSocketOptions;
