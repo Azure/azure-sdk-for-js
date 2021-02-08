@@ -1,8 +1,6 @@
 # Release History
 
-## 1.0.0-beta.4 (2021-02-08)
-
-- Updated `@azure/communication-chat` version.
+## 1.0.0-beta.4 (2021-02-09)
 
 ### Breaking Changes
 
@@ -13,7 +11,7 @@
 - Added support for readreceipts and getparticipants pagination.
 - Added new model for messages anc ontent types : Text, Html, ParticipantAdded, ParticipantRemoved, TopicUpdated
 - Removed priority field (ChatMessage.Priority)
-- Added new model for errors (CommunicationError)
+- Added new model for errors (`CommunicationError`)
 
 ## 1.0.0-beta.3 (2020-11-16)
 
