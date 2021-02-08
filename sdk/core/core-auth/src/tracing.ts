@@ -17,7 +17,13 @@ export interface Attributes {
  *
  * null or undefined attribute values are invalid and will result in undefined behavior.
  */
-export declare type AttributeValue = string | number | boolean | Array<null | undefined | string> | Array<null | undefined | number> | Array<null | undefined | boolean>;
+export declare type AttributeValue =
+  | string
+  | number
+  | boolean
+  | Array<null | undefined | string>
+  | Array<null | undefined | number>
+  | Array<null | undefined | boolean>;
 
 /**
  * An interface that enables manual propagation of Spans.
