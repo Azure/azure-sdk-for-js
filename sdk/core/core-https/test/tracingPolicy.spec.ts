@@ -35,24 +35,29 @@ class MockSpan extends NoOpSpan {
 
   context(): SpanContext {
     const state = this.state;
+
+    const traceState = {
+      set() {
+        /* empty */
+        return traceState;
+      },
+      unset() {
+        /* empty */
+        return traceState;
+      },
+      get(): string | undefined {
+        return;
+      },
+      serialize() {
+        return state;
+      }
+    };
+
     return {
       traceId: this.traceId,
       spanId: this.spanId,
       traceFlags: this.flags,
-      traceState: {
-        set() {
-          /* empty */
-        },
-        unset() {
-          /* empty */
-        },
-        get(): string | undefined {
-          return;
-        },
-        serialize() {
-          return state;
-        }
-      }
+      traceState
     };
   }
 }
@@ -88,7 +93,7 @@ class MockTracer extends NoOpTracer {
 
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 
-describe("tracingPolicy", function() {
+describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
 
   it("will not create a span if spanOptions are missing", async () => {
