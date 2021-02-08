@@ -228,6 +228,26 @@
             "containerDeleteRetentionPolicy": {
               "enabled": true,
               "days": 7
+            },
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
             }
           }
         }
@@ -398,6 +418,10 @@
     "DFS_ACCOUNT_SAS": {
       "type": "string",
       "value": "[concat('?', listAccountSas(variables('datalakeAccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
+    },
+    "DFS_STORAGE_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('dataLakeAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
     "DFS_SOFT_DELETE_ACCOUNT_NAME": {
       "type": "string",
