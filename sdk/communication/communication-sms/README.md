@@ -8,7 +8,7 @@ Azure Communication SMS services gives developers the ability to send SMS messag
 
 - An [Azure subscription][azure_sub].
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
-- A phone number assigned to your Communication Services resource. See [how to acquire a phone number](#how-to-acquire-phone-humber) for instructions on how to add a phone number to your Communication Services resource.
+- A phone number assigned to your Communication Services resource. See [how to acquire a phone number](#how-to-acquire-a-phone-number) for instructions on how to add a phone number to your Communication Services resource.
 
 ### Installing
 
