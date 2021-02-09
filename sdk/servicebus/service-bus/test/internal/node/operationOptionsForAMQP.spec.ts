@@ -6,6 +6,7 @@ import { EnvironmentCredential, GetTokenOptions } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
+import { generate_uuid } from "rhea-promise";
 import {
   OperationOptionsBase,
   ServiceBusAdministrationClient,
@@ -15,6 +16,7 @@ import {
 import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { ServiceBusSenderImpl } from "../../../src/sender";
+import { DispositionType } from "../../../src/serviceBusMessage";
 import { getOperationOptionsBase } from "../../../src/util/utils";
 import { getEnvVars } from "../../public/utils/envVarUtils";
 const should = chai.should();
@@ -292,7 +294,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     // settlement
   });
 
-  describe.only("ManagementClient - Non-session", () => {
+  describe("ManagementClient - Non-session", () => {
     it("RequestOptions is plumbed through scheduleMessages", async () => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
         requestOptions: {
@@ -375,33 +377,31 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
 
     it("RequestOptions is plumbed through backup settlement", async () => {
-      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
-        requestOptions: {
-          timeout: 199
-        }
-      });
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
       const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
-
+      const managementClient = receiver["_context"].getManagementClient("queue");
+      managementClient["_context"].wasConnectionCloseCalled = false;
       await verifyOperationOptionsAtGetToken(
-        receiver["_context"],
+        managementClient["_context"],
         {
           requestOptions: {
             timeout: 199
           }
         },
         async () => {
-          await receiver.completeMessage(
-            { body: "message", _rawAmqpMessage: { body: "message" } },
+          await managementClient.updateDispositionStatus(
+            generate_uuid(),
+            DispositionType.complete,
             {
               requestOptions: {
                 timeout: 199
-              }
+              },
+              associatedLinkName: generate_uuid()
             }
           );
         }
       );
     });
-    // Backup settlement
     // receive deferred
     // renewMessageLock
   });
