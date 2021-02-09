@@ -256,11 +256,11 @@ export type Func<T, V> = (a: T) => V;
  * @param kickstart - Input to the first promise that is used to kickstart the promise chain.
  * If not provided then the promise chain starts with undefined.
  *
- * @return A chain of resolved or rejected promises
+ * @returns A chain of resolved or rejected promises
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart?: any
+  kickstart?: unknown
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
@@ -291,7 +291,7 @@ export function isIotHubConnectionString(connectionString: string): boolean {
  * @hidden
  * @internal
  */
-export function isString(s: any): s is string {
+export function isString(s: unknown): s is string {
   return typeof s === "string";
 }
 
@@ -299,6 +299,6 @@ export function isString(s: any): s is string {
  * @hidden
  * @internal
  */
-export function isNumber(n: any): n is number {
+export function isNumber(n: unknown): n is number {
   return typeof n === "number";
 }
