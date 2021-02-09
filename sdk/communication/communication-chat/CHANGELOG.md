@@ -9,6 +9,7 @@
 - Removed `priority` field (ChatMessage.Priority)
 
 ### Added
+
 - Added support for `CreateChatThreadResult` and `AddChatParticipantsResult` to handle partial errors in batch calls.
 - Added idempotency identifier parameter for chat creation calls.
 - Added support for `listReadReceipts` and `listParticipants` pagination.
