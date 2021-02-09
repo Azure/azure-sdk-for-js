@@ -125,10 +125,6 @@ export class EnvironmentCredential implements TokenCredential {
         logger.getToken.info(formatSuccess(scopes));
         return result;
       } catch (err) {
-        // const code =
-        //   // err.name === AuthenticationErrorName
-        //   //   ? CanonicalCode.UNAUTHENTICATED
-        //   //   : CanonicalCode.UNKNOWN;
         span.setStatus({
           code: StatusCode.ERROR,
           message: err.message
@@ -149,7 +145,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     // If by this point we don't have a credential, throw an exception so that
     // the user knows the credential was not configured appropriately
-    span.setStatus({ code: StatusCode.ERROR });
+    span.setStatus({ code: StatusCode.ERROR, message: "EnvironmentCredential is unavailable. Environment variables are not fully configured." });
     span.end();
     const error = new CredentialUnavailable(
       "EnvironmentCredential is unavailable. Environment variables are not fully configured."
