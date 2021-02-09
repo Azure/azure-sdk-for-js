@@ -13,7 +13,7 @@
 - Added support for `CreateChatThreadResult` and `AddChatParticipantsResult` to handle partial errors in batch calls.
 - Added idempotency identifier parameter for chat creation calls.
 - Added support for `listReadReceipts` and `listParticipants` pagination.
-- Added new model for messages anc ontent types : `Text`, `Html`, `ParticipantAdded`, `ParticipantRemoved`, `TopicUpdated`
+- Added new model for messages an content types : `Text`, `Html`, `ParticipantAdded`, `ParticipantRemoved`, `TopicUpdated`.
 - Added new model for errors (`CommunicationError`)
 - Added notifications for thread level changes.
 
