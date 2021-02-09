@@ -17,7 +17,6 @@ import {
   SqlPools,
   BigDataPools,
   IntegrationRuntimes,
-  Library,
   WorkspaceGitRepoManagement
 } from "./operations";
 import { ArtifactsClientContext } from "./artifactsClientContext";
@@ -52,7 +51,6 @@ export class ArtifactsClient extends ArtifactsClientContext {
     this.sqlPools = new SqlPools(this);
     this.bigDataPools = new BigDataPools(this);
     this.integrationRuntimes = new IntegrationRuntimes(this);
-    this.library = new Library(this);
     this.workspaceGitRepoManagement = new WorkspaceGitRepoManagement(this);
   }
 
@@ -71,6 +69,5 @@ export class ArtifactsClient extends ArtifactsClientContext {
   sqlPools: SqlPools;
   bigDataPools: BigDataPools;
   integrationRuntimes: IntegrationRuntimes;
-  library: Library;
   workspaceGitRepoManagement: WorkspaceGitRepoManagement;
 }
