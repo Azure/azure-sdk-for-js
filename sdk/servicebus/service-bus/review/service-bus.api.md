@@ -116,7 +116,7 @@ export interface CreateTopicOptions extends OperationOptions {
 }
 
 // @public
-export interface DeadLetterOptions {
+export interface DeadLetterOptions extends OperationOptionsBase {
     deadLetterErrorDescription: string;
     deadLetterReason: string;
 }
@@ -423,15 +423,15 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
 export interface ServiceBusReceiver {
     abandonMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: any;
-    }): Promise<void>;
+    }, options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
-    completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
+    completeMessage(message: ServiceBusReceivedMessage, options?: OperationOptionsBase): Promise<void>;
     deadLetterMessage(message: ServiceBusReceivedMessage, options?: DeadLetterOptions & {
         [key: string]: any;
     }): Promise<void>;
     deferMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: any;
-    }): Promise<void>;
+    }, options?: OperationOptionsBase): Promise<void>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     isClosed: boolean;
@@ -439,7 +439,7 @@ export interface ServiceBusReceiver {
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
-    renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
+    renewMessageLock(message: ServiceBusReceivedMessage, options?: OperationOptionsBase): Promise<Date>;
     subscribe(handlers: MessageHandlers, options?: SubscribeOptions): {
         close(): Promise<void>;
     };
