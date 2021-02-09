@@ -91,7 +91,7 @@ export class Sanitizer {
     this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
   }
 
-  public sanitize(obj: object): string {
+  public sanitize(obj: unknown): string {
     return JSON.stringify(obj, this.replacer.bind(this), 2);
   }
 
