@@ -22,10 +22,10 @@ async function main() {
   const client = new SmsClient(connectionString);
 
   // Your E.164 formatted phone number used to send SMS
-  const from = "+12345678901";
+  const from = "<phone number>";
 
   // The list of E.164 formatted phone numbers to which message is being send
-  const to = ["+12345678901"];
+  const to = ["<phone number>"];
 
   // The message being sent
   const message = "Hey!";

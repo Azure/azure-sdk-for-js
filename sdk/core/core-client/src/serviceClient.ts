@@ -112,7 +112,7 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @typeParam T The typed result of the request, based on the OperationSpec.
+   * @typeParam T - The typed result of the request, based on the OperationSpec.
    * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
    * @param operationSpec - The OperationSpec to use to populate the httpRequest.
    */

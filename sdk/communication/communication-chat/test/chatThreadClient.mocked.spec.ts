@@ -137,8 +137,12 @@ describe("[Mocked] ChatThreadClient", async () => {
       const { participants: expectedParticipants, ...expectedContents } = expectedContent!;
       const { participants: responseParticipants, ...repsonseContents } = repsonseContent!;
 
+      if (!expectedId) {
+        assert.isUndefined(responseUser);
+      } else {
+        assert.equal(responseUser!.communicationUserId, expectedId);
+      }
       assert.deepEqual(responseMessage, expectedMessage);
-      assert.equal(responseUser?.communicationUserId, expectedId);
       assert.deepEqual(repsonseContents, expectedContents);
     }
 

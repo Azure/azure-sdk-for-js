@@ -25,7 +25,7 @@ export class DataFlow {
 
   /**
    * Initialize a new instance of the class DataFlow class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -33,7 +33,7 @@ export class DataFlow {
 
   /**
    * Lists data flows.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listDataFlowsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -75,9 +75,9 @@ export class DataFlow {
 
   /**
    * Creates or updates a data flow.
-   * @param dataFlowName The data flow name.
-   * @param dataFlow Data flow resource definition.
-   * @param options The options parameters.
+   * @param dataFlowName - The data flow name.
+   * @param dataFlow - Data flow resource definition.
+   * @param options - The options parameters.
    */
   async createOrUpdateDataFlow(
     dataFlowName: string,
@@ -125,8 +125,8 @@ export class DataFlow {
 
   /**
    * Gets a data flow.
-   * @param dataFlowName The data flow name.
-   * @param options The options parameters.
+   * @param dataFlowName - The data flow name.
+   * @param options - The options parameters.
    */
   async getDataFlow(
     dataFlowName: string,
@@ -159,8 +159,8 @@ export class DataFlow {
 
   /**
    * Deletes a data flow.
-   * @param dataFlowName The data flow name.
-   * @param options The options parameters.
+   * @param dataFlowName - The data flow name.
+   * @param options - The options parameters.
    */
   async deleteDataFlow(
     dataFlowName: string,
@@ -206,9 +206,9 @@ export class DataFlow {
 
   /**
    * Renames a dataflow.
-   * @param dataFlowName The data flow name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param dataFlowName - The data flow name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   async renameDataFlow(
     dataFlowName: string,
@@ -256,7 +256,7 @@ export class DataFlow {
 
   /**
    * Lists data flows.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getDataFlowsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -287,9 +287,9 @@ export class DataFlow {
 
   /**
    * GetDataFlowsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the GetDataFlowsByWorkspace
+   * @param nextLink - The nextLink from the previous successful call to the GetDataFlowsByWorkspace
    *                 method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getDataFlowsByWorkspaceNext(
     nextLink: string,

@@ -107,7 +107,7 @@ export class ChatThreadClient {
 
   /**
    * Updates a thread's properties.
-   * @param options Operation options.
+   * @param options - Operation options.
    */
   public async updateThread(options: UpdateThreadOptions = {}): Promise<OperationResponse> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateThread", options);
@@ -132,8 +132,8 @@ export class ChatThreadClient {
   /**
    * Sends a chat message to a thread identified by threadId.
    * Returns the id of the created message.
-   * @param request Request for sending a message.
-   * @param options Operation options.
+   * @param request - Request for sending a message.
+   * @param options - Operation options.
    */
   public async sendMessage(
     request: SendMessageRequest,
@@ -164,8 +164,8 @@ export class ChatThreadClient {
   /**
    * Gets a chat message identified by messageId.
    * Returns the specific message.\
-   * @param messageId The message id of the message.
-   * @param options Operation options.
+   * @param messageId - The message id of the message.
+   * @param options - Operation options.
    */
   public async getMessage(
     messageId: string,
@@ -232,7 +232,7 @@ export class ChatThreadClient {
   /**
    * Gets a list of message from a thread identified by threadId.
    * Returns the list of the messages.
-   * @param options Get messages options.
+   * @param options - Get messages options.
    */
   public listMessages(options: ListMessagesOptions = {}): PagedAsyncIterableIterator<ChatMessage> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-ListMessages", options);
@@ -263,8 +263,8 @@ export class ChatThreadClient {
 
   /**
    * Deletes a message identified by threadId and messageId
-   * @param messageId The message id of the message.
-   * @param options Operation options.
+   * @param messageId - The message id of the message.
+   * @param options - Operation options.
    */
   public async deleteMessage(
     messageId: string,
@@ -291,8 +291,8 @@ export class ChatThreadClient {
 
   /**
    * Updates a message identified by threadId and messageId
-   * @param messageId The message id of the message.
-   * @param options Operation options.
+   * @param messageId - The message id of the message.
+   * @param options - Operation options.
    */
   public async updateMessage(
     messageId: string,
@@ -320,8 +320,8 @@ export class ChatThreadClient {
 
   /**
    * Adds the details of chat participants belonging to the thread identified by threadId.
-   * @param request Thread participants' details to add in the thread roster
-   * @param options Operation options.
+   * @param request - Thread participants' details to add in the thread roster
+   * @param options - Operation options.
    */
   public async addParticipants(
     request: AddChatParticipantsRequest,
@@ -388,7 +388,7 @@ export class ChatThreadClient {
   /**
    * Gets the participants of the thread identified by threadId.
    * Returns the lists of the participants.
-   * @param options Operation options.
+   * @param options - Operation options.
    */
   public listParticipants(
     options: ListParticipantsOptions = {}
@@ -421,8 +421,8 @@ export class ChatThreadClient {
 
   /**
    * Removes participant from the thread identified by threadId.
-   * @param participant Thread participant to remove from the thread roster
-   * @param options Operation options.
+   * @param participant - Thread participant to remove from the thread roster
+   * @param options - Operation options.
    */
   public async removeParticipant(
     participant: CommunicationUserIdentifier,
@@ -450,7 +450,7 @@ export class ChatThreadClient {
   /**
    * Sends a typing notification to the thread.
    * Doesn't attempt to send if the time since last notification is smaller than the minimum typing interval
-   * @param options - Operation options
+   * @param options - - Operation options
    * @returns True if the typing message notification could be sent, otherwise false.
    */
   public async sendTypingNotification(
@@ -485,9 +485,9 @@ export class ChatThreadClient {
 
   /**
    * Sends a read receipt to the thread identified by threadId.
-   * @param messageId The message id of the message that user latest read.
-   * @param request Request for sending a read receipt
-   * @param options Operation options.
+   * @param messageId - The message id of the message that user latest read.
+   * @param request - Request for sending a read receipt
+   * @param options - Operation options.
    */
   public async sendReadReceipt(
     request: SendReadReceiptRequest,
@@ -554,7 +554,7 @@ export class ChatThreadClient {
   /**
    * Gets a list of read receipt from a thread identified by threadId.
    * Returns the list of the messages.
-   * @param options Get messages options.
+   * @param options - Get messages options.
    */
   public listReadReceipts(
     options: ListReadReceiptsOptions = {}

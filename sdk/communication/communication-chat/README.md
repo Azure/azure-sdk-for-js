@@ -20,7 +20,7 @@ npm install @azure/communication-chat
 
 ## Key concepts
 
-A chat conversation is represented by a thread. Each user in the thread is called a thread member. Thread members can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near-real time updates for when others are typing and when they have read the messages.
+A chat conversation is represented by a thread. Each user in the thread is called a chat participant. Chat participants can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near-real time updates for when others are typing and when they have read the messages.
 
 ### ChatClient
 
@@ -28,7 +28,7 @@ A chat conversation is represented by a thread. Each user in the thread is calle
 
 ### ChatThreadClient
 
-`ChatThreadClient` provides asynchronous methods to do the message and chat thread members operations within the chat thread.
+`ChatThreadClient` provides asynchronous methods to do the message and chat participants operations within the chat thread.
 
 ## Examples
 
@@ -52,18 +52,18 @@ let chatClient = new ChatClient(endpointUrl, tokenCredential);
 
 Use the `createThread` method to create a chat thread.
 
-`createThreadRequest` is used to describe the thread request:
+`createChatThreadRequest` is used to describe the thread request:
 
 - Use `topic` to give a thread topic;
-- Use `members` to list the thread members to be added to the thread;
+- Use `participants` to list the chat participants to be added to the thread;
 
-`createThreadResult` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
+`createChatThreadResponse` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
 
 ```Javascript
-let createThreadRequest =
+let createChatThreadRequest =
 {
     topic: 'Preparation for London conference',
-    members:
+    participants:
         [
             {
                 user: { communicationUserId: '<USER_ID_FOR_JACK>' },
@@ -75,8 +75,8 @@ let createThreadRequest =
             }
         ]
 };
-let chatThreadResult = await chatClient.createChatThread(createThreadRequest);
-let threadId = chatThreadResult.chatThread.id;
+let createChatThreadResponse = await chatClient.createChatThread(createChatThreadRequest);
+let threadId = createChatThreadResponse.chatThread.id;
 ```
 
 ### Send a message to the thread
@@ -89,10 +89,10 @@ Use `sendMessage` method to sends a message to a thread identified by threadId.
 
 `sendMessageOptions` is used to describe the operation optional params:
 
-- Use `priority` to specify the message priority level, such as 'Normal' or 'High' ;
 - Use `senderDisplayName` to specify the display name of the sender;
+- Use `type` to specify the message type, such as 'text' or 'html' ;
 
-`sendChatMessageResult` is the response returned from sending a message, it contains an ID, which is the unique ID of the message.
+`sendChatMessageResponse` is the response returned from sending a message, it contains an ID, which is the unique ID of the message.
 
 ```JavaScript
 let sendMessageRequest =
@@ -101,11 +101,11 @@ let sendMessageRequest =
 };
 let sendMessageOptions =
 {
-    priority: 'Normal',
-    senderDisplayName : 'Jack'
+    senderDisplayName : 'Jack',
+    type: 'text'
 };
-let sendChatMessageResult = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
-let messageId = sendChatMessageResult.id;
+let sendChatMessageResponse = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
+let messageId = sendChatMessageResponse.id;
 ```
 
 ### Receive messages from a thread
@@ -142,9 +142,9 @@ More information on tokens here: [Authenticate to Azure Communication Services](
 // Get a new token created for the user. The token response will contain a token and an identity for the user.
 let userTokenResponse = await myTokenFunction();
 
-let addMembersRequest =
+let addChatParticipantsRequest =
 {
-    members: [
+    participants: [
         {
             user: { communicationUserId: userTokenResponse.identity },
             displayName: '<NAME>',
@@ -153,17 +153,17 @@ let addMembersRequest =
     ]
 };
 
-await chatThreadClient.addMembers(addMembersRequest);
+await chatThreadClient.addParticipants(addChatParticipantsRequest);
 
 ```
 
 ### Remove Users from a thread
 
-Similar to above, you can also remove users from a thread. In order to remove, you will need to track the IDs of the members you have added.
+Similar to above, you can also remove users from a thread. In order to remove, you will need to track the IDs of the participants you have added.
 
 ```JavaScript
 
-await chatThreadClient.removeMember({ communicationUserId: '<MEMBER_ID>' });
+await chatThreadClient.removeParticipant({ communicationUserId: '<MEMBER_ID>' });
 
 ```
 

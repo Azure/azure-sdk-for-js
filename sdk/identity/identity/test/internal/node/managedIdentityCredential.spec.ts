@@ -203,6 +203,7 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const mockFs = require("mock-fs");
     const filePath = "path/to/file";
     const key = "challenge key";

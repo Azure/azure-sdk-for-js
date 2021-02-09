@@ -55,11 +55,18 @@ export const mapToChatContentSdkModel = (
 export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): ChatMessage => {
   const { content, senderId, ...otherChatMessage } = chatMessage;
   const contentSdkModel = content ? mapToChatContentSdkModel(content) : undefined;
-  return {
-    sender: { communicationUserId: senderId! },
-    content: contentSdkModel,
-    ...otherChatMessage
-  };
+  if (senderId) {
+    return {
+      sender: { communicationUserId: senderId! },
+      content: contentSdkModel,
+      ...otherChatMessage
+    };
+  } else {
+    return {
+      content: contentSdkModel,
+      ...otherChatMessage
+    };
+  }
 };
 
 /**
@@ -77,7 +84,7 @@ export const mapToChatMessagesSdkModelArray = (
 export const mapToChatParticipantSdkModel = (
   chatParticipant: RestModel.ChatParticipant
 ): ChatParticipant => {
-  const model = { ...chatParticipant, user: { communicationUserId: chatParticipant.id! } };
+  const model = { ...chatParticipant, user: { communicationUserId: chatParticipant.id } };
   delete (model as any).id;
   return model;
 };
@@ -102,7 +109,7 @@ export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatT
 export const mapToReadReceiptSdkModel = (
   readReceipt: RestModel.ChatMessageReadReceipt
 ): ChatMessageReadReceipt => {
-  const model = { ...readReceipt, sender: { communicationUserId: readReceipt.senderId! } };
+  const model = { ...readReceipt, sender: { communicationUserId: readReceipt.senderId } };
   delete (model as any).senderId;
   return model;
 };

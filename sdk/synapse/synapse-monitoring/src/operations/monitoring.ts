@@ -19,7 +19,7 @@ export class Monitoring {
 
   /**
    * Initialize a new instance of the class Monitoring class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: MonitoringClient) {
     this.client = client;
@@ -27,7 +27,7 @@ export class Monitoring {
 
   /**
    * Get list of spark applications for the workspace.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getSparkJobList(
     options?: MonitoringGetSparkJobListOptionalParams
@@ -58,7 +58,7 @@ export class Monitoring {
 
   /**
    * Get SQL OD/DW Query for the workspace.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getSqlJobQueryString(
     options?: MonitoringGetSqlJobQueryStringOptionalParams

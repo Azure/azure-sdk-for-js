@@ -8,8 +8,7 @@
 
 export {
   discriminators,
-  DatabaseRestoreResource,
-  DefaultErrorResponse,
-  ErrorResponse,
-  RestorableSqlResourcesListResult
+  AscOperation,
+  CloudError,
+  ErrorResponse
 } from "../models/mappers";

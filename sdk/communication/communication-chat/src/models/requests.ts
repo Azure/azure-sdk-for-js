@@ -13,7 +13,7 @@ export { RestCreateChatThreadRequest, RestSendMessageRequest, RestAddChatPartici
  * An interface representing CreateMessageRequest.
  */
 export interface SendMessageRequest
-  extends Omit<RestSendMessageRequest, "priority" | "senderDisplayName"> {}
+  extends Omit<RestSendMessageRequest, "type" | "senderDisplayName"> {}
 
 /**
  * Request payload for creating a chat thread.

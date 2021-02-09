@@ -7,12 +7,17 @@
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
+import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
+import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
+import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
 import { CommunicationTokenCredential } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ParticipantsAddedEvent } from '@azure/communication-signaling';
+import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { PipelineOptions } from '@azure/core-http';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
@@ -51,11 +56,21 @@ export class ChatClient {
     off(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
     off(event: "typingIndicatorReceived", listener: (e: TypingIndicatorReceivedEvent) => void): void;
     off(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
+    off(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
+    off(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
+    off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
     on(event: "chatMessageEdited", listener: (e: ChatMessageEditedEvent) => void): void;
     on(event: "chatMessageDeleted", listener: (e: ChatMessageDeletedEvent) => void): void;
     on(event: "typingIndicatorReceived", listener: (e: TypingIndicatorReceivedEvent) => void): void;
     on(event: "readReceiptReceived", listener: (e: ReadReceiptReceivedEvent) => void): void;
+    on(event: "chatThreadCreated", listener: (e: ChatThreadCreatedEvent) => void): void;
+    on(event: "chatThreadDeleted", listener: (e: ChatThreadDeletedEvent) => void): void;
+    on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
     startRealtimeNotifications(): Promise<void>;
     stopRealtimeNotifications(): Promise<void>;
     }
@@ -77,7 +92,7 @@ export interface ChatMessageContent extends Omit<RestChatMessageContent, "partic
 
 // @public
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
-    readonly sender?: CommunicationUserIdentifier;
+    readonly sender: CommunicationUserIdentifier;
 }
 
 // @public
@@ -317,7 +332,7 @@ export interface SendMessageOptions extends Omit<SendChatMessageRequest, "conten
 }
 
 // @public
-export interface SendMessageRequest extends Omit<SendChatMessageRequest, "priority" | "senderDisplayName"> {
+export interface SendMessageRequest extends Omit<SendChatMessageRequest, "type" | "senderDisplayName"> {
 }
 
 // @public

@@ -9,7 +9,7 @@ import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./
  * @param value - Value to test
  * @hidden @internal
  */
-export function isPrimitiveType(value: any): boolean {
+export function isPrimitiveType(value: unknown): boolean {
   return (typeof value !== "object" && typeof value !== "function") || value === null;
 }
 
