@@ -500,5 +500,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
     // onDetached - subscribe will care
   });
-  // TODO: Add tests to make sure each operation gets options from SBClient if they are defined
+  // TODO: Add tests to make sure each operation gets options from SBClient if defined
+  // TODO: Add tests to make sure abortSignal works at each level
+  // TODO: Add tests to make sure the tracing works end-to-end for all the methods
 });
