@@ -169,7 +169,8 @@ describe("Tracing tests", () => {
       {} as any,
       createConnectionContextForTests(),
       "entity path",
-      "peekLock"
+      "peekLock",
+      {}
     );
 
     const testData = stubCreateProcessingSpan(receiver);
@@ -231,7 +232,8 @@ describe("Tracing tests", () => {
       {} as MessageSession,
       createConnectionContextForTests(),
       "entity path",
-      "peekLock"
+      "peekLock",
+      {}
     )
   ].forEach((receiver) => {
     it(`iterator (${receiver.constructor.name})`, async () => {

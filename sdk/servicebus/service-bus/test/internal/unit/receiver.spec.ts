@@ -301,7 +301,7 @@ describe("Receiver unit tests", () => {
         connectionContext,
         "entity path",
         "peekLock",
-        undefined
+        {}
       );
 
       const abortSignal = createAbortSignalForTest(true);
