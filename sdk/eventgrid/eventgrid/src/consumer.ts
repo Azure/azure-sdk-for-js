@@ -26,8 +26,6 @@ const serializer = createSerializer();
  * - The `data` payload from system events is converted to match the interfaces this library defines.
  */
 export class EventGridDeserializer {
-  constructor() {}
-
   /**
    * Deserializes events encoded in the Event Grid schema.
    *
@@ -44,10 +42,10 @@ export class EventGridDeserializer {
    * @param encodedEvents - an object representing a single event, encoded in the Event Grid schema.
    */
   public async deserializeEventGridEvents(
-    encodedEvents: object
+    encodedEvents: Record<string, unknown>
   ): Promise<EventGridEvent<unknown>[]>;
   public async deserializeEventGridEvents(
-    encodedEvents: string | object
+    encodedEvents: string | Record<string, unknown>
   ): Promise<EventGridEvent<unknown>[]> {
     const decodedArray = parseAndWrap(encodedEvents);
 
@@ -81,9 +79,11 @@ export class EventGridDeserializer {
    *
    * @param encodedEvents - an object representing a single event, encoded in the Cloud Events 1.0 schema.
    */
-  public async deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
   public async deserializeCloudEvents(
-    encodedEvents: string | object
+    encodedEvents: Record<string, unknown>
+  ): Promise<CloudEvent<unknown>[]>;
+  public async deserializeCloudEvents(
+    encodedEvents: string | Record<string, unknown>
   ): Promise<CloudEvent<unknown>[]> {
     const decodedArray = parseAndWrap(encodedEvents);
 

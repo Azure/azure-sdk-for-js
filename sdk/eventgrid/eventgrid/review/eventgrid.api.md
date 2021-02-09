@@ -320,11 +320,10 @@ export interface DeviceTwinProperties {
 
 // @public
 export class EventGridDeserializer {
-    constructor();
     deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
-    deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
+    deserializeCloudEvents(encodedEvents: Record<string, unknown>): Promise<CloudEvent<unknown>[]>;
     deserializeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
-    deserializeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
+    deserializeEventGridEvents(encodedEvents: Record<string, unknown>): Promise<EventGridEvent<unknown>[]>;
 }
 
 // @public
@@ -343,7 +342,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    send(events: InputSchemaToInputTypeMap[T][], options?: SendEventOptions): Promise<void>;
+    send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
 }
 
 // @public
@@ -376,7 +375,7 @@ export type InputSchema = keyof InputSchemaToInputTypeMap;
 // @public
 export interface InputSchemaToInputTypeMap {
     CloudEvent: SendCloudEventInput<unknown>;
-    Custom: object;
+    Custom: Record<string, unknown>;
     EventGrid: SendEventGridEventInput<unknown>;
 }
 
@@ -989,7 +988,7 @@ export interface SendEventGridEventInput<T> {
 }
 
 // @public
-export type SendEventOptions = OperationOptions;
+export type SendOptions = OperationOptions;
 
 // @public
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {

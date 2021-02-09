@@ -30,7 +30,7 @@ export type EventGridPublisherClientOptions = PipelineOptions;
 /**
  * Options for the send events operation.
  */
-export type SendEventOptions = OperationOptions;
+export type SendOptions = OperationOptions;
 
 /**
  * A map of input schema names to shapes of the input for the send method on EventGridPublisherClient.
@@ -48,7 +48,7 @@ export interface InputSchemaToInputTypeMap {
    * The shape of the input to `send` when the client is configured to send events using a custom schema.
    */
 
-  Custom: object;
+  Custom: Record<string, unknown>;
 }
 
 /**
@@ -136,7 +136,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
    * @param events - The events to send. The events should be in the schema used when constructing the client.
    * @param options - Options to control the underlying operation.
    */
-  async send(events: InputSchemaToInputTypeMap[T][], options?: SendEventOptions) {
+  async send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void> {
     const { span, updatedOptions } = createSpan("EventGridPublisherClient-send", options || {});
 
     try {

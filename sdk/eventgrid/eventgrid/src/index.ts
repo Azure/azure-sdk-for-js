@@ -8,7 +8,7 @@ export { CloudEvent, EventGridEvent, SendCloudEventInput, SendEventGridEventInpu
 export {
   EventGridPublisherClient,
   EventGridPublisherClientOptions,
-  SendEventOptions,
+  SendOptions,
   InputSchema,
   InputSchemaToInputTypeMap
 } from "./eventGridClient";
