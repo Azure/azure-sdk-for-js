@@ -1456,18 +1456,4 @@ export class QueueClient extends StorageClient {
 
     return appendToURLQuery(this.url, sas);
   }
-
-  // private stringifyMetaData(metadata?: Metadata): string | undefined {
-  //   if (!metadata) {
-  //     return metadata;
-  //   }
-
-  //   let result: string = "{";
-  //   for (const key of Object.keys(metadata)) {
-  //     result += `"${key}":"${metadata[key]}",`;
-  //   }
-  //   result = result.slice(0, -1);
-  //   result += "}";
-  //   return result;
-  // }
 }
