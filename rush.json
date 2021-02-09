@@ -626,6 +626,11 @@
       "packageName": "@azure/api-learn",
       "projectFolder": "sdk/learn/api-learn",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/media-analytics-edge",
+      "projectFolder": "sdk/mediaservices/media-analytics-edge",
+      "versionPolicyName": "client"
     }
   ]
 }
