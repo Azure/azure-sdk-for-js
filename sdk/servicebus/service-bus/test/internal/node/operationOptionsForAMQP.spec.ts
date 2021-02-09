@@ -348,8 +348,60 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         }
       );
     });
+
+    it("RequestOptions is plumbed through peek", async () => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
+        requestOptions: {
+          timeout: 199
+        }
+      });
+      const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+
+      await verifyOperationOptionsAtGetToken(
+        receiver["_context"],
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
+        async () => {
+          await receiver.peekMessages(1, {
+            requestOptions: {
+              timeout: 199
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through backup settlement", async () => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
+        requestOptions: {
+          timeout: 199
+        }
+      });
+      const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+
+      await verifyOperationOptionsAtGetToken(
+        receiver["_context"],
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
+        async () => {
+          await receiver.completeMessage(
+            { body: "message", _rawAmqpMessage: { body: "message" } },
+            {
+              requestOptions: {
+                timeout: 199
+              }
+            }
+          );
+        }
+      );
+    });
     // Backup settlement
-    // Peek
     // receive deferred
     // renewMessageLock
   });
@@ -364,7 +416,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
   // getMessageIterator
   // Peek
   // receive deferred
-  // renewMessageLock
   // });
 
   describe("ServiceBusClient", () => {
