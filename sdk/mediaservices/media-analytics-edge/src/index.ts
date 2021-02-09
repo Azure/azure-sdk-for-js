@@ -31,12 +31,12 @@ interface MethodRequest {
 
 export class MethodRequest {
   public MethodName: string;
-  public Payload: { '@apiVersion': string; [x: string]: any };
+  public Payload: { "@apiVersion": string; [x: string]: any };
   constructor(methodName: string, payload: object) {
     this.MethodName = methodName;
     this.Payload = {
       ...payload,
-      '@apiVersion': MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
+      "@apiVersion": MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue
     };
   }
 }
@@ -68,13 +68,13 @@ export class MediaGraphTopologyListRequest extends MethodRequest {
 
 export class MediaGraphInstanceSetRequest extends MethodRequest {
   constructor(graph: MediaGraphInstance) {
-    super(MediaGraphInstanceSetRequestInternal.serializedName!, {graph});
+    super(MediaGraphInstanceSetRequestInternal.serializedName!, { graph });
   }
 }
 
 export class MediaGraphInstanceGetRequest extends MethodRequest {
   constructor(name: string) {
-    super(MediaGraphInstanceGetRequestInternal.serializedName!, {name});
+    super(MediaGraphInstanceGetRequestInternal.serializedName!, { name });
   }
 }
 
@@ -86,18 +86,18 @@ export class MediaGraphInstanceListRequest extends MethodRequest {
 
 export class MediaGraphInstanceDeleteRequest extends MethodRequest {
   constructor(name: string) {
-    super(MediaGraphInstanceDeleteRequestInternal.serializedName!, {name});
+    super(MediaGraphInstanceDeleteRequestInternal.serializedName!, { name });
   }
 }
 
 export class MediaGraphInstanceActivateRequest extends MethodRequest {
   constructor(name: string) {
-    super(MediaGraphInstanceActivateRequestInternal.serializedName!, {name});
+    super(MediaGraphInstanceActivateRequestInternal.serializedName!, { name });
   }
 }
 
 export class MediaGraphInstanceDeActivateRequest extends MethodRequest {
   constructor(name: string) {
-    super(MediaGraphInstanceDeActivateRequestInternal.serializedName!, {name});
+    super(MediaGraphInstanceDeActivateRequestInternal.serializedName!, { name });
   }
 }

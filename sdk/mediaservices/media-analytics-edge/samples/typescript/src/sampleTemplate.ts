@@ -88,7 +88,7 @@ export async function main() {
   console.log("== Sample Template ==");
   const device_id = "lva-sample-device";
   const module_d = "lvaEdge";
-  const connectionString = "enter-your-connection-string"
+  const connectionString = "enter-your-connection-string";
   const cli = Client.fromConnectionString(connectionString);
 
   const invokeMethod = async (methodRequest: MethodRequest) => {
