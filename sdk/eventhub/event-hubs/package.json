@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
