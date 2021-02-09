@@ -1,5 +1,8 @@
 # Release History
 
+## 12.4.0-beta.2 (Unreleased)
+
+
 ## 12.4.0-beta.1 (2021-02-09)
 
 - Added support for Container Soft Delete. You can restore a deleted filesystem via `DataLakeServiceClient.undeleteFileSystem()`. And the `DataLakeServiceClient.listFileSystems()` now support an `includeDeleted` option to include soft deleted filesystems in the response.
