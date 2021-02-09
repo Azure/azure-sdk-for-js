@@ -139,7 +139,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     private _context: ConnectionContext,
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _clientOptions: ServiceBusClientOptions = {}
+    private _clientOptions: ServiceBusClientOptions
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
