@@ -168,7 +168,10 @@ export interface ServiceBusReceiver {
    *
    * @returns Promise<void>.
    */
-  completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
+  completeMessage(
+    message: ServiceBusReceivedMessage,
+    options?: OperationOptionsBase
+  ): Promise<void>;
   /**
    * The lock held on the message by the receiver is let go, making the message available again in
    * Service Bus for another receive operation.
@@ -195,7 +198,8 @@ export interface ServiceBusReceiver {
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: any },
+    options?: OperationOptionsBase
   ): Promise<void>;
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
@@ -223,7 +227,8 @@ export interface ServiceBusReceiver {
    */
   deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: any },
+    options?: OperationOptionsBase
   ): Promise<void>;
   /**
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
@@ -266,7 +271,10 @@ export interface ServiceBusReceiver {
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws ServiceBusError if the service returns an error while renewing message lock.
    */
-  renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
+  renewMessageLock(
+    message: ServiceBusReceivedMessage,
+    options?: OperationOptionsBase
+  ): Promise<Date>;
 }
 
 /**
@@ -632,31 +640,36 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
   }
 
-  async completeMessage(message: ServiceBusReceivedMessage): Promise<void> {
+  async completeMessage(
+    message: ServiceBusReceivedMessage,
+    options?: OperationOptionsBase
+  ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return completeMessage(msgImpl, this._context, this.entityPath);
+    return completeMessage(msgImpl, this._context, this.entityPath, options);
   }
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: any },
+    options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify, options);
   }
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: any }
+    propertiesToModify?: { [key: string]: any },
+    options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify, options);
   }
 
   async deadLetterMessage(

@@ -14,6 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -84,7 +85,7 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
  * Describes the reason and error description for dead lettering a message using the `deadLetter()`
  * method on the message received from Service Bus.
  */
-export interface DeadLetterOptions {
+export interface DeadLetterOptions extends OperationOptionsBase {
   /**
    * The reason for deadlettering the message.
    */

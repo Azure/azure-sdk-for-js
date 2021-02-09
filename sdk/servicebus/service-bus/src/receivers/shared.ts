@@ -74,14 +74,15 @@ export function wrapProcessErrorHandler(
 export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
-  entityPath: string
+  entityPath: string,
+  options?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Completing the message with id '%s'.",
     context.connectionId,
     message.messageId
   );
-  return settleMessage(message, DispositionType.complete, context, entityPath);
+  return settleMessage(message, DispositionType.complete, context, entityPath, options);
 }
 
 /**
@@ -92,7 +93,8 @@ export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify?: { [key: string]: any }
+  propertiesToModify?: { [key: string]: any },
+  options?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Abandoning the message with id '%s'.",
@@ -100,7 +102,8 @@ export function abandonMessage(
     message.messageId
   );
   return settleMessage(message, DispositionType.abandon, context, entityPath, {
-    propertiesToModify
+    propertiesToModify,
+    ...options
   });
 }
 
@@ -112,7 +115,8 @@ export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify?: { [key: string]: any }
+  propertiesToModify?: { [key: string]: any },
+  options?: OperationOptionsBase
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deferring the message with id '%s'.",
@@ -120,7 +124,8 @@ export function deferMessage(
     message.messageId
   );
   return settleMessage(message, DispositionType.defer, context, entityPath, {
-    propertiesToModify
+    propertiesToModify,
+    ...options
   });
 }
 
