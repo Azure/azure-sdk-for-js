@@ -34,6 +34,7 @@ export default {
     "no-empty": "error",
     "no-fallthrough": "error",
     "no-invalid-this": "error",
+    "@typescript-eslint/no-require-imports": "error",
     "no-restricted-imports": ["error", { paths: ["rhea", "rhea/.*"] }],
     "no-return-await": "error",
     "no-undef": "off",

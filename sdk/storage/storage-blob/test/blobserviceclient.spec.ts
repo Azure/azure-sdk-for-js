@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   sleep
 } from "./utils";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { Tags } from "../src/models";
 dotenv.config();
 
@@ -589,8 +589,10 @@ describe("BlobServiceClient", () => {
 
     await delay(30 * 1000);
 
+    let listed = false;
     for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
       if (containerItem.deleted && containerItem.name === containerName) {
+        listed = true;
         // check list container response
         assert.ok(containerItem.version);
         assert.ok(containerItem.properties.deletedOn);
@@ -601,9 +603,11 @@ describe("BlobServiceClient", () => {
           containerItem.version!
         );
         assert.equal(restoreRes.containerClient.containerName, containerName);
+        await restoreRes.containerClient.delete();
         break;
       }
     }
+    assert.ok(listed);
   });
 
   it("restore container to a new name", async function() {
@@ -621,25 +625,82 @@ describe("BlobServiceClient", () => {
     await containerClient.delete();
     await delay(30 * 1000);
 
+    let listed = false;
     for await (const containerItem of blobServiceClient.listContainers({ includeDeleted: true })) {
       if (containerItem.deleted && containerItem.name === containerName) {
+        listed = true;
         // check list container response
         assert.ok(containerItem.version);
         assert.ok(containerItem.properties.deletedOn);
         assert.ok(containerItem.properties.remainingRetentionDays);
 
         const newContainerName = recorder.getUniqueName("newcontainer");
-        const restoreRes2 = await blobServiceClient.undeleteContainer(
+        const restoreRes = await blobServiceClient.undeleteContainer(
           containerName,
           containerItem.version!,
           {
             destinationContainerName: newContainerName
           }
         );
-        assert.equal(restoreRes2.containerClient.containerName, newContainerName);
-
+        assert.equal(restoreRes.containerClient.containerName, newContainerName);
+        await restoreRes.containerClient.delete();
         break;
       }
     }
+    assert.ok(listed);
+  });
+
+  it("rename container", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
+    const blobServiceClient = getBSU();
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const newContainerName = recorder.getUniqueName("newcontainer");
+    // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
+    const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName);
+
+    const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
+    assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
+    await newContainerClient.getProperties();
+
+    // clean up
+    await newContainerClient.delete();
+  });
+
+  it("rename container should work with source lease", async function() {
+    if (isLiveMode()) {
+      // Turn on this case when the Container Rename feature is ready in the service side.
+      this.skip();
+    }
+
+    const blobServiceClient = getBSU();
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const leaseClient = containerClient.getBlobLeaseClient();
+    await leaseClient.acquireLease(-1);
+
+    const newContainerName = recorder.getUniqueName("newcontainer");
+
+    // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
+    const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {
+      sourceCondition: { leaseId: leaseClient.leaseId }
+    });
+
+    const newContainerClient = blobServiceClient.getContainerClient(newContainerName);
+    assert.deepStrictEqual(renameRes.containerClient, newContainerClient);
+    await newContainerClient.getProperties();
+
+    // clean up
+    await newContainerClient.delete();
   });
 });

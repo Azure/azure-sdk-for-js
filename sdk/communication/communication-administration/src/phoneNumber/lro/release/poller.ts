@@ -19,7 +19,7 @@ export class ReleasePhoneNumbersPoller extends PhoneNumberPollerBase<
   /**
    * Initializes an instance of ReleasePhoneNumbersPoller
    *
-   * @param {ReleasePhoneNumbersPollerOptions} options Options for initializing the poller.
+   * @param options - Options for initializing the poller.
    */
   constructor(options: ReleasePhoneNumbersPollerOptions) {
     const { client, phoneNumbers, requestOptions = {}, pollInterval = 2000, resumeFrom } = options;

@@ -276,7 +276,7 @@ export class KeyVaultBackupClient {
     folderName: string,
     keyName: string,
     options: BeginBackupOptions = {}
-  ): Promise<PollerLike<SelectiveRestoreOperationState, undefined>> {
+  ): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>> {
     if (!(keyName && blobStorageUri && sasToken && folderName)) {
       throw new Error(
         "beginSelectiveRestore requires non-empty strings for the parameters: keyName, blobStorageUri, sasToken and folderName."

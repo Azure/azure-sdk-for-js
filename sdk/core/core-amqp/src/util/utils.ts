@@ -13,20 +13,20 @@ export { AsyncLock };
  */
 export interface AsyncLockOptions {
   /**
-   * @property {number} [timeout] The max timeout. Default is: 0 (never timeout).
+   * The max timeout. Default is: 0 (never timeout).
    */
   timeout?: number;
   /**
-   * @property {number} [maxPending] Maximum pending tasks. Default is: 1000.
+   * Maximum pending tasks. Default is: 1000.
    */
   maxPending?: number;
   /**
-   * @property {boolean} [domainReentrant] Whether lock can reenter in the same domain.
+   * Whether lock can reenter in the same domain.
    * Default is: false.
    */
   domainReentrant?: boolean;
   /**
-   * @property {any} [Promise] Your implementation of the promise. Default is: global promise.
+   * Your implementation of the promise. Default is: global promise.
    */
   Promise?: any;
 }
@@ -36,7 +36,6 @@ export interface AsyncLockOptions {
  */
 export interface WebSocketOptions {
   /**
-   * @property
    * The WebSocket constructor used to create an AMQP connection over a WebSocket.
    * This option should be provided in the below scenarios:
    * - The TCP port 5671 which is that is used by the AMQP connection to Event Hubs is blocked in your environment.
@@ -46,7 +45,6 @@ export interface WebSocketOptions {
    */
   webSocket?: WebSocketImpl;
   /**
-   * @property
    * Options to be passed to the WebSocket constructor when the underlying `rhea` library instantiates
    * the WebSocket.
    */
@@ -63,7 +61,6 @@ export const isNode =
 
 /**
  * Defines an object with possible properties defined in T.
- * @type ParsedOutput<T>
  */
 export type ParsedOutput<T> = { [P in keyof T]: T[P] };
 
@@ -78,8 +75,8 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  * Literal          ::= ? any sequence of characters except ; or = or WhiteSpace ?
  * WhiteSpace       ::= ? all whitespace characters including \r and \n ?
  *
- * @param {string} connectionString The connection string to be parsed.
- * @returns {ParsedOutput<T>} ParsedOutput<T>.
+ * @param connectionString - The connection string to be parsed.
+ * @returns ParsedOutput<T>.
  */
 export function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
   const output: { [k: string]: string } = {};
@@ -117,15 +114,15 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
  * @internal
  *
  * Gets a new instance of the async lock with desired settings.
- * @param {AsyncLockOptions} [options] The async lock options.
- * @returns {AsyncLock} AsyncLock
+ * @param options - The async lock options.
+ * @returns AsyncLock
  */
 export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
   return new AsyncLock(options);
 }
 
 /**
- * @constant {AsyncLock} defaultLock The async lock instance with default settings.
+ * The async lock instance with default settings.
  */
 export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
@@ -134,7 +131,6 @@ export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
  *
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
  * the promise with the given value.
- * @class Timeout
  */
 export class Timeout {
   // Node and browsers return different types from setTimeout
@@ -184,11 +180,11 @@ export class Timeout {
 
 /**
  * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param {number} delayInMs - The number of milliseconds to be delayed.
- * @param {AbortSignalLike} abortSignal - The abortSignal associated with containing operation.
- * @param {string} abortErrorMsg - The abort error message associated with containing operation.
- * @param {T} value - The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} - Resolved promise
+ * @param delayInMs - The number of milliseconds to be delayed.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns - Resolved promise
  */
 export function delay<T>(
   delayInMs: number,
@@ -234,8 +230,8 @@ export function delay<T>(
  * @internal
  *
  * Generates a random number between the given interval
- * @param {number} min Min number of the range (inclusive).
- * @param {number} max Max number of the range (inclusive).
+ * @param min - Min number of the range (inclusive).
+ * @param max - Max number of the range (inclusive).
  */
 export function randomNumberFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -255,9 +251,9 @@ export type Func<T, V> = (a: T) => V;
  * Executes an array of promises sequentially. Inspiration of this method is here:
  * https://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html. An awesome blog on promises!
  *
- * @param {Array} promiseFactories An array of promise factories(A function that return a promise)
+ * @param promiseFactories - An array of promise factories(A function that return a promise)
  *
- * @param {any} [kickstart] Input to the first promise that is used to kickstart the promise chain.
+ * @param kickstart - Input to the first promise that is used to kickstart the promise chain.
  * If not provided then the promise chain starts with undefined.
  *
  * @return A chain of resolved or rejected promises
@@ -277,8 +273,8 @@ export function executePromisesSequentially(
  * @internal
  *
  * Determines whether the given connection string is an iothub connection string.
- * @param {string} connectionString The connection string.
- * @return {boolean} boolean.
+ * @param connectionString - The connection string.
+ * @returns boolean.
  */
 export function isIotHubConnectionString(connectionString: string): boolean {
   connectionString = String(connectionString);

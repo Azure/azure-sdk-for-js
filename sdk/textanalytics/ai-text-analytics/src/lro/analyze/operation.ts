@@ -18,7 +18,8 @@ import {
 import {
   AnalyzeBatchActionsResult,
   PagedAsyncIterableAnalyzeBatchActionsResult,
-  PagedAnalyzeBatchActionsResult
+  PagedAnalyzeBatchActionsResult,
+  createAnalyzeBatchActionsResult
 } from "../../analyzeBatchActionsResult";
 import { PageSettings } from "@azure/core-paging";
 import { getOperationId, handleInvalidDocumentBatch, nextLinkToTopAndSkip } from "../../util";
@@ -26,18 +27,6 @@ import { AnalysisPollOperation, AnalysisPollOperationState, OperationMetadata } 
 import { GeneratedClient as Client } from "../../generated";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
-import {
-  makeRecognizeCategorizedEntitiesResultArray,
-  RecognizeCategorizedEntitiesResultArray
-} from "../../recognizeCategorizedEntitiesResultArray";
-import {
-  makeRecognizePiiEntitiesResultArray,
-  RecognizePiiEntitiesResultArray
-} from "../../recognizePiiEntitiesResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray
-} from "../../extractKeyPhrasesResultArray";
 import { logger } from "../../logger";
 export { State };
 
@@ -195,35 +184,7 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
         operationId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      const result: AnalyzeBatchActionsResult = {
-        recognizeEntitiesResults:
-          response.tasks.entityRecognitionTasks?.map(
-            ({ results }): RecognizeCategorizedEntitiesResultArray =>
-              makeRecognizeCategorizedEntitiesResultArray(
-                this.documents,
-                results?.documents,
-                results?.errors,
-                results?.modelVersion,
-                results?.statistics
-              )
-          ) ?? [],
-        recognizePiiEntitiesResults:
-          response.tasks.entityRecognitionPiiTasks?.map(
-            ({ results }): RecognizePiiEntitiesResultArray =>
-              makeRecognizePiiEntitiesResultArray(this.documents, results)
-          ) ?? [],
-        extractKeyPhrasesResults:
-          response.tasks.keyPhraseExtractionTasks?.map(
-            ({ results }): ExtractKeyPhrasesResultArray =>
-              makeExtractKeyPhrasesResultArray(
-                this.documents,
-                results?.documents,
-                results?.errors,
-                results?.modelVersion,
-                results?.statistics
-              )
-          ) ?? []
-      };
+      const result = createAnalyzeBatchActionsResult(response, this.documents);
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
         : { result };
@@ -256,8 +217,10 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
         operationOptionsToRequestOptionsBase(finalOptions)
       );
       switch (response.status) {
-        case "partiallySucceeded":
-        case "succeeded": {
+        case "notStarted":
+        case "running":
+          break;
+        default: {
           return {
             done: true,
             statistics: response.statistics,
@@ -272,21 +235,6 @@ export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperati
               displayName: response.displayName
             }
           };
-        }
-        case "failed": {
-          const errors = response.errors
-            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
-            .join("\n");
-          const message = `Analysis failed. Error(s): ${errors || ""}`;
-          throw new Error(message);
-        }
-        case "notStarted":
-        case "running":
-          break;
-        default: {
-          throw new Error(
-            `Unrecognized state of the analyze batch actions operation!: ${response.status}`
-          );
         }
       }
       return { done: false };

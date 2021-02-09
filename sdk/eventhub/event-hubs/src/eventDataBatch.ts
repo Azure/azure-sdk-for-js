@@ -26,7 +26,7 @@ const smallMessageMaxBytes = 255;
 
 /**
  * Checks if the provided eventDataBatch is an instance of `EventDataBatch`.
- * @param eventDataBatch The instance of `EventDataBatch` to verify.
+ * @param eventDataBatch - The instance of `EventDataBatch` to verify.
  * @internal
  */
 export function isEventDataBatch(eventDataBatch: unknown): eventDataBatch is EventDataBatch {
@@ -63,7 +63,6 @@ export interface EventDataBatch {
    * set the partitionKey.
    * @readonly
    * @internal
-   * @hidden
    */
   readonly partitionKey?: string;
 
@@ -72,7 +71,6 @@ export interface EventDataBatch {
    * the `EventHubProducerClient` to set the partitionId.
    * @readonly
    * @internal
-   * @hidden
    */
   readonly partitionId?: string;
 
@@ -102,7 +100,7 @@ export interface EventDataBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData  An individual event data object.
+   * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
@@ -113,7 +111,6 @@ export interface EventDataBatch {
    * This is not meant for the user to use directly.
    *
    * @internal
-   * @hidden
    */
   _generateMessage(): Buffer;
 
@@ -121,7 +118,6 @@ export interface EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
-   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
@@ -129,39 +125,38 @@ export interface EventDataBatch {
 /**
  * An internal class representing a batch of events which can be used to send events to Event Hub.
  *
- * @class
  * @internal
  */
 export class EventDataBatchImpl implements EventDataBatch {
   /**
-   * @property Describes the amqp connection context for the Client.
+   * Describes the amqp connection context for the Client.
    */
   private _context: ConnectionContext;
   /**
-   * @property The Id of the partition to which the batch is expected to be sent to.
+   * The Id of the partition to which the batch is expected to be sent to.
    * Specifying this will throw an error if the batch was created using a `paritionKey`.
    */
   private _partitionId?: string;
   /**
-   * @property A value that is hashed to produce a partition assignment.
+   * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the batch was created using a `paritionId`.
    */
   private _partitionKey?: string;
   /**
-   * @property The maximum size allowed for the batch.
+   * The maximum size allowed for the batch.
    */
   private _maxSizeInBytes: number;
   /**
-   * @property Current size of the batch in bytes.
+   * Current size of the batch in bytes.
    */
   private _sizeInBytes: number;
   /**
-   * @property Encoded amqp messages.
+   * Encoded amqp messages.
    */
   private _encodedMessages: Buffer[] = [];
   /**
-   * @property Number of events in the batch.
+   * Number of events in the batch.
    */
   private _count: number;
   /**
@@ -179,9 +174,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
    * Use the `createBatch()` method on your `EventHubProducer` instead.
-   * @constructor
    * @internal
-   * @hidden
    */
   constructor(
     context: ConnectionContext,
@@ -198,7 +191,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
-   * @property The maximum size of the batch, in bytes.
+   * The maximum size of the batch, in bytes.
    * @readonly
    */
   get maxSizeInBytes(): number {
@@ -206,7 +199,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
-   * @property The partitionKey set during `EventDataBatch` creation. This value is hashed to
+   * The partitionKey set during `EventDataBatch` creation. This value is hashed to
    * produce a partition assignment when the producer is created without a `partitionId`
    * @readonly
    */
@@ -224,7 +217,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
-   * @property Size of the `EventDataBatch` instance after the events added to it have been
+   * Size of the `EventDataBatch` instance after the events added to it have been
    * encoded into a single AMQP message.
    * @readonly
    */
@@ -233,7 +226,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
-   * @property Number of events in the `EventDataBatch` instance.
+   * Number of events in the `EventDataBatch` instance.
    * @readonly
    */
   get count(): number {
@@ -243,7 +236,6 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
-   * @hidden
    */
   get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
@@ -251,8 +243,8 @@ export class EventDataBatchImpl implements EventDataBatch {
 
   /**
    * Generates an AMQP message that contains the provided encoded events and annotations.
-   * @param encodedEvents The already encoded events to include in the AMQP batch.
-   * @param annotations The message annotations to set on the batch.
+   * @param encodedEvents - The already encoded events to include in the AMQP batch.
+   * @param annotations - The message annotations to set on the batch.
    */
   private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
     const batchEnvelope: RheaMessage = {
@@ -283,7 +275,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param eventData  An individual event data object.
+   * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   public tryAdd(eventData: EventData, options: TryAddOptions = {}): boolean {

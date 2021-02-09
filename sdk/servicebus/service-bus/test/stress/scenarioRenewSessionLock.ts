@@ -42,8 +42,8 @@ function sanitizeOptions(args: string[]): Required<ScenarioRenewSessionLockOptio
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 100,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    autoLockRenewal: options.autoLockRenewal,
-    settleMessageOnReceive: options.settleMessageOnReceive
+    autoLockRenewal: !!options.autoLockRenewal,
+    settleMessageOnReceive: !!options.settleMessageOnReceive
   };
 }
 
@@ -85,7 +85,7 @@ export async function scenarioRenewSessionLock() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
       elapsedTime < testDurationForSendInMs &&
-      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages(
         [sender],

@@ -65,7 +65,7 @@ export class NodeHttpsClient implements HttpsClient {
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
-   * @param request The request to be made.
+   * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const abortController = new AbortController();
@@ -127,7 +127,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = getResponseStream(res, headers, shouldDecompress);
+          let responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
@@ -249,15 +249,10 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
   return headers;
 }
 
-function getResponseStream(
+function getDecodedResponseStream(
   stream: IncomingMessage,
-  headers: HttpHeaders,
-  skipDecompressResponse = false
+  headers: HttpHeaders
 ): NodeJS.ReadableStream {
-  if (skipDecompressResponse) {
-    return stream;
-  }
-
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
     const unzip = zlib.createGunzip();

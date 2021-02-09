@@ -41,23 +41,23 @@ export type RawHttpHeaders = { [headerName: string]: string };
 export interface HttpHeaders extends Iterable<[string, string]> {
   /**
    * Returns the value of a specific header or undefined if not set.
-   * @param name The name of the header to retrieve.
+   * @param name - The name of the header to retrieve.
    */
   get(name: string): string | undefined;
   /**
    * Returns true if the specified header exists.
-   * @param name The name of the header to check.
+   * @param name - The name of the header to check.
    */
   has(name: string): boolean;
   /**
    * Sets a specific header with a given value.
-   * @param name The name of the header to set.
-   * @param value The value to use for the header.
+   * @param name - The name of the header to set.
+   * @param value - The value to use for the header.
    */
   set(name: string, value: string | number): void;
   /**
    * Removes a specific header from the collection.
-   * @param name The name of the header to delete.
+   * @param name - The name of the header to delete.
    */
   delete(name: string): void;
   /**

@@ -1,11 +1,21 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-02-09)
 
 ### Breaking Changes
 
 - Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
 - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
+- Removed `priority` field (ChatMessage.Priority).
+
+### Added
+
+- Added support for `CreateChatThreadResult` and `AddChatParticipantsResult` to handle partial errors in batch calls.
+- Added idempotency identifier parameter for chat creation calls.
+- Added support for `listReadReceipts` and `listParticipants` pagination.
+- Added new model for messages an content types : `Text`, `Html`, `ParticipantAdded`, `ParticipantRemoved`, `TopicUpdated`.
+- Added new model for errors (`CommunicationError`)
+- Added notifications for thread level changes.
 
 ## 1.0.0-beta.3 (2020-11-16)
 

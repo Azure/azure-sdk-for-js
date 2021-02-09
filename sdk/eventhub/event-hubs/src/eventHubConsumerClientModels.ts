@@ -13,20 +13,20 @@ import { MessagingError } from "@azure/core-amqp";
  */
 export interface BasicPartitionProperties {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name.
+   * The event hub name.
    */
   eventHubName: string;
   /**
-   * @property The consumer group name.
+   * The consumer group name.
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition.
+   * The identifier of the Event Hub partition.
    */
   partitionId: string;
 }
@@ -39,20 +39,20 @@ export interface BasicPartitionProperties {
  */
 export interface PartitionContext {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   readonly fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name.
+   * The event hub name.
    */
   readonly eventHubName: string;
   /**
-   * @property The consumer group name.
+   * The consumer group name.
    */
   readonly consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition.
+   * The identifier of the Event Hub partition.
    */
   readonly partitionId: string;
   /**
@@ -68,8 +68,7 @@ export interface PartitionContext {
    * A checkpoint is meant to represent the last successfully processed event by the user from a particular
    * partition of a consumer group in an Event Hub instance.
    *
-   * @param eventData The event that you want to update the checkpoint with.
-   * @return Promise<void>
+   * @param eventData - The event that you want to update the checkpoint with.
    */
   updateCheckpoint(eventData: ReceivedEventData): Promise<void>;
 }
@@ -182,7 +181,6 @@ export interface SubscribeOptions {
    */
   startPosition?: EventPosition | { [partitionId: string]: EventPosition };
   /**
-   * @property
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 

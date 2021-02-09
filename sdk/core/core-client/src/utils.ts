@@ -4,7 +4,7 @@
 /**
  * Returns true if the given value is a basic/primitive type
  * (string, number, boolean, null, undefined).
- * @param value Value to test
+ * @param value - Value to test
  * @hidden @internal
  */
 export function isPrimitiveType(value: any): boolean {
@@ -15,7 +15,7 @@ const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?
 
 /**
  * Returns true if the given string is in ISO 8601 format.
- * @param value The value to be validated for ISO 8601 duration format.
+ * @param value - The value to be validated for ISO 8601 duration format.
  * @hidden @internal
  */
 export function isDuration(value: string): boolean {
@@ -27,7 +27,7 @@ const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F
 /**
  * Returns true if the provided uuid is valid.
  *
- * @param uuid The uuid that needs to be validated.
+ * @param uuid - The uuid that needs to be validated.
  *
  * @hidden @internal
  */

@@ -56,7 +56,7 @@ export interface SystemErrorRetryPolicyOptions {
  * A retry policy that specifically seeks to handle errors in the
  * underlying transport layer (e.g. DNS lookup failures) rather than
  * retryable error codes from the server itself.
- * @param options Options that customize the policy.
+ * @param options - Options that customize the policy.
  */
 export function systemErrorRetryPolicy(
   options: SystemErrorRetryPolicyOptions = {}

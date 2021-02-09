@@ -193,7 +193,7 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest;
-    let pipeline = createEmptyPipeline();
+    const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
       httpsClient: {

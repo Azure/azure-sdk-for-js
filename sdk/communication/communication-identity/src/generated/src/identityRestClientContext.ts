@@ -18,8 +18,8 @@ export class IdentityRestClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the IdentityRestClientContext class.
-   * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
-   * @param options The parameter options
+   * @param endpoint - The communication resource, for example https://my-resource.communication.azure.com
+   * @param options - The parameter options
    */
   constructor(endpoint: string, options?: IdentityRestClientOptionalParams) {
     if (endpoint === undefined) {
