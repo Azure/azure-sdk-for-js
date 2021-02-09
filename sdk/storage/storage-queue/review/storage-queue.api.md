@@ -202,6 +202,13 @@ export interface Logging {
 }
 
 // @public
+export interface MessageIdDeleteExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface MessageIdDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -215,6 +222,13 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
         parsedHeaders: MessageIdDeleteHeaders;
     };
 };
+
+// @public
+export interface MessageIdUpdateExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface MessageIdUpdateHeaders {
@@ -234,6 +248,13 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
 };
 
 // @public
+export interface MessagesClearExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface MessagesClearHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -247,6 +268,13 @@ export type MessagesClearResponse = MessagesClearHeaders & {
         parsedHeaders: MessagesClearHeaders;
     };
 };
+
+// @public
+export interface MessagesDequeueExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface MessagesDequeueHeaders {
@@ -265,6 +293,13 @@ export interface MessagesDequeueOptionalParams extends coreHttp.OperationOptions
 }
 
 // @public
+export interface MessagesEnqueueExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface MessagesEnqueueHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -278,6 +313,13 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.OperationOptions
     requestId?: string;
     timeoutInSeconds?: number;
     visibilityTimeout?: number;
+}
+
+// @public
+export interface MessagesPeekExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
 }
 
 // @public
@@ -368,6 +410,13 @@ export class QueueClient extends StorageClient {
 }
 
 // @public
+export interface QueueCreateExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface QueueCreateHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -392,6 +441,13 @@ export type QueueCreateResponse = QueueCreateHeaders & {
         parsedHeaders: QueueCreateHeaders;
     };
 };
+
+// @public
+export interface QueueDeleteExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface QueueDeleteHeaders {
@@ -443,6 +499,13 @@ export interface QueueGenerateSasUrlOptions {
 }
 
 // @public
+export interface QueueGetAccessPolicyExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface QueueGetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -465,6 +528,13 @@ export type QueueGetAccessPolicyResponse = {
         parsedBody: SignedIdentifierModel[];
     };
 };
+
+// @public
+export interface QueueGetPropertiesExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface QueueGetPropertiesHeaders {
@@ -599,6 +669,13 @@ export interface QueueServiceStatistics {
 }
 
 // @public
+export interface QueueSetAccessPolicyExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface QueueSetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -617,6 +694,13 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
         parsedHeaders: QueueSetAccessPolicyHeaders;
     };
 };
+
+// @public
+export interface QueueSetMetadataExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface QueueSetMetadataHeaders {
@@ -701,6 +785,13 @@ export interface ServiceGenerateAccountSasUrlOptions {
 }
 
 // @public
+export interface ServiceGetPropertiesExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesHeaders {
     clientRequestId?: string;
     requestId?: string;
@@ -720,6 +811,13 @@ export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & QueueSe
         parsedHeaders: ServiceGetPropertiesHeaders;
     };
 };
+
+// @public
+export interface ServiceGetStatisticsExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface ServiceGetStatisticsHeaders {
@@ -751,6 +849,13 @@ export interface ServiceListQueuesOptions extends CommonOptions {
 }
 
 // @public
+export interface ServiceListQueuesSegmentExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
+
+// @public
 export interface ServiceListQueuesSegmentHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -766,6 +871,13 @@ export type ServiceListQueuesSegmentResponse = ServiceListQueuesSegmentHeaders &
         parsedHeaders: ServiceListQueuesSegmentHeaders;
     };
 };
+
+// @public
+export interface ServiceSetPropertiesExceptionHeaders {
+    clientRequestId?: string;
+    // (undocumented)
+    errorCode?: string;
+}
 
 // @public
 export interface ServiceSetPropertiesHeaders {
