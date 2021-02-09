@@ -817,7 +817,7 @@ function getXmlObjectValue(
   serializedValue: any,
   isXml: boolean,
   options: RequiredSerializerOptions
-) {
+): any {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
   }
