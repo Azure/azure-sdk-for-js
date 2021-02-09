@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, SASCredential } from "@azure/core-auth";
 import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
 
-import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { isKeyCredentialLike } from "./util";
 
 /**
@@ -27,7 +26,7 @@ export const eventGridCredentialPolicyName = "eventGridCredentialPolicy";
  * using the appropriate header for Event Grid
  */
 export function eventGridCredentialPolicy(
-  credential: KeyCredential | SignatureCredential
+  credential: KeyCredential | SASCredential
 ): PipelinePolicy {
   return {
     name: eventGridCredentialPolicyName,
@@ -35,7 +34,7 @@ export function eventGridCredentialPolicy(
       if (isKeyCredentialLike(credential)) {
         request.headers.set(API_KEY_HEADER_NAME, credential.key);
       } else {
-        request.headers.set(SAS_TOKEN_HEADER_NAME, credential.signature());
+        request.headers.set(SAS_TOKEN_HEADER_NAME, credential.signature);
       }
 
       return next(request);

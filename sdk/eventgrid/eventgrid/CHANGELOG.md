@@ -1,5 +1,14 @@
 # Release History
 
+## 3.0.0-beta.4 (Unreleased)
+
+### Breaking Changes
+
+- `EventGridSharedAccessCredential` has been removed, in favor of `AzureSASCredential`. Code which is using `EventGridSharedAccessCredential` should
+  now use `AzureSASCredential` instead.
+- When constructing the client, you must now include the schema type your topic is configured to expect (one of "EventGrid", "CloudEvent" or "Custom").
+- The `sendEvents` methods have been collapsed into a single method on the client called `send` which uses the input schema that was configured on the client.
+
 ## 3.0.0-beta.3 (2020-10-06)
 
 - Added distributed tracing support. `EventGridProducerClient` will now create spans when sending events to Event Grid.
