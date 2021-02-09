@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0-beta.4 (unreleased)
+## 5.1.0-beta.4 (2021-02-10)
 
 - [Breaking] `beginAnalyzeHealthcare` is renamed to `beginAnalyzeHealthcareEntities`.
 - [Breaking] `beginAnalyze` is renamed to `beginAnalyzeBatchActions`.
