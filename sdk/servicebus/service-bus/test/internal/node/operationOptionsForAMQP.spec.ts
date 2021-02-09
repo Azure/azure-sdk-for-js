@@ -79,7 +79,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       await func();
       should.fail("Something went wrong - should not have reached here");
     } catch (err) {
-      should.equal(getTokenIsInvoked, true, "getToken is not invoked");
+      should.equal(getTokenIsInvoked, true, `getToken is not invoked, instead failed with ${err}`);
       should.equal(
         verifiedOperationOptions,
         true,
@@ -294,13 +294,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     // settlement
   });
 
-  describe("ManagementClient - Non-session", () => {
+  describe.only("ManagementClient - Non-session", () => {
     it("RequestOptions is plumbed through scheduleMessages", async () => {
-      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
-        requestOptions: {
-          timeout: 199
-        }
-      });
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
       const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
 
       await verifyOperationOptionsAtGetToken(
@@ -327,11 +323,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
 
     it("RequestOptions is plumbed through cancelScheduledMessages", async () => {
-      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
-        requestOptions: {
-          timeout: 199
-        }
-      });
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
       const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
 
       await verifyOperationOptionsAtGetToken(
@@ -352,11 +344,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
 
     it("RequestOptions is plumbed through peek", async () => {
-      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
-        requestOptions: {
-          timeout: 199
-        }
-      });
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
       const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
 
       await verifyOperationOptionsAtGetToken(
@@ -402,8 +390,56 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         }
       );
     });
-    // receive deferred
-    // renewMessageLock
+
+    it("RequestOptions is plumbed through receive-deferred-messages", async () => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+      const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+
+      await verifyOperationOptionsAtGetToken(
+        receiver["_context"],
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
+        async () => {
+          await receiver.receiveDeferredMessages(Long.ZERO, {
+            requestOptions: {
+              timeout: 199
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through renew message lock", async () => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+      const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+      receiver.receiveMode = "peekLock";
+      await verifyOperationOptionsAtGetToken(
+        receiver["_context"],
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
+        async () => {
+          await receiver.renewMessageLock(
+            {
+              body: "message",
+              lockToken: generate_uuid(),
+              _rawAmqpMessage: { body: "message" },
+              delivery: { link: undefined }
+            } as any,
+            {
+              requestOptions: {
+                timeout: 199
+              }
+            }
+          );
+        }
+      );
+    });
   });
 
   // describe("SessionReceiver", () => {
