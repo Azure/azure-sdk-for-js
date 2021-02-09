@@ -6,11 +6,14 @@
 
 - Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
 - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
-- Support for CreateChatThreadResult and AddChatParticipantsResult to handle partial errors in batch calls.
+- Removed `priority` field (ChatMessage.Priority).
+
+### Added
+
+- Added support for `CreateChatThreadResult` and `AddChatParticipantsResult` to handle partial errors in batch calls.
 - Added idempotency identifier parameter for chat creation calls.
-- Added support for readreceipts and getparticipants pagination.
-- Added new model for messages anc ontent types : Text, Html, ParticipantAdded, ParticipantRemoved, TopicUpdated
-- Removed priority field (ChatMessage.Priority)
+- Added support for `listReadReceipts` and `listParticipants` pagination.
+- Added new model for messages an content types : `Text`, `Html`, `ParticipantAdded`, `ParticipantRemoved`, `TopicUpdated`.
 - Added new model for errors (`CommunicationError`)
 - Added notifications for thread level changes.
 
