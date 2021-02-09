@@ -4,7 +4,7 @@
 
 ### Breaking Changes
 
-- Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
+- Using common's `CommunicationUserIdentifier` in place of `CommunicationUser`.
 - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
 - Removed `priority` field (ChatMessage.Priority).
 
