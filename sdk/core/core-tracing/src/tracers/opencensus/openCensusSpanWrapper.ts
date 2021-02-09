@@ -18,7 +18,6 @@ import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
 import {
   Attributes as OpenCensusAttributes,
-  CanonicalCode,
   Span as OpenCensusSpan
 } from "@opencensus/web-types";
 
@@ -161,13 +160,14 @@ export class OpenCensusSpanWrapper implements Span {
         // and hope that's sensible.
         break;
       case StatusCode.ERROR:
-        this._span.setStatus(CanonicalCode.UNKNOWN, status.message);
+        //this._span.setStatus(CanonicalCode.UNKNOWN, status.message);
+        this._span.setStatus(CanonicalCodeUnknown, status.message);
         break;
       case StatusCode.OK:
-        this._span.setStatus(CanonicalCode.OK, status.message);
+        this._span.setStatus(CanonicalCodeOk, status.message);
         break;
       default:
-        this._span.setStatus(CanonicalCode.UNKNOWN, status.message);
+        this._span.setStatus(CanonicalCodeUnknown, status.message);
         break;
     }
 
@@ -201,3 +201,6 @@ export class OpenCensusSpanWrapper implements Span {
     throw new Error("Method not implemented.");
   }
 }
+
+const CanonicalCodeOk = 0;
+const CanonicalCodeUnknown = 2;

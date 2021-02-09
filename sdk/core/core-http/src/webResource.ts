@@ -132,6 +132,11 @@ export interface WebResourceLike {
   spanOptions?: SpanOptions;
 
   /**
+   * Context to be used as a parent for any Spans created for this request.
+   */
+  context?: Context;
+
+  /**
    * Validates that the required properties such as method, url, headers["Content-Type"],
    * headers["accept-language"] are defined. It will throw an error if one of the above
    * mentioned properties are not defined.

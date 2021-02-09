@@ -63,12 +63,6 @@ export interface Context {
  */
 export interface SpanOptions {
   /**
-   * The SpanContext that refers to a parent span, if any.
-   * A null value indicates that this should be a new root span,
-   * rather than potentially detecting a span via a context manager.
-   */
-  parent?: never;
-  /**
    * Attributes to set on the Span
    */
   attributes?: Attributes;

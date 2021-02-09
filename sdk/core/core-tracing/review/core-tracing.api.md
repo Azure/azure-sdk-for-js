@@ -120,7 +120,6 @@ export interface SpanGraphNode {
 // @public
 export interface SpanOptions {
     attributes?: Attributes;
-    parent?: never;
 }
 
 // @public

@@ -38,7 +38,7 @@ export class TracingPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.spanOptions || !request.spanOptions.parent) {
+    if (!request.spanOptions || !request.context) {
       return this._nextPolicy.sendRequest(request);
     }
 
@@ -49,7 +49,8 @@ export class TracingPolicy extends BaseRequestPolicy {
       kind: SpanKind.CLIENT
     };
     const path = URLBuilder.parse(request.url).getPath() || "/";
-    const span = tracer.startSpan(path, spanOptions);
+
+    const span = tracer.startSpan(path, spanOptions, request.context);
     span.setAttributes({
       "http.method": request.method,
       "http.url": request.url,

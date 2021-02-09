@@ -952,6 +952,7 @@ export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
     body?: any;
     clone(): WebResourceLike;
+    context?: Context;
     decompressResponse?: boolean;
     // (undocumented)
     formData?: any;
