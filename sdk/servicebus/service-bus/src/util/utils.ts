@@ -9,6 +9,7 @@ import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { HttpOperationResponse, HttpResponse, isNode } from "@azure/core-http";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -655,3 +656,17 @@ export const getHttpResponseOnly = ({
   status,
   headers
 });
+
+/**
+ * @internal
+ * Helper method which returns `OperationOptionsBase` from any object with the shape that extends `OperationOptionsBase`.
+ */
+export const getOperationOptionsBase = ({
+  abortSignal,
+  requestOptions,
+  tracingOptions
+}: OperationOptionsBase): OperationOptionsBase => ({
+  abortSignal,
+  requestOptions,
+  tracingOptions
+}); // TODO: Use this method to lighten the bulkier options bag that is unnecessarily being passed if any
