@@ -228,7 +228,7 @@ export class PerfStressProgram {
       const averageCompleted = this.getOperationsPerSecond(parallels);
 
       lastCompleted = totalCompleted;
-      console.log(`${totalCompleted}\t\t${currentCompleted}\t\t${averageCompleted.toFixed(2)}`);
+      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
     }, millisecondsToLog);
 
     const isAsync = !this.parsedDefaultOptions.sync.value;
