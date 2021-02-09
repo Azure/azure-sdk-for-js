@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.0-beta.6 (Unreleased)
+
+
 ## 1.0.0-beta.5 (2021-02-09)
 
 - Move generated client to use @azure/core-https. For more information about Core V2 read [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core#core-v1-and-core-v2). [#12548](https://github.com/Azure/azure-sdk-for-js/pull/12548)
