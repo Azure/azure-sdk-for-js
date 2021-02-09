@@ -136,7 +136,9 @@ describe("helper methods", () => {
         url: "unused",
         abortSignal: {
           aborted: true,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           addEventListener: () => {},
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           removeEventListener: () => {}
         },
         method: "GET",
@@ -147,6 +149,7 @@ describe("helper methods", () => {
         clone: function() {
           return this;
         },
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         validateRequestProperties: () => {},
         prepare: function() {
           return this;
@@ -270,7 +273,7 @@ describe("helper methods", () => {
       "value"
     ]);
 
-    assert.ok(formatFieldsForSelect(undefined) == undefined);
+    assert.ok(formatFieldsForSelect(undefined) === undefined);
     assert.deepEqual(formatFieldsForSelect([]), []);
   });
 
