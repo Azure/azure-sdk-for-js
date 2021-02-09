@@ -32,6 +32,33 @@ export interface SpanContext {
 }
 
 /**
+ * An interface that mimics the shape of an OpenTelemetry `Context`.
+ */
+export interface Context {
+  /**
+ * Get a value from the context.
+ *
+ * @param key key which identifies a context value
+ */
+  getValue(key: symbol): unknown;
+  /**
+   * Create a new context which inherits from this context and has
+   * the given key set to the given value.
+   *
+   * @param key context key for which to set the value
+   * @param value value to set for the given key
+   */
+  setValue(key: symbol, value: unknown): Context;
+  /**
+   * Return a new context which inherits from this context but does
+   * not contain a value for the given key.
+   *
+   * @param key context key for which to clear a value
+   */
+  deleteValue(key: symbol): Context;
+}
+
+/**
  * An interface that enables manual propagation of Spans
  */
 export interface SpanOptions {
@@ -40,7 +67,7 @@ export interface SpanOptions {
    * A null value indicates that this should be a new root span,
    * rather than potentially detecting a span via a context manager.
    */
-  parent?: SpanContext | null;
+  parent?: never;
   /**
    * Attributes to set on the Span
    */
@@ -55,4 +82,8 @@ export interface OperationTracingOptions {
    * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+  /**
+   * OpenTelemetry Context to be used as parent for any additional spans.
+   */
+  context?: Context;
 }

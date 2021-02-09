@@ -12,7 +12,7 @@ export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer"
 export { TestSpan } from "./tracers/test/testSpan";
 
 // Shared interfaces
-export { SpanContext, SpanOptions, TraceFlags } from "./interfaces";
+export { Context, SpanContext, SpanOptions, TraceFlags } from "./interfaces";
 
 // OT interfaces
 export { SpanContext as OTSpanContext, SpanOptions as OTSpanOptions } from "@opentelemetry/api";

@@ -11,10 +11,11 @@ import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationOptions, getParentSpan } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
-import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
+import { StatusCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
+import { createContextForParentSpan } from "./diagnostics/messageSpan";
 
 /**
  * @internal
@@ -75,9 +76,9 @@ export class PartitionPump {
     const currentEventPosition: EventPosition =
       lastSeenSequenceNumber >= 0
         ? {
-            sequenceNumber: lastSeenSequenceNumber,
-            isInclusive: false
-          }
+          sequenceNumber: lastSeenSequenceNumber,
+          isInclusive: false
+        }
         : this._startPosition;
 
     // Set or replace the PartitionPump's receiver.
@@ -234,8 +235,7 @@ export function createProcessingSpan(
   const span = getTracer().startSpan("Azure.EventHubs.process", {
     kind: SpanKind.CONSUMER,
     links,
-    parent: getParentSpan(options?.tracingOptions)
-  });
+  }, createContextForParentSpan(getParentSpan(options?.tracingOptions)));
 
   span.setAttributes({
     "az.namespace": "Microsoft.EventHub",
@@ -252,10 +252,10 @@ export function createProcessingSpan(
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
   try {
     await fn();
-    span.setStatus({ code: CanonicalCode.OK });
+    span.setStatus({ code: StatusCode.OK });
   } catch (err) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: StatusCode.ERROR,
       message: err.message
     });
     throw err;

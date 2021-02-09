@@ -86,7 +86,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["SpanKind", "TraceFlags", "StatusCode", "getSpan"]
+          ...openTelemetryNamedExports
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

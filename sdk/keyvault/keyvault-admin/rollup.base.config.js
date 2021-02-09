@@ -9,6 +9,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
+import { openTelemetryNamedExports } from "../../core/core-tracing/rollup.config.shared";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -120,7 +121,7 @@ export function browserConfig(test = false) {
         namedExports: {
           chai: ["assert", "use"],
           assert: ["ok", "equal", "strictEqual", "deepEqual", "isRejected"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryNamedExports
         }
       })
     ]

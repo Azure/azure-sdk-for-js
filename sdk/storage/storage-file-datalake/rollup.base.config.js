@@ -8,6 +8,7 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
+import { openTelemetryNamedExports } from "../../core/core-tracing/rollup.config.shared";
 
 // import visualizer from "rollup-plugin-visualizer";
 
@@ -65,7 +66,7 @@ export function nodeConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryNamedExports
         }
       })
     ],
@@ -159,7 +160,7 @@ export function browserConfig(test = false) {
             "notDeepEqual",
             "notDeepStrictEqual"
           ],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryNamedExports
         }
       })
     ],

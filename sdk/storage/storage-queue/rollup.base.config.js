@@ -9,6 +9,7 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 // import visualizer from "rollup-plugin-visualizer";
+import { openTelemetryNamedExports } from "../../core/core-tracing/rollup.config.shared";
 
 const version = require("./package.json").version;
 const banner = [
@@ -115,7 +116,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryNamedExports
         }
       })
     ],

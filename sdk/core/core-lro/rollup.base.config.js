@@ -8,6 +8,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import { openTelemetryNamedExports } from "../../core/core-tracing/rollup.config.shared";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -114,7 +115,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           assert: ["ok", "equal", "strictEqual"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryNamedExports
         }
       })
     ]

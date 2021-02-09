@@ -6,6 +6,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import { openTelemetryNamedExports } from "../../core/core-tracing/rollup.config.shared";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -83,7 +84,7 @@ export function browserConfig(test = false, production = false) {
         namedExports: {
           chai: ["assert", "AssertionError", "should", "expect"],
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags", "getSpan", "StatusCode"]
+          ...openTelemetryNamedExports
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

@@ -36,12 +36,14 @@ describe("createSpan", () => {
   it("returns updated SpanOptions", () => {
     const options: OperationOptions = {};
     const { span, updatedOptions } = createSpan("testMethod", options);
+
+    console.log(span);
+
     assert.isEmpty(options, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
     const expected: OperationOptions = {
       tracingOptions: {
         spanOptions: {
-          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.Test"
           }
@@ -61,12 +63,11 @@ describe("createSpan", () => {
         }
       }
     };
-    const { span, updatedOptions } = createSpan("testMethod", options);
+    const { updatedOptions } = createSpan("testMethod", options);
     assert.notStrictEqual(updatedOptions, options, "should return new object");
     const expected: OperationOptions = {
       tracingOptions: {
         spanOptions: {
-          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.Test",
             foo: "bar"
@@ -74,6 +75,7 @@ describe("createSpan", () => {
         }
       }
     };
+
     assert.deepEqual(updatedOptions, expected);
   });
 

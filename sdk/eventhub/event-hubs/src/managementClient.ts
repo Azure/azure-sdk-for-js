@@ -30,10 +30,11 @@ import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { OperationNames } from "./models/private";
-import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { Span, SpanContext, SpanKind, StatusCode } from "@opentelemetry/api";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
 import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { createContextForParentSpan } from "./diagnostics/messageSpan";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -191,11 +192,11 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: StatusCode.OK });
       return runtimeInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -262,12 +263,12 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: StatusCode.OK });
 
       return partitionInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -319,7 +320,7 @@ export class ManagementClient extends LinkEntity {
             const ehError = translate(context.session!.error!);
             logger.verbose(
               "[%s] An error occurred on the session for request/response links for " +
-                "$management: %O",
+              "$management: %O",
               id,
               ehError
             );
@@ -330,7 +331,7 @@ export class ManagementClient extends LinkEntity {
         };
         logger.verbose(
           "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-            "srOpts: %o, receiverOpts: %O.",
+          "srOpts: %o, receiverOpts: %O.",
           this._context.connectionId,
           sropt,
           rxopt
@@ -511,8 +512,7 @@ export class ManagementClient extends LinkEntity {
     const tracer = getTracer();
     const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
       kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
-      parent: parentSpan
-    });
+    }, createContextForParentSpan(parentSpan));
 
     span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._context.config.entityPath);

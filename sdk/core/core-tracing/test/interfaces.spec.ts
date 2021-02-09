@@ -3,7 +3,8 @@
 
 import * as assert from "assert";
 import { SpanContext, TraceFlags, SpanOptions } from "../src";
-import { SpanContext as OTSpanContext, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
+import { SpanContext as OTSpanContext, SpanOptions as OTSpanOptions, Context as OTContext } from "@opentelemetry/api";
+import { Context as CoreTracingContext } from "../src/interfaces";
 
 describe("interface compatibility", () => {
   it("SpanContext is assignable", () => {
@@ -20,17 +21,25 @@ describe("interface compatibility", () => {
   });
 
   it("SpanOptions can be passed to OT", () => {
-    const context: SpanContext = {
-      spanId: "",
-      traceId: "",
-      traceFlags: TraceFlags.NONE
-    };
-
     const spanOptions: SpanOptions = {
-      parent: context
     };
 
     const oTSpanOptions: OTSpanOptions = spanOptions;
     assert.ok(oTSpanOptions);
+  });
+
+  it("Context can be passed to OT", () => {
+    const ourContext: CoreTracingContext = {
+      deleteValue: () => {
+        return ourContext;
+      },
+      getValue: () => { },
+      setValue: () => {
+        return ourContext;
+      }
+    };
+
+    const otContext: OTContext = ourContext;
+    assert.ok(otContext);
   });
 });

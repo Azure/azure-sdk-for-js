@@ -6,6 +6,8 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { Context } from '@azure/core-tracing';
+import { Context as Context_2 } from '@opentelemetry/api';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
@@ -158,7 +160,7 @@ export const Constants: {
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T, context?: Context_2) => {
     span: Span;
     updatedOptions: T;
 };
@@ -907,6 +909,7 @@ export class WebResource implements WebResourceLike {
     // (undocumented)
     body?: any;
     clone(): WebResource;
+    context?: Context;
     decompressResponse?: boolean;
     // (undocumented)
     formData?: any;

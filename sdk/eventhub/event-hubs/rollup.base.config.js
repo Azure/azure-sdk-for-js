@@ -12,6 +12,7 @@ import shim from "rollup-plugin-shim";
 import inject from "@rollup/plugin-inject";
 
 import path from "path";
+import { openTelemetryNamedExports } from "../../core/core-tracing/rollup.config.shared";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -122,7 +123,15 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"],
+          "@opentelemetry/api": [
+            "SpanKind",
+            "TraceFlags",
+            "StatusCode",
+            "getSpan",
+            "setSpan",
+            "setSpanContext",
+            "getSpanContext"
+          ],
           chai: ["should", "assert"],
           assert: ["equal", "deepEqual", "notEqual"]
         }

@@ -5,6 +5,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import { openTelemetryNamedExports } from "./rollup.config.shared";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -78,13 +79,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          "@opentelemetry/api": [
-            "CanonicalCode",
-            "SpanKind",
-            "TraceFlags",
-            "getSpan",
-            "StatusCode"
-          ],
+          ...openTelemetryNamedExports,
           assert: ["ok", "fail", "equal", "deepEqual", "deepStrictEqual", "strictEqual"]
         }
       }),

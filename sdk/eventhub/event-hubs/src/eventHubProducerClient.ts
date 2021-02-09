@@ -3,10 +3,10 @@
 
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { getTracer } from "@azure/core-tracing";
-import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { StatusCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { createMessageSpan, createContextForParentSpan } from "./diagnostics/messageSpan";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubSender } from "./eventHubSender";
@@ -346,11 +346,11 @@ export class EventHubProducerClient {
         partitionKey,
         retryOptions: this._clientOptions.retryOptions
       });
-      sendSpan.setStatus({ code: CanonicalCode.OK });
+      sendSpan.setStatus({ code: StatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -437,9 +437,8 @@ export class EventHubProducerClient {
     const tracer = getTracer();
     const span = tracer.startSpan("Azure.EventHubs.send", {
       kind: SpanKind.CLIENT,
-      parent: parentSpan,
       links
-    });
+    }, createContextForParentSpan(parentSpan));
 
     span.setAttribute("az.namespace", "Microsoft.EventHub");
     span.setAttribute("message_bus.destination", this._context.config.entityPath);
