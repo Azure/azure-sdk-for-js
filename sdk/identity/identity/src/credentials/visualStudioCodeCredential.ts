@@ -9,6 +9,7 @@ import path from "path";
 
 let keytar: any;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   keytar = require("keytar");
 } catch (er) {
   keytar = null;
