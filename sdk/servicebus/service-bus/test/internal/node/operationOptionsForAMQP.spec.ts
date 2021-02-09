@@ -28,14 +28,12 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     "Endpoint=sb://((.*).servicebus.windows.net)"
   ) || "")[1];
 
-  let credential: TokenCredential;
+  const credential = new EnvironmentCredential();
+  const sbAdminClient = new ServiceBusAdministrationClient(serviceBusEndpoint, credential);
   let sbClient: ServiceBusClient;
-  let sbAdminClient: ServiceBusAdministrationClient;
 
   beforeEach(() => {
-    credential = new EnvironmentCredential();
     sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
-    sbAdminClient = new ServiceBusAdministrationClient(serviceBusEndpoint, credential);
   });
 
   afterEach(async () => {
@@ -55,7 +53,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     context.tokenCredential.getToken = async (scopes: string, options: GetTokenOptions) => {
       getTokenIsInvoked = true;
       actualOptions = getOperationOptionsBase(options);
-
       should.equal(
         options.requestOptions?.timeout === operationOptions.requestOptions?.timeout,
         true,
@@ -87,6 +84,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         Actual   - ${JSON.stringify(actualOptions)}
         Expected - ${JSON.stringify(operationOptions)}\n`
       );
+      context.tokenCredential.getToken = preservedGetTokenMethod; // reset
     }
   }
 
@@ -462,20 +460,168 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
   });
 
-  // describe("SessionReceiver", () => {
-  // acceptSession
-  // renewSessionLock
-  // setSessionState
-  // getSessionState
-  // receiveMessages
-  // Backup settlement
-  // getMessageIterator
-  // Peek
-  // receive deferred
-  // });
+  describe("SessionReceiver", () => {
+    const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
+
+    before(async () => {
+      await sbAdminClient.createQueue(queueName, { requiresSession: true });
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+      const sender = sbClient.createSender(queueName);
+      await sender.sendMessages({ body: "message", sessionId: "session-id" });
+      await sender.close();
+      await sbClient.close();
+    });
+
+    after(async () => {
+      await sbAdminClient.deleteQueue(queueName);
+    });
+
+    beforeEach(() => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
+    });
+
+    afterEach(async () => {
+      await sbClient.close();
+    });
+
+    it("RequestOptions is plumbed through acceptSession", async () => {
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await sbClient.acceptSession("queue", "session-id", {
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through acceptNextSession", async () => {
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await sbClient.acceptNextSession("queue", {
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through renewSessionLock", async () => {
+      const receiver = await sbClient.acceptNextSession(queueName);
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await receiver.renewSessionLock({
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through setSessionState", async () => {
+      const receiver = await sbClient.acceptNextSession(queueName);
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await receiver.setSessionState("set-state", {
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through getSessionState", async () => {
+      const receiver = await sbClient.acceptNextSession(queueName);
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await receiver.getSessionState({
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through peekMessages", async () => {
+      const receiver = await sbClient.acceptNextSession(queueName);
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await receiver.peekMessages(1, {
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through receive deferred messages", async () => {
+      const receiver = await sbClient.acceptNextSession(queueName);
+      await verifyOperationOptionsAtGetToken(
+        sbClient["_connectionContext"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await receiver.receiveDeferredMessages(Long.ZERO, {
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
+    // No similar test for `receiveMessages` because the init happens at the acceptSession level
+    // Backup settlement
+    // getMessageIterator
+    // subscribe
+  });
 
   describe("ServiceBusClient", () => {
-    it("RequestOptions is plumbed through sendMessages", async () => {
+    it("RequestOptions from SBClient get used for sendMessages", async () => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
         requestOptions: {
           timeout: 199
