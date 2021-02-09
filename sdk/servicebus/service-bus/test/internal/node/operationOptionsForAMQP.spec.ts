@@ -5,6 +5,7 @@ import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { EnvironmentCredential, GetTokenOptions } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import Long from "long";
 import {
   OperationOptionsBase,
   ServiceBusAdministrationClient,
@@ -14,6 +15,7 @@ import {
 import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { ServiceBusSenderImpl } from "../../../src/sender";
+import { getOperationOptionsBase } from "../../../src/util/utils";
 import { getEnvVars } from "../../public/utils/envVarUtils";
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -45,10 +47,13 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
   ) {
     let getTokenIsInvoked = false;
     let verifiedOperationOptions = false;
+    let actualOptions: OperationOptionsBase = {};
 
     const preservedGetTokenMethod = (context.tokenCredential as TokenCredential).getToken;
     context.tokenCredential.getToken = async (scopes: string, options: GetTokenOptions) => {
       getTokenIsInvoked = true;
+      actualOptions = getOperationOptionsBase(options);
+
       should.equal(
         options.requestOptions?.timeout === operationOptions.requestOptions?.timeout,
         true,
@@ -76,7 +81,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       should.equal(
         verifiedOperationOptions,
         true,
-        "OperationOptions were not the same as expected"
+        `OperationOptions were not the same as expected,
+        Actual   - ${JSON.stringify(actualOptions)}
+        Expected - ${JSON.stringify(operationOptions)}\n`
       );
     }
   }
@@ -88,13 +95,21 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
       await verifyOperationOptionsAtGetToken(
         sender["_context"],
-        { requestOptions: { timeout: 369 } },
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
         async () => {
           await sender.sendMessages(
             {
               body: "message"
             },
-            { requestOptions: { timeout: 369 } }
+            {
+              requestOptions: {
+                timeout: 369
+              }
+            }
           );
         }
       );
@@ -102,19 +117,29 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
     it("RequestOptions is plumbed through sendMessages - overrides the ServiceBusClientOptions", async () => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
-        requestOptions: { timeout: 199 }
+        requestOptions: {
+          timeout: 199
+        }
       });
       const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
       sender["_context"].cbsSession.init = async () => {};
       await verifyOperationOptionsAtGetToken(
         sender["_context"],
-        { requestOptions: { timeout: 369 } },
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
         async () => {
           await sender.sendMessages(
             {
               body: "message"
             },
-            { requestOptions: { timeout: 369 } }
+            {
+              requestOptions: {
+                timeout: 369
+              }
+            }
           );
         }
       );
@@ -132,7 +157,13 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         {
           body: "message"
         },
-        { tracingOptions: { spanOptions: { parent: rootSpan.context() } } }
+        {
+          tracingOptions: {
+            spanOptions: {
+              parent: rootSpan.context()
+            }
+          }
+        }
       );
       rootSpan.end();
       const expectedGraph: SpanGraph = {
@@ -154,8 +185,14 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
                   }
                 ]
               },
-              { name: "Azure.ServiceBus.message", children: [] },
-              { name: "Azure.ServiceBus.send", children: [] }
+              {
+                name: "Azure.ServiceBus.message",
+                children: []
+              },
+              {
+                name: "Azure.ServiceBus.send",
+                children: []
+              }
             ]
           }
         ]
@@ -168,6 +205,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       );
       await sbAdminClient.deleteQueue(queueName);
     });
+    // Create Message Batch
   });
 
   describe("Receiver", () => {
@@ -177,9 +215,17 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
       await verifyOperationOptionsAtGetToken(
         receiver["_context"],
-        { requestOptions: { timeout: 369 } },
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
         async () => {
-          await receiver.receiveMessages(1, { requestOptions: { timeout: 369 } });
+          await receiver.receiveMessages(1, {
+            requestOptions: {
+              timeout: 369
+            }
+          });
         }
       );
     });
@@ -213,7 +259,10 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
                   }
                 ]
               },
-              { name: "Azure.ServiceBus.process", children: [] }
+              {
+                name: "Azure.ServiceBus.process",
+                children: []
+              }
             ]
           }
         ]
@@ -222,7 +271,11 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       const rootSpan = tracer.startSpan("root");
       const receiver = sbClient.createReceiver(queueName);
       await receiver.receiveMessages(1, {
-        tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
       });
       rootSpan.end();
 
@@ -234,19 +287,103 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       );
       await sbAdminClient.deleteQueue(queueName);
     });
+    // subscribe
+    // get message iterator
+    // settlement
   });
+
+  describe.only("ManagementClient - Non-session", () => {
+    it("RequestOptions is plumbed through scheduleMessages", async () => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
+        requestOptions: {
+          timeout: 199
+        }
+      });
+      const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
+
+      await verifyOperationOptionsAtGetToken(
+        sender["_context"],
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
+        async () => {
+          await sender.scheduleMessages(
+            {
+              body: "message"
+            },
+            new Date(),
+            {
+              requestOptions: {
+                timeout: 199
+              }
+            }
+          );
+        }
+      );
+    });
+
+    it("RequestOptions is plumbed through cancelScheduledMessages", async () => {
+      sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
+        requestOptions: {
+          timeout: 199
+        }
+      });
+      const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
+
+      await verifyOperationOptionsAtGetToken(
+        sender["_context"],
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
+        async () => {
+          await sender.cancelScheduledMessages(Long.ZERO, {
+            requestOptions: {
+              timeout: 199
+            }
+          });
+        }
+      );
+    });
+    // Backup settlement
+    // Peek
+    // receive deferred
+    // renewMessageLock
+  });
+
+  // describe("SessionReceiver", () => {
+  // acceptSession
+  // renewSessionLock
+  // setSessionState
+  // getSessionState
+  // receiveMessages
+  // Backup settlement
+  // getMessageIterator
+  // Peek
+  // receive deferred
+  // renewMessageLock
+  // });
 
   describe("ServiceBusClient", () => {
     it("RequestOptions is plumbed through sendMessages", async () => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
-        requestOptions: { timeout: 199 }
+        requestOptions: {
+          timeout: 199
+        }
       });
       const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
       sender["_context"].cbsSession.init = async () => {};
 
       await verifyOperationOptionsAtGetToken(
         sender["_context"],
-        { requestOptions: { timeout: 199 } },
+        {
+          requestOptions: {
+            timeout: 199
+          }
+        },
         async () => {
           await sender.sendMessages({
             body: "message"
@@ -254,5 +391,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         }
       );
     });
+    // onDetached - subscribe will care
   });
 });
