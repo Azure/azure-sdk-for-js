@@ -12,6 +12,7 @@
 - Added new model for messages anc ontent types : Text, Html, ParticipantAdded, ParticipantRemoved, TopicUpdated
 - Removed priority field (ChatMessage.Priority)
 - Added new model for errors (`CommunicationError`)
+- Added notifications for thread level changes.
 
 ## 1.0.0-beta.3 (2020-11-16)
 
