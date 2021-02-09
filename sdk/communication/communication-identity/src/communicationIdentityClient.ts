@@ -44,17 +44,17 @@ export class CommunicationIdentityClient {
 
   /**
    * Initializes a new instance of the CommunicationIdentity class.
-   * @param connectionString Connection string to connect to an Azure Communication Service resource.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(connectionString: string, options?: CommunicationIdentityOptions);
 
   /**
    * Initializes a new instance of the CommunicationIdentity class using an Azure KeyCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     url: string,
@@ -63,9 +63,9 @@ export class CommunicationIdentityClient {
   );
   /**
    * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
-   * @param credential TokenCredential that is used to authenticate requests to the service.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
+   * @param credential - TokenCredential that is used to authenticate requests to the service.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
     url: string,
@@ -75,9 +75,9 @@ export class CommunicationIdentityClient {
   /**
    * Creates an instance of CommunicationIdentity.
    *
-   * @param {string} url The endpoint to the service
-   * @param {KeyCredential} credential An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
-   * @param {CommunicationIdentityOptions} [options={}] Options to configure the HTTP pipeline.
+   * @param url - The endpoint to the service
+   * @param credential - An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
+   * @param options - Options to configure the HTTP pipeline.
    */
   public constructor(
     connectionStringOrUrl: string,
@@ -117,9 +117,9 @@ export class CommunicationIdentityClient {
   /**
    * Creates a scoped user token.
    *
-   * @param {CommunicationUser} user The user whose tokens are being revoked.
-   * @param {TokenScope[]} scopes Scopes to include in the token.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param user - The user whose tokens are being revoked.
+   * @param scopes - Scopes to include in the token.
+   * @param options - Additional options for the request.
    */
   public async issueToken(
     user: CommunicationUserIdentifier,
@@ -148,8 +148,8 @@ export class CommunicationIdentityClient {
   /**
    * Revokes all data and tokens created for a user.
    *
-   * @param {CommunicationUser} user The user whose tokens are being revoked.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param user - The user whose tokens are being revoked.
+   * @param options - Additional options for the request.
    */
   public async revokeTokens(
     user: CommunicationUserIdentifier,
@@ -176,7 +176,7 @@ export class CommunicationIdentityClient {
   /**
    * Creates a single user.
    *
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param options - Additional options for the request.
    */
   public async createUser(options: OperationOptions = {}): Promise<CreateUserResponse> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
@@ -200,8 +200,8 @@ export class CommunicationIdentityClient {
   /**
    * Creates a single user and a token simultaneously.
    *
-   * @param {TokenScope[]} scopes Scopes to include in the token.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param scopes - Scopes to include in the token.
+   * @param options - Additional options for the request.
    */
   public async createUserWithToken(
     scopes: TokenScope[],
@@ -235,8 +235,8 @@ export class CommunicationIdentityClient {
   /**
    * Triggers revocation event for user and deletes all its data.
    *
-   * @param {CommunicationUser} user The user being deleted.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param user - The user being deleted.
+   * @param options - Additional options for the request.
    */
   public async deleteUser(
     user: CommunicationUserIdentifier,

@@ -80,7 +80,7 @@ export type _SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch"
 /**
  * @internal
  * Translates a CommunicationIdentifier to its serialized format for sending a request.
- * @param identifier The CommunicationIdentifier to be serialized.
+ * @param identifier - The CommunicationIdentifier to be serialized.
  */
 export const _serializeCommunicationIdentifier = (
   identifier: CommunicationIdentifier
@@ -115,7 +115,7 @@ export const _serializeCommunicationIdentifier = (
 /**
  * @internal
  * Translates the serialized format of a communication identifier to CommunicationIdentifier.
- * @param serializedIdentifier The SerializedCommunicationIdentifier to be deserialized.
+ * @param serializedIdentifier - The SerializedCommunicationIdentifier to be deserialized.
  */
 export const _deserializeCommunicationIdentifier = (
   serializedIdentifier: _SerializedCommunicationIdentifier

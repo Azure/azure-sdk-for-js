@@ -19,7 +19,7 @@ export class ReservePhoneNumbersPoller extends PhoneNumberPollerBase<
   /**
    * Initializes an instance of ReservePhoneNumbersPoller
    *
-   * @param {ReservePhoneNumbersPollerOptions} options Options for initializing the poller.
+   * @param options - Options for initializing the poller.
    */
   constructor(options: ReservePhoneNumbersPollerOptions) {
     const {
