@@ -6,7 +6,7 @@
 
 - Replaced `CommunicationUser` with `CommunicationUserIdentifier`.
 - Replaced `CommunicationUserCredential` with `CommunicationTokenCredential`.
-- Removed `priority` field (ChatMessage.Priority)
+- Removed `priority` field (ChatMessage.Priority).
 
 ### Added
 
