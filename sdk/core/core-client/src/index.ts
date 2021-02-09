@@ -54,5 +54,5 @@ export {
 export {
   serializationPolicy,
   serializationPolicyName,
-  serializationPolicyOptions
+  SerializationPolicyOptions
 } from "./serializationPolicy";

@@ -26,7 +26,7 @@ import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
 import { URL } from "./url";
-import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
+import { serializationPolicy, SerializationPolicyOptions } from "./serializationPolicy";
 import { getCachedDefaultHttpsClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 
@@ -124,7 +124,7 @@ export class ServiceClient {
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @typeParam T The typed result of the request, based on the OperationSpec.
+   * @typeParam T - The typed result of the request, based on the OperationSpec.
    * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
    * @param operationSpec - The OperationSpec to use to populate the httpRequest.
    */
@@ -261,7 +261,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize serializationPolicy.
    */
-  serializationOptions?: serializationPolicyOptions;
+  serializationOptions?: SerializationPolicyOptions;
 }
 
 /**

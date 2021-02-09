@@ -42,7 +42,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
         credential: TokenCredential;
     };
     deserializationOptions?: DeserializationPolicyOptions;
-    serializationOptions?: serializationPolicyOptions;
+    serializationOptions?: SerializationPolicyOptions;
 }
 
 // @public (undocumented)
@@ -309,13 +309,13 @@ export interface SequenceMapperType {
 }
 
 // @public
-export function serializationPolicy(options?: serializationPolicyOptions): PipelinePolicy;
+export function serializationPolicy(options?: SerializationPolicyOptions): PipelinePolicy;
 
 // @public
 export const serializationPolicyName = "serializationPolicy";
 
 // @public
-export interface serializationPolicyOptions {
+export interface SerializationPolicyOptions {
     serializerOptions?: SerializerOptions;
     stringifyXML?: (obj: any, opts?: XmlOptions) => string;
 }

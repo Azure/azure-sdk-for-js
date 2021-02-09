@@ -182,11 +182,11 @@ class HttpsPipeline implements Pipeline {
 
     const pipeline = policies.reduceRight<SendRequest>(
       (next, policy) => {
-        return (request: PipelineRequest) => {
-          return policy.sendRequest(request, next);
+        return (req: PipelineRequest) => {
+          return policy.sendRequest(req, next);
         };
       },
-      (request: PipelineRequest) => httpsClient.sendRequest(request)
+      (req: PipelineRequest) => httpsClient.sendRequest(req)
     );
 
     return pipeline(request);
@@ -346,7 +346,7 @@ class HttpsPipeline implements Pipeline {
       }
     }
 
-    function walkPhases() {
+    function walkPhases(): void {
       let noPhaseRan = false;
 
       for (const phase of orderedPhases) {
