@@ -2,53 +2,25 @@
 // Licensed under the MIT license.
 
 import { KeyCredential } from "@azure/core-auth";
-import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  BaseRequestPolicy,
-  WebResourceLike,
-  HttpOperationResponse,
-  RequestPolicyOptionsLike
-} from "@azure/core-http";
+import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "@azure/core-https";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
+
+/**
+ * The programmatic identifier of the textAnalyticsAzureKeyCredentialPolicy.
+ */
+export const textAnalyticsAzureKeyCredentialPolicyName = "textAnalyticsAzureKeyCredentialPolicy";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for Text Analytics
  */
-export function createTextAnalyticsAzureKeyCredentialPolicy(
-  credential: KeyCredential
-): RequestPolicyFactory {
+export function textAnalyticsAzureKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike) => {
-      return new TextAnalyticsAzureKeyCredentialPolicy(nextPolicy, options, credential);
+    name: textAnalyticsAzureKeyCredentialPolicyName,
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      request.headers.set(API_KEY_HEADER_NAME, credential.key);
+      return next(request);
     }
   };
-}
-
-/**
- * A concrete implementation of an AzureKeyCredential policy
- * using the appropriate header for TextAnalytics
- */
-class TextAnalyticsAzureKeyCredentialPolicy extends BaseRequestPolicy {
-  private credential: KeyCredential;
-
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike,
-    credential: KeyCredential
-  ) {
-    super(nextPolicy, options);
-    this.credential = credential;
-  }
-
-  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!webResource) {
-      throw new Error("webResource cannot be null or undefined");
-    }
-
-    webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
-    return this._nextPolicy.sendRequest(webResource);
-  }
 }

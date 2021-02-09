@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, OperationOptions } from "@azure/core-http";
+import { delay } from "@azure/core-https";
+import { OperationOptions } from "@azure/core-client";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { GeneratedClient } from "../generated/generatedClient";
 import { State, TextDocumentInput } from "../generated/models";

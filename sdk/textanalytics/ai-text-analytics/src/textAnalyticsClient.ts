@@ -5,11 +5,9 @@ import {
   PipelineOptions,
   createPipelineFromOptions,
   InternalPipelineOptions,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-https";
+import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
@@ -46,7 +44,7 @@ import {
 } from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
   AddParamsToTask,
   addStrEncodingParam,
@@ -317,22 +315,23 @@ export class TextAnalyticsClient {
     }
 
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
-      : createTextAnalyticsAzureKeyCredentialPolicy(credential);
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : textAnalyticsAzureKeyCredentialPolicy(credential);
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
+          additionalAllowedHeaderNames: ["x-ms-correlation-request-id", "x-ms-request-id"]
         }
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    const pipeline = createPipelineFromOptions(internalPipelineOptions);
+    pipeline.addPolicy(authPolicy);
 
-    this.client = new GeneratedClient(this.endpointUrl, pipeline);
+    this.client = new GeneratedClient(this.endpointUrl, { pipeline });
   }
 
   /**
@@ -404,7 +403,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        finalOptions
       );
 
       return makeDetectLanguageResultArray(
@@ -495,7 +494,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        addStrEncodingParam(finalOptions)
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(
@@ -590,7 +589,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
+        setStrEncodingParam(finalOptions)
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -666,7 +665,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        finalOptions
       );
 
       return makeExtractKeyPhrasesResultArray(
@@ -750,7 +749,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(setStrEncodingParam(finalOptions))
+        setStrEncodingParam(finalOptions)
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
@@ -828,7 +827,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+        addStrEncodingParam(finalOptions)
       );
 
       return makeRecognizeLinkedEntitiesResultArray(

@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   AnalyzeBatchInput as AnalyzeBatchInputMapper,
   MultiLanguageBatchInput as MultiLanguageBatchInputMapper,

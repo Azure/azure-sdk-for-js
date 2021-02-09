@@ -81,6 +81,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.1.3",
     "@azure/core-client": "1.0.0-beta.1",

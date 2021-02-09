@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-https";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAnalyzeBatchActionsResult } from "../../analyzeBatchActionsResult";
 import { JobManifestTasks as GeneratedActions } from "../../generated/models";

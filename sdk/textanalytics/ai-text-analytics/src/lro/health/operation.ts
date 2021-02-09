@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AbortSignalLike,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationOptions } from "@azure/core-client";
 
 import {
   GeneratedClientHealthResponse as BeginAnalyzeHealthcareResponse,
@@ -184,10 +181,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       options || {}
     );
     try {
-      const response = await this.client.healthStatus(
-        operationId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.healthStatus(operationId, finalOptions);
       if (response.results) {
         const result = processAndCombineSuccessfulAndErroneousDocuments(
           this.documents,
@@ -224,10 +218,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       options || {}
     );
     try {
-      const response = await this.client.healthStatus(
-        operationId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.healthStatus(operationId, finalOptions);
       switch (response.status) {
         case "succeeded": {
           if (response.results) {
@@ -282,10 +273,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     );
 
     try {
-      return await this.client.health(
-        { documents: documents },
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      return await this.client.health({ documents: documents }, finalOptions);
     } catch (e) {
       const exception = handleInvalidDocumentBatch(e);
       span.setStatus({

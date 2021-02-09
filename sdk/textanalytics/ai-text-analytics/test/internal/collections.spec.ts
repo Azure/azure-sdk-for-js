@@ -62,7 +62,6 @@ describe("SentimentResultArray", () => {
           }
         }
       ],
-      _response: {} as any,
       modelVersion: ""
     });
 
