@@ -14,7 +14,7 @@ export class TriggerRun {
 
   /**
    * Initialize a new instance of the class TriggerRun class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -22,9 +22,9 @@ export class TriggerRun {
 
   /**
    * Rerun single trigger instance by runId.
-   * @param triggerName The trigger name.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   async rerunTriggerInstance(
     triggerName: string,
@@ -59,9 +59,9 @@ export class TriggerRun {
 
   /**
    * Cancel single trigger instance by runId.
-   * @param triggerName The trigger name.
-   * @param runId The pipeline run identifier.
-   * @param options The options parameters.
+   * @param triggerName - The trigger name.
+   * @param runId - The pipeline run identifier.
+   * @param options - The options parameters.
    */
   async cancelTriggerInstance(
     triggerName: string,
@@ -96,8 +96,8 @@ export class TriggerRun {
 
   /**
    * Query trigger runs.
-   * @param filterParameters Parameters to filter the pipeline run.
-   * @param options The options parameters.
+   * @param filterParameters - Parameters to filter the pipeline run.
+   * @param options - The options parameters.
    */
   async queryTriggerRunsByWorkspace(
     filterParameters: RunFilterParameters,
