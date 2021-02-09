@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { UserDelegationKey } from "@azure/storage-blob";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";

@@ -238,8 +238,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(queueEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(queueEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {

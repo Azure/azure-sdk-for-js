@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // import { DataLakeFileClient } from "../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -175,7 +178,7 @@ describe("Special Naming Tests", () => {
       await fileSystemClient
         .listPaths({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-          //.replace(/\\/g, "/")
+          // .replace(/\\/g, "/")
         })
         .byPage()
         .next()

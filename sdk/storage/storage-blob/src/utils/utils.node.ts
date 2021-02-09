@@ -78,7 +78,7 @@ export async function streamToBuffer2(
   encoding?: string
 ): Promise<number> {
   let pos = 0; // Position in stream
-  let bufferSize = buffer.length;
+  const bufferSize = buffer.length;
 
   return new Promise<number>((resolve, reject) => {
     stream.on("readable", () => {

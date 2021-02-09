@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as assert from "assert";
 import { AvroReader, AvroReadableFromStream } from "../../src";
@@ -65,7 +68,7 @@ describe("AvroReader", () => {
 
   it("aborter", async () => {
     const delayedReadable = new Readable({ read() {} });
-    let rfs = new AvroReadableFromStream(delayedReadable);
+    const rfs = new AvroReadableFromStream(delayedReadable);
     const avroReader = new AvroReader(rfs);
 
     const timeoutSignal = AbortController.timeout(1);

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "../../src";
 import { MockPolicy } from "./MockPolicy";
 

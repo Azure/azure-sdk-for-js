@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure/test-utils-recorder";
 import { randomBytes } from "crypto";
@@ -154,7 +157,7 @@ export function getDataLakeServiceClientWithDefaultCredential(
   accountNameSuffix: string = ""
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
-  let accountName = process.env[accountNameEnvVar];
+  const accountName = process.env[accountNameEnvVar];
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
