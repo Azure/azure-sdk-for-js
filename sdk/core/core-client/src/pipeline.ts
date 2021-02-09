@@ -9,7 +9,7 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-https";
 import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
-import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
+import { serializationPolicy, SerializationPolicyOptions } from "./serializationPolicy";
 
 /**
  * Options for creating a Pipeline to use with ServiceClient.
@@ -28,7 +28,7 @@ export interface ClientPipelineOptions extends InternalPipelineOptions {
   /**
    * Options to customize serializationPolicy.
    */
-  serializationOptions?: serializationPolicyOptions;
+  serializationOptions?: SerializationPolicyOptions;
 }
 
 /**
