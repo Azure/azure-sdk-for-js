@@ -252,7 +252,7 @@ directive:
 
 ### Remove x-ms-pageable
 
-Currently breaking the latest version of autorest.python
+Currently breaking the latest version of autorest.typescript
 
 ```yaml
 directive:
