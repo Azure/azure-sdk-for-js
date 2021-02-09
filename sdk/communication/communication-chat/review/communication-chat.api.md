@@ -92,7 +92,7 @@ export interface ChatMessageContent extends Omit<RestChatMessageContent, "partic
 
 // @public
 export interface ChatMessageReadReceipt extends Omit<RestChatMessageReadReceipt, "senderId"> {
-    readonly sender?: CommunicationUserIdentifier;
+    readonly sender: CommunicationUserIdentifier;
 }
 
 // @public
