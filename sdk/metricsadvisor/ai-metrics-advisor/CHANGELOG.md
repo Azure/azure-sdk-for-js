@@ -5,11 +5,11 @@
 - Added AAD authentication support
 - Added support for API key and Subscription key rotation
 - Added a map property in DataFeed object for mapping of metric name to metric id
-- [Breaking] Extra GET calls removed from all `Update` methods, as a result the methods now return just RestResponse instead of entire objects:
-  - `updateAlertConfig`
-  - `updateDatafeed`
-  - `updateHook`
-  - `updateDetectionConfig`
+- [Breaking] All update methods now return just RestResponse instead of entire objects:
+    - `updateAlertConfig()` now returns `RestResponse` instead of `GetAnomalyAlertConfigurationResponse`
+    - `updateDatafeed` now returns `RestResponse` instead of `GetDatafeedResponse`
+    - `updateHook` now returns `RestResponse` instead of `GetHookResponse`
+    - `updateDetectionConfig` now returns `RestResponse` instead of `GetAnomalyDetectionConfigurationResponse`
 - [Breaking] Rename function `listDimensionValuesForDetectionConfig()` to `listAnomalyDimensionValues()`
 
 ## 1.0.0-beta.2 (2020-11-10)
