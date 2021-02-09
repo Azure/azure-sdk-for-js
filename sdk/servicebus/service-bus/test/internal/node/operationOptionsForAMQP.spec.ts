@@ -207,7 +207,27 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       );
       await sbAdminClient.deleteQueue(queueName);
     });
-    // Create Message Batch
+
+    it("RequestOptions is plumbed through createMessageBatch", async () => {
+      const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
+      sender["_context"].cbsSession.init = async () => {};
+
+      await verifyOperationOptionsAtGetToken(
+        sender["_context"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await sender.createMessageBatch({
+            requestOptions: {
+              timeout: 369
+            }
+          });
+        }
+      );
+    });
   });
 
   describe("Receiver", () => {
@@ -294,7 +314,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     // settlement
   });
 
-  describe.only("ManagementClient - Non-session", () => {
+  describe("ManagementClient - Non-session", () => {
     it("RequestOptions is plumbed through scheduleMessages", async () => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
       const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
