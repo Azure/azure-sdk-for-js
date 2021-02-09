@@ -40,8 +40,10 @@ export function isValidUuid(uuid: string): boolean {
 /**
  * Take a `FullOperationResponse` and turn it into a flat
  * response object to hand back to the consumer.
- * @param fullResponse The processed response from the operation request
- * @param responseSpec The response map from the OperationSpec
+ * @param fullResponse - The processed response from the operation request
+ * @param responseSpec - The response map from the OperationSpec
+ *
+ * @internal
  */
 export function flattenResponse(
   fullResponse: FullOperationResponse,
