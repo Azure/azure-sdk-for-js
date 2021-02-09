@@ -63,7 +63,7 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting({ key });
     });
 
-    async function compare(expected: { key: string; value: string; label?: string }) {
+    async function compare(expected: { key: string; value: string; label?: string }): void {
       const actualSettings = await client.getConfigurationSetting(expected);
 
       assert.equal(expected.key, actualSettings.key);
