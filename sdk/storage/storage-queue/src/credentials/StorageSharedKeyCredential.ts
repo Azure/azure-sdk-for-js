@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { createHmac } from "crypto";
 import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";

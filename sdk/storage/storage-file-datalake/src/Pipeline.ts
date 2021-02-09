@@ -39,8 +39,8 @@ import {
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
