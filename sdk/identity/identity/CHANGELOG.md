@@ -4,7 +4,7 @@
 
 - Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`.
 - The 'keytar' dependency has been updated to the latest version.
-- Now this library won't be overriding the global Axios defaults. This has been possible both through an update of the library and an update of the `@azure/msal-node` dependency. Fixes issue [13343](https://github.com/Azure/azure-sdk-for-js/issues/13343).
+- No longer overrides global Axios defaults. This includes an update in `@azure/identity`'s source, and an update of the `@azure/msal-node` dependency. Fixes issue [13343](https://github.com/Azure/azure-sdk-for-js/issues/13343).
 
 ## 1.2.2 (2021-01-12)
 
