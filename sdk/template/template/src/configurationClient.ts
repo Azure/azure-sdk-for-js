@@ -9,7 +9,7 @@ import {
   createPipelineFromOptions,
   InternalPipelineOptions
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -172,7 +172,7 @@ export class ConfigurationClient {
     } catch (e) {
       // There are different standard codes available for different errors:
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: StatusCode.ERROR, message: e.message });
 
       throw e;
     } finally {
