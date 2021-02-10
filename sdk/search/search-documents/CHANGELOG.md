@@ -1,5 +1,18 @@
 # Release History
 
+## 11.1.0 (2021-02-11)
+
+### Changes since 11.0.3
+
+- Added Batching ability to the search SDK. The `SearchIndexingBufferedSender` class enables the user to perform indexing documents in batch mode. There are several user configurable properties such as `autoFlush`, `flushWindowInMs`, `throttlingDelayInMs`, etc.
+- The types `BlobIndexerDataToExtract`, `BlobIndexerImageAction`, `BlobIndexerParsingMode`, `BlobIndexerPDFTextRotationAlgorithm` have changed from union of string literals to string. This is to support the service definition for these types to be extensible enums. The documentation on methods that use these have been updated with known values that can be used for these types.
+
+### Changes since 11.1.0-beta.2
+
+- The `@azure/search-documents` has been moved to V6 SDK Generator. The following types `BlobIndexerDataToExtract`, `BlobIndexerImageAction`, `BlobIndexerParsingMode`, `BlobIndexerPDFTextRotationAlgorithm` has been changed to `string`. Please refer [#12829](https://github.com/Azure/azure-sdk-for-js/pull/12829) for further details.
+- [Breaking] The `SearchIndexingBufferedSender` interface has been removed. Please refer [#13405](https://github.com/Azure/azure-sdk-for-js/pull/13405) for further details.
+- Modified logic to handle payload high in the `SearchIndexingBufferedSender`. Please refer [#13478](https://github.com/Azure/azure-sdk-for-js/pull/13478) for further details.
+
 ## 11.1.0-beta.2 (2020-11-10)
 
 - [Breaking] Hidden the constructor of `SearchIndexingBufferedSender` and made it to an interface. Please refer [#11785](https://github.com/Azure/azure-sdk-for-js/pull/11785) for further details.
