@@ -262,7 +262,7 @@ directive:
       if ($["x-ms-pageable"]) { delete $["x-ms-pageable"]; }
 ```
 
-### Rename AccessPolicy start -> startsOn
+### Change format of Start and Expiry to string in AccessPolicy
 
 ```yaml
 directive:

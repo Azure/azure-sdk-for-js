@@ -23,10 +23,6 @@ export class StorageClientContext extends coreHttp.ServiceClient {
    * @param options The parameter options
    */
   constructor(url: string, options?: StorageClientOptionalParams) {
-    if (url === undefined) {
-      throw new Error("'url' cannot be null");
-    }
-
     // Initializing default values for options
     if (!options) {
       options = {};
