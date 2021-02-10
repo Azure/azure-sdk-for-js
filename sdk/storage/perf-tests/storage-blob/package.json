@@ -6,16 +6,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "@azure/core-http": "^1.2.0",
+    "@azure/core-https": "1.0.0-beta.1",
     "@azure/storage-blob": "^12.5.0-beta.1",
     "@azure/test-utils-perfstress": "^1.0.0",
     "@types/uuid": "^8.0.0",
+    "@types/dotenv": "8.2.0",
+    "@types/node-fetch": "^2.5.0",
+    "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.0",
     "uuid": "^8.3.0"
   },
   "private": true,
   "scripts": {
-    "perfstress-test:node": "ts-node index.spec.ts",
+    "perf-test:node": "ts-node index.spec.ts",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p .",
     "build:samples": "echo skipped",
