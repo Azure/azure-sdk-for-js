@@ -18,7 +18,7 @@ export const textAnalyticsAzureKeyCredentialPolicyName = "textAnalyticsAzureKeyC
 export function textAnalyticsAzureKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy {
   return {
     name: textAnalyticsAzureKeyCredentialPolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.headers.set(API_KEY_HEADER_NAME, credential.key);
       return next(request);
     }

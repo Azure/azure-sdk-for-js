@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createClientPipeline } from "@azure/core-client";
 import {
   PipelineOptions,
-  createPipelineFromOptions,
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy
 } from "@azure/core-https";
@@ -328,7 +328,7 @@ export class TextAnalyticsClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions);
+    const pipeline = createClientPipeline(internalPipelineOptions);
     pipeline.addPolicy(authPolicy);
 
     this.client = new GeneratedClient(this.endpointUrl, { pipeline });
