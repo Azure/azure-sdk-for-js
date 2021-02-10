@@ -4,7 +4,7 @@
 import { generateUuid } from "@azure/core-http";
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { BlobServiceClient, ContainerClient, StorageSharedKeyCredential } from "../../../src";
-import { getValueInConnString } from "../../../src/utils/utils.common";
+import { getValueInConnString } from "@azure/storage-blob";
 
 // Expects the .env file at the same level as the "test" folder
 import * as dotenv from "dotenv";
