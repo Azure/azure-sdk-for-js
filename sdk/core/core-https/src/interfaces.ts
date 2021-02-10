@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions } from "@azure/core-tracing";
+import { Context, SpanOptions } from "@azure/core-tracing";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
 declare global {
@@ -10,9 +10,9 @@ declare global {
    * Stub declaration of the browser-only Blob type.
    * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
    */
-  interface Blob {}
+  interface Blob { }
 
-  interface File extends Blob {}
+  interface File extends Blob { }
 
   /** Provides a way to easily construct a set of key/value pairs representing form fields and their values, which can then be easily sent using the XMLHttpRequest.send() method. It uses the same format a form would use if the encoding type were set to "multipart/form-data". */
   interface FormData {
@@ -152,6 +152,11 @@ export interface PipelineRequest {
    * Options used to create a span when tracing is enabled.
    */
   spanOptions?: SpanOptions;
+
+  /**
+   * Context to be used as a parent for any Spans created for this request.
+   */
+  context?: Context;
 
   /**
    * Callback which fires upon upload progress.

@@ -9,7 +9,13 @@ import {
   HttpHeaders,
   RequestPolicyOptions
 } from "../../src/coreHttp";
-import { setSpan, SpanOptions, SpanContext, TraceFlags, context as otContext } from "@opentelemetry/api";
+import {
+  setSpan,
+  SpanOptions,
+  SpanContext,
+  TraceFlags,
+  context as otContext
+} from "@opentelemetry/api";
 import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
@@ -94,7 +100,7 @@ class MockTracer extends NoOpTracer {
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 const ROOT_CONTEXT = setSpan(otContext.active(), ROOT_SPAN);
 
-describe("tracingPolicy", function () {
+describe("tracingPolicy", function() {
   const TRACE_VERSION = "00";
 
   const mockPolicy: RequestPolicy = {

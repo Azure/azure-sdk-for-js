@@ -37,7 +37,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.spanOptions || !request.spanOptions.parent) {
+      if (!request.spanOptions || !request.context) {
         return next(request);
       }
 
@@ -49,7 +49,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
       };
       const url = new URL(request.url);
       const path = url.pathname || "/";
-      const span = tracer.startSpan(path, spanOptions);
+      const span = tracer.startSpan(path, spanOptions, request.context);
       span.setAttributes({
         "http.method": request.method,
         "http.url": request.url,

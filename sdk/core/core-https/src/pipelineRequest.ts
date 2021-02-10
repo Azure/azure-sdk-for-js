@@ -13,7 +13,7 @@ import {
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { generateUuid } from "./util/uuid";
-import { SpanOptions } from "@azure/core-tracing";
+import { Context, SpanOptions } from "@azure/core-tracing";
 
 /**
  * Settings to initialize a request.
@@ -89,6 +89,11 @@ export interface PipelineRequestOptions {
   spanOptions?: SpanOptions;
 
   /**
+   * Context to be used as a parent for any Spans created for this request.
+   */
+  context?: Context;
+
+  /**
    * Callback which fires upon upload progress.
    */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -111,6 +116,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public abortSignal?: AbortSignalLike;
   public requestId: string;
   public spanOptions?: SpanOptions;
+  public context?: Context;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
@@ -127,6 +133,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
     this.spanOptions = options.spanOptions;
+    this.context = options.context;
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();

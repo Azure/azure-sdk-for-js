@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
@@ -157,6 +158,7 @@ export interface PipelinePolicy {
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     body?: RequestBodyType;
+    context?: Context;
     formData?: FormDataMap;
     headers: HttpHeaders;
     keepAlive?: boolean;
@@ -176,6 +178,7 @@ export interface PipelineRequest {
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
     body?: RequestBodyType;
+    context?: Context;
     formData?: FormDataMap;
     headers?: HttpHeaders;
     keepAlive?: boolean;
