@@ -26,7 +26,7 @@ export interface UserAgentPolicyOptions {
 /**
  * A policy that sets the User-Agent header (or equivalent) to reflect
  * the library version.
- * @param options Options to customize the user agent value.
+ * @param options - Options to customize the user agent value.
  */
 export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelinePolicy {
   const userAgentValue = getUserAgentValue(options.userAgentPrefix);

@@ -7,7 +7,7 @@
 import * as coreHttp from '@azure/core-http';
 
 // @public
-export const enum KnownPluginCurrentState {
+export enum KnownPluginCurrentState {
     // (undocumented)
     Cleanup = "Cleanup",
     // (undocumented)
@@ -25,7 +25,7 @@ export const enum KnownPluginCurrentState {
 }
 
 // @public
-export const enum KnownSchedulerCurrentState {
+export enum KnownSchedulerCurrentState {
     // (undocumented)
     Ended = "Ended",
     // (undocumented)
@@ -35,7 +35,7 @@ export const enum KnownSchedulerCurrentState {
 }
 
 // @public
-export const enum KnownSparkBatchJobResultType {
+export enum KnownSparkBatchJobResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -47,7 +47,7 @@ export const enum KnownSparkBatchJobResultType {
 }
 
 // @public
-export const enum KnownSparkErrorSource {
+export enum KnownSparkErrorSource {
     // (undocumented)
     Dependency = "Dependency",
     // (undocumented)
@@ -59,7 +59,7 @@ export const enum KnownSparkErrorSource {
 }
 
 // @public
-export const enum KnownSparkJobType {
+export enum KnownSparkJobType {
     // (undocumented)
     SparkBatch = "SparkBatch",
     // (undocumented)
@@ -67,7 +67,7 @@ export const enum KnownSparkJobType {
 }
 
 // @public
-export const enum KnownSparkSessionResultType {
+export enum KnownSparkSessionResultType {
     // (undocumented)
     Cancelled = "Cancelled",
     // (undocumented)
@@ -79,7 +79,7 @@ export const enum KnownSparkSessionResultType {
 }
 
 // @public
-export const enum KnownSparkStatementLanguageType {
+export enum KnownSparkStatementLanguageType {
     // (undocumented)
     DotNetSpark = "dotnetspark",
     // (undocumented)

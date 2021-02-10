@@ -1,16 +1,19 @@
 # Release History
 
-## 5.4.0 (Unreleased)
+## 5.4.1 (Unreleased)
 
-- A helper method `parseEventHubConnectionString` has been added which validates and
-  parses a given connection string for Azure Event Hubs.
-  Resolves [#11894](https://github.com/Azure/azure-sdk-for-js/issues/11894)
+
+## 5.4.0 (2021-02-09)
 
 - Adds the `customEndpointAddress` field to `EventHubClientOptions`.
   This allows for specifying a custom endpoint to use when communicating
   with the Event Hubs service, which is useful when your network does not
   allow communicating to the standard Event Hubs endpoint.
   Resolves [#12901](https://github.com/Azure/azure-sdk-for-js/issues/12901).
+
+- A helper method `parseEventHubConnectionString` has been added which validates and
+  parses a given connection string for Azure Event Hubs.
+  Resolves [#11894](https://github.com/Azure/azure-sdk-for-js/issues/11894)
 
 - Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
   in `EventHubConsumerClientOptions` or `EventHubClientOptions`.

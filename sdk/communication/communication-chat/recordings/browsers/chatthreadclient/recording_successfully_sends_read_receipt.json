@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3A18dfab168a9245feb44837c918781d14%40thread.v2/readReceipts",
+   "query": {
+    "api-version": "2020-11-01-preview3"
+   },
+   "requestBody": "{\"chatMessageId\":\"1612470112922\"}",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3a4bac5fb39e45e34ff2ca210089c5ca"
+}

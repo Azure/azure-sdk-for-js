@@ -89,7 +89,18 @@ export {
 export {
   PagedAnalyzeBatchActionsResult,
   PagedAsyncIterableAnalyzeBatchActionsResult,
-  AnalyzeBatchActionsResult
+  AnalyzeBatchActionsResult,
+  RecognizeCategorizedEntitiesActionResult,
+  RecognizePiiEntitiesActionResult,
+  ExtractKeyPhrasesActionResult,
+  TextAnalyticsActionSuccessState,
+  TextAnalyticsActionErrorResult,
+  RecognizeCategorizedEntitiesActionErrorResult,
+  RecognizeCategorizedEntitiesActionSuccessResult,
+  RecognizePiiEntitiesActionErrorResult,
+  RecognizePiiEntitiesActionSuccessResult,
+  ExtractKeyPhrasesActionErrorResult,
+  ExtractKeyPhrasesActionSuccessResult
 } from "./analyzeBatchActionsResult";
 export {
   TextAnalyticsResult,

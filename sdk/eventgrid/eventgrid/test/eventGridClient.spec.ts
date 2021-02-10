@@ -20,7 +20,6 @@ import { FullOperationResponse } from "@azure/core-client";
 
 describe("EventGridPublisherClient", function() {
   let recorder: Recorder;
-  let client: EventGridPublisherClient;
   let res: FullOperationResponse | undefined;
 
   this.timeout(10000);
@@ -29,11 +28,14 @@ describe("EventGridPublisherClient", function() {
     res = undefined;
   });
 
-  describe("#sendEvents", function() {
+  describe("#send (EventGrid schema)", function() {
+    let client: EventGridPublisherClient<"EventGrid">;
+
     beforeEach(function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
+        "EventGrid",
         new AzureKeyCredential(testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY)
       ));
     });
@@ -43,7 +45,7 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends a single event", async () => {
-      await client.sendEvents(
+      await client.send(
         [
           {
             eventTime: recorder.newDate("singleEventDate"),
@@ -63,7 +65,7 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends multiple events", async () => {
-      await client.sendEvents(
+      await client.send(
         [
           {
             eventTime: recorder.newDate("multiEventDate1"),
@@ -93,11 +95,14 @@ describe("EventGridPublisherClient", function() {
     });
   });
 
-  describe("#sendCloudEventSchemaEvents", function() {
+  describe("#send (CloudEvent schema)", function() {
+    let client: EventGridPublisherClient<"CloudEvent">;
+
     beforeEach(function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
+        "CloudEvent",
         new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
       ));
     });
@@ -107,7 +112,7 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends a single event", async () => {
-      await client.sendCloudEvents(
+      await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
@@ -126,7 +131,7 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends multiple events", async () => {
-      await client.sendCloudEvents(
+      await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
@@ -160,7 +165,7 @@ describe("EventGridPublisherClient", function() {
       setTracer(tracer);
       const rootSpan = tracer.startSpan("root");
 
-      await client.sendCloudEvents(
+      await client.send(
         [
           {
             type: "Azure.Sdk.TestEvent1",
@@ -194,16 +199,19 @@ describe("EventGridPublisherClient", function() {
 
       assert.equal(spans.length, 3);
       assert.equal(spans[0].name, "root");
-      assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-sendCloudEvents");
+      assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-send");
       assert.equal(spans[2].name, "/api/events");
     });
   });
 
-  describe("#sendCustomSchemaEvents", function() {
+  describe("#send (Custom Event Schema)", function() {
+    let client: EventGridPublisherClient<"Custom">;
+
     beforeEach(function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
+        "Custom",
         new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
       ));
     });
@@ -213,7 +221,7 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends a single event", async () => {
-      await client.sendCustomSchemaEvents(
+      await client.send(
         [
           {
             ver: "1.0",
@@ -231,7 +239,7 @@ describe("EventGridPublisherClient", function() {
     });
 
     it("sends multiple events", async () => {
-      await client.sendCustomSchemaEvents(
+      await client.send(
         [
           {
             ver: "1.0",

@@ -148,7 +148,9 @@ describe("ConnectionContextBase", function() {
   });
 
   it("should allow setting host and hostname to different values when using websockets", function() {
-    const websockets: any = () => {};
+    const websockets: any = () => {
+      /** Empty function on purpose for the sake of mocking */
+    };
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -181,7 +183,9 @@ describe("ConnectionContextBase", function() {
   });
 
   it("should have a default port when using websockets (443)", function() {
-    const websockets: any = () => {};
+    const websockets: any = () => {
+      /** Empty function on purpose for the sake of mocking */
+    };
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -212,7 +216,9 @@ describe("ConnectionContextBase", function() {
   });
 
   it("should allow specifying a port when using websockets", function() {
-    const websockets: any = () => {};
+    const websockets: any = () => {
+      /** Empty function on purpose for the sake of mocking */
+    };
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";

@@ -7,10 +7,14 @@ import path from "path";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject";
+import { SampleConfiguration } from "../../util/shouldSkip";
 
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
+
+const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
 
 export const commandInfo = makeCommandInfo(
   "run",
@@ -49,26 +53,38 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
 
 export default leafCommand(commandInfo, async (options) => {
   if (options.args.length === 0) {
-    throw new Error("At least one argument is required for run-samples");
+    log.error("at least one argument is required");
+    return false;
   }
 
-  const samples = options.args.map((dir) => path.resolve(dir));
+  const { packageJson, path: packageLocation } = await resolveProject(process.cwd());
 
-  // Patch the environment for the sample helper
-  process.env.BATCH_RUN_SAMPLES = "true";
+  log.debug("Resolving samples metadata to:", packageLocation);
+
+  const sampleConfiguration = packageJson[SAMPLE_CONFIGURATION_KEY] as
+    | SampleConfiguration
+    | undefined;
+
+  const skips = sampleConfiguration?.skip ?? [];
+
+  log.debug("Skipping the following samples:", skips);
+
+  const samples = options.args.map((dir) => path.resolve(dir));
 
   const errors: Array<[string, string]> = [];
 
   for (const sample of samples) {
     const stats = await fs.stat(sample);
     if (stats.isFile()) {
+      // We don't consider the skips if the file was _explicitly_ asked for
       runSingle(sample, errors);
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,
         (name, entry) => entry.isFile() && name.endsWith(".js"),
         {
-          ignore: IGNORE
+          ignore: IGNORE,
+          skips
         }
       )) {
         await runSingle(fileName, errors);

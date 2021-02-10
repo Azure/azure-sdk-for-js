@@ -40,7 +40,7 @@ export interface LogPolicyOptions {
 
 /**
  * A policy that logs all requests and responses.
- * @param options Options to configure logPolicy.
+ * @param options - Options to configure logPolicy.
  */
 export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
   const logger = options.logger ?? coreLogger.info;

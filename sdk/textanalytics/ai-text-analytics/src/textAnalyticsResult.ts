@@ -129,7 +129,7 @@ export interface TextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
  * Helper function for converting nested service error into
  * the unified TextAnalyticsError
  */
-function intoTextAnalyticsError(
+export function intoTextAnalyticsError(
   errorModel: GeneratedTextAnalyticsErrorModel | InnerError
 ): TextAnalyticsError {
   // Return the deepest error. This will always be at most

@@ -189,7 +189,7 @@ export interface ProviderStatusList {
 
 // @public (undocumented)
 export class QuantumJobClient extends QuantumJobClientContext {
-    constructor(subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -204,7 +204,7 @@ export class QuantumJobClient extends QuantumJobClientContext {
 export class QuantumJobClientContext extends coreHttp.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
     // (undocumented)
     resourceGroupName: string;
     // (undocumented)

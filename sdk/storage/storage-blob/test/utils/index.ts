@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -105,7 +108,7 @@ export function getTokenBSUWithDefaultCredential(
   accountNameSuffix: string = ""
 ): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
-  let accountName = process.env[accountNameEnvVar];
+  const accountName = process.env[accountNameEnvVar];
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
@@ -239,8 +242,8 @@ export async function createRandomLocalFileWithTotalSize(
   if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
     blockSize = 1024 * 1024;
   }
-  let blockNumber = Math.ceil(totalSize / blockSize);
-  let lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
+  const blockNumber = Math.ceil(totalSize / blockSize);
+  const lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
   return createRandomLocalFile(folder, blockNumber, blockSize, lastBlockSize);
 }
 

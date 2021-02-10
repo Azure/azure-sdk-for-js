@@ -188,7 +188,6 @@ export {
   AnalyzeResult,
   AnalyzedTokenInfo,
   ConditionalSkill,
-  CustomEntityLookupSkill,
   KeyPhraseExtractionSkill,
   OcrSkill,
   ImageAnalysisSkill,
@@ -269,10 +268,6 @@ export {
   DataChangeDetectionPolicy as BaseDataChangeDetectionPolicy,
   LexicalAnalyzer as BaseLexicalAnalyzer,
   CharFilter as BaseCharFilter,
-  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy,
-  CustomEntityLookupSkillLanguage,
-  KnownCustomEntityLookupSkillLanguage,
-  CustomEntity,
-  CustomEntityAlias
+  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

@@ -79,11 +79,6 @@ export interface PipelineRequestOptions {
   keepAlive?: boolean;
 
   /**
-   * Disable automatic decompression based on Accept-Encoding header (Node only)
-   */
-  skipDecompressResponse?: boolean;
-
-  /**
    * Used to abort the request later.
    */
   abortSignal?: AbortSignalLike;
@@ -113,7 +108,6 @@ class PipelineRequestImpl implements PipelineRequest {
   public streamResponseStatusCodes?: Set<number>;
   public proxySettings?: ProxySettings;
   public keepAlive: boolean;
-  public skipDecompressResponse: boolean;
   public abortSignal?: AbortSignalLike;
   public requestId: string;
   public spanOptions?: SpanOptions;
@@ -129,7 +123,6 @@ class PipelineRequestImpl implements PipelineRequest {
     this.formData = options.formData;
     this.keepAlive = options.keepAlive ?? true;
     this.proxySettings = options.proxySettings;
-    this.skipDecompressResponse = options.skipDecompressResponse ?? false;
     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
@@ -143,7 +136,7 @@ class PipelineRequestImpl implements PipelineRequest {
 /**
  * Creates a new pipeline request with the given options.
  * This method is to allow for the easy setting of default values and not required.
- * @param options The options to create the request with.
+ * @param options - The options to create the request with.
  */
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest {
   return new PipelineRequestImpl(options);

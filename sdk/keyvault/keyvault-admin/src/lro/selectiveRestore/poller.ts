@@ -7,6 +7,7 @@ import {
   SelectiveRestorePollOperationState
 } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
+import { RestoreResult } from "../../backupClientModels";
 
 export interface SelectiveRestorePollerOptions extends KeyVaultAdminPollerOptions {
   keyName: string;
@@ -20,7 +21,7 @@ export interface SelectiveRestorePollerOptions extends KeyVaultAdminPollerOption
  */
 export class SelectiveRestorePoller extends KeyVaultAdminPoller<
   SelectiveRestoreOperationState,
-  undefined
+  RestoreResult
 > {
   constructor(options: SelectiveRestorePollerOptions) {
     const {
