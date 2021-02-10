@@ -114,6 +114,8 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     return new Promise<RheaMessage>((resolve: any, reject: any) => {
+      let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+
       const rejectOnAbort = (): void => {
         this._responsesMap.delete(request.message_id as string);
         const address = this.receiver.address || "address";
@@ -132,7 +134,9 @@ export class RequestResponseLink implements ReqResLink {
 
       const onAbort = (): void => {
         // safe to clear the timeout if it hasn't already occurred.
-        clearTimeout(timer);
+        if (timer != null) {
+          clearTimeout(timer);
+        }
         aborter!.removeEventListener("abort", onAbort);
 
         rejectOnAbort();
@@ -147,7 +151,7 @@ export class RequestResponseLink implements ReqResLink {
         aborter.addEventListener("abort", onAbort);
       }
 
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         this._responsesMap.delete(request.message_id as string);
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
@@ -168,7 +172,9 @@ export class RequestResponseLink implements ReqResLink {
         reject: reject,
         cleanupBeforeResolveOrReject: () => {
           if (aborter) aborter.removeEventListener("abort", onAbort);
-          clearTimeout(timer);
+          if (timer != null) {
+            clearTimeout(timer);
+          }
         }
       });
 

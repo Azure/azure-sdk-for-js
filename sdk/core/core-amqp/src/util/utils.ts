@@ -193,6 +193,9 @@ export function delay<T>(
   value?: T
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+    let onAborted: (() => void) | undefined = undefined;
+
     const rejectOnAbort = (): void => {
       return reject(
         new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
@@ -200,13 +203,15 @@ export function delay<T>(
     };
 
     const removeListeners = (): void => {
-      if (abortSignal) {
+      if (abortSignal && onAborted) {
         abortSignal.removeEventListener("abort", onAborted);
       }
     };
 
-    const onAborted = (): void => {
-      clearTimeout(timer);
+    onAborted = (): void => {
+      if (timer != null) {
+        clearTimeout(timer);
+      }
       removeListeners();
       return rejectOnAbort();
     };
@@ -215,7 +220,7 @@ export function delay<T>(
       return rejectOnAbort();
     }
 
-    const timer = setTimeout(() => {
+    timer = setTimeout(() => {
       removeListeners();
       resolve(value);
     }, delayInMs);
