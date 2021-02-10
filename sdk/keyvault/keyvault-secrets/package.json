@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-secrets",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.2",
+  "version": "4.2.0-beta.3",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's secrets.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/README.md",
