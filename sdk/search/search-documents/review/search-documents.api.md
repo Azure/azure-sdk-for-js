@@ -269,7 +269,7 @@ export interface CustomAnalyzer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
-    tokenizer: string;
+    tokenizerName: string;
 }
 
 // @public

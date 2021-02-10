@@ -185,7 +185,7 @@ export function convertAnalyzersToGenerated(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: analyzer.tokenizer
+          tokenizerName: analyzer.tokenizerName
         });
         break;
     }
@@ -220,7 +220,7 @@ export function convertAnalyzersToPublic(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: (analyzer as CustomAnalyzer).tokenizer
+          tokenizerName: (analyzer as CustomAnalyzer).tokenizerName
         } as CustomAnalyzer);
         break;
     }

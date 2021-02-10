@@ -268,3 +268,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "odatatype"
 ```
+
+### Change tokenizer to tokenizerName
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.CustomAnalyzer.properties.tokenizer
+    transform: >
+      $["x-ms-client-name"] = "tokenizerName"
+```

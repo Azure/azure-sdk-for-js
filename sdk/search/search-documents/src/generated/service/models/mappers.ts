@@ -2638,7 +2638,7 @@ export const CustomAnalyzer: coreHttp.CompositeMapper = {
     polymorphicDiscriminator: LexicalAnalyzer.type.polymorphicDiscriminator,
     modelProperties: {
       ...LexicalAnalyzer.type.modelProperties,
-      tokenizer: {
+      tokenizerName: {
         serializedName: "tokenizer",
         required: true,
         type: {
