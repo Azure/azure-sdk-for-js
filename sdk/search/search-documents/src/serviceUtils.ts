@@ -37,7 +37,6 @@ import {
   EntityRecognitionSkill,
   SentimentSkill,
   SplitSkill,
-  CustomEntityLookupSkill,
   TextTranslationSkill,
   WebApiSkill,
   LuceneStandardAnalyzer,
@@ -112,9 +111,6 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
-        break;
-      case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
-        result.push(skill as CustomEntityLookupSkill);
         break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);

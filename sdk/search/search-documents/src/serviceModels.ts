@@ -71,8 +71,7 @@ import {
   ServiceLimits,
   FieldMapping,
   IndexingParameters,
-  IndexingSchedule,
-  CustomEntityLookupSkill
+  IndexingSchedule
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -455,8 +454,7 @@ export type SearchIndexerSkill =
   | SentimentSkill
   | SplitSkill
   | TextTranslationSkill
-  | WebApiSkill
-  | CustomEntityLookupSkill;
+  | WebApiSkill;
 
 /**
  * Contains the possible cases for CognitiveServicesAccount.
