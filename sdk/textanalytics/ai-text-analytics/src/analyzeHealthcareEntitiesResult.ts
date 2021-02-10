@@ -90,6 +90,20 @@ export interface EntityDataSource {
 }
 
 /**
+ * A related healthcare entity along with the type of the healthcare relation.
+ */
+export interface RelatedHealthcareEntity {
+  /**
+   * A related healthcare entity that is the target of a healthcare relation.
+   */
+  relatedEntity: HealthcareEntity;
+  /**
+   * The type of the healthcare relation.
+   */
+  relationType: HealthcareEntityRelationType;
+}
+
+/**
  * A healthcare entity represented as a node in a directed graph where the edges are
  * a particular type of relationship between the source and target nodes.
  */
@@ -107,7 +121,7 @@ export interface HealthcareEntity extends Entity {
    * relationship where the current entity is the source and the entities in
    * the map are the target.
    */
-  relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+  relatedEntities: RelatedHealthcareEntity[];
 }
 
 /**
@@ -190,7 +204,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
       [],
     // initialize the neighbors map to be filled later.
-    relatedEntities: new Map()
+    relatedEntities: []
   };
 }
 
@@ -214,9 +228,9 @@ function makeHealthcareEntitiesGraph(
     const sourceEntity = entities[sourceIndex];
     const targetEntity = entities[targetIndex];
     if (isHealthcareEntityRelationType(relationType)) {
-      sourceEntity.relatedEntities.set(targetEntity, relationType);
+      sourceEntity.relatedEntities.push({ relatedEntity: targetEntity, relationType });
       if (relation.bidirectional) {
-        targetEntity.relatedEntities.set(sourceEntity, relationType);
+        targetEntity.relatedEntities.push({ relatedEntity: sourceEntity, relationType });
       }
     } else {
       throw new Error(`Unrecognized healthcare entity relation type: ${relationType}`);

@@ -225,7 +225,8 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 export interface HealthcareEntity extends Entity {
     dataSources: EntityDataSource[];
     isNegated: boolean;
-    relatedEntities: Map<HealthcareEntity, HealthcareEntityRelationType>;
+    // Warning: (ae-forgotten-export) The symbol "RelatedHealthcareEntity" needs to be exported by the entry point index.d.ts
+    relatedEntities: RelatedHealthcareEntity[];
 }
 
 // @public

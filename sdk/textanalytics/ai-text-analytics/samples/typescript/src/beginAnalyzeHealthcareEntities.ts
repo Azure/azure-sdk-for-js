@@ -44,11 +44,13 @@ export async function main() {
       for (const entity of result.entities) {
         console.log(
           `\t- Entity ${entity.text} of type ${entity.category} ${
-            entity.relatedEntities.size > 0 ? "and it is related to the following entities" : ""
+            entity.relatedEntities.length > 0 ? "and it is related to the following entities" : ""
           }`
         );
         for (const edge of entity.relatedEntities) {
-          console.log(`\t\t- ${edge[0].text} with the relationship being ${edge[1]}`);
+          console.log(
+            `\t\t- ${edge.relatedEntity.text} with the relationship being ${edge.relationType}`
+          );
         }
         if (entity.dataSources.length > 0) {
           console.log("\t and it can be referenced in the following data sources:");
