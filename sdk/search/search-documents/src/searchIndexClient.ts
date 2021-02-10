@@ -504,8 +504,8 @@ export class SearchIndexClient {
         typeof synonymMap === "string"
           ? undefined
           : options.onlyIfUnchanged
-            ? synonymMap.etag
-            : undefined;
+          ? synonymMap.etag
+          : undefined;
 
       await this.client.synonymMaps.delete(synonymMapName, {
         ...operationOptionsToRequestOptionsBase(updatedOptions),
