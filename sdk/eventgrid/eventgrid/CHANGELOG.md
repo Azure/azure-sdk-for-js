@@ -1,5 +1,8 @@
 # Release History
 
+## 3.0.0-beta.4 (Unreleased)
+
+
 ## 3.0.0-beta.3 (2020-10-06)
 
 - Added distributed tracing support. `EventGridProducerClient` will now create spans when sending events to Event Grid.
