@@ -93,5 +93,9 @@
   {
     "definitionName": "individualVersion",
     "policyName": "utility"
+  },
+  {
+    "definitionName": "individualVersion",
+    "policyName": "test"
   }
 ]

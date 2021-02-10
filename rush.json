@@ -626,6 +626,11 @@
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/perf-test-storage-blob",
+      "projectFolder": "sdk/storage/perf-tests/storage-blob",
+      "versionPolicyName": "test"
     }
   ]
 }
