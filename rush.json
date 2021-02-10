@@ -110,7 +110,7 @@
    * and set projectFolderMaxDepth to a large number.
    */
   "projectFolderMinDepth": 3,
-  "projectFolderMaxDepth": 3,
+  "projectFolderMaxDepth": 4,
   /**
    * This feature helps you to review and approve new packages before they are introduced
    * to your monorepo.  For example, you may be concerned about licensing, code quality,
