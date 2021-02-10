@@ -1557,7 +1557,6 @@ export const CorsOptions: coreHttp.CompositeMapper = {
       },
       maxAgeInSeconds: {
         serializedName: "maxAgeInSeconds",
-        nullable: true,
         type: {
           name: "Number"
         }
@@ -2114,142 +2113,6 @@ export const TagScoringParameters: coreHttp.CompositeMapper = {
   }
 };
 
-export const CustomEntity: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomEntity",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      subtype: {
-        serializedName: "subtype",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        serializedName: "id",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      caseSensitive: {
-        serializedName: "caseSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      accentSensitive: {
-        serializedName: "accentSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      fuzzyEditDistance: {
-        serializedName: "fuzzyEditDistance",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      defaultCaseSensitive: {
-        serializedName: "defaultCaseSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      defaultAccentSensitive: {
-        serializedName: "defaultAccentSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      defaultFuzzyEditDistance: {
-        serializedName: "defaultFuzzyEditDistance",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      },
-      aliases: {
-        serializedName: "aliases",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CustomEntityAlias"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const CustomEntityAlias: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomEntityAlias",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      caseSensitive: {
-        serializedName: "caseSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      accentSensitive: {
-        serializedName: "accentSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      fuzzyEditDistance: {
-        serializedName: "fuzzyEditDistance",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const HighWaterMarkChangeDetectionPolicy: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",
   type: {
@@ -2556,67 +2419,6 @@ export const SplitSkill: coreHttp.CompositeMapper = {
       },
       maxPageLength: {
         serializedName: "maximumPageLength",
-        nullable: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const CustomEntityLookupSkill: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.Skills.Text.CustomEntityLookupSkill",
-  type: {
-    name: "Composite",
-    className: "CustomEntityLookupSkill",
-    uberParent: "SearchIndexerSkill",
-    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SearchIndexerSkill.type.modelProperties,
-      defaultLanguageCode: {
-        serializedName: "defaultLanguageCode",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      entitiesDefinitionUri: {
-        serializedName: "entitiesDefinitionUri",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      inlineEntitiesDefinition: {
-        serializedName: "inlineEntitiesDefinition",
-        nullable: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CustomEntity"
-            }
-          }
-        }
-      },
-      globalDefaultCaseSensitive: {
-        serializedName: "globalDefaultCaseSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      globalDefaultAccentSensitive: {
-        serializedName: "globalDefaultAccentSensitive",
-        nullable: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      globalDefaultFuzzyEditDistance: {
-        serializedName: "globalDefaultFuzzyEditDistance",
         nullable: true,
         type: {
           name: "Number"
@@ -4532,7 +4334,6 @@ export let discriminators = {
   "SearchIndexerSkill.#Microsoft.Skills.Text.EntityRecognitionSkill": EntityRecognitionSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Text.SentimentSkill": SentimentSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Text.SplitSkill": SplitSkill,
-  "SearchIndexerSkill.#Microsoft.Skills.Text.CustomEntityLookupSkill": CustomEntityLookupSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Text.TranslationSkill": TextTranslationSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.DefaultCognitiveServices": DefaultCognitiveServicesAccount,
