@@ -10,9 +10,9 @@ declare global {
    * Stub declaration of the browser-only Blob type.
    * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
    */
-  interface Blob { }
+  interface Blob {}
 
-  interface File extends Blob { }
+  interface File extends Blob {}
 
   /** Provides a way to easily construct a set of key/value pairs representing form fields and their values, which can then be easily sent using the XMLHttpRequest.send() method. It uses the same format a form would use if the encoding type were set to "multipart/form-data". */
   interface FormData {
