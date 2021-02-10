@@ -84,7 +84,8 @@ export {
   AnalyzeHealthcareEntitiesErrorResult,
   HealthcareEntity,
   EntityDataSource,
-  HealthcareEntityRelationType
+  HealthcareEntityRelationType,
+  RelatedHealthcareEntity
 } from "./analyzeHealthcareEntitiesResult";
 export {
   PagedAnalyzeBatchActionsResult,

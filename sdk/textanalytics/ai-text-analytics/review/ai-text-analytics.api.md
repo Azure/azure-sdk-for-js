@@ -225,7 +225,6 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 export interface HealthcareEntity extends Entity {
     dataSources: EntityDataSource[];
     isNegated: boolean;
-    // Warning: (ae-forgotten-export) The symbol "RelatedHealthcareEntity" needs to be exported by the entry point index.d.ts
     relatedEntities: RelatedHealthcareEntity[];
 }
 
@@ -430,6 +429,12 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
 export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: PiiEntity[];
     redactedText: string;
+}
+
+// @public
+export interface RelatedHealthcareEntity {
+    relatedEntity: HealthcareEntity;
+    relationType: HealthcareEntityRelationType;
 }
 
 // @public (undocumented)
