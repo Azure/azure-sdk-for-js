@@ -7,7 +7,7 @@ import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorde
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 
-export async function authenticate(that: any): Promise<any> {
+export async function authenticate(that: Mocha.Context): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
