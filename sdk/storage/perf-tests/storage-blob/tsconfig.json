@@ -1,17 +1,10 @@
-
 {
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
     "module": "commonjs",
     "target": "es5",
     "outDir": "./dist-esm",
-    "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "es7",
-      "esnext"
-    ]
+    "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },
   "compileOnSave": true
 }
