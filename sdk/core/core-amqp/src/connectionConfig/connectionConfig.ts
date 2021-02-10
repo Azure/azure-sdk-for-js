@@ -147,7 +147,7 @@ export const ConnectionConfig = {
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");
     }
-    if (config.entityPath != undefined) {
+    if (config.entityPath != null) {
       config.entityPath = String(config.entityPath);
     }
 
