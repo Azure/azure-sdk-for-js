@@ -123,7 +123,7 @@ export class SparkSession {
       return result as SparkSessionGetSparkSessionResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -157,7 +157,7 @@ export class SparkSession {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -191,7 +191,7 @@ export class SparkSession {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -225,7 +225,7 @@ export class SparkSession {
       return result as SparkSessionGetSparkStatementsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -262,7 +262,7 @@ export class SparkSession {
       return result as SparkSessionCreateSparkStatementResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -299,7 +299,7 @@ export class SparkSession {
       return result as SparkSessionGetSparkStatementResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -336,7 +336,7 @@ export class SparkSession {
       return result as SparkSessionCancelSparkStatementResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
