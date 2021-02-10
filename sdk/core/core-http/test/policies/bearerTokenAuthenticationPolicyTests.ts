@@ -111,7 +111,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
   });
 
   it("access token refresher should prevent refreshers to happen too fast", async () => {
-    const expiresOn = Date.now(); // Already refreshed
+    const expiresOn = Date.now(); // Already expired
     const credential = new MockRefreshAzureCredential(expiresOn);
     const request = createRequest();
     const policy = createBearerTokenPolicy("test-scope", credential);
