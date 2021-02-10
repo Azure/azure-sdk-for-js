@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -55,7 +55,7 @@ export class SparkSession {
       return result as SparkSessionGetSparkSessionsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -89,7 +89,7 @@ export class SparkSession {
       return result as SparkSessionCreateSparkSessionResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
