@@ -36,10 +36,10 @@ export interface SpanContext {
  */
 export interface Context {
   /**
- * Get a value from the context.
- *
- * @param key key which identifies a context value
- */
+   * Get a value from the context.
+   *
+   * @param key key which identifies a context value
+   */
   getValue(key: symbol): unknown;
   /**
    * Create a new context which inherits from this context and has

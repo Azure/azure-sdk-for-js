@@ -16,10 +16,7 @@ import {
 } from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
-import {
-  Attributes as OpenCensusAttributes,
-  Span as OpenCensusSpan
-} from "@opencensus/web-types";
+import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";
 
 function isWrappedSpan(span?: Span | SpanContext | null): span is OpenCensusSpanWrapper {
   return !!span && (span as OpenCensusSpanWrapper).getWrappedSpan !== undefined;
