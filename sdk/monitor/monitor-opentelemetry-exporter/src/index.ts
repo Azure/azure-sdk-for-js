@@ -3,3 +3,4 @@
 
 export { AzureMonitorTraceExporter } from "./export/trace";
 export { AzureExporterConfig } from "./config";
+export { ServiceApiVersion } from "./Declarations/Constants";

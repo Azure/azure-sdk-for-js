@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { Logger } from "@opentelemetry/api";
-import { DEFAULT_BREEZE_API_VERSION, DEFAULT_BREEZE_ENDPOINT } from "./Declarations/Constants";
+import {
+  DEFAULT_BREEZE_API_VERSION,
+  DEFAULT_BREEZE_ENDPOINT,
+  ServiceApiVersion
+} from "./Declarations/Constants";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 const DEFAULT_MAX_CONSECUTIVE_FAILURES_BEFORE_WARNING = 10;
@@ -11,7 +15,7 @@ export interface AzureExporterConfig {
   // Setup String
   connectionString?: string;
   // Azure service API version
-  serviceApiVersion?: string;
+  serviceApiVersion?: ServiceApiVersion;
 }
 
 export interface AzureExporterInternalConfig {
@@ -28,7 +32,7 @@ export interface AzureExporterInternalConfig {
 
   endpointUrl: string;
 
-  serviceApiVersion: string;
+  serviceApiVersion: ServiceApiVersion;
 }
 
 export const DEFAULT_EXPORTER_CONFIG: AzureExporterInternalConfig = {
