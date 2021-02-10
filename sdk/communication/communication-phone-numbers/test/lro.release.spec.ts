@@ -41,7 +41,10 @@ describe("PhoneNumbersClient - lro - release", function() {
         this.skip();
       }
 
-      const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease, testPollerOptions);
+      const releasePoller = await client.beginReleasePhoneNumber(
+        phoneNumberToRelease,
+        testPollerOptions
+      );
       //assert.ok(releasePoller.getOperationState().isStarted);
 
       await releasePoller.pollUntilDone();
