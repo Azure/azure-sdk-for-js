@@ -82,6 +82,7 @@ export interface ConnectionConfig {
 /**
  * Describes the ConnectionConfig module
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const ConnectionConfig = {
   /**
    * Creates the connection config.
