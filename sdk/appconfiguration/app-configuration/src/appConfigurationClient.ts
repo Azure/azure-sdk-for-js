@@ -54,7 +54,7 @@ import {
   formatFieldsForSelect
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
-import { Spanner } from "./internal/tracingHelpers";
+import { trace } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesResponse,
   AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
@@ -116,7 +116,6 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  */
 export class AppConfigurationClient {
   private client: AppConfiguration;
-  private spanner: Spanner<AppConfigurationClient>;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -172,8 +171,6 @@ export class AppConfigurationClient {
       apiVersion,
       getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
     );
-
-    this.spanner = new Spanner<AppConfigurationClient>("Azure.Data.AppConfiguration");
   }
 
   /**
@@ -192,7 +189,7 @@ export class AppConfigurationClient {
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
     const opts = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("addConfigurationSetting", opts, async (newOptions) => {
+    return trace("addConfigurationSetting", opts, async (newOptions) => {
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
@@ -219,7 +216,7 @@ export class AppConfigurationClient {
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
     const opts = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("deleteConfigurationSetting", opts, async (newOptions) => {
+    return trace("deleteConfigurationSetting", opts, async (newOptions) => {
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
@@ -245,7 +242,7 @@ export class AppConfigurationClient {
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    return this.spanner.trace("getConfigurationSetting", requestOptions, async (newOptions) => {
+    return await trace("getConfigurationSetting", requestOptions, async (newOptions) => {
       const originalResponse = await this.client.getKeyValue(id.key, {
         ...newOptions,
         label: id.label,
@@ -317,7 +314,7 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace(
+    let currentResponse = await trace(
       "listConfigurationSettings",
       requestOptions,
       async (newOptions) => {
@@ -334,7 +331,7 @@ export class AppConfigurationClient {
     yield* this.createListConfigurationPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace(
+      currentResponse = await trace(
         "listConfigurationSettings",
         requestOptions,
         // TODO: same code up above. Unify.
@@ -411,19 +408,15 @@ export class AppConfigurationClient {
     options: ListRevisionsOptions = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
-    let currentResponse = await this.spanner.trace(
-      "listRevisions",
-      requestOptions,
-      async (newOptions) => {
-        const response = await this.client.getRevisions({
-          ...newOptions,
-          ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(newOptions)
-        });
+    let currentResponse = await trace("listRevisions", requestOptions, async (newOptions) => {
+      const response = await this.client.getRevisions({
+        ...newOptions,
+        ...formatAcceptDateTime(options),
+        ...formatFiltersAndSelect(newOptions)
+      });
 
-        return response;
-      }
-    );
+      return response;
+    });
 
     yield {
       ...currentResponse,
@@ -431,7 +424,7 @@ export class AppConfigurationClient {
     };
 
     while (currentResponse.nextLink) {
-      currentResponse = await this.spanner.trace("listRevisions", requestOptions, (newOptions) => {
+      currentResponse = await trace("listRevisions", requestOptions, (newOptions) => {
         return this.client.getRevisions({
           ...newOptions,
           ...formatAcceptDateTime(options),
@@ -468,7 +461,7 @@ export class AppConfigurationClient {
   ): Promise<SetConfigurationSettingResponse> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
-    return this.spanner.trace("setConfigurationSetting", requestOptions, async (newOptions) => {
+    return trace("setConfigurationSetting", requestOptions, async (newOptions) => {
       const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
@@ -491,7 +484,7 @@ export class AppConfigurationClient {
   ): Promise<SetReadOnlyResponse> {
     const opts = operationOptionsToRequestOptionsBase(options);
 
-    return this.spanner.trace("setReadOnly", opts, async (newOptions) => {
+    return trace("setReadOnly", opts, async (newOptions) => {
       if (readOnly) {
         const response = await this.client.putLock(id.key, {
           ...newOptions,
@@ -530,7 +523,7 @@ export function getGeneratedClientOptions(
 
   const userAgent = getUserAgentPrefix(
     internalAppConfigOptions.userAgentOptions &&
-      internalAppConfigOptions.userAgentOptions.userAgentPrefix
+    internalAppConfigOptions.userAgentOptions.userAgentPrefix
   );
 
   return {

@@ -1,41 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Spanner } from "../../src/internal/tracingHelpers";
-import { getTracer } from "@azure/core-tracing";
-import { SpanKind } from "@opentelemetry/api";
-import { SpanOptions } from "@azure/core-tracing";
+import { trace } from "../../src/internal/tracingHelpers";
+import { context as otContext, Span, Status, StatusCode } from "@opentelemetry/api";
 
 import * as assert from "assert";
-
-interface FakeOptions {
-  name: string;
-  spanOptions: SpanOptions;
-}
+import sinon from "sinon";
 
 describe("tracingHelpers", () => {
-  it("addParentToOptions", () => {
-    const fakeOptions: FakeOptions = {
-      name: "fakeName",
-      spanOptions: {
-        attributes: {
-          testAttribute: "testAttributeValue"
-        }
-      }
-    };
+  it("trace OK", async () => {
+    let setStatusStub: (sinon.SinonStub<[status: Status], Span>) | undefined;
 
-    const parentSpan = getTracer().startSpan("test", {
-      kind: SpanKind.PRODUCER
+    await trace("addConfigurationSetting", {
+      tracingOptions: {
+        context: otContext.active()
+      }
+    }, async (_newOptions, span) => {
+      setStatusStub = sinon.stub(span, 'setStatus');
     });
 
-    const newOptions = Spanner["addParentToOptions"](fakeOptions, parentSpan);
+    assert.equal(setStatusStub?.called, false, "if nothing fails we don't explicitly set the status (uses the default status)");
+  });
 
-    assert.equal("fakeName", newOptions.name);
-    assert.deepEqual(parentSpan.context(), newOptions.spanOptions.parent);
-    assert.ok(newOptions.spanOptions.attributes, "Should have attributes set");
-    if (newOptions.spanOptions.attributes) {
-      assert.equal("Microsoft.AppConfiguration", newOptions.spanOptions.attributes["az.namespace"]);
-      assert.equal("testAttributeValue", newOptions.spanOptions.attributes["testAttribute"]);
+  it("trace ERROR", async () => {
+    let setStatusStub: (sinon.SinonStub<[status: Status], Span>) | undefined;
+
+    try {
+      await trace("addConfigurationSetting", {
+        tracingOptions: {
+          context: otContext.active()
+        }
+      }, async (_options: any, span: Span) => {
+        setStatusStub = sinon.stub(span, 'setStatus');
+        throw new Error("Purposefully thrown error")
+      });
+
+      assert.fail("Exception should have been thrown from `trace` since the inner action threw");
+    } catch (err) {
+      assert.equal(err.message, "Purposefully thrown error");
     }
+
+    assert.ok(setStatusStub, "setStatus should have been called");
+    assert.equal(setStatusStub?.args[0][0].code, StatusCode.ERROR, "Any thrown exception causes the span to be set to StatusCode.ERROR");
   });
 });
