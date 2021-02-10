@@ -94,7 +94,7 @@ class MockTracer extends NoOpTracer {
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 const ROOT_CONTEXT = setSpan(otContext.active(), ROOT_SPAN);
 
-describe.only("tracingPolicy", function () {
+describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
 
   const mockPolicy: RequestPolicy = {
