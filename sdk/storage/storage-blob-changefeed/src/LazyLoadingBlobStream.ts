@@ -70,7 +70,7 @@ export class LazyLoadingBlobStream extends Readable {
   /**
    * Creates an instance of LazyLoadingBlobStream.
    *
-   * @param {number} byteLength The total length of data contained in the buffers
+   * @param byteLength - The total length of data contained in the buffers
    * @memberof LazyLoadingBlobStream
    */
   constructor(
@@ -129,7 +129,7 @@ export class LazyLoadingBlobStream extends Readable {
   /**
    * Internal _read() that will be called when the stream wants to pull more data in.
    *
-   * @param {number} size Optional. The size of data to be read
+   * @param size - Optional. The size of data to be read
    * @memberof LazyLoadingBlobStream
    */
   public async _read(size?: number) {

@@ -570,26 +570,26 @@ export class QueueClient extends StorageClient {
   /**
    * Creates an instance of QueueClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} queueName Queue name.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param queueName - Queue name.
+   * @param options - Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(connectionString: string, queueName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of QueueClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue, such as
+   * @param url - A URL string pointing to Azure Storage queue, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Options to configure the HTTP pipeline.
    * @memberof QueueClient
    */
   constructor(
@@ -600,11 +600,11 @@ export class QueueClient extends StorageClient {
   /**
    * Creates an instance of QueueClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue, such as
+   * @param url - A URL string pointing to Azure Storage queue, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.queue.core.windows.net/myqueue?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof QueueClient
    */
@@ -701,8 +701,8 @@ export class QueueClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options] Options to Queue create operation.
-   * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
+   * @param options - Options to Queue create operation.
+   * @returnsResponse data for the Queue create operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -736,8 +736,8 @@ export class QueueClient extends StorageClient {
    * If the queue already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {QueueCreateOptions} [options]
-   * @returns {Promise<QueueCreateIfNotExistsResponse>}
+   * @param options -
+   *
    * @memberof QueueClient
    */
   public async createIfNotExists(
@@ -793,8 +793,8 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently if it exists.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options]
-   * @returns {Promise<QueueDeleteIfExistsResponse>}
+   * @param options -
+   *
    * @memberof QueueClient
    */
   public async deleteIfExists(
@@ -836,8 +836,8 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
-   * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
+   * @param options - Options to Queue delete operation.
+   * @returnsResponse data for the Queue delete operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -874,8 +874,8 @@ export class QueueClient extends StorageClient {
    * applications. Vice versa new queues might be added by other clients or applications after this
    * function completes.
    *
-   * @param {QueueExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
+   * @param options - options to Exists operation.
+   *
    * @memberof QueueClient
    */
   public async exists(options: QueueExistsOptions = {}): Promise<boolean> {
@@ -914,8 +914,8 @@ export class QueueClient extends StorageClient {
    * the `listQueues` method of {@link QueueServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @param {QueueGetPropertiesOptions} [options] Options to Queue get properties operation.
-   * @returns {Promise<QueueGetPropertiesResponse>} Response data for the Queue get properties operation.
+   * @param options - Options to Queue get properties operation.
+   * @returnsResponse data for the Queue get properties operation.
    * @memberof QueueClient
    */
   public async getProperties(
@@ -945,9 +945,9 @@ export class QueueClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-metadata
    *
-   * @param {Metadata} [metadata] If no metadata provided, all existing metadata will be removed.
-   * @param {QueueSetMetadataOptions} [options] Options to Queue set metadata operation.
-   * @returns {Promise<QueueSetMetadataResponse>} Response data for the Queue set metadata operation.
+   * @param metadata - If no metadata provided, all existing metadata will be removed.
+   * @param options - Options to Queue set metadata operation.
+   * @returnsResponse data for the Queue set metadata operation.
    * @memberof QueueClient
    */
   public async setMetadata(
@@ -980,8 +980,8 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
-   * @param {QueueGetAccessPolicyOptions} [options] Options to Queue get access policy operation.
-   * @returns {Promise<QueueGetAccessPolicyResponse>} Response data for the Queue get access policy operation.
+   * @param options - Options to Queue get access policy operation.
+   * @returnsResponse data for the Queue get access policy operation.
    * @memberof QueueClient
    */
   public async getAccessPolicy(
@@ -1042,9 +1042,9 @@ export class QueueClient extends StorageClient {
    * Sets stored access policies for the queue that may be used with Shared Access Signatures.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-acl
    *
-   * @param {SignedIdentifier[]} [queueAcl]
-   * @param {QueueSetAccessPolicyOptions} [options] Options to Queue set access policy operation.
-   * @returns {Promise<QueueSetAccessPolicyResponse>} Response data for the Queue set access policy operation.
+   * @param queueAcl -
+   * @param options - Options to Queue set access policy operation.
+   * @returnsResponse data for the Queue set access policy operation.
    * @memberof QueueClient
    */
   public async setAccessPolicy(
@@ -1089,8 +1089,8 @@ export class QueueClient extends StorageClient {
    * Clear deletes all messages from a queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
-   * @param {QueueClearMessagesOptions} [options] Options to clear messages operation.
-   * @returns {Promise<QueueClearMessagesResponse>} Response data for the clear messages operation.
+   * @param options - Options to clear messages operation.
+   * @returnsResponse data for the clear messages operation.
    * @memberof QueueClient
    */
   public async clearMessages(
@@ -1120,9 +1120,9 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-message
    *
-   * @param {string} messageText Text of the message to send
-   * @param {QueueSendMessageOptions} [options] Options to send messages operation.
-   * @returns {Promise<QueueSendMessageResponse>} Response data for the send messages operation.
+   * @param messageText - Text of the message to send
+   * @param options - Options to send messages operation.
+   * @returnsResponse data for the send messages operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -1180,8 +1180,8 @@ export class QueueClient extends StorageClient {
    * receiveMessages retrieves one or more messages from the front of the queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
-   * @param {QueueReceiveMessageOptions} [options] Options to receive messages operation.
-   * @returns {Promise<QueueReceiveMessageResponse>} Response data for the receive messages operation.
+   * @param options - Options to receive messages operation.
+   * @returnsResponse data for the receive messages operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -1243,8 +1243,8 @@ export class QueueClient extends StorageClient {
    * peekMessages retrieves one or more messages from the front of the queue but does not alter the visibility of the message.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
-   * @param {QueuePeekMessagesOptions} [options] Options to peek messages operation.
-   * @returns {QueuePeekMessagesResponse>} Response data for the peek messages operation.
+   * @param options - Options to peek messages operation.
+   * @returnsResponse data for the peek messages operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -1295,10 +1295,10 @@ export class QueueClient extends StorageClient {
    * deleteMessage permanently removes the specified message from its queue.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-message2
    *
-   * @param {string} messageId Id of the message.
-   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {QueueDeleteMessageOptions} [options] Options to delete message operation.
-   * @returns {Promise<QueueDeleteMessageResponse>} Response data for the delete message operation.
+   * @param messageId - Id of the message.
+   * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
+   * @param options - Options to delete message operation.
+   * @returnsResponse data for the delete message operation.
    * @memberof QueueClient
    */
   public async deleteMessage(
@@ -1329,16 +1329,16 @@ export class QueueClient extends StorageClient {
    * To include markup in the message, the contents of the message must either be XML-escaped or Base64-encode.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/update-message
    *
-   * @param {string} messageId Id of the message
-   * @param {string} popReceipt A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
-   * @param {string} message Message to update. If this parameter is undefined, then the content of the message won't be updated.
-   * @param {number} visibilityTimeout Specifies the new visibility timeout value, in seconds,
+   * @param messageId - Id of the message
+   * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
+   * @param message - Message to update. If this parameter is undefined, then the content of the message won't be updated.
+   * @param visibilityTimeout - Specifies the new visibility timeout value, in seconds,
    *                                   relative to server time. The new value must be larger than or equal to 0,
    *                                   and cannot be larger than 7 days. The visibility timeout of a message cannot
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
-   * @param {QueueUpdateMessageOptions} [options] Options to update message operation.
-   * @returns {Promise<QueueUpdateMessageResponse>} Response data for the update message operation.
+   * @param options - Options to update message operation.
+   * @returnsResponse data for the update message operation.
    * @memberof QueueClient
    */
   public async updateMessage(
@@ -1415,8 +1415,8 @@ export class QueueClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {QueueGenerateSasUrlOptions} options Optional parameters.
-   * @returns {string} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @param options - Optional parameters.
+   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof QueueClient
    */
   public generateSasUrl(options: QueueGenerateSasUrlOptions): string {

@@ -29,7 +29,7 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {UserAgentOptions} [telemetry]
+   * @param telemetry -
    * @memberof TelemetryPolicyFactory
    */
   constructor(telemetry?: UserAgentOptions) {
@@ -62,9 +62,9 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * Creates a {@link RequestPolicy} object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {TelemetryPolicy}
+   * @param nextPolicy -
+   * @param options -
+   *
    * @memberof TelemetryPolicyFactory
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {

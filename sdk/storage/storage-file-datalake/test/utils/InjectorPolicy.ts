@@ -23,8 +23,8 @@ export class InjectorPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of InjectorPolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param nextPolicy -
+   * @param options -
    * @memberof InjectorPolicy
    */
   public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, injector: Injector) {
@@ -35,8 +35,8 @@ export class InjectorPolicy extends BaseRequestPolicy {
   /**
    * Sends request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   *
    * @memberof InjectorPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {

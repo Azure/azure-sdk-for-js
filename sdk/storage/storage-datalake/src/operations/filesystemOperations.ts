@@ -20,7 +20,7 @@ export class FilesystemOperations {
 
   /**
    * Create a FilesystemOperations.
-   * @param {DataLakeStorageClientContext} client Reference to the service client.
+   * @param client - Reference to the service client.
    */
   constructor(client: DataLakeStorageClientContext) {
     this.client = client;
@@ -29,7 +29,7 @@ export class FilesystemOperations {
   /**
    * List filesystems and their properties in given account.
    * @summary List Filesystems
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.FilesystemListResponse>
    */
   list(options?: Models.FilesystemListOptionalParams): Promise<Models.FilesystemListResponse>;
@@ -41,14 +41,21 @@ export class FilesystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.FilesystemListOptionalParams, callback: msRest.ServiceCallback<Models.FilesystemList>): void;
-  list(options?: Models.FilesystemListOptionalParams | msRest.ServiceCallback<Models.FilesystemList>, callback?: msRest.ServiceCallback<Models.FilesystemList>): Promise<Models.FilesystemListResponse> {
+  list(
+    options: Models.FilesystemListOptionalParams,
+    callback: msRest.ServiceCallback<Models.FilesystemList>
+  ): void;
+  list(
+    options?: Models.FilesystemListOptionalParams | msRest.ServiceCallback<Models.FilesystemList>,
+    callback?: msRest.ServiceCallback<Models.FilesystemList>
+  ): Promise<Models.FilesystemListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.FilesystemListResponse>;
+      callback
+    ) as Promise<Models.FilesystemListResponse>;
   }
 
   /**
@@ -59,10 +66,13 @@ export class FilesystemOperations {
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.FilesystemCreateResponse>
    */
-  create(filesystem: string, options?: Models.FilesystemCreateOptionalParams): Promise<Models.FilesystemCreateResponse>;
+  create(
+    filesystem: string,
+    options?: Models.FilesystemCreateOptionalParams
+  ): Promise<Models.FilesystemCreateResponse>;
   /**
    * @param filesystem The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
@@ -79,15 +89,24 @@ export class FilesystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(filesystem: string, options: Models.FilesystemCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(filesystem: string, options?: Models.FilesystemCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FilesystemCreateResponse> {
+  create(
+    filesystem: string,
+    options: Models.FilesystemCreateOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  create(
+    filesystem: string,
+    options?: Models.FilesystemCreateOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.FilesystemCreateResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
         options
       },
       createOperationSpec,
-      callback) as Promise<Models.FilesystemCreateResponse>;
+      callback
+    ) as Promise<Models.FilesystemCreateResponse>;
   }
 
   /**
@@ -99,10 +118,13 @@ export class FilesystemOperations {
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.FilesystemSetPropertiesResponse>
    */
-  setProperties(filesystem: string, options?: Models.FilesystemSetPropertiesOptionalParams): Promise<Models.FilesystemSetPropertiesResponse>;
+  setProperties(
+    filesystem: string,
+    options?: Models.FilesystemSetPropertiesOptionalParams
+  ): Promise<Models.FilesystemSetPropertiesResponse>;
   /**
    * @param filesystem The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
@@ -119,15 +141,24 @@ export class FilesystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setProperties(filesystem: string, options: Models.FilesystemSetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  setProperties(filesystem: string, options?: Models.FilesystemSetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FilesystemSetPropertiesResponse> {
+  setProperties(
+    filesystem: string,
+    options: Models.FilesystemSetPropertiesOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  setProperties(
+    filesystem: string,
+    options?: Models.FilesystemSetPropertiesOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.FilesystemSetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
         options
       },
       setPropertiesOperationSpec,
-      callback) as Promise<Models.FilesystemSetPropertiesResponse>;
+      callback
+    ) as Promise<Models.FilesystemSetPropertiesResponse>;
   }
 
   /**
@@ -137,10 +168,13 @@ export class FilesystemOperations {
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.FilesystemGetPropertiesResponse>
    */
-  getProperties(filesystem: string, options?: Models.FilesystemGetPropertiesOptionalParams): Promise<Models.FilesystemGetPropertiesResponse>;
+  getProperties(
+    filesystem: string,
+    options?: Models.FilesystemGetPropertiesOptionalParams
+  ): Promise<Models.FilesystemGetPropertiesResponse>;
   /**
    * @param filesystem The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
@@ -157,15 +191,24 @@ export class FilesystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getProperties(filesystem: string, options: Models.FilesystemGetPropertiesOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  getProperties(filesystem: string, options?: Models.FilesystemGetPropertiesOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FilesystemGetPropertiesResponse> {
+  getProperties(
+    filesystem: string,
+    options: Models.FilesystemGetPropertiesOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  getProperties(
+    filesystem: string,
+    options?: Models.FilesystemGetPropertiesOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.FilesystemGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
         options
       },
       getPropertiesOperationSpec,
-      callback) as Promise<Models.FilesystemGetPropertiesResponse>;
+      callback
+    ) as Promise<Models.FilesystemGetPropertiesResponse>;
   }
 
   /**
@@ -183,10 +226,13 @@ export class FilesystemOperations {
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
    * are not permitted.  All letters must be lowercase.  The value must have between 3 and 63
    * characters.
-   * @param [options] The optional parameters
+   * @param options - The optional parameters
    * @returns Promise<Models.FilesystemDeleteResponse>
    */
-  deleteMethod(filesystem: string, options?: Models.FilesystemDeleteMethodOptionalParams): Promise<Models.FilesystemDeleteResponse>;
+  deleteMethod(
+    filesystem: string,
+    options?: Models.FilesystemDeleteMethodOptionalParams
+  ): Promise<Models.FilesystemDeleteResponse>;
   /**
    * @param filesystem The filesystem identifier.  The value must start and end with a letter or
    * number and must contain only letters, numbers, and the dash (-) character.  Consecutive dashes
@@ -203,15 +249,24 @@ export class FilesystemOperations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(filesystem: string, options: Models.FilesystemDeleteMethodOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(filesystem: string, options?: Models.FilesystemDeleteMethodOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FilesystemDeleteResponse> {
+  deleteMethod(
+    filesystem: string,
+    options: Models.FilesystemDeleteMethodOptionalParams,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    filesystem: string,
+    options?: Models.FilesystemDeleteMethodOptionalParams | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<Models.FilesystemDeleteResponse> {
     return this.client.sendOperationRequest(
       {
         filesystem,
         options
       },
       deleteMethodOperationSpec,
-      callback) as Promise<Models.FilesystemDeleteResponse>;
+      callback
+    ) as Promise<Models.FilesystemDeleteResponse>;
   }
 }
 
@@ -219,10 +274,7 @@ export class FilesystemOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  urlParameters: [
-    Parameters.accountName,
-    Parameters.dnsSuffix
-  ],
+  urlParameters: [Parameters.accountName, Parameters.dnsSuffix],
   queryParameters: [
     Parameters.resource0,
     Parameters.prefix,
@@ -251,15 +303,8 @@ const listOperationSpec: msRest.OperationSpec = {
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.accountName,
-    Parameters.dnsSuffix,
-    Parameters.filesystem
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.accountName, Parameters.dnsSuffix, Parameters.filesystem],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
   headerParameters: [
     Parameters.xMsProperties,
     Parameters.xMsClientRequestId,
@@ -281,15 +326,8 @@ const createOperationSpec: msRest.OperationSpec = {
 const setPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.accountName,
-    Parameters.dnsSuffix,
-    Parameters.filesystem
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.accountName, Parameters.dnsSuffix, Parameters.filesystem],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
   headerParameters: [
     Parameters.xMsProperties,
     Parameters.ifModifiedSince,
@@ -313,15 +351,8 @@ const setPropertiesOperationSpec: msRest.OperationSpec = {
 const getPropertiesOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.accountName,
-    Parameters.dnsSuffix,
-    Parameters.filesystem
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.accountName, Parameters.dnsSuffix, Parameters.filesystem],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
   headerParameters: [
     Parameters.xMsClientRequestId,
     Parameters.xMsDate,
@@ -342,15 +373,8 @@ const getPropertiesOperationSpec: msRest.OperationSpec = {
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{filesystem}",
-  urlParameters: [
-    Parameters.accountName,
-    Parameters.dnsSuffix,
-    Parameters.filesystem
-  ],
-  queryParameters: [
-    Parameters.resource1,
-    Parameters.timeout
-  ],
+  urlParameters: [Parameters.accountName, Parameters.dnsSuffix, Parameters.filesystem],
+  queryParameters: [Parameters.resource1, Parameters.timeout],
   headerParameters: [
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,

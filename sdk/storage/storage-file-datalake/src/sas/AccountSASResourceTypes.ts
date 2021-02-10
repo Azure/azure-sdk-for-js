@@ -19,8 +19,8 @@ export class AccountSASResourceTypes {
    * Error if it encounters a character that does not correspond to a valid resource type.
    *
    * @static
-   * @param {string} resourceTypes
-   * @returns {AccountSASResourceTypes}
+   * @param resourceTypes -
+   *
    * @memberof AccountSASResourceTypes
    */
   public static parse(resourceTypes: string): AccountSASResourceTypes {
@@ -74,7 +74,7 @@ export class AccountSASResourceTypes {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
    *
-   * @returns {string}
+   *
    * @memberof AccountSASResourceTypes
    */
   public toString(): string {

@@ -23,7 +23,7 @@ import { logger } from "../log";
  * A factory method used to generated a RetryPolicy factory.
  *
  * @export
- * @param {StorageRetryOptions} retryOptions
+ * @param retryOptions -
  */
 export function NewRetryPolicyFactory(retryOptions?: StorageRetryOptions): RequestPolicyFactory {
   return {
@@ -81,9 +81,9 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of RetryPolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @param {StorageRetryOptions} [retryOptions=DEFAULT_RETRY_OPTIONS]
+   * @param nextPolicy -
+   * @param options -
+   * @param retryOptions -
    * @memberof StorageRetryPolicy
    */
   constructor(
@@ -133,8 +133,8 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   /**
    * Sends request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   *
    * @memberof StorageRetryPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -145,13 +145,13 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * Decide and perform next retry. Won't mutate request parameter.
    *
    * @protected
-   * @param {WebResource} request
-   * @param {boolean} secondaryHas404  If attempt was against the secondary & it returned a StatusNotFound (404), then
+   * @param request -
+   * @param secondaryHas404 -  If attempt was against the secondary & it returned a StatusNotFound (404), then
    *                                   the resource was not found. This may be due to replication delay. So, in this
    *                                   case, we'll never try the secondary again for this operation.
-   * @param {number} attempt           How many retries has been attempted to performed, starting from 1, which includes
+   * @param attempt -           How many retries has been attempted to performed, starting from 1, which includes
    *                                   the attempt will be performed by this method call.
-   * @returns {Promise<HttpOperationResponse>}
+   *
    * @memberof StorageRetryPolicy
    */
   protected async attemptSendRequest(
@@ -204,11 +204,11 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * Decide whether to retry according to last HTTP response and retry counters.
    *
    * @protected
-   * @param {boolean} isPrimaryRetry
-   * @param {number} attempt
-   * @param {HttpOperationResponse} [response]
-   * @param {RestError} [err]
-   * @returns {boolean}
+   * @param isPrimaryRetry -
+   * @param attempt -
+   * @param response -
+   * @param err -
+   *
    * @memberof StorageRetryPolicy
    */
   protected shouldRetry(
@@ -282,9 +282,9 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * Delay a calculated time between retries.
    *
    * @private
-   * @param {boolean} isPrimaryRetry
-   * @param {number} attempt
-   * @param {AbortSignalLike} [abortSignal]
+   * @param isPrimaryRetry -
+   * @param attempt -
+   * @param abortSignal -
    * @memberof StorageRetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {

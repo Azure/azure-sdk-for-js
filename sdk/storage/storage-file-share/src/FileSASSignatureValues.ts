@@ -150,9 +150,9 @@ export interface FileSASSignatureValues {
  * this constructor.
  *
  * @export
- * @param {FileSASSignatureValues} fileSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param fileSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,

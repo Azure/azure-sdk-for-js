@@ -60,13 +60,13 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * Creates an instance of DataLakeServiceClient from connection string.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof DataLakeServiceClient
    */
   public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
@@ -100,11 +100,11 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Creates an instance of DataLakeServiceClient from url.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake service, such as
+   * @param url - A Client string pointing to Azure Storage data lake service, such as
    *                     "https://myaccount.dfs.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net?sasString".
-   * @param {(StorageSharedKeyCredential | AnonymousCredential | TokenCredential)} [credential] Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof DataLakeServiceClient
    */
   public constructor(
@@ -116,10 +116,10 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Creates an instance of DataLakeServiceClient from url and pipeline.
    *
-   * @param {string} url A Client string pointing to Azure Storage data lake service, such as
+   * @param url - A Client string pointing to Azure Storage data lake service, such as
    *                     "https://myaccount.dfs.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.dfs.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof DataLakeServiceClient
    */
@@ -155,8 +155,8 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Creates a {@link DataLakeFileSystemClient} object.
    *
-   * @param {string} fileSystemName File system name.
-   * @returns {DataLakeFileSystemClient}
+   * @param fileSystemName - File system name.
+   *
    * @memberof DataLakeServiceClient
    */
   public getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient {
@@ -191,10 +191,10 @@ export class DataLakeServiceClient extends StorageClient {
    * ```
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
-   * @param {Date} startsOn The start time for the user delegation SAS. Must be within 7 days of the current time.
-   * @param {Date} expiresOn The end time for the user delegation SAS. Must be within 7 days of the current time.
-   * @param {ServiceGetUserDelegationKeyOptions} [options={}]
-   * @returns {Promise<ServiceGetUserDelegationKeyResponse>}
+   * @param startsOn - The start time for the user delegation SAS. Must be within 7 days of the current time.
+   * @param expiresOn - The end time for the user delegation SAS. Must be within 7 days of the current time.
+   * @param options -
+   *
    * @memberof DataLakeServiceClient
    */
   public async getUserDelegationKey(
@@ -298,8 +298,8 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
-   * @param {ServiceListFileSystemsOptions} [options={}]
-   * @returns {PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse>}
+   * @param options -
+   *
    * @memberof DataLakeServiceClient
    */
   public listFileSystems(
@@ -324,11 +324,11 @@ export class DataLakeServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
-   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
-   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
-   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
-   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
-   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param permissions - Specifies the list of permissions to be associated with the SAS.
+   * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+   * @param options - Optional parameters.
+   * @returnsAn account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeServiceClient
    */
   public generateAccountSasUrl(
@@ -365,9 +365,9 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Renames an existing File System.
    *
-   * @param {string} sourceFileSystemName The name of the source File System.
-   * @param {string} destinationContainerName The new name of the File System.
-   * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Rename operation.
+   * @param sourceFileSystemName - The name of the source File System.
+   * @param destinationContainerName - The new name of the File System.
+   * @param options - Options to configure File System Rename operation.
    * @memberof DataLakeServiceClient
    */
   // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
@@ -414,9 +414,9 @@ export class DataLakeServiceClient extends StorageClient {
    * Restore a previously deleted File System.
    * This API is only functional if Container Soft Delete is enabled for the storage account.
    *
-   * @param {string} deletedFileSystemName The name of the source File System.
-   * @param {string} deleteFileSystemVersion The new name of the File System.
-   * @param {ServiceRenameFileSystemOptions} [options] Options to configure File System Restore operation.
+   * @param deletedFileSystemName - The name of the source File System.
+   * @param deleteFileSystemVersion - The new name of the File System.
+   * @param options - Options to configure File System Restore operation.
    * @memberof DataLakeServiceClient
    */
   public async undeleteFileSystem(

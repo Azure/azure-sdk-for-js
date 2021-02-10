@@ -18,8 +18,8 @@ export class AccountSASPermissions {
    * Parse initializes the AccountSASPermissions fields from a string.
    *
    * @static
-   * @param {string} permissions
-   * @returns {AccountSASPermissions}
+   * @param permissions -
+   *
    * @memberof AccountSASPermissions
    */
   public static parse(permissions: string): AccountSASPermissions {
@@ -132,7 +132,7 @@ export class AccountSASPermissions {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
    *
-   * @returns {string}
+   *
    * @memberof AccountSASPermissions
    */
   public toString(): string {

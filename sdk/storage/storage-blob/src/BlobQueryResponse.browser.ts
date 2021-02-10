@@ -486,8 +486,8 @@ export class BlobQueryResponse implements BlobDownloadResponseModel {
   /**
    * Creates an instance of BlobQueryResponse.
    *
-   * @param {BlobQueryResponseModel} originalResponse
-   * @param {BlobQuickQueryStreamOptions} [options={}]
+   * @param originalResponse -
+   * @param options -
    * @memberof BlobQueryResponse
    */
   public constructor(

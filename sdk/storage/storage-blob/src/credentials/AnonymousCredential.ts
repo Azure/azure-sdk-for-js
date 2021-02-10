@@ -20,9 +20,9 @@ export class AnonymousCredential extends Credential {
   /**
    * Creates an {@link AnonymousCredentialPolicy} object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {AnonymousCredentialPolicy}
+   * @param nextPolicy -
+   * @param options -
+   *
    * @memberof AnonymousCredential
    */
   public create(

@@ -16,8 +16,8 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   *
    * @memberof CredentialPolicy
    */
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -30,8 +30,8 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
    *
    * @protected
    * @abstract
-   * @param {WebResource} request
-   * @returns {WebResource}
+   * @param request -
+   *
    * @memberof CredentialPolicy
    */
   protected signRequest(request: WebResource): WebResource {

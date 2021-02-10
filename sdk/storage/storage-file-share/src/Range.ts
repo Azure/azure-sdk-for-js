@@ -33,8 +33,8 @@ export interface Range {
  * "bytes=255-" or "bytes=0-511"
  *
  * @export
- * @param {Range} range A range of byte positions.
- * @returns {string} The string representation for the byte range.
+ * @param range - A range of byte positions.
+ * @returnsThe string representation for the byte range.
  */
 export function rangeToString(range: Range): string {
   if (range.offset < 0) {

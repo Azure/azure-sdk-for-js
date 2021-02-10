@@ -190,8 +190,8 @@ export interface ShareProtocols {
  * Convert protocols from joined string to ShareProtocols.
  *
  * @export
- * @param {string} protocolsString
- * @returns {ShareProtocols}
+ * @param protocolsString -
+ *
  */
 export function toShareProtocols(protocolsString?: string): ShareProtocols | undefined {
   if (protocolsString === undefined) {
@@ -214,8 +214,8 @@ export function toShareProtocols(protocolsString?: string): ShareProtocols | und
  * Convert ShareProtocols to joined string.
  *
  * @export
- * @param {ShareProtocols} protocols
- * @returns {string | undefined}
+ * @param protocols -
+ *
  */
 export function toShareProtocolsString(protocols: ShareProtocols = {}): string | undefined {
   let protocolStr = undefined;

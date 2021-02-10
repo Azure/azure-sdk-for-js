@@ -104,8 +104,8 @@ export class Pipeline extends BlobPipeline {
   /**
    * Creates an instance of Pipeline. Customize HTTPClient by implementing IHttpClient interface.
    *
-   * @param {RequestPolicyFactory[]} factories
-   * @param {PipelineOptions} [options={}]
+   * @param factories -
+   * @param options -
    * @memberof Pipeline
    */
   constructor(factories: RequestPolicyFactory[], options: PipelineOptions = {}) {
@@ -123,7 +123,7 @@ export class Pipeline extends BlobPipeline {
    * Transfer Pipeline object to ServiceClientOptions object which is required by
    * ServiceClient constructor.
    *
-   * @returns {ServiceClientOptions} The ServiceClientOptions object from this Pipeline.
+   * @returnsThe ServiceClientOptions object from this Pipeline.
    * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
@@ -180,9 +180,9 @@ export interface StoragePipelineOptions {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
- * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
- * @returns {Pipeline} A new Pipeline object.
+ * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+ * @param pipelineOptions - Optional. Options.
+ * @returnsA new Pipeline object.
  */
 export function newPipeline(
   credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
@@ -232,9 +232,9 @@ export function newPipeline(
  * Attach a TokenCredential to an object.
  *
  * @export
- * @param {T} thing
- * @param {TokenCredential} credential
- * @returns {T}
+ * @param thing -
+ * @param credential -
+ *
  */
 function attachCredential<T>(thing: T, credential: TokenCredential): T {
   (thing as any).credential = credential;

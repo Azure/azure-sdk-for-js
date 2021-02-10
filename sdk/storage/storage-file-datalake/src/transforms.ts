@@ -34,8 +34,8 @@ import { base64encode } from "./utils/utils.common";
  * http://127.0.0.1:10000/abc               => http://127.0.0.1:10000/abc
  *
  * @export
- * @param {string} url
- * @returns {string}
+ * @param url -
+ *
  */
 export function toBlobEndpointUrl(url: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -69,8 +69,8 @@ export function toBlobEndpointUrl(url: string): string {
  * http://127.0.0.1:10000/abc               => http://127.0.0.1:10000/abc
  *
  * @export
- * @param {string} url
- * @returns {string}
+ * @param url -
+ *
  */
 export function toDfsEndpointUrl(url: string): string {
   const urlParsed = URLBuilder.parse(url);

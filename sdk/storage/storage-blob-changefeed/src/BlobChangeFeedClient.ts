@@ -49,9 +49,9 @@ export class BlobChangeFeedEventPage {
  * Creates a new Pipeline object with Credential provided.
  *
  * @export
- * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
- * @param {StoragePipelineOptions} [pipelineOptions] Optional. Options.
- * @returns {Pipeline} A new Pipeline object.
+ * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+ * @param pipelineOptions - Optional. Options.
+ * @returnsA new Pipeline object.
  */
 export function newPipeline(
   credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
@@ -99,13 +99,13 @@ export class BlobChangeFeedClient {
    *
    * Creates an instance of BlobChangeFeedClient from connection string.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof BlobChangeFeedClient
    */
   public static fromConnectionString(
@@ -123,11 +123,11 @@ export class BlobChangeFeedClient {
   /**
    * Creates an instance of BlobChangeFeedClient.
    *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   * @param url - A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof BlobChangeFeedClient
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
@@ -164,10 +164,10 @@ export class BlobChangeFeedClient {
   /**
    * Creates an instance of BlobChangeFeedClient.
    *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   * @param url - A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobChangeFeedClient
    */
@@ -322,8 +322,8 @@ export class BlobChangeFeedClient {
    * }
    * ```
    *
-   * @param {BlobChangeFeedListChangesOptions} [options={}] Options to list change feed events.
-   * @returns {PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>} An asyncIterableIterator that supports paging.
+   * @param options - Options to list change feed events.
+   * @returnsAn asyncIterableIterator that supports paging.
    * @memberof BlobChangeFeedClient
    */
   public listChanges(

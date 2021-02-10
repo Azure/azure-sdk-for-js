@@ -80,11 +80,11 @@ export class BlobBatchClient {
   /**
    * Creates an instance of BlobBatchClient.
    *
-   * @param {string} url A url pointing to Azure Storage blob service, such as
+   * @param url - A url pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Options to configure the HTTP pipeline.
    * @memberof BlobBatchClient
    */
   constructor(
@@ -95,10 +95,10 @@ export class BlobBatchClient {
   /**
    * Creates an instance of BlobBatchClient.
    *
-   * @param {string} url A url pointing to Azure Storage blob service, such as
+   * @param url - A url pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobBatchClient
    */
@@ -148,10 +148,10 @@ export class BlobBatchClient {
    * The operations will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {string[]} urls The urls of the blob resources to delete.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {BlobDeleteOptions} [options]
-   * @returns {Promise<BlobBatchDeleteBlobsResponse>}
+   * @param urls - The urls of the blob resources to delete.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options -
+   *
    * @memberof BlobBatchClient
    */
   public async deleteBlobs(
@@ -167,9 +167,9 @@ export class BlobBatchClient {
    * The operation(subrequest) will be authenticated and authorized with specified credential.
    * See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {BlobClient[]} blobClients The BlobClients for the blobs to delete.
-   * @param {BlobDeleteOptions} [options]
-   * @returns {Promise<BlobBatchDeleteBlobsResponse>}
+   * @param blobClients - The BlobClients for the blobs to delete.
+   * @param options -
+   *
    * @memberof BlobBatchClient
    */
   public async deleteBlobs(
@@ -209,11 +209,11 @@ export class BlobBatchClient {
    * The operation(subrequest) will be authenticated and authorized
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {string[]} urls The urls of the blob resource to delete.
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
-   * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
+   * @param urls - The urls of the blob resource to delete.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param tier -
+   * @param options -
+   *
    * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
@@ -234,10 +234,10 @@ export class BlobBatchClient {
    * The operation(subrequest) will be authenticated and authorized
    * with specified credential.See [blob batch authorization details](https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#authorization).
    *
-   * @param {BlobClient[]} blobClients The BlobClients for the blobs which should have a new tier set.
-   * @param {AccessTier} tier
-   * @param {BlobSetTierOptions} [options]
-   * @returns {Promise<BlobBatchSetBlobsAccessTierResponse>}
+   * @param blobClients - The BlobClients for the blobs which should have a new tier set.
+   * @param tier -
+   * @param options -
+   *
    * @memberof BlobBatchClient
    */
   public async setBlobsAccessTier(
@@ -308,9 +308,9 @@ export class BlobBatchClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
-   * @param {BlobBatch} batchRequest A set of Delete or SetTier operations.
-   * @param {BlobBatchSubmitBatchOptionalParams} [options]
-   * @returns {Promise<BlobBatchSubmitBatchResponse>}
+   * @param batchRequest - A set of Delete or SetTier operations.
+   * @param options -
+   *
    * @memberof BlobBatchClient
    */
   public async submitBatch(

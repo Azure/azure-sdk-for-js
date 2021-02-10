@@ -19,8 +19,8 @@ export class QueueSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
-   * @returns {QueueSASPermissions}
+   * @param permissions -
+   *
    * @memberof QueueSASPermissions
    */
   public static parse(permissions: string): QueueSASPermissions {
@@ -84,7 +84,7 @@ export class QueueSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the QueueSASPermissions
+   * @returnsA string which represents the QueueSASPermissions
    * @memberof QueueSASPermissions
    */
   public toString(): string {

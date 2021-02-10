@@ -19,8 +19,8 @@ export class AccountSASServices {
    * Error if it encounters a character that does not correspond to a valid service.
    *
    * @static
-   * @param {string} services
-   * @returns {AccountSASServices}
+   * @param services -
+   *
    * @memberof AccountSASServices
    */
   public static parse(services: string): AccountSASServices {
@@ -83,7 +83,7 @@ export class AccountSASServices {
   /**
    * Converts the given services to a string.
    *
-   * @returns {string}
+   *
    * @memberof AccountSASServices
    */
   public toString(): string {

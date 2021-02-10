@@ -1146,15 +1146,15 @@ export class BlobClient extends StorageClient {
    *
    * Creates an instance of BlobClient from connection string.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} containerName Container name.
-   * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param containerName - Container name.
+   * @param blobName - Blob name.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
@@ -1169,11 +1169,11 @@ export class BlobClient extends StorageClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
+   * @param url - A Client string pointing to Azure Storage blob service, such as
    *                     "https://myaccount.blob.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof BlobClient
    */
   constructor(
@@ -1187,7 +1187,7 @@ export class BlobClient extends StorageClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage blob, such as
+   * @param url - A URL string pointing to Azure Storage blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blob".
    *                     You can append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
@@ -1195,7 +1195,7 @@ export class BlobClient extends StorageClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlobClient
    */
@@ -1295,8 +1295,8 @@ export class BlobClient extends StorageClient {
    * Creates a new BlobClient object identical to the source but with the specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot The snapshot timestamp.
-   * @returns {BlobClient} A new BlobClient object identical to the source but with the specified snapshot timestamp
+   * @param snapshot - The snapshot timestamp.
+   * @returnsA new BlobClient object identical to the source but with the specified snapshot timestamp
    * @memberof BlobClient
    */
   public withSnapshot(snapshot: string): BlobClient {
@@ -1314,8 +1314,8 @@ export class BlobClient extends StorageClient {
    * Creates a new BlobClient object pointing to a version of this blob.
    * Provide "" will remove the versionId and return a Client to the base blob.
    *
-   * @param {string} versionId The versionId.
-   * @returns {BlobClient} A new BlobClient object pointing to the version of this blob.
+   * @param versionId - The versionId.
+   * @returnsA new BlobClient object pointing to the version of this blob.
    * @memberof BlobClient
    */
   public withVersion(versionId: string): BlobClient {
@@ -1332,7 +1332,7 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a AppendBlobClient object.
    *
-   * @returns {AppendBlobClient}
+   *
    * @memberof BlobClient
    */
   public getAppendBlobClient(): AppendBlobClient {
@@ -1342,7 +1342,7 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a BlockBlobClient object.
    *
-   * @returns {BlockBlobClient}
+   *
    * @memberof BlobClient
    */
   public getBlockBlobClient(): BlockBlobClient {
@@ -1352,7 +1352,7 @@ export class BlobClient extends StorageClient {
   /**
    * Creates a PageBlobClient object.
    *
-   * @returns {PageBlobClient}
+   *
    * @memberof BlobClient
    */
   public getPageBlobClient(): PageBlobClient {
@@ -1368,10 +1368,10 @@ export class BlobClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob
    *
-   * @param {number} [offset] From which position of the blob to download, >= 0
-   * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
-   * @returns {Promise<BlobDownloadResponseParsed>}
+   * @param offset - From which position of the blob to download, >= 0
+   * @param count - How much data to be downloaded, > 0. Will download to the end when undefined
+   * @param options - Optional options to Blob Download operation.
+   *
    * @memberof BlobClient
    *
    * Example usage (Node.js):
@@ -1537,8 +1537,8 @@ export class BlobClient extends StorageClient {
    * applications. Vice versa new blobs might be added by other clients or applications after this
    * function completes.
    *
-   * @param {BlobExistsOptions} [options] options to Exists operation.
-   * @returns {Promise<boolean>}
+   * @param options - options to Exists operation.
+   *
    * @memberof BlobClient
    */
   public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
@@ -1583,8 +1583,8 @@ export class BlobClient extends StorageClient {
    * the methods of {@link ContainerClient} that list blobs using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @param {BlobGetPropertiesOptions} [options] Optional options to Get Properties operation.
-   * @returns {Promise<BlobGetPropertiesResponse>}
+   * @param options - Optional options to Get Properties operation.
+   *
    * @memberof BlobClient
    */
   public async getProperties(
@@ -1629,8 +1629,8 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
-   * @returns {Promise<BlobDeleteResponse>}
+   * @param options - Optional options to Blob Delete operation.
+   *
    * @memberof BlobClient
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
@@ -1665,8 +1665,8 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
-   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
-   * @returns {Promise<BlobDeleteIfExistsResponse>}
+   * @param options - Optional options to Blob Delete operation.
+   *
    * @memberof BlobClient
    */
   public async deleteIfExists(
@@ -1711,8 +1711,8 @@ export class BlobClient extends StorageClient {
    * or later.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob
    *
-   * @param {BlobUndeleteOptions} [options] Optional options to Blob Undelete operation.
-   * @returns {Promise<BlobUndeleteResponse>}
+   * @param options - Optional options to Blob Undelete operation.
+   *
    * @memberof BlobClient
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
@@ -1740,11 +1740,11 @@ export class BlobClient extends StorageClient {
    * these blob HTTP headers without a value will be cleared.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {BlobHTTPHeaders} [blobHTTPHeaders] If no value provided, or no value provided for
+   * @param blobHTTPHeaders - If no value provided, or no value provided for
    *                                                   the specified blob HTTP headers, these blob HTTP
    *                                                   headers without a value will be cleared.
-   * @param {BlobSetHTTPHeadersOptions} [options] Optional options to Blob Set HTTP Headers operation.
-   * @returns {Promise<BlobSetHTTPHeadersResponse>}
+   * @param options - Optional options to Blob Set HTTP Headers operation.
+   *
    * @memberof BlobClient
    */
   public async setHTTPHeaders(
@@ -1784,10 +1784,10 @@ export class BlobClient extends StorageClient {
    * metadata will be removed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata
    *
-   * @param {Metadata} [metadata] Replace existing metadata with this value.
+   * @param metadata - Replace existing metadata with this value.
    *                               If no value provided the existing metadata will be removed.
-   * @param {BlobSetMetadataOptions} [options] Optional options to Set Metadata operation.
-   * @returns {Promise<BlobSetMetadataResponse>}
+   * @param options - Optional options to Set Metadata operation.
+   *
    * @memberof BlobClient
    */
   public async setMetadata(
@@ -1827,9 +1827,9 @@ export class BlobClient extends StorageClient {
    * Valid tag key and value characters include lower and upper case letters, digits (0-9),
    * space (' '), plus ('+'), minus ('-'), period ('.'), foward slash ('/'), colon (':'), equals ('='), and underscore ('_').
    *
-   * @param {Tags} tags
-   * @param {BlobSetTagsOptions} [options={}]
-   * @returns {Promise<BlobSetTagsResponse>}
+   * @param tags -
+   * @param options -
+   *
    * @memberof BlobClient
    */
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
@@ -1859,8 +1859,8 @@ export class BlobClient extends StorageClient {
   /**
    * Gets the tags associated with the underlying blob.
    *
-   * @param {BlobGetTagsOptions} [options={}]
-   * @returns {Promise<BlobGetTagsResponse>}
+   * @param options -
+   *
    * @memberof BlobClient
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
@@ -1895,8 +1895,8 @@ export class BlobClient extends StorageClient {
   /**
    * Get a {@link BlobLeaseClient} that manages leases on the blob.
    *
-   * @param {string} [proposeLeaseId] Initial proposed lease Id.
-   * @returns {BlobLeaseClient} A new BlobLeaseClient object for managing leases on the blob.
+   * @param proposeLeaseId - Initial proposed lease Id.
+   * @returnsA new BlobLeaseClient object for managing leases on the blob.
    * @memberof BlobClient
    */
   public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
@@ -1907,8 +1907,8 @@ export class BlobClient extends StorageClient {
    * Creates a read-only snapshot of a blob.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob
    *
-   * @param {BlobCreateSnapshotOptions} [options] Optional options to the Blob Create Snapshot operation.
-   * @returns {Promise<BlobCreateSnapshotResponse>}
+   * @param options - Optional options to the Blob Create Snapshot operation.
+   *
    * @memberof BlobClient
    */
   public async createSnapshot(
@@ -2010,8 +2010,8 @@ export class BlobClient extends StorageClient {
    * }
    * ```
    *
-   * @param {string} copySource url to the source Azure Blob/File.
-   * @param {BlobBeginCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
+   * @param copySource - url to the source Azure Blob/File.
+   * @param options - Optional options to the Blob Start Copy From URL operation.
    */
   public async beginCopyFromURL(
     copySource: string,
@@ -2045,9 +2045,9 @@ export class BlobClient extends StorageClient {
    * length and full metadata. Version 2012-02-12 and newer.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob
    *
-   * @param {string} copyId Id of the Copy From URL operation.
-   * @param {BlobAbortCopyFromURLOptions} [options] Optional options to the Blob Abort Copy From URL operation.
-   * @returns {Promise<BlobAbortCopyFromURLResponse>}
+   * @param copyId - Id of the Copy From URL operation.
+   * @param options - Optional options to the Blob Abort Copy From URL operation.
+   *
    * @memberof BlobClient
    */
   public async abortCopyFromURL(
@@ -2077,9 +2077,9 @@ export class BlobClient extends StorageClient {
    * return a response until the copy is complete.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url
    *
-   * @param {string} copySource The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
-   * @param {BlobSyncCopyFromURLOptions} [options={}]
-   * @returns {Promise<BlobCopyFromURLResponse>}
+   * @param copySource - The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication
+   * @param options -
+   *
    * @memberof BlobClient
    */
   public async syncCopyFromURL(
@@ -2128,9 +2128,9 @@ export class BlobClient extends StorageClient {
    * storage type. This operation does not update the blob's ETag.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier
    *
-   * @param {BlockBlobTier | PremiumPageBlobTier | string} tier The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
-   * @param {BlobSetTierOptions} [options] Optional options to the Blob Set Tier operation.
-   * @returns {Promise<BlobsSetTierResponse>}
+   * @param tier - The tier to be set on the blob. Valid values are Hot, Cool, or Archive.
+   * @param options - Optional options to the Blob Set Tier operation.
+   *
    * @memberof BlobClient
    */
   public async setAccessTier(
@@ -2173,10 +2173,10 @@ export class BlobClient extends StorageClient {
    * consider {@link downloadToFile}.
    *
    * @export
-   * @param {number} offset From which position of the block blob to download(in bytes)
-   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
-   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
-   * @returns {Promise<Buffer>}
+   * @param offset - From which position of the block blob to download(in bytes)
+   * @param count - How much data(in bytes) to be downloaded. Will download to the end when passing undefined
+   * @param options - BlobDownloadToBufferOptions
+   *
    */
   public async downloadToBuffer(
     offset?: number,
@@ -2195,11 +2195,11 @@ export class BlobClient extends StorageClient {
    * consider {@link downloadToFile}.
    *
    * @export
-   * @param {Buffer} buffer Buffer to be fill, must have length larger than count
-   * @param {number} offset From which position of the block blob to download(in bytes)
-   * @param {number} [count] How much data(in bytes) to be downloaded. Will download to the end when passing undefined
-   * @param {BlobDownloadToBufferOptions} [options] BlobDownloadToBufferOptions
-   * @returns {Promise<Buffer>}
+   * @param buffer - Buffer to be fill, must have length larger than count
+   * @param offset - From which position of the block blob to download(in bytes)
+   * @param count - How much data(in bytes) to be downloaded. Will download to the end when passing undefined
+   * @param options - BlobDownloadToBufferOptions
+   *
    */
   public async downloadToBuffer(
     buffer: Buffer,
@@ -2336,11 +2336,11 @@ export class BlobClient extends StorageClient {
    * Fails if the the given file path already exits.
    * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
    *
-   * @param {string} filePath
-   * @param {number} [offset] From which position of the block blob to download.
-   * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
-   * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<BlobDownloadResponseParsed>} The response data for blob download operation,
+   * @param filePath -
+   * @param offset - From which position of the block blob to download.
+   * @param count - How much data to be downloaded. Will download to the end when passing undefined.
+   * @param options - Options to Blob download options.
+   * @returnsThe response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -2442,9 +2442,9 @@ export class BlobClient extends StorageClient {
    * operation to copy from another storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob
    *
-   * @param {string} copySource url to the source Azure Blob/File.
-   * @param {BlobStartCopyFromURLOptions} [options] Optional options to the Blob Start Copy From URL operation.
-   * @returns {Promise<BlobStartCopyFromURLResponse>}
+   * @param copySource - url to the source Azure Blob/File.
+   * @param options - Optional options to the Blob Start Copy From URL operation.
+   *
    * @memberof BlobClient
    */
   private async startCopyFromURL(
@@ -2496,8 +2496,8 @@ export class BlobClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @param {BlobGenerateSasUrlOptions} options Optional parameters.
-   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @param options - Optional parameters.
+   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof BlobClient
    */
   public generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string> {
@@ -2835,15 +2835,15 @@ export class AppendBlobClient extends BlobClient {
    *
    * Creates an instance of AppendBlobClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} containerName Container name.
-   * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param containerName - Container name.
+   * @param blobName - Blob name.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
@@ -2858,7 +2858,7 @@ export class AppendBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage append blob, such as
+   * @param url - A URL string pointing to Azure Storage append blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob?sasString".
@@ -2866,8 +2866,8 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof AppendBlobClient
    */
   constructor(
@@ -2881,7 +2881,7 @@ export class AppendBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage append blob, such as
+   * @param url - A URL string pointing to Azure Storage append blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/appendblob?sasString".
@@ -2889,7 +2889,7 @@ export class AppendBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof AppendBlobClient
    */
@@ -2983,8 +2983,8 @@ export class AppendBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot The snapshot timestamp.
-   * @returns {AppendBlobClient} A new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
+   * @param snapshot - The snapshot timestamp.
+   * @returnsA new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof AppendBlobClient
    */
   public withSnapshot(snapshot: string): AppendBlobClient {
@@ -3002,8 +3002,8 @@ export class AppendBlobClient extends BlobClient {
    * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateOptions} [options] Options to the Append Block Create operation.
-   * @returns {Promise<AppendBlobCreateResponse>}
+   * @param options - Options to the Append Block Create operation.
+   *
    * @memberof AppendBlobClient
    *
    * Example usage:
@@ -3049,8 +3049,8 @@ export class AppendBlobClient extends BlobClient {
    * If the blob with the same name already exists, the content of the existing blob will remain unchanged.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {AppendBlobCreateIfNotExistsOptions} [options]
-   * @returns {Promise<AppendBlobCreateIfNotExistsResponse>}
+   * @param options -
+   *
    * @memberof AppendBlobClient
    */
   public async createIfNotExists(
@@ -3098,8 +3098,8 @@ export class AppendBlobClient extends BlobClient {
   /**
    * Seals the append blob, making it read only.
    *
-   * @param {AppendBlobSealOptions} [options={}]
-   * @returns {Promise<AppendBlobAppendBlockResponse>}
+   * @param options -
+   *
    * @memberof AppendBlobClient
    */
   public async seal(options: AppendBlobSealOptions = {}): Promise<AppendBlobAppendBlockResponse> {
@@ -3131,10 +3131,10 @@ export class AppendBlobClient extends BlobClient {
    * Commits a new block of data to the end of the existing append blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/append-block
    *
-   * @param {HttpRequestBody} body Data to be appended.
-   * @param {number} contentLength Length of the body in bytes.
-   * @param {AppendBlobAppendBlockOptions} [options] Options to the Append Block operation.
-   * @returns {Promise<AppendBlobAppendBlockResponse>}
+   * @param body - Data to be appended.
+   * @param contentLength - Length of the body in bytes.
+   * @param options - Options to the Append Block operation.
+   *
    * @memberof AppendBlobClient
    *
    * Example usage:
@@ -3196,15 +3196,15 @@ export class AppendBlobClient extends BlobClient {
    * where the contents are read from a source url.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/append-block-from-url
    *
-   * @param {string} sourceURL
+   * @param sourceURL -
    *                 The url to the blob that will be the source of the copy. A source blob in the same storage account can
    *                 be authenticated via Shared Key. However, if the source is a blob in another account, the source blob
    *                 must either be public or must be authenticated via a shared access signature. If the source blob is
    *                 public, no authentication is required to perform the operation.
-   * @param {number} sourceOffset Offset in source to be appended
-   * @param {number} count Number of bytes to be appended as a block
-   * @param {AppendBlobAppendBlockFromURLOptions} [options={}]
-   * @returns {Promise<AppendBlobAppendBlockFromUrlResponse>}
+   * @param sourceOffset - Offset in source to be appended
+   * @param count - Number of bytes to be appended as a block
+   * @param options -
+   *
    * @memberof AppendBlobClient
    */
   public async appendBlockFromURL(
@@ -4097,15 +4097,15 @@ export class BlockBlobClient extends BlobClient {
    *
    * Creates an instance of BlockBlobClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} containerName Container name.
-   * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param containerName - Container name.
+   * @param blobName - Blob name.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
@@ -4120,7 +4120,7 @@ export class BlockBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage block blob, such as
+   * @param url - A URL string pointing to Azure Storage block blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob?sasString".
@@ -4128,8 +4128,8 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof BlockBlobClient
    */
   constructor(
@@ -4143,7 +4143,7 @@ export class BlockBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage block blob, such as
+   * @param url - A URL string pointing to Azure Storage block blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob". You can
    *                     append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/blockblob?sasString".
@@ -4151,7 +4151,7 @@ export class BlockBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof BlockBlobClient
    */
@@ -4246,8 +4246,8 @@ export class BlockBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *
-   * @param {string} snapshot The snapshot timestamp.
-   * @returns {BlockBlobClient} A new BlockBlobClient object identical to the source but with the specified snapshot timestamp.
+   * @param snapshot - The snapshot timestamp.
+   * @returnsA new BlockBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof BlockBlobClient
    */
   public withSnapshot(snapshot: string): BlockBlobClient {
@@ -4288,9 +4288,9 @@ export class BlockBlobClient extends BlobClient {
    * }
    * ```
    *
-   * @param {string} query
-   * @param {BlockBlobQueryOptions} [options={}]
-   * @returns {Promise<BlobDownloadResponseModel>}
+   * @param query -
+   * @param options -
+   *
    * @memberof BlockBlobClient
    */
   public async query(
@@ -4349,12 +4349,12 @@ export class BlockBlobClient extends BlobClient {
    *
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {HttpRequestBody} body Blob, string, ArrayBuffer, ArrayBufferView or a function
+   * @param body - Blob, string, ArrayBuffer, ArrayBufferView or a function
    *                               which returns a new Readable stream whose offset is from data source beginning.
-   * @param {number} contentLength Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
+   * @param contentLength - Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
-   * @param {BlockBlobUploadOptions} [options] Options to the Block Blob Upload operation.
-   * @returns {Promise<BlockBlobUploadResponse>} Response data for the Block Blob Upload operation.
+   * @param options - Options to the Block Blob Upload operation.
+   * @returnsResponse data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
    *
    * Example usage:
@@ -4407,7 +4407,7 @@ export class BlockBlobClient extends BlobClient {
    * the content of the new blob.  To perform partial updates to a block blob’s contents using a
    * source URL, use {@link stageBlockFromURL} and {@link commitBlockList}.
    *
-   * @param {string} sourceURL Specifies the URL of the blob. The value
+   * @param sourceURL - Specifies the URL of the blob. The value
    *                           may be a URL of up to 2 KB in length that specifies a blob.
    *                           The value should be URL-encoded as it would appear
    *                           in a request URI. The source blob must either be public
@@ -4416,7 +4416,7 @@ export class BlockBlobClient extends BlobClient {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {BlockBlobSyncUploadFromURLOptions} [options={}] Optional parameters.
+   * @param options - Optional parameters.
    * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
    * @memberof BlockBlobClient
    */
@@ -4467,11 +4467,11 @@ export class BlockBlobClient extends BlobClient {
    * committed by a call to commitBlockList.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block
    *
-   * @param {string} blockId A 64-byte value that is base64-encoded
-   * @param {HttpRequestBody} body Data to upload to the staging area.
-   * @param {number} contentLength Number of bytes to upload.
-   * @param {BlockBlobStageBlockOptions} [options] Options to the Block Blob Stage Block operation.
-   * @returns {Promise<BlockBlobStageBlockResponse>} Response data for the Block Blob Stage Block operation.
+   * @param blockId - A 64-byte value that is base64-encoded
+   * @param body - Data to upload to the staging area.
+   * @param contentLength - Number of bytes to upload.
+   * @param options - Options to the Block Blob Stage Block operation.
+   * @returnsResponse data for the Block Blob Stage Block operation.
    * @memberof BlockBlobClient
    */
   public async stageBlock(
@@ -4510,8 +4510,8 @@ export class BlockBlobClient extends BlobClient {
    * This API is available starting in version 2018-03-28.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-block-from-url
    *
-   * @param {string} blockId A 64-byte value that is base64-encoded
-   * @param {string} sourceURL Specifies the URL of the blob. The value
+   * @param blockId - A 64-byte value that is base64-encoded
+   * @param sourceURL - Specifies the URL of the blob. The value
    *                           may be a URL of up to 2 KB in length that specifies a blob.
    *                           The value should be URL-encoded as it would appear
    *                           in a request URI. The source blob must either be public
@@ -4520,10 +4520,10 @@ export class BlockBlobClient extends BlobClient {
    *                           to perform the operation. Here are some examples of source object URLs:
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
    *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {number} [offset] From which position of the blob to download, >= 0
-   * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
-   * @param {BlockBlobStageBlockFromURLOptions} [options={}] Options to the Block Blob Stage Block From URL operation.
-   * @returns {Promise<BlockBlobStageBlockFromURLResponse>} Response data for the Block Blob Stage Block From URL operation.
+   * @param offset - From which position of the blob to download, >= 0
+   * @param count - How much data to be downloaded, > 0. Will download to the end when undefined
+   * @param options - Options to the Block Blob Stage Block From URL operation.
+   * @returnsResponse data for the Block Blob Stage Block From URL operation.
    * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
@@ -4568,9 +4568,9 @@ export class BlockBlobClient extends BlobClient {
    * blocks together. Any blocks not specified in the block list and permanently deleted.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-block-list
    *
-   * @param {string[]} blocks  Array of 64-byte value that is base64-encoded
-   * @param {BlockBlobCommitBlockListOptions} [options] Options to the Block Blob Commit Block List operation.
-   * @returns {Promise<BlockBlobCommitBlockListResponse>} Response data for the Block Blob Commit Block List operation.
+   * @param blocks -  Array of 64-byte value that is base64-encoded
+   * @param options - Options to the Block Blob Commit Block List operation.
+   * @returnsResponse data for the Block Blob Commit Block List operation.
    * @memberof BlockBlobClient
    */
   public async commitBlockList(
@@ -4618,10 +4618,10 @@ export class BlockBlobClient extends BlobClient {
    * using the specified block list filter.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-block-list
    *
-   * @param {BlockListType} listType Specifies whether to return the list of committed blocks,
+   * @param listType - Specifies whether to return the list of committed blocks,
    *                                        the list of uncommitted blocks, or both lists together.
-   * @param {BlockBlobGetBlockListOptions} [options] Options to the Block Blob Get Block List operation.
-   * @returns {Promise<BlockBlobGetBlockListResponse>} Response data for the Block Blob Get Block List operation.
+   * @param options - Options to the Block Blob Get Block List operation.
+   * @returnsResponse data for the Block Blob Get Block List operation.
    * @memberof BlockBlobClient
    */
   public async getBlockList(
@@ -4674,9 +4674,9 @@ export class BlockBlobClient extends BlobClient {
    * to commit the block list.
    *
    * @export
-   * @param {Buffer | Blob | ArrayBuffer | ArrayBufferView} data Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
-   * @param {BlockBlobParallelUploadOptions} [options]
-   * @returns {Promise<BlobUploadCommonResponse>}
+   * @param data - Buffer(Node.js), Blob, ArrayBuffer or ArrayBufferView
+   * @param options -
+   *
    * @memberof BlockBlobClient
    */
   public async uploadData(
@@ -4735,9 +4735,9 @@ export class BlockBlobClient extends BlobClient {
    * @deprecated Use {@link uploadData} instead.
    *
    * @export
-   * @param {Blob | ArrayBuffer | ArrayBufferView} browserData Blob, File, ArrayBuffer or ArrayBufferView
-   * @param {BlockBlobParallelUploadOptions} [options] Options to upload browser data.
-   * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @param browserData - Blob, File, ArrayBuffer or ArrayBufferView
+   * @param options - Options to upload browser data.
+   * @returnsResponse data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async uploadBrowserData(
@@ -4776,10 +4776,10 @@ export class BlockBlobClient extends BlobClient {
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
    *
-   * @param {(offset: number, size: number) => HttpRequestBody} bodyFactory
-   * @param {number} size size of the data to upload.
-   * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
-   * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @param bodyFactory -
+   * @param size - size of the data to upload.
+   * @param options - Options to Upload to Block Blob operation.
+   * @returnsResponse data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   private async uploadSeekableInternal(
@@ -4903,9 +4903,9 @@ export class BlockBlobClient extends BlobClient {
    * Otherwise, this method will call stageBlock to upload blocks, and finally call commitBlockList
    * to commit the block list.
    *
-   * @param {string} filePath Full path of local file
-   * @param {BlockBlobParallelUploadOptions} [options] Options to Upload to Block Blob operation.
-   * @returns {(Promise<BlobUploadCommonResponse>)}  Response data for the Blob Upload operation.
+   * @param filePath - Full path of local file
+   * @param options - Options to Upload to Block Blob operation.
+   * @returns Response data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async uploadFile(
@@ -4947,12 +4947,12 @@ export class BlockBlobClient extends BlobClient {
    * * Input stream highWaterMark is better to set a same value with bufferSize
    *    parameter, which will avoid Buffer.concat() operations.
    *
-   * @param {Readable} stream Node.js Readable stream
-   * @param {number} bufferSize Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
-   * @param {number} maxConcurrency  Max concurrency indicates the max number of buffers that can be allocated,
+   * @param stream - Node.js Readable stream
+   * @param bufferSize - Size of every buffer allocated, also the block size in the uploaded block blob. Default value is 8MB
+   * @param maxConcurrency -  Max concurrency indicates the max number of buffers that can be allocated,
    *                                 positive correlation with max uploading concurrency. Default value is 5
-   * @param {BlockBlobUploadStreamOptions} [options] Options to Upload Stream to Block Blob operation.
-   * @returns {Promise<BlobUploadCommonResponse>} Response data for the Blob Upload operation.
+   * @param options - Options to Upload Stream to Block Blob operation.
+   * @returnsResponse data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async uploadStream(
@@ -5519,15 +5519,15 @@ export class PageBlobClient extends BlobClient {
    *
    * Creates an instance of PageBlobClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {string} containerName Container name.
-   * @param {string} blobName Blob name.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param containerName - Container name.
+   * @param blobName - Blob name.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
   constructor(
@@ -5542,11 +5542,11 @@ export class PageBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A Client string pointing to Azure Storage page blob, such as
+   * @param url - A Client string pointing to Azure Storage page blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
    */
   constructor(
@@ -5557,7 +5557,7 @@ export class PageBlobClient extends BlobClient {
   /**
    * Creates an instance of PageBlobClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage page blob, such as
+   * @param url - A URL string pointing to Azure Storage page blob, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob".
    *                     You can append a SAS if using AnonymousCredential, such as
    *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
@@ -5565,7 +5565,7 @@ export class PageBlobClient extends BlobClient {
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
    *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof PageBlobClient
    */
@@ -5659,8 +5659,8 @@ export class PageBlobClient extends BlobClient {
    * specified snapshot timestamp.
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
-   * @param {string} snapshot The snapshot timestamp.
-   * @returns {PageBlobClient} A new PageBlobClient object identical to the source but with the specified snapshot timestamp.
+   * @param snapshot - The snapshot timestamp.
+   * @returnsA new PageBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof PageBlobClient
    */
   public withSnapshot(snapshot: string): PageBlobClient {
@@ -5679,9 +5679,9 @@ export class PageBlobClient extends BlobClient {
    * data to a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {number} size size of the page blob.
-   * @param {PageBlobCreateOptions} [options] Options to the Page Blob Create operation.
-   * @returns {Promise<PageBlobCreateResponse>} Response data for the Page Blob Create operation.
+   * @param size - size of the page blob.
+   * @param options - Options to the Page Blob Create operation.
+   * @returnsResponse data for the Page Blob Create operation.
    * @memberof PageBlobClient
    */
   public async create(
@@ -5725,9 +5725,9 @@ export class PageBlobClient extends BlobClient {
    * of the existing blob will remain unchanged.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
-   * @param {number} size size of the page blob.
-   * @param {PageBlobCreateIfNotExistsOptions} [options]
-   * @returns {Promise<PageBlobCreateIfNotExistsResponse>}
+   * @param size - size of the page blob.
+   * @param options -
+   *
    * @memberof PageBlobClient
    */
   public async createIfNotExists(
@@ -5777,11 +5777,11 @@ export class PageBlobClient extends BlobClient {
    * Writes 1 or more pages to the page blob. The start and end offsets must be a multiple of 512.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {HttpRequestBody} body Data to upload
-   * @param {number} offset Offset of destination page blob
-   * @param {number} count Content length of the body, also number of bytes to be uploaded
-   * @param {PageBlobUploadPagesOptions} [options] Options to the Page Blob Upload Pages operation.
-   * @returns {Promise<PageBlobsUploadPagesResponse>} Response data for the Page Blob Upload Pages operation.
+   * @param body - Data to upload
+   * @param offset - Offset of destination page blob
+   * @param count - Content length of the body, also number of bytes to be uploaded
+   * @param options - Options to the Page Blob Upload Pages operation.
+   * @returnsResponse data for the Page Blob Upload Pages operation.
    * @memberof PageBlobClient
    */
   public async uploadPages(
@@ -5826,12 +5826,12 @@ export class PageBlobClient extends BlobClient {
    * contents are read from a URL.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/put-page-from-url
    *
-   * @param {string} sourceURL Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
-   * @param {number} sourceOffset The source offset to copy from. Pass 0 to copy from the beginning of source page blob
-   * @param {number} destOffset Offset of destination page blob
-   * @param {number} count Number of bytes to be uploaded from source page blob
-   * @param {PageBlobUploadPagesFromURLOptions} [options={}]
-   * @returns {Promise<PageBlobUploadPagesFromURLResponse>}
+   * @param sourceURL - Specify a URL to the copy source, Shared Access Signature(SAS) maybe needed for authentication
+   * @param sourceOffset - The source offset to copy from. Pass 0 to copy from the beginning of source page blob
+   * @param destOffset - Offset of destination page blob
+   * @param count - Number of bytes to be uploaded from source page blob
+   * @param options -
+   *
    * @memberof PageBlobClient
    */
   public async uploadPagesFromURL(
@@ -5890,10 +5890,10 @@ export class PageBlobClient extends BlobClient {
    * Frees the specified pages from the page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-page
    *
-   * @param {number} [offset] Starting byte position of the pages to clear.
-   * @param {number} [count] Number of bytes to clear.
-   * @param {PageBlobClearPagesOptions} [options] Options to the Page Blob Clear Pages operation.
-   * @returns {Promise<PageBlobClearPagesResponse>} Response data for the Page Blob Clear Pages operation.
+   * @param offset - Starting byte position of the pages to clear.
+   * @param count - Number of bytes to clear.
+   * @param options - Options to the Page Blob Clear Pages operation.
+   * @returnsResponse data for the Page Blob Clear Pages operation.
    * @memberof PageBlobClient
    */
   public async clearPages(
@@ -5932,10 +5932,10 @@ export class PageBlobClient extends BlobClient {
    * Returns the list of valid page ranges for a page blob or snapshot of a page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {number} [offset] Starting byte position of the page ranges.
-   * @param {number} [count] Number of bytes to get.
-   * @param {PageBlobGetPageRangesOptions} [options] Options to the Page Blob Get Ranges operation.
-   * @returns {Promise<PageBlobGetPageRangesResponse>} Response data for the Page Blob Get Ranges operation.
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param options - Options to the Page Blob Get Ranges operation.
+   * @returnsResponse data for the Page Blob Get Ranges operation.
    * @memberof PageBlobClient
    */
   public async getPageRanges(
@@ -5976,11 +5976,11 @@ export class PageBlobClient extends BlobClient {
    * Gets the collection of page ranges that differ between a specified snapshot and this page blob.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {number} offset Starting byte position of the page blob
-   * @param {number} count Number of bytes to get ranges diff.
-   * @param {string} prevSnapshot Timestamp of snapshot to retrieve the difference.
-   * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
-   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @param offset - Starting byte position of the page blob
+   * @param count - Number of bytes to get ranges diff.
+   * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   * @returnsResponse data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
   public async getPageRangesDiff(
@@ -6024,11 +6024,11 @@ export class PageBlobClient extends BlobClient {
    * Gets the collection of page ranges that differ between a specified snapshot and this page blob for managed disks.
    * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
    *
-   * @param {number} offset Starting byte position of the page blob
-   * @param {number} count Number of bytes to get ranges diff.
-   * @param {string} prevSnapshotUrl URL of snapshot to retrieve the difference.
-   * @param {PageBlobGetPageRangesDiffOptions} [options] Options to the Page Blob Get Page Ranges Diff operation.
-   * @returns {Promise<PageBlobGetPageRangesDiffResponse>} Response data for the Page Blob Get Page Range Diff operation.
+   * @param offset - Starting byte position of the page blob
+   * @param count - Number of bytes to get ranges diff.
+   * @param prevSnapshotUrl - URL of snapshot to retrieve the difference.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   * @returnsResponse data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
   public async getPageRangesDiffForManagedDisks(
@@ -6072,9 +6072,9 @@ export class PageBlobClient extends BlobClient {
    * Resizes the page blob to the specified size (which must be a multiple of 512).
    * @see https://docs.microsoft.com/rest/api/storageservices/set-blob-properties
    *
-   * @param {number} size Target size
-   * @param {PageBlobResizeOptions} [options] Options to the Page Blob Resize operation.
-   * @returns {Promise<PageBlobResizeResponse>} Response data for the Page Blob Resize operation.
+   * @param size - Target size
+   * @param options - Options to the Page Blob Resize operation.
+   * @returnsResponse data for the Page Blob Resize operation.
    * @memberof PageBlobClient
    */
   public async resize(
@@ -6109,10 +6109,10 @@ export class PageBlobClient extends BlobClient {
    * Sets a page blob's sequence number.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties
    *
-   * @param {SequenceNumberActionType} sequenceNumberAction Indicates how the service should modify the blob's sequence number.
-   * @param {number} [sequenceNumber] Required if sequenceNumberAction is max or update
-   * @param {PageBlobUpdateSequenceNumberOptions} [options] Options to the Page Blob Update Sequence Number operation.
-   * @returns {Promise<PageBlobUpdateSequenceNumberResponse>} Response data for the Page Blob Update Sequence Number operation.
+   * @param sequenceNumberAction - Indicates how the service should modify the blob's sequence number.
+   * @param sequenceNumber - Required if sequenceNumberAction is max or update
+   * @param options - Options to the Page Blob Update Sequence Number operation.
+   * @returnsResponse data for the Page Blob Update Sequence Number operation.
    * @memberof PageBlobClient
    */
   public async updateSequenceNumber(
@@ -6155,10 +6155,10 @@ export class PageBlobClient extends BlobClient {
    * @see https://docs.microsoft.com/rest/api/storageservices/incremental-copy-blob
    * @see https://docs.microsoft.com/en-us/azure/virtual-machines/windows/incremental-snapshots
    *
-   * @param {string} copySource Specifies the name of the source page blob snapshot. For example,
+   * @param copySource - Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
-   * @param {PageBlobStartCopyIncrementalOptions} [options] Options to the Page Blob Copy Incremental operation.
-   * @returns {Promise<PageBlobCopyIncrementalResponse>} Response data for the Page Blob Copy Incremental operation.
+   * @param options - Options to the Page Blob Copy Incremental operation.
+   * @returnsResponse data for the Page Blob Copy Incremental operation.
    * @memberof PageBlobClient
    */
   public async startCopyIncremental(

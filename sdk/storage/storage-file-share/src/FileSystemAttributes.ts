@@ -11,8 +11,8 @@ export class FileSystemAttributes {
    * Error if it encounters a string that does not correspond to a valid attributes.
    *
    * @static
-   * @param {string} fileAttributes The value of header x-ms-file-attributes.
-   * @returns {FileSystemAttributes}
+   * @param fileAttributes - The value of header x-ms-file-attributes.
+   *
    * @memberof FileSystemAttributes
    */
   public static parse(fileAttributes: string): FileSystemAttributes {
@@ -148,7 +148,7 @@ export class FileSystemAttributes {
   /**
    * Converts the given attributes to a string.
    *
-   * @returns {string} A string which represents the FileSystemAttributes
+   * @returnsA string which represents the FileSystemAttributes
    * @memberof FileSystemAttributes
    */
   public toString(): string {

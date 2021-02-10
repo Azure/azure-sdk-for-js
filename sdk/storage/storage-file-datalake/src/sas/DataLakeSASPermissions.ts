@@ -19,8 +19,8 @@ export class DataLakeSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
-   * @returns {DataLakeSASPermissions}
+   * @param permissions -
+   *
    * @memberof DataLakeSASPermissions
    */
   public static parse(permissions: string): DataLakeSASPermissions {
@@ -142,7 +142,7 @@ export class DataLakeSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the DataLakeSASPermissions
+   * @returnsA string which represents the DataLakeSASPermissions
    * @memberof DataLakeSASPermissions
    */
   public toString(): string {

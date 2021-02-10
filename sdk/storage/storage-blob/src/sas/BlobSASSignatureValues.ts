@@ -254,9 +254,9 @@ export interface BlobSASSignatureValues {
  * ```
  *
  * @export
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -289,10 +289,10 @@ export function generateBlobSASQueryParameters(
  * ```
  *
  * @export
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKey} userDelegationKey Return value of `blobServiceClient.getUserDelegationKey()`
- * @param {string} accountName
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+ * @param accountName -
+ *
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -372,9 +372,9 @@ export function generateBlobSASQueryParameters(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -470,9 +470,9 @@ function generateBlobSASQueryParameters20150405(
  * You MUST assign value to identifier or expiresOn & permissions manually if you initial with
  * this constructor.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -575,9 +575,9 @@ function generateBlobSASQueryParameters20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ *
  */
 function generateBlobSASQueryParametersUDK20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
@@ -687,9 +687,9 @@ function generateBlobSASQueryParametersUDK20181109(
  *
  * WARNING: identifier will be ignored, permissions and expiresOn are required.
  *
- * @param {BlobSASSignatureValues} blobSASSignatureValues
- * @param {UserDelegationKeyCredential} userDelegationKeyCredential
- * @returns {SASQueryParameters}
+ * @param blobSASSignatureValues -
+ * @param userDelegationKeyCredential -
+ *
  */
 function generateBlobSASQueryParametersUDK20200210(
   blobSASSignatureValues: BlobSASSignatureValues,

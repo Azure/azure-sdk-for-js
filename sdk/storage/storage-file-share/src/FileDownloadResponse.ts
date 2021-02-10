@@ -471,11 +471,11 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
   /**
    * Creates an instance of FileDownloadResponse.
    *
-   * @param {FileDownloadResponseModel} originalResponse
-   * @param {ReadableStreamGetter} getter
-   * @param {number} offset
-   * @param {number} count
-   * @param {RetriableReadableStreamOptions} [options={}]
+   * @param originalResponse -
+   * @param getter -
+   * @param offset -
+   * @param count -
+   * @param options -
    * @memberof FileDownloadResponse
    */
   public constructor(

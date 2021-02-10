@@ -17,7 +17,7 @@ export class ShareSASPermissions {
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
-   * @param {string} permissions
+   * @param permissions -
    * @memberof ShareSASPermissions
    */
   public static parse(permissions: string) {
@@ -95,7 +95,7 @@ export class ShareSASPermissions {
    * The order of the characters should be as specified here to ensure correctness.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
-   * @returns {string}
+   *
    * @memberof ShareSASPermissions
    */
   public toString(): string {

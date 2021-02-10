@@ -32,8 +32,8 @@ export interface SasIPRange {
  * "8.8.8.8" or "1.1.1.1-255.255.255.255"
  *
  * @export
- * @param {SasIPRange} ipRange
- * @returns {string}
+ * @param ipRange -
+ *
  */
 export function ipRangeToString(ipRange: SasIPRange): string {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;

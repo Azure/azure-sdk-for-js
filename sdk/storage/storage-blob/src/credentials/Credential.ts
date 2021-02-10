@@ -16,9 +16,9 @@ export abstract class Credential implements RequestPolicyFactory {
   /**
    * Creates a RequestPolicy object.
    *
-   * @param {RequestPolicy} _nextPolicy
-   * @param {RequestPolicyOptions} _options
-   * @returns {RequestPolicy}
+   * @param _nextPolicy -
+   * @param _options -
+   *
    * @memberof Credential
    */
   public create(

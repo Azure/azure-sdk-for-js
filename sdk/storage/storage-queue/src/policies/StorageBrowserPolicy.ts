@@ -30,8 +30,8 @@ import { setURLParameter } from "../utils/utils.common";
 export class StorageBrowserPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of StorageBrowserPolicy.
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param nextPolicy -
+   * @param options -
    * @memberof StorageBrowserPolicy
    */
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
@@ -41,8 +41,8 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
   /**
    * Sends out request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
+   * @param request -
+   *
    * @memberof StorageBrowserPolicy
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {

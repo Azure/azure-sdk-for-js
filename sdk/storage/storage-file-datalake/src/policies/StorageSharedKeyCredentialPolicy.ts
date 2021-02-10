@@ -25,9 +25,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
   /**
    * Creates an instance of StorageSharedKeyCredentialPolicy.
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @param {StorageSharedKeyCredential} factory
+   * @param nextPolicy -
+   * @param options -
+   * @param factory -
    * @memberof StorageSharedKeyCredentialPolicy
    */
   constructor(
@@ -43,8 +43,8 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * Signs request.
    *
    * @protected
-   * @param {WebResource} request
-   * @returns {WebResource}
+   * @param request -
+   *
    * @memberof StorageSharedKeyCredentialPolicy
    */
   protected signRequest(request: WebResource): WebResource {
@@ -96,9 +96,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/authenticate-with-shared-key
    *
    * @private
-   * @param {WebResource} request
-   * @param {string} headerName
-   * @returns {string}
+   * @param request -
+   * @param headerName -
+   *
    * @memberof StorageSharedKeyCredentialPolicy
    */
   private getHeaderValueToSign(request: WebResource, headerName: string): string {
@@ -130,8 +130,8 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    *    Construct the CanonicalizedHeaders string by concatenating all headers in this list into a single string.
    *
    * @private
-   * @param {WebResource} request
-   * @returns {string}
+   * @param request -
+   *
    * @memberof StorageSharedKeyCredentialPolicy
    */
   private getCanonicalizedHeadersString(request: WebResource): string {
@@ -165,8 +165,8 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
    * Retrieves the webResource canonicalized resource string.
    *
    * @private
-   * @param {WebResource} request
-   * @returns {string}
+   * @param request -
+   *
    * @memberof StorageSharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {

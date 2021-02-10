@@ -33,8 +33,8 @@ export interface Range {
  * "bytes=255-" or "bytes=0-511"
  *
  * @export
- * @param {Range} iRange
- * @returns {string}
+ * @param iRange -
+ *
  */
 export function rangeToString(iRange: Range): string {
   if (iRange.offset < 0) {

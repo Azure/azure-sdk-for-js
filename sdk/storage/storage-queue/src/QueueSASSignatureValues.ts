@@ -101,9 +101,9 @@ export interface QueueSASSignatureValues {
  * this constructor.
  *
  * @export
- * @param {QueueSASSignatureValues} queueSASSignatureValues
- * @param {StorageSharedKeyCredential} sharedKeyCredential
- * @returns {SASQueryParameters}
+ * @param queueSASSignatureValues -
+ * @param sharedKeyCredential -
+ *
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,

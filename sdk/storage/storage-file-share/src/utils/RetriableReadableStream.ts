@@ -69,12 +69,12 @@ export class RetriableReadableStream extends Readable {
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
-   * @param {ReadableStreamGetter} getter A method calling downloading request returning
+   * @param source - The current ReadableStream returned from getter
+   * @param getter - A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
-   * @param {number} offset Offset position in original data source to read
-   * @param {number} count How much data in original data source to read
-   * @param {RetriableReadableStreamOptions} [options={}]
+   * @param offset - Offset position in original data source to read
+   * @param count - How much data in original data source to read
+   * @param options -
    * @memberof RetriableReadableStream
    */
   public constructor(

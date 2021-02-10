@@ -16,9 +16,9 @@ export class StorageBrowserPolicyFactory implements RequestPolicyFactory {
   /**
    * Creates a StorageBrowserPolicyFactory object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {StorageBrowserPolicy}
+   * @param nextPolicy -
+   * @param options -
+   *
    * @memberof StorageBrowserPolicyFactory
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageBrowserPolicy {

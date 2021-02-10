@@ -192,14 +192,14 @@ export class BufferScheduler {
   /**
    * Creates an instance of BufferScheduler.
    *
-   * @param {Readable} readable A Node.js Readable stream
-   * @param {number} bufferSize Buffer size of every maintained buffer
-   * @param {number} maxBuffers How many buffers can be allocated
-   * @param {OutgoingHandler} outgoingHandler An async function scheduled to be
+   * @param readable - A Node.js Readable stream
+   * @param bufferSize - Buffer size of every maintained buffer
+   * @param maxBuffers - How many buffers can be allocated
+   * @param outgoingHandler - An async function scheduled to be
    *                                          triggered when a buffer fully filled
    *                                          with stream data
-   * @param {number} concurrency Concurrency of executing outgoingHandlers (>0)
-   * @param {string} [encoding] [Optional] Encoding of Readable stream when it's a string stream
+   * @param concurrency - Concurrency of executing outgoingHandlers (>0)
+   * @param encoding - [Optional] Encoding of Readable stream when it's a string stream
    * @memberof BufferScheduler
    */
   constructor(
@@ -234,7 +234,7 @@ export class BufferScheduler {
    * Start the scheduler, will return error when stream of any of the outgoingHandlers
    * returns error.
    *
-   * @returns {Promise<void>}
+   *
    * @memberof BufferScheduler
    */
   public async do(): Promise<void> {
@@ -289,7 +289,7 @@ export class BufferScheduler {
    * Insert a new data into unresolved array.
    *
    * @private
-   * @param {Buffer} data
+   * @param data -
    * @memberof BufferScheduler
    */
   private appendUnresolvedData(data: Buffer) {
@@ -302,7 +302,7 @@ export class BufferScheduler {
    * than blockSize when data in unresolvedDataArray is less than bufferSize.
    *
    * @private
-   * @returns {PooledBuffer}
+   *
    * @memberof BufferScheduler
    */
   private shiftBufferFromUnresolvedDataArray(buffer?: PooledBuffer): PooledBuffer {
@@ -324,7 +324,7 @@ export class BufferScheduler {
    * Return false when available buffers in incoming are not enough, else true.
    *
    * @private
-   * @returns {boolean} Return false when buffers in incoming are not enough, else true.
+   * @returnsReturn false when buffers in incoming are not enough, else true.
    * @memberof BufferScheduler
    */
   private resolveData(): boolean {
@@ -375,8 +375,8 @@ export class BufferScheduler {
    * Trigger a outgoing handler for a buffer shifted from outgoing.
    *
    * @private
-   * @param {Buffer} buffer
-   * @returns {Promise<any>}
+   * @param buffer -
+   *
    * @memberof BufferScheduler
    */
   private async triggerOutgoingHandler(buffer: PooledBuffer): Promise<any> {
@@ -405,7 +405,7 @@ export class BufferScheduler {
    * Return buffer used by outgoing handler into incoming.
    *
    * @private
-   * @param {Buffer} buffer
+   * @param buffer -
    * @memberof BufferScheduler
    */
   private reuseBuffer(buffer: PooledBuffer) {
