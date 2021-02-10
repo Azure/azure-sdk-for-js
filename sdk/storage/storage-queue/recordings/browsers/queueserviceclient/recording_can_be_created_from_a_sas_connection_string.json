@@ -2,30 +2,26 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://fakestorageaccount.queue.core.windows.net/",
+   "url": "https://fakestorageaccount.queue.core.windows.net",
    "query": {
-    "restype": "service",
     "comp": "properties",
+    "restype": "service",
     "timeout": "30"
    },
    "requestBody": null,
    "status": 200,
    "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><Logging><Version>1.0</Version><Read>true</Read><Write>true</Write><Delete>true</Delete><RetentionPolicy><Enabled>true</Enabled><Days>5</Days></RetentionPolicy></Logging><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>3</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>true</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>4</Days></RetentionPolicy></MinuteMetrics><Cors><CorsRule><AllowedMethods>DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT</AllowedMethods><AllowedOrigins>*</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>86400</MaxAgeInSeconds></CorsRule><CorsRule><AllowedMethods>GET</AllowedMethods><AllowedOrigins>example.com</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>8888</MaxAgeInSeconds></CorsRule><CorsRule><AllowedMethods>GET</AllowedMethods><AllowedOrigins>example.com</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>8888</MaxAgeInSeconds></CorsRule><CorsRule><AllowedMethods>GET</AllowedMethods><AllowedOrigins>example.com</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>8888</MaxAgeInSeconds></CorsRule><CorsRule><AllowedMethods>GET</AllowedMethods><AllowedOrigins>example.com</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>8888</MaxAgeInSeconds></CorsRule></Cors></StorageServiceProperties>",
    "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-type": "application/xml",
-    "date": "Tue, 09 Feb 2021 19:46:15 GMT",
+    "date": "Wed, 11 Sep 2019 02:21:56 GMT",
     "server": "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
-    "x-ms-client-request-id": "84131e1d-7673-47bd-8744-1d0836eed4e3",
-    "x-ms-request-id": "7232ca29-b003-004d-601c-ffa01e000000",
-    "x-ms-version": "2020-04-08"
+    "content-type": "application/xml",
+    "x-ms-request-id": "5019c1cd-f003-0027-1747-68fcb5000000",
+    "cache-control": "no-cache",
+    "x-ms-version": "2019-02-02",
+    "x-ms-client-request-id": "05cc2bc4-972f-4ce8-92d4-b5eeecbe6c91"
    }
   }
  ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "fa5a41aa3dec7882edc65362f5753e38"
+ "uniqueTestInfo": {}
 }
