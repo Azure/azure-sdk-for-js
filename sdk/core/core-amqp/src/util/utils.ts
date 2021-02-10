@@ -69,11 +69,11 @@ export type ParsedOutput<T> = { [P in keyof T]: T[P] };
  *
  * Connection strings have the following syntax:
  *
- * ConnectionString ::= Part { ";" Part } [ ";" ] [ WhiteSpace ]
+ * ConnectionString ::= `Part { ";" Part } [ ";" ] [ WhiteSpace ]`
  * Part             ::= [ PartLiteral [ "=" PartLiteral ] ]
  * PartLiteral      ::= [ WhiteSpace ] Literal [ WhiteSpace ]
  * Literal          ::= ? any sequence of characters except ; or = or WhiteSpace ?
- * WhiteSpace       ::= ? all whitespace characters including \r and \n ?
+ * WhiteSpace       ::= ? all whitespace characters including `\r` and `\n` ?
  *
  * @param connectionString - The connection string to be parsed.
  * @returns ParsedOutput<T>.
