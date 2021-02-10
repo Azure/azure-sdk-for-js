@@ -157,7 +157,7 @@ export class Timeout {
     return Promise.race([wrappedPromise, timer]);
   }
 
-  private _promiseFinally<T>(promise: Promise<T>, fn: Function): Promise<T> {
+  private _promiseFinally<T>(promise: Promise<T>, fn: (...args: any[]) => void): Promise<T> {
     const success = (result: T): T => {
       fn();
       return result;
