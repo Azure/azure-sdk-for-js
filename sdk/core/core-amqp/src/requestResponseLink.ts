@@ -247,8 +247,9 @@ type NormalizedInfo = {
  *
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
  */
-export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
-  if (!props) props = {};
+export const getCodeDescriptionAndError = (
+  props: { [key: string]: string | number | undefined } = {}
+): NormalizedInfo => {
   return {
     statusCode: (props[Constants.statusCode] || props.statusCode) as number,
     statusDescription: (props[Constants.statusDescription] || props.statusDescription) as string,
