@@ -702,7 +702,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
    * @param options - Options to Queue create operation.
-   * @returnsResponse data for the Queue create operation.
+   * @returns Response data for the Queue create operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -837,7 +837,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
    * @param options - Options to Queue delete operation.
-   * @returnsResponse data for the Queue delete operation.
+   * @returns Response data for the Queue delete operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -915,7 +915,7 @@ export class QueueClient extends StorageClient {
    * will retain their original casing.
    *
    * @param options - Options to Queue get properties operation.
-   * @returnsResponse data for the Queue get properties operation.
+   * @returns Response data for the Queue get properties operation.
    * @memberof QueueClient
    */
   public async getProperties(
@@ -947,7 +947,7 @@ export class QueueClient extends StorageClient {
    *
    * @param metadata - If no metadata provided, all existing metadata will be removed.
    * @param options - Options to Queue set metadata operation.
-   * @returnsResponse data for the Queue set metadata operation.
+   * @returns Response data for the Queue set metadata operation.
    * @memberof QueueClient
    */
   public async setMetadata(
@@ -981,7 +981,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-acl
    *
    * @param options - Options to Queue get access policy operation.
-   * @returnsResponse data for the Queue get access policy operation.
+   * @returns Response data for the Queue get access policy operation.
    * @memberof QueueClient
    */
   public async getAccessPolicy(
@@ -1044,7 +1044,7 @@ export class QueueClient extends StorageClient {
    *
    * @param queueAcl -
    * @param options - Options to Queue set access policy operation.
-   * @returnsResponse data for the Queue set access policy operation.
+   * @returns Response data for the Queue set access policy operation.
    * @memberof QueueClient
    */
   public async setAccessPolicy(
@@ -1090,7 +1090,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/clear-messages
    *
    * @param options - Options to clear messages operation.
-   * @returnsResponse data for the clear messages operation.
+   * @returns Response data for the clear messages operation.
    * @memberof QueueClient
    */
   public async clearMessages(
@@ -1122,7 +1122,7 @@ export class QueueClient extends StorageClient {
    *
    * @param messageText - Text of the message to send
    * @param options - Options to send messages operation.
-   * @returnsResponse data for the send messages operation.
+   * @returns Response data for the send messages operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -1181,7 +1181,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-messages
    *
    * @param options - Options to receive messages operation.
-   * @returnsResponse data for the receive messages operation.
+   * @returns Response data for the receive messages operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -1244,7 +1244,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/peek-messages
    *
    * @param options - Options to peek messages operation.
-   * @returnsResponse data for the peek messages operation.
+   * @returns Response data for the peek messages operation.
    * @memberof QueueClient
    *
    * Example usage:
@@ -1298,7 +1298,7 @@ export class QueueClient extends StorageClient {
    * @param messageId - Id of the message.
    * @param popReceipt - A valid pop receipt value returned from an earlier call to the receive messages or update message operation.
    * @param options - Options to delete message operation.
-   * @returnsResponse data for the delete message operation.
+   * @returns Response data for the delete message operation.
    * @memberof QueueClient
    */
   public async deleteMessage(
@@ -1338,7 +1338,7 @@ export class QueueClient extends StorageClient {
    *                                   be set to a value later than the expiry time.
    *                                   A message can be updated until it has been deleted or has expired.
    * @param options - Options to update message operation.
-   * @returnsResponse data for the update message operation.
+   * @returns Response data for the update message operation.
    * @memberof QueueClient
    */
   public async updateMessage(
@@ -1416,7 +1416,7 @@ export class QueueClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof QueueClient
    */
   public generateSasUrl(options: QueueGenerateSasUrlOptions): string {

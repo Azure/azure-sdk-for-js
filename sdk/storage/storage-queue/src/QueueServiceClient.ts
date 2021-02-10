@@ -218,7 +218,7 @@ export class QueueServiceClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Options to configure the HTTP pipeline.
-   * @returnsA new QueueServiceClient object from the given connection string.
+   * @returns A new QueueServiceClient object from the given connection string.
    * @memberof QueueServiceClient
    */
   public static fromConnectionString(
@@ -344,7 +344,7 @@ export class QueueServiceClient extends StorageClient {
    * Creates a {@link QueueClient} object.
    *
    * @param queueName -
-   * @returnsa new QueueClient
+   * @returns a new QueueClient
    * @memberof QueueServiceClient
    *
    * Example usage:
@@ -370,7 +370,7 @@ export class QueueServiceClient extends StorageClient {
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
    * @param options - Options to list queues operation.
-   * @returnsResponse data for the list queues segment operation.
+   * @returns Response data for the list queues segment operation.
    * @memberof QueueServiceClient
    */
   private async listQueuesSegment(
@@ -536,7 +536,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param options - Options to list queues operation.
    * @memberof QueueServiceClient
-   * @returnsAn asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
     options: ServiceListQueuesOptions = {}
@@ -583,7 +583,7 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
    * @param options - Options to get properties operation.
-   * @returnsResponse data including the queue service properties.
+   * @returns Response data including the queue service properties.
    * @memberof QueueServiceClient
    */
   public async getProperties(
@@ -616,7 +616,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param properties -
    * @param options - Options to set properties operation.
-   * @returnsResponse data for the Set Properties operation.
+   * @returns Response data for the Set Properties operation.
    * @memberof QueueServiceClient
    */
   public async setProperties(
@@ -650,7 +650,7 @@ export class QueueServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
    * @param options - Options to get statistics operation.
-   * @returnsResponse data for get statistics the operation.
+   * @returns Response data for get statistics the operation.
    * @memberof QueueServiceClient
    */
   public async getStatistics(
@@ -682,7 +682,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param queueName - name of the queue to create
    * @param options - Options to Queue create operation.
-   * @returnsResponse data for the Queue create operation.
+   * @returns Response data for the Queue create operation.
    * @memberof QueueServiceClient
    */
   public async createQueue(
@@ -715,7 +715,7 @@ export class QueueServiceClient extends StorageClient {
    *
    * @param queueName - name of the queue to delete.
    * @param options - Options to Queue delete operation.
-   * @returnsResponse data for the Queue delete operation.
+   * @returns Response data for the Queue delete operation.
    * @memberof QueueServiceClient
    */
   public async deleteQueue(
@@ -754,7 +754,7 @@ export class QueueServiceClient extends StorageClient {
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
    * @param resourceTypes - Specifies the resource types associated with the shared access signature.
    * @param options - Optional parameters.
-   * @returnsAn account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof QueueServiceClient
    */
   public generateAccountSasUrl(

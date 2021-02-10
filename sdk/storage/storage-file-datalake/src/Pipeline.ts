@@ -123,7 +123,7 @@ export class Pipeline extends BlobPipeline {
    * Transfer Pipeline object to ServiceClientOptions object which is required by
    * ServiceClient constructor.
    *
-   * @returnsThe ServiceClientOptions object from this Pipeline.
+   * @returns The ServiceClientOptions object from this Pipeline.
    * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
@@ -182,7 +182,7 @@ export interface StoragePipelineOptions {
  * @export
  * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
  * @param pipelineOptions - Optional. Options.
- * @returnsA new Pipeline object.
+ * @returns A new Pipeline object.
  */
 export function newPipeline(
   credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,

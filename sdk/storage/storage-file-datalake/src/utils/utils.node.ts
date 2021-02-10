@@ -70,7 +70,7 @@ export async function streamToBuffer(
  * @param stream - A Node.js Readable stream
  * @param buffer - Buffer to be filled, length must >= offset
  * @param encoding - Encoding of the Readable stream
- * @returnswith the count of bytes read.
+ * @returns with the count of bytes read.
  * @throws {RangeError} If buffer size is not big enough.
  */
 export async function streamToBuffer2(

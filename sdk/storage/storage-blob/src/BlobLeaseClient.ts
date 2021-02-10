@@ -174,7 +174,7 @@ export class BlobLeaseClient {
    *
    * @param duration - Must be between 15 to 60 seconds, or infinite (-1)
    * @param options - option to configure lease management operations.
-   * @returnsResponse data for acquire lease operation.
+   * @returns Response data for acquire lease operation.
    * @memberof BlobLeaseClient
    */
   public async acquireLease(
@@ -227,7 +227,7 @@ export class BlobLeaseClient {
    *
    * @param proposedLeaseId - the proposed new lease Id.
    * @param options - option to configure lease management operations.
-   * @returnsResponse data for change lease operation.
+   * @returns Response data for change lease operation.
    * @memberof BlobLeaseClient
    */
   public async changeLease(
@@ -281,7 +281,7 @@ export class BlobLeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param options - option to configure lease management operations.
-   * @returnsResponse data for release lease operation.
+   * @returns Response data for release lease operation.
    * @memberof BlobLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
@@ -328,7 +328,7 @@ export class BlobLeaseClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/lease-blob
    *
    * @param options - Optional option to configure lease management operations.
-   * @returnsResponse data for renew lease operation.
+   * @returns Response data for renew lease operation.
    * @memberof BlobLeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
@@ -375,7 +375,7 @@ export class BlobLeaseClient {
    * @static
    * @param breakPeriod - Break period
    * @param options - Optional options to configure lease management operations.
-   * @returnsResponse data for break lease operation.
+   * @returns Response data for break lease operation.
    * @memberof BlobLeaseClient
    */
   public async breakLease(

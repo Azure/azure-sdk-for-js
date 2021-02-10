@@ -328,7 +328,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
    * @param resourceTypes - Specifies the resource types associated with the shared access signature.
    * @param options - Optional parameters.
-   * @returnsAn account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeServiceClient
    */
   public generateAccountSasUrl(

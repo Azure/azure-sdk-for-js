@@ -676,7 +676,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeFileSystemClient
    */
   public generateSasUrl(options: FileSystemGenerateSasUrlOptions): Promise<string> {

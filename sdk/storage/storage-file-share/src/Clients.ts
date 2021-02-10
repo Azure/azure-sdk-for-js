@@ -834,7 +834,7 @@ export class ShareClient extends StorageClient {
    * Provide "" will remove the snapshot and return a URL to the base share.
    *
    * @param snapshot - The snapshot timestamp.
-   * @returnsA new ShareClient object identical to the source but with the specified snapshot timestamp
+   * @returns A new ShareClient object identical to the source but with the specified snapshot timestamp
    * @memberof ShareClient
    */
   public withSnapshot(snapshot: string): ShareClient {
@@ -854,7 +854,7 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
    * @param options - Options to Share Create operation.
-   * @returnsResponse data for the Share Create operation.
+   * @returns Response data for the Share Create operation.
    * @memberof ShareClient
    */
   public async create(options: ShareCreateOptions = {}): Promise<ShareCreateResponse> {
@@ -927,7 +927,7 @@ export class ShareClient extends StorageClient {
    * Creates a {@link ShareDirectoryClient} object.
    *
    * @param directoryName A directory name
-   * @returnsThe ShareDirectoryClient object for the given directory name.
+   * @returns The ShareDirectoryClient object for the given directory name.
    * @memberof ShareClient
    */
   public getDirectoryClient(directoryName: string): ShareDirectoryClient {
@@ -955,7 +955,7 @@ export class ShareClient extends StorageClient {
    *
    * @param directoryName -
    * @param options - Options to Directory Create operation.
-   * @returnsDirectory creation response data and the corresponding directory client.
+   * @returns Directory creation response data and the corresponding directory client.
    * @memberof ShareClient
    */
   public async createDirectory(
@@ -994,7 +994,7 @@ export class ShareClient extends StorageClient {
    *
    * @param directoryName -
    * @param options - Options to Directory Delete operation.
-   * @returnsDirectory deletion response data.
+   * @returns Directory deletion response data.
    * @memberof ShareClient
    */
   public async deleteDirectory(
@@ -1027,7 +1027,7 @@ export class ShareClient extends StorageClient {
    * @param fileName -
    * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param options - Options to File Create operation.
-   * @returnsFile creation response data and the corresponding file client.
+   * @returns File creation response data and the corresponding file client.
    * @memberof ShareClient
    */
   public async createFile(
@@ -1149,7 +1149,7 @@ export class ShareClient extends StorageClient {
    * the `listShares` method of {@link ShareServiceClient} using the `includeMetadata` option, which
    * will retain their original casing.
    *
-   * @returnsResponse data for the Share Get Properties operation.
+   * @returns Response data for the Share Get Properties operation.
    * @memberof ShareClient
    */
   public async getProperties(
@@ -1183,7 +1183,7 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
    * @param options - Options to Share Delete operation.
-   * @returnsResponse data for the Share Delete operation.
+   * @returns Response data for the Share Delete operation.
    * @memberof ShareClient
    */
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
@@ -1257,7 +1257,7 @@ export class ShareClient extends StorageClient {
    *
    * @param metadata - If no metadata provided, all existing directory metadata will be removed.
    * @param option - Options to Share Set Metadata operation.
-   * @returnsResponse data for the Share Set Metadata operation.
+   * @returns Response data for the Share Set Metadata operation.
    * @memberof ShareClient
    */
   public async setMetadata(
@@ -1292,7 +1292,7 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-share-acl
    *
    * @param option - Options to Share Get Access Policy operation.
-   * @returnsResponse data for the Share Get Access Policy operation.
+   * @returns Response data for the Share Get Access Policy operation.
    * @memberof ShareClient
    */
   public async getAccessPolicy(
@@ -1364,7 +1364,7 @@ export class ShareClient extends StorageClient {
    *
    * @param shareAcl - Array of signed identifiers, each having a unique Id and details of access policy.
    * @param option - Options to Share Set Access Policy operation.
-   * @returnsResponse data for the Share Set Access Policy operation.
+   * @returns Response data for the Share Set Access Policy operation.
    * @memberof ShareClient
    */
   public async setAccessPolicy(
@@ -1409,7 +1409,7 @@ export class ShareClient extends StorageClient {
    * Creates a read-only snapshot of a share.
    *
    * @param options - Options to Share Create Snapshot operation.
-   * @returnsResponse data for the Share Create Snapshot operation.
+   * @returns Response data for the Share Create Snapshot operation.
    * @memberof ShareClient
    */
   public async createSnapshot(
@@ -1440,7 +1440,7 @@ export class ShareClient extends StorageClient {
    *
    * @param quotaInGB - Specifies the maximum size of the share in gigabytes
    * @param option - Options to Share Set Quota operation.
-   * @returnsResponse data for the Share Get Quota operation.
+   * @returns Response data for the Share Get Quota operation.
    * @memberof ShareClient
    */
   public async setQuota(
@@ -1469,7 +1469,7 @@ export class ShareClient extends StorageClient {
    * Sets properties of the share.
    *
    * @param option - Options to Share Set Properties operation.
-   * @returnsResponse data for the Share Set Properties operation.
+   * @returns Response data for the Share Set Properties operation.
    * @memberof ShareClient
    */
   public async setProperties(
@@ -1497,7 +1497,7 @@ export class ShareClient extends StorageClient {
    * Retrieves statistics related to the share.
    *
    * @param option - Options to Share Get Statistics operation.
-   * @returnsResponse data for the Share Get Statistics operation.
+   * @returns Response data for the Share Get Statistics operation.
    * @memberof ShareClient
    */
   public async getStatistics(
@@ -1598,7 +1598,7 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof ShareClient
    */
   public generateSasUrl(options: ShareGenerateSasUrlOptions): string {
@@ -2084,7 +2084,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
    * @param options - Options to Directory Create operation.
-   * @returnsResponse data for the Directory  operation.
+   * @returns Response data for the Directory  operation.
    * @memberof ShareDirectoryClient
    */
   public async create(options: DirectoryCreateOptions = {}): Promise<DirectoryCreateResponse> {
@@ -2213,7 +2213,7 @@ export class ShareDirectoryClient extends StorageClient {
    * Creates a ShareDirectoryClient object for a sub directory.
    *
    * @param subDirectoryName A subdirectory name
-   * @returnsThe ShareDirectoryClient object for the given subdirectory name.
+   * @returns The ShareDirectoryClient object for the given subdirectory name.
    * @memberof ShareDirectoryClient
    *
    * Example usage:
@@ -2237,7 +2237,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @param directoryName -
    * @param options - Options to Directory Create operation.
-   * @returnsDirectory create response data and the corresponding DirectoryClient instance.
+   * @returns Directory create response data and the corresponding DirectoryClient instance.
    * @memberof ShareDirectoryClient
    */
   public async createSubdirectory(
@@ -2279,7 +2279,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @param directoryName -
    * @param options - Options to Directory Delete operation.
-   * @returnsDirectory deletion response data.
+   * @returns Directory deletion response data.
    * @memberof ShareDirectoryClient
    */
   public async deleteSubdirectory(
@@ -2314,7 +2314,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @param fileName -
    * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param options - Options to File Create operation.
-   * @returnsFile creation response data and the corresponding file client.
+   * @returns File creation response data and the corresponding file client.
    * @memberof ShareDirectoryClient
    */
   public async createFile(
@@ -2363,7 +2363,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @param fileName - Name of the file to delete
    * @param options - Options to File Delete operation.
-   * @returnsFile deletion response data.
+   * @returns File deletion response data.
    * @memberof ShareDirectoryClient
    */
   public async deleteFile(
@@ -2395,7 +2395,7 @@ export class ShareDirectoryClient extends StorageClient {
    * Creates a {@link ShareFileClient} object.
    *
    * @param fileName - A file name.
-   * @returnsA new ShareFileClient object for the given file name.
+   * @returns A new ShareFileClient object for the given file name.
    * @memberof ShareFileClient
    *
    * Example usage:
@@ -2466,7 +2466,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-directory-properties
    *
    * @param options - Options to Directory Get Properties operation.
-   * @returnsResponse data for the Directory Get Properties operation.
+   * @returns Response data for the Directory Get Properties operation.
    * @memberof ShareDirectoryClient
    */
   public async getProperties(
@@ -2498,7 +2498,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
    * @param options - Options to Directory Delete operation.
-   * @returnsResponse data for the Directory Delete operation.
+   * @returns Response data for the Directory Delete operation.
    * @memberof ShareDirectoryClient
    */
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
@@ -2575,7 +2575,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @param metadata - If no metadata provided, all existing directory metadata will be removed
    * @param options - Options to Directory Set Metadata operation.
-   * @returnsResponse data for the Directory Set Metadata operation.
+   * @returns Response data for the Directory Set Metadata operation.
    * @memberof ShareDirectoryClient
    */
   public async setMetadata(
@@ -2639,7 +2639,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @private
    * @param options - Options to list files and directories operation.
-   * @returns& DirectoryItem>}
+   * @returns & DirectoryItem>}
    * @memberof ShareDirectoryClient
    */
   private async *listFilesAndDirectoriesItems(
@@ -2754,7 +2754,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @param options - Options to list files and directories operation.
    * @memberof ShareDirectoryClient
-   * @returns, DirectoryListFilesAndDirectoriesSegmentResponse>}
+   * @returns , DirectoryListFilesAndDirectoriesSegmentResponse>}
    * An asyncIterableIterator that supports paging.
    */
   public listFilesAndDirectories(
@@ -2801,7 +2801,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
    * @param options - Options to Directory List Files and Directories Segment operation.
-   * @returnsResponse data for the Directory List Files and Directories operation.
+   * @returns Response data for the Directory List Files and Directories operation.
    * @memberof ShareDirectoryClient
    */
   private async listFilesAndDirectoriesSegment(
@@ -4135,7 +4135,7 @@ export class ShareFileClient extends StorageClient {
    * Provide "" will remove the snapshot and return a URL to the base ShareFileClient.
    *
    * @param shareSnapshot - The share snapshot timestamp.
-   * @returnsA new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
+   * @returns A new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
    * @memberof ShareFileClient
    */
   public withShareSnapshot(shareSnapshot: string): ShareFileClient {
@@ -4155,7 +4155,7 @@ export class ShareFileClient extends StorageClient {
    *
    * @param size - Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param options - Options to File Create operation.
-   * @returnsResponse data for the File Create  operation.
+   * @returns Response data for the File Create  operation.
    * @memberof ShareFileClient
    *
    * Example usage:
@@ -4226,7 +4226,7 @@ export class ShareFileClient extends StorageClient {
    * @param offset - From which position of the file to download, >= 0
    * @param count - How much data to be downloaded, > 0. Will download to the end when undefined
    * @param options - Options to File Download operation.
-   * @returnsResponse data for the File Download operation.
+   * @returns Response data for the File Download operation.
    * @memberof ShareFileClient
    *
    * Example usage (Node.js):
@@ -4408,7 +4408,7 @@ export class ShareFileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
    *
    * @param options - Options to File Get Properties operation.
-   * @returnsResponse data for the File Get Properties operation.
+   * @returns Response data for the File Get Properties operation.
    * @memberof ShareFileClient
    */
   public async getProperties(
@@ -4495,7 +4495,7 @@ export class ShareFileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param options - Options to File Delete operation.
-   * @returnsResponse data for the File Delete operation.
+   * @returns Response data for the File Delete operation.
    * @memberof ShareFileClient
    */
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
@@ -4586,7 +4586,7 @@ export class ShareFileClient extends StorageClient {
    * @param FileHttpHeaders - File HTTP headers like Content-Type.
    *                                             Provide undefined will remove existing HTTP headers.
    * @param options - Options to File Set HTTP Headers operation.
-   * @returnsResponse data for the File Set HTTP Headers operation.
+   * @returns Response data for the File Set HTTP Headers operation.
    * @memberof ShareFileClient
    */
   public async setHttpHeaders(
@@ -4633,7 +4633,7 @@ export class ShareFileClient extends StorageClient {
    *                        If the specified byte value is less than the current size of the file,
    *                        then all ranges above the specified byte value are cleared.
    * @param options - Options to File Resize operation.
-   * @returnsResponse data for the File Set HTTP Headers operation.
+   * @returns Response data for the File Set HTTP Headers operation.
    * @memberof ShareFileClient
    */
   public async resize(
@@ -4681,7 +4681,7 @@ export class ShareFileClient extends StorageClient {
    *
    * @param metadata - If no metadata provided, all existing directory metadata will be removed
    * @param options - Options to File Set Metadata operation.
-   * @returnsResponse data for the File Set Metadata operation.
+   * @returns Response data for the File Set Metadata operation.
    * @memberof ShareFileClient
    */
   public async setMetadata(
@@ -4718,7 +4718,7 @@ export class ShareFileClient extends StorageClient {
    * @param contentLength - Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param options - Options to File Upload Range operation.
-   * @returnsResponse data for the File Upload Range operation.
+   * @returns Response data for the File Upload Range operation.
    * @memberof ShareFileClient
    *
    * Example usage:
@@ -5555,7 +5555,7 @@ export class ShareFileClient extends StorageClient {
    * @param offset - From which position of the block blob to download.
    * @param count - How much data to be downloaded. Will download to the end when passing undefined.
    * @param options - Options to Blob download options.
-   * @returnsThe response data for blob download operation,
+   * @returns The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -5866,7 +5866,7 @@ export class ShareFileClient extends StorageClient {
    * Get a {@link ShareLeaseClient} that manages leases on the file.
    *
    * @param proposeLeaseId - Initial proposed lease Id.
-   * @returnsA new ShareLeaseClient object for managing leases on the file.
+   * @returns A new ShareLeaseClient object for managing leases on the file.
    * @memberof ShareFileClient
    */
   public getShareLeaseClient(proposeLeaseId?: string) {
@@ -5882,7 +5882,7 @@ export class ShareFileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof ShareFileClient
    */
   public generateSasUrl(options: FileGenerateSasUrlOptions): string {
@@ -6049,7 +6049,7 @@ export class ShareLeaseClient {
    *
    * @param duration - Specifies the duration of lease in seconds. For file, the only allowed value is -1 for a lease that never expires. For share, must be -1 or between 15 to 60.
    * @param options - Options for the lease management operation.
-   * @returnsResponse data for acquire lease operation.
+   * @returns Response data for acquire lease operation.
    * @memberof ShareLeaseClient
    */
   public async acquireLease(
@@ -6083,7 +6083,7 @@ export class ShareLeaseClient {
    *
    * @param proposedLeaseId - the proposed new lease Id.
    * @param options - Options for the lease management operation.
-   * @returnsResponse data for change lease operation.
+   * @returns Response data for change lease operation.
    * @memberof ShareLeaseClient
    */
   public async changeLease(
@@ -6118,7 +6118,7 @@ export class ShareLeaseClient {
    * immediately acquire a lease.
    *
    * @param options - Options for the lease management operation.
-   * @returnsResponse data for release lease operation.
+   * @returns Response data for release lease operation.
    * @memberof ShareLeaseClient
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
@@ -6146,7 +6146,7 @@ export class ShareLeaseClient {
    * To force end the lease.
    *
    * @param options - Options for the lease management operation.
-   * @returnsResponse data for break lease operation.
+   * @returns Response data for break lease operation.
    * @memberof ShareLeaseClient
    */
   public async breakLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
@@ -6173,7 +6173,7 @@ export class ShareLeaseClient {
    * When you renew a lease, the lease duration clock resets.
    *
    * @param options - Options for the lease management operation.
-   * @returnsResponse data for renew lease operation.
+   * @returns Response data for renew lease operation.
    * @memberof ShareLeaseClient
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {

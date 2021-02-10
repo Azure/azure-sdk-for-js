@@ -1154,7 +1154,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeDirectoryClient
    */
   public generateSasUrl(options: DirectoryGenerateSasUrlOptions): Promise<string> {
@@ -2003,7 +2003,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param offset - From which position of the file to download.
    * @param count - How much data to be downloaded. Will download to the end when passing undefined.
    * @param options - Options to read Data Lake file.
-   * @returnsThe response data for file read operation,
+   * @returns The response data for file read operation,
    *                                      but with readableStreamBody set to undefined since its
    *                                      content is already read and written into a local file
    *                                      at the specified path.
@@ -2158,7 +2158,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof DataLakeFileClient
    */
   public generateSasUrl(options: FileGenerateSasUrlOptions): Promise<string> {

@@ -79,7 +79,7 @@ export class SimpleTokenCredential implements TokenCredential {
    *
    * @param _scopes Ignored since token is already known.
    * @param _options Ignored since token is already known.
-   * @returnsThe access token details.
+   * @returns The access token details.
    */
   async getToken(
     _scopes: string | string[],

@@ -148,7 +148,7 @@ export class FileSystemAttributes {
   /**
    * Converts the given attributes to a string.
    *
-   * @returnsA string which represents the FileSystemAttributes
+   * @returns A string which represents the FileSystemAttributes
    * @memberof FileSystemAttributes
    */
   public toString(): string {

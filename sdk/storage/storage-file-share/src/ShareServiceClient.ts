@@ -318,7 +318,7 @@ export class ShareServiceClient extends StorageClient {
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Options to configure the HTTP pipeline.
-   * @returnsA new ShareServiceClient from the given connection string.
+   * @returns A new ShareServiceClient from the given connection string.
    * @memberof ShareServiceClient
    */
   public static fromConnectionString(
@@ -393,7 +393,7 @@ export class ShareServiceClient extends StorageClient {
    * Creates a ShareClient object.
    *
    * @param shareName Name of a share.
-   * @returnsThe ShareClient object for the given share name.
+   * @returns The ShareClient object for the given share name.
    * @memberof ShareServiceClient
    *
    * Example usage:
@@ -413,7 +413,7 @@ export class ShareServiceClient extends StorageClient {
    *
    * @param shareName -
    * @param options -
-   * @returnsShare creation response and the corresponding share client.
+   * @returns Share creation response and the corresponding share client.
    * @memberof ShareServiceClient
    */
   public async createShare(
@@ -450,7 +450,7 @@ export class ShareServiceClient extends StorageClient {
    *
    * @param shareName -
    * @param options -
-   * @returnsShare deletion response and the corresponding share client.
+   * @returns Share deletion response and the corresponding share client.
    * @memberof ShareServiceClient
    */
   public async deleteShare(
@@ -484,7 +484,7 @@ export class ShareServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-service-properties}
    *
    * @param options - Options to Get Properties operation.
-   * @returnsResponse data for the Get Properties operation.
+   * @returns Response data for the Get Properties operation.
    * @memberof ShareServiceClient
    */
   public async getProperties(
@@ -517,7 +517,7 @@ export class ShareServiceClient extends StorageClient {
    *
    * @param properties -
    * @param options - Options to Set Properties operation.
-   * @returnsResponse data for the Set Properties operation.
+   * @returns Response data for the Set Properties operation.
    * @memberof ShareServiceClient
    */
   public async setProperties(
@@ -734,7 +734,7 @@ export class ShareServiceClient extends StorageClient {
    *                          request the next set of list items. The marker value is opaque to the
    *                          client.
    * @param options - Options to List Shares Segment operation.
-   * @returnsResponse data for the List Shares Segment operation.
+   * @returns Response data for the List Shares Segment operation.
    * @memberof ShareServiceClient
    */
   private async listSharesSegment(
@@ -785,7 +785,7 @@ export class ShareServiceClient extends StorageClient {
    * @param deletedShareName The name of the previously deleted share.
    * @param deletedShareVersion The version of the previously deleted share.
    * @param options - Options to Share undelete operation.
-   * @returnsRestored share.
+   * @returns Restored share.
    * @memberof ShareServiceClient
    */
   public async undeleteShare(
@@ -829,7 +829,7 @@ export class ShareServiceClient extends StorageClient {
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
    * @param resourceTypes - Specifies the resource types associated with the shared access signature.
    * @param options - Optional parameters.
-   * @returnsAn account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof ShareServiceClient
    */
   public generateAccountSasUrl(

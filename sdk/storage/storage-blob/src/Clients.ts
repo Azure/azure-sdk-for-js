@@ -1296,7 +1296,7 @@ export class BlobClient extends StorageClient {
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param snapshot - The snapshot timestamp.
-   * @returnsA new BlobClient object identical to the source but with the specified snapshot timestamp
+   * @returns A new BlobClient object identical to the source but with the specified snapshot timestamp
    * @memberof BlobClient
    */
   public withSnapshot(snapshot: string): BlobClient {
@@ -1315,7 +1315,7 @@ export class BlobClient extends StorageClient {
    * Provide "" will remove the versionId and return a Client to the base blob.
    *
    * @param versionId - The versionId.
-   * @returnsA new BlobClient object pointing to the version of this blob.
+   * @returns A new BlobClient object pointing to the version of this blob.
    * @memberof BlobClient
    */
   public withVersion(versionId: string): BlobClient {
@@ -1896,7 +1896,7 @@ export class BlobClient extends StorageClient {
    * Get a {@link BlobLeaseClient} that manages leases on the blob.
    *
    * @param proposeLeaseId - Initial proposed lease Id.
-   * @returnsA new BlobLeaseClient object for managing leases on the blob.
+   * @returns A new BlobLeaseClient object for managing leases on the blob.
    * @memberof BlobClient
    */
   public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
@@ -2340,7 +2340,7 @@ export class BlobClient extends StorageClient {
    * @param offset - From which position of the block blob to download.
    * @param count - How much data to be downloaded. Will download to the end when passing undefined.
    * @param options - Options to Blob download options.
-   * @returnsThe response data for blob download operation,
+   * @returns The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -2497,7 +2497,7 @@ export class BlobClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof BlobClient
    */
   public generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string> {
@@ -2984,7 +2984,7 @@ export class AppendBlobClient extends BlobClient {
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param snapshot - The snapshot timestamp.
-   * @returnsA new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
+   * @returns A new AppendBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof AppendBlobClient
    */
   public withSnapshot(snapshot: string): AppendBlobClient {
@@ -4247,7 +4247,7 @@ export class BlockBlobClient extends BlobClient {
    * Provide "" will remove the snapshot and return a URL to the base blob.
    *
    * @param snapshot - The snapshot timestamp.
-   * @returnsA new BlockBlobClient object identical to the source but with the specified snapshot timestamp.
+   * @returns A new BlockBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof BlockBlobClient
    */
   public withSnapshot(snapshot: string): BlockBlobClient {
@@ -4354,7 +4354,7 @@ export class BlockBlobClient extends BlobClient {
    * @param contentLength - Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param options - Options to the Block Blob Upload operation.
-   * @returnsResponse data for the Block Blob Upload operation.
+   * @returns Response data for the Block Blob Upload operation.
    * @memberof BlockBlobClient
    *
    * Example usage:
@@ -4471,7 +4471,7 @@ export class BlockBlobClient extends BlobClient {
    * @param body - Data to upload to the staging area.
    * @param contentLength - Number of bytes to upload.
    * @param options - Options to the Block Blob Stage Block operation.
-   * @returnsResponse data for the Block Blob Stage Block operation.
+   * @returns Response data for the Block Blob Stage Block operation.
    * @memberof BlockBlobClient
    */
   public async stageBlock(
@@ -4523,7 +4523,7 @@ export class BlockBlobClient extends BlobClient {
    * @param offset - From which position of the blob to download, >= 0
    * @param count - How much data to be downloaded, > 0. Will download to the end when undefined
    * @param options - Options to the Block Blob Stage Block From URL operation.
-   * @returnsResponse data for the Block Blob Stage Block From URL operation.
+   * @returns Response data for the Block Blob Stage Block From URL operation.
    * @memberof BlockBlobClient
    */
   public async stageBlockFromURL(
@@ -4570,7 +4570,7 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param blocks -  Array of 64-byte value that is base64-encoded
    * @param options - Options to the Block Blob Commit Block List operation.
-   * @returnsResponse data for the Block Blob Commit Block List operation.
+   * @returns Response data for the Block Blob Commit Block List operation.
    * @memberof BlockBlobClient
    */
   public async commitBlockList(
@@ -4621,7 +4621,7 @@ export class BlockBlobClient extends BlobClient {
    * @param listType - Specifies whether to return the list of committed blocks,
    *                                        the list of uncommitted blocks, or both lists together.
    * @param options - Options to the Block Blob Get Block List operation.
-   * @returnsResponse data for the Block Blob Get Block List operation.
+   * @returns Response data for the Block Blob Get Block List operation.
    * @memberof BlockBlobClient
    */
   public async getBlockList(
@@ -4737,7 +4737,7 @@ export class BlockBlobClient extends BlobClient {
    * @export
    * @param browserData - Blob, File, ArrayBuffer or ArrayBufferView
    * @param options - Options to upload browser data.
-   * @returnsResponse data for the Blob Upload operation.
+   * @returns Response data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async uploadBrowserData(
@@ -4779,7 +4779,7 @@ export class BlockBlobClient extends BlobClient {
    * @param bodyFactory -
    * @param size - size of the data to upload.
    * @param options - Options to Upload to Block Blob operation.
-   * @returnsResponse data for the Blob Upload operation.
+   * @returns Response data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   private async uploadSeekableInternal(
@@ -4952,7 +4952,7 @@ export class BlockBlobClient extends BlobClient {
    * @param maxConcurrency -  Max concurrency indicates the max number of buffers that can be allocated,
    *                                 positive correlation with max uploading concurrency. Default value is 5
    * @param options - Options to Upload Stream to Block Blob operation.
-   * @returnsResponse data for the Blob Upload operation.
+   * @returns Response data for the Blob Upload operation.
    * @memberof BlockBlobClient
    */
   public async uploadStream(
@@ -5660,7 +5660,7 @@ export class PageBlobClient extends BlobClient {
    * Provide "" will remove the snapshot and return a Client to the base blob.
    *
    * @param snapshot - The snapshot timestamp.
-   * @returnsA new PageBlobClient object identical to the source but with the specified snapshot timestamp.
+   * @returns A new PageBlobClient object identical to the source but with the specified snapshot timestamp.
    * @memberof PageBlobClient
    */
   public withSnapshot(snapshot: string): PageBlobClient {
@@ -5681,7 +5681,7 @@ export class PageBlobClient extends BlobClient {
    *
    * @param size - size of the page blob.
    * @param options - Options to the Page Blob Create operation.
-   * @returnsResponse data for the Page Blob Create operation.
+   * @returns Response data for the Page Blob Create operation.
    * @memberof PageBlobClient
    */
   public async create(
@@ -5781,7 +5781,7 @@ export class PageBlobClient extends BlobClient {
    * @param offset - Offset of destination page blob
    * @param count - Content length of the body, also number of bytes to be uploaded
    * @param options - Options to the Page Blob Upload Pages operation.
-   * @returnsResponse data for the Page Blob Upload Pages operation.
+   * @returns Response data for the Page Blob Upload Pages operation.
    * @memberof PageBlobClient
    */
   public async uploadPages(
@@ -5893,7 +5893,7 @@ export class PageBlobClient extends BlobClient {
    * @param offset - Starting byte position of the pages to clear.
    * @param count - Number of bytes to clear.
    * @param options - Options to the Page Blob Clear Pages operation.
-   * @returnsResponse data for the Page Blob Clear Pages operation.
+   * @returns Response data for the Page Blob Clear Pages operation.
    * @memberof PageBlobClient
    */
   public async clearPages(
@@ -5935,7 +5935,7 @@ export class PageBlobClient extends BlobClient {
    * @param offset - Starting byte position of the page ranges.
    * @param count - Number of bytes to get.
    * @param options - Options to the Page Blob Get Ranges operation.
-   * @returnsResponse data for the Page Blob Get Ranges operation.
+   * @returns Response data for the Page Blob Get Ranges operation.
    * @memberof PageBlobClient
    */
   public async getPageRanges(
@@ -5980,7 +5980,7 @@ export class PageBlobClient extends BlobClient {
    * @param count - Number of bytes to get ranges diff.
    * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.
    * @param options - Options to the Page Blob Get Page Ranges Diff operation.
-   * @returnsResponse data for the Page Blob Get Page Range Diff operation.
+   * @returns Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
   public async getPageRangesDiff(
@@ -6028,7 +6028,7 @@ export class PageBlobClient extends BlobClient {
    * @param count - Number of bytes to get ranges diff.
    * @param prevSnapshotUrl - URL of snapshot to retrieve the difference.
    * @param options - Options to the Page Blob Get Page Ranges Diff operation.
-   * @returnsResponse data for the Page Blob Get Page Range Diff operation.
+   * @returns Response data for the Page Blob Get Page Range Diff operation.
    * @memberof PageBlobClient
    */
   public async getPageRangesDiffForManagedDisks(
@@ -6074,7 +6074,7 @@ export class PageBlobClient extends BlobClient {
    *
    * @param size - Target size
    * @param options - Options to the Page Blob Resize operation.
-   * @returnsResponse data for the Page Blob Resize operation.
+   * @returns Response data for the Page Blob Resize operation.
    * @memberof PageBlobClient
    */
   public async resize(
@@ -6112,7 +6112,7 @@ export class PageBlobClient extends BlobClient {
    * @param sequenceNumberAction - Indicates how the service should modify the blob's sequence number.
    * @param sequenceNumber - Required if sequenceNumberAction is max or update
    * @param options - Options to the Page Blob Update Sequence Number operation.
-   * @returnsResponse data for the Page Blob Update Sequence Number operation.
+   * @returns Response data for the Page Blob Update Sequence Number operation.
    * @memberof PageBlobClient
    */
   public async updateSequenceNumber(
@@ -6158,7 +6158,7 @@ export class PageBlobClient extends BlobClient {
    * @param copySource - Specifies the name of the source page blob snapshot. For example,
    *                            https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
    * @param options - Options to the Page Blob Copy Incremental operation.
-   * @returnsResponse data for the Page Blob Copy Incremental operation.
+   * @returns Response data for the Page Blob Copy Incremental operation.
    * @memberof PageBlobClient
    */
   public async startCopyIncremental(

@@ -84,7 +84,7 @@ export class FileSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returnsA string which represents the FileSASPermissions
+   * @returns A string which represents the FileSASPermissions
    * @memberof FileSASPermissions
    */
   public toString(): string {

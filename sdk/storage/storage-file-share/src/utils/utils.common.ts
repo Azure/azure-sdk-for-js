@@ -103,7 +103,7 @@ function getValueInConnString(
  *
  * @export
  * @param connectionString - Connection string.
- * @returnsString key value pairs of the storage account's url and credentials.
+ * @returns String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   // Matching FileEndpoint in the Account connection string
@@ -193,7 +193,7 @@ function escape(text: string): string {
  * @export
  * @param url - Source URL string
  * @param name - String to be appended to URL
- * @returnsAn updated URL string
+ * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -211,7 +211,7 @@ export function appendToURLPath(url: string, name: string): string {
  * @export
  * @param url - Source URL string.
  * @param queryParts - String to be appended to the URL query.
- * @returnsAn updated URL string.
+ * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -235,7 +235,7 @@ export function appendToURLQuery(url: string, queryParts: string): string {
  * @param url - Source URL string
  * @param name - Parameter name
  * @param value - Parameter value
- * @returnsAn updated URL string
+ * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -323,7 +323,7 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * @param date -
  * @param withMilliseconds - If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
- * @returnsDate string in ISO8061 format, with or without 7 milliseconds component
+ * @returns Date string in ISO8061 format, with or without 7 milliseconds component
  */
 export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = true): string {
   // Date.toISOString() will return like "2018-10-29T06:34:36.139Z"
@@ -448,7 +448,7 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
 /**
  * Extracts account name from the url
  * @param url - url to extract the account name from
- * @returnswith the account name
+ * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
   const parsedUrl: URLBuilder = URLBuilder.parse(url);

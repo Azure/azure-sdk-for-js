@@ -34,7 +34,7 @@ export interface Range {
  *
  * @export
  * @param range - A range of byte positions.
- * @returnsThe string representation for the byte range.
+ * @returns The string representation for the byte range.
  */
 export function rangeToString(range: Range): string {
   if (range.offset < 0) {

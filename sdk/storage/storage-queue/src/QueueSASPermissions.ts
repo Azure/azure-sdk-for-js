@@ -84,7 +84,7 @@ export class QueueSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returnsA string which represents the QueueSASPermissions
+   * @returns A string which represents the QueueSASPermissions
    * @memberof QueueSASPermissions
    */
   public toString(): string {

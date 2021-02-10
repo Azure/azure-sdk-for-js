@@ -51,7 +51,7 @@ export class BlobChangeFeedEventPage {
  * @export
  * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
  * @param pipelineOptions - Optional. Options.
- * @returnsA new Pipeline object.
+ * @returns A new Pipeline object.
  */
 export function newPipeline(
   credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
@@ -323,7 +323,7 @@ export class BlobChangeFeedClient {
    * ```
    *
    * @param options - Options to list change feed events.
-   * @returnsAn asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    * @memberof BlobChangeFeedClient
    */
   public listChanges(

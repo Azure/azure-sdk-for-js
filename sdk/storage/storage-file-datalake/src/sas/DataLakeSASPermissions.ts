@@ -142,7 +142,7 @@ export class DataLakeSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returnsA string which represents the DataLakeSASPermissions
+   * @returns A string which represents the DataLakeSASPermissions
    * @memberof DataLakeSASPermissions
    */
   public toString(): string {

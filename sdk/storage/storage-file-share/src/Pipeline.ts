@@ -116,7 +116,7 @@ export class Pipeline {
    * Transfer Pipeline object to ServiceClientOptions object which required by
    * ServiceClient constructor.
    *
-   * @returnsThe ServiceClientOptions object from this Pipeline.
+   * @returns The ServiceClientOptions object from this Pipeline.
    * @memberof Pipeline
    */
   public toServiceClientOptions(): ServiceClientOptions {
@@ -174,7 +174,7 @@ export interface StoragePipelineOptions {
  * @static
  * @param credential - Such as AnonymousCredential, StorageSharedKeyCredential.
  * @param pipelineOptions - Optional. Options.
- * @returnsA new Pipeline object.
+ * @returns A new Pipeline object.
  * @memberof Pipeline
  */
 export function newPipeline(

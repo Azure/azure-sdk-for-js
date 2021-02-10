@@ -331,7 +331,7 @@ export class BufferScheduler {
    * Return false when available buffers in incoming are not enough, else true.
    *
    * @private
-   * @returnsReturn false when buffers in incoming are not enough, else true.
+   * @returns Return false when buffers in incoming are not enough, else true.
    * @memberof BufferScheduler
    */
   private resolveData(): boolean {

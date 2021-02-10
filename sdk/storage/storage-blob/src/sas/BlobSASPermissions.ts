@@ -180,7 +180,7 @@ export class BlobSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returnsA string which represents the BlobSASPermissions
+   * @returns A string which represents the BlobSASPermissions
    * @memberof BlobSASPermissions
    */
   public toString(): string {

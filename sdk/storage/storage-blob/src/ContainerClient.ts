@@ -969,7 +969,7 @@ export class ContainerClient extends StorageClient {
    * Creates a {@link BlobClient}
    *
    * @param blobName - A blob name
-   * @returnsA new BlobClient object for the given blob name.
+   * @returns A new BlobClient object for the given blob name.
    * @memberof ContainerClient
    */
   public getBlobClient(blobName: string): BlobClient {
@@ -1350,7 +1350,7 @@ export class ContainerClient extends StorageClient {
    * Get a {@link BlobLeaseClient} that manages leases on the container.
    *
    * @param proposeLeaseId - Initial proposed lease Id.
-   * @returnsA new BlobLeaseClient object for managing leases on the container.
+   * @returns A new BlobLeaseClient object for managing leases on the container.
    * @memberof ContainerClient
    */
   public getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient {
@@ -1377,7 +1377,7 @@ export class ContainerClient extends StorageClient {
    * @param contentLength - Length of body in bytes. Use Buffer.byteLength() to calculate body length for a
    *                               string including non non-Base64/Hex-encoded characters.
    * @param options - Options to configure the Block Blob Upload operation.
-   * @returnsBlock Blob upload response data and the corresponding BlockBlobClient instance.
+   * @returns Block Blob upload response data and the corresponding BlockBlobClient instance.
    * @memberof ContainerClient
    */
   public async uploadBlockBlob(
@@ -1420,7 +1420,7 @@ export class ContainerClient extends StorageClient {
    *
    * @param blobName -
    * @param options - Options to Blob Delete operation.
-   * @returnsBlock blob deletion response data.
+   * @returns Block blob deletion response data.
    * @memberof ContainerClient
    */
   public async deleteBlob(
@@ -1674,7 +1674,7 @@ export class ContainerClient extends StorageClient {
    * ```
    *
    * @param options - Options to list blobs.
-   * @returnsAn asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    * @memberof ContainerClient
    */
   public listBlobsFlat(
@@ -1779,7 +1779,7 @@ export class ContainerClient extends StorageClient {
    * @private
    * @param delimiter - The character or string used to define the virtual hierarchy
    * @param options - Options to list blobs operation.
-   * @returns& BlobItem>}
+   * @returns & BlobItem>}
    * @memberof ContainerClient
    */
   private async *listItemsByHierarchy(
@@ -2001,7 +2001,7 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @param options - Optional parameters.
-   * @returnsThe SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof ContainerClient
    */
   public generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string> {
@@ -2029,7 +2029,7 @@ export class ContainerClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
-   * @returnsA new BlobBatchClient object for this container.
+   * @returns A new BlobBatchClient object for this container.
    * @memberof ContainerClient
    */
   public getBlobBatchClient(): BlobBatchClient {

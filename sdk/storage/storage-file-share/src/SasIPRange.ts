@@ -33,7 +33,7 @@ export interface SasIPRange {
  *
  * @export
  * @param ipRange - A range of IP addresses.
- * @returnsstring representation of the IP range.
+ * @returns string representation of the IP range.
  */
 export function ipRangeToString(ipRange: SasIPRange): string {
   return ipRange.end ? `${ipRange.start}-${ipRange.end}` : ipRange.start;

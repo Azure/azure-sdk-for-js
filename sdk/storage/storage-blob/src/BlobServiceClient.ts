@@ -639,7 +639,7 @@ export class BlobServiceClient extends StorageClient {
    * Creates a {@link ContainerClient} object
    *
    * @param containerName - A container name
-   * @returnsA new ContainerClient object for the given container name.
+   * @returns A new ContainerClient object for the given container name.
    * @memberof BlobServiceClient
    *
    * Example usage:
@@ -660,7 +660,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param containerName - Name of the container to create.
    * @param options - Options to configure Container Create operation.
-   * @returnsContainer creation response and the corresponding container client.
+   * @returns Container creation response and the corresponding container client.
    * @memberof BlobServiceClient
    */
   public async createContainer(
@@ -700,7 +700,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param containerName - Name of the container to delete.
    * @param options - Options to configure Container Delete operation.
-   * @returnsContainer deletion response.
+   * @returns Container deletion response.
    * @memberof BlobServiceClient
    */
   public async deleteContainer(
@@ -735,7 +735,7 @@ export class BlobServiceClient extends StorageClient {
    * @param deletedContainerName - Name of the previously deleted container.
    * @param deletedContainerVersion - Version of the previously deleted container, used to uniquely identify the deleted container.
    * @param options - Options to configure Container Restore operation.
-   * @returnsContainer deletion response.
+   * @returns Container deletion response.
    * @memberof BlobServiceClient
    */
   public async undeleteContainer(
@@ -822,7 +822,7 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * @param options - Options to the Service Get Properties operation.
-   * @returnsResponse data for the Service Get Properties operation.
+   * @returns Response data for the Service Get Properties operation.
    * @memberof BlobServiceClient
    */
   public async getProperties(
@@ -855,7 +855,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @param properties -
    * @param options - Options to the Service Set Properties operation.
-   * @returnsResponse data for the Service Set Properties operation.
+   * @returns Response data for the Service Set Properties operation.
    * @memberof BlobServiceClient
    */
   public async setProperties(
@@ -889,7 +889,7 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats}
    *
    * @param options - Options to the Service Get Statistics operation.
-   * @returnsResponse data for the Service Get Statistics operation.
+   * @returns Response data for the Service Get Statistics operation.
    * @memberof BlobServiceClient
    */
   public async getStatistics(
@@ -923,7 +923,7 @@ export class BlobServiceClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
    * @param options - Options to the Service Get Account Info operation.
-   * @returnsResponse data for the Service Get Account Info operation.
+   * @returns Response data for the Service Get Account Info operation.
    * @memberof BlobServiceClient
    */
   public async getAccountInfo(
@@ -961,7 +961,7 @@ export class BlobServiceClient extends StorageClient {
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
    * @param options - Options to the Service List Container Segment operation.
-   * @returnsResponse data for the Service List Container Segment operation.
+   * @returns Response data for the Service List Container Segment operation.
    * @memberof BlobServiceClient
    */
   private async listContainersSegment(
@@ -1352,7 +1352,7 @@ export class BlobServiceClient extends StorageClient {
    * ```
    *
    * @param options - Options to list containers.
-   * @returnsAn asyncIterableIterator that supports paging.
+   * @returns An asyncIterableIterator that supports paging.
    * @memberof BlobServiceClient
    */
   public listContainers(
@@ -1473,7 +1473,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
-   * @returnsA new BlobBatchClient object for this service.
+   * @returns A new BlobBatchClient object for this service.
    * @memberof BlobServiceClient
    */
   public getBlobBatchClient(): BlobBatchClient {
@@ -1492,7 +1492,7 @@ export class BlobServiceClient extends StorageClient {
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
    * @param resourceTypes - Specifies the resource types associated with the shared access signature.
    * @param options - Optional parameters.
-   * @returnsAn account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    * @memberof BlobServiceClient
    */
   public generateAccountSasUrl(
