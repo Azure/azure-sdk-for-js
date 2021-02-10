@@ -39,6 +39,7 @@ dependencies:
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-test-storage-blob': file:projects/perf-test-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -9329,6 +9330,16 @@ packages:
       integrity: sha512-PQ9TYELaQ7eyzGfdPwoqAoUxEv9WH0sHPdwuXd7iyUXNRyqT5Hjg2a30zfOrd6QHB5IX4iQq6UtthzLKfCQwmA==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
     version: 0.0.0
+  file:projects/perf-test-storage-blob.tgz:
+    dependencies:
+      '@types/uuid': 8.3.0
+      uuid: 8.3.2
+    dev: false
+    name: '@rush-temp/perf-test-storage-blob'
+    resolution:
+      integrity: sha512-xzVOusS927q+dNCuniGG9LgvnvIi7TN6TWLLcQIZ2AxL1w575Ek8ABkhr36KkjPz7Lb9N54UEzN+8wA79OKiVA==
+      tarball: file:projects/perf-test-storage-blob.tgz
+    version: 0.0.0
   file:projects/quantum-jobs.tgz:
     dependencies:
       '@azure/storage-blob': 12.4.1
@@ -10280,6 +10291,7 @@ specifiers:
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-test-storage-blob': file:./projects/perf-test-storage-blob.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
