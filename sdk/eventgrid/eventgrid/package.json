@@ -79,7 +79,7 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure/core-auth": "^1.1.3",
+    "@azure/core-auth": "^1.2.0",
     "@azure/core-client": "1.0.0-beta.1",
     "@azure/core-https": "^1.0.0-beta.2",
     "@azure/core-tracing": "1.0.0-preview.9",
