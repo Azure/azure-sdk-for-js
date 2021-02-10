@@ -3,7 +3,14 @@
 ## 11.1.0 (2021-02-11)
 
 - GA Release for `@azure/search-documents`.
-- Linter Errors in the SDK code have been fixed. Please refer [#13060](https://github.com/Azure/azure-sdk-for-js/pull/13060) for further details.
+
+### Changes since 11.0.3
+
+- [Breaking] The `@azure/search-documents` has been moved to V6 SDK Generator. Please refer [#12829](https://github.com/Azure/azure-sdk-for-js/pull/12829) for further details.
+- Added Batching ability to the search SDK. The `SearchIndexingBufferedSender` class enables the user to perform indexing documents in batch mode. There are several user configurable properties such as `autoFlush`, `flushWindowInMs`, `throttlingDelayInMs`, etc.
+
+### Changes since 11.1.0-beta.2
+
 - [Breaking] The `@azure/search-documents` has been moved to V6 SDK Generator. Please refer [#12829](https://github.com/Azure/azure-sdk-for-js/pull/12829) for further details.
 - [Breaking] The `SearchIndexingBufferedSender` interface has been removed. Please refer [#13405](https://github.com/Azure/azure-sdk-for-js/pull/13405) for further details.
 - Modified logic to handle payload high in the `SearchIndexingBufferedSender`. Please refer [#13478](https://github.com/Azure/azure-sdk-for-js/pull/13478) for further details.
