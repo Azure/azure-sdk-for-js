@@ -32,7 +32,7 @@ export default {
     "import/no-extraneous-dependencies": [
       "error",
       {
-        devDependencies: ["test/**/*.ts", "samples/**/*.ts", "samples/**/*.js"],
+        devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
         optionalDependencies: false,
         peerDependencies: false
       }
