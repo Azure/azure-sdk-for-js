@@ -250,6 +250,65 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       );
     });
 
+    // TODO: Unable to stop the forever retry even though I tried closing it
+    // it("RequestOptions is plumbed through subscribe", async () => {
+    //   const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+    //   receiver["_context"].cbsSession.init = async () => {};
+
+    //   await verifyOperationOptionsAtGetToken(
+    //     receiver["_context"],
+    //     {
+    //       requestOptions: {
+    //         timeout: 369
+    //       }
+    //     },
+    //     async () => {
+    //       receiver.subscribe(
+    //         {
+    //           processMessage: async () => {},
+    //           processError: async (args: ProcessErrorArgs) => {
+    //             throw args.error;
+    //           }
+    //         },
+    //         {
+    //           requestOptions: {
+    //             timeout: 369
+    //           }
+    //         }
+    //       );
+    //       await delay(1);
+    //       await receiver.close();
+    //     }
+    //   );
+    // });
+
+    it("RequestOptions is plumbed through settlement methods", async () => {
+      const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+      receiver["_context"].cbsSession.init = async () => {};
+
+      await verifyOperationOptionsAtGetToken(
+        receiver["_context"],
+        {
+          requestOptions: {
+            timeout: 369
+          }
+        },
+        async () => {
+          await receiver.completeMessage(
+            { body: "message", _rawAmqpMessage: { body: "message" } },
+            {
+              requestOptions: {
+                timeout: 369
+              }
+            }
+          );
+        }
+      );
+    });
+    // subscribe
+    // get message iterator
+    // settlement
+
     it("TracingOptions is plumbed through receiveMessages", async () => {
       const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
       await sbAdminClient.createQueue(queueName);
@@ -307,9 +366,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       );
       await sbAdminClient.deleteQueue(queueName);
     });
-    // subscribe
-    // get message iterator
-    // settlement
   });
 
   describe("ManagementClient - Non-session", () => {
