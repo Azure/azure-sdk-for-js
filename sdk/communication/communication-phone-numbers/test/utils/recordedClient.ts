@@ -96,3 +96,7 @@ export function createRecordedClientWithToken(
     includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
   };
 }
+
+export const testPollerOptions = {
+  pollInterval: isPlaybackMode() ? 0 : undefined
+};

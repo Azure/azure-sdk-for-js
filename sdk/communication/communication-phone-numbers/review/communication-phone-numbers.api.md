@@ -145,7 +145,7 @@ export interface PhoneNumbersClientOptions extends PipelineOptions {
 
 // @public
 export interface PhoneNumberSearchRequest {
-    areaCode?: string;
+    areaCode: string;
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     phoneNumberType: PhoneNumberType;

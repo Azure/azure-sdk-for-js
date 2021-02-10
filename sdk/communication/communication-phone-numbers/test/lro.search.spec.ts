@@ -3,17 +3,31 @@
 
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { PhoneNumberSearchRequest } from "../src";
+import {
+  KnownPhoneNumberAssignmentType,
+  KnownPhoneNumberType,
+  PhoneNumberSearchRequest
+} from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - lro - search", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
+  let includePhoneNumberLiveTests: boolean;
   const countryCode = "US";
+  const searchRequest: PhoneNumberSearchRequest = {
+    phoneNumberType: KnownPhoneNumberType.TollFree,
+    assignmentType: KnownPhoneNumberAssignmentType.Application,
+    capabilities: {
+      sms: "inbound+outbound",
+      calling: "none"
+    },
+    areaCode: "844"
+  };
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedClient(this));
+    ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
   });
 
   afterEach(async function() {
@@ -23,51 +37,48 @@ describe("PhoneNumbersClient - lro - search", function() {
   });
 
   it("can search for 1 available phone number by default", async function() {
-    const search: PhoneNumberSearchRequest = {
-      phoneNumberType: "tollfree",
-      assignmentType: "application",
-      capabilities: {
-        sms: "inbound+outbound",
-        calling: "none"
-      },
-      areaCode: "833"
-    };
-    const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, search);
-    const results = await searchPoller.pollUntilDone();
+    if (!includePhoneNumberLiveTests) {
+      this.skip();
+    }
 
+    const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
+    //assert.ok(searchPoller.getOperationState().isStarted);
+
+    const results = await searchPoller.pollUntilDone();
     assert.equal(results.phoneNumbers.length, 1);
+    assert.ok(searchPoller.getOperationState().isCompleted);
   }).timeout(20000);
 
-  xit("can search for multiple available phone number", async function() {
+  it("can search for multiple available phone number", async function() {
+    if (!includePhoneNumberLiveTests) {
+      this.skip();
+    }
+
     const quantity = 2;
-    const search: PhoneNumberSearchRequest = {
-      phoneNumberType: "tollfree",
-      assignmentType: "application",
-      capabilities: {
-        sms: "inbound+outbound",
-        calling: "none"
-      },
-      areaCode: "833",
-      quantity
-    };
-    const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, search);
-    const results = await searchPoller.pollUntilDone();
+    searchRequest.quantity = quantity;
+    const searchPoller = await client.beginSearchAvailablePhoneNumbers(
+      countryCode,
+      searchRequest,
+      testPollerOptions
+    );
+    //assert.ok(searchPoller.getOperationState().isStarted);
 
+    const results = await searchPoller.pollUntilDone();
     assert.equal(results.phoneNumbers.length, quantity);
+    assert.ok(searchPoller.getOperationState().isCompleted);
   }).timeout(20000);
 
-  xit("can cancel search", async function() {
-    const search: PhoneNumberSearchRequest = {
-      phoneNumberType: "tollfree",
-      assignmentType: "application",
-      capabilities: {
-        sms: "inbound+outbound",
-        calling: "none"
-      },
-      areaCode: "833"
-    };
-    const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, search);
-    assert.ok(searchPoller.getOperationState().isStarted);
+  it("can cancel search", async function() {
+    if (!includePhoneNumberLiveTests) {
+      this.skip();
+    }
+
+    const searchPoller = await client.beginSearchAvailablePhoneNumbers(
+      countryCode,
+      searchRequest,
+      testPollerOptions
+    );
+    //assert.ok(searchPoller.getOperationState().isStarted);
 
     await searchPoller.cancelOperation();
     assert.ok(searchPoller.isStopped);

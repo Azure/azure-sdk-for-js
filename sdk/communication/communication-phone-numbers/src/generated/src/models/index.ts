@@ -18,8 +18,8 @@ export interface PhoneNumberSearchRequest {
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
   /** The area code of the desired phone number, e.g. 425. */
-  areaCode?: string;
-  /** The quantity of phone numbers in the search. Should be at least 1. */
+  areaCode: string;
+  /** The quantity of desired phone numbers. The default value is 1. */
   quantity?: number;
 }
 
@@ -62,7 +62,7 @@ export interface PhoneNumberCost {
 /** The Communication Services error. */
 export interface CommunicationErrorResponse {
   /** The Communication Services error. */
-  error: CommunicationError | null;
+  error: CommunicationError;
 }
 
 /** The Communication Services error. */
@@ -80,12 +80,12 @@ export interface CommunicationError {
    * Further details about specific errors that led to this error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: (CommunicationError | null)[];
+  readonly details?: CommunicationError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: CommunicationError | null;
+  readonly innerError?: CommunicationError;
 }
 
 /** The phone number search purchase request. */
@@ -103,7 +103,7 @@ export interface PhoneNumberOperation {
   /** The date that the operation was created. */
   createdDateTime: Date;
   /** The Communication Services error. */
-  error?: CommunicationError | null;
+  error?: CommunicationError;
   /** Id of operation. */
   id: string;
   /** The type of operation, e.g. Search */
@@ -309,9 +309,7 @@ export type PhoneNumberOperationType = string;
 /** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   extends coreHttp.OperationOptions {
-  /** The area code of the desired phone number, e.g. 425. */
-  areaCode?: string;
-  /** The quantity of phone numbers in the search. Should be at least 1. */
+  /** The quantity of desired phone numbers. The default value is 1. */
   quantity?: number;
 }
 

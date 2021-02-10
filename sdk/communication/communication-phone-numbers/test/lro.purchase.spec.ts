@@ -3,15 +3,23 @@
 
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
+import {
+  PhoneNumberSearchRequest,
+  KnownPhoneNumberType,
+  KnownPhoneNumberAssignmentType,
+  PhoneNumberSearchResult
+} from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - lro - purchase", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
+  let includePhoneNumberLiveTests: boolean;
+  const countryCode = "US";
 
   beforeEach(function() {
-    ({ client, recorder } = createRecordedClient(this));
+    ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
   });
 
   afterEach(async function() {
@@ -20,8 +28,52 @@ describe("PhoneNumbersClient - lro - purchase", function() {
     }
   });
 
-  it("can wait until a search is purchased", async function() {
-    console.log(client.toString());
-    assert.isTrue(true);
-  }).timeout(30000);
+  describe("successfully purchases a phone number", function() {
+    let searchResults: PhoneNumberSearchResult;
+
+    it("finds phone number to purchase", async function() {
+      if (!includePhoneNumberLiveTests) {
+        this.skip();
+      }
+
+      const searchRequest: PhoneNumberSearchRequest = {
+        phoneNumberType: KnownPhoneNumberType.TollFree,
+        assignmentType: KnownPhoneNumberAssignmentType.Application,
+        capabilities: {
+          sms: "inbound+outbound",
+          calling: "none"
+        },
+        areaCode: "833",
+        quantity: 1
+      };
+      const searchPoller = await client.beginSearchAvailablePhoneNumbers(
+        countryCode,
+        searchRequest,
+        testPollerOptions
+      );
+      //assert.ok(searchPoller.getOperationState().isStarted);
+
+      searchResults = await searchPoller.pollUntilDone();
+
+      assert.ok(searchPoller.getOperationState().isCompleted);
+      assert.isNotEmpty(searchResults.searchId);
+      assert.isNotEmpty(searchResults.phoneNumbers);
+      assert.equal(searchResults.phoneNumbers.length, 1);
+    }).timeout(20000);
+
+    it("purchases the phone number from the search", async function() {
+      if (!includePhoneNumberLiveTests) {
+        this.skip();
+      }
+
+      const purchasePoller = await client.beginPurchasePhoneNumbers(
+        searchResults.searchId,
+        testPollerOptions
+      );
+      //assert.ok(purchasePoller.getOperationState().isStarted);
+
+      await purchasePoller.pollUntilDone();
+      assert.ok(purchasePoller.getOperationState().isCompleted);
+    }).timeout(45000);
+  });
 });

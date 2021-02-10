@@ -96,6 +96,7 @@ export class PhoneNumbers {
    * @param assignmentType The assignment type of the phone numbers to search for. A phone number can be
    *                       assigned to a person, or to an application.
    * @param capabilities Capabilities of a phone number.
+   * @param areaCode The area code of the desired phone number, e.g. 425.
    * @param options The options parameters.
    */
   async searchAvailablePhoneNumbers(
@@ -103,6 +104,7 @@ export class PhoneNumbers {
     phoneNumberType: PhoneNumberType,
     assignmentType: PhoneNumberAssignmentType,
     capabilities: PhoneNumberCapabilities,
+    areaCode: string,
     options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   ): Promise<LROPoller<PhoneNumbersSearchAvailablePhoneNumbersResponse>> {
     const operationArguments: coreHttp.OperationArguments = {
@@ -110,6 +112,7 @@ export class PhoneNumbers {
       phoneNumberType,
       assignmentType,
       capabilities,
+      areaCode,
       options: this.getOperationOptions(options, "location")
     };
     const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
@@ -371,7 +374,7 @@ export class PhoneNumbers {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const searchAvailablePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/availablePhoneNumbers/countries/{countryCode}/~search",
+  path: "/availablePhoneNumbers/countries/{countryCode}/:search",
   httpMethod: "POST",
   responses: {
     200: {
@@ -399,7 +402,7 @@ const searchAvailablePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
       phoneNumberType: ["phoneNumberType"],
       assignmentType: ["assignmentType"],
       capabilities: ["capabilities"],
-      areaCode: ["options", "areaCode"],
+      areaCode: ["areaCode"],
       quantity: ["options", "quantity"]
     },
     mapper: { ...Mappers.PhoneNumberSearchRequest, required: true }
@@ -427,7 +430,7 @@ const getSearchResultOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const purchasePhoneNumbersOperationSpec: coreHttp.OperationSpec = {
-  path: "/availablePhoneNumbers/~purchase",
+  path: "/availablePhoneNumbers/:purchase",
   httpMethod: "POST",
   responses: {
     200: {

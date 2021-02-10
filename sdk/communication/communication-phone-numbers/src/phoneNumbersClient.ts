@@ -244,12 +244,13 @@ export class PhoneNumbersClient {
     );
 
     try {
-      const { phoneNumberType, assignmentType, capabilities, ...rest } = search;
+      const { phoneNumberType, assignmentType, capabilities, areaCode, ...rest } = search;
       return await this.client.searchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
         capabilities,
+        areaCode,
         {
           ...updatedOptions,
           ...rest

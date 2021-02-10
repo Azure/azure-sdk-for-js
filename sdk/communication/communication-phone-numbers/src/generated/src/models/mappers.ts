@@ -36,11 +36,13 @@ export const PhoneNumberSearchRequest: coreHttp.CompositeMapper = {
       },
       areaCode: {
         serializedName: "areaCode",
+        required: true,
         type: {
           name: "String"
         }
       },
       quantity: {
+        defaultValue: 1,
         constraints: {
           InclusiveMaximum: 2147483647,
           InclusiveMinimum: 1

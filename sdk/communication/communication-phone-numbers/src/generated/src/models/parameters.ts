@@ -58,7 +58,7 @@ export const capabilities: OperationParameter = {
 };
 
 export const areaCode: OperationParameter = {
-  parameterPath: ["options", "areaCode"],
+  parameterPath: "areaCode",
   mapper: PhoneNumberSearchRequestMapper
 };
 
