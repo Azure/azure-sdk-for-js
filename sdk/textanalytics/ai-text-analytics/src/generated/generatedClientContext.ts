@@ -27,7 +27,9 @@ export class GeneratedClientContext extends ServiceClient {
     const optionsWithDefaults = {
       ...defaults,
       ...options,
-      baseUri: options?.endpoint || endpoint + "text/analytics/v3.1-preview.3"
+      baseUri:
+        options?.endpoint ||
+        (endpoint.slice(-1) === "/" ? endpoint : endpoint + "/") + "text/analytics/v3.1-preview.3"
     };
 
     super(optionsWithDefaults);
