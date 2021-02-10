@@ -87,30 +87,14 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(webResource);
   }
 
-  /**
-   * Attempts a token update if any other time related conditionals have been reached based on the tokenRefresher class.
-   */
-  private async updateTokenIfNeeded(options: GetTokenOptions): Promise<void> {
-    if (this.tokenRefresher.isReady()) {
-      const accessToken = await this.tokenRefresher.refresh(options);
-      this.tokenCache.setCachedToken(accessToken);
-    }
-  }
-
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
-    let accessToken = this.tokenCache.getCachedToken();
-    if (accessToken === undefined) {
-      // Waiting for the next refresh only if the cache is unable to retrieve the access token,
-      // which means that it has expired, or it has never been set.
-      accessToken = await this.tokenRefresher.refresh(options);
-      this.tokenCache.setCachedToken(accessToken);
-    } else {
-      // If we still have a cached access token,
-      // And any other time related conditionals have been reached based on the tokenRefresher class,
-      // then attempt to refresh without waiting.
-      this.updateTokenIfNeeded(options);
+    // We reset the cached token some before it expires,
+    // after that point, we retry the refresh fo the token only if the token refresher is ready.
+    let token = this.tokenCache.getCachedToken();
+    if (!token && this.tokenRefresher.isReady()) {
+      token = await this.tokenRefresher.refresh(options);
+      this.tokenCache.setCachedToken(token);
     }
-
-    return accessToken ? accessToken.token : undefined;
+    return token ? token.token : undefined;
   }
 }
