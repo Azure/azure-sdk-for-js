@@ -1,5 +1,13 @@
 # Release History
 
+## 11.1.0 (2021-02-11)
+
+- GA Release for `@azure/search-documents`.
+- Linter Errors in the SDK code have been fixed. Please refer [#13060](https://github.com/Azure/azure-sdk-for-js/pull/13060) for further details.
+- [Breaking] The `@azure/search-documents` has been moved to V6 SDK Generator. Please refer [#12829](https://github.com/Azure/azure-sdk-for-js/pull/12829) for further details.
+- [Breaking] The `SearchIndexingBufferedSender` interface has been removed. Please refer [#13405](https://github.com/Azure/azure-sdk-for-js/pull/13405) for further details.
+- Modified logic to handle payload high in the `SearchIndexingBufferedSender`. Please refer [#13478](https://github.com/Azure/azure-sdk-for-js/pull/13478) for further details.
+
 ## 11.1.0-beta.2 (2020-11-10)
 
 - [Breaking] Hidden the constructor of `SearchIndexingBufferedSender` and made it to an interface. Please refer [#11785](https://github.com/Azure/azure-sdk-for-js/pull/11785) for further details.
