@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
