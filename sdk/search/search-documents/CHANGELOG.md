@@ -4,8 +4,8 @@
 
 ### Changes since 11.0.3
 
-- The `@azure/search-documents` has been moved to V6 SDK Generator. The following types `BlobIndexerDataToExtract`, `BlobIndexerImageAction`, `BlobIndexerParsingMode`, `BlobIndexerPDFTextRotationAlgorithm` has been changed to `string`. Please refer [#12829](https://github.com/Azure/azure-sdk-for-js/pull/12829) for further details.
 - Added Batching ability to the search SDK. The `SearchIndexingBufferedSender` class enables the user to perform indexing documents in batch mode. There are several user configurable properties such as `autoFlush`, `flushWindowInMs`, `throttlingDelayInMs`, etc.
+- The types `BlobIndexerDataToExtract`, `BlobIndexerImageAction`, `BlobIndexerParsingMode`, `BlobIndexerPDFTextRotationAlgorithm` have changed from union of string literals to string. This is to support the service definition for these types to be extensible enums. The documentation on methods that use these have been updated with known values that can be used for these types.
 
 ### Changes since 11.1.0-beta.2
 
