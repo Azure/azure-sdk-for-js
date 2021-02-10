@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CanonicalCode } from "@opentelemetry/api";
+import { StatusCode } from "@opentelemetry/api";
 import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
@@ -138,7 +138,7 @@ export class ManagedPrivateEndpoints {
       return result as ManagedPrivateEndpointsCreateResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -175,7 +175,7 @@ export class ManagedPrivateEndpoints {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -206,7 +206,7 @@ export class ManagedPrivateEndpoints {
       return result as ManagedPrivateEndpointsListResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -243,7 +243,7 @@ export class ManagedPrivateEndpoints {
       return result as ManagedPrivateEndpointsListNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: StatusCode.ERROR,
         message: error.message
       });
       throw error;
