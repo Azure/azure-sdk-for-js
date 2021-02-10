@@ -170,13 +170,13 @@ export const ConnectionContextBase = {
       config: parameters.config,
       refreshConnection() {
         const newConnection = new Connection(connectionOptions);
-        const connectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
+        const newConnectionLock = `${Constants.establishConnection}-${generate_uuid()}`;
         this.wasConnectionCloseCalled = false;
-        this.connectionLock = connectionLock;
+        this.connectionLock = newConnectionLock;
         this.negotiateClaimLock = `${Constants.negotiateClaim} - ${generate_uuid()}`;
         this.connection = newConnection;
         this.connectionId = newConnection.id;
-        this.cbsSession = new CbsClient(newConnection, connectionLock);
+        this.cbsSession = new CbsClient(newConnection, newConnectionLock);
       }
     };
 
