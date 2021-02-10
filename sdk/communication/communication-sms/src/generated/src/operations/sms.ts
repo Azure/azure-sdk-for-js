@@ -27,10 +27,9 @@ export class Sms {
   }
 
   /**
-   * @summary Sends a SMS message from a phone number that belongs to the authenticated account.
+   * Sends a SMS message from a phone number that belongs to the authenticated account.
    * @param sendMessageRequest - Represents the body of the send message request.
    * @param options - The optional parameters
-   * @returns Promise<Models.SmsSendResponse>
    */
   send(
     sendMessageRequest: Models.SendMessageRequest,

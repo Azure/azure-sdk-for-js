@@ -22,7 +22,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
   let reservationId: string;
   let areaCode: string;
   let poller: PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>;
-  let countryCode = "US";
+  const countryCode = "US";
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {

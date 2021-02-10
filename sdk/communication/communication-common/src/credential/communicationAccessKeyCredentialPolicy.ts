@@ -86,8 +86,6 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Signs the request and calls the next policy in the factory.
-   *
-   * @param webResource
    */
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
     if (!webResource) {

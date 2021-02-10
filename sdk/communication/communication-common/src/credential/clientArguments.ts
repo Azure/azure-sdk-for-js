@@ -41,9 +41,6 @@ export type UrlWithCredential = {
 
 /**
  * Parses arguments passed to a communication client.
- *
- * @param connectionStringOrUrl
- * @param [credentialOrOptions]
  */
 export const parseClientArguments = (
   connectionStringOrUrl: string,
