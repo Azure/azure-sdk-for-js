@@ -6,7 +6,7 @@
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { MixedRealityStsClient } from "@azure/mixed-reality-authentication";
+import { MixedRealityStsClient } from "@azure/mixedreality-authentication";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

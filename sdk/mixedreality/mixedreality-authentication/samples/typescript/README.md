@@ -6,8 +6,8 @@ languages:
   - typescript
 products:
   - azure
-  - mixed-reality-authentication
-urlFragment: mixed-reality-authentication-typescript
+  - mixedreality-authentication
+urlFragment: mixedreality-authentication-typescript
 --- -->
 
 # Azure Mixed Reality Authentication client library samples for TypeScript
@@ -66,8 +66,8 @@ npx cross-env MIXEDREALITY_ACCOUNT_DOMAIN="<account domain>" MIXEDREALITY_ACCOUN
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getToken]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixed-reality-authentication/samples/typescript/src/getToken.ts
+[getToken]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication/samples/typescript/src/getToken.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixed-reality-authentication/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

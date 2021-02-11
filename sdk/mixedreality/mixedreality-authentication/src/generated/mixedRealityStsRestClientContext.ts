@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { MixedRealityStsRestClientOptionalParams } from "./models";
 
-const packageName = "@azure/mixed-reality-authentication";
+const packageName = "@azure/mixedreality-authentication";
 const packageVersion = "1.0.0";
 
 export class MixedRealityStsRestClientContext extends coreHttp.ServiceClient {

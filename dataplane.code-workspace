@@ -233,8 +233,8 @@
       "path": "sdk/digitaltwins/digital-twins-core"
     },
     {
-      "name": "mixed-reality-authentication",
-      "path": "sdk/mixedreality/mixed-reality-authentication"
+      "name": "mixedreality-authentication",
+      "path": "sdk/mixedreality/mixedreality-authentication"
     },
     {
       "name": "attestation",

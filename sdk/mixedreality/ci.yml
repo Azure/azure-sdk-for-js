@@ -26,5 +26,5 @@ extends:
   parameters:
     ServiceDirectory: mixedreality
     Artifacts:
-      - name: azure-mixed-reality-authentication
+      - name: azure-mixedreality-authentication
         safeName: azuremixedrealityauthentication

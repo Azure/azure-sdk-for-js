@@ -3,7 +3,7 @@ trigger: none
 extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
-    PackageName: "@azure/mixed-reality-authentication"
+    PackageName: "@azure/mixedreality-authentication"
     ResourceServiceDirectory: mixedreality
     TestMinMax: true
     ResourceGroupLocation: eastus2

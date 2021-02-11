@@ -38,7 +38,7 @@ dependencies:
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
-  '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
+  '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
@@ -10279,7 +10279,7 @@ packages:
       integrity: sha512-9C/8ICw825JPlQ6DGhRDKFWo2jO3CYzJYZeqqgg1qkdPIthab+aId/EnoW3oLeEUUwnEF3Gy8unrlFCIMCs5mA==
       tarball: file:projects/logger.tgz
     version: 0.0.0
-  file:projects/mixed-reality-authentication.tgz:
+  file:projects/mixedreality-authentication.tgz:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
@@ -10319,10 +10319,10 @@ packages:
       typescript: 4.1.2
       util: 0.12.3
     dev: false
-    name: '@rush-temp/mixed-reality-authentication'
+    name: '@rush-temp/mixedreality-authentication'
     resolution:
-      integrity: sha512-GnYUT9pbYd8s54bWPoIUmkn71x1F6lB4oU5NnZ682Bm1nZT5LRk+lnyikJaRMFCsdo7uyLkdSrWfj8ybYUKqEA==
-      tarball: file:projects/mixed-reality-authentication.tgz
+      integrity: sha512-y/8ZIBYB3YY1qKw8QbLKeDDhSNMfmePbNfC1MVlwwZ9pKbbpPdUVJvP2KXQGd8EI+qFjdgsJcO8TVEqEmtnV2A==
+      tarball: file:projects/mixedreality-authentication.tgz
     version: 0.0.0
   file:projects/mock-hub.tgz:
     dependencies:
@@ -11332,7 +11332,7 @@ specifiers:
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
-  '@rush-temp/mixed-reality-authentication': file:./projects/mixed-reality-authentication.tgz
+  '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz

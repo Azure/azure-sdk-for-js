@@ -6,8 +6,8 @@ languages:
   - javascript
 products:
   - azure
-  - mixed-reality-authentication
-urlFragment: mixed-reality-authentication-javascript
+  - mixedreality-authentication
+urlFragment: mixedreality-authentication-javascript
 --- -->
 
 # Azure Mixed Reality Authentication client library samples for JavaScript
@@ -54,7 +54,7 @@ npx cross-env MIXEDREALITY_ACCOUNT_DOMAIN="<account domain>" MIXEDREALITY_ACCOUN
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getToken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/mixedreality/mixed-reality-authentication/samples/javascript/getToken.js
+[getToken]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/mixedreality/mixedreality-authentication/samples/javascript/getToken.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixed-reality-authentication/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mixedreality/mixedreality-authentication/README.md
