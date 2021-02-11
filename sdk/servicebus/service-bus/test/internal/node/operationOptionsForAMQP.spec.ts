@@ -87,7 +87,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           true,
           `OperationOptions were not the same as expected,
         Actual   - ${JSON.stringify(actualOptions)}
-        Expected - ${JSON.stringify(operationOptions)}\n`
+        Expected - ${JSON.stringify(getOperationOptionsBase(operationOptions))}\n`
         );
         context.tokenCredential.getToken = preservedGetTokenMethod; // reset
       }
@@ -822,7 +822,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     });
   });
 
-  describe("TracingOptions", () => {
+  describe("AbortSignal", () => {
     // TODO: Add tests to make sure abortSignal works at each level
   });
 
