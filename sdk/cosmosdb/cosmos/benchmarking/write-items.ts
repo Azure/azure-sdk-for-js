@@ -3,7 +3,10 @@ import { CosmosClient, Container, OperationInput } from "@azure/cosmos";
 const endpoint = process.env.BENCHMARK_ENDPOINT || "https://stfaul-sql.documents.azure.com:443/";
 const iterations = Number(process.env.BENCHMARK_ITERATIONS) || 100;
 
-async function benchmark(benchmarkFunction: (container: Container) => Promise<void>, container: Container) {
+async function benchmark(
+  benchmarkFunction: (container: Container) => Promise<void>,
+  container: Container
+) {
   const now = Date.now();
   await benchmarkFunction(container);
   const later = Date.now();
@@ -16,22 +19,27 @@ async function readAllItems(container: Container) {
 }
 
 function readInBatches(batchSize: number) {
-  return async function (container: Container) {
+  return async function(container: Container) {
     const iterator = container.items.readAll({ maxItemCount: batchSize });
-    let { queryIterator, continuationToken } = await readBatch(container, batchSize, iterator)
+    let { queryIterator, continuationToken } = await readBatch(container, batchSize, iterator);
     while (queryIterator.hasMoreResults()) {
-        const response = await readBatch(container, batchSize, queryIterator, continuationToken);
-        queryIterator = response.queryIterator;
-        continuationToken = response.continuationToken
+      const response = await readBatch(container, batchSize, queryIterator, continuationToken);
+      queryIterator = response.queryIterator;
+      continuationToken = response.continuationToken;
     }
-  }
+  };
 }
 
-async function readBatch(container: Container, batchSize: number, queryIterator: any, token?: string) {
-    queryIterator = container.items.readAll({ maxItemCount: batchSize, continuationToken: token });
-    const response = await queryIterator.fetchNext();
-    const continuationToken = response.continuationToken;
-    return { queryIterator, continuationToken };
+async function readBatch(
+  container: Container,
+  batchSize: number,
+  queryIterator: any,
+  token?: string
+) {
+  queryIterator = container.items.readAll({ maxItemCount: batchSize, continuationToken: token });
+  const response = await queryIterator.fetchNext();
+  const continuationToken = response.continuationToken;
+  return { queryIterator, continuationToken };
 }
 
 async function createItems(container: Container, count: number = 0) {
@@ -44,7 +52,7 @@ async function createItems(container: Container, count: number = 0) {
 }
 
 async function bulkCreateItems(container: Container) {
-  const operations: OperationInput[] = []
+  const operations: OperationInput[] = [];
   while (operations.length < iterations) {
     operations.push({
       operationType: "Create",
@@ -65,17 +73,17 @@ async function runBenchmarks() {
     id: `benchmarkcontainer${Math.floor(Math.random() * 10000)}`
   });
   const container = containerResponse.container;
-  const benchmarkCreate = await benchmark(createItems, container)
-  const benchmarkBulkCreate = await benchmark(bulkCreateItems, container)
+  const benchmarkCreate = await benchmark(createItems, container);
+  const benchmarkBulkCreate = await benchmark(bulkCreateItems, container);
   const benchmarkRead = await benchmark(readAllItems, container);
-  const benchmarkBatchesOf5 = await benchmark(readInBatches(5), container)
-  const benchmarkBatchesOf50 = await benchmark(readInBatches(50), container)
+  const benchmarkBatchesOf5 = await benchmark(readInBatches(5), container);
+  const benchmarkBatchesOf50 = await benchmark(readInBatches(50), container);
   return {
     create: benchmarkCreate,
     bulkCreate: benchmarkBulkCreate,
     readAll: benchmarkRead,
     readInBatchesOf5: benchmarkBatchesOf5,
-    readInBatchesOf50: benchmarkBatchesOf50,
+    readInBatchesOf50: benchmarkBatchesOf50
   };
 }
 
