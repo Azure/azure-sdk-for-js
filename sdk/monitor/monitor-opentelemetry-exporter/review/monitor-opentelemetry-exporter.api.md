@@ -13,7 +13,7 @@ export interface AzureExporterConfig {
     // (undocumented)
     connectionString?: string;
     // (undocumented)
-    serviceApiVersion?: string;
+    serviceApiVersion?: ServiceApiVersion;
 }
 
 // @public (undocumented)
@@ -23,6 +23,12 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     // (undocumented)
     shutdown(): Promise<void>;
+}
+
+// @public (undocumented)
+export enum ServiceApiVersion {
+    // (undocumented)
+    V2 = "2020-09-15_Preview"
 }
 
 

@@ -1,0 +1,34 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"cloudMultiEventId1161257785616809034\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"Azure.Sdk.TestEvent1\",\"time\":\"2021-02-06T02:17:36.168Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\",\"subject\":\"Multiple 1\"},{\"id\":\"cloudMultiEventId2161257785616804005\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"Azure.Sdk.TestEvent1\",\"time\":\"2021-02-06T02:17:36.168Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\",\"subject\":\"Multiple 2\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Sat, 06 Feb 2021 02:17:36 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "798e1ee8-add7-4307-a19c-9f4a97003eef"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "cloudMultiEventId1": "cloudMultiEventId1161257785616809034",
+   "cloudMultiEventId2": "cloudMultiEventId2161257785616804005"
+  },
+  "newDate": {
+   "cloudMultiEventDate1": "2021-02-06T02:17:36.168Z",
+   "cloudMultiEventDate2": "2021-02-06T02:17:36.168Z"
+  }
+ },
+ "hash": "9dde032b79c3bd3d0dd5310f9c67e077"
+}

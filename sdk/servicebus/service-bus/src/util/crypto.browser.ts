@@ -29,7 +29,7 @@ export async function generateKey(secret: string, stringToSign: string): Promise
 /**
  * @internal
  */
-function convertToUint8Array(value: string) {
+function convertToUint8Array(value: string): Uint8Array {
   const arr = new Uint8Array(value.length);
   for (let i = 0; i < value.length; i++) {
     arr[i] = value.charCodeAt(i);

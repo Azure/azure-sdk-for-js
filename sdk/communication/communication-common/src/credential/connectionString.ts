@@ -30,7 +30,7 @@ const tryParseConnectionString = (s: string): EndpointCredential | undefined => 
 /**
  * Returns an EndpointCredential to easily access properties of the connection string
  *
- * @param {string} connectionString The connection string to parse
+ * @param connectionString - The connection string to parse
  * @returns {EndpointCredential} Object to access the endpoint and the credenials
  */
 export const parseConnectionString = (connectionString: string): EndpointCredential => {

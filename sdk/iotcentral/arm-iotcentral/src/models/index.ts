@@ -176,6 +176,16 @@ export interface Operation {
    * The object that represents the operation.
    */
   display?: OperationDisplay;
+  /**
+   * The intended executor of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly origin?: string;
+  /**
+   * Additional descriptions for the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly properties?: any;
 }
 
 /**
@@ -215,6 +225,22 @@ export interface AppAvailabilityInfo {
 }
 
 /**
+ * IoT Central Application Template Locations.
+ */
+export interface AppTemplateLocations {
+  /**
+   * The ID of the location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The display name of the location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+}
+
+/**
  * IoT Central Application Template.
  */
 export interface AppTemplate {
@@ -248,6 +274,16 @@ export interface AppTemplate {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly description?: string;
+  /**
+   * The industry of the template.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly industry?: string;
+  /**
+   * A list of locations that support the template.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly locations?: AppTemplateLocations[];
 }
 
 /**

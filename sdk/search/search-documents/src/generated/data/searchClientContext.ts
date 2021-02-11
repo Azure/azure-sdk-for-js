@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ApiVersion20200630, SearchClientOptionalParams } from "./models";
 
 const packageName = "@azure/search-documents";
-const packageVersion = "11.1.0-beta.2";
+const packageVersion = "11.1.0";
 
 /** @internal */
 export class SearchClientContext extends coreHttp.ServiceClient {

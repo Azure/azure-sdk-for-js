@@ -22,9 +22,9 @@ export class PurchaseReservationPollOperation extends PhoneNumberReservationPoll
   /**
    * Initializes an instance of PurchaseReservationPollOperation
    *
-   * @param {PurchaseReservationPollOperationState} state The state of the poll operation
-   * @param {PhoneNumberAdministration} _client A reference to the generated client used to make requests internally.
-   * @param {OperationOptions} requestOptions Additional options for the underlying requests.
+   * @param state - The state of the poll operation
+   * @param _client - A reference to the generated client used to make requests internally.
+   * @param requestOptions - Additional options for the underlying requests.
    */
   constructor(
     public state: PurchaseReservationPollOperationState,
@@ -37,8 +37,8 @@ export class PurchaseReservationPollOperation extends PhoneNumberReservationPoll
   /**
    * Purchases the phone number(s) in the reservation associated with a given id.
    *
-   * @param {string} reservationId The id of the reservation being purchased.
-   * @param {PurchaseReservationOptions} options Additional request options.
+   * @param reservationId - The id of the reservation being purchased.
+   * @param options - Additional request options.
    */
   private async purchaseReservation(
     reservationId: string,
@@ -68,7 +68,7 @@ export class PurchaseReservationPollOperation extends PhoneNumberReservationPoll
   /**
    * Reaches to the service and queries the status of the operation.
    *
-   * @param {UpdatePollerOptions<PurchaseReservationPollOperationState>} [options={}] Additional options for the poll operation
+   * @param options - Additional options for the poll operation
    */
   public async update(
     options: UpdatePollerOptions<PurchaseReservationPollOperationState> = {}

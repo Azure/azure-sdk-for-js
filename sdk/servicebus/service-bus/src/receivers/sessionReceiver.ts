@@ -126,7 +126,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   private _createProcessingSpan: typeof createProcessingSpan;
 
-  private get logPrefix() {
+  private get logPrefix(): string {
     return `[${this._context.connectionId}|session:${this.entityPath}]`;
   }
 
@@ -215,7 +215,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    const renewSessionLockOperationPromise = async () => {
+    const renewSessionLockOperationPromise = async (): Promise<Date> => {
       this._messageSession!.sessionLockedUntilUtc = await this._context
         .getManagementClient(this.entityPath)
         .renewSessionLock(this.sessionId, {
@@ -248,7 +248,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const setSessionStateOperationPromise = async () => {
+    const setSessionStateOperationPromise = async (): Promise<void> => {
       await this._context
         .getManagementClient(this.entityPath)
         .setSessionState(this.sessionId!, state, {
@@ -281,7 +281,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const getSessionStateOperationPromise = async () => {
+    const getSessionStateOperationPromise = async (): Promise<any> => {
       return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
         ...getOperationOptionsBase(this._clientOptions),
         ...options,
@@ -313,7 +313,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       requestName: "peekMessages",
       timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
     };
-    const peekOperationPromise = async () => {
+    const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
         return await this._context
           .getManagementClient(this.entityPath)
@@ -359,7 +359,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const receiveDeferredMessagesOperationPromise = async () => {
+    const receiveDeferredMessagesOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, this.sessionId, {
@@ -403,7 +403,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       throw new TypeError(InvalidMaxMessageCountError);
     }
 
-    const receiveBatchOperationPromise = async () => {
+    const receiveBatchOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   BaseRequestPolicy,
   deserializationPolicy,
@@ -368,7 +371,7 @@ class InnerBatchRequest {
     this.operationCount = 0;
     this.body = "";
 
-    let tempGuid = generateUuid();
+    const tempGuid = generateUuid();
 
     // batch_{batchid}
     this.boundary = `batch_${tempGuid}`;
@@ -396,7 +399,7 @@ class InnerBatchRequest {
   ): Pipeline {
     const isAnonymousCreds = credential instanceof AnonymousCredential;
     const policyFactoryLength = 3 + (isAnonymousCreds ? 0 : 1); // [deserializationPolicy, BatchHeaderFilterPolicyFactory, (Optional)Credential, BatchRequestAssemblePolicyFactory]
-    let factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
+    const factories: RequestPolicyFactory[] = new Array(policyFactoryLength);
 
     factories[0] = deserializationPolicy(); // Default deserializationPolicy is provided by protocol layer
     factories[1] = new BatchHeaderFilterPolicyFactory(); // Use batch header filter policy to exclude unnecessary headers

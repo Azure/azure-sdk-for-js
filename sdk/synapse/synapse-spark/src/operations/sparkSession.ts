@@ -27,7 +27,7 @@ export class SparkSession {
 
   /**
    * Initialize a new instance of the class SparkSession class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: SparkClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class SparkSession {
 
   /**
    * List all spark sessions which are running under a particular spark pool.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   async getSparkSessions(
     options?: SparkSessionGetSparkSessionsOptionalParams
@@ -66,8 +66,8 @@ export class SparkSession {
 
   /**
    * Create new spark session.
-   * @param sparkSessionOptions Livy compatible batch job request payload.
-   * @param options The options parameters.
+   * @param sparkSessionOptions - Livy compatible batch job request payload.
+   * @param options - The options parameters.
    */
   async createSparkSession(
     sparkSessionOptions: SparkSessionOptions,
@@ -100,8 +100,8 @@ export class SparkSession {
 
   /**
    * Gets a single spark session.
-   * @param sessionId Identifier for the session.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param options - The options parameters.
    */
   async getSparkSession(
     sessionId: number,
@@ -134,8 +134,8 @@ export class SparkSession {
 
   /**
    * Cancels a running spark session.
-   * @param sessionId Identifier for the session.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param options - The options parameters.
    */
   async cancelSparkSession(
     sessionId: number,
@@ -168,8 +168,8 @@ export class SparkSession {
 
   /**
    * Sends a keep alive call to the current session to reset the session timeout.
-   * @param sessionId Identifier for the session.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param options - The options parameters.
    */
   async resetSparkSessionTimeout(
     sessionId: number,
@@ -202,8 +202,8 @@ export class SparkSession {
 
   /**
    * Gets a list of statements within a spark session.
-   * @param sessionId Identifier for the session.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param options - The options parameters.
    */
   async getSparkStatements(
     sessionId: number,
@@ -236,9 +236,9 @@ export class SparkSession {
 
   /**
    * Create statement within a spark session.
-   * @param sessionId Identifier for the session.
-   * @param sparkStatementOptions Livy compatible batch job request payload.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param sparkStatementOptions - Livy compatible batch job request payload.
+   * @param options - The options parameters.
    */
   async createSparkStatement(
     sessionId: number,
@@ -273,9 +273,9 @@ export class SparkSession {
 
   /**
    * Gets a single statement within a spark session.
-   * @param sessionId Identifier for the session.
-   * @param statementId Identifier for the statement.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param statementId - Identifier for the statement.
+   * @param options - The options parameters.
    */
   async getSparkStatement(
     sessionId: number,
@@ -310,9 +310,9 @@ export class SparkSession {
 
   /**
    * Kill a statement within a session.
-   * @param sessionId Identifier for the session.
-   * @param statementId Identifier for the statement.
-   * @param options The options parameters.
+   * @param sessionId - Identifier for the session.
+   * @param statementId - Identifier for the statement.
+   * @param options - The options parameters.
    */
   async cancelSparkStatement(
     sessionId: number,

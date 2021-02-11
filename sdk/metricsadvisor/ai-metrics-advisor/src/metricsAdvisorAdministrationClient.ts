@@ -10,7 +10,7 @@ import {
   OperationOptions,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 

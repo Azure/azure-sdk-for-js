@@ -375,7 +375,7 @@ export class StreamingReceiver extends MessageReceiver {
       connectionId: string;
       onError: OnError;
     } & OperationOptionsBase
-  ) {
+  ): Promise<void> {
     let numRetryCycles = 0;
 
     while (true) {

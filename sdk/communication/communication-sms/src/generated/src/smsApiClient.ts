@@ -20,8 +20,8 @@ class SmsApiClient extends SmsApiClientContext {
 
   /**
    * Initializes a new instance of the SmsApiClient class.
-   * @param endpoint The endpoint of the Azure Communication resource.
-   * @param [options] The parameter options
+   * @param endpoint - The endpoint of the Azure Communication resource.
+   * @param options - The parameter options
    */
   constructor(endpoint: string, options?: coreHttp.ServiceClientOptions) {
     super(endpoint, options);

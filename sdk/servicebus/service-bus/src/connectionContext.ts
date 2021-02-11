@@ -142,7 +142,7 @@ async function callOnDetachedOnReceivers(
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
   receiverType: ReceiverType,
   operationOptions: OperationOptionsBase
-) {
+): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
@@ -178,7 +178,7 @@ async function callOnDetachedOnReceivers(
 async function getNumberOfReceivers(
   connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
   receiverType: ReceiverType
-) {
+): Promise<number> {
   if (receiverType === "session") {
     const receivers = connectionContext.messageSessions;
     return Object.keys(receivers).length;
@@ -498,7 +498,7 @@ export namespace ConnectionContext {
       }
     };
 
-    async function refreshConnection(connectionContext: ConnectionContext) {
+    async function refreshConnection(connectionContext: ConnectionContext): Promise<void> {
       const originalConnectionId = connectionContext.connectionId;
       try {
         await cleanConnectionContext(connectionContext);

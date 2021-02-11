@@ -301,7 +301,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   private _createProcessingSpan: typeof createProcessingSpan;
 
-  private get logPrefix() {
+  private get logPrefix(): string {
     return `[${this._context.connectionId}|receiver:${this.entityPath}]`;
   }
 
@@ -490,7 +490,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       throw new TypeError(InvalidMaxMessageCountError);
     }
 
-    const receiveMessages = async () => {
+    const receiveMessages = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
@@ -556,7 +556,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const receiveDeferredMessagesOperationPromise = async () => {
+    const receiveDeferredMessagesOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
@@ -593,7 +593,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       requestName: "peekMessages",
       timeoutInMs: this._clientOptions.retryOptions?.timeoutInMs
     };
-    const peekOperationPromise = async () => {
+    const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
         return await this._context
           .getManagementClient(this.entityPath)

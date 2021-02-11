@@ -158,7 +158,7 @@ describe("LinkEntity unit tests", () => {
         }
       });
 
-      function assertInitAbortError(err: any) {
+      function assertInitAbortError(err: any): void {
         assert.equal(err.message, "Connection is reopening, aborting link initialization.");
         assert.equal(err.name, "ServiceBusError");
         assert.isTrue(

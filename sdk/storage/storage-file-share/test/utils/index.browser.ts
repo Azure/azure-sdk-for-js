@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { newPipeline } from "../../src/Pipeline";

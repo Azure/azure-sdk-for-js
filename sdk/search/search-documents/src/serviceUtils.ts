@@ -37,7 +37,6 @@ import {
   EntityRecognitionSkill,
   SentimentSkill,
   SplitSkill,
-  CustomEntityLookupSkill,
   TextTranslationSkill,
   WebApiSkill,
   LuceneStandardAnalyzer,
@@ -113,9 +112,6 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
         break;
-      case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
-        result.push(skill as CustomEntityLookupSkill);
-        break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
         break;
@@ -189,7 +185,7 @@ export function convertAnalyzersToGenerated(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: analyzer.tokenizer
+          tokenizerName: analyzer.tokenizerName
         });
         break;
     }
@@ -224,7 +220,7 @@ export function convertAnalyzersToPublic(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: (analyzer as CustomAnalyzer).tokenizer
+          tokenizerName: (analyzer as CustomAnalyzer).tokenizerName
         } as CustomAnalyzer);
         break;
     }

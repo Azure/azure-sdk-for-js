@@ -461,7 +461,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * we need to _not_ use it otherwise we'll trigger some race conditions
    * within rhea (for instance, errors about _process not being defined).
    */
-  private checkIfConnectionReady() {
+  private checkIfConnectionReady(): void {
     if (!this._context.isConnectionClosing()) {
       return;
     }

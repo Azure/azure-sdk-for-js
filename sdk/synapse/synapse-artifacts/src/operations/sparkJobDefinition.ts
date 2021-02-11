@@ -27,7 +27,7 @@ export class SparkJobDefinition {
 
   /**
    * Initialize a new instance of the class SparkJobDefinition class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: ArtifactsClient) {
     this.client = client;
@@ -35,7 +35,7 @@ export class SparkJobDefinition {
 
   /**
    * Lists spark job definitions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listSparkJobDefinitionsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -77,7 +77,7 @@ export class SparkJobDefinition {
 
   /**
    * Lists spark job definitions.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getSparkJobDefinitionsByWorkspace(
     options?: coreHttp.OperationOptions
@@ -108,9 +108,9 @@ export class SparkJobDefinition {
 
   /**
    * Creates or updates a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param sparkJobDefinition Spark Job Definition resource definition.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param sparkJobDefinition - Spark Job Definition resource definition.
+   * @param options - The options parameters.
    */
   async createOrUpdateSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -158,8 +158,8 @@ export class SparkJobDefinition {
 
   /**
    * Gets a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   async getSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -192,8 +192,8 @@ export class SparkJobDefinition {
 
   /**
    * Deletes a Spark Job Definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   async deleteSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -239,8 +239,8 @@ export class SparkJobDefinition {
 
   /**
    * Executes the spark job definition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param options - The options parameters.
    */
   async executeSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -287,9 +287,9 @@ export class SparkJobDefinition {
 
   /**
    * Renames a sparkJobDefinition.
-   * @param sparkJobDefinitionName The spark job definition name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionName - The spark job definition name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   async renameSparkJobDefinition(
     sparkJobDefinitionName: string,
@@ -337,8 +337,8 @@ export class SparkJobDefinition {
 
   /**
    * Debug the spark job definition.
-   * @param sparkJobDefinitionAzureResource Spark Job Definition resource definition.
-   * @param options The options parameters.
+   * @param sparkJobDefinitionAzureResource - Spark Job Definition resource definition.
+   * @param options - The options parameters.
    */
   async debugSparkJobDefinition(
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
@@ -385,9 +385,9 @@ export class SparkJobDefinition {
 
   /**
    * GetSparkJobDefinitionsByWorkspaceNext
-   * @param nextLink The nextLink from the previous successful call to the
+   * @param nextLink - The nextLink from the previous successful call to the
    *                 GetSparkJobDefinitionsByWorkspace method.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _getSparkJobDefinitionsByWorkspaceNext(
     nextLink: string,

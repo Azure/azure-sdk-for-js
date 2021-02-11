@@ -17,7 +17,6 @@ import {
   SqlPools,
   BigDataPools,
   IntegrationRuntimes,
-  Library,
   WorkspaceGitRepoManagement
 } from "./operations";
 import { ArtifactsClientContext } from "./artifactsClientContext";
@@ -26,10 +25,10 @@ import { ArtifactsClientOptionalParams } from "./models";
 export class ArtifactsClient extends ArtifactsClientContext {
   /**
    * Initializes a new instance of the ArtifactsClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options The parameter options
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
@@ -52,7 +51,6 @@ export class ArtifactsClient extends ArtifactsClientContext {
     this.sqlPools = new SqlPools(this);
     this.bigDataPools = new BigDataPools(this);
     this.integrationRuntimes = new IntegrationRuntimes(this);
-    this.library = new Library(this);
     this.workspaceGitRepoManagement = new WorkspaceGitRepoManagement(this);
   }
 
@@ -71,6 +69,5 @@ export class ArtifactsClient extends ArtifactsClientContext {
   sqlPools: SqlPools;
   bigDataPools: BigDataPools;
   integrationRuntimes: IntegrationRuntimes;
-  library: Library;
   workspaceGitRepoManagement: WorkspaceGitRepoManagement;
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -209,7 +212,7 @@ describe("BlobClient", () => {
       rangeGetContentCrc64: true
     });
     assert.ok(result1.clientRequestId);
-    //assert.ok(result1.contentCrc64!);
+    // assert.ok(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
     assert.ok(result1.clientRequestId);
 
@@ -217,7 +220,7 @@ describe("BlobClient", () => {
       rangeGetContentMD5: true
     });
     assert.ok(result2.clientRequestId);
-    //assert.ok(result2.contentMD5!);
+    // assert.ok(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -630,7 +633,7 @@ describe("BlobClient", () => {
     const csResp = await blobClient.createSnapshot({
       customerProvidedKey: Test_CPK_INFO
     });
-    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
+    // assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
     assert.ok(csResp.snapshot);
 
     const blobSnapshotURL = blobClient.withSnapshot(csResp.snapshot!);

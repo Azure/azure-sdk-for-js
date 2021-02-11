@@ -10,7 +10,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 export function createCountdownAbortSignal(
   numTimesTillAborted: number
 ): ReturnType<typeof createAbortSignalForTest> {
-  const countdownFn = () => {
+  const countdownFn = (): boolean => {
     --numTimesTillAborted;
 
     if (numTimesTillAborted < 0) {

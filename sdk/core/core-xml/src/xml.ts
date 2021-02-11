@@ -66,7 +66,7 @@ xml2jsBuilderSettings.renderOpts = {
  * @param opts - Options that govern the XML building of given JSON object
  * `rootName` indicates the name of the root element in the resulting XML
  */
-export function stringifyXML(obj: any, opts: XmlOptions = {}): string {
+export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
   xml2jsBuilderSettings.rootName = opts.rootName;
   xml2jsBuilderSettings.charkey = opts.xmlCharKey ?? XML_CHARKEY;
   const builder = new xml2js.Builder(xml2jsBuilderSettings);

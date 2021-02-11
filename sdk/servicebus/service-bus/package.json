@@ -101,7 +101,7 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-auth": "^1.1.3",
+    "@azure/core-auth": "^1.2.0",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "@types/is-buffer": "^2.0.0",
@@ -112,7 +112,7 @@
     "long": "^4.0.0",
     "process": "^0.11.10",
     "tslib": "^2.0.0",
-    "rhea-promise": "^1.0.0"
+    "rhea-promise": "^1.1.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

@@ -94,7 +94,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await recorder.stop();
   });
 
-  async function deleteModels() {
+  async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
     } catch (Exception) {}
@@ -108,17 +108,17 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } catch (Exception) {}
   }
 
-  async function createModel() {
+  async function createModel(): Promise<void> {
     const simpleModels = [dtdl_model_building, dtdl_model_floor, dtdl_model_room];
     await client.createModels(simpleModels);
   }
 
-  async function setUpModels() {
+  async function setUpModels(): Promise<void> {
     await deleteModels();
     await createModel();
   }
 
-  async function deleteDigitalTwins() {
+  async function deleteDigitalTwins(): Promise<void> {
     try {
       await client.deleteDigitalTwin(BUILDING_DIGITAL_TWIN_ID);
     } catch (Exception) {}
@@ -130,7 +130,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } catch (Exception) {}
   }
 
-  async function createDigitalTwins() {
+  async function createDigitalTwins(): Promise<void> {
     const buildingTwin = {
       $metadata: {
         $model: BUILDING_MODEL_ID
@@ -157,7 +157,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await client.upsertDigitalTwin(ROOM_DIGITAL_TWIN_ID, JSON.stringify(roomTwin));
   }
 
-  async function setUpDigitalTwins() {
+  async function setUpDigitalTwins(): Promise<void> {
     await deleteDigitalTwins();
     await createDigitalTwins();
   }
@@ -1024,7 +1024,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         errorWasThrown = true;
         assert.include(
           error.message,
-          `The target location specified by path segment \'isAccessDoorRestricted\' was not found`
+          `The target location specified by path segment 'isAccessDoorRestricted' was not found`
         );
         should.equal(errorWasThrown, true, "Error was not thrown");
       }
@@ -1219,8 +1219,8 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       let relationshipFound = false;
       let count = 0;
       const relationships = client.listRelationships(BUILDING_DIGITAL_TWIN_ID);
-      for await (const relationship of relationships) {
-        if (relationship.$relationshipId == relationshipId) {
+      for await (const relationshipFromList of relationships) {
+        if (relationshipFromList.$relationshipId === relationshipId) {
           relationshipFound = true;
         }
         count++;
@@ -1278,13 +1278,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       let relationshipFound = false;
       let count = 0;
       const relationships = client.listIncomingRelationships(BUILDING_DIGITAL_TWIN_ID);
-      for await (const relationship of relationships) {
-        if (relationship.relationshipId == relationshipId) {
+      for await (const relationshipFromList of relationships) {
+        if (relationshipFromList.relationshipId === relationshipId) {
           relationshipFound = true;
         }
         count++;
       }
-      assert.equal(count == 0, true, "Unexpected count result from listRelationships().");
+      assert.equal(count === 0, true, "Unexpected count result from listRelationships().");
       assert.equal(relationshipFound, false, "Unexpected result from listRelationships().");
     } finally {
       try {

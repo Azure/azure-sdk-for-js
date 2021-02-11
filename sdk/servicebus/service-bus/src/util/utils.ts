@@ -312,7 +312,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
  * @internal
  * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
  */
-export function getXMLNSPrefix(value: any) {
+export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
       `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
@@ -502,7 +502,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
  * @internal
  * Helper utility to check if given string is an absolute URL
  */
-export function isAbsoluteUrl(url: string) {
+export function isAbsoluteUrl(url: string): boolean {
   const _url = url.toLowerCase();
   return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
 }

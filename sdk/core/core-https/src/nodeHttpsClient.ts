@@ -39,6 +39,8 @@ function isArrayBuffer(body: any): body is ArrayBuffer | ArrayBufferView {
 class ReportTransform extends Transform {
   private loadedBytes = 0;
   private progressCallback: (progress: TransferProgressEvent) => void;
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
   _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
@@ -127,7 +129,7 @@ export class NodeHttpsClient implements HttpsClient {
             request
           };
 
-          let responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
+          responseStream = shouldDecompress ? getDecodedResponseStream(res, headers) : res;
 
           const onDownloadProgress = request.onDownloadProgress;
           if (onDownloadProgress) {
