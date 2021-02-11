@@ -33,7 +33,61 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
   const sbAdminClient = new ServiceBusAdministrationClient(serviceBusEndpoint, credential);
   let sbClient: ServiceBusClient;
 
+  async function verifyOperationOptionsAtGetToken(
+    context: ConnectionContext,
+    operationOptions: OperationOptionsBase,
+    func: Function
+  ) {
+    let getTokenIsInvoked = false;
+    let verifiedOperationOptions = false;
+    let actualOptions: OperationOptionsBase = {};
+
+    const preservedGetTokenMethod = (context.tokenCredential as TokenCredential).getToken;
+    context.tokenCredential.getToken = async (scopes: string, options: GetTokenOptions) => {
+      getTokenIsInvoked = true;
+      actualOptions = getOperationOptionsBase(options);
+      should.equal(
+        options.requestOptions?.timeout === operationOptions.requestOptions?.timeout,
+        true,
+        "Timeout is not set as expected"
+      );
+      should.equal(
+        options.abortSignal,
+        operationOptions.abortSignal,
+        "AbortSignal is not set as expected"
+      );
+      chai.assert.deepEqual(
+        options.tracingOptions,
+        operationOptions.tracingOptions,
+        "TracingOptions are not set as expected"
+      );
+      verifiedOperationOptions = true;
+      return preservedGetTokenMethod(scopes, options);
+    };
+
+    try {
+      await func();
+      should.fail("Something went wrong - should not have reached here");
+    } catch (err) {
+      should.equal(getTokenIsInvoked, true, `getToken is not invoked, instead failed with ${err}`);
+      should.equal(
+        verifiedOperationOptions,
+        true,
+        `OperationOptions were not the same as expected,
+        Actual   - ${JSON.stringify(actualOptions)}
+        Expected - ${JSON.stringify(getOperationOptionsBase(operationOptions))}\n`
+      );
+      context.tokenCredential.getToken = preservedGetTokenMethod; // reset
+    }
+  }
+
   describe("RequestOptions", () => {
+    const sampleRequestOptions = {
+      requestOptions: {
+        timeout: 199
+      }
+    };
+
     beforeEach(() => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
     });
@@ -41,57 +95,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
     afterEach(async () => {
       await sbClient.close();
     });
-    async function verifyOperationOptionsAtGetToken(
-      context: ConnectionContext,
-      operationOptions: OperationOptionsBase,
-      func: Function
-    ) {
-      let getTokenIsInvoked = false;
-      let verifiedOperationOptions = false;
-      let actualOptions: OperationOptionsBase = {};
 
-      const preservedGetTokenMethod = (context.tokenCredential as TokenCredential).getToken;
-      context.tokenCredential.getToken = async (scopes: string, options: GetTokenOptions) => {
-        getTokenIsInvoked = true;
-        actualOptions = getOperationOptionsBase(options);
-        should.equal(
-          options.requestOptions?.timeout === operationOptions.requestOptions?.timeout,
-          true,
-          "Timeout is not set as expected"
-        );
-        should.equal(
-          options.abortSignal,
-          operationOptions.abortSignal,
-          "AbortSignal is not set as expected"
-        );
-        chai.assert.deepEqual(
-          options.tracingOptions,
-          operationOptions.tracingOptions,
-          "TracingOptions are not set as expected"
-        );
-        verifiedOperationOptions = true;
-        return preservedGetTokenMethod(scopes, options);
-      };
-
-      try {
-        await func();
-        should.fail("Something went wrong - should not have reached here");
-      } catch (err) {
-        should.equal(
-          getTokenIsInvoked,
-          true,
-          `getToken is not invoked, instead failed with ${err}`
-        );
-        should.equal(
-          verifiedOperationOptions,
-          true,
-          `OperationOptions were not the same as expected,
-        Actual   - ${JSON.stringify(actualOptions)}
-        Expected - ${JSON.stringify(getOperationOptionsBase(operationOptions))}\n`
-        );
-        context.tokenCredential.getToken = preservedGetTokenMethod; // reset
-      }
-    }
     describe("Sender", () => {
       it("RequestOptions is plumbed through sendMessages", async () => {
         const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
@@ -99,51 +103,36 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await sender.sendMessages(
               {
                 body: "message"
               },
-              {
-                requestOptions: {
-                  timeout: 369
-                }
-              }
+              sampleRequestOptions
             );
           }
         );
       });
 
       it("RequestOptions is plumbed through sendMessages - overrides the ServiceBusClientOptions", async () => {
+        await sbClient.close();
         sbClient = new ServiceBusClient(serviceBusEndpoint, credential, {
           requestOptions: {
-            timeout: 199
+            timeout: 198
           }
         });
         const sender = sbClient.createSender("queue") as ServiceBusSenderImpl;
         sender["_context"].cbsSession.init = async () => {};
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await sender.sendMessages(
               {
                 body: "message"
               },
-              {
-                requestOptions: {
-                  timeout: 369
-                }
-              }
+              sampleRequestOptions
             );
           }
         );
@@ -155,17 +144,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await sender.createMessageBatch({
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await sender.createMessageBatch(sampleRequestOptions);
           }
         );
       });
@@ -178,17 +159,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await receiver.receiveMessages(1, {
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await receiver.receiveMessages(1, sampleRequestOptions);
           }
         );
       });
@@ -237,22 +210,14 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await sender.scheduleMessages(
               {
                 body: "message"
               },
               new Date(),
-              {
-                requestOptions: {
-                  timeout: 199
-                }
-              }
+              sampleRequestOptions
             );
           }
         );
@@ -264,11 +229,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           sender["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await sender.cancelScheduledMessages(Long.ZERO, {
               requestOptions: {
@@ -285,11 +246,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await receiver.peekMessages(1, {
               requestOptions: {
@@ -306,11 +263,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         receiver["_context"].wasConnectionCloseCalled = false;
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await receiver.completeMessage(
               {
@@ -319,11 +272,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
                 _rawAmqpMessage: { body: "message" },
                 delivery: { link: undefined }
               } as any,
-              {
-                requestOptions: {
-                  timeout: 199
-                }
-              }
+              sampleRequestOptions
             );
           }
         );
@@ -336,11 +285,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         managementClient["_context"].wasConnectionCloseCalled = false;
         await verifyOperationOptionsAtGetToken(
           managementClient["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await managementClient.updateDispositionStatus(
               generate_uuid(),
@@ -362,11 +307,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await receiver.receiveDeferredMessages(Long.ZERO, {
               requestOptions: {
@@ -383,11 +324,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         receiver.receiveMode = "peekLock";
         await verifyOperationOptionsAtGetToken(
           receiver["_context"],
-          {
-            requestOptions: {
-              timeout: 199
-            }
-          },
+          sampleRequestOptions,
           async () => {
             await receiver.renewMessageLock(
               {
@@ -396,11 +333,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
                 _rawAmqpMessage: { body: "message" },
                 delivery: { link: undefined }
               } as any,
-              {
-                requestOptions: {
-                  timeout: 199
-                }
-              }
+              sampleRequestOptions
             );
           }
         );
@@ -434,17 +367,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       it("RequestOptions is plumbed through acceptSession", async () => {
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await sbClient.acceptSession("queue", "session-id", {
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await sbClient.acceptSession("queue", "session-id", sampleRequestOptions);
           }
         );
       });
@@ -452,17 +377,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       it("RequestOptions is plumbed through acceptNextSession", async () => {
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await sbClient.acceptNextSession("queue", {
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await sbClient.acceptNextSession("queue", sampleRequestOptions);
           }
         );
       });
@@ -471,17 +388,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await receiver.renewSessionLock({
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await receiver.renewSessionLock(sampleRequestOptions);
           }
         );
       });
@@ -490,17 +399,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await receiver.setSessionState("set-state", {
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await receiver.setSessionState("set-state", sampleRequestOptions);
           }
         );
       });
@@ -509,17 +410,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await receiver.getSessionState({
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await receiver.getSessionState(sampleRequestOptions);
           }
         );
       });
@@ -528,17 +421,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await receiver.peekMessages(1, {
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await receiver.peekMessages(1, sampleRequestOptions);
           }
         );
       });
@@ -547,17 +432,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         const receiver = await sbClient.acceptNextSession(queueName);
         await verifyOperationOptionsAtGetToken(
           sbClient["_connectionContext"],
-          {
-            requestOptions: {
-              timeout: 369
-            }
-          },
+          sampleRequestOptions,
           async () => {
-            await receiver.receiveDeferredMessages(Long.ZERO, {
-              requestOptions: {
-                timeout: 369
-              }
-            });
+            await receiver.receiveDeferredMessages(Long.ZERO, sampleRequestOptions);
           }
         );
       });
@@ -569,11 +446,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
     describe("ServiceBusClient", () => {
       // Tests to make sure each operation gets options from SBClient if defined
-      const sampleRequestOptions = {
-        requestOptions: {
-          timeout: 199
-        }
-      };
 
       beforeEach(async () => {
         if (sbClient) await sbClient.close();
