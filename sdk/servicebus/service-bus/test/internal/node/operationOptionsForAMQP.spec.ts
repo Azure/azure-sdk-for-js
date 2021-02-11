@@ -19,6 +19,7 @@ import { ServiceBusSenderImpl } from "../../../src/sender";
 import { DispositionType } from "../../../src/serviceBusMessage";
 import { getOperationOptionsBase } from "../../../src/util/utils";
 import { getEnvVars } from "../../public/utils/envVarUtils";
+import { recreateQueue } from "../../public/utils/managementUtils";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -827,7 +828,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
 
   describe("TracingOptions", () => {
     // TODO: Add tests to make sure the tracing works end-to-end for all the methods
-
+    const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
     beforeEach(() => {
       sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
     });
@@ -836,10 +837,16 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       await sbClient.close();
     });
 
+    before(async () => {
+      await recreateQueue(queueName);
+    });
+
+    after(async () => {
+      await sbAdminClient.deleteQueue(queueName);
+    });
+
     describe("Sender", () => {
       it("TracingOptions is plumbed through sendMessages", async () => {
-        const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
-        await sbAdminClient.createQueue(queueName);
         const tracer = new TestTracer();
         setTracer(tracer);
         const rootSpan = tracer.startSpan("root");
@@ -895,14 +902,11 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           0,
           "All spans should have had end called"
         );
-        await sbAdminClient.deleteQueue(queueName);
       });
     });
 
     describe("Receiver", () => {
       it("TracingOptions is plumbed through receiveMessages", async () => {
-        const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
-        await sbAdminClient.createQueue(queueName);
         const tracer = new TestTracer();
         setTracer(tracer);
         const sender = sbClient.createSender(queueName);
@@ -955,7 +959,6 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           0,
           "All spans should have had end called"
         );
-        await sbAdminClient.deleteQueue(queueName);
       });
     });
   });
