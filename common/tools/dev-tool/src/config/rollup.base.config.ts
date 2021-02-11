@@ -18,7 +18,14 @@ interface PackageJson {
 // core-tracing (because of opentelemetry) requires some symbols to be
 // exported.
 const openTelemetryNamedExports = {
-  "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags", "getSpan", "StatusCode", "setSpan"]
+  "@opentelemetry/api": [
+    "CanonicalCode",
+    "SpanKind",
+    "TraceFlags",
+    "getSpan",
+    "StatusCode",
+    "setSpan"
+  ]
 };
 
 // #region Warning Handler
@@ -33,7 +40,7 @@ function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
     (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
-    true
+      true
   );
 }
 
