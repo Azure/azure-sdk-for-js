@@ -40,11 +40,14 @@ describe("createSpan", () => {
 
     assert.isEmpty(options, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
-    assert.isOk(updatedOptions.tracingOptions?.context, "A new context will get created to represent this new span as a parent.");
+    assert.isOk(
+      updatedOptions.tracingOptions?.context,
+      "A new context will get created to represent this new span as a parent."
+    );
 
     const expected: HasTracingOptions = {
       tracingOptions: {
-        context: updatedOptions.tracingOptions!.context,    // cheating, but in reality we're letting OT determine this.
+        context: updatedOptions.tracingOptions!.context, // cheating, but in reality we're letting OT determine this.
         spanOptions: {
           attributes: {
             "az.namespace": "Microsoft.Test"
@@ -74,11 +77,14 @@ describe("createSpan", () => {
     };
     const { updatedOptions } = createSpan("testMethod", options);
     assert.notStrictEqual(updatedOptions, options, "should return new object");
-    assert.isOk(updatedOptions.tracingOptions?.context, "A new context will get created to represent this new span as a parent.");
+    assert.isOk(
+      updatedOptions.tracingOptions?.context,
+      "A new context will get created to represent this new span as a parent."
+    );
 
     const expected: FakeOperationOptions = {
       tracingOptions: {
-        context: updatedOptions.tracingOptions!.context,    // cheating, but in reality we're letting OT determine this.
+        context: updatedOptions.tracingOptions!.context, // cheating, but in reality we're letting OT determine this.
         spanOptions: {
           attributes: {
             "az.namespace": "Microsoft.Test",
