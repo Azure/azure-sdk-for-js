@@ -4,7 +4,7 @@ const defaults = {
 
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 
-module.exports = function(config: any) {
+module.exports = function (config: any) {
   config.set({
     plugins: [
       "karma-mocha",
@@ -67,6 +67,13 @@ module.exports = function(config: any) {
       FirefoxDebugging: {
         base: "Firefox",
         flags: ["-url", `http://localhost:${defaults.port}/debug.html`, "-devtools"]
+      }
+    },
+
+    client: {
+      mocha: {
+        reporter: "html",
+        timeout: "20000"
       }
     }
   });
