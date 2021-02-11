@@ -24,22 +24,22 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p .",
     "build:samples": "echo skipped",
-    "build:test": "echo not needed",
+    "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test": "echo skipped",
     "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json src test --ext .ts -f html -o storage-blob-perf-test-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test:browser": "npm run clean && npm run build npm run unit-test:browser",
-    "test:node": "npm run clean && npm run build && npm run unit-test:node",
-    "test": "npm run clean && npm run build && npm run unit-test"
+    "unit-test": "echo skipped",
+    "test:browser": "echo skipped",
+    "test:node": "echo skipped",
+    "test": "echo skipped"
   }
 }
