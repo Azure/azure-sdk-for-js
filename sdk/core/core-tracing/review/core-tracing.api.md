@@ -27,6 +27,12 @@ export interface Context {
 }
 
 // @public
+export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends HasTracingOptions>(operationName: string, operationOptions: T, context?: Context_2) => {
+    span: Span;
+    updatedOptions: T;
+};
+
+// @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
 
 // @public
@@ -34,6 +40,15 @@ export function getTraceParentHeader(spanContext: SpanContext): string | undefin
 
 // @public
 export function getTracer(): Tracer;
+
+// @public
+export interface HasTracingOptions {
+    // (undocumented)
+    tracingOptions?: {
+        spanOptions?: OTSpanOptions;
+        context?: Context_2;
+    };
+}
 
 // @public
 export class NoOpSpan implements Span {
@@ -98,6 +113,13 @@ export { OTSpanOptions }
 
 // @public
 export function setTracer(tracer: Tracer): void;
+
+// @public
+export interface SpanConfig {
+    namespace: string;
+    packagePrefix: string;
+    spanKind?: SpanKind;
+}
 
 // @public
 export interface SpanContext {
