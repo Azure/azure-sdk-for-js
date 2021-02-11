@@ -38,6 +38,7 @@ dependencies:
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
+  '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
@@ -8438,7 +8439,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-Bu+cd1h929cDRdhLRi4jETHX6IdnmTobzrnyZLa+Keu7a7IuFN9H6XDxTYskUMbBrSakc9Y1h6uwxu5OnoTZYA==
+      integrity: sha512-FkZc5385M043S0+h/Tp2H1o7B5fyLzyOx+yMIXSA7TAiO+/7/cdLQ0EAEK2tCtjm7XnX+5G64ZF4lLTYNTLarA==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9685,6 +9686,22 @@ packages:
       integrity: sha512-9C/8ICw825JPlQ6DGhRDKFWo2jO3CYzJYZeqqgg1qkdPIthab+aId/EnoW3oLeEUUwnEF3Gy8unrlFCIMCs5mA==
       tarball: file:projects/logger.tgz
     version: 0.0.0
+  file:projects/mock-hub.tgz:
+    dependencies:
+      '@types/node': 8.10.66
+      dotenv: 8.2.0
+      eslint: 7.19.0
+      prettier: 1.19.1
+      rhea: 1.0.24
+      rimraf: 3.0.2
+      tslib: 2.1.0
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/mock-hub'
+    resolution:
+      integrity: sha512-Lro7rFcnDNWYuWUIr9czVrfJjSIadiaDU6I945N80JjHUW4RnMZ2WZY9Dr8v+iA1jlMEF7p6Sw0pzIpllGzQqA==
+      tarball: file:projects/mock-hub.tgz
+    version: 0.0.0
   file:projects/monitor-opentelemetry-exporter.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
@@ -10633,7 +10650,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-o7zYyw6/QJHBg2/e3mbbeOe+ohKdRse2FU1aX4i7AdO+1337l44mWy1DwVWhcFUy5aSzahd194/6nrgp7Sj6JQ==
+      integrity: sha512-HdIdDAAHx0bZpTjzl4xH0KPQUYPdfcJgNiZpAQzbVrhePPH/giaWNW0OMrD4PkKdo9iCrbsA4EN3tTb4z4gavQ==
       tarball: file:projects/testhub.tgz
     version: 0.0.0
 registry: ''
@@ -10677,6 +10694,7 @@ specifiers:
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
+  '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz

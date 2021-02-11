@@ -483,6 +483,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/mock-hub",
+      "projectFolder": "sdk/eventhub/mock-hub",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "testhub",
       "projectFolder": "sdk/eventhub/testhub",
       "versionPolicyName": "utility"
