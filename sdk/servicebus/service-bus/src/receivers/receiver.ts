@@ -507,7 +507,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options ?? {}
+        {
+          ...getOperationOptionsBase(this._clientOptions),
+          ...options
+        }
       );
 
       return receivedMessages;
