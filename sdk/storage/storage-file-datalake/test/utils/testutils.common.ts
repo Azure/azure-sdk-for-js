@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
@@ -128,7 +131,7 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
     throw new RangeError("m1 or m2 is invalid");
   }
 
-  for (let p in m2) {
+  for (const p in m2) {
     if (m1[p] !== m2[p]) {
       return false;
     }

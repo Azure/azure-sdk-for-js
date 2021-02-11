@@ -1,5 +1,7 @@
 # Release History
 
+## 4.2.0-beta.4 (Unreleased)
+
 ## 4.2.0-beta.3 (2021-02-09)
 
 - [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).

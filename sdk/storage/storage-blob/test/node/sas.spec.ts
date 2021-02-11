@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import {
@@ -1569,22 +1572,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     // upload blobs
     const blockBlobCount = 3;
-    let blockBlobClients = new Array(blockBlobCount);
+    const blockBlobClients = new Array(blockBlobCount);
     const content = "Hello World";
     for (let i = 0; i < blockBlobCount - 1; i++) {
-      let tmpBlobName = `blob${i}`;
-      let tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(tmpBlobName);
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(tmpBlobName);
       blockBlobClients[i] = tmpBlockBlobClient;
     }
-    let specialBlobName = `å ä ö`;
-    let tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(specialBlobName);
+    const specialBlobName = `å ä ö`;
+    const tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(specialBlobName);
     blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
     for (let i = 0; i < blockBlobCount; i++) {
       await blockBlobClients[i].upload(content, content.length);
     }
 
     // Assemble batch delete request.
-    let batchDeleteRequest = new BlobBatch();
+    const batchDeleteRequest = new BlobBatch();
     for (let i = 0; i < blockBlobCount; i++) {
       await batchDeleteRequest.deleteBlob(blockBlobClients[i]);
     }

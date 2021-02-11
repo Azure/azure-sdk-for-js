@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
 
@@ -195,9 +195,9 @@ export interface CommonGenerateSasUrlOptions {
   contentType?: string;
 }
 
-/*************************************************************/
+/** ***********************************************************/
 /** DataLakeServiceClient option and response related models */
-/*************************************************************/
+/** ***********************************************************/
 
 export interface ServiceGetUserDelegationKeyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -360,9 +360,9 @@ export interface ServiceUndeleteFileSystemOptions extends CommonOptions {
   destinationFileSystemName?: string;
 }
 
-/****************************************************************/
+/** **************************************************************/
 /** DataLakeFileSystemClient option and response related models */
-/****************************************************************/
+/** **************************************************************/
 
 export interface FileSystemCreateOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -615,9 +615,9 @@ export interface FileSystemGenerateSasUrlOptions extends CommonGenerateSasUrlOpt
   permissions?: FileSystemSASPermissions;
 }
 
-/**********************************************************/
+/** ********************************************************/
 /** DataLakePathClient option and response related models */
-/**********************************************************/
+/** ********************************************************/
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -1161,9 +1161,9 @@ export enum PathResourceType {
   File = "file"
 }
 
-/****************************************************************/
+/** **************************************************************/
 /** DataLakeDirectoryClient option and response related models **/
-/****************************************************************/
+/** **************************************************************/
 
 export interface DirectoryCreateOptions extends PathCreateOptions {}
 
@@ -1189,9 +1189,9 @@ export interface DirectoryGenerateSasUrlOptions extends CommonGenerateSasUrlOpti
   permissions?: DirectorySASPermissions;
 }
 
-/***********************************************************/
+/** *********************************************************/
 /** DataLakeFileClient option and response related models **/
-/***********************************************************/
+/** *********************************************************/
 
 export interface FileReadOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -1672,6 +1672,6 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
   permissions?: DataLakeSASPermissions;
 }
 
-/***********************************************************/
+/** *********************************************************/
 /** DataLakeLeaseClient option and response related models */
-/***********************************************************/
+/** *********************************************************/

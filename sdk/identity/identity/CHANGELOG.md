@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.4 (Unreleased)
+
+
 ## 1.2.3 (2021-02-09)
 
 - Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`.

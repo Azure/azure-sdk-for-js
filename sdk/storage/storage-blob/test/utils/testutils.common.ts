@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
@@ -142,7 +145,7 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
     throw new RangeError("m1 or m2 is invalid");
   }
 
-  for (let p in m2) {
+  for (const p in m2) {
     if (m1[p] !== m2[p]) {
       return false;
     }

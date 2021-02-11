@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
+
+
+## 1.0.0-beta.3 (2021-02-10)
 
 - Rename package to `@azure/monitor-opentelemetry-exporter`
 - Added serviceApiVersion config

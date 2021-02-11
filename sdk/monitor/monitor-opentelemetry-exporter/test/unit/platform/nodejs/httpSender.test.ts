@@ -61,13 +61,5 @@ describe("HttpSender", () => {
       assert.strictEqual(statusCode, 206);
       assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
     });
-
-    it("should build endpoint using config", async () => {
-      const sender = new HttpSender({
-        endpointUrl: "https://test.com",
-        serviceApiVersion: "13"
-      });
-      assert.strictEqual(sender["_appInsightsClientOptions"].endpoint, "https://test.com/v13");
-    });
   });
 });
