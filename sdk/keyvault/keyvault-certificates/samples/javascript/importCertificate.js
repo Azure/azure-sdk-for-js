@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
+const { CertificateClient, WellKnownIssuer } = require("@azure/keyvault-certificates");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // For convenience in this sample we'll use some self-signed test certificates
 // that were generated using openssl
@@ -119,7 +118,7 @@ const samplePem =
 
 // This sample demonstrates how to import both PKCS#12 (PFX) and PEM-formatted certificates
 // into Azure Key Vault.
-export async function main(): Promise<void> {
+async function main() {
   // If you're using MSI, DefaultAzureCredential should "just work".
   // Otherwise, DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
