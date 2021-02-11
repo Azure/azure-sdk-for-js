@@ -476,7 +476,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     const receiveMessages = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
-        const options: ReceiveOptions = {
+        const receiveOptions: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer
@@ -484,7 +484,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
           this.entityPath,
-          options
+          receiveOptions
         );
       }
 
@@ -572,7 +572,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
@@ -581,7 +581,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
             managementRequestOptions
           );
       } else {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peek(maxMessageCount, managementRequestOptions);
       }
