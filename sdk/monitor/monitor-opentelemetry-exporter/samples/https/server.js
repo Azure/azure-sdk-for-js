@@ -3,6 +3,7 @@
 // Load the .env file if it exists
 require("dotenv").config();
 
+const opentelemetry = require("@opentelemetry/api");
 // Tracer MUST be setup first to correctly apply module patching!
 const tracer = require("./tracer")("example-https-server");
 
@@ -13,7 +14,7 @@ const app = express();
 
 /** A function which handles requests and send response. */
 app.get("/helloworld", (req, res) => {
-  const currentSpan = tracer.getCurrentSpan();
+  const currentSpan = opentelemetry.getSpan(opentelemetry.context.active());
   // display traceid in the terminal
   console.log(`traceid: ${currentSpan.context().traceId}`);
   const span = tracer.startSpan("handleRequest", {
