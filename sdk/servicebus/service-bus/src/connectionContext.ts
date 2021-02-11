@@ -547,7 +547,7 @@ export namespace ConnectionContext {
    * Once closed,
    * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
    * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
-   * @returns {Promise<any>}
+   *
    */
   export async function close(context: ConnectionContext): Promise<void> {
     const logPrefix = `[${context.connectionId}]`;
