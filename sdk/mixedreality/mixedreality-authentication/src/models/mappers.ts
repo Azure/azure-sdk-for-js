@@ -7,6 +7,7 @@ import { retrieveJwtExpirationTimestamp } from "../util/jwt";
 
 /**
  * Mapping token REST model to AccessToken.
+ * @internal
  */
 export const mapToAccessToken = (
   tokenResponse: RestModel.MixedRealityStsRestClientGetTokenResponse

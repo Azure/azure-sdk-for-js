@@ -12,6 +12,7 @@ declare global {
 /**
  * Base64 encode.
  *
+ * @internal
  * @export
  * @param {string} content
  * @returns {string}
@@ -23,6 +24,7 @@ export function base64encode(content: string): string {
 /**
  * Base64 decode.
  *
+ * @internal
  * @export
  * @param {string} encodedString
  * @returns {string}

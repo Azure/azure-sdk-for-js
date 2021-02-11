@@ -8,6 +8,7 @@ const maxTimestampMs = 8640000000000000;
 
 /**
  * Represents an object used for Mixed Reality account key authentication.
+ * @internal
  */
 export class MixedRealityAccountKeyCredential implements TokenCredential {
   private readonly accountKey: AzureKeyCredential;

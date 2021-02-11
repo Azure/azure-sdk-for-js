@@ -11,6 +11,8 @@ const cVBaseLength = 22;
 /**
  * Seed function to randomly generate a 16 character base64 encoded string for
  * the Correlation Vector's base value.
+ *
+ * @internal
  * @returns Returns generated correlation vector base value.
  */
 export function generateCvBase(): string {
