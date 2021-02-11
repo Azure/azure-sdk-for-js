@@ -53,7 +53,7 @@ export class DefaultHttpsClient implements HttpsClient {
 }
 
 // @public
-export function delay<T>(t: number, value?: T): Promise<T | void>;
+export function delay(t: number): Promise<void>;
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
