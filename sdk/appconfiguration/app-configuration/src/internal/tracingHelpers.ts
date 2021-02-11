@@ -7,7 +7,7 @@ import { RestError, createSpanFunction, OperationOptions } from "@azure/core-htt
 import { AppConfigurationClient } from "../appConfigurationClient";
 
 /** @internal */
-const createSpan = createSpanFunction({
+export const createSpan = createSpanFunction({
   namespace: "Microsoft.AppConfiguration",
   packagePrefix: "Azure.Data.AppConfiguration"
 });
@@ -21,12 +21,13 @@ const createSpan = createSpanFunction({
  *
  * @internal
  */
-export async function trace<OptionsT extends OperationOptions, ReturnT>(
+export async function trace<ReturnT>(
   operationName: keyof AppConfigurationClient,
-  options: OptionsT,
-  fn: (options: OptionsT, span: Span) => Promise<ReturnT>
+  options: OperationOptions,
+  fn: (options: OperationOptions, span: Span) => Promise<ReturnT>,
+  createSpanFn = createSpan
 ): Promise<ReturnT> {
-  const { updatedOptions, span } = createSpan<OptionsT>(
+  const { updatedOptions, span } = createSpanFn(
     operationName,
     options,
     options.tracingOptions?.context

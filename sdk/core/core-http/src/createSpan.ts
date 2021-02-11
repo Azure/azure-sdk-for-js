@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, SpanOptions, SpanKind, Context, context as otContext } from "@opentelemetry/api";
+import { Span, SpanOptions, SpanKind, Context, context as otContext, setSpan } from "@opentelemetry/api";
 import { getTracer } from "@azure/core-tracing";
 import { OperationOptions } from "./coreHttp";
 
@@ -43,6 +43,7 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
     };
 
     const span = tracer.startSpan(`${packagePrefix}.${operationName}`, spanOptions, context);
+    const newContext = setSpan(context, span);
 
     span.setAttribute("az.namespace", namespace);
 
@@ -59,7 +60,8 @@ export function createSpanFunction({ packagePrefix, namespace }: SpanConfig) {
 
     const newTracingOptions: OperationTracingOptions = {
       ...tracingOptions,
-      spanOptions: newSpanOptions
+      spanOptions: newSpanOptions,
+      context: newContext
     };
 
     const newOperationOptions: T = {

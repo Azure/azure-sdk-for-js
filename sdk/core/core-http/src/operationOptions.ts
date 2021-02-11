@@ -68,6 +68,7 @@ export function operationOptionsToRequestOptionsBase<T extends OperationOptions>
 
   if (tracingOptions) {
     result.spanOptions = tracingOptions.spanOptions;
+    result.context = tracingOptions.context;
   }
 
   return result;

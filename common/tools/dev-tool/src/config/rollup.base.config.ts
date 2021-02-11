@@ -15,6 +15,12 @@ interface PackageJson {
   devDependencies: Record<string, string>;
 }
 
+// core-tracing (because of opentelemetry) requires some symbols to be
+// exported.
+const openTelemetryNamedExports = {
+  "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags", "getSpan", "StatusCode", "setSpan"]
+};
+
 // #region Warning Handler
 
 /**
@@ -27,7 +33,7 @@ function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
     (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
-      true
+    true
   );
 }
 
@@ -80,9 +86,8 @@ function makeBrowserTestConfig() {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          // OpenTelemetry uses an __exportStar downleveled helper function to
-          // declare its exports, and so we have to add them here as well.
-          "@opentelemetry/api": ["SpanKind", "TraceFlags", "StatusCode", "getSpan"]
+          // see core-tracing/rollup.config.shared.js for details.
+          ...openTelemetryNamedExports
         }
       }),
       json(),

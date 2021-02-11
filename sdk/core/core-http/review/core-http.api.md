@@ -601,6 +601,7 @@ export interface RequestOptionsBase {
     // (undocumented)
     [key: string]: any;
     abortSignal?: AbortSignalLike;
+    context?: Context;
     customHeaders?: {
         [key: string]: string;
     };
