@@ -304,6 +304,7 @@ export class ServiceBusClient {
       {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
+        ...this._clientOptions,
         ...options
       }
     );
@@ -385,6 +386,7 @@ export class ServiceBusClient {
       {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
+        ...this._clientOptions,
         ...options
       }
     );
