@@ -10,7 +10,6 @@ import { isObjectWithProperties } from "./util/typeGuards";
 /**
  * The default data transformer that will be used by the Azure SDK.
  * @internal
- * @ingore
  */
 export const defaultDataTransformer = {
   /**
