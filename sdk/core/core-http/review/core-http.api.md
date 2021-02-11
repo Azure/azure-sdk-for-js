@@ -558,9 +558,17 @@ export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory
 
 // @public
 export interface ProxySettings {
+    ca?: Buffer[];
+    cert?: Buffer;
+    headers?: {
+        [key: string]: unknown;
+    };
     host: string;
+    key?: Buffer;
+    localAddress?: string;
     password?: string;
     port: number;
+    servername?: string;
     username?: string;
 }
 

@@ -86,11 +86,29 @@ export interface ProxySettings {
    * The password to authenticate with the proxy, if required.
    */
   password?: string;
-  key?: Buffer; // key for proxy server
-  ca?: Buffer[]; // ca for proxy server
-  cert?: Buffer; // cert for proxy server
-  headers?: { [key: string]: any }; // headers specific to proxy options
+  /**
+   * CA for proxy server
+   */
+  ca?: Buffer[];
+  /**
+   * Server name for verification
+   */
   servername?: string;
+  /**
+   * Client certification key for proxy server
+   */
+  key?: Buffer;
+  /**
+   * Client certification certificate for proxy server
+   */
+  cert?: Buffer;
+  /**
+   * Headers for proxy server
+   */
+  headers?: { [key: string]: unknown };
+  /**
+   * Local interface
+   */
   localAddress?: string;
 }
 
