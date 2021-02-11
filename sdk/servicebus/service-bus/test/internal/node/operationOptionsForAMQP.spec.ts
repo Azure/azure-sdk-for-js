@@ -458,7 +458,7 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
         );
       });
       // No similar test for `receiveMessages` or `getMessageIterator` because the init happens only at the acceptSession level
-      // No Backup settlement test for sessions because it does not happen
+      // No Backup settlement test for sessions because it is not supported
       // TODO: subscribe
     });
 
