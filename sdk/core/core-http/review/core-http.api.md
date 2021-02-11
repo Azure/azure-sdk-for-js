@@ -7,12 +7,11 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Context } from '@azure/core-tracing';
-import { Context as Context_2 } from '@opentelemetry/api';
+import { createSpanFunction as createSpanFunction_2 } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
-import { Span } from '@opentelemetry/api';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -160,10 +159,7 @@ export const Constants: {
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T, context?: Context_2) => {
-    span: Span;
-    updatedOptions: T;
-};
+export const createSpanFunction: typeof createSpanFunction_2;
 
 // Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
 //
