@@ -116,7 +116,7 @@ export interface CreateTopicOptions extends OperationOptions {
 }
 
 // @public
-export interface DeadLetterOptions extends OperationOptionsBase {
+export interface DeadLetterOptions {
     deadLetterErrorDescription: string;
     deadLetterReason: string;
 }
