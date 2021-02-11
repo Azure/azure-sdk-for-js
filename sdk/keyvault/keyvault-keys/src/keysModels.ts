@@ -295,6 +295,11 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
+  /**
+   * Elliptic curve name. For valid values, see KeyCurveName.
+   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+   */
+  curve?: KeyCurveName;
 }
 
 /**
@@ -329,11 +334,6 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
  * passed to {@link createEcKey}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-  /**
-   * Elliptic curve name. For valid values, see KeyCurveName.
-   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
-   */
-  curve?: KeyCurveName;
   /**
    * Whether to import as a hardware key (HSM) or software key.
    */
