@@ -41,8 +41,8 @@ Here's a list of some features that would be helpful for the `event-hubs` live t
 
 ### Additional details
 
-Some details on what features the mock service supports can be found [here](design/features.md).
+Some details on what features the mock service supports can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/mock-hub/design/features.md).
 
-Some details on the overal architecture of this project can be found [here](design/architecture.md).
+Some details on the overal architecture of this project can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/mock-hub/design/architecture.md).
 
-To see a quick example of how to start the mock service, look at [sample/ehSample.ts](sample/ehSample.ts).
+To see a quick example of how to start the mock service, look at [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/mock-hub/samples/typescript/readme.md).
