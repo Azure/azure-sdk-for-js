@@ -198,8 +198,22 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       //   );
       // });
 
-      // subscribe
-      // get message iterator
+      // TODO: subscribe
+
+      it("RequestOptions is plumbed through getMessageIterator", async () => {
+        const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+        receiver["_context"].cbsSession.init = async () => {};
+
+        await verifyOperationOptionsAtGetToken(
+          receiver["_context"],
+          sampleRequestOptions,
+          async () => {
+            for await (const _ of receiver.getMessageIterator(sampleRequestOptions)) {
+            }
+          }
+        );
+      });
+
       // No test for settlement since init doesn't happen, we only settle with an existing receiver
     });
 
@@ -344,10 +358,15 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
       const queueName = `queue-${Math.ceil(Math.random() * 1000)}`;
 
       before(async () => {
-        await sbAdminClient.createQueue(queueName, { requiresSession: true });
+        await sbAdminClient.createQueue(queueName, {
+          requiresSession: true
+        });
         sbClient = new ServiceBusClient(serviceBusEndpoint, credential);
         const sender = sbClient.createSender(queueName);
-        await sender.sendMessages({ body: "message", sessionId: "session-id" });
+        await sender.sendMessages({
+          body: "message",
+          sessionId: "session-id"
+        });
         await sender.close();
         await sbClient.close();
       });
@@ -438,10 +457,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
           }
         );
       });
-      // No similar test for `receiveMessages` because the init happens only at the acceptSession level
-      // Backup settlement
-      // getMessageIterator
-      // subscribe
+      // No similar test for `receiveMessages` or `getMessageIterator` because the init happens only at the acceptSession level
+      // No Backup settlement test for sessions because it does not happen
+      // TODO: subscribe
     });
 
     describe("ServiceBusClient", () => {
@@ -484,7 +502,9 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
             }
           );
         });
-        // onDetached - subscribe will care
+        // TODO: onDetached
+        //      - Sender and Batch receiver don't care,
+        //      - subscribe will care since it re-initializes
       });
 
       describe("Receiver Methods", () => {
@@ -497,6 +517,20 @@ describe("OperationOptions reach getToken at `@azure/identity`", () => {
             sampleRequestOptions,
             async () => {
               await receiver.receiveMessages(1);
+            }
+          );
+        });
+
+        it("RequestOptions is plumbed through getMessageIterator", async () => {
+          const receiver = sbClient.createReceiver("queue") as ServiceBusReceiverImpl;
+          receiver["_context"].cbsSession.init = async () => {};
+
+          await verifyOperationOptionsAtGetToken(
+            receiver["_context"],
+            sampleRequestOptions,
+            async () => {
+              for await (const _ of receiver.getMessageIterator()) {
+              }
             }
           );
         });
